@@ -181,6 +181,50 @@ export interface RecommendedDish {
   aiGenerated?: boolean;
 }
 
+export interface AggregatedShoppingItem {
+  ingredientId: string;
+  ingredientName: string;
+  category: CommodityCategory;
+  subcategory: string;
+  totalQuantityNeeded: number;
+  unit: 'lb' | 'doz';
+  usedInDishes: { dishTitle: string; quantity: number }[];
+  /** Optimal store offer (lowest price across both stores) */
+  optimalStore: StoreChain;
+  optimalUnitCost: number;
+  optimalTotalCost: number;
+  optimalRawDealText: string;
+  optimalDealType: DealType;
+  optimalDealConditions?: string;
+  /** King Soopers specific pricing for 1-stop comparison */
+  kingSoopersUnitCost: number;
+  kingSoopersTotalCost: number;
+  kingSoopersRawDealText: string;
+  kingSoopersDealType: DealType;
+  kingSoopersDealConditions?: string;
+  /** Safeway specific pricing for 1-stop comparison */
+  safewayUnitCost: number;
+  safewayTotalCost: number;
+  safewayRawDealText: string;
+  safewayDealType: DealType;
+  safewayDealConditions?: string;
+  /** Regular shelf cost without promos */
+  regularTotalCost: number;
+}
+
+export interface StoreTripComparison {
+  optimalSplitTotal: number;
+  kingSoopersOnlyTotal: number;
+  safewayOnlyTotal: number;
+  regularShelfTotal: number;
+  estimatedPantryTotal: number;
+  bestSingleStore: StoreChain;
+  bestSingleStoreTotal: number;
+  extraSavingsFromSplitting: number;
+  recommendationHeadline: string;
+  recommendationDetail: string;
+}
+
 export interface DashboardPayload {
   zipCode: string;
   cityLabel: string;
