@@ -73,6 +73,22 @@ This milestone marks the official production launch of PantryBot as a full-featu
 
 ---
 
-## [Unreleased]
-- Ongoing improvements and bugfixes tracked on branch `develop`.
-- See [ROADMAP.md](./ROADMAP.md) and [Long-Term Mobile Architecture](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md) for upcoming v1.1+ and native mobile milestones.
+## [Unreleased] - Milestone v1.2 (Smart Kitchen, Virtual Freezer & Cart Bridge)
+
+### Planned
+- **Persistent Virtual Freezer & Multi-Week Arbitrage Engine (Ticket #21):**
+  - "Buy 2: Prep 1, Freeze 1" arbitrage prompts on deep cycle lows (>40% discount / 💎 Splurge alerts).
+  - Dedicated Virtual Freezer drawer tracking item, weight, date added, and cost basis.
+  - Automated substitution in 3-Dish Meal-Prep Trio dropping out-of-pocket protein costs to `$0.00`.
+- **Dietary Preferences, Macro Targets & Cooking Styles (Ticket #22):**
+  - Nutrition profile settings: High Protein, Low-Carb / Keto, Gluten-Free, Dairy-Free.
+  - Cooking vessel archetypes: Slow Cooker / Instant Pot, Sheet-Pan Roasts, Big-Batch Skillets.
+- **1-Tap Curbside Cart Bridge & Multi-Store Export (Ticket #23):**
+  - Deep links to Walmart Grocery, Target Drive Up, Kroger Pickup, and Instacart search.
+  - Formatted clipboard checklist export for Apple Notes, Google Keep, and Reminders.
+  - Printable high-contrast shopping slip with checkboxes.
+- **"Stock Up vs. Wait" Predictive Cycle Low Signals (Ticket #24):**
+  - Multi-week cycle floor indicators (Buy Now floor alerts vs. Peak Price substitution warnings).
+- **Wholesale Club Price Normalizer (Ticket #25):**
+  - Benchmark supermarket promotional unit pricing ($/lb) against Costco and Sam's Club bulk everyday pricing.
+
