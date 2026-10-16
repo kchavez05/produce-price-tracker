@@ -9,9 +9,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'PantryBot — Commodity & Meal Prep Value Tracker (80542)',
+  title: 'PantryBot — Grocery Deals & Weekend Meal-Prep Value Tracker',
   description:
-    'Tracks King Soopers, Safeway, and USDA Mountain Region wholesale commodity prices to recommend the 3 best-value weekend stews, braises, and casseroles.',
+    'Compare weekly supermarket circulars, digital coupons, and USDA wholesale commodity prices in your zip code to plan 3 low-cost weekend batch stews, braises, and casseroles.',
   applicationName: 'PantryBot',
   appleWebApp: {
     capable: true,

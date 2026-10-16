@@ -202,7 +202,7 @@ export async function fetchLiveFlippOffers(
   let liveSuccess = false;
 
   try {
-    const queries = ['King Soopers', 'Safeway'];
+    const queries = ['King Soopers', 'Kroger', 'Safeway', 'Albertsons'];
     const responses = await Promise.all(
       queries.map(async (merchantQuery) => {
         const url = `https://backflipp.wishabi.com/flipp/items/search?locale=en-us&postal_code=${encodeURIComponent(
@@ -211,7 +211,7 @@ export async function fetchLiveFlippOffers(
         const res = await fetch(url, {
           headers: {
             Accept: 'application/json',
-            'User-Agent': 'ProducePriceTracker/1.0 (Mead-CO-MealPrep)',
+            'User-Agent': 'PantryBot/1.0 (Commodity-MealPrep-Tracker)',
           },
           next: { revalidate: 3600 },
           signal: AbortSignal.timeout(3500),
@@ -230,9 +230,28 @@ export async function fetchLiveFlippOffers(
     for (const item of allItems) {
       const merchant = (item.merchant_name || '').toLowerCase();
       let store: StoreChain | null = null;
-      if (merchant.includes('king soopers') || merchant.includes('kroger')) {
+      if (
+        merchant.includes('king soopers') ||
+        merchant.includes('kroger') ||
+        merchant.includes('ralphs') ||
+        merchant.includes('fred meyer') ||
+        merchant.includes("fry's") ||
+        merchant.includes('smith') ||
+        merchant.includes('dillons') ||
+        merchant.includes('qfc') ||
+        merchant.includes('city market')
+      ) {
         store = 'KING_SOOPERS';
-      } else if (merchant.includes('safeway') || merchant.includes('albertsons')) {
+      } else if (
+        merchant.includes('safeway') ||
+        merchant.includes('albertsons') ||
+        merchant.includes('vons') ||
+        merchant.includes('jewel') ||
+        merchant.includes('tom thumb') ||
+        merchant.includes('randalls') ||
+        merchant.includes('shaw') ||
+        merchant.includes('acme')
+      ) {
         store = 'SAFEWAY';
       }
       if (!store) continue;

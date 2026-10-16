@@ -18,9 +18,11 @@ export async function POST(request: NextRequest) {
     const clientApiKey: string = (body?.geminiApiKey || '').trim();
 
     const apiKey = clientApiKey || process.env.GEMINI_API_KEY?.trim();
+    const zipCode: string = (body?.zipCode || '80542').trim();
+    const cityLabel: string = (body?.cityLabel || 'Local Area').trim();
 
     const dashboard = await buildDashboardPayload({
-      zipCode: '80542',
+      zipCode,
       storeFilter,
       pinnedIngredientIds,
       onHandIngredientIds,
@@ -56,13 +58,13 @@ export async function POST(request: NextRequest) {
       isOnHand: onHandIngredientIds.includes(c.ingredient.id),
     }));
 
-    const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in Mead, Colorado (80542) shopping at King Soopers and Safeway.
+    const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in ${cityLabel} (${zipCode}) shopping at local supermarkets (Kroger & Albertsons banners).
 The user strongly prefers LOW-EFFORT, REHEATABLE ONE-POT MEALS: stews, slow-cooker braises, Dutch oven chilis, curries, and 9x13 oven casseroles/bakes over multi-component plated meals.
 We need exactly 3 distinct batch-prep dishes (${targetServings} servings each) that maximize use of the cheapest on-sale ingredients below (and MUST incorporate any ingredients where isUserPinned or isOnHand is true).
 
 User custom note/request: "${customPreference || 'Low-effort reheatable stews, braises, chilis, or casseroles with great flavor variety across the 3 dishes.'}"
 
-Live Mead, CO (80542) Sale Ingredients JSON:
+Live ${cityLabel} (${zipCode}) Sale Ingredients JSON:
 ${JSON.stringify(topDealsContext, null, 2)}
 
 Calculate realistic batch costs using the exact normalizedPricePerUnit values provided (set slotCost to 0 if isOnHand is true).`;

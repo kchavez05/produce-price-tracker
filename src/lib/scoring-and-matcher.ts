@@ -388,6 +388,40 @@ export function rankMealPrepDishes(
   };
 }
 
+const cityCache = new Map<string, string>([
+  ['80542', 'Mead / Longmont, CO'],
+  ['80501', 'Longmont, CO'],
+  ['80504', 'Firestone / Longmont, CO'],
+  ['80202', 'Denver, CO'],
+  ['80302', 'Boulder, CO'],
+]);
+
+export async function resolveCityStateFromZip(zipCode: string): Promise<string> {
+  const trimmed = zipCode.trim();
+  if (!trimmed || !/^\d{5}$/.test(trimmed)) return `Zip ${trimmed || '80542'}`;
+  if (cityCache.has(trimmed)) return cityCache.get(trimmed)!;
+
+  try {
+    const res = await fetch(`https://api.zippopotam.us/us/${trimmed}`, {
+      signal: AbortSignal.timeout(2000),
+      next: { revalidate: 86400 },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const place = data?.places?.[0];
+      if (place?.['place name'] && place?.['state abbreviation']) {
+        const label = `${place['place name']}, ${place['state abbreviation']}`;
+        cityCache.set(trimmed, label);
+        return label;
+      }
+    }
+  } catch {
+    // Ignore network timeout or fallback
+  }
+
+  return `Zip ${trimmed} Area`;
+}
+
 export async function buildDashboardPayload(options?: {
   zipCode?: string;
   storeFilter?: 'ALL' | StoreChain;
@@ -402,10 +436,11 @@ export async function buildDashboardPayload(options?: {
   const onHandIngredientIds = options?.onHandIngredientIds || [];
   const targetServings = options?.targetServings || 6;
 
-  const [flippResult, usdaResult, krogerResult] = await Promise.all([
+  const [flippResult, usdaResult, krogerResult, cityLabel] = await Promise.all([
     fetchLiveFlippOffers(zipCode),
     checkUsdaMarsStatus(),
     fetchKrogerLiveOffers(options?.kingSoopersLocationId),
+    resolveCityStateFromZip(zipCode),
   ]);
 
   if (flippResult.offers.length > 0 || krogerResult.offers.length > 0) {
@@ -450,7 +485,7 @@ export async function buildDashboardPayload(options?: {
 
   return {
     zipCode,
-    cityLabel: zipCode === '80542' ? 'Mead / Longmont / Firestone, CO' : `Zip ${zipCode} Area`,
+    cityLabel,
     adCycleLabel: 'Wed Oct 14 – Tue Oct 20, 2026 (Active Weekend Cycle)',
     lastUpdatedIso: new Date().toISOString(),
     dataSourcesActive: {
