@@ -22,3 +22,12 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **`GEMINI_API_KEY`**: Free-tier key from [Google AI Studio](https://aistudio.google.com/apikey) (`gemini-2.5-flash`). You can also paste this directly in the **API Keys** button in the top navigation bar.
 * **`USDA_MARS_API_KEY`**: Free key from [USDA MyMarketNews](https://mymarketnews.ams.usda.gov/) for live report slugs `3324`, `3228`, `2868`, `2756`, and `2995`.
 * **`KROGER_CLIENT_ID` / `KROGER_CLIENT_SECRET`**: Free credentials from [Kroger Developer Portal](https://developer.kroger.com/) for unadvertised King Soopers shelf prices.
+
+## Documentation, Wiki & Roadmap
+
+* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.0`) and planned feature tickets.
+* **[Wiki Home (`docs/wiki/Home.md`)](./docs/wiki/Home.md)**
+  * [Architecture & Data Pipeline](./docs/wiki/Architecture-and-Data-Pipeline.md)
+  * [Scoring & 3-Dish Meal Prep Engine](./docs/wiki/Scoring-and-Meal-Prep-Engine.md)
+  * [API Keys & Developer Setup Guide](./docs/wiki/API-Keys-and-Local-Setup.md)
+
