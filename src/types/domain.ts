@@ -1,6 +1,12 @@
 export type CommodityCategory = 'PROTEIN' | 'PRODUCE' | 'DAIRY_EGGS';
 
-export type StoreChain = 'KING_SOOPERS' | 'SAFEWAY';
+export type StoreChain =
+  | 'KING_SOOPERS'
+  | 'SAFEWAY'
+  | 'ALDI'
+  | 'WALMART'
+  | 'TARGET'
+  | 'SPROUTS';
 
 export type DealType =
   | 'SHELF_OR_MEMBER'
@@ -91,6 +97,8 @@ export interface ScoredCommodity {
   runnerUpOffer?: StoreOffer;
   kingSoopersOffer?: StoreOffer;
   safewayOffer?: StoreOffer;
+  /** Multi-vendor offer map across all active stores (v1.1) */
+  storeOffers?: Partial<Record<StoreChain, StoreOffer>>;
   /** Overall Workhorse Value Score (0 - 100) weighted for absolute affordability + discount */
   valueScore: number;
   affordabilityScore: number;
@@ -223,6 +231,19 @@ export interface AggregatedShoppingItem {
   safewayDealConditions?: string;
   /** Regular shelf cost without promos */
   regularTotalCost: number;
+  /** Dynamic per-store pricing map (v1.1) */
+  storePricing?: Partial<
+    Record<
+      StoreChain,
+      {
+        unitCost: number;
+        totalCost: number;
+        rawDealText: string;
+        dealType: DealType;
+        dealConditions?: string;
+      }
+    >
+  >;
 }
 
 export interface StoreTripComparison {
@@ -236,6 +257,37 @@ export interface StoreTripComparison {
   extraSavingsFromSplitting: number;
   recommendationHeadline: string;
   recommendationDetail: string;
+  /** Store totals across all active vendors (v1.1) */
+  storeTotals?: Partial<Record<StoreChain, number>>;
+  /** Ranked leaderboard of all 1-stop options (v1.1) */
+  singleStoreRankings?: {
+    store: StoreChain;
+    storeName: string;
+    total: number;
+    diffFromBest: number;
+    isBest: boolean;
+  }[];
+  /** Optimal 2-store split pairing (v1.1) */
+  bestTwoStoreSplit?: {
+    stores: [StoreChain, StoreChain];
+    storeNames: [string, string];
+    total: number;
+    savingsVsBestSingle: number;
+    splitSummary: string;
+  };
+}
+
+export interface AvailableStoreInfo {
+  id: StoreChain;
+  name: string;
+  bannerName: string;
+  brandColor: string;
+  accentBg: string;
+  badgeTextColor: string;
+  hasDigitalCoupons: boolean;
+  couponAppLabel?: string;
+  isEverydayLowPrice: boolean;
+  hasActiveOffers: boolean;
 }
 
 export interface DashboardPayload {
@@ -258,6 +310,8 @@ export interface DashboardPayload {
   };
   nearbyKingSoopersLocations: KingSoopersLocation[];
   selectedKingSoopersLocationId: string;
+  availableStores?: AvailableStoreInfo[];
+  activeStores?: StoreChain[];
   commodities: ScoredCommodity[];
   splurgeAlerts: ScoredCommodity[];
   recommendedTrio: RecommendedDish[];

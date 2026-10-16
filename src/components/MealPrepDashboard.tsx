@@ -10,6 +10,12 @@ import {
   StoreChain,
   WeeklySyncCronResult,
 } from '@/types/domain';
+import {
+  ALL_STORE_CHAINS,
+  STORE_REGISTRY,
+  getStoreDefinition,
+  resolveStoreBanner,
+} from '@/data/store-registry';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import {
   Sparkles,
@@ -71,8 +77,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
   });
   const [showAllBlueprints, setShowAllBlueprints] = useState(false);
 
-  // Shopping list & coupon checklist interactive state (v0.3)
-  const [tripMode, setTripMode] = useState<'SPLIT' | 'KING_SOOPERS' | 'SAFEWAY'>('SPLIT');
+  // Shopping list & coupon checklist interactive state (v0.3 + v1.1)
+  const [tripMode, setTripMode] = useState<'SPLIT' | StoreChain>('SPLIT');
+  const [activeStores, setActiveStores] = useState<StoreChain[]>(() => {
+    return initialData.activeStores || ALL_STORE_CHAINS;
+  });
+  const [showStoresModal, setShowStoresModal] = useState(false);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [clippedCoupons, setClippedCoupons] = useState<Record<string, boolean>>({});
 
@@ -108,6 +118,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
         const parsed = JSON.parse(savedOnHand);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setOnHandIds(parsed);
+        }
+      }
+      const savedActiveStores = localStorage.getItem('pantrybot_active_stores');
+      if (savedActiveStores) {
+        try {
+          const parsed = JSON.parse(savedActiveStores);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setActiveStores(parsed);
+          }
+        } catch {
+          // Ignore
         }
       }
       const savedZip = localStorage.getItem('pantrybot_user_zip');
@@ -146,16 +167,18 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   async function syncDashboard(
-    nextStore: 'ALL' | StoreChain,
-    nextPinned: string[],
+    nextStore: 'ALL' | StoreChain = storeFilter,
+    nextPinned: string[] = pinnedIds,
     nextOnHand: string[] = onHandIds,
     nextServings: 4 | 6 | 8 = targetServings,
-    nextZip: string = currentZip
+    nextZip: string = currentZip,
+    nextActiveStores: StoreChain[] = activeStores
   ) {
     try {
       const params = new URLSearchParams({
         zip: nextZip,
         store: nextStore,
+        stores: nextActiveStores.join(','),
         pinned: nextPinned.join(','),
         onHand: nextOnHand.join(','),
         servings: String(nextServings),
@@ -169,6 +192,25 @@ export default function MealPrepDashboard({ initialData }: Props) {
     } catch {
       // Ignore network hiccup
     }
+  }
+
+  function handleToggleActiveStore(store: StoreChain) {
+    setActiveStores((prev) => {
+      let next: StoreChain[];
+      if (prev.includes(store)) {
+        if (prev.length <= 1) return prev;
+        next = prev.filter((s) => s !== store);
+      } else {
+        next = [...prev, store];
+      }
+      try {
+        localStorage.setItem('pantrybot_active_stores', JSON.stringify(next));
+      } catch {
+        // Ignore
+      }
+      syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings, currentZip, next);
+      return next;
+    });
   }
 
   function handleTogglePin(ingredientId: string) {
@@ -204,11 +246,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   function handleStoreChange(nextStore: 'ALL' | StoreChain) {
     setStoreFilter(nextStore);
-    if (nextStore === 'KING_SOOPERS') setTripMode('KING_SOOPERS');
-    else if (nextStore === 'SAFEWAY') setTripMode('SAFEWAY');
-    else setTripMode('SPLIT');
+    if (nextStore === 'ALL') {
+      setTripMode('SPLIT');
+    } else {
+      setTripMode(nextStore);
+    }
     setCustomAiDishes(null);
-    syncDashboard(nextStore, pinnedIds, onHandIds, targetServings);
+    syncDashboard(nextStore, pinnedIds, onHandIds, targetServings, currentZip, activeStores);
   }
 
   async function handleToggleSaveRecipe(dish: RecommendedDish) {
@@ -369,46 +413,64 @@ export default function MealPrepDashboard({ initialData }: Props) {
     };
   }, [activeTrio, targetServings]);
 
-  // v0.3 + v0.4 Aggregated Shopping List, Coupon Pre-Flight, and Store Trip Optimizer
+  // v0.3 + v0.4 + v1.1 Aggregated Shopping List, Coupon Pre-Flight, and Store Trip Optimizer
   const shoppingPlan = useMemo(
     () =>
       buildShoppingListAndStoreComparison(
         activeTrio,
         data.commodities,
-        onHandIds
+        onHandIds,
+        data.zipCode || currentZip,
+        activeStores
       ),
-    [activeTrio, data.commodities, onHandIds]
+    [activeTrio, data.commodities, onHandIds, data.zipCode, currentZip, activeStores]
   );
 
   const resolvedShoppingItems = useMemo(() => {
     return shoppingPlan.items.map((item) => {
       const store: StoreChain =
-        tripMode === 'KING_SOOPERS'
-          ? 'KING_SOOPERS'
-          : tripMode === 'SAFEWAY'
-            ? 'SAFEWAY'
-            : item.optimalStore;
+        tripMode === 'SPLIT'
+          ? item.optimalStore
+          : tripMode;
 
+      const sp = item.storePricing?.[store];
       const unitCost =
-        store === 'KING_SOOPERS'
+        sp?.unitCost ??
+        (store === 'KING_SOOPERS'
           ? item.kingSoopersUnitCost
-          : item.safewayUnitCost;
-      const totalCost =
-        store === 'KING_SOOPERS'
-          ? item.kingSoopersTotalCost
-          : item.safewayTotalCost;
-      const rawDealText =
-        store === 'KING_SOOPERS'
-          ? item.kingSoopersRawDealText
-          : item.safewayRawDealText;
+          : store === 'SAFEWAY'
+            ? item.safewayUnitCost
+            : item.optimalUnitCost);
+      const totalCost = item.isOnHand
+        ? 0
+        : sp?.totalCost ??
+          (store === 'KING_SOOPERS'
+            ? item.kingSoopersTotalCost
+            : store === 'SAFEWAY'
+              ? item.safewayTotalCost
+              : item.optimalTotalCost);
+      const rawDealText = item.isOnHand
+        ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
+        : sp?.rawDealText ??
+          (store === 'KING_SOOPERS'
+            ? item.kingSoopersRawDealText
+            : store === 'SAFEWAY'
+              ? item.safewayRawDealText
+              : item.optimalRawDealText);
       const dealType =
-        store === 'KING_SOOPERS'
+        sp?.dealType ??
+        (store === 'KING_SOOPERS'
           ? item.kingSoopersDealType
-          : item.safewayDealType;
+          : store === 'SAFEWAY'
+            ? item.safewayDealType
+            : item.optimalDealType);
       const dealConditions =
-        store === 'KING_SOOPERS'
+        sp?.dealConditions ??
+        (store === 'KING_SOOPERS'
           ? item.kingSoopersDealConditions
-          : item.safewayDealConditions;
+          : store === 'SAFEWAY'
+            ? item.safewayDealConditions
+            : item.optimalDealConditions);
 
       return {
         ...item,
@@ -448,6 +510,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
             Multi-Buy Requirement
           </span>
         );
+      case 'EVERYDAY_LOW':
+        return (
+          <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
+            <Tag className="h-3 w-3" />
+            Everyday Low Price
+          </span>
+        );
       case 'SHELF_OR_MEMBER':
         return (
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-900 border border-emerald-300">
@@ -466,16 +535,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   function renderStoreBadge(store: StoreChain) {
-    if (store === 'KING_SOOPERS') {
-      return (
-        <span className="inline-flex items-center rounded-md bg-blue-700 px-2 py-0.5 text-xs font-bold text-white shadow-xs">
-          King Soopers
-        </span>
-      );
-    }
+    const def = getStoreDefinition(store);
+    const banner = resolveStoreBanner(store, currentZip);
     return (
-      <span className="inline-flex items-center rounded-md bg-red-600 px-2 py-0.5 text-xs font-bold text-white shadow-xs">
-        Safeway
+      <span
+        style={{ backgroundColor: def.brandColor, color: '#ffffff' }}
+        className="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs"
+      >
+        {banner}
       </span>
     );
   }
@@ -517,38 +584,50 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
             {/* Store Filter & API Settings */}
             <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-medium">
+              <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-medium overflow-x-auto max-w-full">
                 <button
                   onClick={() => handleStoreChange('ALL')}
-                  className={`rounded-md px-2.5 py-1.5 transition ${
+                  className={`rounded-md px-2.5 py-1.5 transition whitespace-nowrap ${
                     storeFilter === 'ALL'
                       ? 'bg-white font-semibold text-slate-900 shadow-xs'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  Best Overall (KS + Safeway)
+                  All Stores ({activeStores.length})
                 </button>
-                <button
-                  onClick={() => handleStoreChange('KING_SOOPERS')}
-                  className={`rounded-md px-2.5 py-1.5 transition ${
-                    storeFilter === 'KING_SOOPERS'
-                      ? 'bg-blue-700 font-semibold text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  King Soopers
-                </button>
-                <button
-                  onClick={() => handleStoreChange('SAFEWAY')}
-                  className={`rounded-md px-2.5 py-1.5 transition ${
-                    storeFilter === 'SAFEWAY'
-                      ? 'bg-red-600 font-semibold text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  Safeway
-                </button>
+                {activeStores.map((chain) => {
+                  const banner = resolveStoreBanner(chain, currentZip);
+                  const def = getStoreDefinition(chain);
+                  const isSelected = storeFilter === chain;
+                  return (
+                    <button
+                      key={chain}
+                      onClick={() => handleStoreChange(chain)}
+                      style={isSelected ? { backgroundColor: def.brandColor, color: '#ffffff' } : undefined}
+                      className={`rounded-md px-2.5 py-1.5 transition whitespace-nowrap ${
+                        isSelected
+                          ? 'font-semibold shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      {banner}
+                    </button>
+                  );
+                })}
               </div>
+
+              <button
+                onClick={() => setShowStoresModal(!showStoresModal)}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
+                  showStoresModal
+                    ? 'border-blue-600 bg-blue-600 text-white shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                }`}
+                title="Customize which grocery stores you shop at"
+              >
+                <Store className="h-3.5 w-3.5" />
+                <span>My Stores ({activeStores.length})</span>
+              </button>
 
               <button
                 onClick={handleToggleAlertsModal}
@@ -656,6 +735,101 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       {preset.label} ({preset.zip})
                     </button>
                   ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Interactive My Stores Preference Drawer (v1.1) */}
+          {showStoresModal && (
+            <div className="mt-3 rounded-xl border border-blue-300 bg-white p-4 shadow-lg text-xs text-slate-700">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                <div className="flex items-center gap-2">
+                  <Store className="h-4 w-4 text-blue-600" />
+                  <span className="font-bold text-sm text-slate-900">
+                    My Grocery Stores ({activeStores.length} Active in {data.cityLabel})
+                  </span>
+                </div>
+                <button
+                  onClick={() => setShowStoresModal(false)}
+                  className="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-0.5"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <p className="mt-2 text-slate-600 text-xs">
+                Select which grocery chains you shop at. Meal-prep ingredient pricing, digital coupon checklists, and multi-store trip split calculations will only compare against your selected stores.
+              </p>
+
+              <div className="mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+                {ALL_STORE_CHAINS.map((chain) => {
+                  const def = getStoreDefinition(chain);
+                  const banner = resolveStoreBanner(chain, currentZip);
+                  const isChecked = activeStores.includes(chain);
+                  return (
+                    <div
+                      key={chain}
+                      onClick={() => handleToggleActiveStore(chain)}
+                      className={`flex cursor-pointer items-center justify-between rounded-xl border p-3 transition ${
+                        isChecked
+                          ? 'border-blue-400 bg-blue-50/50 shadow-2xs'
+                          : 'border-slate-200 bg-slate-50 opacity-60 hover:opacity-100'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div
+                          style={{ backgroundColor: def.brandColor }}
+                          className="h-3.5 w-3.5 rounded-full shrink-0"
+                        />
+                        <div>
+                          <div className="font-bold text-slate-900 text-xs">{banner}</div>
+                          <div className="text-[11px] text-slate-500">
+                            {def.hasDigitalCoupons
+                              ? `📱 ${def.couponAppLabel || 'Digital Coupons'}`
+                              : def.isEverydayLowPrice
+                              ? '🏷️ Everyday Low Price'
+                              : '🏷️ Member Card'}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="shrink-0 pl-2">
+                        {isChecked ? (
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-blue-600 text-white">
+                            <Check className="h-3.5 w-3.5" />
+                          </span>
+                        ) : (
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-slate-300 bg-white" />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-100">
+                <span className="text-[11px] text-slate-500">
+                  Tip: Toggle off stores you don&apos;t live near to streamline your shopping lists.
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setActiveStores(ALL_STORE_CHAINS);
+                      try {
+                        localStorage.setItem('pantrybot_active_stores', JSON.stringify(ALL_STORE_CHAINS));
+                      } catch {}
+                      syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings, currentZip, ALL_STORE_CHAINS);
+                    }}
+                    className="text-xs font-semibold text-blue-700 hover:underline"
+                  >
+                    Select All
+                  </button>
+                  <button
+                    onClick={() => setShowStoresModal(false)}
+                    className="rounded-lg bg-blue-600 px-3 py-1 text-xs font-bold text-white hover:bg-blue-700 transition"
+                  >
+                    Done
+                  </button>
                 </div>
               </div>
             </div>
@@ -1709,103 +1883,103 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 </div>
               </div>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="mt-4 space-y-3">
+                {/* Optimal 2-Store Split Card (v1.1) */}
                 <button
                   onClick={() => setTripMode('SPLIT')}
-                  className={`flex flex-col justify-between rounded-xl border p-3.5 text-left transition ${
+                  className={`w-full flex flex-col sm:flex-row sm:items-center justify-between rounded-xl border p-4 text-left transition gap-3 ${
                     tripMode === 'SPLIT'
-                      ? 'border-emerald-400 bg-emerald-500/20 ring-2 ring-emerald-400/40'
+                      ? 'border-emerald-400 bg-emerald-500/20 ring-2 ring-emerald-400/40 shadow-sm'
                       : 'border-white/15 bg-white/5 hover:bg-white/10'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
-                      Optimal 2-Store Split
-                    </span>
-                    {tripMode === 'SPLIT' && (
-                      <span className="rounded-full bg-emerald-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
-                        Active
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
+                        ⚡ Optimal 2-Store Split: {shoppingPlan.tripComparison.bestTwoStoreSplit?.storeNames.join(' + ') || 'Multi-Store'}
                       </span>
-                    )}
+                      {tripMode === 'SPLIT' && (
+                        <span className="rounded-full bg-emerald-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
+                          Active Cart
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1 text-xs text-slate-300">
+                      {shoppingPlan.tripComparison.bestTwoStoreSplit?.splitSummary || 'Cheapest ingredient across stores'}
+                    </div>
                   </div>
-                  <div className="mt-2 text-2xl font-black text-white">
-                    ${shoppingPlan.tripComparison.optimalSplitTotal.toFixed(2)}
-                  </div>
-                  <div className="mt-1 text-[11px] text-slate-300">
-                    Cherry-pick lowest price per item across King Soopers &amp; Safeway (Save $
-                    {(
-                      shoppingPlan.tripComparison.regularShelfTotal -
-                      shoppingPlan.tripComparison.optimalSplitTotal
-                    ).toFixed(2)}
-                    )
+                  <div className="text-left sm:text-right shrink-0">
+                    <div className="text-2xl font-black text-white">
+                      ${(shoppingPlan.tripComparison.bestTwoStoreSplit?.total ?? shoppingPlan.tripComparison.optimalSplitTotal).toFixed(2)}
+                    </div>
+                    <div className="text-[11px] text-emerald-300 font-semibold">
+                      Save ${(shoppingPlan.tripComparison.regularShelfTotal - (shoppingPlan.tripComparison.bestTwoStoreSplit?.total ?? shoppingPlan.tripComparison.optimalSplitTotal)).toFixed(2)} vs regular shelf
+                    </div>
                   </div>
                 </button>
 
-                <button
-                  onClick={() => setTripMode('KING_SOOPERS')}
-                  className={`flex flex-col justify-between rounded-xl border p-3.5 text-left transition ${
-                    tripMode === 'KING_SOOPERS'
-                      ? 'border-blue-400 bg-blue-500/25 ring-2 ring-blue-400/40'
-                      : 'border-white/15 bg-white/5 hover:bg-white/10'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-blue-300">
-                      1-Stop: King Soopers Only
-                    </span>
-                    {tripMode === 'KING_SOOPERS' && (
-                      <span className="rounded-full bg-blue-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
-                        Active
-                      </span>
-                    )}
+                {/* Ranked 1-Stop Store Leaderboard (v1.1) */}
+                <div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                    Ranked 1-Stop Trips (All {shoppingPlan.items.length} Ingredients at 1 Store)
                   </div>
-                  <div className="mt-2 text-2xl font-black text-white">
-                    ${shoppingPlan.tripComparison.kingSoopersOnlyTotal.toFixed(2)}
+                  <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    {(shoppingPlan.tripComparison.singleStoreRankings || []).map((rank, idx) => {
+                      const def = getStoreDefinition(rank.store);
+                      const isSelected = tripMode === rank.store;
+                      return (
+                        <button
+                          key={rank.store}
+                          onClick={() => setTripMode(rank.store)}
+                          className={`flex flex-col justify-between rounded-xl border p-3 text-left transition ${
+                            isSelected
+                              ? 'border-indigo-400 bg-indigo-500/25 ring-2 ring-indigo-400/40'
+                              : 'border-white/15 bg-white/5 hover:bg-white/10'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold text-slate-300">#{idx + 1}</span>
+                              <span
+                                style={{ backgroundColor: def.brandColor, color: '#ffffff' }}
+                                className="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs"
+                              >
+                                {rank.storeName}
+                              </span>
+                            </div>
+                            {isSelected ? (
+                              <span className="rounded-full bg-indigo-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
+                                Active
+                              </span>
+                            ) : rank.isBest ? (
+                              <span className="rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 px-1.5 py-0.5 text-[10px] font-bold">
+                                🏆 Lowest 1-Stop
+                              </span>
+                            ) : (
+                              <span className="text-[10px] text-slate-400 font-medium">
+                                +${rank.diffFromBest.toFixed(2)} vs #1
+                              </span>
+                            )}
+                          </div>
+                          <div className="mt-2 flex items-baseline justify-between">
+                            <span className="text-xl font-black text-white">
+                              ${rank.total.toFixed(2)}
+                            </span>
+                            <span className="text-[11px] text-slate-400">
+                              +$
+                              {(rank.total - (shoppingPlan.tripComparison.bestTwoStoreSplit?.total ?? shoppingPlan.tripComparison.optimalSplitTotal)).toFixed(2)}{' '}
+                              vs split
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
-                  <div className="mt-1 text-[11px] text-slate-300">
-                    Buy all {shoppingPlan.items.length} ingredients at Firestone / Longmont King Soopers (+$
-                    {(
-                      shoppingPlan.tripComparison.kingSoopersOnlyTotal -
-                      shoppingPlan.tripComparison.optimalSplitTotal
-                    ).toFixed(2)}{' '}
-                    vs split)
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => setTripMode('SAFEWAY')}
-                  className={`flex flex-col justify-between rounded-xl border p-3.5 text-left transition ${
-                    tripMode === 'SAFEWAY'
-                      ? 'border-red-400 bg-red-500/25 ring-2 ring-red-400/40'
-                      : 'border-white/15 bg-white/5 hover:bg-white/10'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-red-300">
-                      1-Stop: Safeway Only
-                    </span>
-                    {tripMode === 'SAFEWAY' && (
-                      <span className="rounded-full bg-red-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
-                        Active
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-2 text-2xl font-black text-white">
-                    ${shoppingPlan.tripComparison.safewayOnlyTotal.toFixed(2)}
-                  </div>
-                  <div className="mt-1 text-[11px] text-slate-300">
-                    Buy all {shoppingPlan.items.length} ingredients at Longmont Safeway (+$
-                    {(
-                      shoppingPlan.tripComparison.safewayOnlyTotal -
-                      shoppingPlan.tripComparison.optimalSplitTotal
-                    ).toFixed(2)}{' '}
-                    vs split)
-                  </div>
-                </button>
+                </div>
               </div>
             </section>
 
-            {/* Digital Coupon Pre-Flight Checklist */}
+            {/* Digital Coupon Pre-Flight Checklist (Grouped by Store App - v1.1) */}
             {digitalCouponItems.length > 0 && (
               <section className="rounded-2xl border border-amber-300 bg-amber-50/70 p-4 sm:p-5 shadow-2xs">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1818,64 +1992,85 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         Digital Coupon Pre-Flight Checklist ({digitalCouponItems.length} Coupons to Clip)
                       </h3>
                       <p className="text-xs text-amber-800">
-                        Clip these in the King Soopers or Safeway for U app before heading to checkout so you get the advertised promo price.
+                        Clip these in the respective store app before checkout to guarantee advertised promotional pricing.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
-                  {digitalCouponItems.map((cItem) => {
-                    const couponKey = `${cItem.activeStore}-${cItem.ingredientId}`;
-                    const isClipped = Boolean(clippedCoupons[couponKey]);
-                    return (
-                      <div
-                        key={couponKey}
-                        onClick={() => toggleClippedCoupon(couponKey)}
-                        className={`flex cursor-pointer items-center justify-between rounded-xl border p-3 transition ${
-                          isClipped
-                            ? 'border-emerald-300 bg-emerald-50/80 opacity-80'
-                            : 'border-amber-200 bg-white hover:border-amber-400'
-                        }`}
-                      >
-                        <div className="space-y-0.5 pr-2">
-                          <div className="flex items-center gap-1.5">
-                            {renderStoreBadge(cItem.activeStore)}
-                            <span className="text-xs font-bold text-slate-900">
-                              {cItem.ingredientName}
-                            </span>
-                          </div>
-                          <p className="text-xs font-semibold text-amber-900">
-                            {cItem.activeRawDealText}
-                          </p>
-                          {cItem.activeDealConditions && (
-                            <p className="text-[11px] text-slate-600">
-                              {cItem.activeDealConditions}
-                            </p>
-                          )}
-                        </div>
-
-                        <button
-                          type="button"
-                          className={`inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold ${
-                            isClipped
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-amber-500 text-slate-950 hover:bg-amber-400'
-                          }`}
-                        >
-                          {isClipped ? (
-                            <>
-                              <Check className="h-3.5 w-3.5" /> Clipped
-                            </>
-                          ) : (
-                            <>
-                              <Smartphone className="h-3.5 w-3.5" /> Clip in App
-                            </>
-                          )}
-                        </button>
+                <div className="mt-3 space-y-4">
+                  {Array.from(
+                    digitalCouponItems.reduce((acc, cItem) => {
+                      const def = getStoreDefinition(cItem.activeStore);
+                      const appName = def.couponAppLabel || `${resolveStoreBanner(cItem.activeStore, currentZip)} App`;
+                      const list = acc.get(appName) || [];
+                      list.push(cItem);
+                      acc.set(appName, list);
+                      return acc;
+                    }, new Map<string, typeof digitalCouponItems>()).entries()
+                  ).map(([appName, appItems]) => (
+                    <div key={appName} className="rounded-xl border border-amber-200/80 bg-white/70 p-3">
+                      <div className="flex items-center gap-2 mb-2 pb-1.5 border-b border-amber-100">
+                        <Smartphone className="h-3.5 w-3.5 text-amber-700" />
+                        <span className="text-xs font-bold text-amber-950 uppercase tracking-wide">
+                          {appName} ({appItems.length} {appItems.length === 1 ? 'coupon' : 'coupons'})
+                        </span>
                       </div>
-                    );
-                  })}
+                      <div className="grid gap-2 sm:grid-cols-2">
+                        {appItems.map((cItem) => {
+                          const couponKey = `${cItem.activeStore}-${cItem.ingredientId}`;
+                          const isClipped = Boolean(clippedCoupons[couponKey]);
+                          return (
+                            <div
+                              key={couponKey}
+                              onClick={() => toggleClippedCoupon(couponKey)}
+                              className={`flex cursor-pointer items-center justify-between rounded-xl border p-2.5 transition ${
+                                isClipped
+                                  ? 'border-emerald-300 bg-emerald-50/80 opacity-80'
+                                  : 'border-amber-200 bg-white hover:border-amber-400'
+                              }`}
+                            >
+                              <div className="space-y-0.5 pr-2">
+                                <div className="flex items-center gap-1.5">
+                                  {renderStoreBadge(cItem.activeStore)}
+                                  <span className="text-xs font-bold text-slate-900">
+                                    {cItem.ingredientName}
+                                  </span>
+                                </div>
+                                <p className="text-xs font-semibold text-amber-900">
+                                  {cItem.activeRawDealText}
+                                </p>
+                                {cItem.activeDealConditions && (
+                                  <p className="text-[11px] text-slate-600">
+                                    {cItem.activeDealConditions}
+                                  </p>
+                                )}
+                              </div>
+
+                              <button
+                                type="button"
+                                className={`inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold ${
+                                  isClipped
+                                    ? 'bg-emerald-600 text-white'
+                                    : 'bg-amber-500 text-slate-950 hover:bg-amber-400'
+                                }`}
+                              >
+                                {isClipped ? (
+                                  <>
+                                    <Check className="h-3.5 w-3.5" /> Clipped
+                                  </>
+                                ) : (
+                                  <>
+                                    <Smartphone className="h-3.5 w-3.5" /> Clip
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </section>
             )}

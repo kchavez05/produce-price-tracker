@@ -1,4 +1,5 @@
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
+import { resolveStoreBanner } from '@/data/store-registry';
 import { CanonicalIngredient, DealType, StoreChain, StoreOffer } from '@/types/domain';
 
 interface FlippSearchItem {
@@ -146,7 +147,10 @@ export function normalizeFlyerPrice(
 /**
  * Classifies the deal type and extracts coupon/quantity limit strings (e.g. "Limit 5", "Must buy 3").
  */
-export function detectDealType(combinedText: string): {
+export function detectDealType(
+  combinedText: string,
+  store?: StoreChain
+): {
   dealType: DealType;
   dealConditions?: string;
 } {
@@ -161,11 +165,20 @@ export function detectDealType(combinedText: string): {
     lower.includes('digital') ||
     lower.includes('clip') ||
     lower.includes('for u') ||
-    lower.includes('coupon')
+    lower.includes('coupon') ||
+    lower.includes('circle')
   ) {
+    const couponApp =
+      store === 'TARGET'
+        ? 'Target Circle in app'
+        : store === 'SAFEWAY'
+          ? 'Safeway for U in app'
+          : store === 'SPROUTS'
+            ? 'Sprouts App coupon'
+            : 'store app';
     return {
       dealType: 'DIGITAL_COUPON',
-      dealConditions: `Clip Digital Coupon in store app${limitSuffix}`,
+      dealConditions: `Clip Digital Coupon in ${couponApp}${limitSuffix}`,
     };
   }
 
@@ -184,7 +197,21 @@ export function detectDealType(combinedText: string): {
     };
   }
 
-  // 3. Standard Shelf / Loyalty Card Member Sale (including pro-rated "2 for $5 with Card")
+  // 3. Store-specific Everyday Low Price (ALDI & Walmart)
+  if (store === 'ALDI') {
+    return {
+      dealType: 'EVERYDAY_LOW',
+      dealConditions: `Everyday ALDI Low Price${limitSuffix}`,
+    };
+  }
+  if (store === 'WALMART' || lower.includes('rollback') || lower.includes('great value')) {
+    return {
+      dealType: 'EVERYDAY_LOW',
+      dealConditions: `Walmart Rollback / Everyday Low Price${limitSuffix}`,
+    };
+  }
+
+  // 4. Standard Shelf / Loyalty Card Member Sale (including pro-rated "2 for $5 with Card")
   return {
     dealType: 'SHELF_OR_MEMBER',
     dealConditions: `With Store Loyalty Card at Checkout${limitSuffix}`,
@@ -192,8 +219,9 @@ export function detectDealType(combinedText: string): {
 }
 
 /**
- * Queries the public Flipp circular endpoint for postal_code 80542 (Mead, CO)
- * for King Soopers and Safeway items and maps any matches to CanonicalIngredients.
+ * Queries the public Flipp circular endpoint for a given postal_code
+ * across national and regional chains (Kroger, Safeway, ALDI, Walmart, Target, Sprouts)
+ * and maps matches to CanonicalIngredients.
  */
 export async function fetchLiveFlippOffers(
   zipCode: string = '80542'
@@ -202,7 +230,16 @@ export async function fetchLiveFlippOffers(
   let liveSuccess = false;
 
   try {
-    const queries = ['King Soopers', 'Kroger', 'Safeway', 'Albertsons'];
+    const queries = [
+      'King Soopers',
+      'Kroger',
+      'Safeway',
+      'Albertsons',
+      'Aldi',
+      'Walmart',
+      'Target',
+      'Sprouts',
+    ];
     const responses = await Promise.all(
       queries.map(async (merchantQuery) => {
         const url = `https://backflipp.wishabi.com/flipp/items/search?locale=en-us&postal_code=${encodeURIComponent(
@@ -211,7 +248,7 @@ export async function fetchLiveFlippOffers(
         const res = await fetch(url, {
           headers: {
             Accept: 'application/json',
-            'User-Agent': 'PantryBot/1.0 (Commodity-MealPrep-Tracker)',
+            'User-Agent': 'PantryBot/1.1 (Commodity-MealPrep-Tracker)',
           },
           next: { revalidate: 3600 },
           signal: AbortSignal.timeout(3500),
@@ -230,7 +267,16 @@ export async function fetchLiveFlippOffers(
     for (const item of allItems) {
       const merchant = (item.merchant_name || '').toLowerCase();
       let store: StoreChain | null = null;
-      if (
+
+      if (merchant.includes('aldi')) {
+        store = 'ALDI';
+      } else if (merchant.includes('walmart')) {
+        store = 'WALMART';
+      } else if (merchant.includes('target')) {
+        store = 'TARGET';
+      } else if (merchant.includes('sprouts')) {
+        store = 'SPROUTS';
+      } else if (
         merchant.includes('king soopers') ||
         merchant.includes('kroger') ||
         merchant.includes('ralphs') ||
@@ -296,16 +342,17 @@ export async function fetchLiveFlippOffers(
           continue;
         }
 
-        const { dealType, dealConditions } = detectDealType(fullText);
+        const { dealType, dealConditions } = detectDealType(fullText, store);
+        const bannerName = resolveStoreBanner(store, zipCode, item.merchant_name);
+        const storeLocationLabel = item.merchant_name
+          ? `${bannerName} (${item.merchant_name})`
+          : `${bannerName} (${zipCode} Circular)`;
 
         matchedOffers.push({
           id: `flipp-${store.toLowerCase()}-${ingredient.id}-${item.id || Math.random()}`,
           canonicalIngredientId: ingredient.id,
           store,
-          storeLocationLabel:
-            store === 'KING_SOOPERS'
-              ? `King Soopers (${zipCode} Circular)`
-              : `Safeway (${zipCode} Circular)`,
+          storeLocationLabel,
           rawTitle: title,
           rawPriceText: `$${effectiveSalePrice.toFixed(2)} / ${saleUnit}${
             story ? ` (${story.slice(0, 50)})` : ''
