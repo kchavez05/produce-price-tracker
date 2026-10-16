@@ -8,6 +8,7 @@ flowchart LR
     M1 --> M2["✅ v0.3 Shopping List & Cart\nAggregated List, Coupon\nChecklist, Store Split Math"]
     M2 --> M3["✅ v0.4 Recipe Intelligence\nPantry Inventory, Serving\nScaler, Saved Favorites"]
     M3 --> M4["✅ v1.0 Cloud & Automation\nPWA Manifest, Vercel Cron,\nWed/Fri Smart Push Digest"]
+    M4 --> M5["🚧 v1.1 Multi-Vendor Engine\nALDI, Walmart, Target, Sprouts,\nN-Store Dynamic Optimizer"]
 ```
 
 ---
@@ -52,6 +53,19 @@ flowchart LR
 **Goal:** Production PWA deployment config with automated Wednesday circular ingestion & Friday Weekend Prep Digest.
 * **Ticket #11:** Configure production deployment (`vercel.json`) + mobile PWA home-screen manifest (`manifest.ts`, `icon.svg`).
 * **Ticket #12:** Set up automated Wednesday circular refresh cron job (`/api/cron/weekly-sync`), Smart Push Notification payloads, and Friday "Weekend Meal Prep Value Digest".
+
+---
+
+### 🚧 Milestone 5: `v1.1` — Multi-Vendor Expansion & Universal Basket Optimizer (Active)
+**Goal:** Expand geographic accessibility and value density nationwide through ALDI, Walmart, Target, Sprouts, localized banners, and dynamic N-store basket optimization.
+* **Ticket #13:** Refactor `StoreChain` into an extensible Store Registry & localized banner model (e.g. Ralphs, Fred Meyer, Fry's, Jewel-Osco, Vons).
+* **Ticket #14:** Generalize Shopping List & N-Store basket matrix comparison with dynamic store rankings.
+* **Ticket #15:** Add ALDI circular scraper and unit-price extraction via Flipp.
+* **Ticket #16:** Add Walmart, Target & Sprouts circular matching and Everyday Low Price floors.
+* **Ticket #17:** Auto-detect available local stores by ZIP code in `/api/locations`.
+* **Ticket #18:** Add "My Stores" preference selector & active store filter pills.
+* **Ticket #19:** Redesign Store Comparison Card with ranked N-store leaderboard & Best 2-Store split.
+* **Ticket #20:** Multi-App Digital Coupon Pre-Flight Checklist (Kroger, Safeway, Target Circle).
 
 ---
 
