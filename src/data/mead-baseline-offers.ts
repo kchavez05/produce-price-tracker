@@ -1220,3 +1220,105 @@ export const MEAD_WEEKLY_STORE_OFFERS: StoreOffer[] = [
     source: 'CURATED_FALLBACK',
   },
 ];
+
+/**
+ * Builds baseline offers for ALDI, Walmart, Sprouts, and Target across all canonical
+ * ingredients so every store has full side-by-side coverage in fallback/offline mode.
+ */
+function generateMultiVendorBaselines(): StoreOffer[] {
+  // Dynamic import of canonical ingredients to prevent circular dependencies
+  const { CANONICAL_INGREDIENTS } = require('@/data/canonical-ingredients');
+  const offers: StoreOffer[] = [];
+
+  for (const ing of CANONICAL_INGREDIENTS) {
+    // 1. ALDI (Everyday Low Price leader, ~12% under baseline on produce/dairy, ~8% on meats)
+    const aldiDiscountFactor = ing.category === 'PRODUCE' || ing.category === 'DAIRY_EGGS' ? 0.88 : 0.92;
+    const aldiPrice = Number((ing.mountainBaselinePerUnit * aldiDiscountFactor).toFixed(2));
+    offers.push({
+      id: `aldi-${ing.id}`,
+      canonicalIngredientId: ing.id,
+      store: 'ALDI',
+      storeLocationLabel: 'ALDI',
+      rawTitle: `ALDI Fresh ${ing.name}`,
+      rawPriceText: `$${aldiPrice.toFixed(2)} / ${ing.standardUnit} Everyday Low Price`,
+      salePrice: aldiPrice,
+      saleUnit: ing.standardUnit,
+      normalizedPricePerUnit: aldiPrice,
+      regularPricePerUnit: ing.typicalRegularPerUnit,
+      dealType: 'EVERYDAY_LOW',
+      dealConditions: 'Everyday ALDI Low Price (No clipping needed)',
+      validFrom: '2026-10-14',
+      validTo: '2026-10-20',
+      source: 'CURATED_FALLBACK',
+    });
+
+    // 2. Walmart (Great Value price floor, ~6% under baseline)
+    const walmartPrice = Number((ing.mountainBaselinePerUnit * 0.94).toFixed(2));
+    offers.push({
+      id: `walmart-${ing.id}`,
+      canonicalIngredientId: ing.id,
+      store: 'WALMART',
+      storeLocationLabel: 'Walmart Supercenter',
+      rawTitle: `Great Value ${ing.name}`,
+      rawPriceText: `$${walmartPrice.toFixed(2)} / ${ing.standardUnit} Rollback Price`,
+      salePrice: walmartPrice,
+      saleUnit: ing.standardUnit,
+      normalizedPricePerUnit: walmartPrice,
+      regularPricePerUnit: ing.typicalRegularPerUnit,
+      dealType: 'EVERYDAY_LOW',
+      dealConditions: 'Walmart Rollback Price',
+      validFrom: '2026-10-14',
+      validTo: '2026-10-20',
+      source: 'CURATED_FALLBACK',
+    });
+
+    // 3. Sprouts (Aggressive produce discounts, premium conventional proteins)
+    const sproutsFactor = ing.category === 'PRODUCE' ? 0.89 : 1.04;
+    const sproutsPrice = Number((ing.mountainBaselinePerUnit * sproutsFactor).toFixed(2));
+    offers.push({
+      id: `sprouts-${ing.id}`,
+      canonicalIngredientId: ing.id,
+      store: 'SPROUTS',
+      storeLocationLabel: 'Sprouts Farmers Market',
+      rawTitle: `Sprouts Farm Fresh ${ing.name}`,
+      rawPriceText: `$${sproutsPrice.toFixed(2)} / ${ing.standardUnit} Weekly Ad`,
+      salePrice: sproutsPrice,
+      saleUnit: ing.standardUnit,
+      normalizedPricePerUnit: sproutsPrice,
+      regularPricePerUnit: Number((ing.typicalRegularPerUnit * 1.05).toFixed(2)),
+      dealType: ing.category === 'PRODUCE' ? 'SHELF_OR_MEMBER' : 'SHELF_OR_MEMBER',
+      dealConditions: 'Sprouts Weekly Circular',
+      validFrom: '2026-10-14',
+      validTo: '2026-10-20',
+      source: 'CURATED_FALLBACK',
+    });
+
+    // 4. Target (Target Circle promos, Good & Gather)
+    const targetPrice = Number((ing.mountainBaselinePerUnit * 0.96).toFixed(2));
+    offers.push({
+      id: `target-${ing.id}`,
+      canonicalIngredientId: ing.id,
+      store: 'TARGET',
+      storeLocationLabel: 'Target',
+      rawTitle: `Good & Gather ${ing.name}`,
+      rawPriceText: `$${targetPrice.toFixed(2)} / ${ing.standardUnit} with Circle`,
+      salePrice: targetPrice,
+      saleUnit: ing.standardUnit,
+      normalizedPricePerUnit: targetPrice,
+      regularPricePerUnit: ing.typicalRegularPerUnit,
+      dealType: 'DIGITAL_COUPON',
+      dealConditions: 'Apply in Target Circle App',
+      validFrom: '2026-10-14',
+      validTo: '2026-10-20',
+      source: 'CURATED_FALLBACK',
+    });
+  }
+
+  return offers;
+}
+
+export const ALL_WEEKLY_BASELINE_OFFERS: StoreOffer[] = [
+  ...MEAD_WEEKLY_STORE_OFFERS,
+  ...generateMultiVendorBaselines(),
+];
+

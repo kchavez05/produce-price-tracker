@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { resolveStoreBanner } from '@/data/store-registry';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import {
@@ -30,7 +31,8 @@ async function executeWeeklySync(
     buildShoppingListAndStoreComparison(
       dashboard.recommendedTrio,
       dashboard.commodities,
-      []
+      [],
+      zipCode
     );
 
   const digitalCouponItems = shoppingItems.filter(
@@ -55,15 +57,12 @@ async function executeWeeklySync(
   const smartPushNotifications: SmartPushNotificationPayload[] = [];
 
   if (topCommodity) {
-    const storeName =
-      topCommodity.bestOffer.store === 'KING_SOOPERS'
-        ? 'King Soopers'
-        : 'Safeway';
+    const storeName = resolveStoreBanner(topCommodity.bestOffer.store, zipCode);
     smartPushNotifications.push({
       id: `push-wed-${Date.now()}`,
       triggerType: 'WEDNESDAY_AD_DROP',
       scheduledWindowLabel: 'Wednesdays • 6:00 AM MT',
-      title: `🛒 Mead (80542) Weekly Circulars Live!`,
+      title: `🛒 Mead (${zipCode}) Weekly Circulars Live!`,
       subtitle: `#1 Value: ${topCommodity.ingredient.name} at $${topCommodity.bestOffer.normalizedPricePerUnit.toFixed(2)}/${topCommodity.ingredient.standardUnit} (${storeName})`,
       body: `${Math.round(topCommodity.discountVsBaselinePct * 100)}% below USDA Mountain Region baseline. ${digitalCouponItems.length} digital coupons ready to clip for this weekend's top 3 batch meals.`,
       deepLinkPath: '/?tab=leaderboard',
@@ -73,10 +72,7 @@ async function executeWeeklySync(
   }
 
   if (topSplurge) {
-    const storeName =
-      topSplurge.bestOffer.store === 'KING_SOOPERS'
-        ? 'King Soopers'
-        : 'Safeway';
+    const storeName = resolveStoreBanner(topSplurge.bestOffer.store, zipCode);
     smartPushNotifications.push({
       id: `push-splurge-${Date.now()}`,
       triggerType: 'SPLURGE_ALERT',

@@ -7,9 +7,17 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const zipCode = searchParams.get('zip') || '80542';
     const storeParam = (searchParams.get('store') || 'ALL') as 'ALL' | StoreChain;
+    const storesParam = searchParams.get('stores') || '';
     const pinnedParam = searchParams.get('pinned') || '';
     const onHandParam = searchParams.get('onHand') || '';
     const servingsParam = parseInt(searchParams.get('servings') || '6', 10);
+
+    const activeStores = storesParam
+      ? (storesParam
+          .split(',')
+          .map((s) => s.trim().toUpperCase())
+          .filter(Boolean) as StoreChain[])
+      : undefined;
 
     const pinnedIngredientIds = pinnedParam
       .split(',')
@@ -26,6 +34,7 @@ export async function GET(request: NextRequest) {
     const payload = await buildDashboardPayload({
       zipCode,
       storeFilter: storeParam,
+      activeStores,
       pinnedIngredientIds,
       onHandIngredientIds,
       targetServings,

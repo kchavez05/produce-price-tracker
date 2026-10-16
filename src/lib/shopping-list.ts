@@ -1,5 +1,11 @@
 import {
+  ALL_STORE_CHAINS,
+  getStoreDefinition,
+  resolveStoreBanner,
+} from '@/data/store-registry';
+import {
   AggregatedShoppingItem,
+  DealType,
   RecommendedDish,
   ScoredCommodity,
   StoreChain,
@@ -9,7 +15,9 @@ import {
 export function buildShoppingListAndStoreComparison(
   activeDishes: RecommendedDish[],
   commodities: ScoredCommodity[],
-  onHandIngredientIds: string[] = []
+  onHandIngredientIds: string[] = [],
+  zipCode: string = '80542',
+  activeStoresList?: StoreChain[]
 ): {
   items: AggregatedShoppingItem[];
   pantryChecklist: string[];
@@ -20,6 +28,11 @@ export function buildShoppingListAndStoreComparison(
     commodityMap.set(c.ingredient.id, c);
   }
   const onHandSet = new Set(onHandIngredientIds);
+
+  const activeStores: StoreChain[] =
+    activeStoresList && activeStoresList.length > 0
+      ? activeStoresList
+      : ALL_STORE_CHAINS;
 
   const itemMap = new Map<string, AggregatedShoppingItem>();
   const pantrySet = new Set<string>();
@@ -45,6 +58,7 @@ export function buildShoppingListAndStoreComparison(
           quantity: slotIng.quantityUsed,
         });
         existing.isOnHand = isOnHand;
+
         existing.optimalTotalCost = isOnHand
           ? 0
           : Number((existing.totalQuantityNeeded * existing.optimalUnitCost).toFixed(2));
@@ -54,6 +68,18 @@ export function buildShoppingListAndStoreComparison(
         existing.safewayTotalCost = isOnHand
           ? 0
           : Number((existing.totalQuantityNeeded * existing.safewayUnitCost).toFixed(2));
+
+        if (existing.storePricing) {
+          for (const s of ALL_STORE_CHAINS) {
+            const sp = existing.storePricing[s];
+            if (sp) {
+              sp.totalCost = isOnHand
+                ? 0
+                : Number((existing.totalQuantityNeeded * sp.unitCost).toFixed(2));
+            }
+          }
+        }
+
         const regUnit = existing.regularTotalCost / Math.max(0.1, prevQty);
         existing.regularTotalCost = Number(
           (existing.totalQuantityNeeded * regUnit).toFixed(2)
@@ -62,19 +88,63 @@ export function buildShoppingListAndStoreComparison(
       }
 
       const scored = commodityMap.get(slotIng.ingredientId);
-      const ksOffer = scored?.kingSoopersOffer || scored?.bestOffer;
-      const swOffer = scored?.safewayOffer || scored?.bestOffer;
-      const bestOffer = scored?.bestOffer;
+      const offersByStore = scored?.storeOffers || {};
 
-      const optimalUnitCost = bestOffer?.normalizedPricePerUnit ?? slotIng.unitCost;
-      const ksUnitCost = ksOffer?.normalizedPricePerUnit ?? slotIng.unitCost;
-      const swUnitCost = swOffer?.normalizedPricePerUnit ?? slotIng.unitCost;
+      // Compute pricing across all store chains
+      const storePricing: Partial<
+        Record<
+          StoreChain,
+          {
+            unitCost: number;
+            totalCost: number;
+            rawDealText: string;
+            dealType: DealType;
+            dealConditions?: string;
+          }
+        >
+      > = {};
+
+      for (const chain of ALL_STORE_CHAINS) {
+        const offer =
+          offersByStore[chain] ||
+          (chain === 'KING_SOOPERS' ? scored?.kingSoopersOffer : undefined) ||
+          (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
+
+        const unitCost = offer?.normalizedPricePerUnit ?? slotIng.unitCost;
+        const totalCost = isOnHand
+          ? 0
+          : Number((slotIng.quantityUsed * unitCost).toFixed(2));
+
+        storePricing[chain] = {
+          unitCost,
+          totalCost,
+          rawDealText: isOnHand
+            ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
+            : offer?.rawPriceText || slotIng.rawDealText,
+          dealType: offer?.dealType || slotIng.dealType,
+          dealConditions: offer?.dealConditions || slotIng.dealConditions,
+        };
+      }
+
+      // Determine optimal store from the active store pool
+      let optimalStore: StoreChain = activeStores[0] || 'ALDI';
+      let minUnitCost = Infinity;
+
+      for (const chain of activeStores) {
+        const p = storePricing[chain];
+        if (p && p.unitCost < minUnitCost) {
+          minUnitCost = p.unitCost;
+          optimalStore = chain;
+        }
+      }
+
+      const bestStorePricing = storePricing[optimalStore]!;
+      const ksPricing = storePricing['KING_SOOPERS']!;
+      const swPricing = storePricing['SAFEWAY']!;
+
       const regUnitCost =
-        bestOffer?.regularPricePerUnit ??
+        scored?.bestOffer?.regularPricePerUnit ??
         Number((slotIng.regularSlotCost / Math.max(0.25, slotIng.quantityUsed)).toFixed(2));
-
-      const optimalStore: StoreChain =
-        ksUnitCost <= swUnitCost ? 'KING_SOOPERS' : 'SAFEWAY';
 
       itemMap.set(slotIng.ingredientId, {
         ingredientId: slotIng.ingredientId,
@@ -86,33 +156,25 @@ export function buildShoppingListAndStoreComparison(
         usedInDishes: [{ dishTitle: dish.title, quantity: slotIng.quantityUsed }],
         isOnHand,
         optimalStore,
-        optimalUnitCost,
+        optimalUnitCost: minUnitCost < Infinity ? minUnitCost : slotIng.unitCost,
         optimalTotalCost: isOnHand
           ? 0
-          : Number((slotIng.quantityUsed * optimalUnitCost).toFixed(2)),
-        optimalRawDealText: isOnHand
-          ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
-          : bestOffer?.rawPriceText || slotIng.rawDealText,
-        optimalDealType: bestOffer?.dealType || slotIng.dealType,
-        optimalDealConditions: bestOffer?.dealConditions || slotIng.dealConditions,
-        kingSoopersUnitCost: ksUnitCost,
-        kingSoopersTotalCost: isOnHand
-          ? 0
-          : Number((slotIng.quantityUsed * ksUnitCost).toFixed(2)),
-        kingSoopersRawDealText: isOnHand
-          ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
-          : ksOffer?.rawPriceText || slotIng.rawDealText,
-        kingSoopersDealType: ksOffer?.dealType || slotIng.dealType,
-        kingSoopersDealConditions: ksOffer?.dealConditions,
-        safewayUnitCost: swUnitCost,
-        safewayTotalCost: isOnHand
-          ? 0
-          : Number((slotIng.quantityUsed * swUnitCost).toFixed(2)),
-        safewayRawDealText: isOnHand
-          ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
-          : swOffer?.rawPriceText || slotIng.rawDealText,
-        safewayDealType: swOffer?.dealType || slotIng.dealType,
-        safewayDealConditions: swOffer?.dealConditions,
+          : Number((slotIng.quantityUsed * (minUnitCost < Infinity ? minUnitCost : slotIng.unitCost)).toFixed(2)),
+        optimalRawDealText: bestStorePricing.rawDealText,
+        optimalDealType: bestStorePricing.dealType,
+        optimalDealConditions: bestStorePricing.dealConditions,
+        storePricing,
+        // Legacy backward compatibility
+        kingSoopersUnitCost: ksPricing.unitCost,
+        kingSoopersTotalCost: ksPricing.totalCost,
+        kingSoopersRawDealText: ksPricing.rawDealText,
+        kingSoopersDealType: ksPricing.dealType,
+        kingSoopersDealConditions: ksPricing.dealConditions,
+        safewayUnitCost: swPricing.unitCost,
+        safewayTotalCost: swPricing.totalCost,
+        safewayRawDealText: swPricing.rawDealText,
+        safewayDealType: swPricing.dealType,
+        safewayDealConditions: swPricing.dealConditions,
         regularTotalCost: Number((slotIng.quantityUsed * regUnitCost).toFixed(2)),
       });
     }
@@ -127,40 +189,111 @@ export function buildShoppingListAndStoreComparison(
     return b.optimalTotalCost - a.optimalTotalCost;
   });
 
-  const optimalStoreSum = items.reduce((acc, i) => acc + i.optimalTotalCost, 0);
-  const ksStoreSum = items.reduce((acc, i) => acc + i.kingSoopersTotalCost, 0);
-  const swStoreSum = items.reduce((acc, i) => acc + i.safewayTotalCost, 0);
-  const regularStoreSum = items.reduce((acc, i) => acc + i.regularTotalCost, 0);
-
   const pantryRounded = Number(estimatedPantryTotal.toFixed(2));
+  const optimalStoreSum = items.reduce((acc, i) => acc + i.optimalTotalCost, 0);
   const optimalSplitTotal = Number((optimalStoreSum + pantryRounded).toFixed(2));
-  const kingSoopersOnlyTotal = Number((ksStoreSum + pantryRounded).toFixed(2));
-  const safewayOnlyTotal = Number((swStoreSum + pantryRounded).toFixed(2));
+  const regularStoreSum = items.reduce((acc, i) => acc + i.regularTotalCost, 0);
   const regularShelfTotal = Number((regularStoreSum + pantryRounded).toFixed(2));
 
-  const bestSingleStore: StoreChain =
-    kingSoopersOnlyTotal <= safewayOnlyTotal ? 'KING_SOOPERS' : 'SAFEWAY';
-  const bestSingleStoreTotal = Math.min(kingSoopersOnlyTotal, safewayOnlyTotal);
-  const otherSingleStoreTotal = Math.max(kingSoopersOnlyTotal, safewayOnlyTotal);
-  const singleStoreDiff = Number(
-    (otherSingleStoreTotal - bestSingleStoreTotal).toFixed(2)
-  );
-  const extraSavingsFromSplitting = Number(
-    Math.max(0, bestSingleStoreTotal - optimalSplitTotal).toFixed(2)
+  // Compute store totals across all chains
+  const storeTotals: Partial<Record<StoreChain, number>> = {};
+  for (const chain of ALL_STORE_CHAINS) {
+    const chainSum = items.reduce((acc, i) => {
+      const p = i.storePricing?.[chain];
+      return acc + (p?.totalCost ?? i.optimalTotalCost);
+    }, 0);
+    storeTotals[chain] = Number((chainSum + pantryRounded).toFixed(2));
+  }
+
+  const kingSoopersOnlyTotal = storeTotals['KING_SOOPERS'] || 0;
+  const safewayOnlyTotal = storeTotals['SAFEWAY'] || 0;
+
+  // Compute ranked 1-stop leaderboard
+  const singleStoreRankings = activeStores
+    .map((chain) => {
+      const total = storeTotals[chain] || 0;
+      return {
+        store: chain,
+        storeName: resolveStoreBanner(chain, zipCode),
+        total,
+        diffFromBest: 0,
+        isBest: false,
+      };
+    })
+    .sort((a, b) => a.total - b.total);
+
+  const bestSingle = singleStoreRankings[0];
+  const bestSingleStore: StoreChain = bestSingle?.store || 'ALDI';
+  const bestSingleStoreTotal = bestSingle?.total || 0;
+
+  for (const r of singleStoreRankings) {
+    r.diffFromBest = Number((r.total - bestSingleStoreTotal).toFixed(2));
+    r.isBest = r.store === bestSingleStore;
+  }
+
+  // Calculate Optimal 2-Store Split among active stores
+  let bestTwoPair: [StoreChain, StoreChain] = [activeStores[0], activeStores[1] || activeStores[0]];
+  let bestTwoSplitTotal = Infinity;
+  let bestTwoCounts: Record<StoreChain, number> = {} as Record<StoreChain, number>;
+
+  for (let i = 0; i < activeStores.length; i++) {
+    for (let j = i + 1; j < activeStores.length; j++) {
+      const storeA = activeStores[i];
+      const storeB = activeStores[j];
+      let pairSum = 0;
+      const counts: Record<string, number> = { [storeA]: 0, [storeB]: 0 };
+
+      for (const item of items) {
+        if (item.isOnHand) continue;
+        const costA = item.storePricing?.[storeA]?.totalCost ?? item.optimalTotalCost;
+        const costB = item.storePricing?.[storeB]?.totalCost ?? item.optimalTotalCost;
+        if (costA <= costB) {
+          pairSum += costA;
+          counts[storeA]++;
+        } else {
+          pairSum += costB;
+          counts[storeB]++;
+        }
+      }
+
+      const totalWithPantry = Number((pairSum + pantryRounded).toFixed(2));
+      if (totalWithPantry < bestTwoSplitTotal) {
+        bestTwoSplitTotal = totalWithPantry;
+        bestTwoPair = [storeA, storeB];
+        bestTwoCounts = counts as Record<StoreChain, number>;
+      }
+    }
+  }
+
+  const nameA = resolveStoreBanner(bestTwoPair[0], zipCode);
+  const nameB = resolveStoreBanner(bestTwoPair[1], zipCode);
+  const countA = bestTwoCounts[bestTwoPair[0]] || 0;
+  const countB = bestTwoCounts[bestTwoPair[1]] || 0;
+
+  const savingsVsBestSingle = Number(
+    Math.max(0, bestSingleStoreTotal - bestTwoSplitTotal).toFixed(2)
   );
 
-  const bestStoreName =
-    bestSingleStore === 'KING_SOOPERS' ? 'King Soopers' : 'Safeway';
+  const bestTwoStoreSplit = {
+    stores: bestTwoPair,
+    storeNames: [nameA, nameB] as [string, string],
+    total: bestTwoSplitTotal < Infinity ? bestTwoSplitTotal : optimalSplitTotal,
+    savingsVsBestSingle,
+    splitSummary: `Buy ${countA} items at ${nameA} and ${countB} items at ${nameB}`,
+  };
+
+  const extraSavingsFromSplitting = savingsVsBestSingle;
+  const bestStoreName = resolveStoreBanner(bestSingleStore, zipCode);
 
   let recommendationHeadline = '';
   let recommendationDetail = '';
 
   if (extraSavingsFromSplitting >= 3.5) {
-    recommendationHeadline = `Splitting stores saves an extra $${extraSavingsFromSplitting.toFixed(2)} this weekend`;
-    recommendationDetail = `Optimal 2-store split is $${optimalSplitTotal.toFixed(2)} vs. $${bestSingleStoreTotal.toFixed(2)} at ${bestStoreName} alone ($${singleStoreDiff.toFixed(2)} cheaper than the runner-up store).`;
+    recommendationHeadline = `Splitting ${nameA} + ${nameB} saves an extra $${extraSavingsFromSplitting.toFixed(2)} this weekend`;
+    recommendationDetail = `Optimal 2-store split is $${bestTwoSplitTotal.toFixed(2)} vs. $${bestSingleStoreTotal.toFixed(2)} at ${bestStoreName} alone.`;
   } else {
     recommendationHeadline = `1-Stop at ${bestStoreName} is the sweet spot ($${bestSingleStoreTotal.toFixed(2)})`;
-    recommendationDetail = `Splitting stores only saves $${extraSavingsFromSplitting.toFixed(2)} more than doing a single trip to ${bestStoreName}—and ${bestStoreName} beats the other chain by $${singleStoreDiff.toFixed(2)}.`;
+    recommendationDetail = `Splitting stores only saves $${extraSavingsFromSplitting.toFixed(2)} more than doing a single trip to ${bestStoreName}.`;
   }
 
   return {
@@ -177,6 +310,9 @@ export function buildShoppingListAndStoreComparison(
       extraSavingsFromSplitting,
       recommendationHeadline,
       recommendationDetail,
+      storeTotals,
+      singleStoreRankings,
+      bestTwoStoreSplit,
     },
   };
 }

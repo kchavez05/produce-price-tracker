@@ -5,6 +5,36 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-10-16
+
+### 🛒 Multi-Vendor Expansion & Universal Basket Optimizer
+
+This release expands PantryBot's nationwide coverage from the dual Kroger/Safeway banners to a 6-major-vendor ecosystem, introducing ALDI, Walmart, Target, Sprouts Farmers Market, plus localized Kroger and Albertsons banners. A revamped Universal Basket Optimizer ranks single-stop trips across all user-selected stores and computes the mathematically optimal 2-store split for maximum dollar savings.
+
+### Added
+- **Multi-Vendor Grocery Integration (6 Major Supermarkets):**
+  - **ALDI:** Deep-discount grocery staples with EDLP everyday low pricing, private-label produce, and no-coupon simplicity.
+  - **Walmart:** Everyday Low Price (EDLP) and Rollbacks integration across grocery produce, bulk staples, and meat.
+  - **Target:** Super Target & PFresh grocery coverage with Target Circle manufacturer deal tagging.
+  - **Sprouts Farmers Market:** High-frequency organic produce, bulk bin staples, and specialty health foods.
+  - **Kroger Regional Banners:** King Soopers, Ralphs, Fred Meyer, Fry's, Dillon's, Smith's, QFC, Harris Teeter.
+  - **Albertsons Regional Banners:** Safeway, Albertsons, Vons, Jewel-Osco, Shaw's, Acme, Tom Thumb, Randalls.
+- **Store Registry & Banner Metadata (`src/data/store-registry.ts`):**
+  - Centralized store configuration with brand hex accents, badge Tailwind stylings, loyalty app requirements, and regional zip-to-banner resolvers.
+- **"My Stores" Preference Drawer & Dynamic Filter Bar:**
+  - Interactive store selector modal allowing shoppers to enable or disable any of the 6 stores based on local proximity and shopping preference.
+  - Quick-switch store pills filtering commodity rankings and highlighting active supermarket deals.
+  - Persistent user store preferences saved in browser `localStorage`.
+- **Ranked 1-Stop Store Leaderboard & Best 2-Store Trip Optimizer:**
+  - Universal N-Store Basket Engine calculating exact shopping list totals across all selected stores.
+  - 1-Stop Store Ranking showing complete single-store costs and cost difference vs. the cheapest supermarket.
+  - "Best 2-Store Split" algorithm analyzing all $\binom{N}{2}$ store combinations to find the highest-savings 2-stop shopping trip without requiring multi-stop fatigue.
+  - Single-store price fallback logic simulating substitutions when a specific store does not stock a niche item.
+- **Multi-App Digital Coupon Pre-Flight Checklist:**
+  - Organized digital coupon clipping checklist partitioned by store app (Kroger, Safeway for U, Target Circle, Sprouts).
+  - One-tap "Open App" deep links with instructions and direct coupon codes.
+  - Zero-friction tagging: Automatically marks ALDI and Walmart items as "No App Required — Automatic Everyday Low Price".
+
 ---
 
 ## [1.0.0] - 2026-10-16

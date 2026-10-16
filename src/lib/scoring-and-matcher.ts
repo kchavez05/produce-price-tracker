@@ -1,7 +1,13 @@
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
-import { MEAD_WEEKLY_STORE_OFFERS } from '@/data/mead-baseline-offers';
+import { ALL_WEEKLY_BASELINE_OFFERS } from '@/data/mead-baseline-offers';
 import { MEAL_PREP_BLUEPRINTS } from '@/data/meal-prep-blueprints';
 import {
+  ALL_STORE_CHAINS,
+  getStoreDefinition,
+  resolveStoreBanner,
+} from '@/data/store-registry';
+import {
+  AvailableStoreInfo,
   CanonicalIngredient,
   DashboardPayload,
   RecommendedDish,
@@ -71,7 +77,8 @@ export function scoreAllCommodities(
   usdaOverrides: Record<
     string,
     { mountainBaseline?: number; mountainAdFeaturePct?: number; note?: string }
-  > = {}
+  > = {},
+  activeStores?: StoreChain[]
 ): ScoredCommodity[] {
   const scored: ScoredCommodity[] = [];
 
@@ -96,22 +103,30 @@ export function scoreAllCommodities(
     );
     if (matchingOffers.length === 0) continue;
 
-    const ksOffers = matchingOffers
-      .filter((o) => o.store === 'KING_SOOPERS')
-      .sort((a, b) => a.normalizedPricePerUnit - b.normalizedPricePerUnit);
-    const swOffers = matchingOffers
-      .filter((o) => o.store === 'SAFEWAY')
-      .sort((a, b) => a.normalizedPricePerUnit - b.normalizedPricePerUnit);
+    const storeOffers: Partial<Record<StoreChain, StoreOffer>> = {};
+    for (const chain of ALL_STORE_CHAINS) {
+      const chainOffers = matchingOffers
+        .filter((o) => o.store === chain)
+        .sort((a, b) => a.normalizedPricePerUnit - b.normalizedPricePerUnit);
+      if (chainOffers.length > 0) {
+        storeOffers[chain] = chainOffers[0];
+      }
+    }
 
-    const kingSoopersOffer = ksOffers[0];
-    const safewayOffer = swOffers[0];
+    const kingSoopersOffer = storeOffers['KING_SOOPERS'];
+    const safewayOffer = storeOffers['SAFEWAY'];
 
-    const pool =
-      storeFilter === 'KING_SOOPERS'
-        ? ksOffers
-        : storeFilter === 'SAFEWAY'
-          ? swOffers
-          : [kingSoopersOffer, safewayOffer].filter((x): x is StoreOffer => Boolean(x));
+    let pool: StoreOffer[] = [];
+    if (storeFilter !== 'ALL') {
+      const single = storeOffers[storeFilter];
+      if (single) pool = [single];
+    } else if (activeStores && activeStores.length > 0) {
+      pool = activeStores
+        .map((s) => storeOffers[s])
+        .filter((x): x is StoreOffer => Boolean(x));
+    } else {
+      pool = Object.values(storeOffers).filter((x): x is StoreOffer => Boolean(x));
+    }
 
     if (pool.length === 0) continue;
 
@@ -185,6 +200,7 @@ export function scoreAllCommodities(
       runnerUpOffer,
       kingSoopersOffer,
       safewayOffer,
+      storeOffers,
       valueScore,
       affordabilityScore,
       discountDepthScore,
@@ -425,6 +441,7 @@ export async function resolveCityStateFromZip(zipCode: string): Promise<string> 
 export async function buildDashboardPayload(options?: {
   zipCode?: string;
   storeFilter?: 'ALL' | StoreChain;
+  activeStores?: StoreChain[];
   pinnedIngredientIds?: string[];
   onHandIngredientIds?: string[];
   targetServings?: number;
@@ -432,6 +449,7 @@ export async function buildDashboardPayload(options?: {
 }): Promise<DashboardPayload> {
   const zipCode = options?.zipCode || process.env.NEXT_PUBLIC_DEFAULT_ZIP || '80542';
   const storeFilter = options?.storeFilter || 'ALL';
+  const activeStores = options?.activeStores;
   const pinnedIngredientIds = options?.pinnedIngredientIds || [];
   const onHandIngredientIds = options?.onHandIngredientIds || [];
   const targetServings = options?.targetServings || 6;
@@ -450,13 +468,14 @@ export async function buildDashboardPayload(options?: {
   const combinedOffers: StoreOffer[] = [
     ...flippResult.offers,
     ...krogerResult.offers,
-    ...MEAD_WEEKLY_STORE_OFFERS,
+    ...ALL_WEEKLY_BASELINE_OFFERS,
   ];
 
   const commodities = scoreAllCommodities(
     combinedOffers,
     storeFilter,
-    usdaResult.overrides
+    usdaResult.overrides,
+    activeStores
   );
   const splurgeAlerts = commodities.filter((c) => c.isSplurgeAlert);
   const { recommendedTrio, allRankedDishes } = rankMealPrepDishes(
@@ -483,6 +502,23 @@ export async function buildDashboardPayload(options?: {
 
   const sqliteStats = getSqliteDatabaseStats();
 
+  const availableStores: AvailableStoreInfo[] = ALL_STORE_CHAINS.map((chain) => {
+    const def = getStoreDefinition(chain);
+    const hasActiveOffers = combinedOffers.some((o) => o.store === chain);
+    return {
+      id: chain,
+      name: def.name,
+      bannerName: resolveStoreBanner(chain, zipCode),
+      brandColor: def.brandColor,
+      accentBg: def.accentBg,
+      badgeTextColor: def.badgeTextColor,
+      hasDigitalCoupons: def.hasDigitalCoupons,
+      couponAppLabel: def.couponAppLabel,
+      isEverydayLowPrice: def.isEverydayLowPrice,
+      hasActiveOffers,
+    };
+  });
+
   return {
     zipCode,
     cityLabel,
@@ -498,6 +534,8 @@ export async function buildDashboardPayload(options?: {
     sqliteStats,
     nearbyKingSoopersLocations: krogerResult.locations,
     selectedKingSoopersLocationId: krogerResult.selectedLocationId,
+    availableStores,
+    activeStores,
     commodities,
     splurgeAlerts,
     recommendedTrio,
