@@ -3,7 +3,7 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { MEAD_WEEKLY_STORE_OFFERS } from '@/data/mead-baseline-offers';
-import { PriceHistoryPoint, StoreOffer } from '@/types/domain';
+import { PriceHistoryPoint, StoreOffer, SyncRunLogEntry } from '@/types/domain';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE_PATH = path.join(DATA_DIR, 'mead-price-history.sqlite');
@@ -92,6 +92,18 @@ function initSchemaAndSeed(db: DatabaseSync) {
     CREATE TABLE IF NOT EXISTS saved_recipes (
       id TEXT PRIMARY KEY,
       dish_json TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS sync_runs (
+      id TEXT PRIMARY KEY,
+      cycle TEXT NOT NULL,
+      synced_offers_count INTEGER NOT NULL,
+      flipp_live INTEGER NOT NULL,
+      kroger_live INTEGER NOT NULL,
+      usda_live INTEGER NOT NULL,
+      top_dish_title TEXT NOT NULL,
+      optimal_basket_total REAL NOT NULL,
       created_at TEXT NOT NULL
     );
   `);
@@ -433,4 +445,66 @@ export function deleteSavedRecipeFromSqlite(id: string): void {
   const stmt = db.prepare('DELETE FROM saved_recipes WHERE id = ?');
   stmt.run(id);
 }
+
+export function recordSyncRunToSqlite(entry: Omit<SyncRunLogEntry, 'id' | 'createdAt'>): SyncRunLogEntry {
+  const db = getDb();
+  const id = `sync-${Date.now()}`;
+  const createdAt = new Date().toISOString();
+  const stmt = db.prepare(`
+    INSERT INTO sync_runs
+      (id, cycle, synced_offers_count, flipp_live, kroger_live, usda_live, top_dish_title, optimal_basket_total, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+  stmt.run(
+    id,
+    entry.cycle,
+    entry.syncedOffersCount,
+    entry.flippLive ? 1 : 0,
+    entry.krogerLive ? 1 : 0,
+    entry.usdaLive ? 1 : 0,
+    entry.topDishTitle,
+    entry.optimalBasketTotal,
+    createdAt
+  );
+  return {
+    id,
+    ...entry,
+    createdAt,
+  };
+}
+
+export function getRecentSyncRunsFromSqlite(limit = 6): SyncRunLogEntry[] {
+  const db = getDb();
+  const rows = db
+    .prepare(
+      `SELECT id, cycle, synced_offers_count, flipp_live, kroger_live, usda_live, top_dish_title, optimal_basket_total, created_at
+       FROM sync_runs
+       ORDER BY created_at DESC
+       LIMIT ?`
+    )
+    .all(limit) as {
+    id: string;
+    cycle: string;
+    synced_offers_count: number;
+    flipp_live: number;
+    kroger_live: number;
+    usda_live: number;
+    top_dish_title: string;
+    optimal_basket_total: number;
+    created_at: string;
+  }[];
+
+  return rows.map((r) => ({
+    id: r.id,
+    cycle: r.cycle,
+    syncedOffersCount: r.synced_offers_count,
+    flippLive: Boolean(r.flipp_live),
+    krogerLive: Boolean(r.kroger_live),
+    usdaLive: Boolean(r.usda_live),
+    topDishTitle: r.top_dish_title,
+    optimalBasketTotal: r.optimal_basket_total,
+    createdAt: r.created_at,
+  }));
+}
+
 

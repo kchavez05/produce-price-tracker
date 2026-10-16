@@ -272,3 +272,79 @@ export interface DashboardPayload {
     }[];
   };
 }
+
+export interface SmartPushNotificationPayload {
+  id: string;
+  triggerType: 'WEDNESDAY_AD_DROP' | 'SPLURGE_ALERT' | 'FRIDAY_PREP_DIGEST';
+  scheduledWindowLabel: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  deepLinkPath: string;
+  badgeText: string;
+  priority: 'high' | 'normal';
+}
+
+export interface FridayWeekendDigest {
+  generatedAtIso: string;
+  adCycleLabel: string;
+  zipCode: string;
+  topValueCommodities: {
+    name: string;
+    bestPrice: number;
+    unit: string;
+    store: StoreChain;
+    discountVsBaselinePct: number;
+    dealType: DealType;
+    dealConditions?: string;
+  }[];
+  splurgeAlerts: {
+    name: string;
+    bestPrice: number;
+    unit: string;
+    store: StoreChain;
+    discountVsBaselinePct: number;
+    rawDealText: string;
+  }[];
+  recommendedWeekendTrio: {
+    title: string;
+    prepStyle: string;
+    cookware: string;
+    servings: number;
+    totalBatchCost: number;
+    costPerServing: number;
+    totalBatchSavings: number;
+    macrosPerServing: NutritionMacros;
+  }[];
+  tripOptimization: StoreTripComparison;
+  digitalCouponChecklistCount: number;
+  markdownDigest: string;
+}
+
+export interface SyncRunLogEntry {
+  id: string;
+  cycle: string;
+  syncedOffersCount: number;
+  flippLive: boolean;
+  krogerLive: boolean;
+  usdaLive: boolean;
+  topDishTitle: string;
+  optimalBasketTotal: number;
+  createdAt: string;
+}
+
+export interface WeeklySyncCronResult {
+  ok: boolean;
+  cycle: string;
+  executedAtIso: string;
+  syncedOffersCount: number;
+  dataSources: {
+    flippLive: boolean;
+    krogerLive: boolean;
+    usdaLive: boolean;
+  };
+  smartPushNotifications: SmartPushNotificationPayload[];
+  fridayWeekendDigest: FridayWeekendDigest;
+  recentSyncRuns: SyncRunLogEntry[];
+}
+

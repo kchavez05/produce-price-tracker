@@ -8,6 +8,7 @@ import {
   RecommendedDish,
   ScoredCommodity,
   StoreChain,
+  WeeklySyncCronResult,
 } from '@/types/domain';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import {
@@ -41,6 +42,8 @@ import {
   Bookmark,
   Users,
   Dumbbell,
+  Bell,
+  Copy,
 } from 'lucide-react';
 
 interface Props {
@@ -80,6 +83,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiBannerMessage, setAiBannerMessage] = useState<string | null>(null);
   const [customAiDishes, setCustomAiDishes] = useState<RecommendedDish[] | null>(null);
+
+  // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
+  const [showAlertsModal, setShowAlertsModal] = useState(false);
+  const [cronSyncResult, setCronSyncResult] = useState<WeeklySyncCronResult | null>(null);
+  const [cronSyncLoading, setCronSyncLoading] = useState(false);
+  const [copiedDigest, setCopiedDigest] = useState(false);
 
   useEffect(() => {
     try {
@@ -236,6 +245,53 @@ export default function MealPrepDashboard({ initialData }: Props) {
     } finally {
       setAiLoading(false);
     }
+  }
+
+  async function handleToggleAlertsModal() {
+    const nextOpen = !showAlertsModal;
+    setShowAlertsModal(nextOpen);
+    if (nextOpen && !cronSyncResult) {
+      setCronSyncLoading(true);
+      try {
+        const res = await fetch('/api/cron/weekly-sync?cycle=preview_digest');
+        if (res.ok) {
+          const payload: WeeklySyncCronResult = await res.json();
+          setCronSyncResult(payload);
+        }
+      } catch {
+        // Ignore
+      } finally {
+        setCronSyncLoading(false);
+      }
+    }
+  }
+
+  async function handleTriggerWeeklySync() {
+    setCronSyncLoading(true);
+    try {
+      const res = await fetch('/api/cron/weekly-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cycle: 'manual_sync', zipCode: '80542' }),
+      });
+      if (res.ok) {
+        const payload: WeeklySyncCronResult = await res.json();
+        setCronSyncResult(payload);
+        syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings);
+      }
+    } catch {
+      // Ignore
+    } finally {
+      setCronSyncLoading(false);
+    }
+  }
+
+  function handleCopyMarkdownDigest() {
+    const text = cronSyncResult?.fridayWeekendDigest?.markdownDigest;
+    if (!text) return;
+    navigator.clipboard?.writeText(text);
+    setCopiedDigest(true);
+    setTimeout(() => setCopiedDigest(false), 2500);
   }
 
   const filteredCommodities = useMemo(() => {
@@ -446,6 +502,19 @@ export default function MealPrepDashboard({ initialData }: Props) {
               </div>
 
               <button
+                onClick={handleToggleAlertsModal}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
+                  showAlertsModal
+                    ? 'border-emerald-600 bg-emerald-600 text-white shadow-xs'
+                    : 'border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100'
+                }`}
+                title="Preview Smart Push Notifications & Friday Weekend Meal-Prep Digest"
+              >
+                <Bell className="h-3.5 w-3.5" />
+                <span>Smart Alerts & Digest</span>
+              </button>
+
+              <button
                 onClick={() => setShowKeyModal(!showKeyModal)}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
                 title="Configure Optional Free Gemini API Key"
@@ -455,6 +524,122 @@ export default function MealPrepDashboard({ initialData }: Props) {
               </button>
             </div>
           </div>
+
+          {/* v1.0 Weekly Cron & Smart Push Notifications Preview Drawer */}
+          {showAlertsModal && (
+            <div className="mt-3 rounded-xl border border-slate-300 bg-slate-900 p-4 text-xs text-slate-100 shadow-lg">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[11px] font-bold text-emerald-300 border border-emerald-500/30">
+                      <Bell className="h-3 w-3" />
+                      Milestone v1.0 Cron & Smart Push Engine
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      Wed 6:00 AM MT Circular Sync • Fri 4:00 PM MT Weekend Prep Digest
+                    </span>
+                  </div>
+                  <p className="mt-1 text-slate-300">
+                    Live preview of automated push payloads & weekend digest generated by{' '}
+                    <code className="rounded bg-slate-800 px-1.5 py-0.5 text-emerald-300">
+                      /api/cron/weekly-sync
+                    </code>
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    onClick={handleTriggerWeeklySync}
+                    disabled={cronSyncLoading}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 font-semibold text-white hover:bg-emerald-500 disabled:opacity-50"
+                  >
+                    <RefreshCw
+                      className={`h-3.5 w-3.5 ${cronSyncLoading ? 'animate-spin' : ''}`}
+                    />
+                    <span>
+                      {cronSyncLoading ? 'Syncing Circulars...' : 'Run Weekly Sync Now'}
+                    </span>
+                  </button>
+                  <button
+                    onClick={handleCopyMarkdownDigest}
+                    disabled={!cronSyncResult}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 font-semibold text-slate-200 hover:bg-slate-700 disabled:opacity-50"
+                  >
+                    {copiedDigest ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-emerald-400" />
+                        <span className="text-emerald-300">Copied Digest!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" />
+                        <span>Copy Friday Markdown Digest</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {cronSyncLoading && !cronSyncResult ? (
+                <div className="py-6 text-center text-slate-400">
+                  Building Smart Push Notifications & Friday Weekend Digest...
+                </div>
+              ) : cronSyncResult ? (
+                <div className="mt-3 grid gap-3 lg:grid-cols-3">
+                  {cronSyncResult.smartPushNotifications.map((notif) => (
+                    <div
+                      key={notif.id}
+                      className="flex flex-col justify-between rounded-xl border border-slate-700/80 bg-slate-800/90 p-3 shadow-xs"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">
+                            {notif.scheduledWindowLabel}
+                          </span>
+                          <span className="rounded-full bg-slate-700 px-2 py-0.5 text-[10px] font-bold text-amber-300">
+                            {notif.badgeText}
+                          </span>
+                        </div>
+                        <p className="mt-1.5 font-bold text-white">{notif.title}</p>
+                        <p className="mt-0.5 text-[11px] font-semibold text-emerald-300">
+                          {notif.subtitle}
+                        </p>
+                        <p className="mt-1.5 text-[11px] leading-relaxed text-slate-300">
+                          {notif.body}
+                        </p>
+                      </div>
+                      <div className="mt-2.5 flex items-center justify-between border-t border-slate-700/60 pt-2 text-[10px] text-slate-400">
+                        <span>Trigger: {notif.triggerType}</span>
+                        <span>Priority: {notif.priority.toUpperCase()}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+
+              {cronSyncResult && cronSyncResult.recentSyncRuns.length > 0 && (
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-[11px] text-slate-400">
+                  <span>
+                    Latest SQLite Sync Run:{' '}
+                    <strong className="text-slate-200">
+                      {new Date(cronSyncResult.recentSyncRuns[0].createdAt).toLocaleTimeString()}
+                    </strong>{' '}
+                    ({cronSyncResult.recentSyncRuns[0].syncedOffersCount} offers verified • Top Dish:{' '}
+                    <strong className="text-emerald-300">
+                      {cronSyncResult.recentSyncRuns[0].topDishTitle}
+                    </strong>{' '}
+                    • Optimal Basket:{' '}
+                    <strong className="text-white">
+                      ${cronSyncResult.recentSyncRuns[0].optimalBasketTotal.toFixed(2)}
+                    </strong>
+                    )
+                  </span>
+                  <span className="text-slate-500">
+                    Total logged runs in SQLite: {cronSyncResult.recentSyncRuns.length}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Optional API Key Drawer */}
           {showKeyModal && (

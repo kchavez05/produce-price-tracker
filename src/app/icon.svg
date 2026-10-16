@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <rect width="128" height="128" rx="28" fill="#064E3B"/>
+  <rect x="8" y="8" width="112" height="112" rx="22" stroke="#10B981" stroke-width="3" stroke-opacity="0.35"/>
+  <!-- Dutch Oven Body -->
+  <path d="M28 58H100L94 96C92.8 103.5 86.3 109 78.7 109H49.3C41.7 109 35.2 103.5 34 96L28 58Z" fill="#10B981"/>
+  <!-- Handles -->
+  <path d="M20 62H29V70H20C17.8 70 16 68.2 16 66C16 63.8 17.8 62 20 62Z" fill="#34D399"/>
+  <path d="M99 62H108C110.2 62 112 63.8 112 66C112 68.2 110.2 70 108 70H99V62Z" fill="#34D399"/>
+  <!-- Lid & Knob -->
+  <path d="M26 52C26 45.4 31.4 40 38 40H90C96.6 40 102 45.4 102 52V54H26V52Z" fill="#F59E0B"/>
+  <rect x="54" y="31" width="20" height="7" rx="3.5" fill="#FBBF24"/>
+  <!-- Steam / Value Sparkle -->
+  <path d="M48 24C48 20 51 18 51 14" stroke="#A7F3D0" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M64 22C64 18 67 16 67 12" stroke="#A7F3D0" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M80 24C80 20 83 18 83 14" stroke="#A7F3D0" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Price Tag Badge -->
+  <text x="64" y="90" text-anchor="middle" fill="#064E3B" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="26">$</text>
+</svg>
