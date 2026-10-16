@@ -16,36 +16,84 @@ interface FlippSearchItem {
 }
 
 /**
+ * Extracts effective single-package/single-item price from multi-buy or BOGO text
+ * if rawPrice reflects a bundle total, or when "N for $M" is present.
+ */
+export function resolveEffectiveUnitPrice(
+  rawPrice: number,
+  combinedText: string,
+  typicalRegularPrice: number
+): { effectiveItemPrice: number; multiBuyQty?: number } {
+  const lower = combinedText.toLowerCase();
+
+  // Check BOGO ("buy 1 get 1 free" or "bogo")
+  if (lower.includes('buy 1 get 1 free') || lower.includes('buy one get one free') || /\bbogo\b/.test(lower)) {
+    const base = rawPrice > 0 ? rawPrice : typicalRegularPrice;
+    return {
+      effectiveItemPrice: Number((base / 2).toFixed(2)),
+      multiBuyQty: 2,
+    };
+  }
+
+  // Check "N for $M" or "N/$M" pattern (e.g. "4 for $5", "2 for $3.00", "3/$6")
+  const nForM = lower.match(/\b(\d+)\s*(?:for|\/)\s*\$?(\d+(?:\.\d+)?)\b/);
+  if (nForM) {
+    const qty = parseInt(nForM[1], 10);
+    const bundleTotal = parseFloat(nForM[2]);
+    if (qty >= 2 && qty <= 20 && bundleTotal > 0) {
+      const perItem = Number((bundleTotal / qty).toFixed(2));
+      // If Flipp passed bundleTotal as rawPrice (e.g. 5.00 for "4 for $5"), use perItem
+      if (Math.abs(rawPrice - bundleTotal) < 0.05 || Math.abs(rawPrice - perItem) < 0.05) {
+        return {
+          effectiveItemPrice: perItem,
+          multiBuyQty: qty,
+        };
+      }
+    }
+  }
+
+  return { effectiveItemPrice: rawPrice };
+}
+
+/**
  * Normalizes a raw flyer price and title/story into a per-unit ($/lb or $/doz) figure.
  */
 export function normalizeFlyerPrice(
   rawPrice: number,
   combinedText: string,
   ingredient: CanonicalIngredient
-): { normalizedPricePerUnit: number; saleUnit: string } {
+): { normalizedPricePerUnit: number; saleUnit: string; effectiveSalePrice: number } {
   const lower = combinedText.toLowerCase();
+  const { effectiveItemPrice } = resolveEffectiveUnitPrice(
+    rawPrice,
+    lower,
+    ingredient.typicalRegularPerUnit
+  );
 
   if (ingredient.standardUnit === 'doz') {
     if (lower.includes('18 ct') || lower.includes('18 count')) {
       return {
-        normalizedPricePerUnit: Number(((rawPrice / 18) * 12).toFixed(2)),
+        normalizedPricePerUnit: Number(((effectiveItemPrice / 18) * 12).toFixed(2)),
         saleUnit: '18 ct',
+        effectiveSalePrice: effectiveItemPrice,
       };
     }
     return {
-      normalizedPricePerUnit: Number(rawPrice.toFixed(2)),
+      normalizedPricePerUnit: Number(effectiveItemPrice.toFixed(2)),
       saleUnit: 'doz',
+      effectiveSalePrice: effectiveItemPrice,
     };
   }
 
   // Check explicit bag weight e.g. "5 lb", "3 lb", "2 lb", "10 lb"
-  const lbBagMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:lb|pound)s?\s*(?:bag|pack|roll|box)?/);
+  const lbBagMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:lb|pound)s?\s*(?:bag|pack|roll|box|chub)?/);
   if (lbBagMatch && !lower.includes('/lb') && !lower.includes('per lb')) {
     const lbs = parseFloat(lbBagMatch[1]);
     if (lbs > 1 && lbs <= 15) {
       return {
-        normalizedPricePerUnit: Number((rawPrice / lbs).toFixed(2)),
+        normalizedPricePerUnit: Number((effectiveItemPrice / lbs).toFixed(2)),
         saleUnit: `${lbs} lb bag`,
+        effectiveSalePrice: effectiveItemPrice,
       };
     }
   }
@@ -57,8 +105,9 @@ export function normalizeFlyerPrice(
     if (oz >= 4 && oz <= 64) {
       const lbs = oz / 16;
       return {
-        normalizedPricePerUnit: Number((rawPrice / lbs).toFixed(2)),
+        normalizedPricePerUnit: Number((effectiveItemPrice / lbs).toFixed(2)),
         saleUnit: `${oz} oz`,
+        effectiveSalePrice: effectiveItemPrice,
       };
     }
   }
@@ -66,8 +115,9 @@ export function normalizeFlyerPrice(
   // Check if explicitly per lb
   if (lower.includes('/lb') || lower.includes('per lb') || lower.includes('lb.')) {
     return {
-      normalizedPricePerUnit: Number(rawPrice.toFixed(2)),
+      normalizedPricePerUnit: Number(effectiveItemPrice.toFixed(2)),
       saleUnit: 'lb',
+      effectiveSalePrice: effectiveItemPrice,
     };
   }
 
@@ -75,26 +125,38 @@ export function normalizeFlyerPrice(
   if (
     lower.includes('/ea') ||
     lower.includes('each') ||
+    /\b\d+\s*(?:for|\/)\s*\$?\d+/.test(lower) ||
     ingredient.avgEachWeightLb < 0.8
   ) {
     const estLb = Math.max(0.2, ingredient.avgEachWeightLb);
     return {
-      normalizedPricePerUnit: Number((rawPrice / estLb).toFixed(2)),
+      normalizedPricePerUnit: Number((effectiveItemPrice / estLb).toFixed(2)),
       saleUnit: 'ea',
+      effectiveSalePrice: effectiveItemPrice,
     };
   }
 
   return {
-    normalizedPricePerUnit: Number(rawPrice.toFixed(2)),
+    normalizedPricePerUnit: Number(effectiveItemPrice.toFixed(2)),
     saleUnit: ingredient.standardUnit,
+    effectiveSalePrice: effectiveItemPrice,
   };
 }
 
+/**
+ * Classifies the deal type and extracts coupon/quantity limit strings (e.g. "Limit 5", "Must buy 3").
+ */
 export function detectDealType(combinedText: string): {
   dealType: DealType;
   dealConditions?: string;
 } {
   const lower = combinedText.toLowerCase();
+
+  // Extract explicit limit if present (e.g., "limit 5", "up to 2")
+  const limitMatch = lower.match(/\b(?:limit|up to)\s+(\d+)\b/);
+  const limitSuffix = limitMatch ? ` (Limit ${limitMatch[1]})` : '';
+
+  // 1. Digital Coupon check
   if (
     lower.includes('digital') ||
     lower.includes('clip') ||
@@ -103,18 +165,29 @@ export function detectDealType(combinedText: string): {
   ) {
     return {
       dealType: 'DIGITAL_COUPON',
-      dealConditions: 'Clip Digital Coupon in store app (check item limit)',
+      dealConditions: `Clip Digital Coupon in store app${limitSuffix}`,
     };
   }
-  if (lower.includes('must buy') || lower.includes('when you buy')) {
+
+  // 2. Mandatory Multi-Buy check ("must buy 3", "when you buy 4", "buy 1 get 1 free")
+  const mandatoryBuyMatch = lower.match(/\b(?:must buy|when you buy)\s+(\d+)\b/);
+  if (
+    mandatoryBuyMatch ||
+    lower.includes('buy 1 get 1 free') ||
+    lower.includes('buy one get one free') ||
+    /\bbogo\b/.test(lower)
+  ) {
+    const minQty = mandatoryBuyMatch ? mandatoryBuyMatch[1] : '2';
     return {
       dealType: 'MULTI_BUY',
-      dealConditions: 'Multi-buy requirement applies to get advertised unit price',
+      dealConditions: `Must buy ${minQty} or more to get unit promo price${limitSuffix}`,
     };
   }
+
+  // 3. Standard Shelf / Loyalty Card Member Sale (including pro-rated "2 for $5 with Card")
   return {
     dealType: 'SHELF_OR_MEMBER',
-    dealConditions: 'With Store Loyalty Card / Phone Number at Checkout',
+    dealConditions: `With Store Loyalty Card at Checkout${limitSuffix}`,
   };
 }
 
@@ -190,7 +263,7 @@ export async function fetchLiveFlippOffers(
         );
         if (!hasKeyword) continue;
 
-        const { normalizedPricePerUnit, saleUnit } = normalizeFlyerPrice(
+        const { normalizedPricePerUnit, saleUnit, effectiveSalePrice } = normalizeFlyerPrice(
           rawPrice,
           fullText,
           ingredient
@@ -215,15 +288,15 @@ export async function fetchLiveFlippOffers(
               ? `King Soopers (${zipCode} Circular)`
               : `Safeway (${zipCode} Circular)`,
           rawTitle: title,
-          rawPriceText: `$${rawPrice.toFixed(2)} / ${saleUnit}${
+          rawPriceText: `$${effectiveSalePrice.toFixed(2)} / ${saleUnit}${
             story ? ` (${story.slice(0, 50)})` : ''
           }`,
-          salePrice: rawPrice,
+          salePrice: effectiveSalePrice,
           saleUnit,
           normalizedPricePerUnit,
           regularPricePerUnit: ingredient.typicalRegularPerUnit,
           dealType,
-          dealConditions: story || dealConditions,
+          dealConditions: dealConditions || story,
           validFrom: (item.valid_from || '2026-10-14').slice(0, 10),
           validTo: (item.valid_to || '2026-10-20').slice(0, 10),
           imageUrl: item.clean_image_url,
@@ -232,7 +305,6 @@ export async function fetchLiveFlippOffers(
       }
     }
   } catch {
-    // Graceful fallback when running in offline/sandboxed mode without external internet
     liveSuccess = false;
   }
 

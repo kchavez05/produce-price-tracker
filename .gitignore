@@ -27,5 +27,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local runtime cache
+# local runtime cache & SQLite database
 /data/runtime-cache.json
+/data/*.sqlite
+/data/*.sqlite-shm
+/data/*.sqlite-wal
+

@@ -66,22 +66,22 @@ flowchart TD
 
 ---
 
-## 3. Native-Only Features Unlocked by iOS & Android
+## 3. Native-Only Features Unlocked by iOS & Android (Prioritized)
 
-### 3.1 "In-Aisle Price Check" (Camera Shelf-Tag & Barcode Scanner)
-* Point the phone camera at a shelf tag or barcode in King Soopers or Safeway.
-* On-device OCR (Apple Vision / Google ML Kit) reads the item and price (`$3.49/lb`), normalizes it, and flashes an instant overlay comparing it to the USDA regional baseline and wholesale trend.
+### Priority #1: Smart Push Notifications (High-Signal, Zero Spam)
+* **Wednesday 7:00 AM ("New Circulars Analyzed"):** Highlights the deepest meat and produce cycle lows at King Soopers and Safeway as soon as weekly ads drop.
+* **Friday 4:00 PM ("Weekend Prep Reminder"):** Summarizes the 3-dish cost per serving and digital coupons to clip before weekend shopping.
+* **Commodity Spike Warning:** Alerts when USDA wholesale prices spike while local retail promos are still cheap.
 
-### 3.2 iOS Live Activities, Dynamic Island & Home Screen Widgets
+### Priority #2: In-Aisle Barcode Scanner (UPC & Price Check)
+* Scan any meat, dairy, or produce UPC barcode in King Soopers or Safeway.
+* Instantly looks up the item against the USDA Mountain Region baseline, wholesale trend, and rival store's circular price (*"Safeway has this for $1.97/lb with digital coupon vs $3.49/lb here"*).
+
+### Priority #3: iOS Live Activities, Dynamic Island & Home Screen Widgets
 * **Lock Screen Shopping Mode:** Pins remaining shopping list items and unclipped digital coupons directly onto the iOS Lock Screen and Dynamic Island while in the store.
 * **Wednesday Ad-Drop Home Screen Widget:** Displays the week's Top 3 Meat & Produce Cycle Lows on the home screen every Wednesday morning.
 
-### 3.3 Smart Push Notifications
-* **Wednesday 7:00 AM ("New Circulars Analyzed"):** Highlights the deepest meat and produce cycle lows as soon as weekly ads drop.
-* **Friday 4:00 PM ("Weekend Prep Reminder"):** Summarizes the 3-dish cost per serving and digital coupons to clip before shopping.
-* **Commodity Spike Warning:** Alerts when USDA wholesale prices spike while local retail promos are still cheap.
-
-### 3.4 Receipt Scanning & Realized Savings Tracker
+### Priority #4: Receipt Scanning & Realized Savings Tracker
 * Scans paper or digital receipts to track cumulative household grocery savings over time and crowdsource verified shelf prices.
 
 ---

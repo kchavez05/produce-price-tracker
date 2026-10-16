@@ -12,6 +12,11 @@ import {
 } from '@/types/domain';
 import { fetchLiveFlippOffers } from './connectors/flipp';
 import { checkUsdaMarsStatus, fetchKrogerLiveOffers } from './connectors/usda-and-kroger';
+import {
+  getIngredientHistoryFromSqlite,
+  getSqliteDatabaseStats,
+  persistLiveOffersToSqlite,
+} from './db/sqlite';
 
 /**
  * Computes absolute affordability score (0-100) based on normalized $/lb (or $/doz).
@@ -22,7 +27,6 @@ function calculateAffordabilityScore(
   pricePerUnit: number
 ): number {
   if (ingredient.category === 'PROTEIN') {
-    // <= $1.25/lb -> 100 | $2.00/lb -> 90 | $3.00/lb -> 74 | $4.00/lb -> 58 | >= $7.50/lb -> 15
     if (pricePerUnit <= 1.25) return 100;
     if (pricePerUnit >= 8.0) return 12;
     const score = 100 - ((pricePerUnit - 1.25) / (8.0 - 1.25)) * 88;
@@ -30,7 +34,6 @@ function calculateAffordabilityScore(
   }
 
   if (ingredient.category === 'PRODUCE') {
-    // <= $0.60/lb -> 100 | $1.00/lb -> 88 | $2.00/lb -> 60 | >= $3.75/lb -> 15
     if (pricePerUnit <= 0.6) return 100;
     if (pricePerUnit >= 3.8) return 15;
     const score = 100 - ((pricePerUnit - 0.6) / (3.8 - 0.6)) * 85;
@@ -60,27 +63,48 @@ function calculateDiscountDepthScore(
 /**
  * Computes wholesale momentum bonus (0-100) from USDA Market News signals.
  */
-function calculateWholesaleBonus(ingredient: CanonicalIngredient, discountVsBaselinePct: number): number {
+function calculateWholesaleBonus(
+  ingredient: CanonicalIngredient,
+  discountVsBaselinePct: number
+): number {
   const { trend } = ingredient.usdaSignal;
   if (trend === 'CYCLE_FLOOR' && discountVsBaselinePct >= 20) return 95;
   if (trend === 'SPIKING_BUY_NOW' && discountVsBaselinePct >= 25) return 100;
-  if (trend === 'DROPPING_FAST' && discountVsBaselinePct < 15) return 20; // Hold off if local store hasn't dropped price yet
+  if (trend === 'DROPPING_FAST' && discountVsBaselinePct < 15) return 20;
   return 60;
 }
 
 export function scoreAllCommodities(
   allOffers: StoreOffer[],
-  storeFilter: 'ALL' | StoreChain = 'ALL'
+  storeFilter: 'ALL' | StoreChain = 'ALL',
+  usdaOverrides: Record<
+    string,
+    { mountainBaseline?: number; mountainAdFeaturePct?: number; note?: string }
+  > = {}
 ): ScoredCommodity[] {
   const scored: ScoredCommodity[] = [];
 
-  for (const ingredient of CANONICAL_INGREDIENTS) {
+  for (const rawIng of CANONICAL_INGREDIENTS) {
+    const override = usdaOverrides[rawIng.id];
+    const ingredient: CanonicalIngredient = override
+      ? {
+          ...rawIng,
+          mountainBaselinePerUnit:
+            override.mountainBaseline ?? rawIng.mountainBaselinePerUnit,
+          usdaSignal: {
+            ...rawIng.usdaSignal,
+            mountainAdFeaturePct:
+              override.mountainAdFeaturePct ??
+              rawIng.usdaSignal.mountainAdFeaturePct,
+          },
+        }
+      : rawIng;
+
     const matchingOffers = allOffers.filter(
       (o) => o.canonicalIngredientId === ingredient.id
     );
     if (matchingOffers.length === 0) continue;
 
-    // Pick best offer per chain (preferring live offers or lowest normalized price)
     const ksOffers = matchingOffers
       .filter((o) => o.store === 'KING_SOOPERS')
       .sort((a, b) => a.normalizedPricePerUnit - b.normalizedPricePerUnit);
@@ -134,9 +158,6 @@ export function scoreAllCommodities(
         0.1 * wholesaleBonusScore
     );
 
-    // Splurge Value Alert rule: Premium cuts/items (or chuck roast / strip steak / salmon / avocados / butter)
-    // that have a massive discount (>= 32% off regular or >= 28% off Mountain baseline)
-    // and normally cost >= $4.49/lb
     const isHighRegularPrice =
       bestOffer.regularPricePerUnit >= 4.75 ||
       bestOffer.normalizedPricePerUnit >= ingredient.splurgeThresholdPerUnit * 0.78;
@@ -164,6 +185,9 @@ export function scoreAllCommodities(
       actionTag = 'STOCK_UP_ANCHOR';
     }
 
+    const { priceHistory, sixWeekLocalAvg, sixWeekLow } =
+      getIngredientHistoryFromSqlite(ingredient.id);
+
     scored.push({
       ingredient,
       bestOffer,
@@ -178,6 +202,9 @@ export function scoreAllCommodities(
       discountVsRegularPct,
       isSplurgeAlert,
       actionTag,
+      priceHistory,
+      sixWeekLocalAvg,
+      sixWeekLow,
     });
   }
 
@@ -217,7 +244,6 @@ export function rankMealPrepDishes(
 
       if (candidates.length === 0) continue;
 
-      // Sort candidates: Pinned ingredients first, then highest valueScore / lowest normalized cost
       candidates.sort((a, b) => {
         const aPinned = pinnedSet.has(a.ingredient.id) ? 1 : 0;
         const bPinned = pinnedSet.has(b.ingredient.id) ? 1 : 0;
@@ -304,7 +330,6 @@ export function rankMealPrepDishes(
 
   evaluated.sort((a, b) => b.dishMatchScore - a.dishMatchScore);
 
-  // Pick a diverse Top 3 Trio so the user doesn't get 3 identical proteins unless pinned
   const recommendedTrio: RecommendedDish[] = [];
   const usedPrimaryProteins = new Set<string>();
 
@@ -334,12 +359,14 @@ export function rankMealPrepDishes(
 
 /**
  * Full pipeline orchestrator: merges live connectors + Mead, CO weekly circular dataset,
- * computes commodity scores, splurge alerts, market radar, and the 3-dish meal prep plan.
+ * persists updates to SQLite, computes commodity scores, splurge alerts, market radar,
+ * and the 3-dish meal prep plan.
  */
 export async function buildDashboardPayload(options?: {
   zipCode?: string;
   storeFilter?: 'ALL' | StoreChain;
   pinnedIngredientIds?: string[];
+  kingSoopersLocationId?: string;
 }): Promise<DashboardPayload> {
   const zipCode = options?.zipCode || process.env.NEXT_PUBLIC_DEFAULT_ZIP || '80542';
   const storeFilter = options?.storeFilter || 'ALL';
@@ -348,18 +375,25 @@ export async function buildDashboardPayload(options?: {
   const [flippResult, usdaResult, krogerResult] = await Promise.all([
     fetchLiveFlippOffers(zipCode),
     checkUsdaMarsStatus(),
-    fetchKrogerLiveOffers(),
+    fetchKrogerLiveOffers(options?.kingSoopersLocationId),
   ]);
 
-  // Merge offers: Live Flipp & Kroger offers take precedence where lower or newer,
-  // with MEAD_WEEKLY_STORE_OFFERS guaranteeing complete coverage across all 34+ staples.
+  // Persist any live-fetched Flipp or Kroger offers into SQLite for the active ad cycle
+  if (flippResult.offers.length > 0 || krogerResult.offers.length > 0) {
+    persistLiveOffersToSqlite([...flippResult.offers, ...krogerResult.offers]);
+  }
+
   const combinedOffers: StoreOffer[] = [
     ...flippResult.offers,
     ...krogerResult.offers,
     ...MEAD_WEEKLY_STORE_OFFERS,
   ];
 
-  const commodities = scoreAllCommodities(combinedOffers, storeFilter);
+  const commodities = scoreAllCommodities(
+    combinedOffers,
+    storeFilter,
+    usdaResult.overrides
+  );
   const splurgeAlerts = commodities.filter((c) => c.isSplurgeAlert);
   const { recommendedTrio, allRankedDishes } = rankMealPrepDishes(
     commodities,
@@ -381,6 +415,8 @@ export async function buildDashboardPayload(options?: {
       reason: c.ingredient.usdaSignal.note,
     }));
 
+  const sqliteStats = getSqliteDatabaseStats();
+
   return {
     zipCode,
     cityLabel: zipCode === '80542' ? 'Mead / Longmont / Firestone, CO' : `Zip ${zipCode} Area`,
@@ -391,7 +427,11 @@ export async function buildDashboardPayload(options?: {
       usdaLive: usdaResult.usdaLive,
       krogerLive: krogerResult.krogerLive,
       geminiConfigured: Boolean(process.env.GEMINI_API_KEY?.trim()),
+      sqlitePersisted: sqliteStats.totalHistoricalOfferRows > 0,
     },
+    sqliteStats,
+    nearbyKingSoopersLocations: krogerResult.locations,
+    selectedKingSoopersLocationId: krogerResult.selectedLocationId,
     commodities,
     splurgeAlerts,
     recommendedTrio,

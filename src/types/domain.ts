@@ -68,6 +68,23 @@ export interface StoreOffer {
   source: 'FLIPP_LIVE' | 'KROGER_API' | 'CURATED_FALLBACK';
 }
 
+export interface PriceHistoryPoint {
+  weekStart: string; // e.g. "2026-09-09"
+  label: string;     // e.g. "Sep 9"
+  kingSoopersPrice: number;
+  safewayPrice: number;
+  usdaMountainAvg: number;
+  bestLocalPrice: number;
+}
+
+export interface KingSoopersLocation {
+  locationId: string;
+  name: string;
+  address: string;
+  city: string;
+  distanceMiles: number;
+}
+
 export interface ScoredCommodity {
   ingredient: CanonicalIngredient;
   bestOffer: StoreOffer;
@@ -87,6 +104,12 @@ export interface ScoredCommodity {
   isSplurgeAlert: boolean;
   /** Recommendation tag for weekend shopping */
   actionTag: 'STOCK_UP_ANCHOR' | 'GREAT_STAPLE' | 'SPLURGE_DEAL' | 'WAIT_NEXT_WEEK' | 'BUY_BEFORE_SPIKE';
+  /** 6-week historical price series from SQLite */
+  priceHistory: PriceHistoryPoint[];
+  /** Rolling 6-week local average best price from SQLite */
+  sixWeekLocalAvg: number;
+  /** Lowest price observed in SQLite over the last 6 weeks */
+  sixWeekLow: number;
 }
 
 export interface BlueprintSlot {
@@ -168,7 +191,16 @@ export interface DashboardPayload {
     usdaLive: boolean;
     krogerLive: boolean;
     geminiConfigured: boolean;
+    sqlitePersisted: boolean;
   };
+  sqliteStats: {
+    dbPath: string;
+    totalHistoricalOfferRows: number;
+    totalUsdaSnapshotRows: number;
+    trackedWeeksCount: number;
+  };
+  nearbyKingSoopersLocations: KingSoopersLocation[];
+  selectedKingSoopersLocationId: string;
   commodities: ScoredCommodity[];
   splurgeAlerts: ScoredCommodity[];
   recommendedTrio: RecommendedDish[];

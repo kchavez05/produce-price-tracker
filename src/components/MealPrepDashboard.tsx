@@ -684,6 +684,54 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           {ingredient.usdaSignal.note}
                         </span>
                       </div>
+
+                      {/* v0.2 SQLite 6-Week Price History Mini-Chart */}
+                      {item.priceHistory && item.priceHistory.length > 0 && (
+                        <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50/80 p-2">
+                          <div className="flex items-center justify-between text-[10px] text-slate-500">
+                            <span className="font-semibold text-slate-700">
+                              6-Wk SQLite History (Avg ${item.sixWeekLocalAvg.toFixed(2)}/{ingredient.standardUnit})
+                            </span>
+                            {bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
+                              <span className="rounded bg-emerald-100 px-1.5 py-0.2 font-bold text-emerald-800">
+                                ★ 6-Week Cycle Low
+                              </span>
+                            )}
+                          </div>
+                          <div className="mt-1.5 grid grid-cols-6 gap-1 items-end h-9 pt-1">
+                            {item.priceHistory.map((pt) => {
+                              const maxP = Math.max(
+                                ...item.priceHistory.map((h) => h.bestLocalPrice),
+                                1
+                              );
+                              const heightPct = Math.max(
+                                22,
+                                Math.round((pt.bestLocalPrice / maxP) * 100)
+                              );
+                              const isCurrent = pt.weekStart === '2026-10-14';
+                              return (
+                                <div
+                                  key={pt.weekStart}
+                                  className="flex flex-col items-center justify-end h-full"
+                                  title={`${pt.label}: Best $${pt.bestLocalPrice.toFixed(2)} (KS $${pt.kingSoopersPrice.toFixed(2)} | SW $${pt.safewayPrice.toFixed(2)})`}
+                                >
+                                  <div
+                                    style={{ height: `${heightPct}%` }}
+                                    className={`w-full rounded-t ${
+                                      isCurrent
+                                        ? 'bg-emerald-600'
+                                        : 'bg-slate-300'
+                                    }`}
+                                  />
+                                  <span className="mt-0.5 text-[9px] leading-none text-slate-500">
+                                    ${pt.bestLocalPrice.toFixed(2)}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Footer Action Button */}
@@ -1133,27 +1181,33 @@ export default function MealPrepDashboard({ initialData }: Props) {
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600">
                 <div className="flex items-center gap-1.5 font-bold text-slate-900">
                   <Info className="h-4 w-4 text-emerald-600" />
-                  <span>Active Data Feeds &amp; USDA Report Slugs</span>
+                  <span>v0.2 Active Data Pipeline, SQLite History &amp; Store Locations</span>
                 </div>
-                <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   <div>
-                    <strong>Local Circulars (80542):</strong> King Soopers (Firestone/Longmont) &amp; Safeway (Longmont) —{' '}
+                    <strong>SQLite History DB:</strong>{' '}
+                    <code>{data.sqliteStats.dbPath}</code> —{' '}
+                    <span className="text-emerald-700 font-semibold">
+                      {data.sqliteStats.totalHistoricalOfferRows} offer rows &amp;{' '}
+                      {data.sqliteStats.totalUsdaSnapshotRows} USDA rows ({data.sqliteStats.trackedWeeksCount} weeks)
+                    </span>
+                  </div>
+                  <div>
+                    <strong>Local Circulars (80542):</strong> King Soopers &amp; Safeway —{' '}
                     <span className="text-emerald-700 font-semibold">
                       {data.dataSourcesActive.flippLive
-                        ? 'Live Circular Feed Connected'
-                        : 'Mead 80542 Weekly Snapshot Active'}
+                        ? 'Live Flipp Circular Feed Connected'
+                        : 'Mead 80542 Weekly Circular Dataset'}
                     </span>
+                  </div>
+                  <div>
+                    <strong>King Soopers Stores Near 80542:</strong>{' '}
+                    {data.nearbyKingSoopersLocations
+                      .map((loc) => `${loc.name} (#${loc.locationId}, ${loc.distanceMiles} mi)`)
+                      .join(' • ')}
                   </div>
                   <div>
                     <strong>USDA MARS Reports:</strong> Specialty Crops (<code>3324</code>), Beef (<code>3228</code>), Pork (<code>2868</code>), Chicken (<code>2756</code>), Dairy (<code>2995</code>)
-                  </div>
-                  <div>
-                    <strong>Dish Matching Engine:</strong> Internal Stew/Casserole Slot Optimizer +{' '}
-                    <span>
-                      {data.dataSourcesActive.geminiConfigured || geminiApiKey
-                        ? 'Gemini 2.5 Flash Active'
-                        : 'Gemini 2.5 Flash Ready (Add Free Key in API Keys)'}
-                    </span>
                   </div>
                 </div>
               </div>
