@@ -1,4 +1,4 @@
-# Project Roadmap: Produce & Commodity Meal-Prep Tracker
+# Project Roadmap: PantryBot (Produce & Commodity Meal-Prep Tracker)
 
 This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to a fully automated, cloud-hosted weekend meal-prep companion (`v1.0`).
 

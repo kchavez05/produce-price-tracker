@@ -453,8 +453,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   <ChefHat className="h-5 w-5" />
                 </span>
                 <div>
-                  <h1 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
-                    Mead Meal-Prep Value Tracker
+                  <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+                    <span>PantryBot</span>
+                    <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200 sm:inline-block">
+                      Meal-Prep Value Tracker
+                    </span>
                   </h1>
                   <p className="flex items-center gap-1.5 text-xs text-slate-500">
                     <MapPin className="h-3.5 w-3.5 text-emerald-600" />

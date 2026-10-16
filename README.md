@@ -1,6 +1,6 @@
-# Mead, CO (80542) Commodity & Meal Prep Value Tracker
+# PantryBot — Commodity & Meal Prep Value Tracker (80542)
 
-A mobile-friendly Next.js web application designed for weekend meal-prep planning in **Mead / Longmont / Firestone, Colorado (`80542`)**.
+A mobile-friendly Next.js web application (**PantryBot**) designed for weekend meal-prep planning in **Mead / Longmont / Firestone, Colorado (`80542`)**.
 
 It compares local **King Soopers** and **Safeway** weekly sales and digital coupons against **USDA Mountain Region retail & wholesale commodity signals** across **Meat/Poultry/Seafood, Fresh Produce, and Dairy/Eggs**, and recommends **3 low-effort, reheatable batch dishes (stews, braises, chilis, curries, and 9x13 casseroles)**.
 

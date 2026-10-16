@@ -1,6 +1,6 @@
-# Produce & Commodity Meal-Prep Tracker Wiki
+# PantryBot Wiki
 
-Welcome to the project wiki for the **Mead, CO (`80542`) Produce & Commodity Meal-Prep Value Tracker**.
+Welcome to the project wiki for **PantryBot** — the **Mead, CO (`80542`) Produce & Commodity Meal-Prep Value Tracker**.
 
 ## Purpose
 

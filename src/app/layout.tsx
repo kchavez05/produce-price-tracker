@@ -9,14 +9,14 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Mead, CO Commodity & Meal Prep Value Tracker (80542)',
+  title: 'PantryBot — Commodity & Meal Prep Value Tracker (80542)',
   description:
     'Tracks King Soopers, Safeway, and USDA Mountain Region wholesale commodity prices to recommend the 3 best-value weekend stews, braises, and casseroles.',
-  applicationName: 'Mead Meal Prep Tracker',
+  applicationName: 'PantryBot',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Mead Prep',
+    title: 'PantryBot',
   },
   formatDetection: {
     telephone: false,
