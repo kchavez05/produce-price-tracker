@@ -23,6 +23,8 @@ This application bridges **macro agricultural supply data (USDA)** and **hyper-l
    * How to run the app with zero keys vs. how to register for free-tier keys from Google AI Studio, USDA MARS, and the Kroger Developer Portal.
 4. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Milestones (`v0.1` PoC through `v1.0` Cloud Deployment), active GitHub Issues, and upcoming features.
+5. **[North Star: Native iOS/Android & Feature Expansion Blueprint](./Long-Term-Mobile-and-Expansion-Roadmap.md)**
+   * Multi-horizon strategy (`v1.5`–`v3.0`) for packaging into native iOS & Android apps (Expo / React Native), camera shelf-tag OCR, Live Activities, freezer arbitrage loop, and nationwide multi-store expansion.
 
 ---
 

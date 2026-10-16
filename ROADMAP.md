@@ -52,3 +52,11 @@ flowchart LR
 **Goal:** Host on a custom domain with automated weekly Wednesday circular ingestion.
 * **Ticket #11:** Configure production deployment (Vercel / Cloudflare / Cloud Run) + custom domain setup.
 * **Ticket #12:** Set up automated Wednesday circular refresh cron job + optional Friday morning "Weekend Meal Prep Value Digest" notification.
+
+---
+
+## 📱 Horizon 2 & 3: Native iOS / Android & Feature Expansion (`v1.5` – `v3.0`)
+
+For the long-term mobile architecture (Turborepo + Expo React Native), native hardware features (Camera Shelf-Tag OCR, iOS Live Activities, Push Alerts), Virtual Freezer arbitrage loop, and nationwide store expansion, see:
+* **[North Star Strategy: Native iOS/Android Roadmap & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)**
+
