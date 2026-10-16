@@ -112,6 +112,13 @@ export interface ScoredCommodity {
   sixWeekLow: number;
 }
 
+export interface NutritionMacros {
+  calories: number;
+  proteinGrams: number;
+  carbsGrams: number;
+  fatGrams: number;
+}
+
 export interface BlueprintSlot {
   slotKey: string;
   label: string;
@@ -134,6 +141,7 @@ export interface MealPrepBlueprint {
   reheatRating: 5 | 4;
   freezerFriendly: boolean;
   flavorProfile: string;
+  macrosPerServing: NutritionMacros;
   slots: BlueprintSlot[];
   pantryStaples: string[];
   estimatedPantryCost: number;
@@ -152,9 +160,11 @@ export interface MatchedSlotIngredient {
   dealType: DealType;
   dealConditions?: string;
   unitCost: number;
+  /** Out-of-pocket cost ($0.00 if marked On-Hand in Freezer/Pantry) */
   slotCost: number;
   regularSlotCost: number;
   isUserPinned: boolean;
+  isOnHand?: boolean;
 }
 
 export interface RecommendedDish {
@@ -168,6 +178,7 @@ export interface RecommendedDish {
   cookTimeMinutes: number;
   freezerFriendly: boolean;
   flavorProfile: string;
+  macrosPerServing: NutritionMacros;
   matchedIngredients: MatchedSlotIngredient[];
   pantryStaples: string[];
   estimatedPantryCost: number;
@@ -179,6 +190,7 @@ export interface RecommendedDish {
   steps: string[];
   reheatTip: string;
   aiGenerated?: boolean;
+  savedInLibrary?: boolean;
 }
 
 export interface AggregatedShoppingItem {
@@ -189,6 +201,7 @@ export interface AggregatedShoppingItem {
   totalQuantityNeeded: number;
   unit: 'lb' | 'doz';
   usedInDishes: { dishTitle: string; quantity: number }[];
+  isOnHand: boolean;
   /** Optimal store offer (lowest price across both stores) */
   optimalStore: StoreChain;
   optimalUnitCost: number;

@@ -13,6 +13,12 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: true,
     flavorProfile: 'Savory, smoky-mild heat, bright tomatillo & roasted green chile richness',
+    macrosPerServing: {
+      calories: 485,
+      proteinGrams: 41,
+      carbsGrams: 32,
+      fatGrams: 21,
+    },
     slots: [
       {
         slotKey: 'primary_protein',
@@ -49,9 +55,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     estimatedPantryCost: 2.1,
     steps: [
       'Broil whole poblano/anaheim peppers, tomatillos/tomatoes, and quartered onion on a sheet pan for 10 minutes until charred, then pulse in a blender with garlic, cumin, oregano, and 2 cups broth.',
-      'Cube 2.5 lbs pork shoulder (or loin) into 1.5-inch chunks, season with salt & pepper, and toss into the slow cooker with 2 lbs cubed potatoes.',
+      'Cube pork shoulder (or loin) into 1.5-inch chunks, season with salt & pepper, and toss into the slow cooker with cubed potatoes.',
       'Pour the roasted green chile sauce and remaining broth over top. Cook on LOW for 6–7 hours (or HIGH for 4 hours) until pork shreds effortlessly.',
-      'Portion into 6 glass meal-prep containers and top each with shredded cheese or a dollop of sour cream when reheating.',
+      'Portion into meal-prep containers and top each with shredded cheese or a dollop of sour cream when reheating.',
     ],
     reheatTip: 'Flavor deepens on days 2–5. Reheat covered in the microwave for 2.5 minutes, stirring halfway.',
   },
@@ -67,6 +73,12 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: true,
     flavorProfile: 'Deep umami beef, earthy mushrooms, thyme & garlic pan gravy',
+    macrosPerServing: {
+      calories: 510,
+      proteinGrams: 44,
+      carbsGrams: 34,
+      fatGrams: 22,
+    },
     slots: [
       {
         slotKey: 'primary_protein',
@@ -99,7 +111,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       'Cut chuck roast into 2-inch cubes, pat dry, and sear in batches in a hot Dutch oven until deeply browned.',
       'Add halved mushrooms, thick-cut carrots, and diced onions to the pot drippings; stir in tomato paste and flour for 2 minutes.',
       'Deglaze with beef broth and Worcestershire sauce, add cubed potatoes and herbs, cover, and braise in a 325°F oven (or low stovetop simmer) for 2.5 hours.',
-      'Divide evenly into 6 meal-prep containers with plenty of thick gravy over the meat and potatoes.',
+      'Divide evenly into meal-prep containers with plenty of thick gravy over the meat and potatoes.',
     ],
     reheatTip: 'Add 1 tbsp water before microwaving so the rich collagen gravy loosens right back up.',
   },
@@ -115,6 +127,12 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: true,
     flavorProfile: 'Creamy sharp cheddar, roasted garlic, savory ranch-herb chicken',
+    macrosPerServing: {
+      calories: 495,
+      proteinGrams: 46,
+      carbsGrams: 31,
+      fatGrams: 19,
+    },
     slots: [
       {
         slotKey: 'primary_protein',
@@ -169,6 +187,12 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: true,
     flavorProfile: 'Smoky chili powder, sweet roasted yams, savory beef, cool avocado & cheddar',
+    macrosPerServing: {
+      calories: 525,
+      proteinGrams: 39,
+      carbsGrams: 42,
+      fatGrams: 21,
+    },
     slots: [
       {
         slotKey: 'primary_protein',
@@ -205,7 +229,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Black beans or kidney beans (2 cans)', 'Crushed tomatoes (28 oz can)', 'Chili powder, cumin, smoked paprika'],
     estimatedPantryCost: 3.2,
     steps: [
-      'Brown 2 lbs ground beef (or turkey/sausage) with diced onions and bell/poblano peppers in a large pot or Dutch oven; drain excess fat.',
+      'Brown ground beef (or turkey/sausage) with diced onions and bell/poblano peppers in a large pot or Dutch oven; drain excess fat.',
       'Add peeled ½-inch cubed sweet potatoes, canned crushed tomatoes, black beans, spices, and 1.5 cups water or broth.',
       'Simmer covered for 25–30 minutes until sweet potatoes are fork-tender and chili is thick and rich.',
       'Stir in half the shredded cheese (or bake topped with cheese for 10 mins) and pack with fresh avocado slices for serving.',
@@ -224,6 +248,12 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: false,
     flavorProfile: 'Smoky garlic sausage, tangy cider-braised cabbage, sweet-tart Honeycrisp apples',
+    macrosPerServing: {
+      calories: 440,
+      proteinGrams: 24,
+      carbsGrams: 38,
+      fatGrams: 20,
+    },
     slots: [
       {
         slotKey: 'primary_protein',
@@ -262,7 +292,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     steps: [
       'Slice smoked sausage into coins and sear in a deep Dutch oven or heavy skillet until browned; transfer to a plate.',
       'Melt butter in the pan, add sliced onions, wedged apples, and shredded green cabbage; cook 8 minutes until lightly caramelized.',
-      'Nestle cubed potatoes and seared sausage into the cabbage, pour in brothwhisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until potatoes are tender.',
+      'Nestle cubed potatoes and seared sausage into the cabbage, pour in broth whisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until potatoes are tender.',
     ],
     reheatTip: 'Braised cabbage holds its texture far better than leafy greens—reheats in 2 minutes flat.',
   },
@@ -278,6 +308,12 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: true,
     flavorProfile: 'Fennel & garlic Italian sausage, velvety herb broth, tender potatoes & greens',
+    macrosPerServing: {
+      calories: 470,
+      proteinGrams: 33,
+      carbsGrams: 35,
+      fatGrams: 22,
+    },
     slots: [
       {
         slotKey: 'primary_protein',
@@ -313,7 +349,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Cannellini or Great Northern beans (1 can)', 'Chicken broth (5 cups)', 'Italian seasoning & red pepper flakes', 'Garlic (4 cloves)'],
     estimatedPantryCost: 2.35,
     steps: [
-      'Brown 2 lbs Italian sausage in the Instant Pot (or Dutch oven) with diced onion, carrots, and garlic.',
+      'Brown Italian sausage in the Instant Pot (or Dutch oven) with diced onion, carrots, and garlic.',
       'Add halved baby/russet potatoes, white beans, Italian seasoning, and chicken broth. Pressure cook HIGH for 8 minutes (or simmer 22 minutes on stovetop).',
       'Turn off heat and stir in fresh baby spinach until wilted, followed by sour cream (or Greek yogurt) and a handful of cheese for a rich, velvety broth.',
     ],
@@ -331,6 +367,12 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: true,
     flavorProfile: 'Warm garam masala & turmeric, sweet butternut squash, creamy yogurt-tomato gravy',
+    macrosPerServing: {
+      calories: 435,
+      proteinGrams: 42,
+      carbsGrams: 29,
+      fatGrams: 16,
+    },
     slots: [
       {
         slotKey: 'primary_protein',
@@ -368,7 +410,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     steps: [
       'Place cubed butternut squash (or sweet potatoes), diced onions, diced tomatoes, and chicken thighs into the slow cooker.',
       'Whisk broth/coconut milk with curry powder, garam masala, garlic, and ginger; pour over chicken and cook on LOW for 4.5 hours.',
-      'Shred or chunk the chicken in the pot, fold in fresh spinach and Greek yogurt until creamy, and portion into 6 meal containers.',
+      'Shred or chunk the chicken in the pot, fold in fresh spinach and Greek yogurt until creamy, and portion into meal containers.',
     ],
     reheatTip: 'Curries are famous for tasting even better after 48 hours in the fridge as spices meld into the squash.',
   },
@@ -384,10 +426,16 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     reheatRating: 5,
     freezerFriendly: true,
     flavorProfile: 'Savory pork sausage, roasted peppers & sweet potato hash, fluffy cheddar-cottage eggs',
+    macrosPerServing: {
+      calories: 410,
+      proteinGrams: 36,
+      carbsGrams: 19,
+      fatGrams: 21,
+    },
     slots: [
       {
         slotKey: 'egg_base',
-        label: 'Large Eggs (1 Dozen)',
+        label: 'Large Eggs',
         candidateIngredientIds: ['large-eggs-dozen'],
         quantityRequired: 1.0,
       },
@@ -420,7 +468,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     estimatedPantryCost: 0.75,
     steps: [
       'Brown sausage with finely diced potatoes/sweet potatoes and diced peppers/onions in a skillet for 10 minutes until tender; spread into a greased 9x13 baking dish.',
-      'Whisk 12 large eggs with 1 cup cottage cheese (the secret to ultra-fluffy reheatable eggs that never get rubbery) and half the shredded cheddar.',
+      'Whisk eggs with cottage cheese (the secret to ultra-fluffy reheatable eggs that never get rubbery) and half the shredded cheddar.',
       'Pour egg mixture over the sausage-potato hash, top with remaining cheddar, and bake at 375°F for 35–40 minutes until set in the center.',
     ],
     reheatTip: 'Blending cottage cheese into the eggs keeps the squares moist all week—microwave 90 seconds per slice.',

@@ -38,6 +38,9 @@ import {
   Store,
   CheckSquare,
   Square,
+  Bookmark,
+  Users,
+  Dumbbell,
 } from 'lucide-react';
 
 interface Props {
@@ -55,6 +58,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
     'VALUE_SCORE' | 'LOWEST_PRICE' | 'BIGGEST_DISCOUNT'
   >('VALUE_SCORE');
   const [pinnedIds, setPinnedIds] = useState<string[]>([]);
+  // v0.4: On-Hand in Freezer/Pantry IDs (Ticket #8) & Target Servings 4/6/8 (Ticket #9)
+  const [onHandIds, setOnHandIds] = useState<string[]>([]);
+  const [targetServings, setTargetServings] = useState<4 | 6 | 8>(6);
+  const [savedRecipeIds, setSavedRecipeIds] = useState<Record<string, boolean>>({});
+
   const [expandedDishIds, setExpandedDishIds] = useState<Record<string, boolean>>({
     [initialData.recommendedTrio[0]?.id || '']: true,
   });
@@ -73,13 +81,19 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [aiBannerMessage, setAiBannerMessage] = useState<string | null>(null);
   const [customAiDishes, setCustomAiDishes] = useState<RecommendedDish[] | null>(null);
 
-  // Load persisted shopping list & coupon state from localStorage
   useEffect(() => {
     try {
       const savedChecked = localStorage.getItem('mead_checked_items_v03');
       if (savedChecked) setCheckedItems(JSON.parse(savedChecked));
       const savedClipped = localStorage.getItem('mead_clipped_coupons_v03');
       if (savedClipped) setClippedCoupons(JSON.parse(savedClipped));
+      const savedOnHand = localStorage.getItem('mead_on_hand_ids_v04');
+      if (savedOnHand) {
+        const parsed = JSON.parse(savedOnHand);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setOnHandIds(parsed);
+        }
+      }
     } catch {
       // Ignore storage errors
     }
@@ -111,13 +125,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   async function syncDashboard(
     nextStore: 'ALL' | StoreChain,
-    nextPinned: string[]
+    nextPinned: string[],
+    nextOnHand: string[] = onHandIds,
+    nextServings: 4 | 6 | 8 = targetServings
   ) {
     try {
       const params = new URLSearchParams({
         zip: '80542',
         store: nextStore,
         pinned: nextPinned.join(','),
+        onHand: nextOnHand.join(','),
+        servings: String(nextServings),
       });
       const res = await fetch(`/api/dashboard?${params.toString()}`);
       if (res.ok) {
@@ -136,7 +154,28 @@ export default function MealPrepDashboard({ initialData }: Props) {
       : [...pinnedIds, ingredientId];
     setPinnedIds(nextPinned);
     setCustomAiDishes(null);
-    syncDashboard(storeFilter, nextPinned);
+    syncDashboard(storeFilter, nextPinned, onHandIds, targetServings);
+  }
+
+  function handleToggleOnHand(ingredientId: string) {
+    const exists = onHandIds.includes(ingredientId);
+    const nextOnHand = exists
+      ? onHandIds.filter((id) => id !== ingredientId)
+      : [...onHandIds, ingredientId];
+    setOnHandIds(nextOnHand);
+    try {
+      localStorage.setItem('mead_on_hand_ids_v04', JSON.stringify(nextOnHand));
+    } catch {
+      // Ignore
+    }
+    setCustomAiDishes(null);
+    syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
+  }
+
+  function handleServingsChange(nextServings: 4 | 6 | 8) {
+    setTargetServings(nextServings);
+    setCustomAiDishes(null);
+    syncDashboard(storeFilter, pinnedIds, onHandIds, nextServings);
   }
 
   function handleStoreChange(nextStore: 'ALL' | StoreChain) {
@@ -145,7 +184,25 @@ export default function MealPrepDashboard({ initialData }: Props) {
     else if (nextStore === 'SAFEWAY') setTripMode('SAFEWAY');
     else setTripMode('SPLIT');
     setCustomAiDishes(null);
-    syncDashboard(nextStore, pinnedIds);
+    syncDashboard(nextStore, pinnedIds, onHandIds, targetServings);
+  }
+
+  async function handleToggleSaveRecipe(dish: RecommendedDish) {
+    const isCurrentlySaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
+    if (isCurrentlySaved) {
+      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: false }));
+      await fetch(`/api/saved-recipes?id=${encodeURIComponent(dish.id)}`, {
+        method: 'DELETE',
+      });
+    } else {
+      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: true }));
+      await fetch('/api/saved-recipes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dish }),
+      });
+    }
+    syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings);
   }
 
   async function handleGenerateAiPlan() {
@@ -157,6 +214,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           pinnedIngredientIds: pinnedIds,
+          onHandIngredientIds: onHandIds,
+          targetServings,
           customPreference: customPrompt,
           storeFilter,
           geminiApiKey,
@@ -202,7 +261,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
     const totalBatchCost = activeTrio.reduce((acc, d) => acc + d.totalBatchCost, 0);
     const totalRegularCost = activeTrio.reduce((acc, d) => acc + d.regularBatchCost, 0);
     const totalSavings = Math.max(0, totalRegularCost - totalBatchCost);
-    const totalServings = activeTrio.reduce((acc, d) => acc + d.servings, 0) || 18;
+    const totalServings =
+      activeTrio.reduce((acc, d) => acc + d.servings, 0) || targetServings * 3;
     const avgPerServing = totalBatchCost / totalServings;
 
     return {
@@ -212,15 +272,19 @@ export default function MealPrepDashboard({ initialData }: Props) {
       totalServings,
       avgPerServing: avgPerServing.toFixed(2),
     };
-  }, [activeTrio]);
+  }, [activeTrio, targetServings]);
 
-  // v0.3 Aggregated Shopping List, Coupon Pre-Flight, and Store Trip Optimizer
+  // v0.3 + v0.4 Aggregated Shopping List, Coupon Pre-Flight, and Store Trip Optimizer
   const shoppingPlan = useMemo(
-    () => buildShoppingListAndStoreComparison(activeTrio, data.commodities),
-    [activeTrio, data.commodities]
+    () =>
+      buildShoppingListAndStoreComparison(
+        activeTrio,
+        data.commodities,
+        onHandIds
+      ),
+    [activeTrio, data.commodities, onHandIds]
   );
 
-  // Resolve each shopping item's active store/cost based on user's selected tripMode
   const resolvedShoppingItems = useMemo(() => {
     return shoppingPlan.items.map((item) => {
       const store: StoreChain =
@@ -266,7 +330,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const digitalCouponItems = useMemo(
     () =>
       resolvedShoppingItems.filter(
-        (i) => i.activeDealType === 'DIGITAL_COUPON' || i.activeDealType === 'MULTI_BUY'
+        (i) =>
+          !i.isOnHand &&
+          (i.activeDealType === 'DIGITAL_COUPON' || i.activeDealType === 'MULTI_BUY')
       ),
     [resolvedShoppingItems]
   );
@@ -421,7 +487,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
             </div>
           )}
 
-          {/* Primary Navigation Tabs (v0.3 includes Shopping List & Coupon Optimizer) */}
+          {/* Primary Navigation Tabs */}
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5">
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               <button
@@ -482,10 +548,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
               </button>
             </div>
 
-            {pinnedIds.length > 0 && (
+            {(pinnedIds.length > 0 || onHandIds.length > 0) && (
               <div className="hidden items-center gap-2 md:flex">
                 <span className="text-xs font-medium text-slate-600">
-                  Pinned ({pinnedIds.length}):
+                  {pinnedIds.length > 0 && `${pinnedIds.length} Pinned`}
+                  {pinnedIds.length > 0 && onHandIds.length > 0 && ' • '}
+                  {onHandIds.length > 0 && `${onHandIds.length} On-Hand ($0)`}
                 </span>
                 <button
                   onClick={() => setActiveTab('MEAL_PLAN')}
@@ -497,11 +565,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <button
                   onClick={() => {
                     setPinnedIds([]);
-                    syncDashboard(storeFilter, []);
+                    setOnHandIds([]);
+                    try {
+                      localStorage.removeItem('mead_on_hand_ids_v04');
+                    } catch {
+                      // Ignore
+                    }
+                    syncDashboard(storeFilter, [], [], targetServings);
                   }}
                   className="text-xs text-slate-500 underline hover:text-slate-800"
                 >
-                  Clear
+                  Reset
                 </button>
               </div>
             )}
@@ -653,6 +727,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredCommodities.map((item: ScoredCommodity) => {
                 const isPinned = pinnedIds.includes(item.ingredient.id);
+                const isOnHand = onHandIds.includes(item.ingredient.id);
                 const { ingredient, bestOffer, kingSoopersOffer, safewayOffer } = item;
 
                 return (
@@ -661,9 +736,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     className={`flex flex-col justify-between rounded-2xl border bg-white p-4 transition shadow-2xs hover:shadow-md ${
                       isPinned
                         ? 'border-emerald-500 ring-2 ring-emerald-500/20'
-                        : item.actionTag === 'WAIT_NEXT_WEEK'
-                          ? 'border-amber-200 bg-amber-50/20'
-                          : 'border-slate-200'
+                        : isOnHand
+                          ? 'border-sky-400 ring-2 ring-sky-400/20'
+                          : item.actionTag === 'WAIT_NEXT_WEEK'
+                            ? 'border-amber-200 bg-amber-50/20'
+                            : 'border-slate-200'
                     }`}
                   >
                     <div>
@@ -848,10 +925,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       )}
                     </div>
 
-                    <div className="mt-4 border-t border-slate-100 pt-3">
+                    {/* Footer Action Buttons: Pin to Meal Prep + Have at Home (Freezer/Pantry) */}
+                    <div className="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3">
                       <button
                         onClick={() => handleTogglePin(ingredient.id)}
-                        className={`flex w-full items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold transition ${
+                        className={`flex items-center justify-center gap-1 rounded-xl px-2.5 py-2 text-xs font-bold transition ${
                           isPinned
                             ? 'bg-emerald-600 text-white shadow-xs hover:bg-emerald-700'
                             : 'bg-slate-900 text-white hover:bg-slate-800'
@@ -859,15 +937,28 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       >
                         {isPinned ? (
                           <>
-                            <Check className="h-4 w-4" />
-                            <span>Pinned to 3-Dish Meal Plan</span>
+                            <Check className="h-3.5 w-3.5" />
+                            <span>Pinned</span>
                           </>
                         ) : (
                           <>
-                            <Pin className="h-4 w-4" />
-                            <span>Pin Anchor to Meal Prep</span>
+                            <Pin className="h-3.5 w-3.5" />
+                            <span>Pin to Prep</span>
                           </>
                         )}
+                      </button>
+
+                      <button
+                        onClick={() => handleToggleOnHand(ingredient.id)}
+                        title="Mark as already in your Freezer/Pantry ($0 out-of-pocket cost)"
+                        className={`flex items-center justify-center gap-1 rounded-xl border px-2.5 py-2 text-xs font-bold transition ${
+                          isOnHand
+                            ? 'border-sky-500 bg-sky-600 text-white shadow-xs'
+                            : 'border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200'
+                        }`}
+                      >
+                        <Snowflake className="h-3.5 w-3.5" />
+                        <span>{isOnHand ? 'In Freezer ($0)' : 'Have at Home'}</span>
                       </button>
                     </div>
                   </div>
@@ -895,13 +986,34 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
                     Optimized around this week&apos;s lowest $/lb anchors across King Soopers &amp; Safeway in Mead/Longmont.
                   </p>
-                  <div className="mt-3">
+
+                  {/* v0.4 Batch Serving Scaler (Ticket #9) + Open Shopping List Button */}
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <div className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 p-1 text-xs">
+                      <span className="flex items-center gap-1 px-2 font-semibold text-emerald-200">
+                        <Users className="h-3.5 w-3.5" /> Batch Size:
+                      </span>
+                      {([4, 6, 8] as const).map((srv) => (
+                        <button
+                          key={srv}
+                          onClick={() => handleServingsChange(srv)}
+                          className={`rounded-lg px-2.5 py-1 font-bold transition ${
+                            targetServings === srv
+                              ? 'bg-emerald-400 text-slate-950 shadow-2xs'
+                              : 'text-white/80 hover:bg-white/10'
+                          }`}
+                        >
+                          {srv} Srv / Dish
+                        </button>
+                      ))}
+                    </div>
+
                     <button
                       onClick={() => setActiveTab('SHOPPING_LIST')}
                       className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-500 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-indigo-400"
                     >
                       <ListChecks className="h-4 w-4" />
-                      <span>Open Deduplicated Shopping List &amp; Coupon Checklist</span>
+                      <span>Open Shopping List &amp; Coupon Checklist</span>
                       <ArrowRight className="h-3.5 w-3.5" />
                     </button>
                   </div>
@@ -913,10 +1025,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     <div className="text-xl font-black text-emerald-300">
                       ${trioTotals.avgPerServing}
                     </div>
-                    <div className="text-[10px] text-slate-400">across 18 portions</div>
+                    <div className="text-[10px] text-slate-400">
+                      across {trioTotals.totalServings} portions
+                    </div>
                   </div>
                   <div className="border-x border-white/15 px-2">
-                    <div className="text-[11px] text-slate-300 uppercase">3-Dish Total</div>
+                    <div className="text-[11px] text-slate-300 uppercase">3-Dish Out-of-Pocket</div>
                     <div className="text-xl font-black text-white">
                       ${trioTotals.totalBatchCost}
                     </div>
@@ -929,7 +1043,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     <div className="text-xl font-black text-amber-300">
                       ${trioTotals.totalSavings}
                     </div>
-                    <div className="text-[10px] text-emerald-200">with coupons/cards</div>
+                    <div className="text-[10px] text-emerald-200">promos + freezer</div>
                   </div>
                 </div>
               </div>
@@ -975,6 +1089,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
             <div className="space-y-4">
               {activeTrio.map((dish, index) => {
                 const isExpanded = Boolean(expandedDishIds[dish.id]);
+                const isSaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
+
                 return (
                   <div
                     key={dish.id}
@@ -1001,6 +1117,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
                                 Freezer Friendly
                               </span>
                             )}
+                            {/* v0.4 Nutrition & Macro Badge (Ticket #9) */}
+                            {dish.macrosPerServing && (
+                              <span className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-950 border border-amber-200">
+                                <Dumbbell className="h-3.5 w-3.5 text-amber-700" />
+                                {dish.macrosPerServing.proteinGrams}g Protein •{' '}
+                                {dish.macrosPerServing.calories} kcal / srv
+                              </span>
+                            )}
                             {dish.aiGenerated && (
                               <span className="inline-flex items-center gap-1 rounded-md bg-purple-100 px-2 py-0.5 text-xs font-bold text-purple-900">
                                 <Sparkles className="h-3 w-3" />
@@ -1017,24 +1141,44 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-right">
-                          <div>
-                            <div className="text-[11px] font-semibold text-emerald-800 uppercase">
-                              Per Serving ({dish.servings} srv)
-                            </div>
-                            <div className="text-2xl font-black text-emerald-700">
-                              ${dish.costPerServing.toFixed(2)}
-                            </div>
-                          </div>
-                          <div className="border-l border-emerald-200 pl-3 text-xs text-slate-600">
+                        <div className="flex items-center gap-3">
+                          {/* v0.4 Save to Personal Blueprint Library Button (Ticket #10) */}
+                          <button
+                            onClick={() => handleToggleSaveRecipe(dish)}
+                            className={`inline-flex items-center gap-1 rounded-xl border px-3 py-2 text-xs font-bold transition ${
+                              isSaved
+                                ? 'border-amber-400 bg-amber-100 text-amber-950'
+                                : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100'
+                            }`}
+                            title="Save this recipe into your SQLite Personal Library"
+                          >
+                            <Bookmark
+                              className={`h-4 w-4 ${
+                                isSaved ? 'fill-amber-500 text-amber-600' : ''
+                              }`}
+                            />
+                            <span>{isSaved ? 'Saved in Library' : 'Save Recipe'}</span>
+                          </button>
+
+                          <div className="flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-right">
                             <div>
-                              Batch:{' '}
-                              <strong className="text-slate-900">
-                                ${dish.totalBatchCost.toFixed(2)}
-                              </strong>
+                              <div className="text-[11px] font-semibold text-emerald-800 uppercase">
+                                Per Serving ({dish.servings} srv)
+                              </div>
+                              <div className="text-2xl font-black text-emerald-700">
+                                ${dish.costPerServing.toFixed(2)}
+                              </div>
                             </div>
-                            <div className="text-emerald-700 font-semibold">
-                              Save ${dish.totalBatchSavings.toFixed(2)}
+                            <div className="border-l border-emerald-200 pl-3 text-xs text-slate-600">
+                              <div>
+                                Batch:{' '}
+                                <strong className="text-slate-900">
+                                  ${dish.totalBatchCost.toFixed(2)}
+                                </strong>
+                              </div>
+                              <div className="text-emerald-700 font-semibold">
+                                Save ${dish.totalBatchSavings.toFixed(2)}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1043,23 +1187,31 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
                     <div className="p-4 sm:p-5">
                       <h4 className="mb-2.5 text-xs font-bold tracking-wider text-slate-500 uppercase">
-                        On-Sale Store Ingredients Used in This Batch
+                        On-Sale Store Ingredients Used in This Batch ({dish.servings} Servings)
                       </h4>
                       <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
                         {dish.matchedIngredients.map((ing, i) => (
                           <div
                             key={`${dish.id}-ing-${i}`}
                             className={`rounded-xl border p-3 text-xs ${
-                              ing.isUserPinned
-                                ? 'border-emerald-400 bg-emerald-50/40'
-                                : 'border-slate-200 bg-white'
+                              ing.isOnHand
+                                ? 'border-sky-400 bg-sky-50/60'
+                                : ing.isUserPinned
+                                  ? 'border-emerald-400 bg-emerald-50/40'
+                                  : 'border-slate-200 bg-white'
                             }`}
                           >
                             <div className="flex items-center justify-between gap-1">
                               <span className="font-semibold text-slate-500">
                                 {ing.slotLabel}
                               </span>
-                              {renderStoreBadge(ing.store)}
+                              {ing.isOnHand ? (
+                                <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-[11px] font-bold text-white">
+                                  <Snowflake className="h-3 w-3" /> In Freezer/Pantry
+                                </span>
+                              ) : (
+                                renderStoreBadge(ing.store)
+                              )}
                             </div>
                             <div className="mt-1 font-bold text-slate-900">
                               {ing.ingredientName}
@@ -1078,7 +1230,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                             </div>
                             <div className="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
                               <span>{ing.rawDealText}</span>
-                              {ing.dealType === 'DIGITAL_COUPON' && (
+                              {!ing.isOnHand && ing.dealType === 'DIGITAL_COUPON' && (
                                 <span className="font-semibold text-amber-700">
                                   📱 App Coupon
                                 </span>
@@ -1088,7 +1240,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         ))}
                       </div>
 
-                      <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
                         <div className="text-xs text-slate-600">
                           <strong className="text-slate-800">
                             Pantry Staples (+${dish.estimatedPantryCost.toFixed(2)}):
@@ -1117,6 +1269,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
                       {isExpanded && (
                         <div className="mt-3 rounded-xl bg-slate-50 p-4 text-xs sm:text-sm space-y-3 border border-slate-200/80">
+                          {dish.macrosPerServing && (
+                            <div className="flex flex-wrap gap-3 rounded-lg bg-white p-2.5 text-xs border border-slate-200">
+                              <strong className="text-slate-900">
+                                Per Serving Nutrition Estimate:
+                              </strong>
+                              <span>🔥 {dish.macrosPerServing.calories} Calories</span>
+                              <span>💪 {dish.macrosPerServing.proteinGrams}g Protein</span>
+                              <span>🌾 {dish.macrosPerServing.carbsGrams}g Carbs</span>
+                              <span>🥑 {dish.macrosPerServing.fatGrams}g Fat</span>
+                            </div>
+                          )}
                           <div>
                             <div className="font-bold text-slate-900 mb-1.5">
                               Low-Effort Batch Cooking Steps:
@@ -1138,7 +1301,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
               })}
             </div>
 
-            {/* Option to Browse All 8 Evaluated Stew/Casserole Blueprints */}
+            {/* Option to Browse All Evaluated Stew/Casserole Blueprints */}
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -1146,14 +1309,16 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     Want to Swap a Dish? Browse All {data.allRankedDishes.length} Cost-Ranked Stews &amp; Casseroles
                   </h3>
                   <p className="text-xs text-slate-500">
-                    Every blueprint is dynamically priced using this week&apos;s Mead, CO King Soopers and Safeway circulars.
+                    Every blueprint is dynamically priced using this week&apos;s Mead, CO circulars and scaled to {targetServings} servings.
                   </p>
                 </div>
                 <button
                   onClick={() => setShowAllBlueprints(!showAllBlueprints)}
                   className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
-                  {showAllBlueprints ? 'Hide Full Matrix' : 'Show All 8 Dishes'}
+                  {showAllBlueprints
+                    ? 'Hide Full Matrix'
+                    : `Show All ${data.allRankedDishes.length} Dishes`}
                 </button>
               </div>
 
@@ -1166,7 +1331,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     >
                       <div>
                         <span className="font-semibold text-emerald-700">
-                          {dish.appliance}
+                          {dish.appliance} • {dish.macrosPerServing?.proteinGrams || 40}g Protein
                         </span>
                         <h4 className="font-bold text-slate-900">{dish.title}</h4>
                         <p className="text-slate-500">
@@ -1196,11 +1361,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
         )}
 
         {/* =========================================================
-            TAB 3: SHOPPING LIST, COUPON PRE-FLIGHT & STORE OPTIMIZER (v0.3)
+            TAB 3: SHOPPING LIST, COUPON PRE-FLIGHT & STORE OPTIMIZER
            ========================================================= */}
         {activeTab === 'SHOPPING_LIST' && (
           <div className="space-y-6">
-            {/* Ticket #7: 1-Store vs 2-Store Trip Cost Optimizer */}
             <section className="rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-5 text-white shadow-md">
               <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
                 <div>
@@ -1224,7 +1388,6 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 </div>
               </div>
 
-              {/* 3 Interactive Trip Mode Cards */}
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 <button
                   onClick={() => setTripMode('SPLIT')}
@@ -1321,7 +1484,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
               </div>
             </section>
 
-            {/* Ticket #6: Digital Coupon Pre-Flight Checklist */}
+            {/* Digital Coupon Pre-Flight Checklist */}
             {digitalCouponItems.length > 0 && (
               <section className="rounded-2xl border border-amber-300 bg-amber-50/70 p-4 sm:p-5 shadow-2xs">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1396,7 +1559,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
               </section>
             )}
 
-            {/* Ticket #5: Aggregated & Deduplicated Shopping List */}
+            {/* Aggregated & Deduplicated Shopping List */}
             <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 <div>
@@ -1404,24 +1567,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     Deduplicated 3-Dish Shopping List ({resolvedShoppingItems.length} Unique Store Staples)
                   </h3>
                   <p className="text-xs text-slate-500">
-                    Overlapping ingredients across your 3 batch dishes are automatically combined into single store quantities. Tap any row as you shop.
+                    Overlapping ingredients across your 3 batch dishes are automatically combined into single store quantities. Tap any row to check off, or click &ldquo;Have at Home&rdquo; to zero out its cost.
                   </p>
                 </div>
-                {Object.values(checkedItems).some(Boolean) && (
-                  <button
-                    onClick={() => {
-                      setCheckedItems({});
-                      try {
-                        localStorage.removeItem('mead_checked_items_v03');
-                      } catch {
-                        // Ignore
-                      }
-                    }}
-                    className="text-xs font-semibold text-slate-500 underline hover:text-slate-800"
-                  >
-                    Uncheck All
-                  </button>
-                )}
               </div>
 
               <div className="mt-4 space-y-2.5">
@@ -1430,14 +1578,18 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   return (
                     <div
                       key={item.ingredientId}
-                      onClick={() => toggleCheckedItem(item.ingredientId)}
-                      className={`flex cursor-pointer flex-col justify-between gap-2 rounded-xl border p-3.5 transition sm:flex-row sm:items-center ${
-                        isChecked
-                          ? 'border-slate-200 bg-slate-50 opacity-60'
-                          : 'border-slate-200 bg-white hover:border-emerald-400'
+                      className={`flex flex-col justify-between gap-2 rounded-xl border p-3.5 transition sm:flex-row sm:items-center ${
+                        item.isOnHand
+                          ? 'border-sky-300 bg-sky-50/50'
+                          : isChecked
+                            ? 'border-slate-200 bg-slate-50 opacity-60'
+                            : 'border-slate-200 bg-white hover:border-emerald-400'
                       }`}
                     >
-                      <div className="flex items-start gap-3">
+                      <div
+                        onClick={() => toggleCheckedItem(item.ingredientId)}
+                        className="flex flex-1 cursor-pointer items-start gap-3"
+                      >
                         <div className="mt-0.5 text-emerald-600">
                           {isChecked ? (
                             <CheckSquare className="h-5 w-5" />
@@ -1447,7 +1599,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         </div>
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            {renderStoreBadge(item.activeStore)}
+                            {item.isOnHand ? (
+                              <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-xs font-bold text-white">
+                                <Snowflake className="h-3 w-3" /> In Freezer / Pantry ($0)
+                              </span>
+                            ) : (
+                              renderStoreBadge(item.activeStore)
+                            )}
                             <span
                               className={`text-sm font-bold ${
                                 isChecked
@@ -1457,7 +1615,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                             >
                               {item.ingredientName}
                             </span>
-                            {renderDealBadge(item.activeDealType)}
+                            {!item.isOnHand && renderDealBadge(item.activeDealType)}
                           </div>
                           <p className="mt-1 text-xs text-slate-600">
                             <strong>
@@ -1471,14 +1629,23 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between gap-4 border-t border-slate-100 pt-2 sm:border-none sm:pt-0 sm:text-right">
+                      <div className="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 sm:border-none sm:pt-0 sm:text-right">
+                        <button
+                          type="button"
+                          onClick={() => handleToggleOnHand(item.ingredientId)}
+                          className={`rounded-lg border px-2.5 py-1 text-[11px] font-bold transition ${
+                            item.isOnHand
+                              ? 'border-sky-500 bg-sky-600 text-white'
+                              : 'border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200'
+                          }`}
+                        >
+                          {item.isOnHand ? '❄️ On-Hand ($0)' : 'Have at Home?'}
+                        </button>
+
                         <div className="text-xs text-slate-500">
                           <div>{item.activeRawDealText}</div>
-                          <div>
-                            (${item.activeUnitCost.toFixed(2)}/{item.unit})
-                          </div>
                         </div>
-                        <div className="text-base font-extrabold text-emerald-700">
+                        <div className="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">
                           ${item.activeTotalCost.toFixed(2)}
                         </div>
                       </div>
@@ -1487,7 +1654,6 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 })}
               </div>
 
-              {/* Pantry Staples Verification Checklist */}
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
                   Pantry &amp; Spice Cabinet Check (Est. ${shoppingPlan.tripComparison.estimatedPantryTotal.toFixed(2)} total across 3 dishes)
@@ -1629,7 +1795,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600">
                 <div className="flex items-center gap-1.5 font-bold text-slate-900">
                   <Info className="h-4 w-4 text-emerald-600" />
-                  <span>v0.2 Active Data Pipeline, SQLite History &amp; Store Locations</span>
+                  <span>v0.4 Active Data Pipeline, SQLite History &amp; Store Locations</span>
                 </div>
                 <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   <div>

@@ -9,6 +9,10 @@ export async function POST(request: NextRequest) {
     const pinnedIngredientIds: string[] = Array.isArray(body?.pinnedIngredientIds)
       ? body.pinnedIngredientIds
       : [];
+    const onHandIngredientIds: string[] = Array.isArray(body?.onHandIngredientIds)
+      ? body.onHandIngredientIds
+      : [];
+    const targetServings: number = Number(body?.targetServings) || 6;
     const customPreference: string = (body?.customPreference || '').trim();
     const storeFilter: 'ALL' | StoreChain = body?.storeFilter || 'ALL';
     const clientApiKey: string = (body?.geminiApiKey || '').trim();
@@ -19,6 +23,8 @@ export async function POST(request: NextRequest) {
       zipCode: '80542',
       storeFilter,
       pinnedIngredientIds,
+      onHandIngredientIds,
+      targetServings,
     });
 
     if (!apiKey) {
@@ -35,7 +41,6 @@ export async function POST(request: NextRequest) {
 
     const ai = new GoogleGenAI({ apiKey });
 
-    // Prepare compact deal context for Gemini 2.5 Flash
     const topDealsContext = dashboard.commodities.slice(0, 18).map((c) => ({
       ingredientId: c.ingredient.id,
       name: c.ingredient.name,
@@ -48,18 +53,19 @@ export async function POST(request: NextRequest) {
       dealType: c.bestOffer.dealType,
       dealConditions: c.bestOffer.dealConditions,
       isUserPinned: pinnedIngredientIds.includes(c.ingredient.id),
+      isOnHand: onHandIngredientIds.includes(c.ingredient.id),
     }));
 
     const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in Mead, Colorado (80542) shopping at King Soopers and Safeway.
 The user strongly prefers LOW-EFFORT, REHEATABLE ONE-POT MEALS: stews, slow-cooker braises, Dutch oven chilis, curries, and 9x13 oven casseroles/bakes over multi-component plated meals.
-We need exactly 3 distinct batch-prep dishes (6 servings each) that maximize use of the cheapest on-sale ingredients below (and MUST incorporate any ingredients where isUserPinned is true).
+We need exactly 3 distinct batch-prep dishes (${targetServings} servings each) that maximize use of the cheapest on-sale ingredients below (and MUST incorporate any ingredients where isUserPinned or isOnHand is true).
 
 User custom note/request: "${customPreference || 'Low-effort reheatable stews, braises, chilis, or casseroles with great flavor variety across the 3 dishes.'}"
 
 Live Mead, CO (80542) Sale Ingredients JSON:
 ${JSON.stringify(topDealsContext, null, 2)}
 
-Calculate realistic batch costs using the exact normalizedPricePerUnit values provided.`;
+Calculate realistic batch costs using the exact normalizedPricePerUnit values provided (set slotCost to 0 if isOnHand is true).`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
@@ -84,6 +90,16 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
               cookTimeMinutes: { type: Type.NUMBER },
               freezerFriendly: { type: Type.BOOLEAN },
               flavorProfile: { type: Type.STRING },
+              macrosPerServing: {
+                type: Type.OBJECT,
+                properties: {
+                  calories: { type: Type.NUMBER },
+                  proteinGrams: { type: Type.NUMBER },
+                  carbsGrams: { type: Type.NUMBER },
+                  fatGrams: { type: Type.NUMBER },
+                },
+                required: ['calories', 'proteinGrams', 'carbsGrams', 'fatGrams'],
+              },
               estimatedPantryCost: { type: Type.NUMBER },
               pantryStaples: {
                 type: Type.ARRAY,
@@ -114,6 +130,7 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
                     slotCost: { type: Type.NUMBER },
                     regularSlotCost: { type: Type.NUMBER },
                     isUserPinned: { type: Type.BOOLEAN },
+                    isOnHand: { type: Type.BOOLEAN },
                   },
                   required: [
                     'slotLabel',
@@ -143,6 +160,7 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
               'cookTimeMinutes',
               'freezerFriendly',
               'flavorProfile',
+              'macrosPerServing',
               'estimatedPantryCost',
               'pantryStaples',
               'steps',
@@ -157,7 +175,7 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
     const parsed = JSON.parse(response.text || '[]') as RecommendedDish[];
     const enrichedDishes: RecommendedDish[] = parsed.map((d, idx) => {
       const storeSum = (d.matchedIngredients || []).reduce(
-        (acc, m) => acc + (Number(m.slotCost) || 0),
+        (acc, m) => acc + (m.isOnHand ? 0 : Number(m.slotCost) || 0),
         0
       );
       const regSum = (d.matchedIngredients || []).reduce(
@@ -170,19 +188,26 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
       const totalBatchSavings = Number(
         Math.max(0, regularBatchCost - totalBatchCost).toFixed(2)
       );
-      const servings = d.servings || 6;
+      const servings = d.servings || targetServings;
       const costPerServing = Number((totalBatchCost / servings).toFixed(2));
 
       return {
         ...d,
-        id: d.id || `gemini-dish-${idx + 1}`,
+        id: d.id || `gemini-dish-${Date.now()}-${idx + 1}`,
         servings,
+        macrosPerServing: d.macrosPerServing || {
+          calories: 475,
+          proteinGrams: 40,
+          carbsGrams: 34,
+          fatGrams: 19,
+        },
         totalBatchCost,
         regularBatchCost,
         totalBatchSavings,
         costPerServing,
         dishMatchScore: 98 - idx * 2,
         aiGenerated: true,
+        savedInLibrary: false,
       };
     });
 

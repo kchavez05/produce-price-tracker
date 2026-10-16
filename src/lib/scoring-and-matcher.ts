@@ -14,14 +14,11 @@ import { fetchLiveFlippOffers } from './connectors/flipp';
 import { checkUsdaMarsStatus, fetchKrogerLiveOffers } from './connectors/usda-and-kroger';
 import {
   getIngredientHistoryFromSqlite,
+  getSavedRecipesFromSqlite,
   getSqliteDatabaseStats,
   persistLiveOffersToSqlite,
 } from './db/sqlite';
 
-/**
- * Computes absolute affordability score (0-100) based on normalized $/lb (or $/doz).
- * Lower $/lb = higher affordability score.
- */
 function calculateAffordabilityScore(
   ingredient: CanonicalIngredient,
   pricePerUnit: number
@@ -47,9 +44,6 @@ function calculateAffordabilityScore(
   return Math.round(Math.max(15, Math.min(100, score)));
 }
 
-/**
- * Computes discount depth score (0-100) relative to Mountain Region baseline & regular price.
- */
 function calculateDiscountDepthScore(
   discountVsBaselinePct: number,
   discountVsRegularPct: number
@@ -60,9 +54,6 @@ function calculateDiscountDepthScore(
   return Math.round(10 + (effectiveDiscount / 50) * 90);
 }
 
-/**
- * Computes wholesale momentum bonus (0-100) from USDA Market News signals.
- */
 function calculateWholesaleBonus(
   ingredient: CanonicalIngredient,
   discountVsBaselinePct: number
@@ -213,11 +204,14 @@ export function scoreAllCommodities(
 
 /**
  * Evaluates all modular Stew, Braise, Chili, Curry, and Casserole blueprints
- * against current local deals and user-pinned ingredient IDs.
+ * against current local deals, user-pinned ingredient IDs, on-hand freezer/pantry IDs (Ticket #8),
+ * target serving scaler 4/6/8 (Ticket #9), and saved library recipes (Ticket #10).
  */
 export function rankMealPrepDishes(
   scoredCommodities: ScoredCommodity[],
-  pinnedIngredientIds: string[] = []
+  pinnedIngredientIds: string[] = [],
+  onHandIngredientIds: string[] = [],
+  targetServings: number = 6
 ): {
   recommendedTrio: RecommendedDish[];
   allRankedDishes: RecommendedDish[];
@@ -227,15 +221,20 @@ export function rankMealPrepDishes(
     commodityMap.set(sc.ingredient.id, sc);
   }
   const pinnedSet = new Set(pinnedIngredientIds);
+  const onHandSet = new Set(onHandIngredientIds);
+  const savedDishesRaw = getSavedRecipesFromSqlite() as RecommendedDish[];
+  const savedIdsSet = new Set(savedDishesRaw.map((d) => d.id));
 
   const evaluated: RecommendedDish[] = [];
 
   for (const blueprint of MEAL_PREP_BLUEPRINTS) {
+    const scaleFactor = targetServings / blueprint.servings;
     const matchedIngredients: MatchedSlotIngredient[] = [];
     let storeIngredientCost = 0;
     let regularStoreCost = 0;
     let scoreSum = 0;
     let pinnedHits = 0;
+    let onHandHits = 0;
 
     for (const slot of blueprint.slots) {
       const candidates = slot.candidateIngredientIds
@@ -244,22 +243,33 @@ export function rankMealPrepDishes(
 
       if (candidates.length === 0) continue;
 
+      // Sort candidates: Pinned first, then On-Hand in Freezer/Pantry ($0 marginal cost), then highest valueScore
       candidates.sort((a, b) => {
         const aPinned = pinnedSet.has(a.ingredient.id) ? 1 : 0;
         const bPinned = pinnedSet.has(b.ingredient.id) ? 1 : 0;
         if (aPinned !== bPinned) return bPinned - aPinned;
+
+        const aOnHand = onHandSet.has(a.ingredient.id) ? 1 : 0;
+        const bOnHand = onHandSet.has(b.ingredient.id) ? 1 : 0;
+        if (aOnHand !== bOnHand) return bOnHand - aOnHand;
+
         return b.valueScore - a.valueScore;
       });
 
       const chosen = candidates[0];
       const isUserPinned = pinnedSet.has(chosen.ingredient.id);
+      const isOnHand = onHandSet.has(chosen.ingredient.id);
       if (isUserPinned) pinnedHits += 1;
+      if (isOnHand) onHandHits += 1;
 
-      const slotCost = Number(
-        (chosen.bestOffer.normalizedPricePerUnit * slot.quantityRequired).toFixed(2)
+      const scaledQty = Number((slot.quantityRequired * scaleFactor).toFixed(2));
+      const rawSlotCost = Number(
+        (chosen.bestOffer.normalizedPricePerUnit * scaledQty).toFixed(2)
       );
+      // Ticket #8: If item is already On-Hand in Freezer/Pantry, marginal out-of-pocket cost is $0.00!
+      const slotCost = isOnHand ? 0 : rawSlotCost;
       const regularSlotCost = Number(
-        (chosen.bestOffer.regularPricePerUnit * slot.quantityRequired).toFixed(2)
+        (chosen.bestOffer.regularPricePerUnit * scaledQty).toFixed(2)
       );
 
       storeIngredientCost += slotCost;
@@ -270,37 +280,44 @@ export function rankMealPrepDishes(
         slotLabel: slot.label,
         ingredientId: chosen.ingredient.id,
         ingredientName: chosen.ingredient.name,
-        quantityUsed: slot.quantityRequired,
+        quantityUsed: scaledQty,
         unit: chosen.ingredient.standardUnit,
         store: chosen.bestOffer.store,
-        rawDealText: chosen.bestOffer.rawPriceText,
+        rawDealText: isOnHand
+          ? `❄️ In Freezer/Pantry ($0 out-of-pocket • Store val $${rawSlotCost.toFixed(2)})`
+          : chosen.bestOffer.rawPriceText,
         dealType: chosen.bestOffer.dealType,
         dealConditions: chosen.bestOffer.dealConditions,
         unitCost: chosen.bestOffer.normalizedPricePerUnit,
         slotCost,
         regularSlotCost,
         isUserPinned,
+        isOnHand,
       });
     }
 
+    const scaledPantryCost = Number(
+      (blueprint.estimatedPantryCost * scaleFactor).toFixed(2)
+    );
     const totalBatchCost = Number(
-      (storeIngredientCost + blueprint.estimatedPantryCost).toFixed(2)
+      (storeIngredientCost + scaledPantryCost).toFixed(2)
     );
     const regularBatchCost = Number(
-      (regularStoreCost + blueprint.estimatedPantryCost).toFixed(2)
+      (regularStoreCost + scaledPantryCost).toFixed(2)
     );
     const totalBatchSavings = Number(
       Math.max(0, regularBatchCost - totalBatchCost).toFixed(2)
     );
-    const costPerServing = Number((totalBatchCost / blueprint.servings).toFixed(2));
+    const costPerServing = Number((totalBatchCost / targetServings).toFixed(2));
 
     const avgIngredientScore =
       matchedIngredients.length > 0 ? scoreSum / matchedIngredients.length : 50;
     const costEfficiencyBonus = Math.max(0, (3.25 - costPerServing) * 14);
     const pinnedBonus = pinnedHits * 25;
+    const onHandBonus = onHandHits * 30;
 
     const dishMatchScore = Math.round(
-      avgIngredientScore + costEfficiencyBonus + pinnedBonus
+      avgIngredientScore + costEfficiencyBonus + pinnedBonus + onHandBonus
     );
 
     evaluated.push({
@@ -309,14 +326,15 @@ export function rankMealPrepDishes(
       subtitle: blueprint.subtitle,
       style: blueprint.style,
       appliance: blueprint.appliance,
-      servings: blueprint.servings,
+      servings: targetServings,
       prepTimeMinutes: blueprint.prepTimeMinutes,
       cookTimeMinutes: blueprint.cookTimeMinutes,
       freezerFriendly: blueprint.freezerFriendly,
       flavorProfile: blueprint.flavorProfile,
+      macrosPerServing: blueprint.macrosPerServing,
       matchedIngredients,
       pantryStaples: blueprint.pantryStaples,
-      estimatedPantryCost: blueprint.estimatedPantryCost,
+      estimatedPantryCost: scaledPantryCost,
       totalBatchCost,
       regularBatchCost,
       totalBatchSavings,
@@ -325,7 +343,18 @@ export function rankMealPrepDishes(
       steps: blueprint.steps,
       reheatTip: blueprint.reheatTip,
       aiGenerated: false,
+      savedInLibrary: savedIdsSet.has(blueprint.id),
     });
+  }
+
+  // Merge any custom AI-generated recipes saved into SQLite (Ticket #10)
+  for (const saved of savedDishesRaw) {
+    if (!evaluated.some((e) => e.id === saved.id)) {
+      evaluated.push({
+        ...saved,
+        savedInLibrary: true,
+      });
+    }
   }
 
   evaluated.sort((a, b) => b.dishMatchScore - a.dishMatchScore);
@@ -336,9 +365,11 @@ export function rankMealPrepDishes(
   for (const dish of evaluated) {
     if (recommendedTrio.length >= 3) break;
     const primaryProteinId = dish.matchedIngredients[0]?.ingredientId || dish.id;
-    const hasPinned = dish.matchedIngredients.some((m) => m.isUserPinned);
+    const hasPinnedOrOnHand = dish.matchedIngredients.some(
+      (m) => m.isUserPinned || m.isOnHand
+    );
 
-    if (!usedPrimaryProteins.has(primaryProteinId) || hasPinned) {
+    if (!usedPrimaryProteins.has(primaryProteinId) || hasPinnedOrOnHand) {
       recommendedTrio.push(dish);
       usedPrimaryProteins.add(primaryProteinId);
     }
@@ -357,20 +388,19 @@ export function rankMealPrepDishes(
   };
 }
 
-/**
- * Full pipeline orchestrator: merges live connectors + Mead, CO weekly circular dataset,
- * persists updates to SQLite, computes commodity scores, splurge alerts, market radar,
- * and the 3-dish meal prep plan.
- */
 export async function buildDashboardPayload(options?: {
   zipCode?: string;
   storeFilter?: 'ALL' | StoreChain;
   pinnedIngredientIds?: string[];
+  onHandIngredientIds?: string[];
+  targetServings?: number;
   kingSoopersLocationId?: string;
 }): Promise<DashboardPayload> {
   const zipCode = options?.zipCode || process.env.NEXT_PUBLIC_DEFAULT_ZIP || '80542';
   const storeFilter = options?.storeFilter || 'ALL';
   const pinnedIngredientIds = options?.pinnedIngredientIds || [];
+  const onHandIngredientIds = options?.onHandIngredientIds || [];
+  const targetServings = options?.targetServings || 6;
 
   const [flippResult, usdaResult, krogerResult] = await Promise.all([
     fetchLiveFlippOffers(zipCode),
@@ -378,7 +408,6 @@ export async function buildDashboardPayload(options?: {
     fetchKrogerLiveOffers(options?.kingSoopersLocationId),
   ]);
 
-  // Persist any live-fetched Flipp or Kroger offers into SQLite for the active ad cycle
   if (flippResult.offers.length > 0 || krogerResult.offers.length > 0) {
     persistLiveOffersToSqlite([...flippResult.offers, ...krogerResult.offers]);
   }
@@ -397,7 +426,9 @@ export async function buildDashboardPayload(options?: {
   const splurgeAlerts = commodities.filter((c) => c.isSplurgeAlert);
   const { recommendedTrio, allRankedDishes } = rankMealPrepDishes(
     commodities,
-    pinnedIngredientIds
+    pinnedIngredientIds,
+    onHandIngredientIds,
+    targetServings
   );
 
   const buyBeforeSpike = commodities.filter(

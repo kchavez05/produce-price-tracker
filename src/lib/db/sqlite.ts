@@ -88,6 +88,12 @@ function initSchemaAndSeed(db: DatabaseSync) {
 
     CREATE INDEX IF NOT EXISTS idx_usda_snapshots_ing_week
       ON usda_snapshots(canonical_ingredient_id, snapshot_week);
+
+    CREATE TABLE IF NOT EXISTS saved_recipes (
+      id TEXT PRIMARY KEY,
+      dish_json TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
   `);
 
   // Check if already seeded
@@ -396,3 +402,35 @@ export function getSqliteDatabaseStats(): {
     trackedWeeksCount: weeksCnt,
   };
 }
+
+export function getSavedRecipesFromSqlite(): unknown[] {
+  const db = getDb();
+  const rows = db
+    .prepare('SELECT dish_json FROM saved_recipes ORDER BY created_at DESC')
+    .all() as { dish_json: string }[];
+
+  const list: unknown[] = [];
+  for (const r of rows) {
+    try {
+      list.push(JSON.parse(r.dish_json));
+    } catch {
+      // Ignore malformed row
+    }
+  }
+  return list;
+}
+
+export function saveRecipeToSqlite(id: string, dishPayload: unknown): void {
+  const db = getDb();
+  const stmt = db.prepare(
+    'INSERT OR REPLACE INTO saved_recipes (id, dish_json, created_at) VALUES (?, ?, ?)'
+  );
+  stmt.run(id, JSON.stringify(dishPayload), new Date().toISOString());
+}
+
+export function deleteSavedRecipeFromSqlite(id: string): void {
+  const db = getDb();
+  const stmt = db.prepare('DELETE FROM saved_recipes WHERE id = ?');
+  stmt.run(id);
+}
+

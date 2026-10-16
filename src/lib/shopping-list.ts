@@ -8,7 +8,8 @@ import {
 
 export function buildShoppingListAndStoreComparison(
   activeDishes: RecommendedDish[],
-  commodities: ScoredCommodity[]
+  commodities: ScoredCommodity[],
+  onHandIngredientIds: string[] = []
 ): {
   items: AggregatedShoppingItem[];
   pantryChecklist: string[];
@@ -18,6 +19,7 @@ export function buildShoppingListAndStoreComparison(
   for (const c of commodities) {
     commodityMap.set(c.ingredient.id, c);
   }
+  const onHandSet = new Set(onHandIngredientIds);
 
   const itemMap = new Map<string, AggregatedShoppingItem>();
   const pantrySet = new Set<string>();
@@ -30,8 +32,11 @@ export function buildShoppingListAndStoreComparison(
     }
 
     for (const slotIng of dish.matchedIngredients) {
+      const isOnHand = Boolean(slotIng.isOnHand || onHandSet.has(slotIng.ingredientId));
       const existing = itemMap.get(slotIng.ingredientId);
+
       if (existing) {
+        const prevQty = existing.totalQuantityNeeded;
         existing.totalQuantityNeeded = Number(
           (existing.totalQuantityNeeded + slotIng.quantityUsed).toFixed(2)
         );
@@ -39,21 +44,19 @@ export function buildShoppingListAndStoreComparison(
           dishTitle: dish.title,
           quantity: slotIng.quantityUsed,
         });
-        existing.optimalTotalCost = Number(
-          (existing.totalQuantityNeeded * existing.optimalUnitCost).toFixed(2)
-        );
-        existing.kingSoopersTotalCost = Number(
-          (existing.totalQuantityNeeded * existing.kingSoopersUnitCost).toFixed(2)
-        );
-        existing.safewayTotalCost = Number(
-          (existing.totalQuantityNeeded * existing.safewayUnitCost).toFixed(2)
-        );
+        existing.isOnHand = isOnHand;
+        existing.optimalTotalCost = isOnHand
+          ? 0
+          : Number((existing.totalQuantityNeeded * existing.optimalUnitCost).toFixed(2));
+        existing.kingSoopersTotalCost = isOnHand
+          ? 0
+          : Number((existing.totalQuantityNeeded * existing.kingSoopersUnitCost).toFixed(2));
+        existing.safewayTotalCost = isOnHand
+          ? 0
+          : Number((existing.totalQuantityNeeded * existing.safewayUnitCost).toFixed(2));
+        const regUnit = existing.regularTotalCost / Math.max(0.1, prevQty);
         existing.regularTotalCost = Number(
-          (
-            existing.totalQuantityNeeded *
-            (existing.regularTotalCost /
-              Math.max(0.1, existing.totalQuantityNeeded - slotIng.quantityUsed))
-          ).toFixed(2)
+          (existing.totalQuantityNeeded * regUnit).toFixed(2)
         );
         continue;
       }
@@ -81,20 +84,33 @@ export function buildShoppingListAndStoreComparison(
         totalQuantityNeeded: slotIng.quantityUsed,
         unit: slotIng.unit,
         usedInDishes: [{ dishTitle: dish.title, quantity: slotIng.quantityUsed }],
+        isOnHand,
         optimalStore,
         optimalUnitCost,
-        optimalTotalCost: Number((slotIng.quantityUsed * optimalUnitCost).toFixed(2)),
-        optimalRawDealText: bestOffer?.rawPriceText || slotIng.rawDealText,
+        optimalTotalCost: isOnHand
+          ? 0
+          : Number((slotIng.quantityUsed * optimalUnitCost).toFixed(2)),
+        optimalRawDealText: isOnHand
+          ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
+          : bestOffer?.rawPriceText || slotIng.rawDealText,
         optimalDealType: bestOffer?.dealType || slotIng.dealType,
         optimalDealConditions: bestOffer?.dealConditions || slotIng.dealConditions,
         kingSoopersUnitCost: ksUnitCost,
-        kingSoopersTotalCost: Number((slotIng.quantityUsed * ksUnitCost).toFixed(2)),
-        kingSoopersRawDealText: ksOffer?.rawPriceText || slotIng.rawDealText,
+        kingSoopersTotalCost: isOnHand
+          ? 0
+          : Number((slotIng.quantityUsed * ksUnitCost).toFixed(2)),
+        kingSoopersRawDealText: isOnHand
+          ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
+          : ksOffer?.rawPriceText || slotIng.rawDealText,
         kingSoopersDealType: ksOffer?.dealType || slotIng.dealType,
         kingSoopersDealConditions: ksOffer?.dealConditions,
         safewayUnitCost: swUnitCost,
-        safewayTotalCost: Number((slotIng.quantityUsed * swUnitCost).toFixed(2)),
-        safewayRawDealText: swOffer?.rawPriceText || slotIng.rawDealText,
+        safewayTotalCost: isOnHand
+          ? 0
+          : Number((slotIng.quantityUsed * swUnitCost).toFixed(2)),
+        safewayRawDealText: isOnHand
+          ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
+          : swOffer?.rawPriceText || slotIng.rawDealText,
         safewayDealType: swOffer?.dealType || slotIng.dealType,
         safewayDealConditions: swOffer?.dealConditions,
         regularTotalCost: Number((slotIng.quantityUsed * regUnitCost).toFixed(2)),
@@ -103,6 +119,7 @@ export function buildShoppingListAndStoreComparison(
   }
 
   const items = Array.from(itemMap.values()).sort((a, b) => {
+    if (a.isOnHand !== b.isOnHand) return a.isOnHand ? 1 : -1;
     const order = { PROTEIN: 0, PRODUCE: 1, DAIRY_EGGS: 2 };
     if (order[a.category] !== order[b.category]) {
       return order[a.category] - order[b.category];
