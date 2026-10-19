@@ -21,7 +21,6 @@ import {
 } from '@/data/store-registry';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import {
-  buildStoreSearchUrl,
   formatShoppingListForClipboard,
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
@@ -229,6 +228,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
     } catch {
       // Ignore storage errors
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function persistFreezerToLocalStorage(items: FreezerItem[]) {
