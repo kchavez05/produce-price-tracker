@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI, Type } from '@google/genai';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
-import { RecommendedDish, StoreChain } from '@/types/domain';
+import {
+  CookingVesselArchetype,
+  DietaryConstraint,
+  MacroGoal,
+  RecommendedDish,
+  StoreChain,
+} from '@/types/domain';
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,6 +22,14 @@ export async function POST(request: NextRequest) {
     const customPreference: string = (body?.customPreference || '').trim();
     const storeFilter: 'ALL' | StoreChain = body?.storeFilter || 'ALL';
     const clientApiKey: string = (body?.geminiApiKey || '').trim();
+    const macroGoal: MacroGoal = body?.macroGoal || 'ANY';
+    const dietaryConstraints: DietaryConstraint[] = Array.isArray(
+      body?.dietaryConstraints
+    )
+      ? body.dietaryConstraints
+      : [];
+    const applianceFilter: CookingVesselArchetype =
+      body?.applianceFilter || 'ANY';
 
     const apiKey = clientApiKey || process.env.GEMINI_API_KEY?.trim();
     const zipCode: string = (body?.zipCode || '80542').trim();
@@ -27,6 +41,9 @@ export async function POST(request: NextRequest) {
       pinnedIngredientIds,
       onHandIngredientIds,
       targetServings,
+      macroGoal,
+      dietaryConstraints,
+      applianceFilter,
     });
 
     if (!apiKey) {
@@ -34,7 +51,7 @@ export async function POST(request: NextRequest) {
         {
           usedAi: false,
           message:
-            'No Gemini API key detected in .env.local or Quick Settings. Returned algorithmic top 3 stew/casserole matches. Add a free Google AI Studio key anytime to unlock custom AI recipes!',
+            'No Gemini API key detected in .env.local or Quick Settings. Returned algorithmic top 3 meal-prep matches tailored to your Macro & Dietary profile! Add a free Google AI Studio key anytime to unlock custom AI recipes.',
           dishes: dashboard.recommendedTrio,
         },
         { status: 200 }
@@ -42,6 +59,11 @@ export async function POST(request: NextRequest) {
     }
 
     const ai = new GoogleGenAI({ apiKey });
+
+    const freezerIds = new Set(
+      (dashboard.freezerInventory || []).map((f) => f.canonicalIngredientId)
+    );
+    const combinedOnHand = new Set([...onHandIngredientIds, ...freezerIds]);
 
     const topDealsContext = dashboard.commodities.slice(0, 18).map((c) => ({
       ingredientId: c.ingredient.id,
@@ -55,14 +77,18 @@ export async function POST(request: NextRequest) {
       dealType: c.bestOffer.dealType,
       dealConditions: c.bestOffer.dealConditions,
       isUserPinned: pinnedIngredientIds.includes(c.ingredient.id),
-      isOnHand: onHandIngredientIds.includes(c.ingredient.id),
+      isOnHand: combinedOnHand.has(c.ingredient.id),
     }));
 
-    const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in ${cityLabel} (${zipCode}) shopping at local supermarkets (Kroger & Albertsons banners).
-The user strongly prefers LOW-EFFORT, REHEATABLE ONE-POT MEALS: stews, slow-cooker braises, Dutch oven chilis, curries, and 9x13 oven casseroles/bakes over multi-component plated meals.
+    const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in ${cityLabel} (${zipCode}) shopping at local supermarkets.
+The user strongly prefers LOW-EFFORT, REHEATABLE BATCH MEALS: stews, slow-cooker braises, Dutch oven chilis, curries, sheet-pan roasts, and 9x13 oven casseroles/bakes over multi-component plated meals.
 We need exactly 3 distinct batch-prep dishes (${targetServings} servings each) that maximize use of the cheapest on-sale ingredients below (and MUST incorporate any ingredients where isUserPinned or isOnHand is true).
 
-User custom note/request: "${customPreference || 'Low-effort reheatable stews, braises, chilis, or casseroles with great flavor variety across the 3 dishes.'}"
+Household Nutrition & Cooking Profile (Milestone v1.2):
+- Target Macro Profile: ${macroGoal} ${macroGoal === 'HIGH_PROTEIN' ? '(Target >= 40g protein per serving)' : macroGoal === 'LOW_CARB_KETO' ? '(Target <= 20g net carbs per serving; use cauliflower, cabbage, zucchini, mushrooms, or greens instead of potatoes/beans)' : macroGoal === 'CALORIE_CONSCIOUS' ? '(Target <= 460 kcal per serving)' : '(Balanced macros)'}
+- Strict Dietary Constraints: ${dietaryConstraints.length > 0 ? dietaryConstraints.join(', ') : 'None'}
+- Preferred Cooking Vessel Archetype: ${applianceFilter}
+- User custom note/request: "${customPreference || 'Low-effort reheatable stews, braises, sheet-pan roasts, chilis, or casseroles with great flavor variety across the 3 dishes.'}"
 
 Live ${cityLabel} (${zipCode}) Sale Ingredients JSON:
 ${JSON.stringify(topDealsContext, null, 2)}
@@ -122,11 +148,26 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
                     ingredientName: { type: Type.STRING },
                     quantityUsed: { type: Type.NUMBER },
                     unit: { type: Type.STRING, enum: ['lb', 'doz'] },
-                    store: { type: Type.STRING, enum: ['KING_SOOPERS', 'SAFEWAY'] },
+                    store: {
+                      type: Type.STRING,
+                      enum: [
+                        'KING_SOOPERS',
+                        'SAFEWAY',
+                        'ALDI',
+                        'WALMART',
+                        'TARGET',
+                        'SPROUTS',
+                      ],
+                    },
                     rawDealText: { type: Type.STRING },
                     dealType: {
                       type: Type.STRING,
-                      enum: ['SHELF_OR_MEMBER', 'DIGITAL_COUPON', 'MULTI_BUY', 'EVERYDAY_LOW'],
+                      enum: [
+                        'SHELF_OR_MEMBER',
+                        'DIGITAL_COUPON',
+                        'MULTI_BUY',
+                        'EVERYDAY_LOW',
+                      ],
                     },
                     unitCost: { type: Type.NUMBER },
                     slotCost: { type: Type.NUMBER },
@@ -193,16 +234,31 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
       const servings = d.servings || targetServings;
       const costPerServing = Number((totalBatchCost / servings).toFixed(2));
 
+      const macros = d.macrosPerServing || {
+        calories: 475,
+        proteinGrams: 40,
+        carbsGrams: 34,
+        fatGrams: 19,
+      };
+
+      const macroBadges: string[] = [];
+      if (macros.proteinGrams >= 40) {
+        macroBadges.push(`💪 High-Protein (${macros.proteinGrams}g)`);
+      }
+      if (macros.carbsGrams <= 20) {
+        macroBadges.push(`🥑 Keto / Low-Carb (${macros.carbsGrams}g Net Carbs)`);
+      }
+      if (macros.calories <= 460) {
+        macroBadges.push(`🔥 Calorie-Conscious (${macros.calories} kcal)`);
+      }
+
       return {
         ...d,
         id: d.id || `gemini-dish-${Date.now()}-${idx + 1}`,
         servings,
-        macrosPerServing: d.macrosPerServing || {
-          calories: 475,
-          proteinGrams: 40,
-          carbsGrams: 34,
-          fatGrams: 19,
-        },
+        macrosPerServing: macros,
+        dietaryTags: dietaryConstraints,
+        macroBadges,
         totalBatchCost,
         regularBatchCost,
         totalBatchSavings,
@@ -215,7 +271,7 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
 
     return NextResponse.json({
       usedAi: true,
-      message: 'Generated custom 3-dish one-pot meal prep plan with Gemini 2.5 Flash!',
+      message: 'Generated custom 3-dish meal prep plan with Gemini 2.5 Flash!',
       dishes: enrichedDishes,
     });
   } catch (error: unknown) {

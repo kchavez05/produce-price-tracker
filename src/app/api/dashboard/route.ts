@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
-import { StoreChain } from '@/types/domain';
+import {
+  CookingVesselArchetype,
+  DietaryConstraint,
+  MacroGoal,
+  StoreChain,
+} from '@/types/domain';
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,6 +16,10 @@ export async function GET(request: NextRequest) {
     const pinnedParam = searchParams.get('pinned') || '';
     const onHandParam = searchParams.get('onHand') || '';
     const servingsParam = parseInt(searchParams.get('servings') || '6', 10);
+    const macroGoal = (searchParams.get('macroGoal') || 'ANY') as MacroGoal;
+    const dietaryParam = searchParams.get('dietary') || '';
+    const applianceFilter = (searchParams.get('vessel') ||
+      'ANY') as CookingVesselArchetype;
 
     const activeStores = storesParam
       ? (storesParam
@@ -29,6 +38,13 @@ export async function GET(request: NextRequest) {
       .map((s) => s.trim())
       .filter(Boolean);
 
+    const dietaryConstraints = dietaryParam
+      ? (dietaryParam
+          .split(',')
+          .map((s) => s.trim().toUpperCase())
+          .filter(Boolean) as DietaryConstraint[])
+      : [];
+
     const targetServings = [4, 6, 8].includes(servingsParam) ? servingsParam : 6;
 
     const payload = await buildDashboardPayload({
@@ -38,6 +54,9 @@ export async function GET(request: NextRequest) {
       pinnedIngredientIds,
       onHandIngredientIds,
       targetServings,
+      macroGoal,
+      dietaryConstraints,
+      applianceFilter,
     });
 
     return NextResponse.json(payload);
