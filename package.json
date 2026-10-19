@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "openapi:export": "node -e \"const fs = require('fs'); const { PANTRYBOT_OPENAPI_SPEC } = require('./src/lib/openapi/spec.ts'); fs.mkdirSync('./docs', { recursive: true }); fs.mkdirSync('./public', { recursive: true }); fs.writeFileSync('./docs/openapi.json', JSON.stringify(PANTRYBOT_OPENAPI_SPEC, null, 2) + '\\n'); fs.writeFileSync('./public/openapi.json', JSON.stringify(PANTRYBOT_OPENAPI_SPEC, null, 2) + '\\n'); console.log('Emitted docs/openapi.json and public/openapi.json');\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:unit": "vitest run tests/unit",
@@ -24,7 +25,8 @@
     "lucide-react": "^1.16.0",
     "next": "^15.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "swagger-ui-dist": "^5.34.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
@@ -32,6 +34,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.28",
     "tailwindcss": "^4.1.0",
