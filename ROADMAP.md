@@ -10,6 +10,7 @@ flowchart LR
     M3 --> M4["✅ v1.0 Cloud & Automation\nPWA Manifest, Vercel Cron,\nWed/Fri Smart Push Digest"]
     M4 --> M5["✅ v1.1 Multi-Vendor Engine\nALDI, Walmart, Target, Sprouts,\nN-Store Dynamic Optimizer"]
     M5 --> M6["✅ v1.2 Smart Kitchen & Cart\nVirtual Freezer Arbitrage, Macros,\n1-Tap Export & Cycle Signals"]
+    M6 --> M7["⏳ v1.3 User Accounts & Cloud Sync\nSupabase SSO, Postgres RLS,\nCross-Device Sync & Legal Footer"]
 ```
 
 ---
@@ -77,6 +78,17 @@ flowchart LR
 * **Ticket #23 ([#515](https://github.com/kchavez05/produce-price-tracker/issues/515)):** 1-Tap Curbside Cart Bridge & Multi-Store Export (Walmart, Target, Kroger & Instacart direct search links, formatted Apple Notes/Keep checklist clipboard export, printable slip).
 * **Ticket #24 ([#516](https://github.com/kchavez05/produce-price-tracker/issues/516)):** "Stock Up vs. Wait" Predictive Cycle Low Signals (Historical 6-week cycle recognition, Buy Now floor alerts, and Peak Price substitution recommendations).
 * **Ticket #25 ([#517](https://github.com/kchavez05/produce-price-tracker/issues/517)):** Wholesale Club Price Normalizer (Costco & Sam's Club $/lb benchmark comparison to confirm when supermarket sales beat bulk club prices).
+
+---
+
+### ⏳ Milestone 7: `v1.3` — User Accounts, Cloud Sync & Legal Foundation (In Progress)
+**Goal:** Introduce user authentication, multi-tenant cloud persistence with PostgreSQL Row-Level Security (RLS), cross-device sync for Virtual Freezer inventory and meal-prep profiles, self-serve account/privacy management, and essential legal compliance (Privacy Policy, Terms of Service, Copyright & Contact).
+* **Ticket #26 ([#523](https://github.com/kchavez05/produce-price-tracker/issues/523)):** Supabase Auth Foundation, Next.js Middleware & Google SSO (`@supabase/ssr`, edge session refreshment, PKCE flow, navbar auth state, and zero-key offline resilience).
+* **Ticket #27 ([#524](https://github.com/kchavez05/produce-price-tracker/issues/524)):** Multi-Tenant PostgreSQL Schema with Row-Level Security (RLS) (`users`, `user_preferences`, `user_freezer_items`, and `user_saved_recipes` with database-level isolation policies).
+* **Ticket #28 ([#525](https://github.com/kchavez05/produce-price-tracker/issues/525)):** Cloud Sync Engine & Guest-to-Account Migration (`useUserSync` bi-directional sync, 1-click local storage to cloud migration prompt, and optimistic updates).
+* **Ticket #29 ([#526](https://github.com/kchavez05/produce-price-tracker/issues/526)):** Account Management UI, Data Privacy & Self-Serve Controls (User profile drawer, 1-click JSON data export, and 2-step account deletion / right to be forgotten).
+* **Ticket #30 ([#527](https://github.com/kchavez05/produce-price-tracker/issues/527)):** Sign in with Apple & Security Hardening (Apple OAuth provider, Apple HIG button, endpoint rate-limiting, and zero-key offline test suite).
+* **Ticket #31 ([#528](https://github.com/kchavez05/produce-price-tracker/issues/528)):** Legal Foundation & App Footer (Global footer with copyright tag and contact link, `/privacy` Privacy Policy page, and `/terms` Terms & Conditions page).
 
 ---
 

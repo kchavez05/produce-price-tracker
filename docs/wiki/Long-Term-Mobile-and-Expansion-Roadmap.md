@@ -8,19 +8,20 @@ This document serves as the long-term product and technical blueprint for evolvi
 
 ```mermaid
 flowchart TD
-    subgraph H1["Horizon 1: Web & Smart Kitchen Ecosystem (v0.1 – v1.2)"]
+    subgraph H1["Horizon 1: Web & Smart Kitchen Ecosystem (v0.1 – v1.3)"]
         P1["✅ v0.1–v0.4 Core Engine\nValue Board, SQLite History & Shopping List"]
         P2["✅ v1.0 Production Launch\npantrybot.dev + Nationwide ZIP + Cron Digest"]
         P3["✅ v1.1 Multi-Vendor Ecosystem\n6 Supermarkets + Universal Basket Optimizer"]
         P4["✅ v1.2 Smart Kitchen & Cart Bridge\nVirtual Freezer, Macros, Club Benchmarks & Cart Export"]
-        P1 --> P2 --> P3 --> P4
+        P5["⏳ v1.3 User Accounts & Cloud Sync\nSupabase SSO, Postgres RLS & Legal Footer"]
+        P1 --> P2 --> P3 --> P4 --> P5
     end
 
     subgraph H2["Horizon 2: Native Mobile App Alpha/Beta (v1.5 – v2.0)"]
         M1["📱 v1.5 Monorepo & Expo Core\nShared TypeScript Engine + React Native UI"]
         M2["🔔 v1.8 Native Superpowers\nPush Alerts, Offline Aisle Mode, Camera OCR"]
         M3["🧪 v2.0 TestFlight & Play Beta\nNative Barcode Scanner & Live Activities"]
-        P4 --> M1 --> M2 --> M3
+        P5 --> M1 --> M2 --> M3
     end
 
     subgraph H3["Horizon 3: Public App Store Launch & Scale (v2.5 – v3.0)"]
@@ -32,7 +33,7 @@ flowchart TD
 
 | Horizon | Target Versions | Primary Goal | Target Audience | Form Factor |
 | :--- | :--- | :--- | :--- | :--- |
-| **Horizon 1: Web & Smart Kitchen** | `v0.1` – `v1.2` (**Completed**) | Core value score, 6-vendor circular ingestion, Virtual Freezer arbitrage, macro/dietary profiles, Costco/Sam's Club normalizer, and 1-tap curbside cart bridge. | Nationwide Web & PWA Users (`pantrybot.dev`) | Mobile-Responsive Web App + Installable PWA |
+| **Horizon 1: Web & Smart Kitchen** | `v0.1` – `v1.3` | Core value score, 6-vendor circular ingestion, Virtual Freezer arbitrage, macro/dietary profiles, Costco/Sam's Club normalizer, 1-tap cart export, and Supabase SSO / Cloud Sync. | Nationwide Web & PWA Users (`pantrybot.dev`) | Mobile-Responsive Web App + Installable PWA |
 | **Horizon 2: Native Transition** | `v1.5` – `v2.0` | Package into native iOS & Android apps with native push notifications, camera barcode/shelf-tag OCR, and iOS Lock Screen Live Activities. | Friends, Family & Early Beta Testers (TestFlight / Google Play Internal) | Native iOS & Android (Expo / React Native) |
 | **Horizon 3: Public Scale** | `v2.5` – `v3.0` | Direct OAuth Cart API write (`cart.basic:write`), receipt scanning ledger, and App Store monetization. | Budget-conscious meal preppers & families nationwide | Public iOS App Store & Google Play Store |
 
