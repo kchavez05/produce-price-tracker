@@ -419,6 +419,7 @@ export interface DashboardPayload {
     krogerLive: boolean;
     geminiConfigured: boolean;
     sqlitePersisted: boolean;
+    supabaseConfigured?: boolean;
   };
   sqliteStats: {
     dbPath: string;
@@ -522,3 +523,65 @@ export interface WeeklySyncCronResult {
   fridayWeekendDigest: FridayWeekendDigest;
   recentSyncRuns: SyncRunLogEntry[];
 }
+
+// =========================================================
+// Milestone v1.3 Domain Types (Tickets #26 - #31)
+// =========================================================
+
+export type AuthProviderType = 'google' | 'apple';
+
+export type CloudStorageMode = 'SUPABASE_RLS' | 'SQLITE_LOCAL_FALLBACK';
+
+export type SyncStatus =
+  | 'IDLE'
+  | 'SYNCING'
+  | 'SYNCED'
+  | 'OFFLINE_QUEUED'
+  | 'ERROR';
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  displayName: string;
+  avatarUrl?: string;
+  provider: AuthProviderType;
+  createdAtIso: string;
+  updatedAtIso: string;
+  isCloudBacked: boolean;
+}
+
+export interface UserPreferences {
+  userId: string;
+  defaultZip: string;
+  favoriteStoreIds: StoreChain[];
+  macroGoal: MacroGoal;
+  dietaryConstraints: DietaryConstraint[];
+  vesselArchetype: CookingVesselArchetype;
+  targetServings: 4 | 6 | 8;
+  pinnedIngredientIds: string[];
+  onHandIngredientIds: string[];
+  updatedAtIso: string;
+}
+
+export interface UserSyncPayload {
+  authenticated: boolean;
+  storageMode: CloudStorageMode;
+  supabaseConfigured: boolean;
+  profile: UserProfile | null;
+  preferences: UserPreferences | null;
+  freezerItems: FreezerItem[];
+  savedRecipes: RecommendedDish[];
+  syncedAtIso: string;
+}
+
+export interface UserDataExportArchive {
+  schemaVersion: '1.3.0';
+  exportedAtIso: string;
+  application: 'PantryBot (pantrybot.dev)';
+  piiPolicy: 'Strict Minimization (id, email, display_name, and user-configured grocery preferences only)';
+  profile: UserProfile;
+  preferences: UserPreferences;
+  virtualFreezerInventory: FreezerItem[];
+  savedMealPrepRecipes: RecommendedDish[];
+}
+

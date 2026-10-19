@@ -44,3 +44,8 @@ cp .env.example .env.local
 * **Cost:** **$0.00** (Public Developer Tier).
 * **Where to get it:** Register a free app at [https://developer.kroger.com/](https://developer.kroger.com/) with the `product.compact` OAuth2 scope.
 * **What it unlocks:** Live unadvertised shelf and promo pricing for specific King Soopers store `locationId`s near `80542` (e.g., Firestone `#01400100` or Longmont stores).
+
+### 4. Supabase Auth & PostgreSQL Cloud Sync (`NEXT_PUBLIC_SUPABASE_URL` & `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+* **Cost:** **$0.00** (Supabase Free Tier includes 50,000 MAU and 500 MB PostgreSQL database).
+* **Where to get it:** Create a project at [https://supabase.com/dashboard](https://supabase.com/dashboard) and run the SQL migration in [`supabase/migrations/20261019000000_v1_3_multi_tenant_rls_schema.sql`](../../supabase/migrations/20261019000000_v1_3_multi_tenant_rls_schema.sql).
+* **What it unlocks:** Cross-device Google and Apple OAuth SSO and multi-tenant PostgreSQL Row-Level Security (RLS) synchronization. When omitted, PantryBot automatically falls back to local multi-tenant SQLite accounts and `HttpOnly` session cookies.

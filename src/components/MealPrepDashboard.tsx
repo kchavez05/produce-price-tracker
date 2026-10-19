@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   CommodityCategory,
   CookingVesselArchetype,
@@ -12,6 +12,7 @@ import {
   RecommendedDish,
   ScoredCommodity,
   StoreChain,
+  UserSyncPayload,
   WeeklySyncCronResult,
 } from '@/types/domain';
 import {
@@ -24,6 +25,8 @@ import {
   formatShoppingListForClipboard,
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
+import AccountModal from '@/components/AccountModal';
+import { useUserSync } from '@/hooks/useUserSync';
 import {
   Sparkles,
   TrendingDown,
@@ -65,6 +68,8 @@ import {
   Award,
   SlidersHorizontal,
   ArrowLeftRight,
+  UserCheck,
+  LogIn,
 } from 'lucide-react';
 
 interface Props {
@@ -141,6 +146,46 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [zipInput, setZipInput] = useState(data.zipCode || '80542');
   const [zipLoading, setZipLoading] = useState(false);
   const [zipError, setZipError] = useState<string | null>(null);
+
+  // v1.3 Tickets #26 - #30: User Account, Cloud Sync & Privacy Controls state
+  const [showAccountModal, setShowAccountModal] = useState(false);
+
+  const handleCloudHydrated = useCallback((payload: UserSyncPayload) => {
+    if (!payload.authenticated || !payload.preferences) return;
+    const prefs = payload.preferences;
+    if (prefs.defaultZip && /^\d{5}$/.test(prefs.defaultZip)) {
+      setCurrentZip(prefs.defaultZip);
+      setZipInput(prefs.defaultZip);
+    }
+    if (
+      Array.isArray(prefs.favoriteStoreIds) &&
+      prefs.favoriteStoreIds.length > 0
+    ) {
+      setActiveStores(prefs.favoriteStoreIds);
+    }
+    if (prefs.macroGoal) setMacroGoal(prefs.macroGoal);
+    if (Array.isArray(prefs.dietaryConstraints)) {
+      setDietaryConstraints(prefs.dietaryConstraints);
+    }
+    if (prefs.vesselArchetype) setApplianceFilter(prefs.vesselArchetype);
+    if (prefs.targetServings) setTargetServings(prefs.targetServings);
+    if (Array.isArray(prefs.pinnedIngredientIds)) {
+      setPinnedIds(prefs.pinnedIngredientIds);
+    }
+    if (Array.isArray(prefs.onHandIngredientIds)) {
+      setOnHandIds(prefs.onHandIngredientIds);
+    }
+    if (
+      Array.isArray(payload.freezerItems) &&
+      payload.freezerItems.length > 0
+    ) {
+      setFreezerItems(payload.freezerItems);
+    }
+  }, []);
+
+  const userSync = useUserSync({
+    onCloudStateHydrated: handleCloudHydrated,
+  });
 
   // Combine manual onHandIds + any canonicalIngredientId currently in Virtual Freezer
   const effectiveOnHandIds = useMemo(() => {
@@ -382,12 +427,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
       const updatedLocal = [newEntry, ...freezerItems];
       setFreezerItems(updatedLocal);
       persistFreezerToLocalStorage(updatedLocal);
+      userSync.pushCloudSync({ freezerItems: updatedLocal });
     }
 
     setArbitrageToast(
@@ -437,6 +484,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
@@ -465,6 +513,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
@@ -483,16 +532,58 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
       const remaining = freezerItems.filter((f) => f.id !== id);
       setFreezerItems(remaining);
       persistFreezerToLocalStorage(remaining);
+      userSync.pushCloudSync({ freezerItems: remaining });
     }
     const nextOnHand = onHandIds.filter((oid) => oid !== canonicalIngredientId);
     setOnHandIds(nextOnHand);
     syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
+  }
+
+  // v1.3 Ticket #28: Cloud Sync & Guest-to-Account Migration Handlers
+  async function handleMergeGuestData() {
+    const updated = await userSync.pushCloudSync({
+      preferences: {
+        defaultZip: currentZip,
+        favoriteStoreIds: activeStores,
+        macroGoal,
+        dietaryConstraints,
+        vesselArchetype: applianceFilter,
+        targetServings,
+        pinnedIngredientIds: pinnedIds,
+        onHandIngredientIds: onHandIds,
+      },
+      freezerItems,
+      mergeMode: true,
+    });
+    if (updated?.freezerItems) {
+      setFreezerItems(updated.freezerItems);
+      persistFreezerToLocalStorage(updated.freezerItems);
+    }
+    userSync.dismissGuestMergePrompt();
+  }
+
+  async function handleForceCloudSync() {
+    await userSync.pushCloudSync({
+      preferences: {
+        defaultZip: currentZip,
+        favoriteStoreIds: activeStores,
+        macroGoal,
+        dietaryConstraints,
+        vesselArchetype: applianceFilter,
+        targetServings,
+        pinnedIngredientIds: pinnedIds,
+        onHandIngredientIds: onHandIds,
+      },
+      freezerItems,
+      mergeMode: false,
+    });
   }
 
   // v1.2 Ticket #22 Handlers: Macro Goal, Dietary Constraints, Cooking Vessel
@@ -500,6 +591,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setMacroGoal(nextMacro);
     setCustomAiDishes(null);
     persistProfileToLocalStorage(nextMacro, dietaryConstraints, applianceFilter);
+    userSync.pushCloudSync({
+      preferences: {
+        macroGoal: nextMacro,
+        dietaryConstraints,
+        vesselArchetype: applianceFilter,
+      },
+    });
     syncDashboard(
       storeFilter,
       pinnedIds,
@@ -521,6 +619,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setDietaryConstraints(nextDietary);
     setCustomAiDishes(null);
     persistProfileToLocalStorage(macroGoal, nextDietary, applianceFilter);
+    userSync.pushCloudSync({
+      preferences: {
+        macroGoal,
+        dietaryConstraints: nextDietary,
+        vesselArchetype: applianceFilter,
+      },
+    });
     syncDashboard(
       storeFilter,
       pinnedIds,
@@ -538,6 +643,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setApplianceFilter(nextVessel);
     setCustomAiDishes(null);
     persistProfileToLocalStorage(macroGoal, dietaryConstraints, nextVessel);
+    userSync.pushCloudSync({
+      preferences: {
+        macroGoal,
+        dietaryConstraints,
+        vesselArchetype: nextVessel,
+      },
+    });
     syncDashboard(
       storeFilter,
       pinnedIds,
@@ -565,6 +677,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
       } catch {
         // Ignore
       }
+      userSync.pushCloudSync({
+        preferences: {
+          favoriteStoreIds: next,
+        },
+      });
       syncDashboard(
         storeFilter,
         pinnedIds,
@@ -708,6 +825,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
       localStorage.setItem('pantrybot_user_zip', cleanZip);
       setCurrentZip(cleanZip);
       setZipInput(cleanZip);
+      userSync.pushCloudSync({
+        preferences: {
+          defaultZip: cleanZip,
+        },
+      });
       await syncDashboard(
         storeFilter,
         pinnedIds,
@@ -1016,7 +1138,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
                     <span>PantryBot</span>
                     <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200 sm:inline-block">
-                      v1.2 Smart Kitchen &amp; Cart Bridge
+                      v1.3 Accounts, Cloud Sync &amp; Smart Kitchen
                     </span>
                   </h1>
                   <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
@@ -1128,8 +1250,67 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <KeyRound className="h-3.5 w-3.5 text-emerald-600" />
                 <span className="hidden sm:inline">API Keys</span>
               </button>
+
+              {/* v1.3 Ticket #26 & #29: User Account & Cloud Sync Drawer Trigger */}
+              <button
+                onClick={() => setShowAccountModal(!showAccountModal)}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
+                  showAccountModal
+                    ? 'border-violet-600 bg-violet-600 text-white shadow-xs'
+                    : userSync.authenticated
+                      ? 'border-violet-300 bg-violet-50 text-violet-900 hover:bg-violet-100'
+                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                }`}
+                title={
+                  userSync.authenticated
+                    ? `Signed in as ${userSync.profile?.displayName} (${userSync.profile?.email})`
+                    : 'Sign In with Google or Apple to sync across devices'
+                }
+              >
+                {userSync.authenticated ? (
+                  <>
+                    <UserCheck className="h-3.5 w-3.5 text-violet-600" />
+                    <span className="max-w-[110px] truncate">
+                      {userSync.profile?.displayName || 'Account'}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="h-3.5 w-3.5 text-violet-600" />
+                    <span>Sign In</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
+
+          {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
+          <AccountModal
+            isOpen={showAccountModal}
+            onClose={() => setShowAccountModal(false)}
+            authenticated={userSync.authenticated}
+            profile={userSync.profile}
+            storageMode={userSync.storageMode}
+            supabaseConfigured={userSync.supabaseConfigured}
+            syncStatus={userSync.syncStatus}
+            lastSyncedIso={userSync.lastSyncedIso}
+            authLoading={userSync.authLoading}
+            hasGuestDataToMerge={userSync.hasGuestDataToMerge}
+            guestFreezerCount={userSync.guestFreezerCount}
+            currentZip={currentZip}
+            activeStores={activeStores}
+            macroGoal={macroGoal}
+            dietaryConstraints={dietaryConstraints}
+            applianceFilter={applianceFilter}
+            freezerItemCount={freezerItems.length}
+            onSignIn={userSync.signInWithProvider}
+            onSignOut={userSync.signOut}
+            onMergeGuestData={handleMergeGuestData}
+            onDismissMergePrompt={userSync.dismissGuestMergePrompt}
+            onForceSync={handleForceCloudSync}
+            onExportData={userSync.exportAccountDataJson}
+            onDeleteAccount={userSync.deleteAccountAndData}
+          />
 
           {/* Arbitrage Toast Banner */}
           {arbitrageToast && (

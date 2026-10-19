@@ -32,6 +32,7 @@ import {
   getSqliteDatabaseStats,
   persistLiveOffersToSqlite,
 } from './db/sqlite';
+import { isSupabaseConfigured } from './supabase/config';
 
 function calculateAffordabilityScore(
   ingredient: CanonicalIngredient,
@@ -823,6 +824,7 @@ export async function buildDashboardPayload(options?: {
       krogerLive: krogerResult.krogerLive,
       geminiConfigured: Boolean(process.env.GEMINI_API_KEY?.trim()),
       sqlitePersisted: sqliteStats.totalHistoricalOfferRows > 0,
+      supabaseConfigured: isSupabaseConfigured(),
     },
     sqliteStats,
     nearbyKingSoopersLocations: krogerResult.locations,

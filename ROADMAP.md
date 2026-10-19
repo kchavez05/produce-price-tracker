@@ -10,7 +10,7 @@ flowchart LR
     M3 --> M4["✅ v1.0 Cloud & Automation\nPWA Manifest, Vercel Cron,\nWed/Fri Smart Push Digest"]
     M4 --> M5["✅ v1.1 Multi-Vendor Engine\nALDI, Walmart, Target, Sprouts,\nN-Store Dynamic Optimizer"]
     M5 --> M6["✅ v1.2 Smart Kitchen & Cart\nVirtual Freezer Arbitrage, Macros,\n1-Tap Export & Cycle Signals"]
-    M6 --> M7["⏳ v1.3 User Accounts & Cloud Sync\nSupabase SSO, Postgres RLS,\nCross-Device Sync & Legal Footer"]
+    M6 --> M7["✅ v1.3 User Accounts & Cloud Sync\nSupabase SSO, Postgres RLS,\nCross-Device Sync & Legal Footer"]
 ```
 
 ---
@@ -81,7 +81,7 @@ flowchart LR
 
 ---
 
-### ⏳ Milestone 7: `v1.3` — User Accounts, Cloud Sync & Legal Foundation (In Progress)
+### ✅ Milestone 7: `v1.3` — User Accounts, Cloud Sync & Legal Foundation (Completed)
 **Goal:** Introduce user authentication, multi-tenant cloud persistence with PostgreSQL Row-Level Security (RLS), cross-device sync for Virtual Freezer inventory and meal-prep profiles, self-serve account/privacy management, and essential legal compliance (Privacy Policy, Terms of Service, Copyright & Contact).
 * **Ticket #26 ([#523](https://github.com/kchavez05/produce-price-tracker/issues/523)):** Supabase Auth Foundation, Next.js Middleware & Google SSO (`@supabase/ssr`, edge session refreshment, PKCE flow, navbar auth state, and zero-key offline resilience).
 * **Ticket #27 ([#524](https://github.com/kchavez05/produce-price-tracker/issues/524)):** Multi-Tenant PostgreSQL Schema with Row-Level Security (RLS) (`users`, `user_preferences`, `user_freezer_items`, and `user_saved_recipes` with database-level isolation policies).

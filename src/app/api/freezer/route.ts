@@ -5,6 +5,7 @@ import {
   updateFreezerItemQuantityInSqlite,
   upsertFreezerItemToSqlite,
 } from '@/lib/db/sqlite';
+import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
 import { FreezerItem } from '@/types/domain';
 
 export async function GET() {
@@ -21,6 +22,17 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!verifySameOrigin(request)) {
+    return NextResponse.json({ error: 'Forbidden cross-origin request' }, { status: 403 });
+  }
+  const rate = checkRateLimit(request, 'api-freezer-write', 40, 60_000);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: { 'Retry-After': String(rate.resetInSeconds) } }
+    );
+  }
+
   try {
     let body: { item?: FreezerItem } | undefined;
     try {
@@ -51,6 +63,17 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+  if (!verifySameOrigin(request)) {
+    return NextResponse.json({ error: 'Forbidden cross-origin request' }, { status: 403 });
+  }
+  const rate = checkRateLimit(request, 'api-freezer-write', 40, 60_000);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: { 'Retry-After': String(rate.resetInSeconds) } }
+    );
+  }
+
   try {
     const body = await request.json();
     const id = body?.id as string | undefined;
@@ -74,6 +97,17 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  if (!verifySameOrigin(request)) {
+    return NextResponse.json({ error: 'Forbidden cross-origin request' }, { status: 403 });
+  }
+  const rate = checkRateLimit(request, 'api-freezer-write', 40, 60_000);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded' },
+      { status: 429, headers: { 'Retry-After': String(rate.resetInSeconds) } }
+    );
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
