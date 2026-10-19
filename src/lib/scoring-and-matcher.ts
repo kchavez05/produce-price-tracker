@@ -525,11 +525,11 @@ export function rankMealPrepDishes(
     const adjustedMacros: NutritionMacros = { ...blueprint.macrosPerServing };
     if (macroGoal === 'LOW_CARB_KETO' && blueprint.lowCarbAdaptable) {
       adjustedMacros.carbsGrams = Math.min(adjustedMacros.carbsGrams, 15);
-      adjustedMacros.calories = Math.max(380, adjustedMacros.calories - 55);
+      adjustedMacros.calories = Math.max(0, adjustedMacros.calories - 55);
     }
     if (needsDairyFree && !blueprint.dietaryTags?.includes('DAIRY_FREE')) {
-      adjustedMacros.fatGrams = Math.max(12, adjustedMacros.fatGrams - 5);
-      adjustedMacros.calories = Math.max(370, adjustedMacros.calories - 45);
+      adjustedMacros.fatGrams = Math.max(0, adjustedMacros.fatGrams - 5);
+      adjustedMacros.calories = Math.max(0, adjustedMacros.calories - 45);
     }
 
     const activeDietaryTags = new Set<DietaryConstraint>(blueprint.dietaryTags || []);
