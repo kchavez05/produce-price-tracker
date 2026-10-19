@@ -557,12 +557,27 @@ export function upsertFreezerItemToSqlite(item: FreezerItem): FreezerItem {
   const finalQty = existing
     ? Number((existing.quantity_lb_or_doz + item.quantityLbOrDoz).toFixed(2))
     : Number(item.quantityLbOrDoz.toFixed(2));
-  const unitPrice = item.purchasePricePerUnit;
-  const regPrice = item.regularPricePerUnit;
-  const totalCostBasis = Number((finalQty * unitPrice).toFixed(2));
-  const estimatedSavings = Number(
-    Math.max(0, finalQty * (regPrice - unitPrice)).toFixed(2)
-  );
+  const totalCostBasis = existing
+    ? Number(
+        (
+          existing.quantity_lb_or_doz * existing.purchase_price_per_unit +
+          item.quantityLbOrDoz * item.purchasePricePerUnit
+        ).toFixed(2)
+      )
+    : Number((item.quantityLbOrDoz * item.purchasePricePerUnit).toFixed(2));
+  const unitPrice =
+    finalQty > 0 ? Number((totalCostBasis / finalQty).toFixed(2)) : item.purchasePricePerUnit;
+  const totalRegCost = existing
+    ? Number(
+        (
+          existing.quantity_lb_or_doz * existing.regular_price_per_unit +
+          item.quantityLbOrDoz * item.regularPricePerUnit
+        ).toFixed(2)
+      )
+    : Number((item.quantityLbOrDoz * item.regularPricePerUnit).toFixed(2));
+  const regPrice =
+    finalQty > 0 ? Number((totalRegCost / finalQty).toFixed(2)) : item.regularPricePerUnit;
+  const estimatedSavings = Number(Math.max(0, totalRegCost - totalCostBasis).toFixed(2));
 
   const stmt = db.prepare(`
     INSERT OR REPLACE INTO freezer_inventory
@@ -576,6 +591,8 @@ export function upsertFreezerItemToSqlite(item: FreezerItem): FreezerItem {
     ...item,
     id: finalId,
     quantityLbOrDoz: finalQty,
+    purchasePricePerUnit: unitPrice,
+    regularPricePerUnit: regPrice,
     totalCostBasis,
     estimatedSavings,
   };
