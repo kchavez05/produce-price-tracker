@@ -53,17 +53,26 @@ Every PR targeting `develop` must pass:
 2. **Vercel Preview Deployment**: Confirms the preview build succeeds.
 3. **Gemini Code Assist Review (`gemini-code-assist`)**:
    * Automatically triggered when a PR is opened (configured in [`.gemini/config.yaml`](./.gemini/config.yaml) and [`.gemini/styleguide.md`](./.gemini/styleguide.md)).
-   * If follow-up commits are pushed or a manual review is needed, comment `/gemini review` on the PR (`gh pr comment <pr-number> --body "/gemini review"`).
-   * Inspect all review comments (`gh api repos/kchavez05/produce-price-tracker/pulls/<pr-number>/comments`) and resolve any `high` or `medium` severity findings on the feature branch before merging.
+   * If follow-up commits are pushed or a manual review is needed, comment `/gemini review` on the PR (`gh pr comment --body "/gemini review"`).
+   * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and resolve any `high` or `medium` severity findings on the feature branch before merging.
 
 ### Step 5: Merge into `develop` & Clean Up
 Once CI checks are green and Gemini Code Assist review feedback is addressed:
-* Merge the feature PR into `develop`.
-* Delete the merged feature branch locally and on `origin`, and pull the updated `develop` branch.
+* Merge the feature PR into `develop` (via the GitHub UI or `gh pr merge`).
+* Switch back to `develop`, pull the latest changes, and delete the feature branch:
+```bash
+git checkout develop
+git pull origin develop
+git branch -d <branch-name>
+git push origin --delete <branch-name>
+```
 
 ### Step 6: Production Release (`develop` → `main`)
 When cutting a release to production (`main`):
-1. Open a Release PR with base `main` and head `develop` (`gh pr create --base main --head develop ...`).
+1. Open a Release PR with base `main` and head `develop`:
+```bash
+gh pr create --base main --head develop --title "Release: Merge develop into main" --body "Production release"
+```
 2. Ensure **CI Quality Gate**, **Vercel Preview**, and **Gemini Code Assist** review complete cleanly on the Release PR.
 3. Merge the Release PR into `main` to deploy to [pantrybot.dev](https://pantrybot.dev).
 
