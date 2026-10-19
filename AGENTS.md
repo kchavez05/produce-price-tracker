@@ -37,6 +37,9 @@ Before pushing a branch or opening a PR, verify all CI checks pass locally:
 ```bash
 npm run typecheck
 npm run lint
+npm run test:unit       # Mandatory Tier 1 unit tests on feature branches
+npm run test:smoke      # Mandatory Tier 2 smoke tests for PRs to develop
+npm run test:regression # Mandatory Tier 3 regression tests for PRs to main
 npm run build
 ```
 

@@ -11,6 +11,10 @@ on:
       - main
       - release
       - develop
+      - 'feature/**'
+      - 'fix/**'
+      - 'chore/**'
+      - 'docs/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -40,6 +44,17 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
+
+      - name: Tier 1 Unit Testing Policy (All Branches & PRs)
+        run: npm run test:unit
+
+      - name: Tier 2 Smoke Testing Suite (develop/main PRs and pushes)
+        if: github.event_name == 'push' || github.base_ref == 'develop' || github.base_ref == 'main' || github.base_ref == 'release'
+        run: npm run test:smoke
+
+      - name: Tier 3 Regression Testing Suite (main/release PRs and pushes)
+        if: (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'release')) || (github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'release'))
+        run: npm run test:regression
 
       - name: Verify production Next.js build
         run: npm run build

@@ -87,8 +87,16 @@ export function normalizeFlyerPrice(
   }
 
   // Check explicit bag weight e.g. "5 lb", "3 lb", "2 lb", "10 lb"
-  const lbBagMatch = lower.match(/(\d+(?:\.\d+)?)\s*(?:lb|pound)s?\s*(?:bag|pack|roll|box|chub)?/);
-  if (lbBagMatch && !lower.includes('/lb') && !lower.includes('per lb')) {
+  const lbBagMatch = lower.match(
+    /(?<![\d.\$])(\d+(?:\.\d+)?)\s*(?:lb\.?|pound)s?\s*(?:bag|pack|roll|box|chub)?/
+  );
+  const isExplicitPerLb =
+    lower.includes('/lb') ||
+    lower.includes('per lb') ||
+    /\/\s*lb\b/.test(lower) ||
+    /\$\d+(?:\.\d+)?\s*lb\.?\b/.test(lower);
+
+  if (lbBagMatch && !isExplicitPerLb) {
     const lbs = parseFloat(lbBagMatch[1]);
     if (lbs > 1 && lbs <= 15) {
       return {
@@ -101,7 +109,7 @@ export function normalizeFlyerPrice(
 
   // Check ounce package e.g. "8 oz", "16 oz", "14 oz", "32 oz", "10 oz"
   const ozMatch = lower.match(/(\d+(?:\.\d+)?)\s*oz/);
-  if (ozMatch && !lower.includes('/lb')) {
+  if (ozMatch && !isExplicitPerLb) {
     const oz = parseFloat(ozMatch[1]);
     if (oz >= 4 && oz <= 64) {
       const lbs = oz / 16;
@@ -114,7 +122,7 @@ export function normalizeFlyerPrice(
   }
 
   // Check if explicitly per lb
-  if (lower.includes('/lb') || lower.includes('per lb') || lower.includes('lb.')) {
+  if (isExplicitPerLb) {
     return {
       normalizedPricePerUnit: Number(effectiveItemPrice.toFixed(2)),
       saleUnit: 'lb',

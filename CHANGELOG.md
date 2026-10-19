@@ -5,6 +5,26 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-10-19
+
+### 🧪 3-Tier CI Test Automation & Branch Quality Gates
+
+This release establishes an automated 3-tier testing policy aligned with the Git branching architecture, ensuring deterministic quality gates across working branches, staging (`develop`), and production (`main`).
+
+### Added
+- **3-Tier Automated Testing Infrastructure:**
+  - Configured Vitest runner (`vitest.config.mts`) and strongly typed mock factories (`tests/test-utils.ts`).
+  - Added SQLite in-memory test isolation (`PANTRYBOT_SQLITE_PATH=':memory:'` and `resetSqliteTestInstance()`) in `src/lib/db/sqlite.ts`.
+  - Added **Tier 1 Unit Test Policy (`npm run test:unit`)**: 6 test suites covering flyer price normalization, commodity scoring curves, wholesale club benchmarks, store split math, security/rate-limit helpers, and cart export formatters.
+  - Added **Tier 2 Smoke Test Suite (`npm run test:smoke`)**: 2 test suites covering SQLite schema health and core API route handlers (`/api/dashboard`, `/api/locations`, `/api/freezer`, `/api/saved-recipes`, and `/api/ai-meal-plan` zero-key fallback).
+  - Added **Tier 3 Regression Test Suite (`npm run test:regression`)**: 5 test suites covering multi-constraint dashboard permutations, account/GDPR lifecycle, freezer cost basis depletion, weekly sync cron digests, and CSRF/rate limit abuse boundaries.
+  - Configured branch-targeted execution in `.github/workflows/ci.yml` (`test:unit` on feature branches, `test:smoke` on `develop`, and `test:regression` on `main`).
+
+### Fixed
+- **Flyer Per-Pound Normalizer (`src/lib/connectors/flipp.ts`):** Enhanced regex matching to handle both `/lb` and `/ lb` whitespace variants, ensuring explicit per-pound flyer items are not misclassified as each/count items.
+
+---
+
 ## [1.3.0] - 2026-10-19
 
 ### 🔐 User Accounts, Cloud Sync & Legal Foundation
