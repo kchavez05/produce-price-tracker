@@ -24,7 +24,7 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 3. **[API Keys & Developer Setup Guide](./API-Keys-and-Local-Setup.md)**
    * How to run the app with zero keys vs. how to register for free-tier keys from Google AI Studio, USDA MARS, and the Kroger Developer Portal.
 4. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
-   * Milestones (`v0.1` PoC through `v1.2` Smart Kitchen, Virtual Freezer & Cart Bridge) and upcoming `v1.5+` tickets.
+   * Milestones (`v0.1` PoC through `v1.2` Smart Kitchen, active `v1.3` User Accounts & Cloud Sync, and upcoming `v1.5+` native mobile tickets).
 5. **[Release Notes (`docs/releases/`)](../releases/)**
    * **[v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](../releases/v1.2.0.md)**
    * **[v1.1.0 — Multi-Vendor Expansion & Universal Basket Optimizer](../releases/v1.1.0.md)**
