@@ -1,9 +1,10 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.3.1`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.4.0`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
-## Key Features (`v1.3.1`)
+## Key Features (`v1.4.0`)
 
+* **Developer Platform, OpenAPI 3.1 & Interactive Swagger UI:** Standardized **OpenAPI 3.1.0** specification (`/api/openapi.json`) and embedded interactive **Swagger UI** console ([`/docs`](https://pantrybot.dev/docs)) with live route testing, tag filters, and typed schemas across 8 backend API route domains.
 * **User Accounts, SSO & Cross-Device Cloud Sync:** Optional 1-click **Sign in with Google** and **Sign in with Apple** via Supabase Auth + PostgreSQL Row-Level Security (RLS) (with automatic zero-key SQLite multi-tenant fallback). Syncs ZIP code, preferred stores, macro/dietary goals, cooking vessels, Virtual Freezer inventory, and saved recipes across devices with automatic Guest-to-Account migration, 1-click JSON export, and self-serve GDPR/CCPA account deletion.
 * **6-Vendor Supermarket Ecosystem + Nationwide ZIP Support:** Compares weekly circular deals and digital loyalty coupons across **Kroger** (King Soopers, Ralphs, Fred Meyer, Fry's), **Albertsons** (Safeway, Vons, Jewel-Osco), **ALDI**, **Walmart**, **Target**, and **Sprouts Farmers Market** for any 5-digit US ZIP code.
 * **Persistent Virtual Freezer & Multi-Week Arbitrage (`"❄️ Buy 2: Prep 1, Freeze 1"`):** Detects deep 6-week cycle lows (`>38%` off / `💎 Splurge` alerts), banks extra roasts into a persistent Cloud + SQLite + `localStorage` Virtual Freezer, and automatically substitutes banked proteins into future 3-Dish Meal-Prep plans at **`$0.00` out-of-pocket cost**.
@@ -37,6 +38,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.4.0 — Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console](./docs/releases/v1.4.0.md)
   * [v1.3.1 — 3-Tier CI Test Automation & Branch Quality Gates](./docs/releases/v1.3.1.md)
   * [v1.3.0 — User Accounts, Cloud Sync & Legal Foundation](./docs/releases/v1.3.0.md)
   * [v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](./docs/releases/v1.2.0.md)
@@ -46,4 +48,5 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
   * [Architecture & Data Pipeline](./docs/wiki/Architecture-and-Data-Pipeline.md)
   * [Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine](./docs/wiki/Scoring-and-Meal-Prep-Engine.md)
   * [API Keys & Developer Setup Guide](./docs/wiki/API-Keys-and-Local-Setup.md)
+  * [OpenAPI 3.1 & Swagger UI Console](./docs/wiki/OpenAPI-and-Swagger-Documentation.md) (Interactive console live at [`/docs`](https://pantrybot.dev/docs))
   * [North Star: Native iOS/Android & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)

@@ -23,14 +23,18 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
    * How the **1-Tap Curbside Cart Bridge & Multi-Store Exporter** connects to Walmart, Target, Kroger, Safeway, Sprouts, ALDI, Instacart, and Apple Notes / Google Keep.
 3. **[API Keys & Developer Setup Guide](./API-Keys-and-Local-Setup.md)**
    * How to run the app with zero keys vs. how to register for free-tier keys from Google AI Studio, USDA MARS, the Kroger Developer Portal, and Supabase.
-4. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
+4. **[OpenAPI 3.1 & Swagger UI Console](./OpenAPI-and-Swagger-Documentation.md)**
+   * Production OpenAPI 3.1 REST specification (`/api/openapi.json`), interactive Swagger UI testing console (`/docs`), and endpoint documentation across all 8 backend API domains.
+5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Milestones (`v0.1` PoC through `v1.3` User Accounts & Cloud Sync, and upcoming `v1.5+` native mobile tickets).
-5. **[Release Notes (`docs/releases/`)](../releases/)**
+6. **[Release Notes (`docs/releases/`)](../releases/)**
+   * **[v1.4.0 — Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console](../releases/v1.4.0.md)**
+   * **[v1.3.1 — 3-Tier CI Test Automation & Branch Quality Gates](../releases/v1.3.1.md)**
    * **[v1.3.0 — User Accounts, Cloud Sync & Legal Foundation](../releases/v1.3.0.md)**
    * **[v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](../releases/v1.2.0.md)**
    * **[v1.1.0 — Multi-Vendor Expansion & Universal Basket Optimizer](../releases/v1.1.0.md)**
    * **[v1.0.0 — Production Launch (`pantrybot.dev`)](../releases/v1.0.0.md)**
-6. **[North Star: Native iOS/Android & Feature Expansion Blueprint](./Long-Term-Mobile-and-Expansion-Roadmap.md)**
+7. **[North Star: Native iOS/Android & Feature Expansion Blueprint](./Long-Term-Mobile-and-Expansion-Roadmap.md)**
    * Multi-horizon strategy (`v1.5`–`v3.0`) for packaging into native iOS & Android apps (Expo / React Native), camera shelf-tag OCR, and Live Activities.
 
 ---

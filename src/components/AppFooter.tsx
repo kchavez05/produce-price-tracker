@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ChefHat, ShieldCheck, Mail, FileText, Lock } from 'lucide-react';
+import { ChefHat, ShieldCheck, Mail, FileText, Lock, BookOpen } from 'lucide-react';
 
 export default function AppFooter() {
   return (
@@ -24,7 +24,7 @@ export default function AppFooter() {
             </span>
             <span className="hidden rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 border border-emerald-200 md:inline-flex items-center gap-1">
               <ShieldCheck className="h-3 w-3 text-emerald-600" />
-              v1.3 Zero-Key &amp; RLS Protected
+              v1.4 Zero-Key &amp; OpenAPI Ready
             </span>
           </div>
 
@@ -46,6 +46,13 @@ export default function AppFooter() {
             >
               <FileText className="h-3.5 w-3.5 text-slate-400" />
               <span>Terms &amp; Conditions</span>
+            </Link>
+            <Link
+              href="/docs"
+              className="inline-flex items-center gap-1 hover:text-emerald-700 hover:underline transition"
+            >
+              <BookOpen className="h-3.5 w-3.5 text-slate-400" />
+              <span>API Docs</span>
             </Link>
             <a
               href="mailto:support@pantrybot.dev?subject=PantryBot%20Support%20Inquiry"
