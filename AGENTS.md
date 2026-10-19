@@ -81,14 +81,38 @@ git branch -d <branch-name>
 git push origin --delete <branch-name>
 ```
 
-### Step 6: Production Release (`develop` → `main`)
-When cutting a release to production (`main`):
-1. Open a Release PR with base `main` and head `develop`:
+### Step 6: Production Release Checklist (`develop` → `main`)
+When cutting a release (`vX.Y.Z`) to production (`main`), complete every item in this checklist:
+
+1. **Pre-Release Documentation & Version Bump (on `develop` via PR)**
+   * [ ] Bump `"version": "X.Y.Z"` in [`package.json`](./package.json).
+   * [ ] Create detailed release notes in [`docs/releases/vX.Y.Z.md`](./docs/releases/).
+   * [ ] Update [`CHANGELOG.md`](./CHANGELOG.md), [`ROADMAP.md`](./ROADMAP.md), [`README.md`](./README.md), and [`docs/wiki/`](./docs/wiki/) to reflect the new version and completed milestone tickets.
+2. **Open & Verify the Release PR (`develop` → `main`)**
+   * [ ] Open the Release PR targeting `main`:
 ```bash
-gh pr create --base main --head develop --title "Release: Merge develop into main" --body "Production release"
+gh pr create --base main --head develop --title "Release vX.Y.Z: <Milestone Title>" --body-file docs/releases/vX.Y.Z.md
 ```
-2. Ensure **CI Quality Gate**, **Vercel Preview**, and **Gemini Code Assist** review complete cleanly on the Release PR.
-3. Merge the Release PR into `main` to deploy to [pantrybot.dev](https://pantrybot.dev).
+   * [ ] Verify **CI Quality Gate (`Typecheck, Lint & Build`)** and **Vercel Preview** succeed.
+   * [ ] Run **Gemini Code Assist** review (`/gemini review` if needed), fix any `high`/`medium` findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
+3. **Merge to `main` & Sync `develop`**
+   * [ ] Merge the Release PR into `main` (triggering the production deployment to [pantrybot.dev](https://pantrybot.dev)).
+   * [ ] Pull `main` and fast-forward `develop` if any merge/hotfix commits landed on `main`:
+```bash
+git checkout main && git pull origin main
+git checkout develop && git pull origin develop
+git merge --ff-only main && git push origin develop
+```
+4. **Publish the GitHub Release & Close Milestone**
+   * [ ] Create and publish the official GitHub Release & tag on `main`:
+```bash
+gh release create vX.Y.Z --target main --title "vX.Y.Z — <Milestone Title>" --notes-file docs/releases/vX.Y.Z.md
+git fetch --tags
+```
+   * [ ] Verify all milestone issues are closed and close the GitHub Milestone:
+```bash
+gh api repos/{owner}/{repo}/milestones/<milestone-number> -X PATCH -f state="closed"
+```
 
 ---
 
