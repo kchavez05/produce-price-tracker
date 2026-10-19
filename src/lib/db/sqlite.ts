@@ -4,13 +4,21 @@ import { DatabaseSync } from 'node:sqlite';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { MEAD_WEEKLY_STORE_OFFERS } from '@/data/mead-baseline-offers';
 import {
+  AuthProviderType,
   CommodityCategory,
+  CookingVesselArchetype,
+  DietaryConstraint,
   FreezerItem,
+  MacroGoal,
   PriceHistoryPoint,
+  RecommendedDish,
   StoreChain,
   StoreOffer,
   SyncRunLogEntry,
+  UserPreferences,
+  UserProfile,
 } from '@/types/domain';
+import { ALL_STORE_CHAINS } from '@/data/store-registry';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE_PATH = path.join(DATA_DIR, 'mead-price-history.sqlite');
@@ -47,6 +55,8 @@ function getDb(): DatabaseSync {
 
 function initSchemaAndSeed(db: DatabaseSync) {
   db.exec(`
+    PRAGMA foreign_keys = ON;
+
     CREATE TABLE IF NOT EXISTS canonical_ingredients (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
@@ -129,6 +139,57 @@ function initSchemaAndSeed(db: DatabaseSync) {
       store_banner TEXT NOT NULL,
       purchased_at_iso TEXT NOT NULL,
       notes TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS user_accounts (
+      id TEXT PRIMARY KEY,
+      email TEXT NOT NULL,
+      display_name TEXT NOT NULL,
+      avatar_url TEXT,
+      provider TEXT NOT NULL,
+      created_at_iso TEXT NOT NULL,
+      updated_at_iso TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS user_preferences (
+      user_id TEXT PRIMARY KEY REFERENCES user_accounts(id) ON DELETE CASCADE,
+      default_zip TEXT NOT NULL,
+      favorite_store_ids_json TEXT NOT NULL,
+      macro_goal TEXT NOT NULL,
+      dietary_constraints_json TEXT NOT NULL,
+      vessel_archetype TEXT NOT NULL,
+      target_servings INTEGER NOT NULL,
+      pinned_ingredient_ids_json TEXT NOT NULL,
+      on_hand_ingredient_ids_json TEXT NOT NULL,
+      updated_at_iso TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS user_freezer_items (
+      id TEXT NOT NULL,
+      user_id TEXT NOT NULL REFERENCES user_accounts(id) ON DELETE CASCADE,
+      canonical_ingredient_id TEXT NOT NULL,
+      ingredient_name TEXT NOT NULL,
+      category TEXT NOT NULL,
+      quantity_lb_or_doz REAL NOT NULL,
+      unit TEXT NOT NULL,
+      purchase_price_per_unit REAL NOT NULL,
+      regular_price_per_unit REAL NOT NULL,
+      total_cost_basis REAL NOT NULL,
+      estimated_savings REAL NOT NULL,
+      store TEXT NOT NULL,
+      store_banner TEXT NOT NULL,
+      purchased_at_iso TEXT NOT NULL,
+      notes TEXT,
+      updated_at_iso TEXT NOT NULL,
+      PRIMARY KEY (user_id, id)
+    );
+
+    CREATE TABLE IF NOT EXISTS user_saved_recipes (
+      id TEXT NOT NULL,
+      user_id TEXT NOT NULL REFERENCES user_accounts(id) ON DELETE CASCADE,
+      dish_json TEXT NOT NULL,
+      updated_at_iso TEXT NOT NULL,
+      PRIMARY KEY (user_id, id)
     );
   `);
 
@@ -757,3 +818,378 @@ export function getRecentSyncRunsFromSqlite(limit = 6): SyncRunLogEntry[] {
     createdAt: r.created_at,
   }));
 }
+
+// =========================================================
+// Milestone v1.3 Multi-Tenant User Account & Sync Functions
+// =========================================================
+
+export function getDefaultUserPreferences(userId: string): UserPreferences {
+  return {
+    userId,
+    defaultZip: '80542',
+    favoriteStoreIds: [...ALL_STORE_CHAINS],
+    macroGoal: 'ANY',
+    dietaryConstraints: [],
+    vesselArchetype: 'ANY',
+    targetServings: 6,
+    pinnedIngredientIds: [],
+    onHandIngredientIds: [],
+    updatedAtIso: new Date().toISOString(),
+  };
+}
+
+export function upsertUserProfileToSqlite(profile: UserProfile): UserProfile {
+  const db = getDb();
+  const now = new Date().toISOString();
+  const existing = db
+    .prepare(
+      `SELECT id, created_at_iso FROM user_accounts WHERE id = ?`
+    )
+    .get(profile.id) as { id: string; created_at_iso: string } | undefined;
+
+  const createdAtIso = existing?.created_at_iso || profile.createdAtIso || now;
+  const updatedAtIso = now;
+
+  db.prepare(`
+    INSERT OR REPLACE INTO user_accounts
+      (id, email, display_name, avatar_url, provider, created_at_iso, updated_at_iso)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    profile.id,
+    profile.email,
+    profile.displayName,
+    profile.avatarUrl || null,
+    profile.provider,
+    createdAtIso,
+    updatedAtIso
+  );
+
+  // Ensure default preferences row exists
+  const existingPrefs = db
+    .prepare(`SELECT user_id FROM user_preferences WHERE user_id = ?`)
+    .get(profile.id) as { user_id: string } | undefined;
+
+  if (!existingPrefs) {
+    const def = getDefaultUserPreferences(profile.id);
+    upsertUserPreferencesToSqlite(def);
+  }
+
+  return {
+    ...profile,
+    createdAtIso,
+    updatedAtIso,
+  };
+}
+
+export function getUserProfileFromSqlite(userId: string): UserProfile | null {
+  const db = getDb();
+  const row = db
+    .prepare(
+      `SELECT id, email, display_name, avatar_url, provider, created_at_iso, updated_at_iso
+       FROM user_accounts
+       WHERE id = ?`
+    )
+    .get(userId) as
+    | {
+        id: string;
+        email: string;
+        display_name: string;
+        avatar_url: string | null;
+        provider: string;
+        created_at_iso: string;
+        updated_at_iso: string;
+      }
+    | undefined;
+
+  if (!row) return null;
+
+  return {
+    id: row.id,
+    email: row.email,
+    displayName: row.display_name,
+    avatarUrl: row.avatar_url || undefined,
+    provider: (row.provider === 'apple' ? 'apple' : 'google') as AuthProviderType,
+    createdAtIso: row.created_at_iso,
+    updatedAtIso: row.updated_at_iso,
+    isCloudBacked: false,
+  };
+}
+
+export function getUserPreferencesFromSqlite(userId: string): UserPreferences {
+  const db = getDb();
+  const row = db
+    .prepare(
+      `SELECT user_id, default_zip, favorite_store_ids_json, macro_goal,
+              dietary_constraints_json, vessel_archetype, target_servings,
+              pinned_ingredient_ids_json, on_hand_ingredient_ids_json, updated_at_iso
+       FROM user_preferences
+       WHERE user_id = ?`
+    )
+    .get(userId) as
+    | {
+        user_id: string;
+        default_zip: string;
+        favorite_store_ids_json: string;
+        macro_goal: string;
+        dietary_constraints_json: string;
+        vessel_archetype: string;
+        target_servings: number;
+        pinned_ingredient_ids_json: string;
+        on_hand_ingredient_ids_json: string;
+        updated_at_iso: string;
+      }
+    | undefined;
+
+  if (!row) {
+    return getDefaultUserPreferences(userId);
+  }
+
+  let favoriteStoreIds: StoreChain[] = [...ALL_STORE_CHAINS];
+  let dietaryConstraints: DietaryConstraint[] = [];
+  let pinnedIngredientIds: string[] = [];
+  let onHandIngredientIds: string[] = [];
+
+  try {
+    const parsedStores = JSON.parse(row.favorite_store_ids_json);
+    if (Array.isArray(parsedStores) && parsedStores.length > 0) {
+      favoriteStoreIds = parsedStores as StoreChain[];
+    }
+  } catch {
+    // Fallback
+  }
+
+  try {
+    const parsedDiet = JSON.parse(row.dietary_constraints_json);
+    if (Array.isArray(parsedDiet)) {
+      dietaryConstraints = parsedDiet as DietaryConstraint[];
+    }
+  } catch {
+    // Fallback
+  }
+
+  try {
+    const parsedPinned = JSON.parse(row.pinned_ingredient_ids_json);
+    if (Array.isArray(parsedPinned)) {
+      pinnedIngredientIds = parsedPinned as string[];
+    }
+  } catch {
+    // Fallback
+  }
+
+  try {
+    const parsedOnHand = JSON.parse(row.on_hand_ingredient_ids_json);
+    if (Array.isArray(parsedOnHand)) {
+      onHandIngredientIds = parsedOnHand as string[];
+    }
+  } catch {
+    // Fallback
+  }
+
+  const servings =
+    row.target_servings === 4 || row.target_servings === 8 ? row.target_servings : 6;
+
+  return {
+    userId: row.user_id,
+    defaultZip: row.default_zip || '80542',
+    favoriteStoreIds,
+    macroGoal: (row.macro_goal || 'ANY') as MacroGoal,
+    dietaryConstraints,
+    vesselArchetype: (row.vessel_archetype || 'ANY') as CookingVesselArchetype,
+    targetServings: servings,
+    pinnedIngredientIds,
+    onHandIngredientIds,
+    updatedAtIso: row.updated_at_iso,
+  };
+}
+
+export function upsertUserPreferencesToSqlite(prefs: UserPreferences): UserPreferences {
+  const db = getDb();
+  const updatedAtIso = new Date().toISOString();
+  const nextPrefs: UserPreferences = {
+    ...prefs,
+    updatedAtIso,
+  };
+
+  db.prepare(`
+    INSERT OR REPLACE INTO user_preferences
+      (user_id, default_zip, favorite_store_ids_json, macro_goal,
+       dietary_constraints_json, vessel_archetype, target_servings,
+       pinned_ingredient_ids_json, on_hand_ingredient_ids_json, updated_at_iso)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    nextPrefs.userId,
+    nextPrefs.defaultZip || '80542',
+    JSON.stringify(nextPrefs.favoriteStoreIds || ALL_STORE_CHAINS),
+    nextPrefs.macroGoal || 'ANY',
+    JSON.stringify(nextPrefs.dietaryConstraints || []),
+    nextPrefs.vesselArchetype || 'ANY',
+    nextPrefs.targetServings || 6,
+    JSON.stringify(nextPrefs.pinnedIngredientIds || []),
+    JSON.stringify(nextPrefs.onHandIngredientIds || []),
+    updatedAtIso
+  );
+
+  return nextPrefs;
+}
+
+export function getUserFreezerItemsFromSqlite(userId: string): FreezerItem[] {
+  const db = getDb();
+  const rows = db
+    .prepare(
+      `SELECT id, canonical_ingredient_id, ingredient_name, category,
+              quantity_lb_or_doz, unit, purchase_price_per_unit, regular_price_per_unit,
+              total_cost_basis, estimated_savings, store, store_banner, purchased_at_iso, notes
+       FROM user_freezer_items
+       WHERE user_id = ?
+       ORDER BY purchased_at_iso DESC`
+    )
+    .all(userId) as {
+    id: string;
+    canonical_ingredient_id: string;
+    ingredient_name: string;
+    category: string;
+    quantity_lb_or_doz: number;
+    unit: string;
+    purchase_price_per_unit: number;
+    regular_price_per_unit: number;
+    total_cost_basis: number;
+    estimated_savings: number;
+    store: string;
+    store_banner: string;
+    purchased_at_iso: string;
+    notes: string | null;
+  }[];
+
+  return rows.map((r) => ({
+    id: r.id,
+    canonicalIngredientId: r.canonical_ingredient_id,
+    ingredientName: r.ingredient_name,
+    category: r.category as CommodityCategory,
+    quantityLbOrDoz: r.quantity_lb_or_doz,
+    unit: (r.unit === 'doz' ? 'doz' : 'lb') as 'lb' | 'doz',
+    purchasePricePerUnit: r.purchase_price_per_unit,
+    regularPricePerUnit: r.regular_price_per_unit,
+    totalCostBasis: r.total_cost_basis,
+    estimatedSavings: r.estimated_savings,
+    store: r.store as StoreChain,
+    storeBanner: r.store_banner,
+    purchasedAtIso: r.purchased_at_iso,
+    notes: r.notes || undefined,
+  }));
+}
+
+export function replaceUserFreezerItemsInSqlite(
+  userId: string,
+  items: FreezerItem[]
+): FreezerItem[] {
+  const db = getDb();
+  const now = new Date().toISOString();
+
+  db.exec('BEGIN TRANSACTION');
+  try {
+    db.prepare(`DELETE FROM user_freezer_items WHERE user_id = ?`).run(userId);
+
+    const insertStmt = db.prepare(`
+      INSERT OR REPLACE INTO user_freezer_items
+        (id, user_id, canonical_ingredient_id, ingredient_name, category,
+         quantity_lb_or_doz, unit, purchase_price_per_unit, regular_price_per_unit,
+         total_cost_basis, estimated_savings, store, store_banner,
+         purchased_at_iso, notes, updated_at_iso)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    let idx = 0;
+    for (const item of items) {
+      if (item.quantityLbOrDoz <= 0) continue;
+      idx++;
+      insertStmt.run(
+        item.id || `frz-${item.canonicalIngredientId}-${Date.now()}-${idx}`,
+        userId,
+        item.canonicalIngredientId,
+        item.ingredientName,
+        item.category,
+        item.quantityLbOrDoz,
+        item.unit === 'doz' ? 'doz' : 'lb',
+        item.purchasePricePerUnit,
+        item.regularPricePerUnit,
+        item.totalCostBasis,
+        item.estimatedSavings,
+        item.store,
+        item.storeBanner,
+        item.purchasedAtIso || now,
+        item.notes || null,
+        now
+      );
+    }
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
+
+  return getUserFreezerItemsFromSqlite(userId);
+}
+
+export function getUserSavedRecipesFromSqlite(userId: string): RecommendedDish[] {
+  const db = getDb();
+  const rows = db
+    .prepare(
+      `SELECT dish_json FROM user_saved_recipes WHERE user_id = ? ORDER BY updated_at_iso DESC`
+    )
+    .all(userId) as { dish_json: string }[];
+
+  const results: RecommendedDish[] = [];
+  for (const row of rows) {
+    try {
+      results.push(JSON.parse(row.dish_json) as RecommendedDish);
+    } catch {
+      // Ignore malformed JSON
+    }
+  }
+  return results;
+}
+
+export function replaceUserSavedRecipesInSqlite(
+  userId: string,
+  dishes: RecommendedDish[]
+): RecommendedDish[] {
+  const db = getDb();
+  const now = new Date().toISOString();
+
+  db.exec('BEGIN TRANSACTION');
+  try {
+    db.prepare(`DELETE FROM user_saved_recipes WHERE user_id = ?`).run(userId);
+
+    const stmt = db.prepare(`
+      INSERT OR REPLACE INTO user_saved_recipes (id, user_id, dish_json, updated_at_iso)
+      VALUES (?, ?, ?, ?)
+    `);
+
+    for (const dish of dishes) {
+      if (!dish.id) continue;
+      stmt.run(dish.id, userId, JSON.stringify({ ...dish, savedInLibrary: true }), now);
+    }
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
+
+  return getUserSavedRecipesFromSqlite(userId);
+}
+
+export function deleteUserAccountFromSqlite(userId: string): void {
+  const db = getDb();
+  db.exec('BEGIN TRANSACTION');
+  try {
+    db.prepare(`DELETE FROM user_saved_recipes WHERE user_id = ?`).run(userId);
+    db.prepare(`DELETE FROM user_freezer_items WHERE user_id = ?`).run(userId);
+    db.prepare(`DELETE FROM user_preferences WHERE user_id = ?`).run(userId);
+    db.prepare(`DELETE FROM user_accounts WHERE id = ?`).run(userId);
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
+}
+

@@ -13,7 +13,7 @@ flowchart TD
         P2["✅ v1.0 Production Launch\npantrybot.dev + Nationwide ZIP + Cron Digest"]
         P3["✅ v1.1 Multi-Vendor Ecosystem\n6 Supermarkets + Universal Basket Optimizer"]
         P4["✅ v1.2 Smart Kitchen & Cart Bridge\nVirtual Freezer, Macros, Club Benchmarks & Cart Export"]
-        P5["⏳ v1.3 User Accounts & Cloud Sync\nSupabase SSO, Postgres RLS & Legal Footer"]
+        P5["✅ v1.3 User Accounts & Cloud Sync\nSupabase SSO, Postgres RLS & Legal Footer"]
         P1 --> P2 --> P3 --> P4 --> P5
     end
 
