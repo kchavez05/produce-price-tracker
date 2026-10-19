@@ -5,6 +5,41 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-10-19
+
+### 🌐 Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console
+
+This release aligns the PantryBot backend with the **OpenAPI 3.1.0** specification standard, introduces an embedded interactive **Swagger UI** testing and documentation console at `/docs`, and publishes typed API schemas for all 8 backend API route domains.
+
+### Added
+- **OpenAPI 3.1.0 Specification (`src/lib/openapi/spec.ts` & `/api/openapi.json`):**
+  - Full OpenAPI 3.1.0 specification documenting all 8 core REST route domains:
+    - `GET /api/dashboard`: Live commodity value leaderboard, 3-dish meal-prep trios, and 6-week cycle signals.
+    - `GET /api/locations`: Supported supermarket chains, local banners, and store features.
+    - `GET, POST, PATCH, DELETE /api/freezer`: Virtual Freezer inventory management and multi-week protein arbitrage.
+    - `GET, POST, DELETE /api/saved-recipes`: Saved recipe library and blueprint management.
+    - `POST /api/ai-meal-plan`: Gemini 2.5 Flash batch-prep trio generator with Zero-Key Offline Resilience fallback.
+    - `GET, POST /api/sync`: Bidirectional cloud sync with PostgreSQL RLS / SQLite local store.
+    - `GET, POST, DELETE /api/account`: Local & SSO sessions, JSON data export archive, and GDPR/CCPA purge.
+    - `GET, POST /api/cron/weekly-sync`: Ingestion pipeline cron, Friday Weekend Digest, and Smart Push payloads.
+  - Complete component schemas for all domain types (`DashboardPayload`, `FreezerItem`, `RecommendedDish`, `StoreOffer`, `ScoredCommodity`, `UserProfile`, `UserPreferences`, `WeeklySyncCronResult`, `UserDataExportArchive`, etc.).
+  - Security schemes for session cookies (`pantrybot_local_session`) and cron verification (`x-vercel-cron`).
+- **Interactive Swagger UI Console (`src/components/SwaggerUIConsole.tsx` & `/docs`):**
+  - Embedded client console powered by `swagger-ui-dist` with zero initial hydration penalty via dynamic import.
+  - Custom emerald/slate theme styling matching PantryBot aesthetic.
+  - Quick-filter tag pills for rapid endpoint filtering (*Dashboard & Deals*, *Virtual Freezer*, *Saved Recipes*, *AI Meal Planner*, *Cloud Sync*, *Account*, *Cron*).
+  - 1-click OpenAPI Spec URL copy and direct link to raw JSON.
+  - Added redirect from `/api-docs` and `/swagger` to `/docs`.
+- **Tooling, Navigation & Static Fallbacks:**
+  - Added `npm run openapi:export` script to re-export schemas to `docs/openapi.json` and `public/openapi.json`.
+  - Added direct "API Docs" link in `src/components/AppFooter.tsx`.
+  - Added wiki guide `docs/wiki/OpenAPI-and-Swagger-Documentation.md` and updated `README.md` and `docs/wiki/Home.md`.
+- **Automated Test Coverage:**
+  - `tests/unit/backend/openapi-spec.test.ts`: 7 unit tests validating spec structure, paths, methods, responses, schemas, and disk file sync.
+  - `tests/smoke/backend/openapi-smoke.test.ts`: 2 smoke tests validating `/api/openapi.json` HTTP GET and OPTIONS responses.
+
+---
+
 ## [1.3.1] - 2026-10-19
 
 ### 🧪 3-Tier CI Test Automation & Branch Quality Gates
