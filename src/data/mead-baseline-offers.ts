@@ -1,4 +1,5 @@
 import { StoreOffer } from '@/types/domain';
+import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 
 /**
  * Curated Mead, CO (80542 - Firestone / Longmont King Soopers & Safeway)
@@ -1226,8 +1227,6 @@ export const MEAD_WEEKLY_STORE_OFFERS: StoreOffer[] = [
  * ingredients so every store has full side-by-side coverage in fallback/offline mode.
  */
 function generateMultiVendorBaselines(): StoreOffer[] {
-  // Dynamic import of canonical ingredients to prevent circular dependencies
-  const { CANONICAL_INGREDIENTS } = require('@/data/canonical-ingredients');
   const offers: StoreOffer[] = [];
 
   for (const ing of CANONICAL_INGREDIENTS) {

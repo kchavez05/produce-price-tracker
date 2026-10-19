@@ -3,7 +3,14 @@ import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { MEAD_WEEKLY_STORE_OFFERS } from '@/data/mead-baseline-offers';
-import { PriceHistoryPoint, StoreOffer, SyncRunLogEntry } from '@/types/domain';
+import {
+  CommodityCategory,
+  FreezerItem,
+  PriceHistoryPoint,
+  StoreChain,
+  StoreOffer,
+  SyncRunLogEntry,
+} from '@/types/domain';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE_PATH = path.join(DATA_DIR, 'mead-price-history.sqlite');
@@ -106,9 +113,26 @@ function initSchemaAndSeed(db: DatabaseSync) {
       optimal_basket_total REAL NOT NULL,
       created_at TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS freezer_inventory (
+      id TEXT PRIMARY KEY,
+      canonical_ingredient_id TEXT NOT NULL,
+      ingredient_name TEXT NOT NULL,
+      category TEXT NOT NULL,
+      quantity_lb_or_doz REAL NOT NULL,
+      unit TEXT NOT NULL,
+      purchase_price_per_unit REAL NOT NULL,
+      regular_price_per_unit REAL NOT NULL,
+      total_cost_basis REAL NOT NULL,
+      estimated_savings REAL NOT NULL,
+      store TEXT NOT NULL,
+      store_banner TEXT NOT NULL,
+      purchased_at_iso TEXT NOT NULL,
+      notes TEXT
+    );
   `);
 
-  // Check if already seeded
+  // Check if weekly_offers already seeded
   const countRow = db
     .prepare('SELECT COUNT(*) as cnt FROM weekly_offers')
     .get() as { cnt: number } | undefined;
@@ -290,12 +314,15 @@ export function persistLiveOffersToSqlite(
 }
 
 /**
- * Queries SQLite for the 6-week price history series of a canonical ingredient.
+ * Queries SQLite for the 6-week price history series of a canonical ingredient,
+ * including min (low), max (high), median, and mean (Ticket #24).
  */
 export function getIngredientHistoryFromSqlite(ingredientId: string): {
   priceHistory: PriceHistoryPoint[];
   sixWeekLocalAvg: number;
   sixWeekLow: number;
+  sixWeekHigh: number;
+  sixWeekMedian: number;
 } {
   const db = getDb();
 
@@ -376,11 +403,25 @@ export function getIngredientHistoryFromSqlite(ingredientId: string): {
       : 0;
   const sixWeekLow =
     bestPrices.length > 0 ? Number(Math.min(...bestPrices).toFixed(2)) : 0;
+  const sixWeekHigh =
+    bestPrices.length > 0 ? Number(Math.max(...bestPrices).toFixed(2)) : 0;
+
+  let sixWeekMedian = sixWeekLocalAvg;
+  if (bestPrices.length > 0) {
+    const sorted = [...bestPrices].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    sixWeekMedian =
+      sorted.length % 2 === 0
+        ? Number(((sorted[mid - 1] + sorted[mid]) / 2).toFixed(2))
+        : Number(sorted[mid].toFixed(2));
+  }
 
   return {
     priceHistory,
     sixWeekLocalAvg,
     sixWeekLow,
+    sixWeekHigh,
+    sixWeekMedian,
   };
 }
 
@@ -446,7 +487,200 @@ export function deleteSavedRecipeFromSqlite(id: string): void {
   stmt.run(id);
 }
 
-export function recordSyncRunToSqlite(entry: Omit<SyncRunLogEntry, 'id' | 'createdAt'>): SyncRunLogEntry {
+// =========================================================
+// Virtual Freezer SQLite Persistence (v1.2 Ticket #21)
+// =========================================================
+
+export function getFreezerItemsFromSqlite(): FreezerItem[] {
+  const db = getDb();
+  const rows = db
+    .prepare(
+      `SELECT id, canonical_ingredient_id, ingredient_name, category,
+              quantity_lb_or_doz, unit, purchase_price_per_unit, regular_price_per_unit,
+              total_cost_basis, estimated_savings, store, store_banner, purchased_at_iso, notes
+       FROM freezer_inventory
+       ORDER BY purchased_at_iso DESC`
+    )
+    .all() as {
+    id: string;
+    canonical_ingredient_id: string;
+    ingredient_name: string;
+    category: string;
+    quantity_lb_or_doz: number;
+    unit: string;
+    purchase_price_per_unit: number;
+    regular_price_per_unit: number;
+    total_cost_basis: number;
+    estimated_savings: number;
+    store: string;
+    store_banner: string;
+    purchased_at_iso: string;
+    notes: string | null;
+  }[];
+
+  return rows.map((r) => ({
+    id: r.id,
+    canonicalIngredientId: r.canonical_ingredient_id,
+    ingredientName: r.ingredient_name,
+    category: r.category as CommodityCategory,
+    quantityLbOrDoz: r.quantity_lb_or_doz,
+    unit: (r.unit === 'doz' ? 'doz' : 'lb') as 'lb' | 'doz',
+    purchasePricePerUnit: r.purchase_price_per_unit,
+    regularPricePerUnit: r.regular_price_per_unit,
+    totalCostBasis: r.total_cost_basis,
+    estimatedSavings: r.estimated_savings,
+    store: r.store as StoreChain,
+    storeBanner: r.store_banner,
+    purchasedAtIso: r.purchased_at_iso,
+    notes: r.notes || undefined,
+  }));
+}
+
+export function upsertFreezerItemToSqlite(item: FreezerItem): FreezerItem {
+  const db = getDb();
+  const existing = db
+    .prepare(
+      `SELECT id, quantity_lb_or_doz, purchase_price_per_unit, regular_price_per_unit
+       FROM freezer_inventory
+       WHERE canonical_ingredient_id = ?`
+    )
+    .get(item.canonicalIngredientId) as
+    | {
+        id: string;
+        quantity_lb_or_doz: number;
+        purchase_price_per_unit: number;
+        regular_price_per_unit: number;
+      }
+    | undefined;
+
+  const finalId = existing?.id || item.id || `frz-${item.canonicalIngredientId}-${Date.now()}`;
+  const finalQty = existing
+    ? Number((existing.quantity_lb_or_doz + item.quantityLbOrDoz).toFixed(2))
+    : Number(item.quantityLbOrDoz.toFixed(2));
+  const unitPrice = item.purchasePricePerUnit;
+  const regPrice = item.regularPricePerUnit;
+  const totalCostBasis = Number((finalQty * unitPrice).toFixed(2));
+  const estimatedSavings = Number(
+    Math.max(0, finalQty * (regPrice - unitPrice)).toFixed(2)
+  );
+
+  const stmt = db.prepare(`
+    INSERT OR REPLACE INTO freezer_inventory
+      (id, canonical_ingredient_id, ingredient_name, category, quantity_lb_or_doz, unit,
+       purchase_price_per_unit, regular_price_per_unit, total_cost_basis, estimated_savings,
+       store, store_banner, purchased_at_iso, notes)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  const saved: FreezerItem = {
+    ...item,
+    id: finalId,
+    quantityLbOrDoz: finalQty,
+    totalCostBasis,
+    estimatedSavings,
+  };
+
+  stmt.run(
+    saved.id,
+    saved.canonicalIngredientId,
+    saved.ingredientName,
+    saved.category,
+    saved.quantityLbOrDoz,
+    saved.unit,
+    saved.purchasePricePerUnit,
+    saved.regularPricePerUnit,
+    saved.totalCostBasis,
+    saved.estimatedSavings,
+    saved.store,
+    saved.storeBanner,
+    saved.purchasedAtIso,
+    saved.notes || null
+  );
+
+  return saved;
+}
+
+export function updateFreezerItemQuantityInSqlite(
+  id: string,
+  quantityLbOrDoz: number
+): FreezerItem | null {
+  const db = getDb();
+  if (quantityLbOrDoz <= 0) {
+    deleteFreezerItemFromSqlite(id);
+    return null;
+  }
+
+  const existing = db
+    .prepare(
+      `SELECT id, canonical_ingredient_id, ingredient_name, category,
+              quantity_lb_or_doz, unit, purchase_price_per_unit, regular_price_per_unit,
+              store, store_banner, purchased_at_iso, notes
+       FROM freezer_inventory
+       WHERE id = ?`
+    )
+    .get(id) as
+    | {
+        id: string;
+        canonical_ingredient_id: string;
+        ingredient_name: string;
+        category: string;
+        quantity_lb_or_doz: number;
+        unit: string;
+        purchase_price_per_unit: number;
+        regular_price_per_unit: number;
+        store: string;
+        store_banner: string;
+        purchased_at_iso: string;
+        notes: string | null;
+      }
+    | undefined;
+
+  if (!existing) return null;
+
+  const qty = Number(quantityLbOrDoz.toFixed(2));
+  const totalCostBasis = Number((qty * existing.purchase_price_per_unit).toFixed(2));
+  const estimatedSavings = Number(
+    Math.max(
+      0,
+      qty * (existing.regular_price_per_unit - existing.purchase_price_per_unit)
+    ).toFixed(2)
+  );
+
+  db.prepare(
+    `UPDATE freezer_inventory
+     SET quantity_lb_or_doz = ?, total_cost_basis = ?, estimated_savings = ?
+     WHERE id = ?`
+  ).run(qty, totalCostBasis, estimatedSavings, id);
+
+  return {
+    id: existing.id,
+    canonicalIngredientId: existing.canonical_ingredient_id,
+    ingredientName: existing.ingredient_name,
+    category: existing.category as CommodityCategory,
+    quantityLbOrDoz: qty,
+    unit: (existing.unit === 'doz' ? 'doz' : 'lb') as 'lb' | 'doz',
+    purchasePricePerUnit: existing.purchase_price_per_unit,
+    regularPricePerUnit: existing.regular_price_per_unit,
+    totalCostBasis,
+    estimatedSavings,
+    store: existing.store as StoreChain,
+    storeBanner: existing.store_banner,
+    purchasedAtIso: existing.purchased_at_iso,
+    notes: existing.notes || undefined,
+  };
+}
+
+export function deleteFreezerItemFromSqlite(id: string): void {
+  const db = getDb();
+  db.prepare('DELETE FROM freezer_inventory WHERE id = ? OR canonical_ingredient_id = ?').run(
+    id,
+    id
+  );
+}
+
+export function recordSyncRunToSqlite(
+  entry: Omit<SyncRunLogEntry, 'id' | 'createdAt'>
+): SyncRunLogEntry {
   const db = getDb();
   const id = `sync-${Date.now()}`;
   const createdAt = new Date().toISOString();
@@ -506,5 +740,3 @@ export function getRecentSyncRunsFromSqlite(limit = 6): SyncRunLogEntry[] {
     createdAt: r.created_at,
   }));
 }
-
-

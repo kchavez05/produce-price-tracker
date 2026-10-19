@@ -5,6 +5,38 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-10-19
+
+### ❄️ Smart Kitchen, Virtual Freezer & Cart Bridge
+
+This release elevates PantryBot from a weekly single-trip grocery planner into a multi-week kitchen inventory and checkout bridge. Shoppers can now bank deep cycle lows into a persistent **Virtual Freezer** (`"Buy 2: Prep 1, Freeze 1"`), customize **Macro & Dietary Profiles** with automatic ingredient slot adaptation, benchmark supermarket ads against **Costco & Sam's Club** bulk baselines, track **6-Week Cycle Floor vs. Peak Signals**, and bridge their aggregated list directly into **Walmart, Target, Kroger, Safeway, Sprouts, or Instacart** carts.
+
+### Added
+- **Persistent Virtual Freezer & Multi-Week Arbitrage Engine (Ticket #21 / #513):**
+  - `"❄️ Buy 2: Prep 1, Freeze 1"` one-tap arbitrage prompts on deep cycle lows (`>38%` discount, `💎 Splurge` alerts, and 6-week floor deals).
+  - Persistent SQLite `freezer_inventory` table (`/api/freezer` `GET`/`POST`/`PATCH`/`DELETE`) synced with browser `localStorage`.
+  - Interactive Virtual Freezer header drawer displaying banked lbs, cost basis, estimated savings, `+/- 0.5 lb` consumption controls, thaw/remove actions, and a quick-add form.
+  - Zero-cost recipe substitution: Any ingredient stocked in the Virtual Freezer automatically drops out-of-pocket recipe cost to `$0.00` and badges matching recipes with `"❄️ Powered by Virtual Freezer ($0 Stock)"`.
+- **Dietary Preferences, Macro Targets & Cooking Style Archetypes (Ticket #22 / #514):**
+  - Interactive Nutrition & Cooking Vessel personalization bar in the 3-Dish Meal-Prep Planner.
+  - **Macro Goal Profiles:** `All Macros`, `💪 High-Protein (40g+/serving)`, `🥑 Low-Carb / Keto`, `🔥 Calorie-Conscious (<460 kcal)`, and `🍲 Balanced Family`.
+  - **Dietary Rules with Dynamic Slot Adaptation:** `🌾 Gluten-Free`, `🥛 Dairy-Free` (automatically omits dairy slots), `🥜 Nut-Free`, and `🐟 Pescatarian` — plus automatic carb-to-cauliflower/cabbage/green-bean swaps when `Low-Carb / Keto` is active.
+  - **Cooking Vessel Archetypes:** `⚡ Slow Cooker / Instant Pot`, `🔥 Sheet-Pan / 9x13 Casserole`, `🍲 Dutch Oven Braise`, and `🍳 Big-Batch Skillet`.
+  - Expanded curated recipe blueprint library to 12 batch-cooking templates and wired full dietary/macro/appliance constraints into `/api/ai-meal-plan` (Gemini 2.5 Flash).
+- **1-Tap Curbside Cart Bridge & Multi-Store Export (Ticket #23 / #515):**
+  - Dedicated Curbside Pickup & Cart Bridge bar (`src/lib/cart-exporter.ts`) generating store-specific search deep links for Walmart Grocery, Target Drive Up, localized Kroger banners, localized Albertsons/Safeway banners, Sprouts, ALDI, and Instacart.
+  - Per-item `"Add"` cart deep-link buttons on every row of the Aggregated Shopping List.
+  - 1-Tap `"Copy Checklist for Apple Notes / Keep"` formatting items by store and aisle category (`Produce`, `Meat & Seafood`, `Dairy & Eggs`, `Pantry & Dry Goods`) with native `- [ ]` checkboxes.
+  - High-contrast `"Print Kitchen Slip"` modal and `@media print` stylesheet for physical fridge/clipboards.
+- **"Stock Up vs. Wait" Predictive Cycle Low Signals (Ticket #24 / #516):**
+  - Multi-week historical min/max/median analytics in SQLite classifying every commodity into `🟢 Stock Up Alert (6-Wk Low)`, `🟡 Fair Sale Price`, or `🔴 Cycle Peak (Wait / Swap)`.
+  - Automated smart substitution callouts when an ingredient is near its 6-week price peak (e.g., suggesting a swap to an in-category protein or vegetable currently on a `>25%` promo).
+- **Wholesale Club Price Normalizer — Costco & Sam's Club (Ticket #25 / #517):**
+  - Reference bulk price dataset (`src/data/wholesale-club-benchmarks.ts`) covering all 29 canonical ingredients across Costco (Kirkland Signature) and Sam's Club (Member's Mark) normalized to `$/lb` and `$/doz`.
+  - Automatic `"🏆 Beats Costco/Sam's Bulk (-X%)"` vs. `"📦 Club Bulk Cheaper"` badges on every deal card and inside the expandable Wholesale Club Comparison Matrix.
+
+---
+
 ## [1.1.0] - 2026-10-16
 
 ### 🛒 Multi-Vendor Expansion & Universal Basket Optimizer
@@ -71,8 +103,3 @@ This milestone marks the official production launch of PantryBot as a full-featu
   - Automated weekly circular refresh and Friday Weekend Meal-Prep Digest cron configuration (`/api/cron/weekly-sync`).
   - Custom domain routing (`pantrybot.dev` and `www.pantrybot.dev`) hosted on Vercel.
 
----
-
-## [Unreleased]
-- Ongoing improvements and bugfixes tracked on branch `develop`.
-- See [ROADMAP.md](./ROADMAP.md) and [Long-Term Mobile Architecture](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md) for upcoming v1.1+ and native mobile milestones.

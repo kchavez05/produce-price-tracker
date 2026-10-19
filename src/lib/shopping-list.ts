@@ -1,6 +1,5 @@
 import {
   ALL_STORE_CHAINS,
-  getStoreDefinition,
   resolveStoreBanner,
 } from '@/data/store-registry';
 import {

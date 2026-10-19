@@ -1,8 +1,15 @@
-# PantryBot — Commodity & Meal Prep Value Tracker (80542)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.2.0`)
 
-A mobile-friendly Next.js web application (**PantryBot**) designed for weekend meal-prep planning in **Mead / Longmont / Firestone, Colorado (`80542`)**.
+A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, and **3-Dish Weekend Meal-Prep Planning**.
 
-It compares local **King Soopers** and **Safeway** weekly sales and digital coupons against **USDA Mountain Region retail & wholesale commodity signals** across **Meat/Poultry/Seafood, Fresh Produce, and Dairy/Eggs**, and recommends **3 low-effort, reheatable batch dishes (stews, braises, chilis, curries, and 9x13 casseroles)**.
+## Key Features (`v1.2.0`)
+
+* **6-Vendor Supermarket Ecosystem + Nationwide ZIP Support:** Compares weekly circular deals and digital loyalty coupons across **Kroger** (King Soopers, Ralphs, Fred Meyer, Fry's), **Albertsons** (Safeway, Vons, Jewel-Osco), **ALDI**, **Walmart**, **Target**, and **Sprouts Farmers Market** for any 5-digit US ZIP code.
+* **Persistent Virtual Freezer & Multi-Week Arbitrage (`"❄️ Buy 2: Prep 1, Freeze 1"`):** Detects deep 6-week cycle lows (`>38%` off / `💎 Splurge` alerts), banks extra roasts into a persistent SQLite + `localStorage` Virtual Freezer, and automatically substitutes banked proteins into future 3-Dish Meal-Prep plans at **`$0.00` out-of-pocket cost**.
+* **Dietary, Macro & Cooking Vessel Personalization:** Customize **Macro Goals** (`High-Protein 40g+`, `Low-Carb / Keto`, `Calorie-Conscious <460 kcal`, `Balanced`), **Dietary Rules** (`Gluten-Free`, `Dairy-Free`, `Nut-Free`, `Pescatarian`) with automatic ingredient slot adaptation, and **Cooking Vessels** (`Slow Cooker / Instant Pot`, `Sheet-Pan / 9x13`, `Dutch Oven`, `Skillet`).
+* **Wholesale Club Price Normalizer (Costco & Sam's Club):** Benchmarks supermarket unit prices (`$/lb`, `$/doz`) against **Costco (Kirkland Signature)** and **Sam's Club (Member's Mark)** bulk baselines (`🏆 Beats Costco/Sam's Bulk -X%`).
+* **"Stock Up vs. Wait" Predictive Cycle Signals:** Classifies every commodity into `🟢 Stock Up Alert (6-Wk Low)`, `🟡 Fair Sale Price`, or `🔴 Cycle Peak (Wait / Swap)` with automatic in-category smart substitution suggestions.
+* **1-Tap Curbside Cart Bridge & Checklist Export:** Deep links directly into **Walmart Grocery**, **Target Drive Up**, **Kroger**, **Safeway**, **Sprouts**, **ALDI**, and **Instacart** search, plus 1-tap **Apple Notes / Google Keep** aisle-grouped checklists and a printable kitchen slip.
 
 ## Quick Start
 
@@ -15,19 +22,24 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Optional API Keys (`.env.local`)
 
-The app works **100% out-of-the-box with zero API keys** using the Flipp `80542` circular feed, Mead weekly store dataset, USDA Mountain Region baselines, and the internal Stew/Casserole Algorithmic Matcher.
+The app works **100% out-of-the-box with zero API keys** using the Flipp circular feed, regional store datasets, USDA baselines, Wholesale Club benchmarks, and the deterministic 3-Dish Slot Matcher.
 
 To enable optional live integrations, copy `.env.example` to `.env.local`:
 
 * **`GEMINI_API_KEY`**: Free-tier key from [Google AI Studio](https://aistudio.google.com/apikey) (`gemini-2.5-flash`). You can also paste this directly in the **API Keys** button in the top navigation bar.
 * **`USDA_MARS_API_KEY`**: Free key from [USDA MyMarketNews](https://mymarketnews.ams.usda.gov/) for live report slugs `3324`, `3228`, `2868`, `2756`, and `2995`.
-* **`KROGER_CLIENT_ID` / `KROGER_CLIENT_SECRET`**: Free credentials from [Kroger Developer Portal](https://developer.kroger.com/) for unadvertised King Soopers shelf prices.
+* **`KROGER_CLIENT_ID` / `KROGER_CLIENT_SECRET`**: Free credentials from [Kroger Developer Portal](https://developer.kroger.com/) for unadvertised King Soopers/Kroger shelf prices.
 
-## Documentation, Wiki & Roadmap
+## Documentation, Wiki & Release Notes
 
-* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.0`) and planned feature tickets.
+* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.2`) and upcoming native mobile roadmap (`v1.5+`).
+* **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
+* **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](./docs/releases/v1.2.0.md)
+  * [v1.1.0 — Multi-Vendor Expansion & Universal Basket Optimizer](./docs/releases/v1.1.0.md)
+  * [v1.0.0 — Production Launch (`pantrybot.dev`)](./docs/releases/v1.0.0.md)
 * **[Wiki Home (`docs/wiki/Home.md`)](./docs/wiki/Home.md)**
   * [Architecture & Data Pipeline](./docs/wiki/Architecture-and-Data-Pipeline.md)
-  * [Scoring & 3-Dish Meal Prep Engine](./docs/wiki/Scoring-and-Meal-Prep-Engine.md)
+  * [Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine](./docs/wiki/Scoring-and-Meal-Prep-Engine.md)
   * [API Keys & Developer Setup Guide](./docs/wiki/API-Keys-and-Local-Setup.md)
-
+  * [North Star: Native iOS/Android & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)

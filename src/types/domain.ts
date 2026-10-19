@@ -26,6 +26,99 @@ export type DishStyle =
   | 'CASSEROLE_BAKE'
   | 'CURRY_SKILLET';
 
+// =========================================================
+// Milestone v1.2 Domain Types (Tickets #21 - #25)
+// =========================================================
+
+export type MacroGoal =
+  | 'ANY'
+  | 'HIGH_PROTEIN'      // 40g+ protein per serving
+  | 'LOW_CARB_KETO'     // <= 24g net carbs per serving (swaps potatoes/beans for low-carb veg)
+  | 'CALORIE_CONSCIOUS' // <= 460 kcal per serving
+  | 'BALANCED_FAMILY';  // Balanced protein, carbs, and comfort appeal
+
+export type DietaryConstraint =
+  | 'GLUTEN_FREE'
+  | 'DAIRY_FREE'
+  | 'NUT_FREE'
+  | 'VEGETARIAN_PESCATARIAN';
+
+export type CookingVesselArchetype =
+  | 'ANY'
+  | 'SLOW_COOKER_INSTANT_POT'
+  | 'DUTCH_OVEN_BRAISE'
+  | 'CASSEROLE_SHEET_PAN'
+  | 'BIG_BATCH_SKILLET';
+
+export type CycleSignalStatus =
+  | 'STOCK_UP_6WK_LOW'
+  | 'FAIR_SALE_PRICE'
+  | 'CYCLE_PEAK_WAIT';
+
+export interface CycleSignalMetadata {
+  status: CycleSignalStatus;
+  badgeLabel: string;
+  sixWeekLow: number;
+  sixWeekHigh: number;
+  sixWeekMedian: number;
+  pctVsSixWeekLow: number;
+  substitutionSuggestion?: {
+    substituteIngredientId: string;
+    substituteName: string;
+    substitutePrice: number;
+    substituteStore: StoreChain;
+    savingsPerUnit: number;
+    reason: string;
+  };
+}
+
+export interface WholesaleClubBenchmark {
+  canonicalIngredientId: string;
+  costcoPricePerUnit: number;
+  costcoPackDescription: string;
+  samsClubPricePerUnit: number;
+  samsClubPackDescription: string;
+}
+
+export interface WholesaleClubComparison {
+  costcoPricePerUnit: number;
+  costcoPackDescription: string;
+  samsClubPricePerUnit: number;
+  samsClubPackDescription: string;
+  bestClubName: 'Costco' | "Sam's Club";
+  bestClubPricePerUnit: number;
+  beatsClubBulk: boolean;
+  savingsVsClubPct: number;
+  savingsVsClubPerUnit: number;
+  verdictLabel: string;
+}
+
+export interface ArbitragePrompt {
+  eligible: boolean;
+  label: string; // e.g., "Buy 2: Prep 1, Freeze 1"
+  recommendedFreezeQty: number;
+  unit: 'lb' | 'doz';
+  freezeCostBasis: number;
+  futureWeekSavings: number;
+}
+
+export interface FreezerItem {
+  id: string;
+  canonicalIngredientId: string;
+  ingredientName: string;
+  category: CommodityCategory;
+  quantityLbOrDoz: number;
+  unit: 'lb' | 'doz';
+  purchasePricePerUnit: number;
+  regularPricePerUnit: number;
+  totalCostBasis: number;
+  estimatedSavings: number;
+  store: StoreChain;
+  storeBanner: string;
+  purchasedAtIso: string;
+  notes?: string;
+}
+
 export interface CanonicalIngredient {
   id: string;
   name: string;
@@ -118,6 +211,16 @@ export interface ScoredCommodity {
   sixWeekLocalAvg: number;
   /** Lowest price observed in SQLite over the last 6 weeks */
   sixWeekLow: number;
+  /** Highest price observed in SQLite over the last 6 weeks (v1.2 Ticket #24) */
+  sixWeekHigh?: number;
+  /** Median price observed in SQLite over the last 6 weeks (v1.2 Ticket #24) */
+  sixWeekMedian?: number;
+  /** Predictive 6-week cycle signal & smart substitution metadata (v1.2 Ticket #24) */
+  cycleSignal?: CycleSignalMetadata;
+  /** Wholesale Club (Costco & Sam's Club) bulk unit comparison (v1.2 Ticket #25) */
+  clubBenchmark?: WholesaleClubComparison;
+  /** Multi-week Virtual Freezer Arbitrage prompt ("Buy 2: Prep 1, Freeze 1") (v1.2 Ticket #21) */
+  arbitragePrompt?: ArbitragePrompt;
 }
 
 export interface NutritionMacros {
@@ -135,6 +238,10 @@ export interface BlueprintSlot {
   /** Quantity required in standard units (lbs or doz) for a 6-serving batch */
   quantityRequired: number;
   optional?: boolean;
+  /** Low-carb / Keto substitute ingredient IDs if LOW_CARB_KETO macro mode is selected */
+  lowCarbCandidateIds?: string[];
+  /** True if this slot contains dairy and should be omitted/swapped when DAIRY_FREE is active */
+  isDairySlot?: boolean;
 }
 
 export interface MealPrepBlueprint {
@@ -142,7 +249,8 @@ export interface MealPrepBlueprint {
   title: string;
   subtitle: string;
   style: DishStyle;
-  appliance: 'Slow Cooker' | 'Dutch Oven' | 'Instant Pot' | '9x13 Casserole Dish' | 'Deep Skillet';
+  appliance: 'Slow Cooker' | 'Dutch Oven' | 'Instant Pot' | '9x13 Casserole Dish' | 'Deep Skillet' | 'Sheet Pan';
+  vesselArchetype?: Exclude<CookingVesselArchetype, 'ANY'>;
   servings: number;
   prepTimeMinutes: number;
   cookTimeMinutes: number;
@@ -150,6 +258,10 @@ export interface MealPrepBlueprint {
   freezerFriendly: boolean;
   flavorProfile: string;
   macrosPerServing: NutritionMacros;
+  dietaryTags?: DietaryConstraint[];
+  glutenFreeAdaptable?: boolean;
+  dairyFreeAdaptable?: boolean;
+  lowCarbAdaptable?: boolean;
   slots: BlueprintSlot[];
   pantryStaples: string[];
   estimatedPantryCost: number;
@@ -173,6 +285,7 @@ export interface MatchedSlotIngredient {
   regularSlotCost: number;
   isUserPinned: boolean;
   isOnHand?: boolean;
+  fromVirtualFreezer?: boolean;
 }
 
 export interface RecommendedDish {
@@ -181,12 +294,16 @@ export interface RecommendedDish {
   subtitle: string;
   style: DishStyle;
   appliance: string;
+  vesselArchetype?: Exclude<CookingVesselArchetype, 'ANY'>;
   servings: number;
   prepTimeMinutes: number;
   cookTimeMinutes: number;
   freezerFriendly: boolean;
   flavorProfile: string;
   macrosPerServing: NutritionMacros;
+  dietaryTags?: DietaryConstraint[];
+  macroBadges?: string[];
+  adaptationNote?: string;
   matchedIngredients: MatchedSlotIngredient[];
   pantryStaples: string[];
   estimatedPantryCost: number;
@@ -199,6 +316,7 @@ export interface RecommendedDish {
   reheatTip: string;
   aiGenerated?: boolean;
   savedInLibrary?: boolean;
+  poweredByFreezerCount?: number;
 }
 
 export interface AggregatedShoppingItem {
@@ -312,12 +430,15 @@ export interface DashboardPayload {
   selectedKingSoopersLocationId: string;
   availableStores?: AvailableStoreInfo[];
   activeStores?: StoreChain[];
+  freezerInventory?: FreezerItem[];
   commodities: ScoredCommodity[];
   splurgeAlerts: ScoredCommodity[];
   recommendedTrio: RecommendedDish[];
   allRankedDishes: RecommendedDish[];
   marketRadar: {
     buyBeforeSpike: ScoredCommodity[];
+    stockUpCycleLows?: ScoredCommodity[];
+    cyclePeakWaitList?: ScoredCommodity[];
     holdOffDropping: {
       ingredient: CanonicalIngredient;
       currentLocalPrice: number;
@@ -401,4 +522,3 @@ export interface WeeklySyncCronResult {
   fridayWeekendDigest: FridayWeekendDigest;
   recentSyncRuns: SyncRunLogEntry[];
 }
-

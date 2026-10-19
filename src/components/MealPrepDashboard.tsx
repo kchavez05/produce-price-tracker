@@ -3,8 +3,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   CommodityCategory,
+  CookingVesselArchetype,
   DashboardPayload,
   DealType,
+  DietaryConstraint,
+  FreezerItem,
+  MacroGoal,
   RecommendedDish,
   ScoredCommodity,
   StoreChain,
@@ -12,11 +16,14 @@ import {
 } from '@/types/domain';
 import {
   ALL_STORE_CHAINS,
-  STORE_REGISTRY,
   getStoreDefinition,
   resolveStoreBanner,
 } from '@/data/store-registry';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
+import {
+  formatShoppingListForClipboard,
+  getItemCurbsideLinks,
+} from '@/lib/cart-exporter';
 import {
   Sparkles,
   TrendingDown,
@@ -50,6 +57,14 @@ import {
   Dumbbell,
   Bell,
   Copy,
+  ExternalLink,
+  Printer,
+  Trash2,
+  Plus,
+  Minus,
+  Award,
+  SlidersHorizontal,
+  ArrowLeftRight,
 } from 'lucide-react';
 
 interface Props {
@@ -71,6 +86,26 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [onHandIds, setOnHandIds] = useState<string[]>([]);
   const [targetServings, setTargetServings] = useState<4 | 6 | 8>(6);
   const [savedRecipeIds, setSavedRecipeIds] = useState<Record<string, boolean>>({});
+
+  // v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage state
+  const [freezerItems, setFreezerItems] = useState<FreezerItem[]>(
+    () => initialData.freezerInventory || []
+  );
+  const [showFreezerModal, setShowFreezerModal] = useState(false);
+  const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
+  const [customFreezerIngredientId, setCustomFreezerIngredientId] = useState<string>(
+    initialData.commodities[0]?.ingredient.id || 'pork-shoulder-butt'
+  );
+  const [customFreezerQty, setCustomFreezerQty] = useState<string>('3.0');
+
+  // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
+  const [macroGoal, setMacroGoal] = useState<MacroGoal>('ANY');
+  const [dietaryConstraints, setDietaryConstraints] = useState<DietaryConstraint[]>([]);
+  const [applianceFilter, setApplianceFilter] = useState<CookingVesselArchetype>('ANY');
+
+  // v1.2 Ticket #23: 1-Tap Curbside Cart Bridge & Multi-Store Export state
+  const [copiedChecklist, setCopiedChecklist] = useState(false);
+  const [showPrintSlipModal, setShowPrintSlipModal] = useState(false);
 
   const [expandedDishIds, setExpandedDishIds] = useState<Record<string, boolean>>({
     [initialData.recommendedTrio[0]?.id || '']: true,
@@ -107,40 +142,140 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [zipLoading, setZipLoading] = useState(false);
   const [zipError, setZipError] = useState<string | null>(null);
 
+  // Combine manual onHandIds + any canonicalIngredientId currently in Virtual Freezer
+  const effectiveOnHandIds = useMemo(() => {
+    const set = new Set<string>(onHandIds);
+    for (const f of freezerItems) {
+      if (f.quantityLbOrDoz > 0) {
+        set.add(f.canonicalIngredientId);
+      }
+    }
+    return Array.from(set);
+  }, [onHandIds, freezerItems]);
+
+  const freezerSummary = useMemo(() => {
+    const totalItems = freezerItems.length;
+    const totalWeightLb = freezerItems.reduce((acc, f) => acc + f.quantityLbOrDoz, 0);
+    const totalCostBasis = freezerItems.reduce((acc, f) => acc + f.totalCostBasis, 0);
+    const totalEstimatedSavings = freezerItems.reduce(
+      (acc, f) => acc + f.estimatedSavings,
+      0
+    );
+    return {
+      totalItems,
+      totalWeightLb: totalWeightLb.toFixed(1),
+      totalCostBasis: totalCostBasis.toFixed(2),
+      totalEstimatedSavings: totalEstimatedSavings.toFixed(2),
+    };
+  }, [freezerItems]);
+
   useEffect(() => {
     try {
       const savedChecked = localStorage.getItem('mead_checked_items_v03');
       if (savedChecked) setCheckedItems(JSON.parse(savedChecked));
       const savedClipped = localStorage.getItem('mead_clipped_coupons_v03');
       if (savedClipped) setClippedCoupons(JSON.parse(savedClipped));
+
+      let loadedOnHandIds = onHandIds;
       const savedOnHand = localStorage.getItem('mead_on_hand_ids_v04');
       if (savedOnHand) {
         const parsed = JSON.parse(savedOnHand);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setOnHandIds(parsed);
+          loadedOnHandIds = parsed;
         }
       }
+
+      const savedFreezer = localStorage.getItem('pantrybot_virtual_freezer_v12');
+      if (savedFreezer) {
+        const parsed = JSON.parse(savedFreezer);
+        if (Array.isArray(parsed) && parsed.length > 0 && freezerItems.length === 0) {
+          setFreezerItems(parsed);
+        }
+      }
+
+      let loadedMacroGoal = macroGoal;
+      let loadedDietaryConstraints = dietaryConstraints;
+      let loadedApplianceFilter = applianceFilter;
+      const savedProfile = localStorage.getItem('pantrybot_nutrition_profile_v12');
+      if (savedProfile) {
+        const parsed = JSON.parse(savedProfile);
+        if (parsed.macroGoal) {
+          setMacroGoal(parsed.macroGoal);
+          loadedMacroGoal = parsed.macroGoal;
+        }
+        if (Array.isArray(parsed.dietaryConstraints)) {
+          setDietaryConstraints(parsed.dietaryConstraints);
+          loadedDietaryConstraints = parsed.dietaryConstraints;
+        }
+        if (parsed.applianceFilter) {
+          setApplianceFilter(parsed.applianceFilter);
+          loadedApplianceFilter = parsed.applianceFilter;
+        }
+      }
+
+      let loadedActiveStores = activeStores;
       const savedActiveStores = localStorage.getItem('pantrybot_active_stores');
       if (savedActiveStores) {
         try {
           const parsed = JSON.parse(savedActiveStores);
           if (Array.isArray(parsed) && parsed.length > 0) {
             setActiveStores(parsed);
+            loadedActiveStores = parsed;
           }
         } catch {
           // Ignore
         }
       }
+
       const savedZip = localStorage.getItem('pantrybot_user_zip');
       if (savedZip && /^\d{5}$/.test(savedZip) && savedZip !== data.zipCode) {
         setCurrentZip(savedZip);
         setZipInput(savedZip);
-        syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings, savedZip);
+        syncDashboard(
+          storeFilter,
+          pinnedIds,
+          loadedOnHandIds,
+          targetServings,
+          savedZip,
+          loadedActiveStores,
+          loadedMacroGoal,
+          loadedDietaryConstraints,
+          loadedApplianceFilter
+        );
       }
     } catch {
       // Ignore storage errors
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function persistFreezerToLocalStorage(items: FreezerItem[]) {
+    try {
+      localStorage.setItem('pantrybot_virtual_freezer_v12', JSON.stringify(items));
+    } catch {
+      // Ignore
+    }
+  }
+
+  function persistProfileToLocalStorage(
+    nextMacro: MacroGoal,
+    nextDietary: DietaryConstraint[],
+    nextVessel: CookingVesselArchetype
+  ) {
+    try {
+      localStorage.setItem(
+        'pantrybot_nutrition_profile_v12',
+        JSON.stringify({
+          macroGoal: nextMacro,
+          dietaryConstraints: nextDietary,
+          applianceFilter: nextVessel,
+        })
+      );
+    } catch {
+      // Ignore
+    }
+  }
 
   function toggleCheckedItem(key: string) {
     setCheckedItems((prev) => {
@@ -169,10 +304,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
   async function syncDashboard(
     nextStore: 'ALL' | StoreChain = storeFilter,
     nextPinned: string[] = pinnedIds,
-    nextOnHand: string[] = onHandIds,
+    nextOnHand: string[] = effectiveOnHandIds,
     nextServings: 4 | 6 | 8 = targetServings,
     nextZip: string = currentZip,
-    nextActiveStores: StoreChain[] = activeStores
+    nextActiveStores: StoreChain[] = activeStores,
+    nextMacroGoal: MacroGoal = macroGoal,
+    nextDietary: DietaryConstraint[] = dietaryConstraints,
+    nextVessel: CookingVesselArchetype = applianceFilter
   ) {
     try {
       const params = new URLSearchParams({
@@ -182,16 +320,235 @@ export default function MealPrepDashboard({ initialData }: Props) {
         pinned: nextPinned.join(','),
         onHand: nextOnHand.join(','),
         servings: String(nextServings),
+        macroGoal: nextMacroGoal,
+        dietary: nextDietary.join(','),
+        vessel: nextVessel,
       });
       const res = await fetch(`/api/dashboard?${params.toString()}`);
       if (res.ok) {
         const updated: DashboardPayload = await res.json();
         setData(updated);
         setCurrentZip(updated.zipCode);
+        if (updated.freezerInventory) {
+          setFreezerItems(updated.freezerInventory);
+          persistFreezerToLocalStorage(updated.freezerInventory);
+        }
       }
     } catch {
       // Ignore network hiccup
     }
+  }
+
+  // v1.2 Ticket #21: "Buy 2: Prep 1, Freeze 1" 1-Tap Arbitrage Handler
+  async function handleBuyTwoPrepOneFreezeOne(item: ScoredCommodity) {
+    const qty =
+      item.arbitragePrompt?.recommendedFreezeQty ||
+      Math.max(2.0, Number(item.ingredient.avgEachWeightLb.toFixed(1)));
+    const unitPrice = item.bestOffer.normalizedPricePerUnit;
+    const regPrice = item.bestOffer.regularPricePerUnit;
+    const storeBanner = resolveStoreBanner(item.bestOffer.store, currentZip);
+
+    const newEntry: FreezerItem = {
+      id: `frz-${item.ingredient.id}-${Date.now()}`,
+      canonicalIngredientId: item.ingredient.id,
+      ingredientName: item.ingredient.name,
+      category: item.ingredient.category,
+      quantityLbOrDoz: qty,
+      unit: item.ingredient.standardUnit,
+      purchasePricePerUnit: unitPrice,
+      regularPricePerUnit: regPrice,
+      totalCostBasis: Number((qty * unitPrice).toFixed(2)),
+      estimatedSavings: Number(Math.max(0, qty * (regPrice - unitPrice)).toFixed(2)),
+      store: item.bestOffer.store,
+      storeBanner,
+      purchasedAtIso: new Date().toISOString(),
+      notes: `Buy 2 Arbitrage (${item.bestOffer.rawPriceText})`,
+    };
+
+    // Pin 1st pack to this week's prep
+    const nextPinned = pinnedIds.includes(item.ingredient.id)
+      ? pinnedIds
+      : [...pinnedIds, item.ingredient.id];
+    setPinnedIds(nextPinned);
+
+    try {
+      const res = await fetch('/api/freezer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item: newEntry }),
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        if (Array.isArray(payload.items)) {
+          setFreezerItems(payload.items);
+          persistFreezerToLocalStorage(payload.items);
+        }
+      }
+    } catch {
+      const updatedLocal = [newEntry, ...freezerItems];
+      setFreezerItems(updatedLocal);
+      persistFreezerToLocalStorage(updatedLocal);
+    }
+
+    setArbitrageToast(
+      `❄️ Arbitrage Locked: Pinned 1 ${item.ingredient.name} to this week's Meal Prep + banked ${qty} ${item.ingredient.standardUnit} in your Virtual Freezer (saved $${newEntry.estimatedSavings.toFixed(2)})!`
+    );
+    setTimeout(() => setArbitrageToast(null), 5000);
+
+    const nextOnHand = Array.from(new Set([...effectiveOnHandIds, item.ingredient.id]));
+    syncDashboard(storeFilter, nextPinned, nextOnHand, targetServings);
+  }
+
+  async function handleAddCustomFreezerItem(e: React.FormEvent) {
+    e.preventDefault();
+    const matched = data.commodities.find(
+      (c) => c.ingredient.id === customFreezerIngredientId
+    );
+    if (!matched) return;
+    const qty = Math.max(0.5, parseFloat(customFreezerQty) || 2.0);
+    const unitPrice = matched.bestOffer.normalizedPricePerUnit;
+    const regPrice = matched.bestOffer.regularPricePerUnit;
+
+    const newEntry: FreezerItem = {
+      id: `frz-${matched.ingredient.id}-${Date.now()}`,
+      canonicalIngredientId: matched.ingredient.id,
+      ingredientName: matched.ingredient.name,
+      category: matched.ingredient.category,
+      quantityLbOrDoz: qty,
+      unit: matched.ingredient.standardUnit,
+      purchasePricePerUnit: unitPrice,
+      regularPricePerUnit: regPrice,
+      totalCostBasis: Number((qty * unitPrice).toFixed(2)),
+      estimatedSavings: Number(Math.max(0, qty * (regPrice - unitPrice)).toFixed(2)),
+      store: matched.bestOffer.store,
+      storeBanner: resolveStoreBanner(matched.bestOffer.store, currentZip),
+      purchasedAtIso: new Date().toISOString(),
+      notes: 'Logged to Virtual Freezer',
+    };
+
+    try {
+      const res = await fetch('/api/freezer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item: newEntry }),
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        if (Array.isArray(payload.items)) {
+          setFreezerItems(payload.items);
+          persistFreezerToLocalStorage(payload.items);
+        }
+      }
+    } catch {
+      // Ignore
+    }
+    const nextOnHand = Array.from(
+      new Set([...effectiveOnHandIds, matched.ingredient.id])
+    );
+    syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
+  }
+
+  async function handleUpdateFreezerQuantity(item: FreezerItem, delta: number) {
+    const nextQty = Number((item.quantityLbOrDoz + delta).toFixed(2));
+    if (nextQty <= 0) {
+      await handleDeleteFreezerItem(item.id, item.canonicalIngredientId);
+      return;
+    }
+    try {
+      const res = await fetch('/api/freezer', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: item.id, quantityLbOrDoz: nextQty }),
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        if (Array.isArray(payload.items)) {
+          setFreezerItems(payload.items);
+          persistFreezerToLocalStorage(payload.items);
+        }
+      }
+    } catch {
+      // Ignore
+    }
+    syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
+  }
+
+  async function handleDeleteFreezerItem(id: string, canonicalIngredientId: string) {
+    try {
+      const res = await fetch(`/api/freezer?id=${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        if (Array.isArray(payload.items)) {
+          setFreezerItems(payload.items);
+          persistFreezerToLocalStorage(payload.items);
+        }
+      }
+    } catch {
+      const remaining = freezerItems.filter((f) => f.id !== id);
+      setFreezerItems(remaining);
+      persistFreezerToLocalStorage(remaining);
+    }
+    const nextOnHand = onHandIds.filter((oid) => oid !== canonicalIngredientId);
+    setOnHandIds(nextOnHand);
+    syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
+  }
+
+  // v1.2 Ticket #22 Handlers: Macro Goal, Dietary Constraints, Cooking Vessel
+  function handleMacroGoalChange(nextMacro: MacroGoal) {
+    setMacroGoal(nextMacro);
+    setCustomAiDishes(null);
+    persistProfileToLocalStorage(nextMacro, dietaryConstraints, applianceFilter);
+    syncDashboard(
+      storeFilter,
+      pinnedIds,
+      effectiveOnHandIds,
+      targetServings,
+      currentZip,
+      activeStores,
+      nextMacro,
+      dietaryConstraints,
+      applianceFilter
+    );
+  }
+
+  function handleToggleDietaryConstraint(constraint: DietaryConstraint) {
+    const exists = dietaryConstraints.includes(constraint);
+    const nextDietary = exists
+      ? dietaryConstraints.filter((c) => c !== constraint)
+      : [...dietaryConstraints, constraint];
+    setDietaryConstraints(nextDietary);
+    setCustomAiDishes(null);
+    persistProfileToLocalStorage(macroGoal, nextDietary, applianceFilter);
+    syncDashboard(
+      storeFilter,
+      pinnedIds,
+      effectiveOnHandIds,
+      targetServings,
+      currentZip,
+      activeStores,
+      macroGoal,
+      nextDietary,
+      applianceFilter
+    );
+  }
+
+  function handleVesselChange(nextVessel: CookingVesselArchetype) {
+    setApplianceFilter(nextVessel);
+    setCustomAiDishes(null);
+    persistProfileToLocalStorage(macroGoal, dietaryConstraints, nextVessel);
+    syncDashboard(
+      storeFilter,
+      pinnedIds,
+      effectiveOnHandIds,
+      targetServings,
+      currentZip,
+      activeStores,
+      macroGoal,
+      dietaryConstraints,
+      nextVessel
+    );
   }
 
   function handleToggleActiveStore(store: StoreChain) {
@@ -208,7 +565,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
       } catch {
         // Ignore
       }
-      syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings, currentZip, next);
+      syncDashboard(
+        storeFilter,
+        pinnedIds,
+        effectiveOnHandIds,
+        targetServings,
+        currentZip,
+        next
+      );
       return next;
     });
   }
@@ -220,10 +584,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
       : [...pinnedIds, ingredientId];
     setPinnedIds(nextPinned);
     setCustomAiDishes(null);
-    syncDashboard(storeFilter, nextPinned, onHandIds, targetServings);
+    syncDashboard(storeFilter, nextPinned, effectiveOnHandIds, targetServings);
   }
 
   function handleToggleOnHand(ingredientId: string) {
+    const inFreezer = freezerItems.find(
+      (f) => f.canonicalIngredientId === ingredientId
+    );
+    if (inFreezer) {
+      handleDeleteFreezerItem(inFreezer.id, ingredientId);
+      return;
+    }
     const exists = onHandIds.includes(ingredientId);
     const nextOnHand = exists
       ? onHandIds.filter((id) => id !== ingredientId)
@@ -235,13 +606,19 @@ export default function MealPrepDashboard({ initialData }: Props) {
       // Ignore
     }
     setCustomAiDishes(null);
-    syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
+    const merged = Array.from(
+      new Set([
+        ...nextOnHand,
+        ...freezerItems.map((f) => f.canonicalIngredientId),
+      ])
+    );
+    syncDashboard(storeFilter, pinnedIds, merged, targetServings);
   }
 
   function handleServingsChange(nextServings: 4 | 6 | 8) {
     setTargetServings(nextServings);
     setCustomAiDishes(null);
-    syncDashboard(storeFilter, pinnedIds, onHandIds, nextServings);
+    syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, nextServings);
   }
 
   function handleStoreChange(nextStore: 'ALL' | StoreChain) {
@@ -252,7 +629,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
       setTripMode(nextStore);
     }
     setCustomAiDishes(null);
-    syncDashboard(nextStore, pinnedIds, onHandIds, targetServings, currentZip, activeStores);
+    syncDashboard(
+      nextStore,
+      pinnedIds,
+      effectiveOnHandIds,
+      targetServings,
+      currentZip,
+      activeStores
+    );
   }
 
   async function handleToggleSaveRecipe(dish: RecommendedDish) {
@@ -270,7 +654,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
         body: JSON.stringify({ dish }),
       });
     }
-    syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings);
+    syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
   }
 
   async function handleGenerateAiPlan() {
@@ -282,13 +666,16 @@ export default function MealPrepDashboard({ initialData }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           pinnedIngredientIds: pinnedIds,
-          onHandIngredientIds: onHandIds,
+          onHandIngredientIds: effectiveOnHandIds,
           targetServings,
           customPreference: customPrompt,
           storeFilter,
           geminiApiKey,
           zipCode: currentZip,
           cityLabel: data.cityLabel,
+          macroGoal,
+          dietaryConstraints,
+          applianceFilter,
         }),
       });
       const result = await res.json();
@@ -321,7 +708,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
       localStorage.setItem('pantrybot_user_zip', cleanZip);
       setCurrentZip(cleanZip);
       setZipInput(cleanZip);
-      await syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings, cleanZip);
+      await syncDashboard(
+        storeFilter,
+        pinnedIds,
+        effectiveOnHandIds,
+        targetServings,
+        cleanZip
+      );
       setShowZipModal(false);
     } catch {
       setZipError('Failed to load deals for this zip code.');
@@ -336,7 +729,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
     if (nextOpen && !cronSyncResult) {
       setCronSyncLoading(true);
       try {
-        const res = await fetch(`/api/cron/weekly-sync?cycle=preview_digest&zip=${encodeURIComponent(currentZip)}`);
+        const res = await fetch(
+          `/api/cron/weekly-sync?cycle=preview_digest&zip=${encodeURIComponent(currentZip)}`
+        );
         if (res.ok) {
           const payload: WeeklySyncCronResult = await res.json();
           setCronSyncResult(payload);
@@ -360,7 +755,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
       if (res.ok) {
         const payload: WeeklySyncCronResult = await res.json();
         setCronSyncResult(payload);
-        syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings, currentZip);
+        syncDashboard(
+          storeFilter,
+          pinnedIds,
+          effectiveOnHandIds,
+          targetServings,
+          currentZip
+        );
       }
     } catch {
       // Ignore
@@ -413,25 +814,30 @@ export default function MealPrepDashboard({ initialData }: Props) {
     };
   }, [activeTrio, targetServings]);
 
-  // v0.3 + v0.4 + v1.1 Aggregated Shopping List, Coupon Pre-Flight, and Store Trip Optimizer
+  // v0.3 + v0.4 + v1.1 + v1.2 Aggregated Shopping List, Coupon Pre-Flight, and Store Trip Optimizer
   const shoppingPlan = useMemo(
     () =>
       buildShoppingListAndStoreComparison(
         activeTrio,
         data.commodities,
-        onHandIds,
+        effectiveOnHandIds,
         data.zipCode || currentZip,
         activeStores
       ),
-    [activeTrio, data.commodities, onHandIds, data.zipCode, currentZip, activeStores]
+    [
+      activeTrio,
+      data.commodities,
+      effectiveOnHandIds,
+      data.zipCode,
+      currentZip,
+      activeStores,
+    ]
   );
 
   const resolvedShoppingItems = useMemo(() => {
     return shoppingPlan.items.map((item) => {
       const store: StoreChain =
-        tripMode === 'SPLIT'
-          ? item.optimalStore
-          : tripMode;
+        tripMode === 'SPLIT' ? item.optimalStore : tripMode;
 
       const sp = item.storePricing?.[store];
       const unitCost =
@@ -450,7 +856,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
               ? item.safewayTotalCost
               : item.optimalTotalCost);
       const rawDealText = item.isOnHand
-        ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
+        ? '❄️ Already On-Hand in Virtual Freezer/Pantry ($0.00 out-of-pocket)'
         : sp?.rawDealText ??
           (store === 'KING_SOOPERS'
             ? item.kingSoopersRawDealText
@@ -493,6 +899,30 @@ export default function MealPrepDashboard({ initialData }: Props) {
       ),
     [resolvedShoppingItems]
   );
+
+  // v1.2 Ticket #23: Copy formatted checklist for Apple Notes / Google Keep / Reminders
+  function handleCopyShoppingListForNotes() {
+    const text = formatShoppingListForClipboard({
+      items: resolvedShoppingItems,
+      pantryChecklist: shoppingPlan.pantryChecklist,
+      tripComparison: shoppingPlan.tripComparison,
+      activeTrio,
+      zipCode: currentZip,
+      cityLabel: data.cityLabel,
+      tripMode,
+      checkedItems,
+    });
+    navigator.clipboard?.writeText(text);
+    setCopiedChecklist(true);
+    setTimeout(() => setCopiedChecklist(false), 3000);
+  }
+
+  function handlePrintShoppingSlip() {
+    setShowPrintSlipModal(true);
+    setTimeout(() => {
+      window.print();
+    }, 150);
+  }
 
   function renderDealBadge(dealType: DealType) {
     switch (dealType) {
@@ -547,10 +977,34 @@ export default function MealPrepDashboard({ initialData }: Props) {
     );
   }
 
+  function renderCycleSignalBadge(item: ScoredCommodity) {
+    const sig = item.cycleSignal;
+    if (!sig) return null;
+    if (sig.status === 'STOCK_UP_6WK_LOW') {
+      return (
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-900 border border-emerald-300">
+          <span>🟢 Stock Up Alert (6-Wk Low)</span>
+        </span>
+      );
+    }
+    if (sig.status === 'CYCLE_PEAK_WAIT') {
+      return (
+        <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-900 border border-rose-300">
+          <span>🔴 Cycle Peak (Wait / Swap)</span>
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-900 border border-amber-200">
+        <span>🟡 Fair Sale Price</span>
+      </span>
+    );
+  }
+
   return (
     <div className="min-h-screen pb-24">
       {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md no-print">
         <div className="mx-auto max-w-6xl px-4 py-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -562,7 +1016,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
                     <span>PantryBot</span>
                     <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200 sm:inline-block">
-                      Meal-Prep Value Tracker
+                      v1.2 Smart Kitchen &amp; Cart Bridge
                     </span>
                   </h1>
                   <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
@@ -572,8 +1026,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       title="Click to change your ZIP code"
                     >
                       <MapPin className="h-3.5 w-3.5 text-emerald-600" />
-                      <span>{data.cityLabel} ({currentZip})</span>
-                      <span className="text-[11px] font-semibold text-emerald-700 underline ml-0.5">Change</span>
+                      <span>
+                        {data.cityLabel} ({currentZip})
+                      </span>
+                      <span className="text-[11px] font-semibold text-emerald-700 underline ml-0.5">
+                        Change
+                      </span>
                     </button>
                     <span>•</span>
                     <span>{data.adCycleLabel}</span>
@@ -582,7 +1040,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
               </div>
             </div>
 
-            {/* Store Filter & API Settings */}
+            {/* Store Filter & Smart Kitchen Drawers */}
             <div className="flex flex-wrap items-center gap-2">
               <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-medium overflow-x-auto max-w-full">
                 <button
@@ -603,7 +1061,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     <button
                       key={chain}
                       onClick={() => handleStoreChange(chain)}
-                      style={isSelected ? { backgroundColor: def.brandColor, color: '#ffffff' } : undefined}
+                      style={
+                        isSelected
+                          ? { backgroundColor: def.brandColor, color: '#ffffff' }
+                          : undefined
+                      }
                       className={`rounded-md px-2.5 py-1.5 transition whitespace-nowrap ${
                         isSelected
                           ? 'font-semibold shadow-xs'
@@ -615,6 +1077,22 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   );
                 })}
               </div>
+
+              {/* v1.2 Ticket #21: Virtual Freezer Drawer Trigger */}
+              <button
+                onClick={() => setShowFreezerModal(!showFreezerModal)}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
+                  showFreezerModal
+                    ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
+                    : freezerItems.length > 0
+                      ? 'border-sky-300 bg-sky-50 text-sky-900 hover:bg-sky-100'
+                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                }`}
+                title="Open Virtual Freezer & Multi-Week Protein Arbitrage Inventory"
+              >
+                <Snowflake className="h-3.5 w-3.5 text-sky-500" />
+                <span>Virtual Freezer ({freezerItems.length})</span>
+              </button>
 
               <button
                 onClick={() => setShowStoresModal(!showStoresModal)}
@@ -639,7 +1117,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 title="Preview Smart Push Notifications & Friday Weekend Meal-Prep Digest"
               >
                 <Bell className="h-3.5 w-3.5" />
-                <span>Smart Alerts & Digest</span>
+                <span className="hidden md:inline">Smart Alerts &amp; Digest</span>
               </button>
 
               <button
@@ -653,13 +1131,216 @@ export default function MealPrepDashboard({ initialData }: Props) {
             </div>
           </div>
 
+          {/* Arbitrage Toast Banner */}
+          {arbitrageToast && (
+            <div className="mt-2.5 flex items-center justify-between rounded-xl border border-sky-300 bg-sky-950 px-3.5 py-2 text-xs font-semibold text-sky-100 shadow-md">
+              <div className="flex items-center gap-2">
+                <Snowflake className="h-4 w-4 text-sky-400 shrink-0" />
+                <span>{arbitrageToast}</span>
+              </div>
+              <button
+                onClick={() => setArbitrageToast(null)}
+                className="ml-3 text-sky-300 hover:text-white font-bold"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage Drawer */}
+          {showFreezerModal && (
+            <div className="mt-3 rounded-xl border border-sky-300 bg-white p-4 shadow-lg text-xs text-slate-700">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-sky-600 text-white">
+                    <Snowflake className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <h3 className="font-bold text-sm text-slate-900">
+                      Virtual Freezer &amp; Multi-Week Arbitrage Inventory (Ticket #21)
+                    </h3>
+                    <p className="text-[11px] text-slate-500">
+                      Stock up on deep 6-week cycle lows (&ldquo;Buy 2: Prep 1, Freeze 1&rdquo;). Any item banked here automatically drops out-of-pocket protein costs to <strong>$0.00</strong> in your 3-Dish Meal-Prep Trio!
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 rounded-lg bg-sky-50 px-3 py-1.5 border border-sky-200 text-[11px]">
+                    <span>
+                      Banked: <strong className="text-sky-950">{freezerSummary.totalWeightLb} lbs</strong>
+                    </span>
+                    <span>•</span>
+                    <span>
+                      Basis: <strong className="text-sky-950">${freezerSummary.totalCostBasis}</strong>
+                    </span>
+                    <span>•</span>
+                    <span className="text-emerald-700 font-bold">
+                      Saved ${freezerSummary.totalEstimatedSavings}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setShowFreezerModal(false)}
+                    className="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-0.5"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {freezerItems.length === 0 ? (
+                <div className="my-3 rounded-xl border border-dashed border-sky-200 bg-sky-50/40 p-4 text-center text-slate-600">
+                  <p className="font-semibold text-slate-800">
+                    Your Virtual Freezer is currently empty.
+                  </p>
+                  <p className="mt-1 text-[11px] text-slate-500">
+                    Click <strong>&ldquo;❄️ Buy 2: Prep 1, Freeze 1&rdquo;</strong> on any deep cycle-low meat deal below, or log an on-hand freezer item using the quick form below.
+                  </p>
+                </div>
+              ) : (
+                <div className="mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+                  {freezerItems.map((fItem) => (
+                    <div
+                      key={fItem.id}
+                      className="flex flex-col justify-between rounded-xl border border-sky-200 bg-sky-50/40 p-3 shadow-2xs"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-1.5">
+                          {renderStoreBadge(fItem.store)}
+                          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
+                            Saved ${fItem.estimatedSavings.toFixed(2)}
+                          </span>
+                        </div>
+                        <div className="mt-1.5 font-bold text-slate-900 text-xs">
+                          {fItem.ingredientName}
+                        </div>
+                        <div className="mt-1 flex items-baseline justify-between text-[11px] text-slate-600">
+                          <span>
+                            Stock:{' '}
+                            <strong className="text-sky-950">
+                              {fItem.quantityLbOrDoz} {fItem.unit}
+                            </strong>{' '}
+                            (@ ${fItem.purchasePricePerUnit.toFixed(2)}/{fItem.unit})
+                          </span>
+                          <span className="font-bold text-slate-800">
+                            Basis ${fItem.totalCostBasis.toFixed(2)}
+                          </span>
+                        </div>
+                        {fItem.notes && (
+                          <p className="mt-1 text-[10px] text-slate-500">{fItem.notes}</p>
+                        )}
+                      </div>
+
+                      <div className="mt-2.5 flex items-center justify-between border-t border-sky-200/70 pt-2">
+                        <div className="inline-flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleUpdateFreezerQuantity(fItem, -0.5)}
+                            className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+                            title="Consume 0.5 lb/doz"
+                          >
+                            <Minus className="h-3 w-3" />
+                          </button>
+                          <span className="px-1.5 font-bold text-slate-800">
+                            {fItem.quantityLbOrDoz} {fItem.unit}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdateFreezerQuantity(fItem, 0.5)}
+                            className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+                            title="Add 0.5 lb/doz"
+                          >
+                            <Plus className="h-3 w-3" />
+                          </button>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          <span className="rounded bg-sky-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                            $0 Prep Active
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDeleteFreezerItem(
+                                fItem.id,
+                                fItem.canonicalIngredientId
+                              )
+                            }
+                            className="inline-flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-red-50 hover:text-red-600"
+                            title="Thaw & Remove from Freezer"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Quick-Add to Virtual Freezer Form */}
+              <form
+                onSubmit={handleAddCustomFreezerItem}
+                className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3"
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[11px] font-bold text-slate-700">
+                    Log Item into Virtual Freezer:
+                  </span>
+                  <select
+                    value={customFreezerIngredientId}
+                    onChange={(e) => setCustomFreezerIngredientId(e.target.value)}
+                    className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-900"
+                  >
+                    {data.commodities.map((c) => (
+                      <option key={c.ingredient.id} value={c.ingredient.id}>
+                        {c.ingredient.name} (${c.bestOffer.normalizedPricePerUnit.toFixed(2)}/
+                        {c.ingredient.standardUnit})
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="number"
+                    step="0.5"
+                    min="0.5"
+                    max="30"
+                    value={customFreezerQty}
+                    onChange={(e) => setCustomFreezerQty(e.target.value)}
+                    className="w-20 rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-900"
+                    placeholder="lbs"
+                  />
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-1 rounded-lg bg-sky-600 px-3 py-1 text-xs font-bold text-white hover:bg-sky-700"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    <span>Add to Freezer ($0 Prep)</span>
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowFreezerModal(false);
+                    setActiveTab('MEAL_PLAN');
+                  }}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:underline"
+                >
+                  <span>View $0 Freezer-Powered Recipes</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </form>
+            </div>
+          )}
+
           {/* Interactive Zip Code / Location Switcher Drawer */}
           {showZipModal && (
             <div className="mt-3 rounded-xl border border-emerald-300 bg-white p-4 shadow-lg text-xs text-slate-700">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                 <div className="flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-emerald-600" />
-                  <span className="font-bold text-sm text-slate-900">Change Grocery Location (ZIP Code)</span>
+                  <span className="font-bold text-sm text-slate-900">
+                    Change Grocery Location (ZIP Code)
+                  </span>
                 </div>
                 <button
                   onClick={() => setShowZipModal(false)}
@@ -707,7 +1388,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
               )}
 
               <div className="mt-3 pt-2.5 border-t border-slate-100">
-                <span className="text-[11px] font-semibold text-slate-500">Quick-select popular areas:</span>
+                <span className="text-[11px] font-semibold text-slate-500">
+                  Quick-select popular areas:
+                </span>
                 <div className="mt-1.5 flex flex-wrap gap-1.5">
                   {[
                     { zip: '80542', label: 'Mead / Firestone, CO' },
@@ -788,8 +1471,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                             {def.hasDigitalCoupons
                               ? `📱 ${def.couponAppLabel || 'Digital Coupons'}`
                               : def.isEverydayLowPrice
-                              ? '🏷️ Everyday Low Price'
-                              : '🏷️ Member Card'}
+                                ? '🏷️ Everyday Low Price'
+                                : '🏷️ Member Card'}
                           </div>
                         </div>
                       </div>
@@ -816,9 +1499,19 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     onClick={() => {
                       setActiveStores(ALL_STORE_CHAINS);
                       try {
-                        localStorage.setItem('pantrybot_active_stores', JSON.stringify(ALL_STORE_CHAINS));
+                        localStorage.setItem(
+                          'pantrybot_active_stores',
+                          JSON.stringify(ALL_STORE_CHAINS)
+                        );
                       } catch {}
-                      syncDashboard(storeFilter, pinnedIds, onHandIds, targetServings, currentZip, ALL_STORE_CHAINS);
+                      syncDashboard(
+                        storeFilter,
+                        pinnedIds,
+                        effectiveOnHandIds,
+                        targetServings,
+                        currentZip,
+                        ALL_STORE_CHAINS
+                      );
                     }}
                     className="text-xs font-semibold text-blue-700 hover:underline"
                   >
@@ -843,14 +1536,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   <div className="flex items-center gap-2">
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[11px] font-bold text-emerald-300 border border-emerald-500/30">
                       <Bell className="h-3 w-3" />
-                      Milestone v1.0 Cron & Smart Push Engine
+                      Milestone v1.0 Cron &amp; Smart Push Engine
                     </span>
                     <span className="text-[11px] text-slate-400">
                       Wed 6:00 AM MT Circular Sync • Fri 4:00 PM MT Weekend Prep Digest
                     </span>
                   </div>
                   <p className="mt-1 text-slate-300">
-                    Live preview of automated push payloads & weekend digest generated by{' '}
+                    Live preview of automated push payloads &amp; weekend digest generated by{' '}
                     <code className="rounded bg-slate-800 px-1.5 py-0.5 text-emerald-300">
                       /api/cron/weekly-sync
                     </code>
@@ -891,7 +1584,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
               {cronSyncLoading && !cronSyncResult ? (
                 <div className="py-6 text-center text-slate-400">
-                  Building Smart Push Notifications & Friday Weekend Digest...
+                  Building Smart Push Notifications &amp; Friday Weekend Digest...
                 </div>
               ) : cronSyncResult ? (
                 <div className="mt-3 grid gap-3 lg:grid-cols-3">
@@ -925,29 +1618,6 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   ))}
                 </div>
               ) : null}
-
-              {cronSyncResult && cronSyncResult.recentSyncRuns.length > 0 && (
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-[11px] text-slate-400">
-                  <span>
-                    Latest SQLite Sync Run:{' '}
-                    <strong className="text-slate-200">
-                      {new Date(cronSyncResult.recentSyncRuns[0].createdAt).toLocaleTimeString()}
-                    </strong>{' '}
-                    ({cronSyncResult.recentSyncRuns[0].syncedOffersCount} offers verified • Top Dish:{' '}
-                    <strong className="text-emerald-300">
-                      {cronSyncResult.recentSyncRuns[0].topDishTitle}
-                    </strong>{' '}
-                    • Optimal Basket:{' '}
-                    <strong className="text-white">
-                      ${cronSyncResult.recentSyncRuns[0].optimalBasketTotal.toFixed(2)}
-                    </strong>
-                    )
-                  </span>
-                  <span className="text-slate-500">
-                    Total logged runs in SQLite: {cronSyncResult.recentSyncRuns.length}
-                  </span>
-                </div>
-              )}
             </div>
           )}
 
@@ -960,7 +1630,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     Optional Free-Tier Gemini 2.5 Flash Key (Zero Cost via Google AI Studio)
                   </p>
                   <p className="text-slate-600">
-                    The app runs 100% free out-of-the-box using the built-in Stew/Casserole Algorithmic Matcher. Paste a free Gemini key here (or in <code className="rounded bg-white px-1 py-0.5">.env.local</code>) to enable custom AI recipe remixing.
+                    The app runs 100% free out-of-the-box using the built-in Stew/Casserole Algorithmic Matcher. Paste a free Gemini key here (or in{' '}
+                    <code className="rounded bg-white px-1 py-0.5">.env.local</code>) to enable custom AI recipe remixing.
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -1024,7 +1695,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 }`}
               >
                 <ListChecks className="h-4 w-4" />
-                <span>3. Shopping List &amp; Coupons</span>
+                <span>3. Shopping List &amp; Cart Bridge</span>
                 <span className="rounded-full bg-black/15 px-1.5 py-0.5 text-[11px]">
                   {shoppingPlan.items.length} items
                 </span>
@@ -1039,16 +1710,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 }`}
               >
                 <Radar className="h-4 w-4" />
-                <span>4. USDA Radar</span>
+                <span>4. Cycle &amp; Club Radar</span>
               </button>
             </div>
 
-            {(pinnedIds.length > 0 || onHandIds.length > 0) && (
+            {(pinnedIds.length > 0 || effectiveOnHandIds.length > 0) && (
               <div className="hidden items-center gap-2 md:flex">
                 <span className="text-xs font-medium text-slate-600">
                   {pinnedIds.length > 0 && `${pinnedIds.length} Pinned`}
-                  {pinnedIds.length > 0 && onHandIds.length > 0 && ' • '}
-                  {onHandIds.length > 0 && `${onHandIds.length} On-Hand ($0)`}
+                  {pinnedIds.length > 0 && effectiveOnHandIds.length > 0 && ' • '}
+                  {effectiveOnHandIds.length > 0 &&
+                    `${effectiveOnHandIds.length} In Freezer/Pantry ($0)`}
                 </span>
                 <button
                   onClick={() => setActiveTab('MEAL_PLAN')}
@@ -1056,21 +1728,6 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 >
                   <span>View 3 Dishes</span>
                   <ArrowRight className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  onClick={() => {
-                    setPinnedIds([]);
-                    setOnHandIds([]);
-                    try {
-                      localStorage.removeItem('mead_on_hand_ids_v04');
-                    } catch {
-                      // Ignore
-                    }
-                    syncDashboard(storeFilter, [], [], targetServings);
-                  }}
-                  className="text-xs text-slate-500 underline hover:text-slate-800"
-                >
-                  Reset
                 </button>
               </div>
             )}
@@ -1094,10 +1751,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     </span>
                     <div>
                       <h2 className="text-sm font-bold tracking-wide text-amber-300 uppercase">
-                        Splurge Value Alerts (Normally Expensive Cuts at Deep Discount)
+                        Splurge Value Alerts &amp; Multi-Week Freezer Arbitrage
                       </h2>
                       <p className="text-xs text-slate-300">
-                        Ranked separately from everyday cheap staples—ideal when you want a premium roast, steak, or seafood at 40–54% off.
+                        Premium roasts, steaks, and seafood at 40–54% off. Use &ldquo;Buy 2: Prep 1, Freeze 1&rdquo; to lock in cycle-floor pricing for future weeks.
                       </p>
                     </div>
                   </div>
@@ -1106,6 +1763,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {data.splurgeAlerts.slice(0, 4).map((item) => {
                     const isPinned = pinnedIds.includes(item.ingredient.id);
+                    const inFreezer = freezerItems.some(
+                      (f) => f.canonicalIngredientId === item.ingredient.id
+                    );
                     return (
                       <div
                         key={item.ingredient.id}
@@ -1135,32 +1795,61 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           <p className="mt-1 text-[11px] text-slate-300">
                             {item.bestOffer.rawPriceText}
                           </p>
+                          {item.clubBenchmark?.beatsClubBulk && (
+                            <p className="mt-1 text-[11px] font-semibold text-emerald-300">
+                              🏆 Beats {item.clubBenchmark.bestClubName} Bulk ($
+                              {item.clubBenchmark.bestClubPricePerUnit.toFixed(2)}/
+                              {item.ingredient.standardUnit}) by{' '}
+                              {item.clubBenchmark.savingsVsClubPct}%
+                            </p>
+                          )}
                         </div>
 
-                        <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-2">
-                          <span className="text-[11px] text-amber-200/90">
-                            {item.bestOffer.dealType === 'DIGITAL_COUPON'
-                              ? '📱 Clip App Coupon'
-                              : '🏷️ Member Card'}
-                          </span>
-                          <button
-                            onClick={() => handleTogglePin(item.ingredient.id)}
-                            className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
-                              isPinned
-                                ? 'bg-emerald-500 text-white'
-                                : 'bg-white/15 text-white hover:bg-white/25'
-                            }`}
-                          >
-                            {isPinned ? (
-                              <>
-                                <Check className="h-3.5 w-3.5" /> Pinned
-                              </>
-                            ) : (
-                              <>
-                                <Pin className="h-3.5 w-3.5" /> Pin to Prep
-                              </>
-                            )}
-                          </button>
+                        <div className="mt-3 space-y-1.5 border-t border-white/10 pt-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] text-amber-200/90">
+                              {item.bestOffer.dealType === 'DIGITAL_COUPON'
+                                ? '📱 Clip App Coupon'
+                                : '🏷️ Member Card'}
+                            </span>
+                            <button
+                              onClick={() => handleTogglePin(item.ingredient.id)}
+                              className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
+                                isPinned
+                                  ? 'bg-emerald-500 text-white'
+                                  : 'bg-white/15 text-white hover:bg-white/25'
+                              }`}
+                            >
+                              {isPinned ? (
+                                <>
+                                  <Check className="h-3.5 w-3.5" /> Pinned
+                                </>
+                              ) : (
+                                <>
+                                  <Pin className="h-3.5 w-3.5" /> Pin to Prep
+                                </>
+                              )}
+                            </button>
+                          </div>
+
+                          {item.arbitragePrompt?.eligible && (
+                            <button
+                              type="button"
+                              onClick={() => handleBuyTwoPrepOneFreezeOne(item)}
+                              className={`w-full flex items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${
+                                inFreezer
+                                  ? 'bg-sky-500 text-white'
+                                  : 'bg-sky-400/25 text-sky-200 border border-sky-400/40 hover:bg-sky-400/40'
+                              }`}
+                            >
+                              <Snowflake className="h-3 w-3" />
+                              <span>
+                                {inFreezer
+                                  ? '✓ Banked in Virtual Freezer (+Add 1)'
+                                  : `Buy 2: Prep 1, Freeze 1 (Save $${item.arbitragePrompt.futureWeekSavings.toFixed(2)})`}
+                              </span>
+                            </button>
+                          )}
                         </div>
                       </div>
                     );
@@ -1200,7 +1889,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   value={sortMode}
                   onChange={(e) =>
                     setSortMode(
-                      e.target.value as 'VALUE_SCORE' | 'LOWEST_PRICE' | 'BIGGEST_DISCOUNT'
+                      e.target.value as
+                        | 'VALUE_SCORE'
+                        | 'LOWEST_PRICE'
+                        | 'BIGGEST_DISCOUNT'
                     )
                   }
                   className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 font-semibold text-slate-800 focus:border-emerald-600 focus:outline-none"
@@ -1222,7 +1914,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredCommodities.map((item: ScoredCommodity) => {
                 const isPinned = pinnedIds.includes(item.ingredient.id);
-                const isOnHand = onHandIds.includes(item.ingredient.id);
+                const isOnHand = effectiveOnHandIds.includes(item.ingredient.id);
+                const inVirtualFreezer = freezerItems.some(
+                  (f) => f.canonicalIngredientId === item.ingredient.id
+                );
                 const { ingredient, bestOffer, kingSoopersOffer, safewayOffer } = item;
 
                 return (
@@ -1233,8 +1928,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         ? 'border-emerald-500 ring-2 ring-emerald-500/20'
                         : isOnHand
                           ? 'border-sky-400 ring-2 ring-sky-400/20'
-                          : item.actionTag === 'WAIT_NEXT_WEEK'
-                            ? 'border-amber-200 bg-amber-50/20'
+                          : item.cycleSignal?.status === 'CYCLE_PEAK_WAIT'
+                            ? 'border-rose-200 bg-rose-50/15'
                             : 'border-slate-200'
                     }`}
                   >
@@ -1271,6 +1966,20 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         {ingredient.name}
                       </h3>
 
+                      {/* v1.2 Ticket #24 & #25: Cycle Low Signal Badge + Beats Club Bulk Pill */}
+                      <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                        {renderCycleSignalBadge(item)}
+                        {item.clubBenchmark?.beatsClubBulk && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-[11px] font-bold text-blue-900 border border-blue-300">
+                            <Award className="h-3 w-3 text-blue-700" />
+                            <span>
+                              Beats {item.clubBenchmark.bestClubName} Bulk (-
+                              {item.clubBenchmark.savingsVsClubPct}%)
+                            </span>
+                          </span>
+                        )}
+                      </div>
+
                       <div className="mt-2 flex items-baseline justify-between rounded-xl bg-slate-50 p-2.5 border border-slate-100">
                         <div>
                           <div className="flex items-baseline gap-1.5">
@@ -1293,10 +2002,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
                         <div className="text-right text-[11px] text-slate-500">
                           <div>
-                            Reg: ${bestOffer.regularPricePerUnit.toFixed(2)}/{ingredient.standardUnit}
+                            Reg: ${bestOffer.regularPricePerUnit.toFixed(2)}/
+                            {ingredient.standardUnit}
                           </div>
                           <div>
-                            USDA Avg: ${ingredient.mountainBaselinePerUnit.toFixed(2)}/{ingredient.standardUnit}
+                            USDA Avg: ${ingredient.mountainBaselinePerUnit.toFixed(2)}/
+                            {ingredient.standardUnit}
                           </div>
                         </div>
                       </div>
@@ -1310,7 +2021,33 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         )}
                       </div>
 
-                      <div className="mt-3 grid grid-cols-2 gap-2 rounded-lg border border-slate-100 bg-slate-50/70 p-2 text-xs">
+                      {/* v1.2 Ticket #25: Wholesale Club (Costco & Sam's Club) Benchmark Breakdown */}
+                      {item.clubBenchmark && (
+                        <div className="mt-2.5 rounded-lg border border-blue-100 bg-blue-50/50 px-2.5 py-2 text-[11px]">
+                          <div className="flex items-center justify-between font-semibold text-slate-800">
+                            <span>
+                              Costco Bulk: ${item.clubBenchmark.costcoPricePerUnit.toFixed(2)}/
+                              {ingredient.standardUnit}
+                            </span>
+                            <span>
+                              Sam&apos;s Club: $
+                              {item.clubBenchmark.samsClubPricePerUnit.toFixed(2)}/
+                              {ingredient.standardUnit}
+                            </span>
+                          </div>
+                          <div
+                            className={`mt-0.5 text-[10px] font-bold ${
+                              item.clubBenchmark.beatsClubBulk
+                                ? 'text-emerald-700'
+                                : 'text-amber-800'
+                            }`}
+                          >
+                            {item.clubBenchmark.verdictLabel}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="mt-2.5 grid grid-cols-2 gap-2 rounded-lg border border-slate-100 bg-slate-50/70 p-2 text-xs">
                         <div
                           className={`rounded p-1.5 ${
                             bestOffer.store === 'KING_SOOPERS'
@@ -1319,14 +2056,18 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           }`}
                         >
                           <div className="text-[10px] uppercase tracking-wider text-slate-500">
-                            King Soopers
+                            {resolveStoreBanner('KING_SOOPERS', currentZip)}
                           </div>
                           {kingSoopersOffer ? (
                             <div>
                               ${kingSoopersOffer.normalizedPricePerUnit.toFixed(2)}/
                               {ingredient.standardUnit}{' '}
                               <span className="text-[10px] font-normal">
-                                ({kingSoopersOffer.dealType === 'DIGITAL_COUPON' ? 'App Cpn' : 'Card'})
+                                (
+                                {kingSoopersOffer.dealType === 'DIGITAL_COUPON'
+                                  ? 'App Cpn'
+                                  : 'Card'}
+                                )
                               </span>
                             </div>
                           ) : (
@@ -1342,14 +2083,18 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           }`}
                         >
                           <div className="text-[10px] uppercase tracking-wider text-slate-500">
-                            Safeway
+                            {resolveStoreBanner('SAFEWAY', currentZip)}
                           </div>
                           {safewayOffer ? (
                             <div>
                               ${safewayOffer.normalizedPricePerUnit.toFixed(2)}/
                               {ingredient.standardUnit}{' '}
                               <span className="text-[10px] font-normal">
-                                ({safewayOffer.dealType === 'DIGITAL_COUPON' ? 'for U Cpn' : 'Member'})
+                                (
+                                {safewayOffer.dealType === 'DIGITAL_COUPON'
+                                  ? 'for U Cpn'
+                                  : 'Member'}
+                                )
                               </span>
                             </div>
                           ) : (
@@ -1357,6 +2102,33 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           )}
                         </div>
                       </div>
+
+                      {/* v1.2 Ticket #24: Cycle Peak / Smart Substitution Recommendation */}
+                      {item.cycleSignal?.status === 'CYCLE_PEAK_WAIT' &&
+                        item.cycleSignal.substitutionSuggestion && (
+                          <div className="mt-2.5 rounded-lg border border-rose-200 bg-rose-50/70 p-2 text-[11px] text-rose-950">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-bold">
+                                💡 Smart Cycle Substitution:
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleTogglePin(
+                                    item.cycleSignal!.substitutionSuggestion!
+                                      .substituteIngredientId
+                                  )
+                                }
+                                className="rounded bg-rose-700 px-2 py-0.5 text-[10px] font-bold text-white hover:bg-rose-800"
+                              >
+                                Pin {item.cycleSignal.substitutionSuggestion.substituteName.split(' ')[0]} Instead
+                              </button>
+                            </div>
+                            <p className="mt-1 text-[10px] text-rose-900">
+                              {item.cycleSignal.substitutionSuggestion.reason}
+                            </p>
+                          </div>
+                        )}
 
                       <div className="mt-2.5 flex items-start gap-1.5 text-[11px] text-slate-600">
                         {ingredient.usdaSignal.wholesaleChangePct <= 0 ? (
@@ -1366,23 +2138,26 @@ export default function MealPrepDashboard({ initialData }: Props) {
                         )}
                         <span>
                           <strong className="text-slate-800">
-                            USDA Wholesale ({ingredient.usdaSignal.wholesaleChangePct > 0 ? '+' : ''}
+                            USDA Wholesale (
+                            {ingredient.usdaSignal.wholesaleChangePct > 0 ? '+' : ''}
                             {ingredient.usdaSignal.wholesaleChangePct}%):
                           </strong>{' '}
                           {ingredient.usdaSignal.note}
                         </span>
                       </div>
 
-                      {/* v0.2 SQLite 6-Week Price History Mini-Chart */}
+                      {/* v0.2 + v1.2 SQLite 6-Week Price History Mini-Chart */}
                       {item.priceHistory && item.priceHistory.length > 0 && (
                         <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50/80 p-2">
                           <div className="flex items-center justify-between text-[10px] text-slate-500">
                             <span className="font-semibold text-slate-700">
-                              6-Wk SQLite History (Avg ${item.sixWeekLocalAvg.toFixed(2)}/{ingredient.standardUnit})
+                              6-Wk Range: Floor ${item.sixWeekLow.toFixed(2)} • Med $
+                              {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)} • Peak $
+                              {(item.sixWeekHigh ?? item.sixWeekLocalAvg).toFixed(2)}
                             </span>
                             {bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
                               <span className="rounded bg-emerald-100 px-1.5 py-0.2 font-bold text-emerald-800">
-                                ★ 6-Week Cycle Low
+                                ★ 6-Week Floor
                               </span>
                             )}
                           </div>
@@ -1420,41 +2195,66 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       )}
                     </div>
 
-                    {/* Footer Action Buttons: Pin to Meal Prep + Have at Home (Freezer/Pantry) */}
-                    <div className="mt-4 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3">
-                      <button
-                        onClick={() => handleTogglePin(ingredient.id)}
-                        className={`flex items-center justify-center gap-1 rounded-xl px-2.5 py-2 text-xs font-bold transition ${
-                          isPinned
-                            ? 'bg-emerald-600 text-white shadow-xs hover:bg-emerald-700'
-                            : 'bg-slate-900 text-white hover:bg-slate-800'
-                        }`}
-                      >
-                        {isPinned ? (
-                          <>
-                            <Check className="h-3.5 w-3.5" />
-                            <span>Pinned</span>
-                          </>
-                        ) : (
-                          <>
-                            <Pin className="h-3.5 w-3.5" />
-                            <span>Pin to Prep</span>
-                          </>
-                        )}
-                      </button>
+                    {/* Footer Action Buttons: Pin to Meal Prep + Have at Home + Buy 2 Freeze 1 Arbitrage */}
+                    <div className="mt-4 space-y-2 border-t border-slate-100 pt-3">
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          onClick={() => handleTogglePin(ingredient.id)}
+                          className={`flex items-center justify-center gap-1 rounded-xl px-2.5 py-2 text-xs font-bold transition ${
+                            isPinned
+                              ? 'bg-emerald-600 text-white shadow-xs hover:bg-emerald-700'
+                              : 'bg-slate-900 text-white hover:bg-slate-800'
+                          }`}
+                        >
+                          {isPinned ? (
+                            <>
+                              <Check className="h-3.5 w-3.5" />
+                              <span>Pinned</span>
+                            </>
+                          ) : (
+                            <>
+                              <Pin className="h-3.5 w-3.5" />
+                              <span>Pin to Prep</span>
+                            </>
+                          )}
+                        </button>
 
-                      <button
-                        onClick={() => handleToggleOnHand(ingredient.id)}
-                        title="Mark as already in your Freezer/Pantry ($0 out-of-pocket cost)"
-                        className={`flex items-center justify-center gap-1 rounded-xl border px-2.5 py-2 text-xs font-bold transition ${
-                          isOnHand
-                            ? 'border-sky-500 bg-sky-600 text-white shadow-xs'
-                            : 'border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200'
-                        }`}
-                      >
-                        <Snowflake className="h-3.5 w-3.5" />
-                        <span>{isOnHand ? 'In Freezer ($0)' : 'Have at Home'}</span>
-                      </button>
+                        <button
+                          onClick={() => handleToggleOnHand(ingredient.id)}
+                          title="Mark as already in your Virtual Freezer/Pantry ($0 out-of-pocket cost)"
+                          className={`flex items-center justify-center gap-1 rounded-xl border px-2.5 py-2 text-xs font-bold transition ${
+                            isOnHand
+                              ? 'border-sky-500 bg-sky-600 text-white shadow-xs'
+                              : 'border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          }`}
+                        >
+                          <Snowflake className="h-3.5 w-3.5" />
+                          <span>
+                            {inVirtualFreezer
+                              ? 'In Freezer ($0)'
+                              : isOnHand
+                                ? 'On-Hand ($0)'
+                                : 'Have at Home'}
+                          </span>
+                        </button>
+                      </div>
+
+                      {/* v1.2 Ticket #21: "Buy 2: Prep 1, Freeze 1" Action Button */}
+                      {item.arbitragePrompt?.eligible && (
+                        <button
+                          type="button"
+                          onClick={() => handleBuyTwoPrepOneFreezeOne(item)}
+                          className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3 py-1.5 text-xs font-bold text-sky-900 hover:bg-sky-100 transition"
+                        >
+                          <Snowflake className="h-3.5 w-3.5 text-sky-600" />
+                          <span>
+                            Buy 2: Prep 1, Freeze 1 (+{item.arbitragePrompt.recommendedFreezeQty}{' '}
+                            {item.arbitragePrompt.unit} @ $
+                            {bestOffer.normalizedPricePerUnit.toFixed(2)} • Save $
+                            {item.arbitragePrompt.futureWeekSavings.toFixed(2)})
+                          </span>
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -1473,13 +2273,15 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <div>
                   <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-300">
                     <Flame className="h-3.5 w-3.5" />
-                    <span>Low-Effort Reheatable Batch Trio (Stews, Braises &amp; Casseroles)</span>
+                    <span>
+                      Smart Kitchen Batch Trio (Stews, Braises, Sheet-Pans &amp; Casseroles)
+                    </span>
                   </div>
                   <h2 className="mt-2 text-xl font-extrabold sm:text-2xl">
                     Your 3-Dish Weekend Meal Prep Plan ({trioTotals.totalServings} Total Meals)
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
-                    Optimized around this week&apos;s lowest $/lb anchors across King Soopers &amp; Safeway in Mead/Longmont.
+                    Optimized around this week&apos;s lowest $/lb anchors in {data.cityLabel}, tailored to your Macro &amp; Dietary profile, and powered by $0 Virtual Freezer inventory.
                   </p>
 
                   {/* v0.4 Batch Serving Scaler (Ticket #9) + Open Shopping List Button */}
@@ -1508,7 +2310,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-500 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-indigo-400"
                     >
                       <ListChecks className="h-4 w-4" />
-                      <span>Open Shopping List &amp; Coupon Checklist</span>
+                      <span>Open Shopping List &amp; Cart Bridge</span>
                       <ArrowRight className="h-3.5 w-3.5" />
                     </button>
                   </div>
@@ -1525,7 +2327,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     </div>
                   </div>
                   <div className="border-x border-white/15 px-2">
-                    <div className="text-[11px] text-slate-300 uppercase">3-Dish Out-of-Pocket</div>
+                    <div className="text-[11px] text-slate-300 uppercase">
+                      3-Dish Out-of-Pocket
+                    </div>
                     <div className="text-xl font-black text-white">
                       ${trioTotals.totalBatchCost}
                     </div>
@@ -1543,6 +2347,146 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 </div>
               </div>
 
+              {/* v1.2 Ticket #22: Dietary Preferences, Macro Goals & Cooking Vessel Archetype Bar */}
+              <div className="mt-4 rounded-xl border border-white/15 bg-black/25 p-3.5 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-300">
+                    <SlidersHorizontal className="h-3.5 w-3.5" />
+                    <span>
+                      Personalize Nutrition Profile, Dietary Filters &amp; Cooking Vessel (Ticket #22)
+                    </span>
+                  </div>
+                  {(macroGoal !== 'ANY' ||
+                    dietaryConstraints.length > 0 ||
+                    applianceFilter !== 'ANY') && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMacroGoal('ANY');
+                        setDietaryConstraints([]);
+                        setApplianceFilter('ANY');
+                        setCustomAiDishes(null);
+                        persistProfileToLocalStorage('ANY', [], 'ANY');
+                        syncDashboard(
+                          storeFilter,
+                          pinnedIds,
+                          effectiveOnHandIds,
+                          targetServings,
+                          currentZip,
+                          activeStores,
+                          'ANY',
+                          [],
+                          'ANY'
+                        );
+                      }}
+                      className="text-[11px] font-semibold text-amber-300 underline hover:text-white"
+                    >
+                      Clear Profile Filters
+                    </button>
+                  )}
+                </div>
+
+                <div className="grid gap-3 lg:grid-cols-3">
+                  {/* 1. Macro Goal Selector */}
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                      Target Macro Goal:
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(
+                        [
+                          { id: 'ANY', label: 'All Macros' },
+                          { id: 'HIGH_PROTEIN', label: '💪 High-Protein (40g+)' },
+                          { id: 'LOW_CARB_KETO', label: '🥑 Low-Carb / Keto' },
+                          { id: 'CALORIE_CONSCIOUS', label: '🔥 <460 kcal' },
+                          { id: 'BALANCED_FAMILY', label: '🍲 Balanced' },
+                        ] as { id: MacroGoal; label: string }[]
+                      ).map((m) => (
+                        <button
+                          key={m.id}
+                          type="button"
+                          onClick={() => handleMacroGoalChange(m.id)}
+                          className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${
+                            macroGoal === m.id
+                              ? 'bg-emerald-400 text-slate-950 shadow-2xs'
+                              : 'bg-white/10 text-slate-200 hover:bg-white/20'
+                          }`}
+                        >
+                          {m.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 2. Dietary Constraints */}
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                      Dietary Rules (Adapts Slots):
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(
+                        [
+                          { id: 'GLUTEN_FREE', label: '🌾 Gluten-Free' },
+                          { id: 'DAIRY_FREE', label: '🥛 Dairy-Free' },
+                          { id: 'NUT_FREE', label: '🥜 Nut-Free' },
+                          { id: 'VEGETARIAN_PESCATARIAN', label: '🐟 Pescatarian' },
+                        ] as { id: DietaryConstraint; label: string }[]
+                      ).map((d) => {
+                        const active = dietaryConstraints.includes(d.id);
+                        return (
+                          <button
+                            key={d.id}
+                            type="button"
+                            onClick={() => handleToggleDietaryConstraint(d.id)}
+                            className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${
+                              active
+                                ? 'bg-amber-400 text-slate-950 shadow-2xs'
+                                : 'bg-white/10 text-slate-200 hover:bg-white/20'
+                            }`}
+                          >
+                            {d.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* 3. Cooking Vessel Archetype */}
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                      Cooking Vessel Archetype:
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(
+                        [
+                          { id: 'ANY', label: 'All Vessels' },
+                          {
+                            id: 'SLOW_COOKER_INSTANT_POT',
+                            label: '⚡ Slow Cooker / Instant Pot',
+                          },
+                          { id: 'CASSEROLE_SHEET_PAN', label: '🔥 Sheet-Pan / 9x13' },
+                          { id: 'DUTCH_OVEN_BRAISE', label: '🍲 Dutch Oven' },
+                          { id: 'BIG_BATCH_SKILLET', label: '🍳 Skillet' },
+                        ] as { id: CookingVesselArchetype; label: string }[]
+                      ).map((v) => (
+                        <button
+                          key={v.id}
+                          type="button"
+                          onClick={() => handleVesselChange(v.id)}
+                          className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${
+                            applianceFilter === v.id
+                              ? 'bg-sky-400 text-slate-950 shadow-2xs'
+                              : 'bg-white/10 text-slate-200 hover:bg-white/20'
+                          }`}
+                        >
+                          {v.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* AI Custom Chef Bar */}
               <div className="mt-4 border-t border-white/15 pt-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -1550,7 +2494,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     type="text"
                     value={customPrompt}
                     onChange={(e) => setCustomPrompt(e.target.value)}
-                    placeholder="Optional AI Twist: e.g., 'Make 2 slow cooker stews and 1 high-protein breakfast casserole, extra spicy'..."
+                    placeholder="Optional AI Twist: e.g., 'Make 2 slow cooker stews and 1 high-protein sheet-pan roast, extra spicy'..."
                     className="flex-1 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2 text-xs text-white placeholder:text-slate-400 focus:border-emerald-400 focus:outline-none"
                   />
                   <button
@@ -1585,6 +2529,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
               {activeTrio.map((dish, index) => {
                 const isExpanded = Boolean(expandedDishIds[dish.id]);
                 const isSaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
+                const hasFreezerPower =
+                  (dish.poweredByFreezerCount && dish.poweredByFreezerCount > 0) ||
+                  dish.matchedIngredients.some((m) => m.fromVirtualFreezer || m.isOnHand);
 
                 return (
                   <div
@@ -1612,12 +2559,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
                                 Freezer Friendly
                               </span>
                             )}
-                            {/* v0.4 Nutrition & Macro Badge (Ticket #9) */}
-                            {dish.macrosPerServing && (
-                              <span className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-950 border border-amber-200">
-                                <Dumbbell className="h-3.5 w-3.5 text-amber-700" />
-                                {dish.macrosPerServing.proteinGrams}g Protein •{' '}
-                                {dish.macrosPerServing.calories} kcal / srv
+                            {hasFreezerPower && (
+                              <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2.5 py-0.5 text-xs font-bold text-white">
+                                <Snowflake className="h-3.5 w-3.5" />
+                                Powered by Virtual Freezer ($0 Stock)
                               </span>
                             )}
                             {dish.aiGenerated && (
@@ -1634,6 +2579,39 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           <p className="text-xs text-slate-600 sm:text-sm">
                             {dish.subtitle}
                           </p>
+
+                          {/* v1.2 Ticket #22: Clear Macro Breakdown Badges & Dietary Tags */}
+                          {dish.macrosPerServing && (
+                            <div className="pt-1.5 flex flex-wrap items-center gap-1.5">
+                              <span className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-950 border border-amber-300">
+                                <Dumbbell className="h-3.5 w-3.5 text-amber-700" />
+                                {dish.macrosPerServing.proteinGrams}g Protein
+                              </span>
+                              <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">
+                                🔥 {dish.macrosPerServing.calories} kcal
+                              </span>
+                              <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">
+                                🌾 {dish.macrosPerServing.carbsGrams}g Carbs
+                              </span>
+                              <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">
+                                🥑 {dish.macrosPerServing.fatGrams}g Fat
+                              </span>
+                              {(dish.macroBadges || []).map((badge) => (
+                                <span
+                                  key={badge}
+                                  className="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200"
+                                >
+                                  {badge}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {dish.adaptationNote && (
+                            <p className="text-[11px] font-semibold text-indigo-700">
+                              ✨ Smart Profile Adaptation: {dish.adaptationNote}
+                            </p>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-3">
@@ -1702,7 +2680,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               </span>
                               {ing.isOnHand ? (
                                 <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-[11px] font-bold text-white">
-                                  <Snowflake className="h-3 w-3" /> In Freezer/Pantry
+                                  <Snowflake className="h-3 w-3" />{' '}
+                                  {ing.fromVirtualFreezer
+                                    ? 'Virtual Freezer ($0)'
+                                    : 'In Freezer/Pantry'}
                                 </span>
                               ) : (
                                 renderStoreBadge(ing.store)
@@ -1801,10 +2782,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-slate-900">
-                    Want to Swap a Dish? Browse All {data.allRankedDishes.length} Cost-Ranked Stews &amp; Casseroles
+                    Want to Swap a Dish? Browse All {data.allRankedDishes.length} Cost-Ranked Blueprints
                   </h3>
                   <p className="text-xs text-slate-500">
-                    Every blueprint is dynamically priced using this week&apos;s Mead, CO circulars and scaled to {targetServings} servings.
+                    Every blueprint is dynamically priced using this week&apos;s {data.cityLabel} circulars and scaled to {targetServings} servings.
                   </p>
                 </div>
                 <button
@@ -1826,7 +2807,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     >
                       <div>
                         <span className="font-semibold text-emerald-700">
-                          {dish.appliance} • {dish.macrosPerServing?.proteinGrams || 40}g Protein
+                          {dish.appliance} • {dish.macrosPerServing?.proteinGrams || 40}g Protein •{' '}
+                          {dish.macrosPerServing?.carbsGrams || 30}g Carbs
                         </span>
                         <h4 className="font-bold text-slate-900">{dish.title}</h4>
                         <p className="text-slate-500">
@@ -1856,16 +2838,18 @@ export default function MealPrepDashboard({ initialData }: Props) {
         )}
 
         {/* =========================================================
-            TAB 3: SHOPPING LIST, COUPON PRE-FLIGHT & STORE OPTIMIZER
+            TAB 3: SHOPPING LIST, 1-TAP CURBSIDE CART BRIDGE & EXPORT
            ========================================================= */}
         {activeTab === 'SHOPPING_LIST' && (
           <div className="space-y-6">
-            <section className="rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-5 text-white shadow-md">
+            <section className="rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-5 text-white shadow-md no-print">
               <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
                 <div>
                   <div className="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-300">
                     <Store className="h-3.5 w-3.5" />
-                    <span>Store Split vs. 1-Stop Trip Optimizer (Ticket #7)</span>
+                    <span>
+                      Store Split Optimizer &amp; 1-Tap Curbside Cart Bridge (Tickets #7 &amp; #23)
+                    </span>
                   </div>
                   <h2 className="mt-2 text-xl font-extrabold sm:text-2xl">
                     {shoppingPlan.tripComparison.recommendationHeadline}
@@ -1896,7 +2880,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
-                        ⚡ Optimal 2-Store Split: {shoppingPlan.tripComparison.bestTwoStoreSplit?.storeNames.join(' + ') || 'Multi-Store'}
+                        ⚡ Optimal 2-Store Split:{' '}
+                        {shoppingPlan.tripComparison.bestTwoStoreSplit?.storeNames.join(
+                          ' + '
+                        ) || 'Multi-Store'}
                       </span>
                       {tripMode === 'SPLIT' && (
                         <span className="rounded-full bg-emerald-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
@@ -1905,15 +2892,26 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       )}
                     </div>
                     <div className="mt-1 text-xs text-slate-300">
-                      {shoppingPlan.tripComparison.bestTwoStoreSplit?.splitSummary || 'Cheapest ingredient across stores'}
+                      {shoppingPlan.tripComparison.bestTwoStoreSplit?.splitSummary ||
+                        'Cheapest ingredient across stores'}
                     </div>
                   </div>
                   <div className="text-left sm:text-right shrink-0">
                     <div className="text-2xl font-black text-white">
-                      ${(shoppingPlan.tripComparison.bestTwoStoreSplit?.total ?? shoppingPlan.tripComparison.optimalSplitTotal).toFixed(2)}
+                      $
+                      {(
+                        shoppingPlan.tripComparison.bestTwoStoreSplit?.total ??
+                        shoppingPlan.tripComparison.optimalSplitTotal
+                      ).toFixed(2)}
                     </div>
                     <div className="text-[11px] text-emerald-300 font-semibold">
-                      Save ${(shoppingPlan.tripComparison.regularShelfTotal - (shoppingPlan.tripComparison.bestTwoStoreSplit?.total ?? shoppingPlan.tripComparison.optimalSplitTotal)).toFixed(2)} vs regular shelf
+                      Save $
+                      {(
+                        shoppingPlan.tripComparison.regularShelfTotal -
+                        (shoppingPlan.tripComparison.bestTwoStoreSplit?.total ??
+                          shoppingPlan.tripComparison.optimalSplitTotal)
+                      ).toFixed(2)}{' '}
+                      vs regular shelf
                     </div>
                   </div>
                 </button>
@@ -1924,64 +2922,208 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     Ranked 1-Stop Trips (All {shoppingPlan.items.length} Ingredients at 1 Store)
                   </div>
                   <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {(shoppingPlan.tripComparison.singleStoreRankings || []).map((rank, idx) => {
-                      const def = getStoreDefinition(rank.store);
-                      const isSelected = tripMode === rank.store;
-                      return (
-                        <button
-                          key={rank.store}
-                          onClick={() => setTripMode(rank.store)}
-                          className={`flex flex-col justify-between rounded-xl border p-3 text-left transition ${
-                            isSelected
-                              ? 'border-indigo-400 bg-indigo-500/25 ring-2 ring-indigo-400/40'
-                              : 'border-white/15 bg-white/5 hover:bg-white/10'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-xs font-bold text-slate-300">#{idx + 1}</span>
-                              <span
-                                style={{ backgroundColor: def.brandColor, color: '#ffffff' }}
-                                className="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs"
-                              >
-                                {rank.storeName}
+                    {(shoppingPlan.tripComparison.singleStoreRankings || []).map(
+                      (rank, idx) => {
+                        const def = getStoreDefinition(rank.store);
+                        const isSelected = tripMode === rank.store;
+                        return (
+                          <button
+                            key={rank.store}
+                            onClick={() => setTripMode(rank.store)}
+                            className={`flex flex-col justify-between rounded-xl border p-3 text-left transition ${
+                              isSelected
+                                ? 'border-indigo-400 bg-indigo-500/25 ring-2 ring-indigo-400/40'
+                                : 'border-white/15 bg-white/5 hover:bg-white/10'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-xs font-bold text-slate-300">
+                                  #{idx + 1}
+                                </span>
+                                <span
+                                  style={{
+                                    backgroundColor: def.brandColor,
+                                    color: '#ffffff',
+                                  }}
+                                  className="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs"
+                                >
+                                  {rank.storeName}
+                                </span>
+                              </div>
+                              {isSelected ? (
+                                <span className="rounded-full bg-indigo-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
+                                  Active
+                                </span>
+                              ) : rank.isBest ? (
+                                <span className="rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 px-1.5 py-0.5 text-[10px] font-bold">
+                                  🏆 Lowest 1-Stop
+                                </span>
+                              ) : (
+                                <span className="text-[10px] text-slate-400 font-medium">
+                                  +${rank.diffFromBest.toFixed(2)} vs #1
+                                </span>
+                              )}
+                            </div>
+                            <div className="mt-2 flex items-baseline justify-between">
+                              <span className="text-xl font-black text-white">
+                                ${rank.total.toFixed(2)}
+                              </span>
+                              <span className="text-[11px] text-slate-400">
+                                +$
+                                {(
+                                  rank.total -
+                                  (shoppingPlan.tripComparison.bestTwoStoreSplit?.total ??
+                                    shoppingPlan.tripComparison.optimalSplitTotal)
+                                ).toFixed(2)}{' '}
+                                vs split
                               </span>
                             </div>
-                            {isSelected ? (
-                              <span className="rounded-full bg-indigo-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">
-                                Active
-                              </span>
-                            ) : rank.isBest ? (
-                              <span className="rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 px-1.5 py-0.5 text-[10px] font-bold">
-                                🏆 Lowest 1-Stop
-                              </span>
-                            ) : (
-                              <span className="text-[10px] text-slate-400 font-medium">
-                                +${rank.diffFromBest.toFixed(2)} vs #1
-                              </span>
-                            )}
-                          </div>
-                          <div className="mt-2 flex items-baseline justify-between">
-                            <span className="text-xl font-black text-white">
-                              ${rank.total.toFixed(2)}
-                            </span>
-                            <span className="text-[11px] text-slate-400">
-                              +$
-                              {(rank.total - (shoppingPlan.tripComparison.bestTwoStoreSplit?.total ?? shoppingPlan.tripComparison.optimalSplitTotal)).toFixed(2)}{' '}
-                              vs split
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
+                          </button>
+                        );
+                      }
+                    )}
                   </div>
                 </div>
               </div>
             </section>
 
+            {/* v1.2 Ticket #23: Export to Notes / Keep & Printable Slip Action Bar */}
+            <section className="rounded-2xl border border-emerald-300 bg-emerald-50/70 p-4 shadow-2xs no-print">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-extrabold text-slate-900">
+                    1-Tap Curbside Cart Bridge &amp; Multi-Store Checklist Export (Ticket #23)
+                  </h3>
+                  <p className="text-xs text-slate-600">
+                    Export your aisle-grouped checklist to Apple Notes, Google Keep, or Reminders—or use the 1-tap curbside search links below to load Walmart, Target, Kroger, or Instacart carts.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCopyShoppingListForNotes}
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition"
+                  >
+                    {copiedChecklist ? (
+                      <>
+                        <Check className="h-4 w-4" />
+                        <span>Copied for Apple Notes / Keep!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4" />
+                        <span>Export to Notes / Keep (By Aisle)</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPrintSlipModal(!showPrintSlipModal)}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-bold text-slate-800 hover:bg-slate-100 transition"
+                  >
+                    <Printer className="h-4 w-4 text-slate-700" />
+                    <span>
+                      {showPrintSlipModal
+                        ? 'Hide Printable Slip'
+                        : 'Preview Printable Slip'}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handlePrintShoppingSlip}
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-white hover:bg-slate-800 transition"
+                  >
+                    <Printer className="h-4 w-4" />
+                    <span>Print Checklist</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            {/* v1.2 Ticket #23: High-Contrast Printable Shopping Slip */}
+            {showPrintSlipModal && (
+              <section className="rounded-2xl border-2 border-slate-900 bg-white p-5 text-black shadow-md">
+                <div className="flex items-center justify-between border-b-2 border-black pb-3">
+                  <div>
+                    <h3 className="text-lg font-black uppercase tracking-tight">
+                      PantryBot Weekend In-Store &amp; Curbside Slip
+                    </h3>
+                    <p className="text-xs font-semibold text-slate-700">
+                      {data.cityLabel} ({currentZip}) • {data.adCycleLabel} •{' '}
+                      {activeTrio.length} Batch Dishes ({trioTotals.totalServings} Meals)
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xs font-bold uppercase">Est. Basket Total</div>
+                    <div className="text-xl font-black">
+                      $
+                      {(
+                        shoppingPlan.tripComparison.bestTwoStoreSplit?.total ??
+                        shoppingPlan.tripComparison.optimalSplitTotal
+                      ).toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  {(['PRODUCE', 'PROTEIN', 'DAIRY_EGGS'] as CommodityCategory[]).map(
+                    (cat) => {
+                      const catItems = resolvedShoppingItems.filter(
+                        (i) => i.category === cat
+                      );
+                      if (catItems.length === 0) return null;
+                      const catTitle =
+                        cat === 'PRODUCE'
+                          ? '🥬 Fresh Produce Aisle'
+                          : cat === 'PROTEIN'
+                            ? '🥩 Meat & Seafood Counter'
+                            : '🧀 Dairy & Eggs Wall';
+                      return (
+                        <div key={cat} className="space-y-1.5">
+                          <h4 className="border-b border-slate-400 pb-1 text-xs font-black uppercase">
+                            {catTitle}
+                          </h4>
+                          {catItems.map((cItem) => (
+                            <div
+                              key={`print-${cItem.ingredientId}`}
+                              className="flex items-start justify-between gap-2 text-xs py-1 border-b border-slate-100"
+                            >
+                              <div className="flex items-start gap-2">
+                                <span className="inline-block h-3.5 w-3.5 border border-black mt-0.5 shrink-0" />
+                                <div>
+                                  <span className="font-bold">
+                                    {cItem.ingredientName}
+                                  </span>{' '}
+                                  ({cItem.totalQuantityNeeded} {cItem.unit})
+                                  <div className="text-[10px] text-slate-700">
+                                    [{resolveStoreBanner(cItem.activeStore, currentZip)}] •{' '}
+                                    {cItem.activeRawDealText}
+                                    {cItem.activeDealType === 'DIGITAL_COUPON'
+                                      ? ' • 📱 CLIP COUPON'
+                                      : ''}
+                                  </div>
+                                </div>
+                              </div>
+                              <span className="font-black">
+                                ${cItem.activeTotalCost.toFixed(2)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </section>
+            )}
+
             {/* Digital Coupon Pre-Flight Checklist (Grouped by Store App - v1.1) */}
             {digitalCouponItems.length > 0 && (
-              <section className="rounded-2xl border border-amber-300 bg-amber-50/70 p-4 sm:p-5 shadow-2xs">
+              <section className="rounded-2xl border border-amber-300 bg-amber-50/70 p-4 sm:p-5 shadow-2xs no-print">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-500 text-white">
@@ -1989,7 +3131,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     </span>
                     <div>
                       <h3 className="text-sm font-extrabold text-amber-950 sm:text-base">
-                        Digital Coupon Pre-Flight Checklist ({digitalCouponItems.length} Coupons to Clip)
+                        Digital Coupon Pre-Flight Checklist ({digitalCouponItems.length}{' '}
+                        Coupons to Clip)
                       </h3>
                       <p className="text-xs text-amber-800">
                         Clip these in the respective store app before checkout to guarantee advertised promotional pricing.
@@ -2000,20 +3143,28 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
                 <div className="mt-3 space-y-4">
                   {Array.from(
-                    digitalCouponItems.reduce((acc, cItem) => {
-                      const def = getStoreDefinition(cItem.activeStore);
-                      const appName = def.couponAppLabel || `${resolveStoreBanner(cItem.activeStore, currentZip)} App`;
-                      const list = acc.get(appName) || [];
-                      list.push(cItem);
-                      acc.set(appName, list);
-                      return acc;
-                    }, new Map<string, typeof digitalCouponItems>()).entries()
+                    digitalCouponItems
+                      .reduce((acc, cItem) => {
+                        const def = getStoreDefinition(cItem.activeStore);
+                        const appName =
+                          def.couponAppLabel ||
+                          `${resolveStoreBanner(cItem.activeStore, currentZip)} App`;
+                        const list = acc.get(appName) || [];
+                        list.push(cItem);
+                        acc.set(appName, list);
+                        return acc;
+                      }, new Map<string, typeof digitalCouponItems>())
+                      .entries()
                   ).map(([appName, appItems]) => (
-                    <div key={appName} className="rounded-xl border border-amber-200/80 bg-white/70 p-3">
+                    <div
+                      key={appName}
+                      className="rounded-xl border border-amber-200/80 bg-white/70 p-3"
+                    >
                       <div className="flex items-center gap-2 mb-2 pb-1.5 border-b border-amber-100">
                         <Smartphone className="h-3.5 w-3.5 text-amber-700" />
                         <span className="text-xs font-bold text-amber-950 uppercase tracking-wide">
-                          {appName} ({appItems.length} {appItems.length === 1 ? 'coupon' : 'coupons'})
+                          {appName} ({appItems.length}{' '}
+                          {appItems.length === 1 ? 'coupon' : 'coupons'})
                         </span>
                       </div>
                       <div className="grid gap-2 sm:grid-cols-2">
@@ -2075,7 +3226,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
               </section>
             )}
 
-            {/* Aggregated & Deduplicated Shopping List */}
+            {/* Aggregated & Deduplicated Shopping List with 1-Tap Curbside Links */}
             <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 <div>
@@ -2083,7 +3234,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     Deduplicated 3-Dish Shopping List ({resolvedShoppingItems.length} Unique Store Staples)
                   </h3>
                   <p className="text-xs text-slate-500">
-                    Overlapping ingredients across your 3 batch dishes are automatically combined into single store quantities. Tap any row to check off, or click &ldquo;Have at Home&rdquo; to zero out its cost.
+                    Overlapping ingredients across your 3 batch dishes are automatically combined. Click any 1-tap curbside link to open the item directly in Walmart, Target, Kroger, or Instacart.
                   </p>
                 </div>
               </div>
@@ -2091,10 +3242,16 @@ export default function MealPrepDashboard({ initialData }: Props) {
               <div className="mt-4 space-y-2.5">
                 {resolvedShoppingItems.map((item) => {
                   const isChecked = Boolean(checkedItems[item.ingredientId]);
+                  const { primaryLink, bridgeLinks } = getItemCurbsideLinks(
+                    item.activeStore,
+                    item.ingredientName,
+                    currentZip
+                  );
+
                   return (
                     <div
                       key={item.ingredientId}
-                      className={`flex flex-col justify-between gap-2 rounded-xl border p-3.5 transition sm:flex-row sm:items-center ${
+                      className={`flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center ${
                         item.isOnHand
                           ? 'border-sky-300 bg-sky-50/50'
                           : isChecked
@@ -2102,28 +3259,30 @@ export default function MealPrepDashboard({ initialData }: Props) {
                             : 'border-slate-200 bg-white hover:border-emerald-400'
                       }`}
                     >
-                      <div
-                        onClick={() => toggleCheckedItem(item.ingredientId)}
-                        className="flex flex-1 cursor-pointer items-start gap-3"
-                      >
-                        <div className="mt-0.5 text-emerald-600">
+                      <div className="flex flex-1 items-start gap-3">
+                        <button
+                          type="button"
+                          onClick={() => toggleCheckedItem(item.ingredientId)}
+                          className="mt-0.5 text-emerald-600"
+                        >
                           {isChecked ? (
                             <CheckSquare className="h-5 w-5" />
                           ) : (
                             <Square className="h-5 w-5 text-slate-400" />
                           )}
-                        </div>
-                        <div>
+                        </button>
+                        <div className="space-y-1">
                           <div className="flex flex-wrap items-center gap-2">
                             {item.isOnHand ? (
                               <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-xs font-bold text-white">
-                                <Snowflake className="h-3 w-3" /> In Freezer / Pantry ($0)
+                                <Snowflake className="h-3 w-3" /> In Virtual Freezer / Pantry ($0)
                               </span>
                             ) : (
                               renderStoreBadge(item.activeStore)
                             )}
                             <span
-                              className={`text-sm font-bold ${
+                              onClick={() => toggleCheckedItem(item.ingredientId)}
+                              className={`cursor-pointer text-sm font-bold ${
                                 isChecked
                                   ? 'line-through text-slate-500'
                                   : 'text-slate-900'
@@ -2133,7 +3292,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                             </span>
                             {!item.isOnHand && renderDealBadge(item.activeDealType)}
                           </div>
-                          <p className="mt-1 text-xs text-slate-600">
+                          <p className="text-xs text-slate-600">
                             <strong>
                               Total Needed: {item.totalQuantityNeeded} {item.unit}
                             </strong>{' '}
@@ -2142,14 +3301,50 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               .map((u) => `${u.dishTitle} (${u.quantity} ${item.unit})`)
                               .join(' + ')}
                           </p>
+
+                          {/* v1.2 Ticket #23: Direct 1-Tap Curbside Search Links */}
+                          {!item.isOnHand && (
+                            <div className="pt-1 flex flex-wrap items-center gap-1.5 no-print">
+                              <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                                1-Tap Curbside:
+                              </span>
+                              <a
+                                href={primaryLink.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  backgroundColor: primaryLink.brandColor,
+                                  color: '#ffffff',
+                                }}
+                                className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90"
+                              >
+                                <span>🛒 {primaryLink.shortLabel}</span>
+                                <ExternalLink className="h-2.5 w-2.5" />
+                              </a>
+                              {bridgeLinks
+                                .filter((b) => b.provider !== primaryLink.provider)
+                                .map((link) => (
+                                  <a
+                                    key={link.provider}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100"
+                                  >
+                                    <span>{link.shortLabel}</span>
+                                    <ExternalLink className="h-2.5 w-2.5 text-slate-400" />
+                                  </a>
+                                ))}
+                            </div>
+                          )}
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 sm:border-none sm:pt-0 sm:text-right">
+                      <div className="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
                         <button
                           type="button"
                           onClick={() => handleToggleOnHand(item.ingredientId)}
-                          className={`rounded-lg border px-2.5 py-1 text-[11px] font-bold transition ${
+                          className={`rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print ${
                             item.isOnHand
                               ? 'border-sky-500 bg-sky-600 text-white'
                               : 'border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -2172,7 +3367,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                  Pantry &amp; Spice Cabinet Check (Est. ${shoppingPlan.tripComparison.estimatedPantryTotal.toFixed(2)} total across 3 dishes)
+                  Pantry &amp; Spice Cabinet Check (Est. $
+                  {shoppingPlan.tripComparison.estimatedPantryTotal.toFixed(2)} total across 3 dishes)
                 </h4>
                 <div className="mt-2.5 flex flex-wrap gap-2">
                   {shoppingPlan.pantryChecklist.map((pantryItem) => {
@@ -2203,7 +3399,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
         )}
 
         {/* =========================================================
-            TAB 4: USDA COMMODITY & WHOLESALE RADAR
+            TAB 4: USDA, 6-WEEK CYCLE SIGNALS & WHOLESALE CLUB RADAR
            ========================================================= */}
         {activeTab === 'RADAR' && (
           <div className="space-y-6">
@@ -2214,14 +3410,206 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 </span>
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">
-                    USDA Wholesale vs. Local Retail Arbitrage Radar
+                    Predictive 6-Week Cycle Signals, USDA Wholesale &amp; Club Bulk Radar
                   </h2>
                   <p className="mt-1 text-xs text-slate-600 sm:text-sm">
-                    Wholesale terminal and shipping-point price movements typically lead retail supermarket circulars by <strong>7 to 14 days</strong>. Use this view to know what to stock up on before retail prices jump, and what to skip until next Wednesday&apos;s ad.
+                    Combines 6-week SQLite longitudinal price history, USDA shipping-point momentum, and Costco / Sam&apos;s Club bulk benchmarks to show when to stock up and freeze vs. when to wait or substitute.
                   </p>
                 </div>
               </div>
 
+              {/* v1.2 Ticket #24: Stock Up Alert (6-Week Low) vs Cycle Peak Substitution Grid */}
+              <div className="mt-6 grid gap-6 md:grid-cols-2">
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50/40 p-4">
+                  <div className="flex items-center gap-2 text-emerald-950">
+                    <Snowflake className="h-5 w-5 text-emerald-600" />
+                    <h3 className="font-bold">
+                      🟢 Stock Up Alert (Confirmed 6-Week Price Floors)
+                    </h3>
+                  </div>
+                  <p className="mt-1 text-xs text-emerald-800">
+                    These staples are at or within pennies of their 6-week SQLite price floor. Ideal candidates for &ldquo;Buy 2: Prep 1, Freeze 1&rdquo; multi-week arbitrage.
+                  </p>
+
+                  <div className="mt-3 space-y-2.5">
+                    {(data.marketRadar.stockUpCycleLows || data.commodities.slice(0, 6))
+                      .slice(0, 6)
+                      .map((item) => (
+                        <div
+                          key={`floor-${item.ingredient.id}`}
+                          className="flex items-center justify-between rounded-xl border border-emerald-200 bg-white p-3 shadow-2xs text-xs"
+                        >
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              {renderStoreBadge(item.bestOffer.store)}
+                              <span className="font-bold text-slate-900">
+                                {item.ingredient.name}
+                              </span>
+                            </div>
+                            <div className="mt-1 text-slate-600">
+                              Now{' '}
+                              <strong className="text-emerald-700">
+                                ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
+                                {item.ingredient.standardUnit}
+                              </strong>{' '}
+                              (6-Wk Range: ${item.sixWeekLow.toFixed(2)} – $
+                              {(item.sixWeekHigh ?? item.bestOffer.regularPricePerUnit).toFixed(2)})
+                            </div>
+                          </div>
+
+                          {item.arbitragePrompt?.eligible && (
+                            <button
+                              type="button"
+                              onClick={() => handleBuyTwoPrepOneFreezeOne(item)}
+                              className="shrink-0 rounded-lg bg-sky-600 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-sky-700"
+                            >
+                              ❄️ Buy 2 / Freeze 1
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-rose-200 bg-rose-50/40 p-4">
+                  <div className="flex items-center gap-2 text-rose-950">
+                    <ArrowLeftRight className="h-5 w-5 text-rose-600" />
+                    <h3 className="font-bold">
+                      🔴 Cycle Peak / Wait &amp; Smart Substitution Advisor (Ticket #24)
+                    </h3>
+                  </div>
+                  <p className="mt-1 text-xs text-rose-800">
+                    Wholesale prices are dropping rapidly or current retail is near its 6-week peak. Swap in a 6-week floor alternative this week and wait for next Wednesday&apos;s ad drop.
+                  </p>
+
+                  <div className="mt-3 space-y-2.5">
+                    {(data.marketRadar.cyclePeakWaitList || []).map((item) => (
+                      <div
+                        key={`peak-${item.ingredient.id}`}
+                        className="rounded-xl border border-rose-200 bg-white p-3 shadow-2xs text-xs"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-slate-900">
+                            {item.ingredient.name}
+                          </span>
+                          <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-bold text-rose-900">
+                            🔴 Wait / Swap (Wholesale {item.ingredient.usdaSignal.wholesaleChangePct}%)
+                          </span>
+                        </div>
+                        <div className="mt-1 text-slate-600">
+                          Current Retail:{' '}
+                          <strong>
+                            ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
+                            {item.ingredient.standardUnit}
+                          </strong>{' '}
+                          • 6-Wk Median: $
+                          {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)}
+                        </div>
+                        {item.cycleSignal?.substitutionSuggestion && (
+                          <div className="mt-1.5 flex items-center justify-between gap-2 rounded-lg bg-rose-50 p-2 text-[11px] text-rose-950">
+                            <span>{item.cycleSignal.substitutionSuggestion.reason}</span>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleTogglePin(
+                                  item.cycleSignal!.substitutionSuggestion!
+                                    .substituteIngredientId
+                                )
+                              }
+                              className="shrink-0 rounded bg-rose-700 px-2 py-1 text-[10px] font-bold text-white hover:bg-rose-800"
+                            >
+                              Pin Swap
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* v1.2 Ticket #25: Wholesale Club Price Normalizer Matrix (Costco & Sam's Club) */}
+              <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50/30 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Award className="h-5 w-5 text-blue-700" />
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        Wholesale Club Price Normalizer: Supermarket Ads vs. Costco &amp; Sam&apos;s Club Bulk (Ticket #25)
+                      </h3>
+                      <p className="text-xs text-slate-600">
+                        Side-by-side $/lb and $/doz benchmark confirming which weekly supermarket loss-leaders genuinely beat buying bulk packs at Costco or Sam&apos;s Club.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b border-blue-200 text-[11px] font-bold uppercase text-slate-600">
+                        <th className="py-2 pr-3">Commodity</th>
+                        <th className="py-2 px-2">Best Supermarket Deal</th>
+                        <th className="py-2 px-2">Costco (Kirkland)</th>
+                        <th className="py-2 px-2">Sam&apos;s Club</th>
+                        <th className="py-2 pl-2 text-right">Club Normalizer Verdict</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-blue-100">
+                      {data.commodities.slice(0, 12).map((item) => {
+                        const cb = item.clubBenchmark;
+                        if (!cb) return null;
+                        return (
+                          <tr key={`club-${item.ingredient.id}`} className="bg-white/60">
+                            <td className="py-2 pr-3 font-bold text-slate-900">
+                              {item.ingredient.name}
+                            </td>
+                            <td className="py-2 px-2">
+                              <div className="flex items-center gap-1.5">
+                                {renderStoreBadge(item.bestOffer.store)}
+                                <span className="font-extrabold text-slate-900">
+                                  ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
+                                  {item.ingredient.standardUnit}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="py-2 px-2 text-slate-700">
+                              <strong>
+                                ${cb.costcoPricePerUnit.toFixed(2)}/{item.ingredient.standardUnit}
+                              </strong>
+                              <div className="text-[10px] text-slate-500">
+                                {cb.costcoPackDescription}
+                              </div>
+                            </td>
+                            <td className="py-2 px-2 text-slate-700">
+                              <strong>
+                                ${cb.samsClubPricePerUnit.toFixed(2)}/
+                                {item.ingredient.standardUnit}
+                              </strong>
+                              <div className="text-[10px] text-slate-500">
+                                {cb.samsClubPackDescription}
+                              </div>
+                            </td>
+                            <td className="py-2 pl-2 text-right">
+                              <span
+                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                                  cb.beatsClubBulk
+                                    ? 'bg-emerald-100 text-emerald-900'
+                                    : 'bg-amber-100 text-amber-900'
+                                }`}
+                              >
+                                {cb.verdictLabel}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Original USDA Spiking vs Dropping Section */}
               <div className="mt-6 grid gap-6 md:grid-cols-2">
                 <div className="rounded-xl border border-amber-200 bg-amber-50/40 p-4">
                   <div className="flex items-center gap-2 text-amber-900">
@@ -2231,7 +3619,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     </h3>
                   </div>
                   <p className="mt-1 text-xs text-amber-800">
-                    USDA wholesale indexes rose this week on these items, but King Soopers or Safeway still have an active loss-leader promo through Tuesday.
+                    USDA wholesale indexes rose this week on these items, but local stores still have an active loss-leader promo through Tuesday.
                   </p>
 
                   <div className="mt-3 space-y-3">
@@ -2252,7 +3640,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                             {item.ingredient.standardUnit}
                           </span>
                           <span className="text-xs text-amber-700 font-semibold">
-                            (USDA Wholesale +{item.ingredient.usdaSignal.wholesaleChangePct}% this week)
+                            (USDA Wholesale +{item.ingredient.usdaSignal.wholesaleChangePct}%
+                            this week)
                           </span>
                         </div>
                         <p className="mt-1 text-xs text-slate-600">
@@ -2271,7 +3660,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     </h3>
                   </div>
                   <p className="mt-1 text-xs text-sky-800">
-                    USDA shipping-point prices dropped sharply on these items, but neither King Soopers nor Safeway has passed the savings into the weekly circular yet.
+                    USDA shipping-point prices dropped sharply on these items, but local circulars haven&apos;t passed the savings along yet.
                   </p>
 
                   <div className="mt-3 space-y-3">
@@ -2292,7 +3681,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           <span className="text-slate-600">
                             Current Local Shelf:{' '}
                             <strong className="text-slate-900">
-                              ${item.currentLocalPrice.toFixed(2)}/{item.ingredient.standardUnit}
+                              ${item.currentLocalPrice.toFixed(2)}/
+                              {item.ingredient.standardUnit}
                             </strong>
                           </span>
                           <span className="text-emerald-700 font-semibold">
@@ -2311,7 +3701,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600">
                 <div className="flex items-center gap-1.5 font-bold text-slate-900">
                   <Info className="h-4 w-4 text-emerald-600" />
-                  <span>v0.4 Active Data Pipeline, SQLite History &amp; Store Locations</span>
+                  <span>
+                    v1.2 Active Data Pipeline, SQLite History, Virtual Freezer &amp; Store Locations
+                  </span>
                 </div>
                 <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   <div>
@@ -2319,7 +3711,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     <code>{data.sqliteStats.dbPath}</code> —{' '}
                     <span className="text-emerald-700 font-semibold">
                       {data.sqliteStats.totalHistoricalOfferRows} offer rows &amp;{' '}
-                      {data.sqliteStats.totalUsdaSnapshotRows} USDA rows ({data.sqliteStats.trackedWeeksCount} weeks)
+                      {data.sqliteStats.totalUsdaSnapshotRows} USDA rows (
+                      {data.sqliteStats.trackedWeeksCount} weeks)
                     </span>
                   </div>
                   <div>
@@ -2332,14 +3725,20 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   </div>
                   <div>
                     <strong>Nearby Supermarkets ({data.zipCode}):</strong>{' '}
-                    {data.nearbyKingSoopersLocations && data.nearbyKingSoopersLocations.length > 0
+                    {data.nearbyKingSoopersLocations &&
+                    data.nearbyKingSoopersLocations.length > 0
                       ? data.nearbyKingSoopersLocations
-                          .map((loc) => `${loc.name} (#${loc.locationId}, ${loc.distanceMiles} mi)`)
+                          .map(
+                            (loc) =>
+                              `${loc.name} (#${loc.locationId}, ${loc.distanceMiles} mi)`
+                          )
                           .join(' • ')
-                      : `King Soopers & Safeway (Kroger & Albertsons Banners)`}
+                      : `Kroger, Albertsons, ALDI, Walmart, Target & Sprouts`}
                   </div>
                   <div>
-                    <strong>USDA MARS Reports:</strong> Specialty Crops (<code>3324</code>), Beef (<code>3228</code>), Pork (<code>2868</code>), Chicken (<code>2756</code>), Dairy (<code>2995</code>)
+                    <strong>USDA MARS &amp; Club Normalizer:</strong> Specialty Crops (
+                    <code>3324</code>), Beef (<code>3228</code>), Pork (<code>2868</code>),
+                    Chicken (<code>2756</code>), Dairy (<code>2995</code>) + Costco / Sam&apos;s Bulk
                   </div>
                 </div>
               </div>

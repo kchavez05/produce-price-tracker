@@ -6,19 +6,27 @@ import {
   getStoreDefinition,
   resolveStoreBanner,
 } from '@/data/store-registry';
+import { compareAgainstWholesaleClubs } from '@/data/wholesale-club-benchmarks';
 import {
+  ArbitragePrompt,
   AvailableStoreInfo,
   CanonicalIngredient,
+  CookingVesselArchetype,
+  CycleSignalMetadata,
   DashboardPayload,
+  DietaryConstraint,
+  MacroGoal,
+  MatchedSlotIngredient,
+  NutritionMacros,
   RecommendedDish,
   ScoredCommodity,
   StoreChain,
   StoreOffer,
-  MatchedSlotIngredient,
 } from '@/types/domain';
 import { fetchLiveFlippOffers } from './connectors/flipp';
 import { checkUsdaMarsStatus, fetchKrogerLiveOffers } from './connectors/usda-and-kroger';
 import {
+  getFreezerItemsFromSqlite,
   getIngredientHistoryFromSqlite,
   getSavedRecipesFromSqlite,
   getSqliteDatabaseStats,
@@ -191,8 +199,82 @@ export function scoreAllCommodities(
       actionTag = 'STOCK_UP_ANCHOR';
     }
 
-    const { priceHistory, sixWeekLocalAvg, sixWeekLow } =
-      getIngredientHistoryFromSqlite(ingredient.id);
+    const {
+      priceHistory,
+      sixWeekLocalAvg,
+      sixWeekLow,
+      sixWeekHigh,
+      sixWeekMedian,
+    } = getIngredientHistoryFromSqlite(ingredient.id);
+
+    // Ticket #25: Wholesale Club (Costco & Sam's Club) Price Normalizer
+    const clubBenchmark = compareAgainstWholesaleClubs(
+      ingredient.id,
+      bestOffer.normalizedPricePerUnit,
+      ingredient.standardUnit
+    );
+
+    // Ticket #24: Predictive 6-Week Cycle Signal Classification
+    const pctVsSixWeekLow =
+      sixWeekLow > 0
+        ? Math.round(
+            ((bestOffer.normalizedPricePerUnit - sixWeekLow) / sixWeekLow) * 100
+          )
+        : 0;
+
+    let cycleStatus: CycleSignalMetadata['status'] = 'FAIR_SALE_PRICE';
+    let badgeLabel = '🟡 Fair Sale Price (Buy for Week)';
+
+    if (
+      actionTag === 'WAIT_NEXT_WEEK' ||
+      (ingredient.usdaSignal.trend === 'DROPPING_FAST' && discountVsRegularPct < 30) ||
+      discountVsRegularPct < 20
+    ) {
+      cycleStatus = 'CYCLE_PEAK_WAIT';
+      badgeLabel = '🔴 Cycle Peak (Wait / Substitute)';
+    } else if (
+      (bestOffer.normalizedPricePerUnit <= sixWeekLow + 0.05 &&
+        discountVsRegularPct >= 32) ||
+      discountVsRegularPct >= 42
+    ) {
+      cycleStatus = 'STOCK_UP_6WK_LOW';
+      badgeLabel = '🟢 Stock Up Alert (6-Week Low)';
+    }
+
+    // Ticket #21: Virtual Freezer Arbitrage Prompt ("Buy 2: Prep 1, Freeze 1")
+    const isFreezableCategory =
+      ingredient.category === 'PROTEIN' ||
+      ingredient.id === 'butter-salted-unsalted' ||
+      ingredient.id === 'shredded-block-cheese';
+    const isArbitrageEligible =
+      isFreezableCategory &&
+      (cycleStatus === 'STOCK_UP_6WK_LOW' ||
+        discountVsRegularPct >= 38 ||
+        isSplurgeAlert);
+
+    const recommendedFreezeQty =
+      ingredient.category === 'PROTEIN'
+        ? Math.max(2.0, Number(ingredient.avgEachWeightLb.toFixed(1)))
+        : 2.0;
+    const freezeCostBasis = Number(
+      (bestOffer.normalizedPricePerUnit * recommendedFreezeQty).toFixed(2)
+    );
+    const futureWeekSavings = Number(
+      Math.max(
+        0,
+        (bestOffer.regularPricePerUnit - bestOffer.normalizedPricePerUnit) *
+          recommendedFreezeQty
+      ).toFixed(2)
+    );
+
+    const arbitragePrompt: ArbitragePrompt = {
+      eligible: isArbitrageEligible,
+      label: 'Buy 2: Prep 1, Freeze 1',
+      recommendedFreezeQty,
+      unit: ingredient.standardUnit,
+      freezeCostBasis,
+      futureWeekSavings,
+    };
 
     scored.push({
       ingredient,
@@ -212,22 +294,81 @@ export function scoreAllCommodities(
       priceHistory,
       sixWeekLocalAvg,
       sixWeekLow,
+      sixWeekHigh,
+      sixWeekMedian,
+      cycleSignal: {
+        status: cycleStatus,
+        badgeLabel,
+        sixWeekLow,
+        sixWeekHigh,
+        sixWeekMedian,
+        pctVsSixWeekLow,
+      },
+      clubBenchmark,
+      arbitragePrompt,
     });
+  }
+
+  // Second pass: Attach intelligent substitution suggestions for items in CYCLE_PEAK_WAIT
+  // or higher-cost items that have a deep cycle-low alternative in the same category (Ticket #24)
+  for (const item of scored) {
+    if (!item.cycleSignal) continue;
+    const sameCategoryPool = scored
+      .filter(
+        (c) =>
+          c.ingredient.category === item.ingredient.category &&
+          c.ingredient.id !== item.ingredient.id &&
+          c.cycleSignal?.status === 'STOCK_UP_6WK_LOW' &&
+          c.bestOffer.normalizedPricePerUnit < item.bestOffer.normalizedPricePerUnit - 0.35
+      )
+      .sort((a, b) => b.valueScore - a.valueScore);
+
+    if (
+      sameCategoryPool.length > 0 &&
+      (item.cycleSignal.status === 'CYCLE_PEAK_WAIT' ||
+        item.bestOffer.normalizedPricePerUnit >= 2.49)
+    ) {
+      const sub = sameCategoryPool[0];
+      const savingsPerUnit = Number(
+        (
+          item.bestOffer.normalizedPricePerUnit -
+          sub.bestOffer.normalizedPricePerUnit
+        ).toFixed(2)
+      );
+      item.cycleSignal.substitutionSuggestion = {
+        substituteIngredientId: sub.ingredient.id,
+        substituteName: sub.ingredient.name,
+        substitutePrice: sub.bestOffer.normalizedPricePerUnit,
+        substituteStore: sub.bestOffer.store,
+        savingsPerUnit,
+        reason:
+          item.cycleSignal.status === 'CYCLE_PEAK_WAIT'
+            ? `Wait for next week's ad drop on ${item.ingredient.name}; swap in 6-week floor ${sub.ingredient.name} ($${sub.bestOffer.normalizedPricePerUnit.toFixed(2)}/${sub.ingredient.standardUnit}) to save $${savingsPerUnit.toFixed(2)}/${item.ingredient.standardUnit}.`
+            : `Arbitrage swap: ${sub.ingredient.name} is at a 6-week floor ($${sub.bestOffer.normalizedPricePerUnit.toFixed(2)}/${sub.ingredient.standardUnit}, saving $${savingsPerUnit.toFixed(2)}/${item.ingredient.standardUnit}).`,
+      };
+    }
   }
 
   return scored.sort((a, b) => b.valueScore - a.valueScore);
 }
 
 /**
- * Evaluates all modular Stew, Braise, Chili, Curry, and Casserole blueprints
- * against current local deals, user-pinned ingredient IDs, on-hand freezer/pantry IDs (Ticket #8),
- * target serving scaler 4/6/8 (Ticket #9), and saved library recipes (Ticket #10).
+ * Evaluates all modular Stew, Braise, Chili, Curry, Sheet-Pan, and Casserole blueprints
+ * against current local deals, user-pinned ingredient IDs, on-hand/freezer IDs (Ticket #8 & #21),
+ * target serving scaler 4/6/8 (Ticket #9), saved library recipes (Ticket #10),
+ * and Dietary Preferences, Macro Goals & Cooking Vessel Archetypes (Ticket #22).
  */
 export function rankMealPrepDishes(
   scoredCommodities: ScoredCommodity[],
   pinnedIngredientIds: string[] = [],
   onHandIngredientIds: string[] = [],
-  targetServings: number = 6
+  targetServings: number = 6,
+  options?: {
+    macroGoal?: MacroGoal;
+    dietaryConstraints?: DietaryConstraint[];
+    applianceFilter?: CookingVesselArchetype;
+    freezerIngredientIds?: string[];
+  }
 ): {
   recommendedTrio: RecommendedDish[];
   allRankedDishes: RecommendedDish[];
@@ -236,14 +377,51 @@ export function rankMealPrepDishes(
   for (const sc of scoredCommodities) {
     commodityMap.set(sc.ingredient.id, sc);
   }
+
+  const macroGoal: MacroGoal = options?.macroGoal || 'ANY';
+  const dietaryConstraints: DietaryConstraint[] = options?.dietaryConstraints || [];
+  const applianceFilter: CookingVesselArchetype = options?.applianceFilter || 'ANY';
+  const freezerSet = new Set(options?.freezerIngredientIds || []);
   const pinnedSet = new Set(pinnedIngredientIds);
-  const onHandSet = new Set(onHandIngredientIds);
+  const onHandSet = new Set([
+    ...onHandIngredientIds,
+    ...(options?.freezerIngredientIds || []),
+  ]);
+
   const savedDishesRaw = getSavedRecipesFromSqlite() as RecommendedDish[];
   const savedIdsSet = new Set(savedDishesRaw.map((d) => d.id));
 
   const evaluated: RecommendedDish[] = [];
 
   for (const blueprint of MEAL_PREP_BLUEPRINTS) {
+    // Check strict dietary constraint compatibility (Ticket #22)
+    const needsPescatarian = dietaryConstraints.includes('VEGETARIAN_PESCATARIAN');
+    const needsDairyFree = dietaryConstraints.includes('DAIRY_FREE');
+    const needsGlutenFree = dietaryConstraints.includes('GLUTEN_FREE');
+
+    if (
+      needsPescatarian &&
+      !blueprint.dietaryTags?.includes('VEGETARIAN_PESCATARIAN')
+    ) {
+      continue;
+    }
+
+    if (
+      needsDairyFree &&
+      !blueprint.dietaryTags?.includes('DAIRY_FREE') &&
+      blueprint.dairyFreeAdaptable === false
+    ) {
+      continue;
+    }
+
+    if (
+      needsGlutenFree &&
+      !blueprint.dietaryTags?.includes('GLUTEN_FREE') &&
+      blueprint.glutenFreeAdaptable === false
+    ) {
+      continue;
+    }
+
     const scaleFactor = targetServings / blueprint.servings;
     const matchedIngredients: MatchedSlotIngredient[] = [];
     let storeIngredientCost = 0;
@@ -251,9 +429,35 @@ export function rankMealPrepDishes(
     let scoreSum = 0;
     let pinnedHits = 0;
     let onHandHits = 0;
+    let poweredByFreezerCount = 0;
+    const adaptationNotes: string[] = [];
 
     for (const slot of blueprint.slots) {
-      const candidates = slot.candidateIngredientIds
+      // If DAIRY_FREE is requested and this is a dairy topper/finish slot, omit it cleanly
+      if (needsDairyFree && slot.isDairySlot) {
+        adaptationNotes.push(`Omitted ${slot.label.toLowerCase()} for Dairy-Free profile`);
+        continue;
+      }
+
+      // If LOW_CARB_KETO is active and slot has low-carb vegetable swaps, use them
+      const activeCandidateIds =
+        macroGoal === 'LOW_CARB_KETO' &&
+        slot.lowCarbCandidateIds &&
+        slot.lowCarbCandidateIds.length > 0
+          ? slot.lowCarbCandidateIds
+          : slot.candidateIngredientIds;
+
+      if (
+        macroGoal === 'LOW_CARB_KETO' &&
+        slot.lowCarbCandidateIds &&
+        slot.lowCarbCandidateIds.length > 0
+      ) {
+        adaptationNotes.push(
+          `Swapped ${slot.label.toLowerCase()} to low-carb vegetables for Keto/Low-Carb mode`
+        );
+      }
+
+      const candidates = activeCandidateIds
         .map((id) => commodityMap.get(id))
         .filter((c): c is ScoredCommodity => Boolean(c));
 
@@ -275,14 +479,16 @@ export function rankMealPrepDishes(
       const chosen = candidates[0];
       const isUserPinned = pinnedSet.has(chosen.ingredient.id);
       const isOnHand = onHandSet.has(chosen.ingredient.id);
+      const fromVirtualFreezer = freezerSet.has(chosen.ingredient.id);
       if (isUserPinned) pinnedHits += 1;
       if (isOnHand) onHandHits += 1;
+      if (fromVirtualFreezer) poweredByFreezerCount += 1;
 
       const scaledQty = Number((slot.quantityRequired * scaleFactor).toFixed(2));
       const rawSlotCost = Number(
         (chosen.bestOffer.normalizedPricePerUnit * scaledQty).toFixed(2)
       );
-      // Ticket #8: If item is already On-Hand in Freezer/Pantry, marginal out-of-pocket cost is $0.00!
+      // Ticket #8 & #21: If item is already On-Hand in Virtual Freezer/Pantry, marginal out-of-pocket cost is $0.00!
       const slotCost = isOnHand ? 0 : rawSlotCost;
       const regularSlotCost = Number(
         (chosen.bestOffer.regularPricePerUnit * scaledQty).toFixed(2)
@@ -299,9 +505,11 @@ export function rankMealPrepDishes(
         quantityUsed: scaledQty,
         unit: chosen.ingredient.standardUnit,
         store: chosen.bestOffer.store,
-        rawDealText: isOnHand
-          ? `❄️ In Freezer/Pantry ($0 out-of-pocket • Store val $${rawSlotCost.toFixed(2)})`
-          : chosen.bestOffer.rawPriceText,
+        rawDealText: fromVirtualFreezer
+          ? `❄️ From Virtual Freezer ($0 out-of-pocket • Banked val $${rawSlotCost.toFixed(2)})`
+          : isOnHand
+            ? `❄️ In Freezer/Pantry ($0 out-of-pocket • Store val $${rawSlotCost.toFixed(2)})`
+            : chosen.bestOffer.rawPriceText,
         dealType: chosen.bestOffer.dealType,
         dealConditions: chosen.bestOffer.dealConditions,
         unitCost: chosen.bestOffer.normalizedPricePerUnit,
@@ -309,7 +517,44 @@ export function rankMealPrepDishes(
         regularSlotCost,
         isUserPinned,
         isOnHand,
+        fromVirtualFreezer,
       });
+    }
+
+    // Dynamically adjust macros if adapted for Low-Carb/Keto or Dairy-Free
+    const adjustedMacros: NutritionMacros = { ...blueprint.macrosPerServing };
+    if (macroGoal === 'LOW_CARB_KETO' && blueprint.lowCarbAdaptable) {
+      adjustedMacros.carbsGrams = Math.min(adjustedMacros.carbsGrams, 15);
+      adjustedMacros.calories = Math.max(380, adjustedMacros.calories - 55);
+    }
+    if (needsDairyFree && !blueprint.dietaryTags?.includes('DAIRY_FREE')) {
+      adjustedMacros.fatGrams = Math.max(12, adjustedMacros.fatGrams - 5);
+      adjustedMacros.calories = Math.max(370, adjustedMacros.calories - 45);
+    }
+
+    const activeDietaryTags = new Set<DietaryConstraint>(blueprint.dietaryTags || []);
+    if (needsDairyFree || blueprint.dietaryTags?.includes('DAIRY_FREE')) {
+      activeDietaryTags.add('DAIRY_FREE');
+    }
+    if (needsGlutenFree || blueprint.glutenFreeAdaptable) {
+      activeDietaryTags.add('GLUTEN_FREE');
+    }
+
+    const macroBadges: string[] = [];
+    if (adjustedMacros.proteinGrams >= 40) {
+      macroBadges.push(`💪 High-Protein (${adjustedMacros.proteinGrams}g)`);
+    }
+    if (adjustedMacros.carbsGrams <= 20) {
+      macroBadges.push(`🥑 Keto / Low-Carb (${adjustedMacros.carbsGrams}g Net Carbs)`);
+    }
+    if (adjustedMacros.calories <= 460) {
+      macroBadges.push(`🔥 Calorie-Conscious (${adjustedMacros.calories} kcal)`);
+    }
+    if (activeDietaryTags.has('GLUTEN_FREE')) {
+      macroBadges.push('🌾 Gluten-Free');
+    }
+    if (activeDietaryTags.has('DAIRY_FREE')) {
+      macroBadges.push('🥛 Dairy-Free');
     }
 
     const scaledPantryCost = Number(
@@ -332,8 +577,28 @@ export function rankMealPrepDishes(
     const pinnedBonus = pinnedHits * 25;
     const onHandBonus = onHandHits * 30;
 
+    let profileBonus = 0;
+    if (macroGoal === 'HIGH_PROTEIN' && adjustedMacros.proteinGrams >= 40) {
+      profileBonus += 25;
+    } else if (macroGoal === 'LOW_CARB_KETO' && adjustedMacros.carbsGrams <= 20) {
+      profileBonus += 28;
+    } else if (macroGoal === 'CALORIE_CONSCIOUS' && adjustedMacros.calories <= 460) {
+      profileBonus += 25;
+    }
+
+    if (
+      applianceFilter !== 'ANY' &&
+      blueprint.vesselArchetype === applianceFilter
+    ) {
+      profileBonus += 45;
+    }
+
     const dishMatchScore = Math.round(
-      avgIngredientScore + costEfficiencyBonus + pinnedBonus + onHandBonus
+      avgIngredientScore +
+        costEfficiencyBonus +
+        pinnedBonus +
+        onHandBonus +
+        profileBonus
     );
 
     evaluated.push({
@@ -342,12 +607,17 @@ export function rankMealPrepDishes(
       subtitle: blueprint.subtitle,
       style: blueprint.style,
       appliance: blueprint.appliance,
+      vesselArchetype: blueprint.vesselArchetype,
       servings: targetServings,
       prepTimeMinutes: blueprint.prepTimeMinutes,
       cookTimeMinutes: blueprint.cookTimeMinutes,
       freezerFriendly: blueprint.freezerFriendly,
       flavorProfile: blueprint.flavorProfile,
-      macrosPerServing: blueprint.macrosPerServing,
+      macrosPerServing: adjustedMacros,
+      dietaryTags: Array.from(activeDietaryTags),
+      macroBadges,
+      adaptationNote:
+        adaptationNotes.length > 0 ? adaptationNotes.join(' • ') : undefined,
       matchedIngredients,
       pantryStaples: blueprint.pantryStaples,
       estimatedPantryCost: scaledPantryCost,
@@ -360,6 +630,7 @@ export function rankMealPrepDishes(
       reheatTip: blueprint.reheatTip,
       aiGenerated: false,
       savedInLibrary: savedIdsSet.has(blueprint.id),
+      poweredByFreezerCount,
     });
   }
 
@@ -446,6 +717,9 @@ export async function buildDashboardPayload(options?: {
   onHandIngredientIds?: string[];
   targetServings?: number;
   kingSoopersLocationId?: string;
+  macroGoal?: MacroGoal;
+  dietaryConstraints?: DietaryConstraint[];
+  applianceFilter?: CookingVesselArchetype;
 }): Promise<DashboardPayload> {
   const zipCode = options?.zipCode || process.env.NEXT_PUBLIC_DEFAULT_ZIP || '80542';
   const storeFilter = options?.storeFilter || 'ALL';
@@ -471,6 +745,11 @@ export async function buildDashboardPayload(options?: {
     ...ALL_WEEKLY_BASELINE_OFFERS,
   ];
 
+  const freezerInventory = getFreezerItemsFromSqlite();
+  const freezerIngredientIds = freezerInventory
+    .filter((f) => f.quantityLbOrDoz > 0)
+    .map((f) => f.canonicalIngredientId);
+
   const commodities = scoreAllCommodities(
     combinedOffers,
     storeFilter,
@@ -482,11 +761,25 @@ export async function buildDashboardPayload(options?: {
     commodities,
     pinnedIngredientIds,
     onHandIngredientIds,
-    targetServings
+    targetServings,
+    {
+      macroGoal: options?.macroGoal,
+      dietaryConstraints: options?.dietaryConstraints,
+      applianceFilter: options?.applianceFilter,
+      freezerIngredientIds,
+    }
   );
 
   const buyBeforeSpike = commodities.filter(
     (c) => c.actionTag === 'BUY_BEFORE_SPIKE'
+  );
+
+  const stockUpCycleLows = commodities.filter(
+    (c) => c.cycleSignal?.status === 'STOCK_UP_6WK_LOW'
+  );
+
+  const cyclePeakWaitList = commodities.filter(
+    (c) => c.cycleSignal?.status === 'CYCLE_PEAK_WAIT'
   );
 
   const holdOffDropping = commodities
@@ -536,12 +829,15 @@ export async function buildDashboardPayload(options?: {
     selectedKingSoopersLocationId: krogerResult.selectedLocationId,
     availableStores,
     activeStores,
+    freezerInventory,
     commodities,
     splurgeAlerts,
     recommendedTrio,
     allRankedDishes,
     marketRadar: {
       buyBeforeSpike,
+      stockUpCycleLows,
+      cyclePeakWaitList,
       holdOffDropping,
     },
   };

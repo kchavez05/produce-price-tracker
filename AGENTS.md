@@ -1,0 +1,100 @@
+# PantryBot (`produce-price-tracker`) — Agent Instructions & Git Workflow
+
+## 1. Branching & Environment Architecture
+
+Never commit or push directly to `main` or `develop`. All changes must flow through Pull Requests with passing CI and Gemini Code Assist review:
+
+```
+feature/* | fix/* | chore/* | docs/*
+        │
+        ▼  (PR + CI Quality Gate + Gemini Code Assist Review)
+     develop   ──► Vercel Preview / Staging Environment
+        │
+        ▼  (Release PR + CI Quality Gate + Gemini Code Assist Review)
+      main     ──► Vercel Production Environment (pantrybot.dev)
+```
+
+* **Working Branches (`feature/*`, `fix/*`, `chore/*`, `docs/*`)**: Always branch off the latest `develop`.
+* **`develop` (Staging / Preview)**: Integration branch for upcoming features. Deployed automatically by Vercel to the preview environment.
+* **`main` (Production / Release)**: Production branch backing [pantrybot.dev](https://pantrybot.dev). Updated only by merging `develop` into `main` via a Release PR.
+
+---
+
+## 2. Mandatory Development & PR Workflow
+
+Whenever implementing a feature, bugfix, chore, or documentation update, follow these steps in order:
+
+### Step 1: Create a Feature Branch from `develop`
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b <type>/<short-description>
+```
+*(Use prefixes: `feature/`, `fix/`, `chore/`, or `docs/`.)*
+
+### Step 2: Run Local Quality Checks Before Pushing
+Before pushing a branch or opening a PR, verify all CI checks pass locally:
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+### Step 3: Push & Open a Pull Request to `develop`
+Push the branch to `origin` and open a PR targeting `develop`:
+```bash
+git push -u origin <branch-name>
+gh pr create --base develop --head <branch-name> --title "<title>" --body "<summary>"
+```
+
+### Step 4: CI Quality Gate & Gemini Code Assist Review
+Every PR targeting `develop` must pass:
+1. **GitHub Actions CI (`CI Quality Gate / Typecheck, Lint & Build`)**: Defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml).
+2. **Vercel Preview Deployment**: Confirms the preview build succeeds.
+3. **Gemini Code Assist Review (`gemini-code-assist`)**:
+   * Automatically triggered when a PR is opened (configured in [`.gemini/config.yaml`](./.gemini/config.yaml) and [`.gemini/styleguide.md`](./.gemini/styleguide.md)).
+   * If follow-up commits are pushed or a manual review is needed, comment `/gemini review` on the PR (`gh pr comment --body "/gemini review"`).
+   * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and fix any `high` or `medium` severity findings on the feature branch before merging.
+   * After pushing fixes (or explaining why a suggestion is skipped), **reply to each review comment thread** with a brief summary/commit SHA and **mark the review thread as resolved**:
+```bash
+# 1. Reply to the inline review comment
+gh api repos/{owner}/{repo}/pulls/<pr-number>/comments/<comment-id>/replies \
+  -f body="Resolved in <commit-sha>: <brief explanation>"
+
+# 2. Mark the review thread as resolved via GraphQL
+gh api graphql -f query='
+  mutation($threadId: ID!) {
+    resolveReviewThread(input: {threadId: $threadId}) {
+      thread { isResolved }
+    }
+  }' -f threadId="<PRRT_thread_id>"
+```
+
+### Step 5: Merge into `develop` & Clean Up
+Once CI checks are green and Gemini Code Assist review feedback is addressed:
+* Merge the feature PR into `develop` (via the GitHub UI or `gh pr merge`).
+* Switch back to `develop`, pull the latest changes, and delete the feature branch:
+```bash
+git checkout develop
+git pull origin develop
+git branch -d <branch-name>
+git push origin --delete <branch-name>
+```
+
+### Step 6: Production Release (`develop` → `main`)
+When cutting a release to production (`main`):
+1. Open a Release PR with base `main` and head `develop`:
+```bash
+gh pr create --base main --head develop --title "Release: Merge develop into main" --body "Production release"
+```
+2. Ensure **CI Quality Gate**, **Vercel Preview**, and **Gemini Code Assist** review complete cleanly on the Release PR.
+3. Merge the Release PR into `main` to deploy to [pantrybot.dev](https://pantrybot.dev).
+
+---
+
+## 3. Code Quality & Architecture Guardrails
+
+Keep code aligned with [`.gemini/styleguide.md`](./.gemini/styleguide.md):
+* **Zero-Key Offline Resilience**: The app must function 100% out-of-the-box without requiring `GEMINI_API_KEY`, `USDA_MARS_API_KEY`, or `KROGER_CLIENT_ID`. Always provide deterministic fallbacks.
+* **Gemini SDK**: Use `@google/genai` (`GoogleGenAI`) with `gemini-2.5-flash`. Never use the legacy `@google/generative-ai` package.
+* **Strict TypeScript & React Hooks**: Avoid `any`, guard against division-by-zero in unit price/arbitrage calculations, and avoid masking stale closures with `eslint-disable` in React hooks.
