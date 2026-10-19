@@ -75,13 +75,15 @@ describe('regression: security-boundaries & CSRF protection', () => {
 
   it('enforces rate limits on repeated bursts and returns 429 with Retry-After header', async () => {
     // api-account-delete has a strict rate limit of 5 per minute
+    const randomSubnet = Math.floor(Math.random() * 254) + 1;
+    const testIp = `198.51.100.${randomSubnet}`;
     const makeDeleteReq = () =>
       new NextRequest('http://localhost:3000/api/account', {
         method: 'DELETE',
         headers: {
           host: 'localhost:3000',
           origin: 'http://localhost:3000',
-          'x-forwarded-for': '198.51.100.99',
+          'x-forwarded-for': testIp,
         },
       });
 
