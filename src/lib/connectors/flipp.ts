@@ -88,12 +88,13 @@ export function normalizeFlyerPrice(
 
   // Check explicit bag weight e.g. "5 lb", "3 lb", "2 lb", "10 lb"
   const lbBagMatch = lower.match(
-    /(?:^|[^\$])(\d+(?:\.\d+)?)\s*(?:lb\.?|pound)s?\s*(?:bag|pack|roll|box|chub)?/
+    /(?<![\d.\$])(\d+(?:\.\d+)?)\s*(?:lb\.?|pound)s?\s*(?:bag|pack|roll|box|chub)?/
   );
   const isExplicitPerLb =
     lower.includes('/lb') ||
     lower.includes('per lb') ||
-    /\/\s*lb\b/.test(lower);
+    /\/\s*lb\b/.test(lower) ||
+    /\$\d+(?:\.\d+)?\s*lb\.?\b/.test(lower);
 
   if (lbBagMatch && !isExplicitPerLb) {
     const lbs = parseFloat(lbBagMatch[1]);
@@ -121,7 +122,7 @@ export function normalizeFlyerPrice(
   }
 
   // Check if explicitly per lb
-  if (isExplicitPerLb || lower.includes('lb.')) {
+  if (isExplicitPerLb) {
     return {
       normalizedPricePerUnit: Number(effectiveItemPrice.toFixed(2)),
       saleUnit: 'lb',

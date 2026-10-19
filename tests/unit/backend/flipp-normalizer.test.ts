@@ -96,5 +96,10 @@ describe('flipp-normalizer: normalizeFlyerPrice', () => {
     const normDot = normalizeFlyerPrice(1.99, 'Honeycrisp Apples $1.99 lb.', mockProduceIngredient);
     expect(normDot.normalizedPricePerUnit).toBe(1.99);
     expect(normDot.saleUnit).toBe('lb');
+
+    // Edge case: price ending in a digit (e.g. $1.05) must not match suffix 5 as 5 lb bag
+    const normSuffix = normalizeFlyerPrice(1.05, 'Fresh Gala Apples $1.05 lb.', mockProduceIngredient);
+    expect(normSuffix.normalizedPricePerUnit).toBe(1.05);
+    expect(normSuffix.saleUnit).toBe('lb');
   });
 });
