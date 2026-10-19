@@ -121,8 +121,22 @@ export function useUserSync(options?: UseUserSyncOptions) {
       // Queue offline if browser has no network connectivity
       if (typeof navigator !== 'undefined' && !navigator.onLine) {
         try {
+          const rawExisting = localStorage.getItem(SYNC_QUEUE_STORAGE_KEY);
+          let existing: Partial<QueuedSyncMutation> = {};
+          if (rawExisting) {
+            try {
+              existing = JSON.parse(rawExisting) as Partial<QueuedSyncMutation>;
+            } catch {
+              // Ignore malformed existing queue JSON
+            }
+          }
           const queued: QueuedSyncMutation = {
-            ...mutation,
+            preferences: {
+              ...existing.preferences,
+              ...mutation.preferences,
+            },
+            freezerItems: mutation.freezerItems ?? existing.freezerItems,
+            mergeMode: mutation.mergeMode ?? existing.mergeMode,
             queuedAtIso: new Date().toISOString(),
           };
           localStorage.setItem(SYNC_QUEUE_STORAGE_KEY, JSON.stringify(queued));

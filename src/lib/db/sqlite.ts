@@ -1084,37 +1084,45 @@ export function replaceUserFreezerItemsInSqlite(
 ): FreezerItem[] {
   const db = getDb();
   const now = new Date().toISOString();
-  db.prepare(`DELETE FROM user_freezer_items WHERE user_id = ?`).run(userId);
 
-  const insertStmt = db.prepare(`
-    INSERT OR REPLACE INTO user_freezer_items
-      (id, user_id, canonical_ingredient_id, ingredient_name, category,
-       quantity_lb_or_doz, unit, purchase_price_per_unit, regular_price_per_unit,
-       total_cost_basis, estimated_savings, store, store_banner,
-       purchased_at_iso, notes, updated_at_iso)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
+  db.exec('BEGIN TRANSACTION');
+  try {
+    db.prepare(`DELETE FROM user_freezer_items WHERE user_id = ?`).run(userId);
 
-  for (const item of items) {
-    if (item.quantityLbOrDoz <= 0) continue;
-    insertStmt.run(
-      item.id || `frz-${item.canonicalIngredientId}-${Date.now()}`,
-      userId,
-      item.canonicalIngredientId,
-      item.ingredientName,
-      item.category,
-      item.quantityLbOrDoz,
-      item.unit || 'lb',
-      item.purchasePricePerUnit,
-      item.regularPricePerUnit,
-      item.totalCostBasis,
-      item.estimatedSavings,
-      item.store,
-      item.storeBanner,
-      item.purchasedAtIso || now,
-      item.notes || null,
-      now
-    );
+    const insertStmt = db.prepare(`
+      INSERT OR REPLACE INTO user_freezer_items
+        (id, user_id, canonical_ingredient_id, ingredient_name, category,
+         quantity_lb_or_doz, unit, purchase_price_per_unit, regular_price_per_unit,
+         total_cost_basis, estimated_savings, store, store_banner,
+         purchased_at_iso, notes, updated_at_iso)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    for (const item of items) {
+      if (item.quantityLbOrDoz <= 0) continue;
+      insertStmt.run(
+        item.id || `frz-${item.canonicalIngredientId}-${Date.now()}`,
+        userId,
+        item.canonicalIngredientId,
+        item.ingredientName,
+        item.category,
+        item.quantityLbOrDoz,
+        item.unit || 'lb',
+        item.purchasePricePerUnit,
+        item.regularPricePerUnit,
+        item.totalCostBasis,
+        item.estimatedSavings,
+        item.store,
+        item.storeBanner,
+        item.purchasedAtIso || now,
+        item.notes || null,
+        now
+      );
+    }
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
   }
 
   return getUserFreezerItemsFromSqlite(userId);
@@ -1145,16 +1153,24 @@ export function replaceUserSavedRecipesInSqlite(
 ): RecommendedDish[] {
   const db = getDb();
   const now = new Date().toISOString();
-  db.prepare(`DELETE FROM user_saved_recipes WHERE user_id = ?`).run(userId);
 
-  const stmt = db.prepare(`
-    INSERT OR REPLACE INTO user_saved_recipes (id, user_id, dish_json, updated_at_iso)
-    VALUES (?, ?, ?, ?)
-  `);
+  db.exec('BEGIN TRANSACTION');
+  try {
+    db.prepare(`DELETE FROM user_saved_recipes WHERE user_id = ?`).run(userId);
 
-  for (const dish of dishes) {
-    if (!dish.id) continue;
-    stmt.run(dish.id, userId, JSON.stringify({ ...dish, savedInLibrary: true }), now);
+    const stmt = db.prepare(`
+      INSERT OR REPLACE INTO user_saved_recipes (id, user_id, dish_json, updated_at_iso)
+      VALUES (?, ?, ?, ?)
+    `);
+
+    for (const dish of dishes) {
+      if (!dish.id) continue;
+      stmt.run(dish.id, userId, JSON.stringify({ ...dish, savedInLibrary: true }), now);
+    }
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
   }
 
   return getUserSavedRecipesFromSqlite(userId);
@@ -1162,9 +1178,16 @@ export function replaceUserSavedRecipesInSqlite(
 
 export function deleteUserAccountFromSqlite(userId: string): void {
   const db = getDb();
-  db.prepare(`DELETE FROM user_saved_recipes WHERE user_id = ?`).run(userId);
-  db.prepare(`DELETE FROM user_freezer_items WHERE user_id = ?`).run(userId);
-  db.prepare(`DELETE FROM user_preferences WHERE user_id = ?`).run(userId);
-  db.prepare(`DELETE FROM user_accounts WHERE id = ?`).run(userId);
+  db.exec('BEGIN TRANSACTION');
+  try {
+    db.prepare(`DELETE FROM user_saved_recipes WHERE user_id = ?`).run(userId);
+    db.prepare(`DELETE FROM user_freezer_items WHERE user_id = ?`).run(userId);
+    db.prepare(`DELETE FROM user_preferences WHERE user_id = ?`).run(userId);
+    db.prepare(`DELETE FROM user_accounts WHERE id = ?`).run(userId);
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
 }
 

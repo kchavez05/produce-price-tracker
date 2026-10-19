@@ -321,16 +321,25 @@ export async function persistUserSyncState(options: {
 
   // 1. Update SQLite Multi-Tenant Store
   const currentPrefs = getUserPreferencesFromSqlite(profile.id);
+  const incomingPinned = Array.isArray(preferences?.pinnedIngredientIds)
+    ? preferences.pinnedIngredientIds
+    : null;
+  const incomingOnHand = Array.isArray(preferences?.onHandIngredientIds)
+    ? preferences.onHandIngredientIds
+    : null;
+
   const nextPrefs: UserPreferences = {
     userId: profile.id,
     defaultZip: preferences?.defaultZip || currentPrefs.defaultZip || '80542',
     favoriteStoreIds:
-      preferences?.favoriteStoreIds && preferences.favoriteStoreIds.length > 0
+      Array.isArray(preferences?.favoriteStoreIds) &&
+      preferences.favoriteStoreIds.length > 0
         ? preferences.favoriteStoreIds
         : currentPrefs.favoriteStoreIds,
     macroGoal: preferences?.macroGoal || currentPrefs.macroGoal || 'ANY',
-    dietaryConstraints:
-      preferences?.dietaryConstraints ?? currentPrefs.dietaryConstraints,
+    dietaryConstraints: Array.isArray(preferences?.dietaryConstraints)
+      ? preferences.dietaryConstraints
+      : currentPrefs.dietaryConstraints,
     vesselArchetype:
       preferences?.vesselArchetype || currentPrefs.vesselArchetype || 'ANY',
     targetServings:
@@ -339,25 +348,25 @@ export async function persistUserSyncState(options: {
       ? Array.from(
           new Set([
             ...currentPrefs.pinnedIngredientIds,
-            ...(preferences?.pinnedIngredientIds || []),
+            ...(incomingPinned ?? []),
           ])
         )
-      : (preferences?.pinnedIngredientIds ?? currentPrefs.pinnedIngredientIds),
+      : (incomingPinned ?? currentPrefs.pinnedIngredientIds),
     onHandIngredientIds: mergeMode
       ? Array.from(
           new Set([
             ...currentPrefs.onHandIngredientIds,
-            ...(preferences?.onHandIngredientIds || []),
+            ...(incomingOnHand ?? []),
           ])
         )
-      : (preferences?.onHandIngredientIds ?? currentPrefs.onHandIngredientIds),
+      : (incomingOnHand ?? currentPrefs.onHandIngredientIds),
     updatedAtIso: now,
   };
 
   upsertUserPreferencesToSqlite(nextPrefs);
 
   let nextFreezer = getUserFreezerItemsFromSqlite(profile.id);
-  if (freezerItems) {
+  if (Array.isArray(freezerItems)) {
     if (mergeMode) {
       const byCanonical = new Map<string, FreezerItem>();
       for (const existing of nextFreezer) {
@@ -369,27 +378,39 @@ export async function persistUserSyncState(options: {
         if (!match) {
           byCanonical.set(incoming.canonicalIngredientId, incoming);
         } else {
-          // Keep the item with higher quantity or newer timestamp
-          const combinedQty = Math.max(
-            match.quantityLbOrDoz,
-            incoming.quantityLbOrDoz
+          // Accumulate stock and compute weighted-average unit prices
+          const totalQty = Number(
+            (match.quantityLbOrDoz + incoming.quantityLbOrDoz).toFixed(2)
           );
+          const weightedPurchasePrice =
+            totalQty > 0
+              ? (match.quantityLbOrDoz * match.purchasePricePerUnit +
+                  incoming.quantityLbOrDoz * incoming.purchasePricePerUnit) /
+                totalQty
+              : 0;
+          const weightedRegularPrice =
+            totalQty > 0
+              ? (match.quantityLbOrDoz * match.regularPricePerUnit +
+                  incoming.quantityLbOrDoz * incoming.regularPricePerUnit) /
+                totalQty
+              : 0;
           const totalCostBasis = Number(
-            (combinedQty * incoming.purchasePricePerUnit).toFixed(2)
+            (totalQty * weightedPurchasePrice).toFixed(2)
           );
           const estimatedSavings = Number(
             Math.max(
               0,
-              combinedQty *
-                (incoming.regularPricePerUnit - incoming.purchasePricePerUnit)
+              totalQty * (weightedRegularPrice - weightedPurchasePrice)
             ).toFixed(2)
           );
           byCanonical.set(incoming.canonicalIngredientId, {
             ...incoming,
             id: match.id,
-            quantityLbOrDoz: combinedQty,
+            quantityLbOrDoz: totalQty,
             totalCostBasis,
             estimatedSavings,
+            purchasePricePerUnit: Number(weightedPurchasePrice.toFixed(4)),
+            regularPricePerUnit: Number(weightedRegularPrice.toFixed(4)),
           });
         }
       }
