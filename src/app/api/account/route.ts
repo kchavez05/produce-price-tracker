@@ -107,8 +107,12 @@ export async function POST(request: NextRequest) {
         body.provider === 'apple' ? 'apple' : 'google';
       const now = new Date().toISOString();
       const profile: UserProfile = {
-        id:
-          provider === 'apple'
+        id: body.email?.trim()
+          ? `usr-local-${body.email
+              .trim()
+              .toLowerCase()
+              .replace(/[^a-zA-Z0-9]/g, '-')}`
+          : provider === 'apple'
             ? 'usr-apple-demo-80542'
             : 'usr-google-demo-80542',
         email:

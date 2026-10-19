@@ -2,15 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   deleteFreezerItemFromSqlite,
   getFreezerItemsFromSqlite,
+  getUserFreezerItemsFromSqlite,
   updateFreezerItemQuantityInSqlite,
   upsertFreezerItemToSqlite,
 } from '@/lib/db/sqlite';
 import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
+import {
+  persistUserSyncState,
+  resolveCurrentUserProfile,
+} from '@/lib/supabase/session';
 import { FreezerItem } from '@/types/domain';
 
 export async function GET() {
   try {
-    const items = getFreezerItemsFromSqlite();
+    const { profile } = await resolveCurrentUserProfile();
+    const items = profile
+      ? getUserFreezerItemsFromSqlite(profile.id)
+      : getFreezerItemsFromSqlite();
     return NextResponse.json({ items });
   } catch (error) {
     console.error('Error reading freezer inventory:', error);
@@ -50,6 +58,63 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const { profile } = await resolveCurrentUserProfile();
+    if (profile) {
+      const current = getUserFreezerItemsFromSqlite(profile.id);
+      const existingIdx = current.findIndex(
+        (f) => f.canonicalIngredientId === item.canonicalIngredientId
+      );
+      let savedItem: FreezerItem;
+      const nextItems = [...current];
+      if (existingIdx >= 0) {
+        const match = current[existingIdx];
+        const totalQty = Number(
+          (match.quantityLbOrDoz + item.quantityLbOrDoz).toFixed(2)
+        );
+        const weightedPurchasePrice =
+          totalQty > 0
+            ? (match.quantityLbOrDoz * match.purchasePricePerUnit +
+                item.quantityLbOrDoz * item.purchasePricePerUnit) /
+              totalQty
+            : 0;
+        const weightedRegularPrice =
+          totalQty > 0
+            ? (match.quantityLbOrDoz * match.regularPricePerUnit +
+                item.quantityLbOrDoz * item.regularPricePerUnit) /
+              totalQty
+            : 0;
+        savedItem = {
+          ...item,
+          id: match.id,
+          unit: item.unit === 'doz' ? 'doz' : 'lb',
+          quantityLbOrDoz: totalQty,
+          purchasePricePerUnit: Number(weightedPurchasePrice.toFixed(4)),
+          regularPricePerUnit: Number(weightedRegularPrice.toFixed(4)),
+          totalCostBasis: Number((totalQty * weightedPurchasePrice).toFixed(2)),
+          estimatedSavings: Number(
+            Math.max(
+              0,
+              totalQty * (weightedRegularPrice - weightedPurchasePrice)
+            ).toFixed(2)
+          ),
+        };
+        nextItems[existingIdx] = savedItem;
+      } else {
+        savedItem = {
+          ...item,
+          id: item.id || `frz-${item.canonicalIngredientId}-${Date.now()}`,
+          unit: item.unit === 'doz' ? 'doz' : 'lb',
+        };
+        nextItems.unshift(savedItem);
+      }
+      const synced = await persistUserSyncState({
+        profile,
+        freezerItems: nextItems,
+      });
+      return NextResponse.json({ saved: savedItem, items: synced.freezerItems });
+    }
+
     const saved = upsertFreezerItemToSqlite(item);
     const items = getFreezerItemsFromSqlite();
     return NextResponse.json({ saved, items });
@@ -84,6 +149,45 @@ export async function PATCH(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const { profile } = await resolveCurrentUserProfile();
+    if (profile) {
+      const current = getUserFreezerItemsFromSqlite(profile.id);
+      let updatedItem: FreezerItem | null = null;
+      const nextItems: FreezerItem[] = [];
+      for (const f of current) {
+        if (f.id === id) {
+          if (quantityLbOrDoz > 0) {
+            const safeQty = Number(quantityLbOrDoz.toFixed(2));
+            updatedItem = {
+              ...f,
+              quantityLbOrDoz: safeQty,
+              totalCostBasis: Number(
+                (safeQty * f.purchasePricePerUnit).toFixed(2)
+              ),
+              estimatedSavings: Number(
+                Math.max(
+                  0,
+                  safeQty * (f.regularPricePerUnit - f.purchasePricePerUnit)
+                ).toFixed(2)
+              ),
+            };
+            nextItems.push(updatedItem);
+          }
+        } else {
+          nextItems.push(f);
+        }
+      }
+      const synced = await persistUserSyncState({
+        profile,
+        freezerItems: nextItems,
+      });
+      return NextResponse.json({
+        updated: updatedItem,
+        items: synced.freezerItems,
+      });
+    }
+
     const updated = updateFreezerItemQuantityInSqlite(id, quantityLbOrDoz);
     const items = getFreezerItemsFromSqlite();
     return NextResponse.json({ updated, items });
@@ -117,6 +221,18 @@ export async function DELETE(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const { profile } = await resolveCurrentUserProfile();
+    if (profile) {
+      const current = getUserFreezerItemsFromSqlite(profile.id);
+      const nextItems = current.filter((f) => f.id !== id);
+      const synced = await persistUserSyncState({
+        profile,
+        freezerItems: nextItems,
+      });
+      return NextResponse.json({ ok: true, items: synced.freezerItems });
+    }
+
     deleteFreezerItemFromSqlite(id);
     const items = getFreezerItemsFromSqlite();
     return NextResponse.json({ ok: true, items });

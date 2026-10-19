@@ -343,7 +343,10 @@ export async function persistUserSyncState(options: {
     vesselArchetype:
       preferences?.vesselArchetype || currentPrefs.vesselArchetype || 'ANY',
     targetServings:
-      preferences?.targetServings || currentPrefs.targetServings || 6,
+      preferences?.targetServings &&
+      [4, 6, 8].includes(preferences.targetServings)
+        ? preferences.targetServings
+        : currentPrefs.targetServings || 6,
     pinnedIngredientIds: mergeMode
       ? Array.from(
           new Set([
@@ -536,7 +539,7 @@ export async function buildUserDataExportArchive(
 
 export async function purgeUserAccountAndData(profile: UserProfile): Promise<void> {
   // 1. Delete from Supabase RLS tables and sign out if cloud-backed
-  if (isSupabaseConfigured()) {
+  if (profile.isCloudBacked && isSupabaseConfigured()) {
     const supabase = await createServerSupabaseClient();
     if (supabase) {
       try {

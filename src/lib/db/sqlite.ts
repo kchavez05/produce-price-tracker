@@ -1098,16 +1098,18 @@ export function replaceUserFreezerItemsInSqlite(
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
+    let idx = 0;
     for (const item of items) {
       if (item.quantityLbOrDoz <= 0) continue;
+      idx++;
       insertStmt.run(
-        item.id || `frz-${item.canonicalIngredientId}-${Date.now()}`,
+        item.id || `frz-${item.canonicalIngredientId}-${Date.now()}-${idx}`,
         userId,
         item.canonicalIngredientId,
         item.ingredientName,
         item.category,
         item.quantityLbOrDoz,
-        item.unit || 'lb',
+        item.unit === 'doz' ? 'doz' : 'lb',
         item.purchasePricePerUnit,
         item.regularPricePerUnit,
         item.totalCostBasis,

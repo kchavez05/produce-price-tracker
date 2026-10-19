@@ -55,8 +55,7 @@ CREATE TABLE IF NOT EXISTS public.user_freezer_items (
   purchased_at_iso TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   notes TEXT,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  PRIMARY KEY (user_id, id),
-  UNIQUE (user_id, canonical_ingredient_id)
+  PRIMARY KEY (user_id, id)
 );
 
 -- 4. Cloud Saved Meal-Prep Recipes Table
