@@ -35,18 +35,36 @@ const PRIOR_WEEKS: { weekStart: string; label: string; idx: number }[] = [
 let dbInstance: DatabaseSync | null = null;
 let dbLocationLabel = DB_FILE_PATH;
 
+export function resetSqliteTestInstance(): void {
+  if (dbInstance) {
+    try {
+      dbInstance.close();
+    } catch {
+      // ignore
+    }
+    dbInstance = null;
+  }
+}
+
 function getDb(): DatabaseSync {
   if (dbInstance) return dbInstance;
 
-  try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-    dbInstance = new DatabaseSync(DB_FILE_PATH);
-    dbLocationLabel = 'data/mead-price-history.sqlite';
-  } catch {
+  const targetPath = process.env.PANTRYBOT_SQLITE_PATH || DB_FILE_PATH;
+
+  if (targetPath === ':memory:') {
     dbInstance = new DatabaseSync(':memory:');
     dbLocationLabel = ':memory: (in-memory SQLite)';
+  } else {
+    try {
+      if (!fs.existsSync(DATA_DIR)) {
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+      }
+      dbInstance = new DatabaseSync(targetPath);
+      dbLocationLabel = targetPath;
+    } catch {
+      dbInstance = new DatabaseSync(':memory:');
+      dbLocationLabel = ':memory: (in-memory SQLite)';
+    }
   }
 
   initSchemaAndSeed(dbInstance);
