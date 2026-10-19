@@ -21,7 +21,6 @@ import {
 } from '@/data/store-registry';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import {
-  buildStoreSearchUrl,
   formatShoppingListForClipboard,
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
@@ -176,13 +175,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
       if (savedChecked) setCheckedItems(JSON.parse(savedChecked));
       const savedClipped = localStorage.getItem('mead_clipped_coupons_v03');
       if (savedClipped) setClippedCoupons(JSON.parse(savedClipped));
+
+      let loadedOnHandIds = onHandIds;
       const savedOnHand = localStorage.getItem('mead_on_hand_ids_v04');
       if (savedOnHand) {
         const parsed = JSON.parse(savedOnHand);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setOnHandIds(parsed);
+          loadedOnHandIds = parsed;
         }
       }
+
       const savedFreezer = localStorage.getItem('pantrybot_virtual_freezer_v12');
       if (savedFreezer) {
         const parsed = JSON.parse(savedFreezer);
@@ -190,26 +193,41 @@ export default function MealPrepDashboard({ initialData }: Props) {
           setFreezerItems(parsed);
         }
       }
+
+      let loadedMacroGoal = macroGoal;
+      let loadedDietaryConstraints = dietaryConstraints;
+      let loadedApplianceFilter = applianceFilter;
       const savedProfile = localStorage.getItem('pantrybot_nutrition_profile_v12');
       if (savedProfile) {
         const parsed = JSON.parse(savedProfile);
-        if (parsed.macroGoal) setMacroGoal(parsed.macroGoal);
+        if (parsed.macroGoal) {
+          setMacroGoal(parsed.macroGoal);
+          loadedMacroGoal = parsed.macroGoal;
+        }
         if (Array.isArray(parsed.dietaryConstraints)) {
           setDietaryConstraints(parsed.dietaryConstraints);
+          loadedDietaryConstraints = parsed.dietaryConstraints;
         }
-        if (parsed.applianceFilter) setApplianceFilter(parsed.applianceFilter);
+        if (parsed.applianceFilter) {
+          setApplianceFilter(parsed.applianceFilter);
+          loadedApplianceFilter = parsed.applianceFilter;
+        }
       }
+
+      let loadedActiveStores = activeStores;
       const savedActiveStores = localStorage.getItem('pantrybot_active_stores');
       if (savedActiveStores) {
         try {
           const parsed = JSON.parse(savedActiveStores);
           if (Array.isArray(parsed) && parsed.length > 0) {
             setActiveStores(parsed);
+            loadedActiveStores = parsed;
           }
         } catch {
           // Ignore
         }
       }
+
       const savedZip = localStorage.getItem('pantrybot_user_zip');
       if (savedZip && /^\d{5}$/.test(savedZip) && savedZip !== data.zipCode) {
         setCurrentZip(savedZip);
@@ -217,18 +235,19 @@ export default function MealPrepDashboard({ initialData }: Props) {
         syncDashboard(
           storeFilter,
           pinnedIds,
-          onHandIds,
+          loadedOnHandIds,
           targetServings,
           savedZip,
-          activeStores,
-          macroGoal,
-          dietaryConstraints,
-          applianceFilter
+          loadedActiveStores,
+          loadedMacroGoal,
+          loadedDietaryConstraints,
+          loadedApplianceFilter
         );
       }
     } catch {
       // Ignore storage errors
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function persistFreezerToLocalStorage(items: FreezerItem[]) {
