@@ -469,13 +469,8 @@ export async function persistUserSyncState(options: {
         });
 
         if (freezerItems) {
-          await supabase
-            .from('user_freezer_items')
-            .delete()
-            .eq('user_id', profile.id);
-
           if (nextFreezer.length > 0) {
-            await supabase.from('user_freezer_items').insert(
+            await supabase.from('user_freezer_items').upsert(
               nextFreezer.map((f) => ({
                 id: f.id,
                 user_id: profile.id,
@@ -495,6 +490,27 @@ export async function persistUserSyncState(options: {
                 updated_at: now,
               }))
             );
+
+            const { data: existingRows } = await supabase
+              .from('user_freezer_items')
+              .select('id')
+              .eq('user_id', profile.id);
+            const activeIds = new Set(nextFreezer.map((f) => f.id));
+            const staleIds = (existingRows || [])
+              .map((r: { id: string }) => r.id)
+              .filter((id: string) => !activeIds.has(id));
+            if (staleIds.length > 0) {
+              await supabase
+                .from('user_freezer_items')
+                .delete()
+                .eq('user_id', profile.id)
+                .in('id', staleIds);
+            }
+          } else {
+            await supabase
+              .from('user_freezer_items')
+              .delete()
+              .eq('user_id', profile.id);
           }
         }
       } catch {

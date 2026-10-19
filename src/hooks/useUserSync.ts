@@ -217,6 +217,10 @@ export function useUserSync(options?: UseUserSyncOptions) {
           if (!error) {
             return;
           }
+          console.error(
+            'Supabase OAuth login failed, falling back to local mode:',
+            error
+          );
         }
 
         // Zero-Key Offline / Local SSO Fallback
