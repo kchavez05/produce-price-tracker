@@ -84,73 +84,89 @@ ALTER TABLE public.user_freezer_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_saved_recipes ENABLE ROW LEVEL SECURITY;
 
 -- Policies for public.users
+DROP POLICY IF EXISTS "Users can view their own profile" ON public.users;
 CREATE POLICY "Users can view their own profile"
   ON public.users FOR SELECT
   USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can insert their own profile" ON public.users;
 CREATE POLICY "Users can insert their own profile"
   ON public.users FOR INSERT
   WITH CHECK (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update their own profile" ON public.users;
 CREATE POLICY "Users can update their own profile"
   ON public.users FOR UPDATE
   USING (auth.uid() = id)
   WITH CHECK (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can delete their own profile" ON public.users;
 CREATE POLICY "Users can delete their own profile"
   ON public.users FOR DELETE
   USING (auth.uid() = id);
 
 -- Policies for public.user_preferences
+DROP POLICY IF EXISTS "Users can view their own preferences" ON public.user_preferences;
 CREATE POLICY "Users can view their own preferences"
   ON public.user_preferences FOR SELECT
   USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can insert their own preferences" ON public.user_preferences;
 CREATE POLICY "Users can insert their own preferences"
   ON public.user_preferences FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update their own preferences" ON public.user_preferences;
 CREATE POLICY "Users can update their own preferences"
   ON public.user_preferences FOR UPDATE
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can delete their own preferences" ON public.user_preferences;
 CREATE POLICY "Users can delete their own preferences"
   ON public.user_preferences FOR DELETE
   USING (auth.uid() = user_id);
 
 -- Policies for public.user_freezer_items
+DROP POLICY IF EXISTS "Users can view their own freezer items" ON public.user_freezer_items;
 CREATE POLICY "Users can view their own freezer items"
   ON public.user_freezer_items FOR SELECT
   USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can insert their own freezer items" ON public.user_freezer_items;
 CREATE POLICY "Users can insert their own freezer items"
   ON public.user_freezer_items FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update their own freezer items" ON public.user_freezer_items;
 CREATE POLICY "Users can update their own freezer items"
   ON public.user_freezer_items FOR UPDATE
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can delete their own freezer items" ON public.user_freezer_items;
 CREATE POLICY "Users can delete their own freezer items"
   ON public.user_freezer_items FOR DELETE
   USING (auth.uid() = user_id);
 
 -- Policies for public.user_saved_recipes
+DROP POLICY IF EXISTS "Users can view their own saved recipes" ON public.user_saved_recipes;
 CREATE POLICY "Users can view their own saved recipes"
   ON public.user_saved_recipes FOR SELECT
   USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can insert their own saved recipes" ON public.user_saved_recipes;
 CREATE POLICY "Users can insert their own saved recipes"
   ON public.user_saved_recipes FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can update their own saved recipes" ON public.user_saved_recipes;
 CREATE POLICY "Users can update their own saved recipes"
   ON public.user_saved_recipes FOR UPDATE
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can delete their own saved recipes" ON public.user_saved_recipes;
 CREATE POLICY "Users can delete their own saved recipes"
   ON public.user_saved_recipes FOR DELETE
   USING (auth.uid() = user_id);
