@@ -11,6 +11,7 @@ flowchart LR
     M4 --> M5["✅ v1.1 Multi-Vendor Engine\nALDI, Walmart, Target, Sprouts,\nN-Store Dynamic Optimizer"]
     M5 --> M6["✅ v1.2 Smart Kitchen & Cart\nVirtual Freezer Arbitrage, Macros,\n1-Tap Export & Cycle Signals"]
     M6 --> M7["✅ v1.3 User Accounts & Cloud Sync\nSupabase SSO, Postgres RLS,\nCross-Device Sync & Legal Footer"]
+    M7 --> M8["✅ v1.4 Developer Platform & OpenAPI\nOpenAPI 3.1.0 Spec, Swagger UI Console,\nTyped Schemas & Interactive Testing"]
 ```
 
 ---
@@ -89,6 +90,14 @@ flowchart LR
 * **Ticket #29 ([#526](https://github.com/kchavez05/produce-price-tracker/issues/526)):** Account Management UI, Data Privacy & Self-Serve Controls (User profile drawer, 1-click JSON data export, and 2-step account deletion / right to be forgotten).
 * **Ticket #30 ([#527](https://github.com/kchavez05/produce-price-tracker/issues/527)):** Sign in with Apple & Security Hardening (Apple OAuth provider, Apple HIG button, endpoint rate-limiting, and zero-key offline test suite).
 * **Ticket #31 ([#528](https://github.com/kchavez05/produce-price-tracker/issues/528)):** Legal Foundation & App Footer (Global footer with copyright tag and contact link, `/privacy` Privacy Policy page, and `/terms` Terms & Conditions page).
+
+---
+
+### ✅ Milestone 8: `v1.4` — Developer Platform & OpenAPI Standards (Completed)
+**Goal:** Align backend architecture with OpenAPI 3.1.0 standards, publish an interactive Swagger UI testing console, and expose complete typed API schemas for third-party developers, mobile companion apps, and automated client SDK generators.
+* **Ticket #32 ([#541](https://github.com/kchavez05/produce-price-tracker/pull/541)):** OpenAPI 3.1.0 Specification Architecture (`src/lib/openapi/spec.ts`, `/api/openapi.json`, and static schema fallback with complete operation contracts across all 8 backend API domains).
+* **Ticket #33 ([#541](https://github.com/kchavez05/produce-price-tracker/pull/541)):** Interactive Swagger UI Console (`src/components/SwaggerUIConsole.tsx`, `/docs`, `/api-docs` redirect, and PantryBot emerald theme styling).
+* **Ticket #34 ([#541](https://github.com/kchavez05/produce-price-tracker/pull/541)):** Automated OpenAPI Test Suite & Sync Tooling (`npm run openapi:export`, `tests/unit/backend/openapi-spec.test.ts`, and `tests/smoke/backend/openapi-smoke.test.ts`).
 
 ---
 

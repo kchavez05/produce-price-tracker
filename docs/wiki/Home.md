@@ -28,6 +28,8 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Milestones (`v0.1` PoC through `v1.3` User Accounts & Cloud Sync, and upcoming `v1.5+` native mobile tickets).
 6. **[Release Notes (`docs/releases/`)](../releases/)**
+   * **[v1.4.0 — Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console](../releases/v1.4.0.md)**
+   * **[v1.3.1 — 3-Tier CI Test Automation & Branch Quality Gates](../releases/v1.3.1.md)**
    * **[v1.3.0 — User Accounts, Cloud Sync & Legal Foundation](../releases/v1.3.0.md)**
    * **[v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](../releases/v1.2.0.md)**
    * **[v1.1.0 — Multi-Vendor Expansion & Universal Basket Optimizer](../releases/v1.1.0.md)**
