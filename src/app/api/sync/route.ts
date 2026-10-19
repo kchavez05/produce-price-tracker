@@ -75,6 +75,12 @@ export async function POST(request: NextRequest) {
     };
     try {
       body = await request.json();
+      if (!body || typeof body !== 'object') {
+        return NextResponse.json(
+          { error: 'Invalid JSON payload' },
+          { status: 400 }
+        );
+      }
     } catch {
       return NextResponse.json(
         { error: 'Invalid JSON payload' },
