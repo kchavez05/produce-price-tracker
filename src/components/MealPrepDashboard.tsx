@@ -1244,7 +1244,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           ? 'bg-rose-500'
                           : userSync.syncStatus === 'SYNCING'
                             ? 'bg-amber-400 animate-pulse'
-                            : 'bg-emerald-500'
+                            : userSync.syncStatus === 'OFFLINE_QUEUED'
+                              ? 'bg-amber-500'
+                              : 'bg-emerald-500'
                       }`}
                     />
                     <UserCheck
