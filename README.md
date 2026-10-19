@@ -1,8 +1,8 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.3.0`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.3.1`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
-## Key Features (`v1.3.0`)
+## Key Features (`v1.3.1`)
 
 * **User Accounts, SSO & Cross-Device Cloud Sync:** Optional 1-click **Sign in with Google** and **Sign in with Apple** via Supabase Auth + PostgreSQL Row-Level Security (RLS) (with automatic zero-key SQLite multi-tenant fallback). Syncs ZIP code, preferred stores, macro/dietary goals, cooking vessels, Virtual Freezer inventory, and saved recipes across devices with automatic Guest-to-Account migration, 1-click JSON export, and self-serve GDPR/CCPA account deletion.
 * **6-Vendor Supermarket Ecosystem + Nationwide ZIP Support:** Compares weekly circular deals and digital loyalty coupons across **Kroger** (King Soopers, Ralphs, Fred Meyer, Fry's), **Albertsons** (Safeway, Vons, Jewel-Osco), **ALDI**, **Walmart**, **Target**, and **Sprouts Farmers Market** for any 5-digit US ZIP code.
@@ -37,6 +37,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.3.1 — 3-Tier CI Test Automation & Branch Quality Gates](./docs/releases/v1.3.1.md)
   * [v1.3.0 — User Accounts, Cloud Sync & Legal Foundation](./docs/releases/v1.3.0.md)
   * [v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](./docs/releases/v1.2.0.md)
   * [v1.1.0 — Multi-Vendor Expansion & Universal Basket Optimizer](./docs/releases/v1.1.0.md)
