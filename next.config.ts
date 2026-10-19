@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/swagger',
+        destination: '/docs',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ChefHat, ShieldCheck, Mail, FileText, Lock } from 'lucide-react';
+import { ChefHat, ShieldCheck, Mail, FileText, Lock, BookOpen } from 'lucide-react';
 
 export default function AppFooter() {
   return (
@@ -46,6 +46,13 @@ export default function AppFooter() {
             >
               <FileText className="h-3.5 w-3.5 text-slate-400" />
               <span>Terms &amp; Conditions</span>
+            </Link>
+            <Link
+              href="/docs"
+              className="inline-flex items-center gap-1 hover:text-emerald-700 hover:underline transition"
+            >
+              <BookOpen className="h-3.5 w-3.5 text-slate-400" />
+              <span>API Docs</span>
             </Link>
             <a
               href="mailto:support@pantrybot.dev?subject=PantryBot%20Support%20Inquiry"
