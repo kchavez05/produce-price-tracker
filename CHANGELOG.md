@@ -5,6 +5,35 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-10-19
+
+### 🔐 User Accounts, Cloud Sync & Legal Foundation
+
+This release introduces passwordless **Single Sign-On (Google & Apple SSO)**, multi-tenant **PostgreSQL Row-Level Security (RLS)** cloud persistence, cross-device synchronization for Virtual Freezer inventory and meal-prep preferences, self-serve **GDPR/CCPA data export and deletion controls**, and a global legal compliance footer (`/privacy`, `/terms`, copyright, and support contact).
+
+### Added
+- **Supabase Auth Foundation, Next.js Middleware & Google SSO (Ticket #26 / #523):**
+  - Integrated `@supabase/ssr` client, server, and Edge middleware (`src/lib/supabase/`, `src/middleware.ts`) with `HttpOnly`, `SameSite=Lax`, `Secure` session cookie management.
+  - Added `/auth/callback` OAuth 2.0 PKCE exchange route with open-redirect sanitization.
+  - Preserved 100% Zero-Key Offline Resilience: automatically falls back to local multi-tenant SQLite session storage when Supabase environment variables are omitted.
+- **Multi-Tenant PostgreSQL Schema with Row-Level Security (Ticket #27 / #524):**
+  - Added Supabase SQL migration (`supabase/migrations/20261019000000_v1_3_multi_tenant_rls_schema.sql`) defining `public.users`, `public.user_preferences`, `public.user_freezer_items`, and `public.user_saved_recipes` with `ON DELETE CASCADE`.
+  - Enforced strict PII minimization (`id`, `email`, `display_name`, `provider`) and enabled PostgreSQL Row-Level Security (`auth.uid() = user_id`) across all user tables.
+- **Cloud Sync Engine & Guest-to-Account Migration (Ticket #28 / #525):**
+  - Built `useUserSync` hook (`src/hooks/useUserSync.ts`) and `/api/sync` endpoint to synchronize Home ZIP, My Stores, Macro/Dietary targets, and Virtual Freezer inventory across devices.
+  - Added 1-click guest-to-account migration banner when anonymous local Virtual Freezer items are detected upon login, plus an offline mutation queue that flushes automatically on reconnect.
+- **Account Management UI, Data Privacy & Self-Serve Controls (Ticket #29 / #526):**
+  - Added `AccountModal` drawer (`src/components/AccountModal.tsx`) and navbar Account/Sign-In trigger.
+  - Added 1-click **"Export My Grocery Data (.json)"** portability download and 2-step **"Delete Account & Data"** (Right to be Forgotten) cascading purge (`GET` & `DELETE /api/account`).
+- **Sign in with Apple & Security Hardening (Ticket #30 / #527):**
+  - Added Apple HIG-compliant **Sign in with Apple** button and OAuth provider flow.
+  - Added IP sliding-window rate limiting and CSRF `Origin`/`Host` verification (`src/lib/security/rate-limit.ts`) on `/auth/callback`, `/api/sync`, `/api/account`, and `/api/freezer`.
+- **Legal Foundation & Global App Footer (Ticket #31 / #528):**
+  - Created global `AppFooter` component (`src/components/AppFooter.tsx`) mounted in `src/app/layout.tsx` with copyright notice (`© 2026 PantryBot. All rights reserved.`), version badge, and support contact link (`mailto:support@pantrybot.dev`).
+  - Added static `/privacy` (Privacy Policy) and `/terms` (Terms & Conditions) routes (`src/app/privacy/page.tsx`, `src/app/terms/page.tsx`).
+
+---
+
 ## [1.2.0] - 2026-10-19
 
 ### ❄️ Smart Kitchen, Virtual Freezer & Cart Bridge

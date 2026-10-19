@@ -1,6 +1,6 @@
 # PantryBot Wiki
 
-Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.2.0`, live at [pantrybot.dev](https://pantrybot.dev)).
+Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.3.0`, live at [pantrybot.dev](https://pantrybot.dev)).
 
 ## Purpose
 
@@ -15,17 +15,18 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 1. **[Architecture & Data Pipeline](./Architecture-and-Data-Pipeline.md)**
    * How the 4-layer ingestion and benchmarking pipeline merges Flipp weekly circulars across 6 supermarket chains, the Kroger Official Developer API, USDA MyMarketNews (MARS v1.2), and the Wholesale Club Bulk Price Normalizer (Costco Kirkland & Sam's Club Member's Mark).
    * How the Canonical Ingredient Engine normalizes messy ad units (`ea`, `oz`, `5 lb bag`) into standard `$/lb` and `$/doz`.
-   * How SQLite persists 6-week historical price trends, custom recipes, and the **Persistent Virtual Freezer (`freezer_inventory`)**.
+   * How Supabase PostgreSQL (with Row-Level Security) and SQLite persist user accounts, preferences, 6-week historical price trends, custom recipes, and the **Persistent Virtual Freezer**.
 2. **[Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine](./Scoring-and-Meal-Prep-Engine.md)**
    * Mathematical breakdown of the **Workhorse Value Score (0–100)**, **6-Week Cycle Floor vs. Peak Signals**, and **Wholesale Club Benchmarks**.
    * How the **Multi-Week Arbitrage Engine (`"❄️ Buy 2: Prep 1, Freeze 1"`)** and **Virtual Freezer `$0.00` Substitution** work.
    * How **Macro Goals (`High-Protein`, `Low-Carb / Keto`, `Calorie-Conscious`)**, **Dietary Rules (`Gluten-Free`, `Dairy-Free`, `Nut-Free`, `Pescatarian`)**, and **Cooking Vessel Archetypes (`Slow Cooker / Instant Pot`, `Sheet-Pan / 9x13`, `Dutch Oven`, `Skillet`)** dynamically adapt recipe slots.
    * How the **1-Tap Curbside Cart Bridge & Multi-Store Exporter** connects to Walmart, Target, Kroger, Safeway, Sprouts, ALDI, Instacart, and Apple Notes / Google Keep.
 3. **[API Keys & Developer Setup Guide](./API-Keys-and-Local-Setup.md)**
-   * How to run the app with zero keys vs. how to register for free-tier keys from Google AI Studio, USDA MARS, and the Kroger Developer Portal.
+   * How to run the app with zero keys vs. how to register for free-tier keys from Google AI Studio, USDA MARS, the Kroger Developer Portal, and Supabase.
 4. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
-   * Milestones (`v0.1` PoC through `v1.2` Smart Kitchen, Virtual Freezer & Cart Bridge) and upcoming `v1.5+` tickets.
+   * Milestones (`v0.1` PoC through `v1.3` User Accounts & Cloud Sync, and upcoming `v1.5+` native mobile tickets).
 5. **[Release Notes (`docs/releases/`)](../releases/)**
+   * **[v1.3.0 — User Accounts, Cloud Sync & Legal Foundation](../releases/v1.3.0.md)**
    * **[v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](../releases/v1.2.0.md)**
    * **[v1.1.0 — Multi-Vendor Expansion & Universal Basket Optimizer](../releases/v1.1.0.md)**
    * **[v1.0.0 — Production Launch (`pantrybot.dev`)](../releases/v1.0.0.md)**

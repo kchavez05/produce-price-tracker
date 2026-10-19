@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   CommodityCategory,
   CookingVesselArchetype,
@@ -12,6 +12,7 @@ import {
   RecommendedDish,
   ScoredCommodity,
   StoreChain,
+  UserSyncPayload,
   WeeklySyncCronResult,
 } from '@/types/domain';
 import {
@@ -24,6 +25,8 @@ import {
   formatShoppingListForClipboard,
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
+import AccountModal from '@/components/AccountModal';
+import { useUserSync } from '@/hooks/useUserSync';
 import {
   Sparkles,
   TrendingDown,
@@ -65,6 +68,8 @@ import {
   Award,
   SlidersHorizontal,
   ArrowLeftRight,
+  UserCheck,
+  LogIn,
 } from 'lucide-react';
 
 interface Props {
@@ -141,6 +146,46 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [zipInput, setZipInput] = useState(data.zipCode || '80542');
   const [zipLoading, setZipLoading] = useState(false);
   const [zipError, setZipError] = useState<string | null>(null);
+
+  // v1.3 Tickets #26 - #30: User Account, Cloud Sync & Privacy Controls state
+  const [showAccountModal, setShowAccountModal] = useState(false);
+
+  const handleCloudHydrated = useCallback((payload: UserSyncPayload) => {
+    if (!payload.authenticated || !payload.preferences) return;
+    const prefs = payload.preferences;
+    if (prefs.defaultZip && /^\d{5}$/.test(prefs.defaultZip)) {
+      setCurrentZip(prefs.defaultZip);
+      setZipInput(prefs.defaultZip);
+    }
+    if (
+      Array.isArray(prefs.favoriteStoreIds) &&
+      prefs.favoriteStoreIds.length > 0
+    ) {
+      setActiveStores(prefs.favoriteStoreIds);
+    }
+    if (prefs.macroGoal) setMacroGoal(prefs.macroGoal);
+    if (Array.isArray(prefs.dietaryConstraints)) {
+      setDietaryConstraints(prefs.dietaryConstraints);
+    }
+    if (prefs.vesselArchetype) setApplianceFilter(prefs.vesselArchetype);
+    if (prefs.targetServings) setTargetServings(prefs.targetServings);
+    if (Array.isArray(prefs.pinnedIngredientIds)) {
+      setPinnedIds(prefs.pinnedIngredientIds);
+    }
+    if (Array.isArray(prefs.onHandIngredientIds)) {
+      setOnHandIds(prefs.onHandIngredientIds);
+    }
+    if (
+      Array.isArray(payload.freezerItems) &&
+      payload.freezerItems.length > 0
+    ) {
+      setFreezerItems(payload.freezerItems);
+    }
+  }, []);
+
+  const userSync = useUserSync({
+    onCloudStateHydrated: handleCloudHydrated,
+  });
 
   // Combine manual onHandIds + any canonicalIngredientId currently in Virtual Freezer
   const effectiveOnHandIds = useMemo(() => {
@@ -382,12 +427,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
       const updatedLocal = [newEntry, ...freezerItems];
       setFreezerItems(updatedLocal);
       persistFreezerToLocalStorage(updatedLocal);
+      userSync.pushCloudSync({ freezerItems: updatedLocal });
     }
 
     setArbitrageToast(
@@ -437,6 +484,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
@@ -465,6 +513,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
@@ -483,16 +532,58 @@ export default function MealPrepDashboard({ initialData }: Props) {
         if (Array.isArray(payload.items)) {
           setFreezerItems(payload.items);
           persistFreezerToLocalStorage(payload.items);
+          userSync.pushCloudSync({ freezerItems: payload.items });
         }
       }
     } catch {
       const remaining = freezerItems.filter((f) => f.id !== id);
       setFreezerItems(remaining);
       persistFreezerToLocalStorage(remaining);
+      userSync.pushCloudSync({ freezerItems: remaining });
     }
     const nextOnHand = onHandIds.filter((oid) => oid !== canonicalIngredientId);
     setOnHandIds(nextOnHand);
     syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
+  }
+
+  // v1.3 Ticket #28: Cloud Sync & Guest-to-Account Migration Handlers
+  async function handleMergeGuestData() {
+    const updated = await userSync.pushCloudSync({
+      preferences: {
+        defaultZip: currentZip,
+        favoriteStoreIds: activeStores,
+        macroGoal,
+        dietaryConstraints,
+        vesselArchetype: applianceFilter,
+        targetServings,
+        pinnedIngredientIds: pinnedIds,
+        onHandIngredientIds: onHandIds,
+      },
+      freezerItems,
+      mergeMode: true,
+    });
+    if (updated?.freezerItems) {
+      setFreezerItems(updated.freezerItems);
+      persistFreezerToLocalStorage(updated.freezerItems);
+    }
+    userSync.dismissGuestMergePrompt();
+  }
+
+  async function handleForceCloudSync() {
+    await userSync.pushCloudSync({
+      preferences: {
+        defaultZip: currentZip,
+        favoriteStoreIds: activeStores,
+        macroGoal,
+        dietaryConstraints,
+        vesselArchetype: applianceFilter,
+        targetServings,
+        pinnedIngredientIds: pinnedIds,
+        onHandIngredientIds: onHandIds,
+      },
+      freezerItems,
+      mergeMode: false,
+    });
   }
 
   // v1.2 Ticket #22 Handlers: Macro Goal, Dietary Constraints, Cooking Vessel
@@ -500,6 +591,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setMacroGoal(nextMacro);
     setCustomAiDishes(null);
     persistProfileToLocalStorage(nextMacro, dietaryConstraints, applianceFilter);
+    userSync.pushCloudSync({
+      preferences: {
+        macroGoal: nextMacro,
+        dietaryConstraints,
+        vesselArchetype: applianceFilter,
+      },
+    });
     syncDashboard(
       storeFilter,
       pinnedIds,
@@ -521,6 +619,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setDietaryConstraints(nextDietary);
     setCustomAiDishes(null);
     persistProfileToLocalStorage(macroGoal, nextDietary, applianceFilter);
+    userSync.pushCloudSync({
+      preferences: {
+        macroGoal,
+        dietaryConstraints: nextDietary,
+        vesselArchetype: applianceFilter,
+      },
+    });
     syncDashboard(
       storeFilter,
       pinnedIds,
@@ -538,6 +643,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setApplianceFilter(nextVessel);
     setCustomAiDishes(null);
     persistProfileToLocalStorage(macroGoal, dietaryConstraints, nextVessel);
+    userSync.pushCloudSync({
+      preferences: {
+        macroGoal,
+        dietaryConstraints,
+        vesselArchetype: nextVessel,
+      },
+    });
     syncDashboard(
       storeFilter,
       pinnedIds,
@@ -565,6 +677,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
       } catch {
         // Ignore
       }
+      userSync.pushCloudSync({
+        preferences: {
+          favoriteStoreIds: next,
+        },
+      });
       syncDashboard(
         storeFilter,
         pinnedIds,
@@ -708,6 +825,11 @@ export default function MealPrepDashboard({ initialData }: Props) {
       localStorage.setItem('pantrybot_user_zip', cleanZip);
       setCurrentZip(cleanZip);
       setZipInput(cleanZip);
+      userSync.pushCloudSync({
+        preferences: {
+          defaultZip: cleanZip,
+        },
+      });
       await syncDashboard(
         storeFilter,
         pinnedIds,
@@ -1003,49 +1125,156 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   return (
     <div className="min-h-screen pb-24">
-      {/* Top Header */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md no-print">
-        <div className="mx-auto max-w-6xl px-4 py-3">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
+      {/* Top Header — Two-Tier Navigation Architecture */}
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print">
+        <div className="mx-auto max-w-6xl px-4 py-2.5">
+          {/* Tier 1: Primary Brand & Location (Left) + Utilities & User Account (Pinned Top-Right) */}
+          <div className="flex items-center justify-between gap-3">
+            {/* Brand + Active ZIP Selector */}
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-xs">
+                <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-xs">
                   <ChefHat className="h-5 w-5" />
                 </span>
-                <div>
-                  <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
-                    <span>PantryBot</span>
-                    <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200 sm:inline-block">
-                      v1.2 Smart Kitchen &amp; Cart Bridge
-                    </span>
-                  </h1>
-                  <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
-                    <button
-                      onClick={() => setShowZipModal(!showZipModal)}
-                      className="inline-flex items-center gap-1 rounded-md bg-slate-100 hover:bg-emerald-50 px-2 py-0.5 font-medium text-slate-700 hover:text-emerald-800 border border-slate-200 transition"
-                      title="Click to change your ZIP code"
-                    >
-                      <MapPin className="h-3.5 w-3.5 text-emerald-600" />
-                      <span>
-                        {data.cityLabel} ({currentZip})
-                      </span>
-                      <span className="text-[11px] font-semibold text-emerald-700 underline ml-0.5">
-                        Change
-                      </span>
-                    </button>
-                    <span>•</span>
-                    <span>{data.adCycleLabel}</span>
-                  </div>
-                </div>
+                <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+                  <span>PantryBot</span>
+                  <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200 lg:inline-block">
+                    v1.3 Smart Kitchen &amp; Cloud Sync
+                  </span>
+                </h1>
               </div>
+
+              <span className="hidden text-slate-300 sm:inline">|</span>
+
+              <button
+                onClick={() => setShowZipModal(!showZipModal)}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:text-emerald-800 border border-slate-200/90 transition"
+                title="Click to change your ZIP code"
+              >
+                <MapPin className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                <span className="truncate max-w-[150px] sm:max-w-none">
+                  {data.cityLabel} ({currentZip})
+                </span>
+                <span className="text-[11px] font-semibold text-emerald-700 underline ml-0.5">
+                  Change
+                </span>
+              </button>
             </div>
 
-            {/* Store Filter & Smart Kitchen Drawers */}
-            <div className="flex flex-wrap items-center gap-2">
+            {/* Top-Right Utility Controls & User Account CTA */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              {/* v1.2 Ticket #21: Virtual Freezer Drawer Trigger */}
+              <button
+                onClick={() => setShowFreezerModal(!showFreezerModal)}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
+                  showFreezerModal
+                    ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
+                    : freezerItems.length > 0
+                      ? 'border-sky-300 bg-sky-50 text-sky-900 hover:bg-sky-100'
+                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                }`}
+                title="Open Virtual Freezer & Multi-Week Protein Arbitrage Inventory"
+              >
+                <Snowflake
+                  className={`h-3.5 w-3.5 ${
+                    showFreezerModal ? 'text-white' : 'text-sky-500'
+                  }`}
+                />
+                <span className="hidden sm:inline">Virtual Freezer</span>
+                <span className="sm:hidden">Freezer</span>
+                <span>({freezerItems.length})</span>
+              </button>
+
+              <button
+                onClick={handleToggleAlertsModal}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
+                  showAlertsModal
+                    ? 'border-emerald-600 bg-emerald-600 text-white shadow-xs'
+                    : 'border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100'
+                }`}
+                title="Preview Smart Push Notifications & Friday Weekend Meal-Prep Digest"
+              >
+                <Bell className="h-3.5 w-3.5" />
+                <span className="hidden md:inline">Smart Alerts</span>
+              </button>
+
+              <button
+                onClick={() => setShowKeyModal(!showKeyModal)}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition ${
+                  showKeyModal
+                    ? 'border-slate-800 bg-slate-800 text-white shadow-xs'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                }`}
+                title="Configure Optional Free Gemini API Key"
+              >
+                <KeyRound
+                  className={`h-3.5 w-3.5 ${
+                    showKeyModal ? 'text-emerald-300' : 'text-emerald-600'
+                  }`}
+                />
+                <span className="hidden lg:inline">API Keys</span>
+              </button>
+
+              <span
+                className="hidden h-5 w-px bg-slate-200 sm:inline-block"
+                aria-hidden="true"
+              />
+
+              {/* v1.3 Ticket #26 & #29: Top-Right User Account & Cloud Sync Trigger */}
+              <button
+                onClick={() => setShowAccountModal(!showAccountModal)}
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition shadow-2xs ${
+                  showAccountModal
+                    ? 'border-violet-700 bg-violet-600 text-white'
+                    : userSync.authenticated
+                      ? 'border-violet-300 bg-violet-50/90 text-violet-950 hover:bg-violet-100'
+                      : 'border-violet-600 bg-violet-600 text-white hover:bg-violet-700'
+                }`}
+                title={
+                  userSync.authenticated
+                    ? `Signed in as ${userSync.profile?.displayName} (${userSync.profile?.email})`
+                    : 'Sign In with Google or Apple to sync across devices'
+                }
+              >
+                {userSync.authenticated ? (
+                  <>
+                    <span
+                      className={`h-2 w-2 rounded-full ${
+                        userSync.syncStatus === 'ERROR'
+                          ? 'bg-rose-500'
+                          : userSync.syncStatus === 'SYNCING'
+                            ? 'bg-amber-400 animate-pulse'
+                            : userSync.syncStatus === 'OFFLINE_QUEUED'
+                              ? 'bg-amber-500'
+                              : 'bg-emerald-500'
+                      }`}
+                    />
+                    <UserCheck
+                      className={`h-3.5 w-3.5 ${
+                        showAccountModal ? 'text-white' : 'text-violet-700'
+                      }`}
+                    />
+                    <span className="max-w-[120px] truncate">
+                      {userSync.profile?.displayName || 'Account'}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="h-3.5 w-3.5" />
+                    <span>Sign In</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Tier 2: Dedicated Supermarket Filter Bar (Left) & Weekly Ad-Cycle Pill (Right) */}
+          <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2">
+            <div className="flex flex-wrap items-center gap-2 max-w-full">
               <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-medium overflow-x-auto max-w-full">
                 <button
                   onClick={() => handleStoreChange('ALL')}
-                  className={`rounded-md px-2.5 py-1.5 transition whitespace-nowrap ${
+                  className={`rounded-md px-2.5 py-1 transition whitespace-nowrap ${
                     storeFilter === 'ALL'
                       ? 'bg-white font-semibold text-slate-900 shadow-xs'
                       : 'text-slate-600 hover:text-slate-900'
@@ -1066,7 +1295,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           ? { backgroundColor: def.brandColor, color: '#ffffff' }
                           : undefined
                       }
-                      className={`rounded-md px-2.5 py-1.5 transition whitespace-nowrap ${
+                      className={`rounded-md px-2.5 py-1 transition whitespace-nowrap ${
                         isSelected
                           ? 'font-semibold shadow-xs'
                           : 'text-slate-600 hover:text-slate-900'
@@ -1078,25 +1307,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 })}
               </div>
 
-              {/* v1.2 Ticket #21: Virtual Freezer Drawer Trigger */}
-              <button
-                onClick={() => setShowFreezerModal(!showFreezerModal)}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
-                  showFreezerModal
-                    ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
-                    : freezerItems.length > 0
-                      ? 'border-sky-300 bg-sky-50 text-sky-900 hover:bg-sky-100'
-                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                }`}
-                title="Open Virtual Freezer & Multi-Week Protein Arbitrage Inventory"
-              >
-                <Snowflake className="h-3.5 w-3.5 text-sky-500" />
-                <span>Virtual Freezer ({freezerItems.length})</span>
-              </button>
-
               <button
                 onClick={() => setShowStoresModal(!showStoresModal)}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition ${
                   showStoresModal
                     ? 'border-blue-600 bg-blue-600 text-white shadow-xs'
                     : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
@@ -1106,30 +1319,41 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <Store className="h-3.5 w-3.5" />
                 <span>My Stores ({activeStores.length})</span>
               </button>
+            </div>
 
-              <button
-                onClick={handleToggleAlertsModal}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
-                  showAlertsModal
-                    ? 'border-emerald-600 bg-emerald-600 text-white shadow-xs'
-                    : 'border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100'
-                }`}
-                title="Preview Smart Push Notifications & Friday Weekend Meal-Prep Digest"
-              >
-                <Bell className="h-3.5 w-3.5" />
-                <span className="hidden md:inline">Smart Alerts &amp; Digest</span>
-              </button>
-
-              <button
-                onClick={() => setShowKeyModal(!showKeyModal)}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                title="Configure Optional Free Gemini API Key"
-              >
-                <KeyRound className="h-3.5 w-3.5 text-emerald-600" />
-                <span className="hidden sm:inline">API Keys</span>
-              </button>
+            <div className="hidden items-center gap-1.5 rounded-md bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600 border border-slate-200/80 md:inline-flex">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span>{data.adCycleLabel}</span>
             </div>
           </div>
+
+          {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
+          <AccountModal
+            isOpen={showAccountModal}
+            onClose={() => setShowAccountModal(false)}
+            authenticated={userSync.authenticated}
+            profile={userSync.profile}
+            storageMode={userSync.storageMode}
+            supabaseConfigured={userSync.supabaseConfigured}
+            syncStatus={userSync.syncStatus}
+            lastSyncedIso={userSync.lastSyncedIso}
+            authLoading={userSync.authLoading}
+            hasGuestDataToMerge={userSync.hasGuestDataToMerge}
+            guestFreezerCount={userSync.guestFreezerCount}
+            currentZip={currentZip}
+            activeStores={activeStores}
+            macroGoal={macroGoal}
+            dietaryConstraints={dietaryConstraints}
+            applianceFilter={applianceFilter}
+            freezerItemCount={freezerItems.length}
+            onSignIn={userSync.signInWithProvider}
+            onSignOut={userSync.signOut}
+            onMergeGuestData={handleMergeGuestData}
+            onDismissMergePrompt={userSync.dismissGuestMergePrompt}
+            onForceSync={handleForceCloudSync}
+            onExportData={userSync.exportAccountDataJson}
+            onDeleteAccount={userSync.deleteAccountAndData}
+          />
 
           {/* Arbitrage Toast Banner */}
           {arbitrageToast && (
