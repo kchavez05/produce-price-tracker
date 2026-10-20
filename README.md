@@ -50,3 +50,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
   * [API Keys & Developer Setup Guide](./docs/wiki/API-Keys-and-Local-Setup.md)
   * [OpenAPI 3.1 & Swagger UI Console](./docs/wiki/OpenAPI-and-Swagger-Documentation.md) (Interactive console live at [`/docs`](https://pantrybot.dev/docs))
   * [North Star: Native iOS/Android & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)
+
+## Security Policy
+
+Security vulnerabilities can be reported privately via GitHub Security Advisories or by email. Please refer to [SECURITY.md](./SECURITY.md) for details on supported versions and responsible disclosure procedures.
