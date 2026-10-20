@@ -16,7 +16,7 @@ Security fixes are actively maintained and released for the current production r
 Please **do not** file public GitHub issues, discussions, or pull requests for suspected security vulnerabilities.
 
 ### Preferred Reporting Method: GitHub Private Vulnerability Reporting
-1. Navigate to the **Security** tab of the [`kchavez05/produce-price-tracker`](https://github.com/kchavez05/produce-price-tracker) repository.
+1. Navigate to the **Security** tab of the [repository](../../security).
 2. Under "Reporting", click **Advisories**.
 3. Click **Report a vulnerability** to open a private advisory draft.
 
@@ -26,7 +26,7 @@ If you are unable to use GitHub Advisories, please submit your report to:
 
 ### What to Include in Your Report
 To help us triage and resolve the issue quickly, please provide:
-* **Type of issue**: (e.g., authentication bypass, SSR injection, rate limiting circumvention, sensitive data exposure)
+* **Type of issue**: (e.g., authentication bypass, Server-Side Request Forgery (SSRF), rate limiting circumvention, sensitive data exposure)
 * **Affected component(s)**: Specific endpoints, files, or packages
 * **Steps to reproduce**: Step-by-step instructions, curl commands, or a minimal Proof of Concept (PoC)
 * **Impact assessment**: How an attacker could exploit this vulnerability and the potential impact on users or data
