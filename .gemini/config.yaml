@@ -1,14 +1,15 @@
+# Retired in favor of Codex Code Review; see AGENTS.md and docs/code-review.md.
 # Gemini Code Assist GitHub App Configuration
 # Documentation: https://developers.google.com/gemini-code-assist/docs/customize-gemini-behavior-github
 have_fun: false
 code_review:
-  disable: false
+  disable: true
   comment_severity_threshold: MEDIUM
   max_review_comments: 15
   pull_request_opened:
     help: false
-    summary: true
-    code_review: true
+    summary: false
+    code_review: false
 ignore_patterns:
   - "package-lock.json"
   - ".next/**"

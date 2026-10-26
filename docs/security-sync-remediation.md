@@ -7,7 +7,7 @@
 3. Require verified Supabase authentication to use the server Gemini key. Keep user-supplied keys and deterministic keyless plans available. Apply per-IP and account limits before generation.
 4. Persist each browser sync mutation before sending it. Retain it through failed HTTP responses and network errors, retry after reconnect/reload, and delete only after acknowledgment. Bind queued updates to their original account. Convert additive guest merges to absolute snapshots before sending so retries do not double stock.
 5. Write and delete cloud recipes using the composite `(user_id, id)` key. Check Supabase error results and require a fresh cloud read before route mutations. Update SQLite profiles in place to preserve child records and sessions.
-6. Add regression tests, run all three test tiers, typecheck, lint, and production build; open a PR to develop and address CI/Gemini feedback.
+6. Add regression tests, run all three test tiers, typecheck, lint, and production build; open a PR to develop and address CI/Codex feedback.
 
 ## Compatibility and deployment
 
