@@ -26,6 +26,7 @@ import {
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
 import AccountModal from '@/components/AccountModal';
+import { mergeFreezerItems } from '@/lib/sync/queue';
 import { useUserSync } from '@/hooks/useUserSync';
 import {
   Sparkles,
@@ -175,12 +176,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
     if (Array.isArray(prefs.onHandIngredientIds)) {
       setOnHandIds(prefs.onHandIngredientIds);
     }
-    if (
-      Array.isArray(payload.freezerItems) &&
-      payload.freezerItems.length > 0
-    ) {
-      setFreezerItems(payload.freezerItems);
-    }
+    setFreezerItems(payload.freezerItems);
+    setSavedRecipeIds(Object.fromEntries(payload.savedRecipes.map((dish) => [dish.id, true])));
   }, []);
 
   const userSync = useUserSync({
@@ -297,7 +294,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   function persistFreezerToLocalStorage(items: FreezerItem[]) {
     try {
-      localStorage.setItem('pantrybot_virtual_freezer_v12', JSON.stringify(items));
+      const key = userSync.profile ? `pantrybot_virtual_freezer_v14:${userSync.profile.id}` : 'pantrybot_virtual_freezer_v12';
+      localStorage.setItem(key, JSON.stringify(items));
     } catch {
       // Ignore
     }
@@ -374,14 +372,28 @@ export default function MealPrepDashboard({ initialData }: Props) {
         const updated: DashboardPayload = await res.json();
         setData(updated);
         setCurrentZip(updated.zipCode);
-        if (updated.freezerInventory) {
-          setFreezerItems(updated.freezerInventory);
-          persistFreezerToLocalStorage(updated.freezerInventory);
-        }
       }
     } catch {
       // Ignore network hiccup
     }
+  }
+
+  async function saveFreezerItem(item: FreezerItem) {
+    if (userSync.authenticated) {
+      const items = mergeFreezerItems(freezerItems, [item]);
+      setFreezerItems(items);
+      persistFreezerToLocalStorage(items);
+      await userSync.pushCloudSync({ freezerItems: items });
+      return;
+    }
+    const res = await fetch('/api/freezer', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ item }),
+    });
+    if (!res.ok) throw new Error('Could not save freezer item');
+    const payload = await res.json();
+    setFreezerItems(payload.items);
+    persistFreezerToLocalStorage(payload.items);
   }
 
   // v1.2 Ticket #21: "Buy 2: Prep 1, Freeze 1" 1-Tap Arbitrage Handler
@@ -417,24 +429,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setPinnedIds(nextPinned);
 
     try {
-      const res = await fetch('/api/freezer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: newEntry }),
-      });
-      if (res.ok) {
-        const payload = await res.json();
-        if (Array.isArray(payload.items)) {
-          setFreezerItems(payload.items);
-          persistFreezerToLocalStorage(payload.items);
-          userSync.pushCloudSync({ freezerItems: payload.items });
-        }
-      }
+      await saveFreezerItem(newEntry);
     } catch {
-      const updatedLocal = [newEntry, ...freezerItems];
-      setFreezerItems(updatedLocal);
-      persistFreezerToLocalStorage(updatedLocal);
-      userSync.pushCloudSync({ freezerItems: updatedLocal });
+      setArbitrageToast('Unable to save freezer item. Please try again.');
+      return;
     }
 
     setArbitrageToast(
@@ -474,21 +472,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
     };
 
     try {
-      const res = await fetch('/api/freezer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: newEntry }),
-      });
-      if (res.ok) {
-        const payload = await res.json();
-        if (Array.isArray(payload.items)) {
-          setFreezerItems(payload.items);
-          persistFreezerToLocalStorage(payload.items);
-          userSync.pushCloudSync({ freezerItems: payload.items });
-        }
-      }
+      await saveFreezerItem(newEntry);
     } catch {
-      // Ignore
+      setArbitrageToast('Unable to save freezer item. Please try again.');
+      return;
     }
     const nextOnHand = Array.from(
       new Set([...effectiveOnHandIds, matched.ingredient.id])
@@ -500,6 +487,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
     const nextQty = Number((item.quantityLbOrDoz + delta).toFixed(2));
     if (nextQty <= 0) {
       await handleDeleteFreezerItem(item.id, item.canonicalIngredientId);
+      return;
+    }
+    if (userSync.authenticated) {
+      const items = freezerItems.map((f) => f.id === item.id ? {
+        ...f, quantityLbOrDoz: nextQty,
+        totalCostBasis: Number((nextQty * f.purchasePricePerUnit).toFixed(2)),
+        estimatedSavings: Number(Math.max(0, nextQty * (f.regularPricePerUnit - f.purchasePricePerUnit)).toFixed(2)),
+      } : f);
+      setFreezerItems(items);
+      persistFreezerToLocalStorage(items);
+      await userSync.pushCloudSync({ freezerItems: items });
       return;
     }
     try {
@@ -523,6 +521,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   async function handleDeleteFreezerItem(id: string, canonicalIngredientId: string) {
+    if (userSync.authenticated) {
+      const items = freezerItems.filter((f) => f.id !== id);
+      setFreezerItems(items);
+      persistFreezerToLocalStorage(items);
+      await userSync.pushCloudSync({ freezerItems: items });
+      setOnHandIds((ids) => ids.filter((ingredientId) => ingredientId !== canonicalIngredientId));
+      return;
+    }
     try {
       const res = await fetch(`/api/freezer?id=${encodeURIComponent(id)}`, {
         method: 'DELETE',
@@ -548,6 +554,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   // v1.3 Ticket #28: Cloud Sync & Guest-to-Account Migration Handlers
   async function handleMergeGuestData() {
+    let guestFreezer: FreezerItem[] = [];
+    try {
+      guestFreezer = JSON.parse(localStorage.getItem('pantrybot_virtual_freezer_v12') || '[]');
+    } catch { /* Ignore invalid guest cache. */ }
     const updated = await userSync.pushCloudSync({
       preferences: {
         defaultZip: currentZip,
@@ -559,7 +569,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
         pinnedIngredientIds: pinnedIds,
         onHandIngredientIds: onHandIds,
       },
-      freezerItems,
+      freezerItems: guestFreezer,
       mergeMode: true,
     });
     if (updated?.freezerItems) {
@@ -758,18 +768,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   async function handleToggleSaveRecipe(dish: RecommendedDish) {
     const isCurrentlySaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
-    if (isCurrentlySaved) {
-      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: false }));
-      await fetch(`/api/saved-recipes?id=${encodeURIComponent(dish.id)}`, {
-        method: 'DELETE',
-      });
-    } else {
-      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: true }));
-      await fetch('/api/saved-recipes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dish }),
-      });
+    try {
+      const res = isCurrentlySaved
+        ? await fetch(`/api/saved-recipes?id=${encodeURIComponent(dish.id)}`, { method: 'DELETE' })
+        : await fetch('/api/saved-recipes', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dish }),
+          });
+      if (!res.ok) throw new Error('Recipe save failed');
+      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: !isCurrentlySaved }));
+    } catch {
+      setAiBannerMessage('Unable to update your saved recipes. Please try again.');
+      return;
     }
     syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
   }

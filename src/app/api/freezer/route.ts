@@ -1,24 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  deleteFreezerItemFromSqlite,
-  getFreezerItemsFromSqlite,
-  getUserFreezerItemsFromSqlite,
-  updateFreezerItemQuantityInSqlite,
-  upsertFreezerItemToSqlite,
-} from '@/lib/db/sqlite';
 import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
 import {
   persistUserSyncState,
-  resolveCurrentUserProfile,
+  loadInventoryState,
 } from '@/lib/supabase/session';
 import { FreezerItem } from '@/types/domain';
 
 export async function GET() {
   try {
-    const { profile } = await resolveCurrentUserProfile();
-    const items = profile
-      ? getUserFreezerItemsFromSqlite(profile.id)
-      : getFreezerItemsFromSqlite();
+    const { freezerItems: items } = await loadInventoryState();
     return NextResponse.json({ items });
   } catch (error) {
     console.error('Error reading freezer inventory:', error);
@@ -59,9 +49,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { profile } = await resolveCurrentUserProfile();
+    const { profile, freezerItems: current } = await loadInventoryState(true, true);
     if (profile) {
-      const current = getUserFreezerItemsFromSqlite(profile.id);
       const existingIdx = current.findIndex(
         (f) => f.canonicalIngredientId === item.canonicalIngredientId
       );
@@ -115,9 +104,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ saved: savedItem, items: synced.freezerItems });
     }
 
-    const saved = upsertFreezerItemToSqlite(item);
-    const items = getFreezerItemsFromSqlite();
-    return NextResponse.json({ saved, items });
+    return NextResponse.json({ error: 'Session required' }, { status: 401 });
   } catch (error) {
     console.error('Error saving freezer item:', error);
     return NextResponse.json(
@@ -143,16 +130,15 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const id = body?.id as string | undefined;
     const quantityLbOrDoz = Number(body?.quantityLbOrDoz);
-    if (!id || Number.isNaN(quantityLbOrDoz)) {
+    if (!id || !Number.isFinite(quantityLbOrDoz)) {
       return NextResponse.json(
         { error: 'Missing id or valid quantityLbOrDoz' },
         { status: 400 }
       );
     }
 
-    const { profile } = await resolveCurrentUserProfile();
+    const { profile, freezerItems: current } = await loadInventoryState(true, true);
     if (profile) {
-      const current = getUserFreezerItemsFromSqlite(profile.id);
       let updatedItem: FreezerItem | null = null;
       const nextItems: FreezerItem[] = [];
       for (const f of current) {
@@ -188,9 +174,7 @@ export async function PATCH(request: NextRequest) {
       });
     }
 
-    const updated = updateFreezerItemQuantityInSqlite(id, quantityLbOrDoz);
-    const items = getFreezerItemsFromSqlite();
-    return NextResponse.json({ updated, items });
+    return NextResponse.json({ error: 'Session required' }, { status: 401 });
   } catch (error) {
     console.error('Error updating freezer item:', error);
     return NextResponse.json(
@@ -222,9 +206,8 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const { profile } = await resolveCurrentUserProfile();
+    const { profile, freezerItems: current } = await loadInventoryState(true, true);
     if (profile) {
-      const current = getUserFreezerItemsFromSqlite(profile.id);
       const nextItems = current.filter((f) => f.id !== id);
       const synced = await persistUserSyncState({
         profile,
@@ -233,9 +216,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ ok: true, items: synced.freezerItems });
     }
 
-    deleteFreezerItemFromSqlite(id);
-    const items = getFreezerItemsFromSqlite();
-    return NextResponse.json({ ok: true, items });
+    return NextResponse.json({ error: 'Session required' }, { status: 401 });
   } catch (error) {
     console.error('Error deleting freezer item:', error);
     return NextResponse.json(

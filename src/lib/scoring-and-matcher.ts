@@ -14,6 +14,7 @@ import {
   CookingVesselArchetype,
   CycleSignalMetadata,
   DashboardPayload,
+  FreezerItem,
   DietaryConstraint,
   MacroGoal,
   MatchedSlotIngredient,
@@ -26,9 +27,7 @@ import {
 import { fetchLiveFlippOffers } from './connectors/flipp';
 import { checkUsdaMarsStatus, fetchKrogerLiveOffers } from './connectors/usda-and-kroger';
 import {
-  getFreezerItemsFromSqlite,
   getIngredientHistoryFromSqlite,
-  getSavedRecipesFromSqlite,
   getSqliteDatabaseStats,
   persistLiveOffersToSqlite,
 } from './db/sqlite';
@@ -369,6 +368,7 @@ export function rankMealPrepDishes(
     dietaryConstraints?: DietaryConstraint[];
     applianceFilter?: CookingVesselArchetype;
     freezerIngredientIds?: string[];
+    savedRecipes?: RecommendedDish[];
   }
 ): {
   recommendedTrio: RecommendedDish[];
@@ -389,7 +389,7 @@ export function rankMealPrepDishes(
     ...(options?.freezerIngredientIds || []),
   ]);
 
-  const savedDishesRaw = getSavedRecipesFromSqlite() as RecommendedDish[];
+  const savedDishesRaw = options?.savedRecipes || [];
   const savedIdsSet = new Set(savedDishesRaw.map((d) => d.id));
 
   const evaluated: RecommendedDish[] = [];
@@ -718,6 +718,8 @@ export async function buildDashboardPayload(options?: {
   onHandIngredientIds?: string[];
   targetServings?: number;
   kingSoopersLocationId?: string;
+  freezerInventory?: FreezerItem[];
+  savedRecipes?: RecommendedDish[];
   macroGoal?: MacroGoal;
   dietaryConstraints?: DietaryConstraint[];
   applianceFilter?: CookingVesselArchetype;
@@ -746,7 +748,7 @@ export async function buildDashboardPayload(options?: {
     ...ALL_WEEKLY_BASELINE_OFFERS,
   ];
 
-  const freezerInventory = getFreezerItemsFromSqlite();
+  const freezerInventory = options?.freezerInventory || [];
   const freezerIngredientIds = freezerInventory
     .filter((f) => f.quantityLbOrDoz > 0)
     .map((f) => f.canonicalIngredientId);
@@ -768,6 +770,7 @@ export async function buildDashboardPayload(options?: {
       dietaryConstraints: options?.dietaryConstraints,
       applianceFilter: options?.applianceFilter,
       freezerIngredientIds,
+      savedRecipes: options?.savedRecipes,
     }
   );
 

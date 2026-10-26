@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "openapi:export": "node -e \"const fs = require('fs'); const { PANTRYBOT_OPENAPI_SPEC } = require('./src/lib/openapi/spec.ts'); fs.mkdirSync('./docs', { recursive: true }); fs.mkdirSync('./public', { recursive: true }); fs.writeFileSync('./docs/openapi.json', JSON.stringify(PANTRYBOT_OPENAPI_SPEC, null, 2) + '\\n'); fs.writeFileSync('./public/openapi.json', JSON.stringify(PANTRYBOT_OPENAPI_SPEC, null, 2) + '\\n'); console.log('Emitted docs/openapi.json and public/openapi.json');\"",
     "test": "vitest run",

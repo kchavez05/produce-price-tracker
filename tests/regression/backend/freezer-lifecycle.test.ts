@@ -1,3 +1,4 @@
+import { cookieJar } from 'tests/support/cookies';
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import { NextRequest } from 'next/server';
 import {
@@ -27,6 +28,7 @@ function createRequest(
 
 describe('regression: freezer-lifecycle', () => {
   beforeEach(() => {
+    cookieJar.clear();
     process.env.PANTRYBOT_SQLITE_PATH = ':memory:';
     resetSqliteTestInstance();
   });

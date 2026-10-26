@@ -1,3 +1,4 @@
+import { loadInventoryState } from '@/lib/supabase/session';
 import { NextRequest, NextResponse } from 'next/server';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
 import {
@@ -47,7 +48,10 @@ export async function GET(request: NextRequest) {
 
     const targetServings = [4, 6, 8].includes(servingsParam) ? servingsParam : 6;
 
+    const inventory = await loadInventoryState();
     const payload = await buildDashboardPayload({
+      freezerInventory: inventory.freezerItems,
+      savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter: storeParam,
       activeStores,

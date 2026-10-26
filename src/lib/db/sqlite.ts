@@ -1,3 +1,4 @@
+import { createHash, randomBytes } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
@@ -167,6 +168,12 @@ function initSchemaAndSeed(db: DatabaseSync) {
       provider TEXT NOT NULL,
       created_at_iso TEXT NOT NULL,
       updated_at_iso TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS local_sessions (
+      token_hash TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES user_accounts(id) ON DELETE CASCADE,
+      expires_at INTEGER NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS user_preferences (
@@ -869,9 +876,13 @@ export function upsertUserProfileToSqlite(profile: UserProfile): UserProfile {
   const updatedAtIso = now;
 
   db.prepare(`
-    INSERT OR REPLACE INTO user_accounts
+    INSERT INTO user_accounts
       (id, email, display_name, avatar_url, provider, created_at_iso, updated_at_iso)
     VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      email = excluded.email, display_name = excluded.display_name,
+      avatar_url = excluded.avatar_url, provider = excluded.provider,
+      updated_at_iso = excluded.updated_at_iso
   `).run(
     profile.id,
     profile.email,
@@ -1211,3 +1222,27 @@ export function deleteUserAccountFromSqlite(userId: string): void {
   }
 }
 
+
+// Only server-minted opaque credentials can select a local account. Store hashes
+// so a database snapshot does not expose reusable bearer tokens.
+export function createLocalSession(userId: string): string {
+  const db = getDb();
+  db.prepare('DELETE FROM local_sessions WHERE expires_at <= ?').run(Date.now());
+  const token = randomBytes(32).toString('hex');
+  db.prepare('INSERT INTO local_sessions (token_hash, user_id, expires_at) VALUES (?, ?, ?)')
+    .run(createHash('sha256').update(token).digest('hex'), userId, Date.now() + 30 * 86400_000);
+  return token;
+}
+
+export function getLocalSessionProfile(token: string | undefined): UserProfile | null {
+  if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
+  const row = getDb().prepare('SELECT user_id FROM local_sessions WHERE token_hash = ? AND expires_at > ?')
+    .get(createHash('sha256').update(token).digest('hex'), Date.now()) as { user_id: string } | undefined;
+  return row ? getUserProfileFromSqlite(row.user_id) : null;
+}
+
+export function revokeLocalSession(token: string | undefined): void {
+  if (!token) return;
+  getDb().prepare('DELETE FROM local_sessions WHERE token_hash = ?')
+    .run(createHash('sha256').update(token).digest('hex'));
+}
