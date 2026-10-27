@@ -72,8 +72,8 @@ flowchart TD
 * `DELETE /api/account`: Irrevocably purges user account and all personal grocery data under GDPR right to erasure.
 
 ### 8. `/api/cron/weekly-sync` (Automated Ingestion)
-* `GET /api/cron/weekly-sync`: Triggers weekly circular refresh from Flipp and USDA MARS. Persists audit log when called by Vercel Cron (`x-vercel-cron` header) or `record=true`.
-* `POST /api/cron/weekly-sync`: Triggers manual sync run with cycle label.
+* `GET /api/cron/weekly-sync`: Triggers weekly circular refresh from Flipp and USDA MARS. Recorded GET requests require `Authorization: Bearer CRON_SECRET`; `x-vercel-cron` alone is not authentication. Public preview requests are unrecorded.
+* `POST /api/cron/weekly-sync`: Triggers a same-origin, rate-limited manual sync. See [weekly refresh operations](../weekly-refresh.md) for source freshness and durable audit setup.
 
 ---
 

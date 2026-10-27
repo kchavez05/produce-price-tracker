@@ -89,14 +89,14 @@ describe('unit: OpenAPI 3.1.0 Specification', () => {
     expect(schemas.WeeklySyncCronResult).toBeDefined();
   });
 
-  it('defines security schemes for local session cookies and cron header', () => {
+  it('defines security schemes for local session cookies and cron bearer authentication', () => {
     const security = PANTRYBOT_OPENAPI_SPEC.components.securitySchemes;
     expect(security.LocalSessionCookie).toBeDefined();
     expect(security.LocalSessionCookie.type).toBe('apiKey');
     expect(security.LocalSessionCookie.in).toBe('cookie');
-    expect(security.VercelCronHeader).toBeDefined();
-    expect(security.VercelCronHeader.type).toBe('apiKey');
-    expect(security.VercelCronHeader.in).toBe('header');
+    expect(security.VercelCronBearer).toBeDefined();
+    expect(security.VercelCronBearer.type).toBe('http');
+    expect(security.VercelCronBearer.scheme).toBe('bearer');
   });
 
   it('ensures all operations specify at least a 200 response and valid summaries', () => {

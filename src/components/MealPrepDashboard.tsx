@@ -139,6 +139,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [showAlertsModal, setShowAlertsModal] = useState(false);
   const [cronSyncResult, setCronSyncResult] = useState<WeeklySyncCronResult | null>(null);
   const [cronSyncLoading, setCronSyncLoading] = useState(false);
+  const [cronSyncError, setCronSyncError] = useState<string | null>(null);
   const [copiedDigest, setCopiedDigest] = useState(false);
 
   // Dynamic Zip Code / Location state (De-localization)
@@ -887,25 +888,26 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   async function handleTriggerWeeklySync() {
     setCronSyncLoading(true);
+    setCronSyncError(null);
     try {
       const res = await fetch('/api/cron/weekly-sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cycle: 'manual_sync', zipCode: currentZip }),
       });
-      if (res.ok) {
-        const payload: WeeklySyncCronResult = await res.json();
-        setCronSyncResult(payload);
-        syncDashboard(
-          storeFilter,
-          pinnedIds,
-          effectiveOnHandIds,
-          targetServings,
-          currentZip
-        );
+      const payload = await res.json();
+      if (payload.fridayWeekendDigest) setCronSyncResult(payload);
+      if (!res.ok) {
+        setCronSyncError(payload.auditStorage === 'unavailable'
+          ? 'Prices were checked, but the durable audit could not be saved. Please retry.'
+          : 'Weekly refresh failed. Please retry.');
+        return;
       }
+      await syncDashboard(
+        storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip
+      );
     } catch {
-      // Ignore
+      setCronSyncError('Weekly refresh could not connect. Please retry.');
     } finally {
       setCronSyncLoading(false);
     }
@@ -1119,6 +1121,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   function renderCycleSignalBadge(item: ScoredCommodity) {
+    if (item.bestOffer.source === 'CURATED_FALLBACK') return (
+      <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-900">Historical estimate</span>
+    );
     const sig = item.cycleSignal;
     if (!sig) return null;
     if (sig.status === 'STOCK_UP_6WK_LOW') {
@@ -1345,6 +1350,20 @@ export default function MealPrepDashboard({ initialData }: Props) {
               <span>{data.adCycleLabel}</span>
             </div>
           </div>
+
+          {data.freshness && (
+            <div role="status" className="my-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-slate-700">
+              <p>Planning cycle: {data.adCycleLabel}. {data.freshness.usableLiveOffers} verified live prices; {data.freshness.estimatedBestPrices} top prices use historical estimates. Estimates are not confirmed current specials; verify them with the store.</p>
+              <p>Refresh attempted: {new Date(data.freshness.attemptedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.
+                {' '}Last successful live retrieval: {data.freshness.liveRetrievedAtIso
+                  ? `${new Date(data.freshness.liveRetrievedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT`
+                  : 'No successful retrieval recorded'}.
+                {' '}Page generated: {new Date(data.lastUpdatedIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.</p>
+              <p>Flipp: {data.dataSourcesActive.flippLive ? 'current offers available' : 'no usable current offers'}.
+                {' '}Kroger: {data.dataSourcesActive.krogerLive ? 'current prices available' : 'unavailable or not configured'}.
+                {' '}USDA benchmarks: {data.dataSourcesActive.usdaLive ? 'live' : 'baseline estimates'}.</p>
+            </div>
+          )}
 
           {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
           <AccountModal
@@ -1782,7 +1801,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       Milestone v1.0 Cron &amp; Smart Push Engine
                     </span>
                     <span className="text-[11px] text-slate-400">
-                      Wed 6:00 AM MT Circular Sync • Fri 4:00 PM MT Weekend Prep Digest
+                      Wed 13:00 UTC Circular Sync • Fri 22:00 UTC Weekend Prep Digest
                     </span>
                   </div>
                   <p className="mt-1 text-slate-300">
@@ -1825,12 +1844,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 </div>
               </div>
 
+              {cronSyncError && <p role="alert" className="mt-2 text-sm text-rose-600">{cronSyncError}</p>}
               {cronSyncLoading && !cronSyncResult ? (
                 <div className="py-6 text-center text-slate-400">
                   Building Smart Push Notifications &amp; Friday Weekend Digest...
                 </div>
               ) : cronSyncResult ? (
                 <div className="mt-3 grid gap-3 lg:grid-cols-3">
+                  <p className="text-xs text-slate-600">
+                    {cronSyncResult.refreshStatus === 'live' ? 'Live prices retrieved' : 'No usable live prices; using estimates'}.
+                    {' '}Audit storage: {cronSyncResult.auditStorage || 'local'}.
+                  </p>
                   {cronSyncResult.smartPushNotifications.map((notif) => (
                     <div
                       key={notif.id}
@@ -2307,7 +2331,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {ingredient.standardUnit}{' '}
                               <span className="text-[10px] font-normal">
                                 (
-                                {kingSoopersOffer.dealType === 'DIGITAL_COUPON'
+                                {kingSoopersOffer.source === 'CURATED_FALLBACK' ? 'Estimate' : kingSoopersOffer.dealType === 'DIGITAL_COUPON'
                                   ? 'App Cpn'
                                   : 'Card'}
                                 )
@@ -2334,7 +2358,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {ingredient.standardUnit}{' '}
                               <span className="text-[10px] font-normal">
                                 (
-                                {safewayOffer.dealType === 'DIGITAL_COUPON'
+                                {safewayOffer.source === 'CURATED_FALLBACK' ? 'Estimate' : safewayOffer.dealType === 'DIGITAL_COUPON'
                                   ? 'for U Cpn'
                                   : 'Member'}
                                 )
@@ -2398,7 +2422,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)} • Peak $
                               {(item.sixWeekHigh ?? item.sixWeekLocalAvg).toFixed(2)}
                             </span>
-                            {bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
+                            {bestOffer.source !== 'CURATED_FALLBACK' && bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
                               <span className="rounded bg-emerald-100 px-1.5 py-0.2 font-bold text-emerald-800">
                                 ★ 6-Week Floor
                               </span>
@@ -3963,7 +3987,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     <span className="text-emerald-700 font-semibold">
                       {data.dataSourcesActive.flippLive
                         ? `Live Circular Feed Connected for ${data.cityLabel}`
-                        : `Weekly Circular Dataset (${data.cityLabel})`}
+                        : `No verified current circulars; historical estimates (${data.cityLabel})`}
                     </span>
                   </div>
                   <div>

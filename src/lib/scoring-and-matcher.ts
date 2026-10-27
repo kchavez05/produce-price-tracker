@@ -1,3 +1,5 @@
+import { lastSuccessfulRefresh } from '@/lib/refresh-audit';
+import { currentAdCycle, selectCurrentOffers } from '@/lib/offer-freshness';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { ALL_WEEKLY_BASELINE_OFFERS } from '@/data/mead-baseline-offers';
 import { MEAL_PREP_BLUEPRINTS } from '@/data/meal-prep-blueprints';
@@ -138,6 +140,8 @@ export function scoreAllCommodities(
 
     if (pool.length === 0) continue;
 
+    const livePool = pool.filter((offer) => offer.source !== 'CURATED_FALLBACK');
+    if (livePool.length > 0) pool = livePool;
     pool.sort((a, b) => a.normalizedPricePerUnit - b.normalizedPricePerUnit);
     const bestOffer = pool[0];
     const runnerUpOffer = pool[1];
@@ -176,8 +180,9 @@ export function scoreAllCommodities(
       bestOffer.regularPricePerUnit >= 4.75 ||
       bestOffer.normalizedPricePerUnit >= ingredient.splurgeThresholdPerUnit * 0.78;
     const isDeepDiscount = discountVsRegularPct >= 38 || discountVsBaselinePct >= 30;
+    const verifiedPrice = bestOffer.source !== 'CURATED_FALLBACK';
     const isSplurgeAlert = Boolean(
-      isHighRegularPrice &&
+      verifiedPrice && isHighRegularPrice &&
         isDeepDiscount &&
         bestOffer.normalizedPricePerUnit >= 1.95
     );
@@ -198,6 +203,8 @@ export function scoreAllCommodities(
     } else if (valueScore >= 82 || discountVsRegularPct >= 42) {
       actionTag = 'STOCK_UP_ANCHOR';
     }
+
+    if (!verifiedPrice) actionTag = 'GREAT_STAPLE';
 
     const {
       priceHistory,
@@ -241,13 +248,18 @@ export function scoreAllCommodities(
       badgeLabel = '🟢 Stock Up Alert (6-Week Low)';
     }
 
+    if (!verifiedPrice) {
+      cycleStatus = 'FAIR_SALE_PRICE';
+      badgeLabel = 'Historical estimate (verify current price)';
+    }
+
     // Ticket #21: Virtual Freezer Arbitrage Prompt ("Buy 2: Prep 1, Freeze 1")
     const isFreezableCategory =
       ingredient.category === 'PROTEIN' ||
       ingredient.id === 'butter-salted-unsalted' ||
       ingredient.id === 'shredded-block-cheese';
     const isArbitrageEligible =
-      isFreezableCategory &&
+      verifiedPrice && isFreezableCategory &&
       (cycleStatus === 'STOCK_UP_6WK_LOW' ||
         discountVsRegularPct >= 38 ||
         isSplurgeAlert);
@@ -724,6 +736,7 @@ export async function buildDashboardPayload(options?: {
   dietaryConstraints?: DietaryConstraint[];
   applianceFilter?: CookingVesselArchetype;
 }): Promise<DashboardPayload> {
+  const attemptedAtIso = new Date().toISOString();
   const zipCode = options?.zipCode || process.env.NEXT_PUBLIC_DEFAULT_ZIP || '80542';
   const storeFilter = options?.storeFilter || 'ALL';
   const activeStores = options?.activeStores;
@@ -731,22 +744,24 @@ export async function buildDashboardPayload(options?: {
   const onHandIngredientIds = options?.onHandIngredientIds || [];
   const targetServings = options?.targetServings || 6;
 
-  const [flippResult, usdaResult, krogerResult, cityLabel] = await Promise.all([
+  const [flippResult, usdaResult, krogerResult, cityLabel, priorLiveRefresh] = await Promise.all([
     fetchLiveFlippOffers(zipCode),
     checkUsdaMarsStatus(),
     fetchKrogerLiveOffers(options?.kingSoopersLocationId),
     resolveCityStateFromZip(zipCode),
+    lastSuccessfulRefresh(zipCode),
   ]);
 
-  if (flippResult.offers.length > 0 || krogerResult.offers.length > 0) {
-    persistLiveOffersToSqlite([...flippResult.offers, ...krogerResult.offers]);
+  const observedAt = new Date();
+  const adCycle = currentAdCycle(observedAt);
+  const { current: liveOffers, offers: combinedOffers } = selectCurrentOffers(
+    [...flippResult.offers, ...krogerResult.offers], ALL_WEEKLY_BASELINE_OFFERS, observedAt
+  );
+  const flippCount = liveOffers.filter((offer) => offer.source === 'FLIPP_LIVE').length;
+  const krogerCount = liveOffers.filter((offer) => offer.source === 'KROGER_API').length;
+  if (liveOffers.length > 0) {
+    persistLiveOffersToSqlite(liveOffers, adCycle.start, adCycle.label);
   }
-
-  const combinedOffers: StoreOffer[] = [
-    ...flippResult.offers,
-    ...krogerResult.offers,
-    ...ALL_WEEKLY_BASELINE_OFFERS,
-  ];
 
   const freezerInventory = options?.freezerInventory || [];
   const freezerIngredientIds = freezerInventory
@@ -819,12 +834,19 @@ export async function buildDashboardPayload(options?: {
   return {
     zipCode,
     cityLabel,
-    adCycleLabel: 'Wed Oct 14 – Tue Oct 20, 2026 (Active Weekend Cycle)',
+    adCycleLabel: adCycle.label,
     lastUpdatedIso: new Date().toISOString(),
+    freshness: {
+      attemptedAtIso,
+      liveRetrievedAtIso: liveOffers.length > 0 ? new Date().toISOString() : priorLiveRefresh,
+      usableLiveOffers: liveOffers.length,
+      estimatedBestPrices: commodities.filter((c) => c.bestOffer.source === 'CURATED_FALLBACK').length,
+      sourceOfferCounts: { flipp: flippCount, kroger: krogerCount },
+    },
     dataSourcesActive: {
-      flippLive: flippResult.liveSuccess,
+      flippLive: flippCount > 0,
       usdaLive: usdaResult.usdaLive,
-      krogerLive: krogerResult.krogerLive,
+      krogerLive: krogerCount > 0,
       geminiConfigured: Boolean(process.env.GEMINI_API_KEY?.trim()),
       sqlitePersisted: sqliteStats.totalHistoricalOfferRows > 0,
       supabaseConfigured: isSupabaseConfigured(),

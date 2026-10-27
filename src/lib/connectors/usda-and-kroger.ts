@@ -68,7 +68,7 @@ export async function checkUsdaMarsStatus(): Promise<{
     const basicAuth = Buffer.from(`${apiKey}:`).toString('base64');
     const slugs = ['3324', '3228', '2868', '2756', '2995'];
 
-    const responses = await Promise.all(
+    const responses = await Promise.allSettled(
       slugs.map(async (slug) => {
         const res = await fetch(
           `https://marsapi.ams.usda.gov/services/v1.2/reports/${slug}`,
@@ -77,7 +77,7 @@ export async function checkUsdaMarsStatus(): Promise<{
               Authorization: `Basic ${basicAuth}`,
               Accept: 'application/json',
             },
-            next: { revalidate: 21600 },
+            cache: 'no-store',
             signal: AbortSignal.timeout(3500),
           }
         );
@@ -87,9 +87,9 @@ export async function checkUsdaMarsStatus(): Promise<{
       })
     );
 
-    const allRows = responses.flat();
+    const allRows = responses.flatMap((result) => result.status === 'fulfilled' ? result.value : []);
     if (allRows.length === 0) {
-      return { usdaLive: true, overrides };
+      return { usdaLive: Object.keys(overrides).length > 0, overrides };
     }
 
     for (const row of allRows) {
@@ -112,7 +112,7 @@ export async function checkUsdaMarsStatus(): Promise<{
       }
     }
 
-    return { usdaLive: true, overrides };
+    return { usdaLive: Object.keys(overrides).length > 0, overrides };
   } catch {
     return { usdaLive: false, overrides: {} };
   }
@@ -188,7 +188,7 @@ export async function fetchKrogerLiveOffers(
     ];
 
     const offers: StoreOffer[] = [];
-    const results = await Promise.all(
+    const results = await Promise.allSettled(
       batchTargets.map(async (target) => {
         const prodRes = await fetch(
           `https://api.kroger.com/v1/products?filter.term=${encodeURIComponent(
@@ -199,6 +199,7 @@ export async function fetchKrogerLiveOffers(
               Authorization: `Bearer ${accessToken}`,
               Accept: 'application/json',
             },
+            cache: 'no-store',
             signal: AbortSignal.timeout(3500),
           }
         );
@@ -208,7 +209,8 @@ export async function fetchKrogerLiveOffers(
       })
     );
 
-    for (const res of results) {
+    for (const result of results) {
+      const res = result.status === 'fulfilled' ? result.value : null;
       if (!res) continue;
       const ingredient = CANONICAL_INGREDIENTS.find(
         (i) => i.id === res.target.ingredientId
@@ -236,8 +238,9 @@ export async function fetchKrogerLiveOffers(
             normalizedPricePerUnit: activePrice,
             regularPricePerUnit: regular || ingredient.typicalRegularPerUnit,
             dealType: promo ? 'SHELF_OR_MEMBER' : 'EVERYDAY_LOW',
-            validFrom: '2026-10-14',
-            validTo: '2026-10-20',
+            validFrom: '',
+            validTo: '',
+            observedAtIso: new Date().toISOString(),
             source: 'KROGER_API',
           });
           break;
@@ -246,7 +249,7 @@ export async function fetchKrogerLiveOffers(
     }
 
     return {
-      krogerLive: true,
+      krogerLive: offers.length > 0,
       locations: MEAD_KING_SOOPERS_LOCATIONS,
       selectedLocationId,
       offers,

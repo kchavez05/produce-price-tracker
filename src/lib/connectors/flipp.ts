@@ -1,3 +1,4 @@
+import { sourceDate } from '@/lib/offer-freshness';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { resolveStoreBanner } from '@/data/store-registry';
 import { CanonicalIngredient, DealType, StoreChain, StoreOffer } from '@/types/domain';
@@ -248,7 +249,7 @@ export async function fetchLiveFlippOffers(
       'Target',
       'Sprouts',
     ];
-    const responses = await Promise.all(
+    const responses = await Promise.allSettled(
       queries.map(async (merchantQuery) => {
         const url = `https://backflipp.wishabi.com/flipp/items/search?locale=en-us&postal_code=${encodeURIComponent(
           zipCode
@@ -258,7 +259,7 @@ export async function fetchLiveFlippOffers(
             Accept: 'application/json',
             'User-Agent': 'PantryBot/1.1 (Commodity-MealPrep-Tracker)',
           },
-          next: { revalidate: 3600 },
+          cache: 'no-store',
           signal: AbortSignal.timeout(3500),
         });
         if (!res.ok) return [];
@@ -267,7 +268,7 @@ export async function fetchLiveFlippOffers(
       })
     );
 
-    const allItems = responses.flat();
+    const allItems = responses.flatMap((result) => result.status === 'fulfilled' ? result.value : []);
     if (allItems.length > 0) {
       liveSuccess = true;
     }
@@ -371,8 +372,8 @@ export async function fetchLiveFlippOffers(
           regularPricePerUnit: ingredient.typicalRegularPerUnit,
           dealType,
           dealConditions: dealConditions || story,
-          validFrom: (item.valid_from || '2026-10-14').slice(0, 10),
-          validTo: (item.valid_to || '2026-10-20').slice(0, 10),
+          validFrom: sourceDate(item.valid_from),
+          validTo: sourceDate(item.valid_to),
           imageUrl: item.clean_image_url,
           source: 'FLIPP_LIVE',
         });
