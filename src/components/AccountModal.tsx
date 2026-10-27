@@ -46,7 +46,7 @@ interface AccountModalProps {
   freezerItemCount: number;
   onSignIn: (provider: AuthProviderType) => Promise<void>;
   onSignOut: () => Promise<void>;
-  onMergeGuestData: () => Promise<void>;
+  onMergeGuestData: () => Promise<boolean>;
   onDismissMergePrompt: () => void;
   onForceSync: () => Promise<void>;
   onExportData: () => Promise<boolean>;
@@ -82,6 +82,7 @@ export default function AccountModal({
   const [exportSuccess, setExportSuccess] = useState(false);
   const [confirmDeleteStep, setConfirmDeleteStep] = useState(false);
   const [merging, setMerging] = useState(false);
+  const [mergeError, setMergeError] = useState<string | null>(null);
   const [statusBanner, setStatusBanner] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -96,10 +97,14 @@ export default function AccountModal({
 
   async function handleMergeClick() {
     setMerging(true);
+    setMergeError(null);
     try {
-      await onMergeGuestData();
+      if (!(await onMergeGuestData())) {
+        setMergeError('Unable to save the guest import locally. Please retry.');
+        return;
+      }
       setStatusBanner(
-        'Merged your local Virtual Freezer and store preferences into your account.'
+        'Guest inventory is saved locally; account sync will retry if needed.'
       );
       setTimeout(() => setStatusBanner(null), 4000);
     } finally {
@@ -153,6 +158,7 @@ export default function AccountModal({
         </button>
       </div>
 
+      {mergeError && <p role="alert" className="mt-3 text-sm font-semibold text-rose-700">{mergeError}</p>}
       {statusBanner && (
         <div className="mt-3 flex items-center justify-between rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-2 text-emerald-900 font-semibold">
           <div className="flex items-center gap-2">
