@@ -1353,7 +1353,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
           {data.freshness && (
             <div role="status" className="my-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-slate-700">
-              <p>{data.freshness.usableLiveOffers} verified live prices; {data.freshness.estimatedBestPrices} top prices use historical estimates. Estimates are not confirmed current specials; verify them with the store.</p>
+              <p>Planning cycle: {data.adCycleLabel}. {data.freshness.usableLiveOffers} verified live prices; {data.freshness.estimatedBestPrices} top prices use historical estimates. Estimates are not confirmed current specials; verify them with the store.</p>
               <p>Refresh attempted: {new Date(data.freshness.attemptedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.
                 {' '}Last successful live retrieval: {data.freshness.liveRetrievedAtIso
                   ? `${new Date(data.freshness.liveRetrievedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT`
@@ -1801,7 +1801,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       Milestone v1.0 Cron &amp; Smart Push Engine
                     </span>
                     <span className="text-[11px] text-slate-400">
-                      Wed 6:00 AM MT Circular Sync • Fri 4:00 PM MT Weekend Prep Digest
+                      Wed 13:00 UTC Circular Sync • Fri 22:00 UTC Weekend Prep Digest
                     </span>
                   </div>
                   <p className="mt-1 text-slate-300">

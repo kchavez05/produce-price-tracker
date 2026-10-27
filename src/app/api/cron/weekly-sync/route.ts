@@ -53,7 +53,7 @@ async function executeWeeklySync(
       (item) => item.optimalDealType === 'DIGITAL_COUPON'
     );
 
-    const topCommodity = dashboard.commodities[0];
+    const topCommodity = dashboard.commodities.find((item) => item.bestOffer.source !== 'CURATED_FALLBACK');
     const topSplurge = dashboard.splurgeAlerts[0];
     const topDish = dashboard.recommendedTrio[0];
 
@@ -78,7 +78,7 @@ async function executeWeeklySync(
         scheduledWindowLabel: 'Wednesdays • 13:00 UTC (7 AM MDT / 6 AM MST)',
         title: `🛒 Mead (${zipCode}) Weekly Circulars Live!`,
         subtitle: `#1 Value: ${topCommodity.ingredient.name} at $${topCommodity.bestOffer.normalizedPricePerUnit.toFixed(2)}/${topCommodity.ingredient.standardUnit} (${storeName})`,
-        body: `${Math.round(topCommodity.discountVsBaselinePct * 100)}% below USDA Mountain Region baseline. ${digitalCouponItems.length} digital coupons ready to clip for this weekend's top 3 batch meals.`,
+        body: `${Math.round(topCommodity.discountVsBaselinePct)}% below USDA Mountain Region baseline. ${digitalCouponItems.length} digital coupons ready to clip for this weekend's top 3 batch meals.`,
         deepLinkPath: '/?tab=leaderboard',
         badgeText: `Score ${topCommodity.valueScore}/100`,
         priority: 'high',
@@ -92,10 +92,10 @@ async function executeWeeklySync(
         triggerType: 'SPLURGE_ALERT',
         scheduledWindowLabel: 'Real-Time Deep Discount Trigger',
         title: `💎 Splurge Stock-Up Alert: ${topSplurge.ingredient.name}`,
-        subtitle: `$${topSplurge.bestOffer.normalizedPricePerUnit.toFixed(2)}/${topSplurge.ingredient.standardUnit} at ${storeName} (-${Math.round(topSplurge.discountVsBaselinePct * 100)}% vs. Baseline)`,
+        subtitle: `$${topSplurge.bestOffer.normalizedPricePerUnit.toFixed(2)}/${topSplurge.ingredient.standardUnit} at ${storeName} (-${Math.round(topSplurge.discountVsBaselinePct)}% vs. Baseline)`,
         body: `${topSplurge.bestOffer.rawPriceText}${topSplurge.bestOffer.dealConditions ? ` (${topSplurge.bestOffer.dealConditions})` : ''}. Rare 6-week local low for freezer stock-up or Dutch oven braising.`,
         deepLinkPath: '/?tab=splurge',
-        badgeText: `-${Math.round(topSplurge.discountVsBaselinePct * 100)}% OFF`,
+        badgeText: `-${Math.round(topSplurge.discountVsBaselinePct)}% OFF`,
         priority: 'high',
       });
     }
@@ -144,7 +144,7 @@ async function executeWeeklySync(
       `## 4. Top 5 Commodity Value Leaders`,
       ...dashboard.commodities.slice(0, 5).map(
         (c, i) =>
-          `${i + 1}. **${c.ingredient.name}**: $${c.bestOffer.normalizedPricePerUnit.toFixed(2)}/${c.ingredient.standardUnit} at ${c.bestOffer.store === 'KING_SOOPERS' ? 'King Soopers' : 'Safeway'} (-${Math.round(c.discountVsBaselinePct * 100)}% vs. USDA Mountain Baseline, Value Score: ${c.valueScore}/100)`
+          `${i + 1}. **${c.ingredient.name}**: $${c.bestOffer.normalizedPricePerUnit.toFixed(2)}/${c.ingredient.standardUnit} at ${c.bestOffer.store === 'KING_SOOPERS' ? 'King Soopers' : 'Safeway'} (-${Math.round(c.discountVsBaselinePct)}% vs. USDA Mountain Baseline, Value Score: ${c.valueScore}/100)`
       ),
     ];
 
