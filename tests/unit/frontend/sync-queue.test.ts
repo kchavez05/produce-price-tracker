@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createSyncQueue, syncQueueKey, prepareSyncMutation } from '@/lib/sync/queue';
+import { createSyncQueue, syncQueueKey, prepareSyncMutation, mergeFreezerItems, parseGuestFreezer } from '@/lib/sync/queue';
 import { UserSyncPayload } from '@/types/domain';
 
 const payload: UserSyncPayload = {
@@ -10,7 +10,7 @@ function setup() {
   const data = new Map<string, string>();
   const storage = { getItem: (key: string) => data.get(key) ?? null,
     setItem: (key: string, value: string) => { data.set(key, value); }, removeItem: (key: string) => { data.delete(key); } };
-  return { storage, queue: createSyncQueue(storage) };
+  return { data, storage, queue: createSyncQueue(storage) };
 }
 
 describe('durable account-scoped sync queue', () => {
@@ -60,4 +60,48 @@ describe('durable account-scoped sync queue', () => {
     expect(mutation.freezerItems?.[0].quantityLbOrDoz).toBe(5);
     expect(mutation.freezerItems?.[0].totalCostBasis).toBe(10);
   });
+
+  it.each(['{invalid', 'null', '{}', '[null]'])('recovers malformed storage %s without discarding the original bytes', async (raw) => {
+    const { data, storage, queue } = setup();
+    storage.setItem(syncQueueKey('alice'), raw);
+    expect(queue.overlay(payload)).toEqual(payload);
+    const backup = [...data.entries()].find(([key]) => key.startsWith(`${syncQueueKey('alice')}:recovery:`));
+    expect(backup?.[1]).toBe(raw);
+    queue.enqueue('alice', { preferences: { defaultZip: '80542' } });
+    const send = vi.fn().mockResolvedValue(payload);
+    await queue.flush('alice', send);
+    expect(send).toHaveBeenCalledTimes(1);
+    expect(storage.getItem(syncQueueKey('alice'))).toBeNull();
+  });
+
+  it('retains valid edits from a partially corrupted queue and rejects foreign entries during hydration', async () => {
+    const { storage, queue } = setup();
+    queue.enqueue('alice', { preferences: { defaultZip: '80542' } });
+    const raw = JSON.parse(storage.getItem(syncQueueKey('alice'))!);
+    storage.setItem(syncQueueKey('alice'), JSON.stringify([...raw, null, { ...raw[0], userId: 'bob' }]));
+    const send = vi.fn().mockResolvedValue(payload);
+    await queue.flush('alice', send);
+    expect(send).toHaveBeenCalledTimes(1);
+    expect(send.mock.calls[0][0].userId).toBe('alice');
+  });
+
+  it('keeps the original queue if recovery storage is unavailable', () => {
+    const { storage, queue } = setup();
+    storage.setItem(syncQueueKey('alice'), '{invalid');
+    vi.spyOn(storage, 'setItem').mockImplementation(() => { throw new Error('Storage full'); });
+    expect(() => queue.overlay(payload)).toThrow('Storage full');
+    expect(storage.getItem(syncQueueKey('alice'))).toBe('{invalid');
+  });
+
+  it('removes depleted stock and validates guest cache values before merging', () => {
+    const item = { id: 'one', canonicalIngredientId: 'beef', ingredientName: 'Beef', category: 'PROTEIN' as const,
+      quantityLbOrDoz: 2, unit: 'lb' as const, purchasePricePerUnit: 2, regularPricePerUnit: 4,
+      totalCostBasis: 4, estimatedSavings: 4, store: 'KING_SOOPERS' as const, storeBanner: '', purchasedAtIso: '' };
+    expect(mergeFreezerItems([item], [{ ...item, quantityLbOrDoz: -2 }])).toEqual([]);
+    expect(mergeFreezerItems([item], [{ ...item, quantityLbOrDoz: -3 }])).toEqual([]);
+    expect(mergeFreezerItems([], [{ ...item, quantityLbOrDoz: -1 }])).toEqual([]);
+    for (const raw of ['null', '{}', '{invalid', '[null, {}]']) expect(parseGuestFreezer(raw)).toEqual([]);
+    expect(parseGuestFreezer(JSON.stringify([item, null]))).toEqual([item]);
+  });
+
 });

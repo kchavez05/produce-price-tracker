@@ -15,16 +15,50 @@ export function syncQueueKey(userId: string): string {
   return `pantrybot_sync_queue_v14:${userId}`;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isFreezerItem(value: unknown): value is FreezerItem {
+  if (!isRecord(value)) return false;
+  const textFields = ['id', 'canonicalIngredientId', 'ingredientName', 'category', 'store', 'storeBanner', 'purchasedAtIso'];
+  const numberFields = ['quantityLbOrDoz', 'purchasePricePerUnit', 'regularPricePerUnit', 'totalCostBasis', 'estimatedSavings'];
+  return textFields.every((key) => typeof value[key] === 'string') &&
+    numberFields.every((key) => typeof value[key] === 'number' && Number.isFinite(value[key])) &&
+    (value.unit === 'lb' || value.unit === 'doz') &&
+    (value.notes === undefined || typeof value.notes === 'string');
+}
+
+export function parseGuestFreezer(raw: string | null): FreezerItem[] {
+  try {
+    const parsed: unknown = JSON.parse(raw || '[]');
+    return Array.isArray(parsed) ? parsed.filter(isFreezerItem) : [];
+  } catch {
+    return [];
+  }
+}
+
+function isQueuedMutation(value: unknown, userId: string): value is QueuedMutation {
+  return isRecord(value) && value.userId === userId &&
+    typeof value.mutationId === 'string' && value.mutationId.length > 0 &&
+    (value.preferences === undefined || isRecord(value.preferences)) &&
+    (value.freezerItems === undefined || (Array.isArray(value.freezerItems) && value.freezerItems.every(isFreezerItem))) &&
+    (value.mergeMode === undefined || typeof value.mergeMode === 'boolean');
+}
+
 export function mergeFreezerItems(current: FreezerItem[], incomingItems: FreezerItem[]): FreezerItem[] {
   const byIngredient = new Map(current.map((item) => [item.canonicalIngredientId, item]));
   for (const incoming of incomingItems) {
     const existing = byIngredient.get(incoming.canonicalIngredientId);
     if (!existing) {
-      byIngredient.set(incoming.canonicalIngredientId, incoming);
+      if (incoming.quantityLbOrDoz > 0) byIngredient.set(incoming.canonicalIngredientId, incoming);
       continue;
     }
     const quantity = existing.quantityLbOrDoz + incoming.quantityLbOrDoz;
-    if (quantity <= 0) continue;
+    if (quantity <= 0) {
+      byIngredient.delete(incoming.canonicalIngredientId);
+      continue;
+    }
     const purchase = (existing.quantityLbOrDoz * existing.purchasePricePerUnit + incoming.quantityLbOrDoz * incoming.purchasePricePerUnit) / quantity;
     const regular = (existing.quantityLbOrDoz * existing.regularPricePerUnit + incoming.quantityLbOrDoz * incoming.regularPricePerUnit) / quantity;
     byIngredient.set(incoming.canonicalIngredientId, {
@@ -56,7 +90,26 @@ export function prepareSyncMutation(mutation: SyncMutation, current: UserSyncPay
 export function createSyncQueue(storage: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>) {
   const inFlight = new Map<string, Promise<UserSyncPayload | null>>();
   function read(userId: string): QueuedMutation[] {
-    return JSON.parse(storage.getItem(syncQueueKey(userId)) || '[]') as QueuedMutation[];
+    const key = syncQueueKey(userId);
+    const raw = storage.getItem(key);
+    if (!raw) return [];
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      parsed = null;
+    }
+    const valid = Array.isArray(parsed)
+      ? parsed.filter((value): value is QueuedMutation => isQueuedMutation(value, userId))
+      : [];
+    if (!Array.isArray(parsed) || valid.length !== parsed.length) {
+      // Preserve the original bytes for recovery before repairing the active queue.
+      // Storage failures propagate: never clear the only copy if backup fails.
+      storage.setItem(`${key}:recovery:${crypto.randomUUID()}`, raw);
+      if (valid.length) storage.setItem(key, JSON.stringify(valid));
+      else storage.removeItem(key);
+    }
+    return valid;
   }
   function enqueue(userId: string, mutation: SyncMutation) {
     const pending = read(userId);

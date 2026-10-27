@@ -23,4 +23,6 @@
 
 Regression coverage includes forged/expired/revoked credentials, duplicate email isolation, guest and account ownership, cross-account queued requests, preservation of cached data on profile refresh, cloud recipe round trips/deletes/errors, and AI authentication/quota boundaries. Unit coverage includes offline queue replay, request failures, concurrent edits, account switching, and retry-safe guest merges.
 
-Local validation passed: typecheck, ESLint, 57 unit tests, 11 smoke tests, 26 regression tests, and production build. The critical-severity dependency audit passed, with existing moderate/high Next.js/PostCSS advisories remaining outside this remediation.
+Local validation passed: typecheck, ESLint, 64 unit tests, 11 smoke tests, 26 regression tests, and production build. The critical-severity dependency audit passed, with existing moderate/high Next.js/PostCSS advisories remaining outside this remediation.
+
+Review follow-up: corrupted browser queues are validated and backed up under account-scoped recovery keys before repair; valid pending entries are retained. Guest freezer caches are parsed defensively, and merging stock to zero or below removes the depleted item. Regression tests cover malformed JSON, invalid shapes, partial corruption, failed backup storage, and depletion.

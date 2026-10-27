@@ -26,7 +26,7 @@ import {
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
 import AccountModal from '@/components/AccountModal';
-import { mergeFreezerItems } from '@/lib/sync/queue';
+import { mergeFreezerItems, parseGuestFreezer } from '@/lib/sync/queue';
 import { useUserSync } from '@/hooks/useUserSync';
 import {
   Sparkles,
@@ -556,7 +556,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
   async function handleMergeGuestData() {
     let guestFreezer: FreezerItem[] = [];
     try {
-      guestFreezer = JSON.parse(localStorage.getItem('pantrybot_virtual_freezer_v12') || '[]');
+      guestFreezer = parseGuestFreezer(localStorage.getItem('pantrybot_virtual_freezer_v12'));
     } catch { /* Ignore invalid guest cache. */ }
     const updated = await userSync.pushCloudSync({
       preferences: {
