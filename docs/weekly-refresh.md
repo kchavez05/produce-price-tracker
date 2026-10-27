@@ -18,7 +18,7 @@ Set a random server-only `CRON_SECRET` in production before deploying. Vercel su
 
 Apply `supabase/migrations/20261027223857_weekly_refresh_audit.sql` and configure `NEXT_PUBLIC_SUPABASE_URL` and server-only `SUPABASE_SECRET_KEY`. Only the server role can read or insert audit rows; browser roles have no grants or RLS policies. No account or inventory data is stored. Each recorded sync captures its ZIP, cycle, attempt/completion times, status, source counts, and USDA availability.
 
-`auditStorage=cloud` confirms a successful durable write. `local` means only SQLite is configured; on serverless deployments this may be temporary or in memory. `unavailable` means the cloud write failed; structured `weekly_refresh` runtime logs provide diagnostic evidence, subject to Vercel retention. Do not interpret a local audit as durable production history.
+`auditStorage=cloud` confirms a successful durable write. `local` means only SQLite is configured; on serverless deployments this may be temporary or in memory. `unavailable` means a configured cloud write failed or no database saved the audit; structured `weekly_refresh` runtime logs provide diagnostic evidence, subject to Vercel retention. Do not interpret a local audit as durable production history.
 
 Flipp requires no key. USDA and Kroger credentials are optional and independently affect those integrations; absent or failing integrations keep keyless estimates available. The cron secret authenticates the scheduler and does not buy or unlock grocery data.
 

@@ -101,6 +101,15 @@ flowchart LR
 
 ---
 
+## v1.4.1 — Price Freshness and Sync Reliability
+
+- Implemented current ad-cycle calculation, live-offer expiration guards, labeled estimates and consistent verified-price shopping recommendations (#559).
+- Added durable audit support, protected scheduled refreshes and rolling six-week history.
+- Included the reviewed session-isolation and sync-reliability work (#554).
+- Production rollout and the next naturally scheduled execution remain release verification steps. See [release notes](docs/releases/v1.4.1.md).
+
+---
+
 ## 📱 Horizon 2 & 3: Native iOS / Android & Feature Expansion (`v1.5` – `v3.0`)
 
 For the long-term mobile architecture (Turborepo + Expo React Native), native hardware features (Camera Shelf-Tag OCR, iOS Live Activities, Push Alerts), Virtual Freezer arbitrage loop, and nationwide store expansion, see:

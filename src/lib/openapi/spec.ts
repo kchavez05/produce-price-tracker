@@ -9,7 +9,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
   openapi: '3.1.0',
   info: {
     title: 'PantryBot API',
-    version: '1.4.0',
+    version: '1.4.1',
     description:
       'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages virtual freezer protein arbitrage, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
