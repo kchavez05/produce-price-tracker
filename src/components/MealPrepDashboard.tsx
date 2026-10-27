@@ -26,6 +26,7 @@ import {
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
 import AccountModal from '@/components/AccountModal';
+import { mergeFreezerItems, parseGuestFreezer } from '@/lib/sync/queue';
 import { useUserSync } from '@/hooks/useUserSync';
 import {
   Sparkles,
@@ -138,6 +139,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [showAlertsModal, setShowAlertsModal] = useState(false);
   const [cronSyncResult, setCronSyncResult] = useState<WeeklySyncCronResult | null>(null);
   const [cronSyncLoading, setCronSyncLoading] = useState(false);
+  const [cronSyncError, setCronSyncError] = useState<string | null>(null);
   const [copiedDigest, setCopiedDigest] = useState(false);
 
   // Dynamic Zip Code / Location state (De-localization)
@@ -175,12 +177,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
     if (Array.isArray(prefs.onHandIngredientIds)) {
       setOnHandIds(prefs.onHandIngredientIds);
     }
-    if (
-      Array.isArray(payload.freezerItems) &&
-      payload.freezerItems.length > 0
-    ) {
-      setFreezerItems(payload.freezerItems);
-    }
+    setFreezerItems(payload.freezerItems || []);
+    setSavedRecipeIds(Object.fromEntries((payload.savedRecipes || []).map((dish) => [dish.id, true])));
   }, []);
 
   const userSync = useUserSync({
@@ -297,7 +295,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   function persistFreezerToLocalStorage(items: FreezerItem[]) {
     try {
-      localStorage.setItem('pantrybot_virtual_freezer_v12', JSON.stringify(items));
+      const key = userSync.profile ? `pantrybot_virtual_freezer_v14:${userSync.profile.id}` : 'pantrybot_virtual_freezer_v12';
+      localStorage.setItem(key, JSON.stringify(items));
     } catch {
       // Ignore
     }
@@ -374,14 +373,28 @@ export default function MealPrepDashboard({ initialData }: Props) {
         const updated: DashboardPayload = await res.json();
         setData(updated);
         setCurrentZip(updated.zipCode);
-        if (updated.freezerInventory) {
-          setFreezerItems(updated.freezerInventory);
-          persistFreezerToLocalStorage(updated.freezerInventory);
-        }
       }
     } catch {
       // Ignore network hiccup
     }
+  }
+
+  async function saveFreezerItem(item: FreezerItem) {
+    if (userSync.authenticated) {
+      const items = mergeFreezerItems(freezerItems, [item]);
+      setFreezerItems(items);
+      persistFreezerToLocalStorage(items);
+      await userSync.pushCloudSync({ freezerItems: items });
+      return;
+    }
+    const res = await fetch('/api/freezer', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ item }),
+    });
+    if (!res.ok) throw new Error('Could not save freezer item');
+    const payload = await res.json();
+    setFreezerItems(payload.items);
+    persistFreezerToLocalStorage(payload.items);
   }
 
   // v1.2 Ticket #21: "Buy 2: Prep 1, Freeze 1" 1-Tap Arbitrage Handler
@@ -417,24 +430,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
     setPinnedIds(nextPinned);
 
     try {
-      const res = await fetch('/api/freezer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: newEntry }),
-      });
-      if (res.ok) {
-        const payload = await res.json();
-        if (Array.isArray(payload.items)) {
-          setFreezerItems(payload.items);
-          persistFreezerToLocalStorage(payload.items);
-          userSync.pushCloudSync({ freezerItems: payload.items });
-        }
-      }
+      await saveFreezerItem(newEntry);
     } catch {
-      const updatedLocal = [newEntry, ...freezerItems];
-      setFreezerItems(updatedLocal);
-      persistFreezerToLocalStorage(updatedLocal);
-      userSync.pushCloudSync({ freezerItems: updatedLocal });
+      setArbitrageToast('Unable to save freezer item. Please try again.');
+      return;
     }
 
     setArbitrageToast(
@@ -474,21 +473,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
     };
 
     try {
-      const res = await fetch('/api/freezer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: newEntry }),
-      });
-      if (res.ok) {
-        const payload = await res.json();
-        if (Array.isArray(payload.items)) {
-          setFreezerItems(payload.items);
-          persistFreezerToLocalStorage(payload.items);
-          userSync.pushCloudSync({ freezerItems: payload.items });
-        }
-      }
+      await saveFreezerItem(newEntry);
     } catch {
-      // Ignore
+      setArbitrageToast('Unable to save freezer item. Please try again.');
+      return;
     }
     const nextOnHand = Array.from(
       new Set([...effectiveOnHandIds, matched.ingredient.id])
@@ -500,6 +488,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
     const nextQty = Number((item.quantityLbOrDoz + delta).toFixed(2));
     if (nextQty <= 0) {
       await handleDeleteFreezerItem(item.id, item.canonicalIngredientId);
+      return;
+    }
+    if (userSync.authenticated) {
+      const items = freezerItems.map((f) => f.id === item.id ? {
+        ...f, quantityLbOrDoz: nextQty,
+        totalCostBasis: Number((nextQty * f.purchasePricePerUnit).toFixed(2)),
+        estimatedSavings: Number(Math.max(0, nextQty * (f.regularPricePerUnit - f.purchasePricePerUnit)).toFixed(2)),
+      } : f);
+      setFreezerItems(items);
+      persistFreezerToLocalStorage(items);
+      await userSync.pushCloudSync({ freezerItems: items });
       return;
     }
     try {
@@ -523,6 +522,24 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   async function handleDeleteFreezerItem(id: string, canonicalIngredientId: string) {
+    if (userSync.authenticated) {
+      const items = freezerItems.filter((f) => f.id !== id);
+      const nextOnHand = onHandIds.filter((ingredientId) => ingredientId !== canonicalIngredientId);
+      setFreezerItems(items);
+      setOnHandIds(nextOnHand);
+      setCustomAiDishes(null);
+      persistFreezerToLocalStorage(items);
+      await userSync.pushCloudSync({
+        freezerItems: items,
+        preferences: { onHandIngredientIds: nextOnHand },
+      });
+      const remainingOnHand = [...new Set([
+        ...nextOnHand,
+        ...items.filter((item) => item.quantityLbOrDoz > 0).map((item) => item.canonicalIngredientId),
+      ])];
+      await syncDashboard(storeFilter, pinnedIds, remainingOnHand, targetServings);
+      return;
+    }
     try {
       const res = await fetch(`/api/freezer?id=${encodeURIComponent(id)}`, {
         method: 'DELETE',
@@ -548,7 +565,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   // v1.3 Ticket #28: Cloud Sync & Guest-to-Account Migration Handlers
   async function handleMergeGuestData() {
-    const updated = await userSync.pushCloudSync({
+    let guestFreezer: FreezerItem[] = [];
+    try {
+      guestFreezer = parseGuestFreezer(localStorage.getItem('pantrybot_virtual_freezer_v12'));
+    } catch { /* Ignore invalid guest cache. */ }
+    let queued = false;
+    await userSync.pushCloudSync({
       preferences: {
         defaultZip: currentZip,
         favoriteStoreIds: activeStores,
@@ -559,14 +581,19 @@ export default function MealPrepDashboard({ initialData }: Props) {
         pinnedIngredientIds: pinnedIds,
         onHandIngredientIds: onHandIds,
       },
-      freezerItems,
+      freezerItems: guestFreezer,
       mergeMode: true,
+    }, (prepared) => {
+      queued = true;
+      const mergedFreezer = prepared.mergeMode && prepared.freezerItems
+        ? mergeFreezerItems(freezerItems, prepared.freezerItems)
+        : (prepared.freezerItems ?? freezerItems);
+      setFreezerItems(mergedFreezer);
+      persistFreezerToLocalStorage(mergedFreezer);
+      userSync.dismissGuestMergePrompt();
     });
-    if (updated?.freezerItems) {
-      setFreezerItems(updated.freezerItems);
-      persistFreezerToLocalStorage(updated.freezerItems);
-    }
-    userSync.dismissGuestMergePrompt();
+    // Acknowledgments must not overwrite edits made while this request was pending.
+    return queued;
   }
 
   async function handleForceCloudSync() {
@@ -758,18 +785,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   async function handleToggleSaveRecipe(dish: RecommendedDish) {
     const isCurrentlySaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
-    if (isCurrentlySaved) {
-      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: false }));
-      await fetch(`/api/saved-recipes?id=${encodeURIComponent(dish.id)}`, {
-        method: 'DELETE',
-      });
-    } else {
-      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: true }));
-      await fetch('/api/saved-recipes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dish }),
-      });
+    try {
+      const res = isCurrentlySaved
+        ? await fetch(`/api/saved-recipes?id=${encodeURIComponent(dish.id)}`, { method: 'DELETE' })
+        : await fetch('/api/saved-recipes', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dish }),
+          });
+      if (!res.ok) throw new Error('Recipe save failed');
+      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: !isCurrentlySaved }));
+    } catch {
+      setAiBannerMessage('Unable to update your saved recipes. Please try again.');
+      return;
     }
     syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
   }
@@ -868,25 +894,26 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   async function handleTriggerWeeklySync() {
     setCronSyncLoading(true);
+    setCronSyncError(null);
     try {
       const res = await fetch('/api/cron/weekly-sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cycle: 'manual_sync', zipCode: currentZip }),
       });
-      if (res.ok) {
-        const payload: WeeklySyncCronResult = await res.json();
-        setCronSyncResult(payload);
-        syncDashboard(
-          storeFilter,
-          pinnedIds,
-          effectiveOnHandIds,
-          targetServings,
-          currentZip
-        );
+      const payload = await res.json();
+      if (payload.fridayWeekendDigest) setCronSyncResult(payload);
+      if (!res.ok) {
+        setCronSyncError(payload.auditStorage === 'unavailable'
+          ? 'Prices were checked, but the durable audit could not be saved. Please retry.'
+          : 'Weekly refresh failed. Please retry.');
+        return;
       }
+      await syncDashboard(
+        storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip
+      );
     } catch {
-      // Ignore
+      setCronSyncError('Weekly refresh could not connect. Please retry.');
     } finally {
       setCronSyncLoading(false);
     }
@@ -1100,6 +1127,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   function renderCycleSignalBadge(item: ScoredCommodity) {
+    if (item.bestOffer.source === 'CURATED_FALLBACK') return (
+      <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-900">Historical estimate</span>
+    );
     const sig = item.cycleSignal;
     if (!sig) return null;
     if (sig.status === 'STOCK_UP_6WK_LOW') {
@@ -1326,6 +1356,20 @@ export default function MealPrepDashboard({ initialData }: Props) {
               <span>{data.adCycleLabel}</span>
             </div>
           </div>
+
+          {data.freshness && (
+            <div role="status" className="my-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-slate-700">
+              <p>Planning cycle: {data.adCycleLabel}. {data.freshness.usableLiveOffers} verified live prices; {data.freshness.estimatedBestPrices} top prices use historical estimates. Estimates are not confirmed current specials; verify them with the store.</p>
+              <p>Refresh attempted: {new Date(data.freshness.attemptedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.
+                {' '}Last successful live retrieval: {data.freshness.liveRetrievedAtIso
+                  ? `${new Date(data.freshness.liveRetrievedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT`
+                  : 'No successful retrieval recorded'}.
+                {' '}Page generated: {new Date(data.lastUpdatedIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.</p>
+              <p>Flipp: {data.dataSourcesActive.flippLive ? 'current offers available' : 'no usable current offers'}.
+                {' '}Kroger: {data.dataSourcesActive.krogerLive ? 'current prices available' : 'unavailable or not configured'}.
+                {' '}USDA benchmarks: {data.dataSourcesActive.usdaLive ? 'live' : 'baseline estimates'}.</p>
+            </div>
+          )}
 
           {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
           <AccountModal
@@ -1763,7 +1807,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       Milestone v1.0 Cron &amp; Smart Push Engine
                     </span>
                     <span className="text-[11px] text-slate-400">
-                      Wed 6:00 AM MT Circular Sync • Fri 4:00 PM MT Weekend Prep Digest
+                      Wed 13:00 UTC Circular Sync • Fri 22:00 UTC Weekend Prep Digest
                     </span>
                   </div>
                   <p className="mt-1 text-slate-300">
@@ -1806,12 +1850,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 </div>
               </div>
 
+              {cronSyncError && <p role="alert" className="mt-2 text-sm text-rose-600">{cronSyncError}</p>}
               {cronSyncLoading && !cronSyncResult ? (
                 <div className="py-6 text-center text-slate-400">
                   Building Smart Push Notifications &amp; Friday Weekend Digest...
                 </div>
               ) : cronSyncResult ? (
                 <div className="mt-3 grid gap-3 lg:grid-cols-3">
+                  <p className="text-xs text-slate-600">
+                    {cronSyncResult.refreshStatus === 'live' ? 'Live prices retrieved' : 'No usable live prices; using estimates'}.
+                    {' '}Audit storage: {cronSyncResult.auditStorage || 'local'}.
+                  </p>
                   {cronSyncResult.smartPushNotifications.map((notif) => (
                     <div
                       key={notif.id}
@@ -2288,7 +2337,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {ingredient.standardUnit}{' '}
                               <span className="text-[10px] font-normal">
                                 (
-                                {kingSoopersOffer.dealType === 'DIGITAL_COUPON'
+                                {kingSoopersOffer.source === 'CURATED_FALLBACK' ? 'Estimate' : kingSoopersOffer.dealType === 'DIGITAL_COUPON'
                                   ? 'App Cpn'
                                   : 'Card'}
                                 )
@@ -2315,7 +2364,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {ingredient.standardUnit}{' '}
                               <span className="text-[10px] font-normal">
                                 (
-                                {safewayOffer.dealType === 'DIGITAL_COUPON'
+                                {safewayOffer.source === 'CURATED_FALLBACK' ? 'Estimate' : safewayOffer.dealType === 'DIGITAL_COUPON'
                                   ? 'for U Cpn'
                                   : 'Member'}
                                 )
@@ -2379,7 +2428,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)} • Peak $
                               {(item.sixWeekHigh ?? item.sixWeekLocalAvg).toFixed(2)}
                             </span>
-                            {bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
+                            {bestOffer.source !== 'CURATED_FALLBACK' && bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
                               <span className="rounded bg-emerald-100 px-1.5 py-0.2 font-bold text-emerald-800">
                                 ★ 6-Week Floor
                               </span>
@@ -3944,7 +3993,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     <span className="text-emerald-700 font-semibold">
                       {data.dataSourcesActive.flippLive
                         ? `Live Circular Feed Connected for ${data.cityLabel}`
-                        : `Weekly Circular Dataset (${data.cityLabel})`}
+                        : `No verified current circulars; historical estimates (${data.cityLabel})`}
                     </span>
                   </div>
                   <div>

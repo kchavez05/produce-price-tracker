@@ -53,3 +53,7 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
   * **Costco Wholesale (Kirkland Signature)** & **Sam's Club (Member's Mark)** normalized to `$/lb` and `$/doz`
 * **Weekly Circular Cycle:** Wednesday 12:01 AM – Tuesday 11:59 PM Local Time
 * **Primary Meal Prep Output:** 3 batch dishes × 4/6/8 scalable servings each = **12–24 reheatable meals/week**
+
+## v1.4.1 release candidate
+
+Current planning cycles, verified live prices, explicit estimates and refresh audit status are documented in [weekly refresh operations](../weekly-refresh.md). See [v1.4.1 release notes](../releases/v1.4.1.md) for the complete scope, including the previously reviewed account and cloud-sync fixes.

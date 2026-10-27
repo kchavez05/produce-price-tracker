@@ -36,7 +36,8 @@ export function checkRateLimit(
   request: NextRequest,
   scope: string,
   limit = 30,
-  windowMs = 60_000
+  windowMs = 60_000,
+  identity?: string
 ): RateLimitResult {
   const now = Date.now();
 
@@ -48,7 +49,7 @@ export function checkRateLimit(
     }
   }
 
-  const ip = getClientIp(request);
+  const ip = identity ?? getClientIp(request);
   const key = `${scope}:${ip}`;
   const existing = rateLimitStore.get(key);
 

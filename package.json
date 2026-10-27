@@ -1,12 +1,12 @@
 {
   "name": "produce-price-tracker",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "openapi:export": "node -e \"const fs = require('fs'); const { PANTRYBOT_OPENAPI_SPEC } = require('./src/lib/openapi/spec.ts'); fs.mkdirSync('./docs', { recursive: true }); fs.mkdirSync('./public', { recursive: true }); fs.writeFileSync('./docs/openapi.json', JSON.stringify(PANTRYBOT_OPENAPI_SPEC, null, 2) + '\\n'); fs.writeFileSync('./public/openapi.json', JSON.stringify(PANTRYBOT_OPENAPI_SPEC, null, 2) + '\\n'); console.log('Emitted docs/openapi.json and public/openapi.json');\"",
     "test": "vitest run",
@@ -37,6 +37,7 @@
     "@types/swagger-ui-dist": "^3.30.6",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.28",
+    "jsdom": "29.1.1",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.8.0",
     "vite-tsconfig-paths": "^6.1.1",

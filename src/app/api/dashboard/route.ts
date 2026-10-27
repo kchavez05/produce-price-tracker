@@ -1,3 +1,4 @@
+import { loadInventoryState } from '@/lib/supabase/session';
 import { NextRequest, NextResponse } from 'next/server';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
 import {
@@ -6,6 +7,8 @@ import {
   MacroGoal,
   StoreChain,
 } from '@/types/domain';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   try {
@@ -47,7 +50,10 @@ export async function GET(request: NextRequest) {
 
     const targetServings = [4, 6, 8].includes(servingsParam) ? servingsParam : 6;
 
+    const inventory = await loadInventoryState();
     const payload = await buildDashboardPayload({
+      freezerInventory: inventory.freezerItems,
+      savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter: storeParam,
       activeStores,
@@ -59,7 +65,7 @@ export async function GET(request: NextRequest) {
       applianceFilter,
     });
 
-    return NextResponse.json(payload);
+    return NextResponse.json(payload, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (error) {
     console.error('Error building dashboard payload:', error);
     return NextResponse.json(

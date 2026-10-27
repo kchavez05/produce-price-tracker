@@ -9,7 +9,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
   openapi: '3.1.0',
   info: {
     title: 'PantryBot API',
-    version: '1.4.0',
+    version: '1.4.1',
     description:
       'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages virtual freezer protein arbitrage, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
@@ -265,7 +265,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['Virtual Freezer'],
         summary: 'Get virtual freezer inventory',
         description:
-          'Retrieves banked freezer items for the active user session or local SQLite guest store.',
+          'Retrieves banked freezer items for the active user session or private guest session.',
         operationId: 'getFreezerItems',
         responses: {
           '200': {
@@ -525,7 +525,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       get: {
         tags: ['Saved Recipes'],
         summary: 'Get saved meal-prep recipes',
-        description: 'Retrieves saved custom recipes and bookmarked blueprints.',
+        description: 'Retrieves saved custom recipes and bookmarked blueprints for the current account or private guest session.',
         operationId: 'getSavedRecipes',
         responses: {
           '200': {
@@ -550,7 +550,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       post: {
         tags: ['Saved Recipes'],
         summary: 'Save a recipe to blueprint library',
-        description: 'Bookmarks a recommended dish or AI-generated recipe to the SQLite database.',
+        description: 'Bookmarks a recipe in private session storage, with Supabase persistence for cloud accounts. Guest writes issue an opaque session cookie.',
         operationId: 'saveRecipe',
         requestBody: {
           required: true,
@@ -606,7 +606,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       delete: {
         tags: ['Saved Recipes'],
         summary: 'Remove saved recipe',
-        description: 'Deletes a bookmarked recipe from the library.',
+        description: 'Deletes a bookmarked recipe from the current session library. Requires same-origin access and is rate limited.',
         operationId: 'deleteSavedRecipe',
         parameters: [
           {
@@ -644,7 +644,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['AI Meal Planner'],
         summary: 'Generate custom 3-dish meal prep plan with Gemini AI',
         description:
-          'Calls Google GenAI (`gemini-2.5-flash`) with live store sale items, household dietary constraints, cookware, and macro goals. Under Zero-Key Offline Resilience, deterministically falls back to algorithmic scoring if no Gemini API key is provided.',
+          'Calls Google GenAI (`gemini-2.5-flash`) with live store sale items, household dietary constraints, cookware, and macro goals. Server-funded generation requires verified Supabase sign-in. Requests are limited to 10 per minute per IP and, for server-funded calls, per account (per process). Under Zero-Key Offline Resilience, deterministically falls back to algorithmic scoring if no Gemini API key is provided.',
         operationId: 'generateAiMealPlan',
         requestBody: {
           required: true,
@@ -677,7 +677,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
                   },
                   geminiApiKey: {
                     type: 'string',
-                    description: 'Optional client-provided Google AI Studio API key (otherwise uses server environment variable)',
+                    description: 'Optional client-provided Google AI Studio API key; use of the server key requires verified cloud authentication.',
                   },
                   pinnedIngredientIds: {
                     type: 'array',
@@ -695,6 +695,9 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           },
         },
         responses: {
+          '401': { description: 'Verified cloud sign-in required for server-funded generation' },
+          '403': { description: 'Forbidden cross-origin request' },
+          '429': { description: 'Rate limit exceeded; see Retry-After header' },
           '200': {
             description: 'Custom 3-dish meal-prep recommendations (either AI-generated or deterministic algorithmic fallback)',
             content: {
@@ -779,6 +782,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
               schema: {
                 type: 'object',
                 properties: {
+                  userId: { type: 'string', description: 'Expected account ID; mismatches return 409 without persisting the update' },
                   preferences: {
                     type: 'object',
                     description: 'Partial user preferences to update',
@@ -802,6 +806,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           },
         },
         responses: {
+          '409': { description: 'Queued update belongs to a different account' },
           '200': {
             description: 'Updated sync state returned',
             content: {
@@ -1050,7 +1055,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['Automation & Cron'],
         summary: 'Execute or preview weekly circular synchronization',
         description:
-          'Triggers weekly circular ingestion from Flipp and USDA MARS. When invoked by Vercel Cron (via `x-vercel-cron` header) or `record=true`, writes audit run entry into SQLite.',
+          'Fetches current prices. Preview GET is public and unrecorded; scheduled cycles and record=true require Authorization: Bearer CRON_SECRET. x-vercel-cron is not authentication. Records exact live offer counts in the local audit and optionally Supabase.',
         operationId: 'getWeeklySync',
         parameters: [
           {
@@ -1071,11 +1076,13 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             name: 'record',
             in: 'query',
             required: false,
-            description: 'Whether to record the run in SQLite history',
+            description: 'Whether to record the run (requires cron bearer authentication)',
             schema: { type: 'string', enum: ['true', 'false'], default: 'false' },
           },
         ],
         responses: {
+          '401': { description: 'Missing or incorrect cron bearer secret' },
+          '429': { description: 'Preview request rate limit exceeded' },
           '200': {
             description: 'Weekly circular sync execution result, Friday digest, and Smart Push notifications',
             content: {
@@ -1098,7 +1105,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['Automation & Cron'],
         summary: 'Manually trigger weekly sync execution',
         description:
-          'Manually triggers weekly circular ingestion and records run to SQLite.',
+          'Same-origin, rate-limited manual refresh using the same ingestion path as scheduled refresh. Reports live versus estimates-only results and audit storage availability.',
         operationId: 'postWeeklySync',
         requestBody: {
           required: false,
@@ -1140,14 +1147,13 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       LocalSessionCookie: {
         type: 'apiKey',
         in: 'cookie',
-        name: 'pantrybot_local_session',
-        description: 'Encrypted or signed local session identifier for guest / demo profiles',
+        name: 'pantrybot_session_v14',
+        description: 'Opaque, expiring, revocable local account session token. Private guests use pantrybot_guest_v14.',
       },
-      VercelCronHeader: {
-        type: 'apiKey',
-        in: 'header',
-        name: 'x-vercel-cron',
-        description: 'Vercel Cron invocation signature header',
+      VercelCronBearer: {
+        type: 'http',
+        scheme: 'bearer',
+        description: 'CRON_SECRET required for recording GET requests; preview GET is public.',
       },
     },
     schemas: {
@@ -1681,6 +1687,8 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       WeeklySyncCronResult: {
         type: 'object',
         properties: {
+          refreshStatus: { type: 'string', enum: ['live', 'estimates_only'] },
+          auditStorage: { type: 'string', enum: ['cloud', 'local', 'unavailable', 'preview'] },
           ok: { type: 'boolean', example: true },
           cycle: { type: 'string', example: 'wed_oct_14' },
           executedAtIso: { type: 'string', example: '2026-10-19T12:00:00.000Z' },

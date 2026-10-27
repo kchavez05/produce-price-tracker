@@ -1,3 +1,5 @@
+import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
+import { loadInventoryState, resolveCurrentUserProfile } from '@/lib/supabase/session';
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI, Type } from '@google/genai';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
@@ -10,6 +12,15 @@ import {
 } from '@/types/domain';
 
 export async function POST(request: NextRequest) {
+  if (!verifySameOrigin(request)) {
+    return NextResponse.json({ error: 'Forbidden cross-origin request' }, { status: 403 });
+  }
+  const rate = checkRateLimit(request, 'api-ai-meal-plan', 10, 60_000);
+  if (!rate.allowed) {
+    return NextResponse.json({ error: 'Too many meal-plan requests' }, {
+      status: 429, headers: { 'Retry-After': String(rate.resetInSeconds) },
+    });
+  }
   try {
     const body = await request.json();
     const pinnedIngredientIds: string[] = Array.isArray(body?.pinnedIngredientIds)
@@ -18,7 +29,7 @@ export async function POST(request: NextRequest) {
     const onHandIngredientIds: string[] = Array.isArray(body?.onHandIngredientIds)
       ? body.onHandIngredientIds
       : [];
-    const targetServings: number = Number(body?.targetServings) || 6;
+    const targetServings = [4, 6, 8].includes(Number(body?.targetServings)) ? Number(body.targetServings) : 6;
     const customPreference: string = (body?.customPreference || '').trim();
     const storeFilter: 'ALL' | StoreChain = body?.storeFilter || 'ALL';
     const clientApiKey: string = (body?.geminiApiKey || '').trim();
@@ -31,11 +42,28 @@ export async function POST(request: NextRequest) {
     const applianceFilter: CookingVesselArchetype =
       body?.applianceFilter || 'ANY';
 
-    const apiKey = clientApiKey || process.env.GEMINI_API_KEY?.trim();
+    const serverApiKey = process.env.GEMINI_API_KEY?.trim();
+    if (!clientApiKey && serverApiKey) {
+      const { profile } = await resolveCurrentUserProfile();
+      if (!profile?.isCloudBacked) {
+        return NextResponse.json({ error: 'Sign in with a verified account or supply your own Gemini key.' }, { status: 401 });
+      }
+      // Account-level limit also prevents bypass by changing client IPs.
+      const accountRate = checkRateLimit(request, `ai-account:${profile.id}`, 10, 60_000, profile.id);
+      if (!accountRate.allowed) {
+        return NextResponse.json({ error: 'Meal-plan quota reached' }, {
+          status: 429, headers: { 'Retry-After': String(accountRate.resetInSeconds) },
+        });
+      }
+    }
+    const apiKey = clientApiKey || serverApiKey;
     const zipCode: string = (body?.zipCode || '80542').trim();
     const cityLabel: string = (body?.cityLabel || 'Local Area').trim();
 
+    const inventory = await loadInventoryState();
     const dashboard = await buildDashboardPayload({
+      freezerInventory: inventory.freezerItems,
+      savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter,
       pinnedIngredientIds,

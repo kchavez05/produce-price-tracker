@@ -158,6 +158,26 @@ describe('shopping-list-optimizer: buildShoppingListAndStoreComparison', () => {
     totalBatchSavings: 3.75,
   });
 
+  it('uses the same verified-price policy for checklist, pair totals, and store recommendations', () => {
+    const live = { ...ksChickenOffer, source: 'FLIPP_LIVE' as const, normalizedPricePerUnit: 3 };
+    const estimate = { ...swChickenOffer, normalizedPricePerUnit: 1 };
+    const cheapEstimate = { ...aldiChickenOffer, normalizedPricePerUnit: 0.5 };
+    const commodity = createMockCommodity({
+      ingredient: chickenIng, bestOffer: live,
+      storeOffers: { KING_SOOPERS: live, SAFEWAY: estimate, ALDI: cheapEstimate },
+    });
+    const dish = { ...dish1, matchedIngredients: dish1.matchedIngredients.slice(0, 1) };
+    for (const stores of [['KING_SOOPERS', 'SAFEWAY'], ['KING_SOOPERS', 'SAFEWAY', 'ALDI']] as const) {
+      const result = buildShoppingListAndStoreComparison([dish], [commodity], [], '80542', [...stores]);
+      expect(result.items[0].optimalStore).toBe('KING_SOOPERS');
+      expect(result.items[0].optimalTotalCost).toBe(6);
+      expect(result.tripComparison.bestTwoStoreSplit?.total).toBe(6);
+      expect(result.tripComparison.bestTwoStoreSplit?.splitSummary).toContain('1 items at King Soopers');
+      expect(result.tripComparison.bestSingleStore).toBe('KING_SOOPERS');
+      expect(result.tripComparison.recommendationHeadline).toContain('King Soopers');
+    }
+  });
+
   it('aggregates ingredient quantities across multiple dishes', () => {
     const { items } = buildShoppingListAndStoreComparison(
       [dish1, dish2],

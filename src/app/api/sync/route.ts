@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   loadUserSyncPayload,
   persistUserSyncState,
-  resolveCurrentUserProfile,
 } from '@/lib/supabase/session';
 import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
 import {
@@ -59,7 +58,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { profile } = await resolveCurrentUserProfile();
+    const { profile } = await loadUserSyncPayload(true);
     if (!profile) {
       return NextResponse.json(
         { error: 'Authentication required to sync cloud preferences' },
@@ -68,6 +67,8 @@ export async function POST(request: NextRequest) {
     }
 
     let body: {
+      userId?: string;
+      mutationId?: string;
       preferences?: Partial<UserPreferences>;
       freezerItems?: FreezerItem[];
       savedRecipes?: RecommendedDish[];
@@ -88,6 +89,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (body.userId !== undefined && body.userId !== profile.id) {
+      return NextResponse.json({ error: 'Sync account changed; sign in to the original account to retry.' }, { status: 409 });
+    }
     const updated = await persistUserSyncState({
       profile,
       preferences: body.preferences,

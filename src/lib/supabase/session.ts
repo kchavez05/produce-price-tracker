@@ -1,12 +1,16 @@
+import { randomUUID } from 'node:crypto';
+import { getSecureCookieOptions } from '@/lib/security/rate-limit';
 import { cookies } from 'next/headers';
 import { createServerSupabaseClient } from './server';
-import { isSupabaseConfigured, LOCAL_SESSION_COOKIE_NAME } from './config';
+import { isSupabaseConfigured, LOCAL_SESSION_COOKIE_NAME, GUEST_SESSION_COOKIE_NAME } from './config';
 import {
   deleteUserAccountFromSqlite,
   getDefaultUserPreferences,
   getUserFreezerItemsFromSqlite,
   getUserPreferencesFromSqlite,
-  getUserProfileFromSqlite,
+  createLocalSession,
+  getLocalSessionProfile,
+  revokeLocalSession,
   getUserSavedRecipesFromSqlite,
   replaceUserFreezerItemsInSqlite,
   replaceUserSavedRecipesInSqlite,
@@ -29,11 +33,6 @@ import {
   UserSyncPayload,
 } from '@/types/domain';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
-
-interface LocalSessionCookiePayload {
-  userId: string;
-  provider: AuthProviderType;
-}
 
 interface SupabasePreferencesRow {
   user_id: string;
@@ -136,34 +135,9 @@ export async function resolveCurrentUserProfile(): Promise<{
   try {
     const cookieStore = await cookies();
     const rawCookie = cookieStore.get(LOCAL_SESSION_COOKIE_NAME)?.value;
-    if (rawCookie) {
-      const parsed = JSON.parse(rawCookie) as LocalSessionCookiePayload;
-      if (parsed && typeof parsed.userId === 'string') {
-        let profile = getUserProfileFromSqlite(parsed.userId);
-        if (!profile) {
-          const now = new Date().toISOString();
-          const provider: AuthProviderType =
-            parsed.provider === 'apple' ? 'apple' : 'google';
-          profile = upsertUserProfileToSqlite({
-            id: parsed.userId,
-            email:
-              provider === 'apple'
-                ? 'shopper@privaterelay.appleid.com'
-                : 'shopper@pantrybot.dev',
-            displayName:
-              provider === 'apple' ? 'Apple Meal Prepper' : 'Google Meal Prepper',
-            provider,
-            createdAtIso: now,
-            updatedAtIso: now,
-            isCloudBacked: false,
-          });
-        }
-        return {
-          profile,
-          storageMode: 'SQLITE_LOCAL_FALLBACK',
-          supabaseConfigured,
-        };
-      }
+    const profile = getLocalSessionProfile(rawCookie);
+    if (profile) {
+      return { profile, storageMode: 'SQLITE_LOCAL_FALLBACK', supabaseConfigured };
     }
   } catch {
     // Ignore malformed cookie
@@ -176,7 +150,37 @@ export async function resolveCurrentUserProfile(): Promise<{
   };
 }
 
-export async function loadUserSyncPayload(): Promise<UserSyncPayload> {
+/** Guest data is private to an opaque browser session, never a shared table. */
+export async function loadInventoryState(createGuest = false, requireCloud = false): Promise<{
+  profile: UserProfile | null;
+  freezerItems: FreezerItem[];
+  savedRecipes: RecommendedDish[];
+}> {
+  const payload = await loadUserSyncPayload(requireCloud);
+  if (payload.profile) return payload;
+  let profile: UserProfile | null = null;
+  try {
+    const cookieStore = await cookies();
+    profile = getLocalSessionProfile(cookieStore.get(GUEST_SESSION_COOKIE_NAME)?.value);
+    if (!profile && createGuest) {
+      const now = new Date().toISOString();
+      profile = upsertUserProfileToSqlite({
+        id: `guest-${randomUUID()}`, email: '', displayName: 'Guest',
+        provider: 'google', createdAtIso: now, updatedAtIso: now, isCloudBacked: false,
+      });
+      cookieStore.set(GUEST_SESSION_COOKIE_NAME, createLocalSession(profile.id), getSecureCookieOptions());
+    }
+  } catch (error) {
+    if (createGuest) throw error;
+  }
+  return {
+    profile,
+    freezerItems: profile ? getUserFreezerItemsFromSqlite(profile.id) : [],
+    savedRecipes: profile ? getUserSavedRecipesFromSqlite(profile.id) : [],
+  };
+}
+
+export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyncPayload> {
   const { profile, storageMode, supabaseConfigured } =
     await resolveCurrentUserProfile();
 
@@ -286,10 +290,13 @@ export async function loadUserSyncPayload(): Promise<UserSyncPayload> {
             syncedAtIso: new Date().toISOString(),
           };
         }
-      } catch {
-        // Fall through to SQLite fallback
+        if (requireCloud) throw new Error('Unable to load current cloud state');
+      } catch (error) {
+        if (requireCloud) throw error;
+        // Read-only requests may use the last cached state while offline.
       }
     }
+    if (requireCloud) throw new Error('Cloud storage unavailable');
   }
 
   // SQLite Multi-Tenant Fallback
@@ -441,80 +448,57 @@ export async function persistUserSyncState(options: {
     }
   }
 
-  // 2. Sync to Supabase Postgres RLS if cloud-backed
+  // A successful response means the cloud acknowledged every requested write.
+  // Supabase returns errors as values; awaiting a query alone does not check them.
   if (profile.isCloudBacked && isSupabaseConfigured()) {
     const supabase = await createServerSupabaseClient();
-    if (supabase) {
-      try {
-        await supabase.from('users').upsert({
-          id: profile.id,
-          email: profile.email,
-          display_name: profile.displayName,
-          avatar_url: profile.avatarUrl || null,
-          provider: profile.provider,
-          updated_at: now,
-        });
-
-        await supabase.from('user_preferences').upsert({
-          user_id: profile.id,
-          default_zip: nextPrefs.defaultZip,
-          favorite_store_ids: nextPrefs.favoriteStoreIds,
-          macro_goal: nextPrefs.macroGoal,
-          dietary_constraints: nextPrefs.dietaryConstraints,
-          vessel_archetype: nextPrefs.vesselArchetype,
-          target_servings: nextPrefs.targetServings,
-          pinned_ingredient_ids: nextPrefs.pinnedIngredientIds,
-          on_hand_ingredient_ids: nextPrefs.onHandIngredientIds,
-          updated_at: now,
-        });
-
-        if (freezerItems) {
-          if (nextFreezer.length > 0) {
-            await supabase.from('user_freezer_items').upsert(
-              nextFreezer.map((f) => ({
-                id: f.id,
-                user_id: profile.id,
-                canonical_ingredient_id: f.canonicalIngredientId,
-                ingredient_name: f.ingredientName,
-                category: f.category,
-                quantity_lb_or_doz: f.quantityLbOrDoz,
-                unit: f.unit,
-                purchase_price_per_unit: f.purchasePricePerUnit,
-                regular_price_per_unit: f.regularPricePerUnit,
-                total_cost_basis: f.totalCostBasis,
-                estimated_savings: f.estimatedSavings,
-                store: f.store,
-                store_banner: f.storeBanner,
-                purchased_at_iso: f.purchasedAtIso,
-                notes: f.notes || null,
-                updated_at: now,
-              }))
-            );
-
-            const { data: existingRows } = await supabase
-              .from('user_freezer_items')
-              .select('id')
-              .eq('user_id', profile.id);
-            const activeIds = new Set(nextFreezer.map((f) => f.id));
-            const staleIds = (existingRows || [])
-              .map((r: { id: string }) => r.id)
-              .filter((id: string) => !activeIds.has(id));
-            if (staleIds.length > 0) {
-              await supabase
-                .from('user_freezer_items')
-                .delete()
-                .eq('user_id', profile.id)
-                .in('id', staleIds);
-            }
-          } else {
-            await supabase
-              .from('user_freezer_items')
-              .delete()
-              .eq('user_id', profile.id);
-          }
-        }
-      } catch {
-        // Fallback already persisted in SQLite
+    if (!supabase) throw new Error('Cloud sync unavailable');
+    const check = async <T extends { error: { message: string } | null }>(query: PromiseLike<T>): Promise<T> => {
+      const result = await query;
+      if (result.error) throw new Error(`Cloud sync failed: ${result.error.message}`);
+      return result;
+    };
+    await check(supabase.from('users').upsert({
+      id: profile.id, email: profile.email, display_name: profile.displayName,
+      avatar_url: profile.avatarUrl || null, provider: profile.provider, updated_at: now,
+    }));
+    await check(supabase.from('user_preferences').upsert({
+      user_id: profile.id, default_zip: nextPrefs.defaultZip,
+      favorite_store_ids: nextPrefs.favoriteStoreIds, macro_goal: nextPrefs.macroGoal,
+      dietary_constraints: nextPrefs.dietaryConstraints, vessel_archetype: nextPrefs.vesselArchetype,
+      target_servings: nextPrefs.targetServings, pinned_ingredient_ids: nextPrefs.pinnedIngredientIds,
+      on_hand_ingredient_ids: nextPrefs.onHandIngredientIds, updated_at: now,
+    }));
+    if (freezerItems) {
+      if (nextFreezer.length > 0) {
+        await check(supabase.from('user_freezer_items').upsert(nextFreezer.map((f) => ({
+          id: f.id, user_id: profile.id, canonical_ingredient_id: f.canonicalIngredientId,
+          ingredient_name: f.ingredientName, category: f.category, quantity_lb_or_doz: f.quantityLbOrDoz,
+          unit: f.unit, purchase_price_per_unit: f.purchasePricePerUnit,
+          regular_price_per_unit: f.regularPricePerUnit, total_cost_basis: f.totalCostBasis,
+          estimated_savings: f.estimatedSavings, store: f.store, store_banner: f.storeBanner,
+          purchased_at_iso: f.purchasedAtIso, notes: f.notes || null, updated_at: now,
+        })), { onConflict: 'user_id,id' }));
+      }
+      const { data } = await check(supabase.from('user_freezer_items').select('id').eq('user_id', profile.id));
+      const activeIds = new Set(nextFreezer.map((f) => f.id));
+      const staleIds = (data || []).map((r: { id: string }) => r.id).filter((id: string) => !activeIds.has(id));
+      if (staleIds.length) {
+        await check(supabase.from('user_freezer_items').delete().eq('user_id', profile.id).in('id', staleIds));
+      }
+    }
+    if (savedRecipes) {
+      if (nextRecipes.length > 0) {
+        await check(supabase.from('user_saved_recipes').upsert(nextRecipes.map((dish) => ({
+          id: dish.id, user_id: profile.id, title: dish.title, style: dish.style,
+          dish_json: dish, updated_at: now,
+        })), { onConflict: 'user_id,id' }));
+      }
+      const { data } = await check(supabase.from('user_saved_recipes').select('id').eq('user_id', profile.id));
+      const activeIds = new Set(nextRecipes.map((r) => r.id));
+      const staleIds = (data || []).map((r: { id: string }) => r.id).filter((id: string) => !activeIds.has(id));
+      if (staleIds.length) {
+        await check(supabase.from('user_saved_recipes').delete().eq('user_id', profile.id).in('id', staleIds));
       }
     }
   }
@@ -585,6 +569,7 @@ export async function purgeUserAccountAndData(profile: UserProfile): Promise<voi
   // 3. Clear local session cookie
   try {
     const cookieStore = await cookies();
+    revokeLocalSession(cookieStore.get(LOCAL_SESSION_COOKIE_NAME)?.value);
     cookieStore.delete(LOCAL_SESSION_COOKIE_NAME);
   } catch {
     // Ignore
