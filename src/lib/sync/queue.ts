@@ -124,7 +124,7 @@ export function createSyncQueue(
   function enqueue(userId: string, mutation: SyncMutation) {
     return lock(`${syncQueueKey(userId)}:storage`, () => {
       const pending = read(userId);
-      pending.push({ ...mutation, userId, mutationId: crypto.randomUUID() });
+      pending.push({ ...mutation, userId, mutationId: safeUUID() });
       storage.setItem(syncQueueKey(userId), JSON.stringify(pending));
     });
   }
