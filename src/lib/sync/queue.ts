@@ -115,7 +115,7 @@ export function createSyncQueue(
     if (!Array.isArray(parsed) || valid.length !== parsed.length) {
       // Preserve the original bytes for recovery before repairing the active queue.
       // Storage failures propagate: never clear the only copy if backup fails.
-      storage.setItem(`${key}:recovery:${crypto.randomUUID()}`, raw);
+      storage.setItem(`${key}:recovery:${safeUUID()}`, raw);
       if (valid.length) storage.setItem(key, JSON.stringify(valid));
       else storage.removeItem(key);
     }
