@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createMockOffer } from '../../test-utils';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
-import { resetSqliteTestInstance } from '@/lib/db/sqlite';
+import { resetSqliteTestInstance, getSqliteDatabaseStats, persistLiveOffersToSqlite } from '@/lib/db/sqlite';
 
 const now = new Date('2026-10-27T18:00:00Z');
 
@@ -16,6 +17,15 @@ beforeEach(() => {
 afterEach(() => { resetSqliteTestInstance(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.useRealTimers(); });
 
 describe('weekly ingestion through dashboard scoring', () => {
+  it('replaces seeded history rows and preserves distinct IDs for every store', () => {
+    const originalCount = getSqliteDatabaseStats().totalHistoricalOfferRows;
+    const offer = createMockOffer({ canonicalIngredientId: 'chicken-thighs-boneless', source: 'FLIPP_LIVE' });
+    persistLiveOffersToSqlite([offer], '2026-10-14', 'Oct 14');
+    expect(getSqliteDatabaseStats().totalHistoricalOfferRows).toBe(originalCount);
+    persistLiveOffersToSqlite([{ ...offer, store: 'ALDI' }, { ...offer, store: 'TARGET' }], '2026-10-21', 'Oct 21');
+    expect(getSqliteDatabaseStats().totalHistoricalOfferRows).toBe(originalCount + 2);
+  });
+
   it('retains successful merchants when another times out and excludes stale cheap specials', async () => {
     const fetchMock = vi.fn(async (input: string | URL | Request) => {
       if (String(input).includes('q=King%20Soopers')) throw new Error('merchant timeout');

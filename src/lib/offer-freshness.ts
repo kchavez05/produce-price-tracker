@@ -55,7 +55,7 @@ export function selectCurrentOffers(live: StoreOffer[], estimates: StoreOffer[],
     .map((offer) => [`${offer.source}:${offer.id}`, offer])).values()];
   const covered = new Set(current.map((offer) => `${offer.store}:${offer.canonicalIngredientId}`));
   const fallback = estimates.filter((offer) => !covered.has(`${offer.store}:${offer.canonicalIngredientId}`))
-    .map((offer) => ({ ...offer, validFrom: '', validTo: '',
+    .map((offer) => ({ ...offer, source: 'CURATED_FALLBACK' as const, validFrom: '', validTo: '',
       dealType: 'EVERYDAY_LOW' as const,
       rawPriceText: `Historical estimate: $${offer.salePrice.toFixed(2)}/${offer.saleUnit} (verify with store)`,
       dealConditions: 'Historical baseline estimate; verify current price with the store.',

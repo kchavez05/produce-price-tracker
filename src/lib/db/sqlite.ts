@@ -382,7 +382,8 @@ export function persistLiveOffersToSqlite(
       }
     }
     for (const o of cheapest.values()) {
-      const deterministicId = `hist-${o.store}-${o.canonicalIngredientId}-${adCycleWeek}`;
+      const storeKey = o.store === 'KING_SOOPERS' ? 'ks' : o.store === 'SAFEWAY' ? 'sw' : o.store.toLowerCase();
+      const deterministicId = `hist-${storeKey}-${o.canonicalIngredientId}-${adCycleWeek}`;
       upsert.run(
         deterministicId,
         o.canonicalIngredientId,

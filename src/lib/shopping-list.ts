@@ -26,6 +26,13 @@ export function buildShoppingListAndStoreComparison(
   for (const c of commodities) {
     commodityMap.set(c.ingredient.id, c);
   }
+  function hasVerifiedPrice(ingredientId: string, chain: StoreChain): boolean {
+    const scored = commodityMap.get(ingredientId);
+    const offer = scored?.storeOffers?.[chain] ||
+      (chain === 'KING_SOOPERS' ? scored?.kingSoopersOffer : undefined) ||
+      (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
+    return Boolean(offer && offer.source !== 'CURATED_FALLBACK');
+  }
   const onHandSet = new Set(onHandIngredientIds);
 
   const activeStores: StoreChain[] =
@@ -130,8 +137,7 @@ export function buildShoppingListAndStoreComparison(
       let minUnitCost = Infinity;
 
       const liveStores = activeStores.filter((chain) => {
-        const offer = offersByStore[chain];
-        return offer && offer.source !== 'CURATED_FALLBACK';
+        return hasVerifiedPrice(slotIng.ingredientId, chain);
       });
       for (const chain of (liveStores.length > 0 ? liveStores : activeStores)) {
         const p = storePricing[chain];
@@ -219,11 +225,12 @@ export function buildShoppingListAndStoreComparison(
         store: chain,
         storeName: resolveStoreBanner(chain, zipCode),
         total,
+        verifiedItemCount: items.filter((item) => !item.isOnHand && hasVerifiedPrice(item.ingredientId, chain)).length,
         diffFromBest: 0,
         isBest: false,
       };
     })
-    .sort((a, b) => a.total - b.total);
+    .sort((a, b) => b.verifiedItemCount - a.verifiedItemCount || a.total - b.total);
 
   const bestSingle = singleStoreRankings[0];
   const bestSingleStore: StoreChain = bestSingle?.store || 'ALDI';
@@ -237,6 +244,7 @@ export function buildShoppingListAndStoreComparison(
   // Calculate Optimal 2-Store Split among active stores
   let bestTwoPair: [StoreChain, StoreChain] = [activeStores[0], activeStores[1] || activeStores[0]];
   let bestTwoSplitTotal = Infinity;
+  let bestTwoVerifiedCount = -1;
   let bestTwoCounts: Record<StoreChain, number> = {} as Record<StoreChain, number>;
 
   for (let i = 0; i < activeStores.length; i++) {
@@ -244,13 +252,17 @@ export function buildShoppingListAndStoreComparison(
       const storeA = activeStores[i];
       const storeB = activeStores[j];
       let pairSum = 0;
+      let verifiedCount = 0;
       const counts: Record<string, number> = { [storeA]: 0, [storeB]: 0 };
 
       for (const item of items) {
         if (item.isOnHand) continue;
         const costA = item.storePricing?.[storeA]?.totalCost ?? item.optimalTotalCost;
         const costB = item.storePricing?.[storeB]?.totalCost ?? item.optimalTotalCost;
-        if (costA <= costB) {
+        const verifiedA = hasVerifiedPrice(item.ingredientId, storeA);
+        const verifiedB = hasVerifiedPrice(item.ingredientId, storeB);
+        if (verifiedA || verifiedB) verifiedCount++;
+        if ((verifiedA && !verifiedB) || (verifiedA === verifiedB && costA <= costB)) {
           pairSum += costA;
           counts[storeA]++;
         } else {
@@ -260,7 +272,9 @@ export function buildShoppingListAndStoreComparison(
       }
 
       const totalWithPantry = Number((pairSum + pantryRounded).toFixed(2));
-      if (totalWithPantry < bestTwoSplitTotal) {
+      if (verifiedCount > bestTwoVerifiedCount ||
+          (verifiedCount === bestTwoVerifiedCount && totalWithPantry < bestTwoSplitTotal)) {
+        bestTwoVerifiedCount = verifiedCount;
         bestTwoSplitTotal = totalWithPantry;
         bestTwoPair = [storeA, storeB];
         bestTwoCounts = counts as Record<StoreChain, number>;
@@ -291,7 +305,10 @@ export function buildShoppingListAndStoreComparison(
   let recommendationHeadline = '';
   let recommendationDetail = '';
 
-  if (extraSavingsFromSplitting >= 3.5) {
+  if (bestTwoVerifiedCount > (bestSingle?.verifiedItemCount ?? 0)) {
+    recommendationHeadline = `Splitting ${nameA} + ${nameB} covers more items with verified prices`;
+    recommendationDetail = `The split budget is $${bestTwoSplitTotal.toFixed(2)}; historical estimates are used only where this pair has no live coverage.`;
+  } else if (extraSavingsFromSplitting >= 3.5) {
     recommendationHeadline = `Splitting ${nameA} + ${nameB} saves an extra $${extraSavingsFromSplitting.toFixed(2)} this weekend`;
     recommendationDetail = `Optimal 2-store split is $${bestTwoSplitTotal.toFixed(2)} vs. $${bestSingleStoreTotal.toFixed(2)} at ${bestStoreName} alone.`;
   } else {

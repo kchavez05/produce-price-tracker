@@ -34,6 +34,7 @@ describe('weekly offer freshness', () => {
     expect(fallback.validFrom).toBe('');
     expect(fallback.validTo).toBe('');
     expect(estimate.validFrom).toBe('2026-10-14');
+    expect(selectCurrentOffers([], [{ ...estimate, source: 'FLIPP_LIVE' }], now).offers[0].source).toBe('CURATED_FALLBACK');
   });
 
   it('honors exact source timestamps instead of extending an expiry to the next Mountain day', () => {
