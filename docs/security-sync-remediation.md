@@ -15,6 +15,7 @@
 - Private guest sessions use `pantrybot_guest_v14`; local accounts use `pantrybot_session_v14`. Tokens expire after 30 days and sign-out revokes the active local token.
 - Legacy global recipe/freezer tables remain on disk but are no longer served. They cannot safely be assigned to a user because they contain no ownership information. Browser guest freezer data remains available for an explicit merge.
 - The old unscoped `pantrybot_sync_queue_v13` is not automatically replayed because its owner cannot be verified. New queues are stored separately for each account and retained through failures.
+- Account sync uses the browser Web Locks API (HTTPS or localhost) to serialize replay across tabs and protect queue storage updates. Unsupported browser contexts do not replay the queue unsafely.
 - SQLite session persistence depends on durable storage. On a serverless instance that falls back to memory, local/guest sessions last only as long as that database. Use Supabase OAuth for durable cross-device accounts.
 - AI rate limits use the existing in-process limiter. They bound each running instance; they are not a global billing cap across a horizontally scaled deployment. A shared quota service is needed if a deployment requires one global limit.
 - Supabase query behavior is covered with a deterministic mock; these tests do not replace a staging check against the deployed Supabase project.
@@ -23,6 +24,8 @@
 
 Regression coverage includes forged/expired/revoked credentials, duplicate email isolation, guest and account ownership, cross-account queued requests, preservation of cached data on profile refresh, cloud recipe round trips/deletes/errors, and AI authentication/quota boundaries. Unit coverage includes offline queue replay, request failures, concurrent edits, account switching, and retry-safe guest merges.
 
-Local validation passed: typecheck, ESLint, 64 unit tests, 11 smoke tests, 26 regression tests, and production build. The critical-severity dependency audit passed, with existing moderate/high Next.js/PostCSS advisories remaining outside this remediation.
+Local validation passed: typecheck, ESLint, 66 unit tests, 11 smoke tests, 29 regression tests, and production build. The critical-severity dependency audit passed, with existing moderate/high Next.js/PostCSS advisories remaining outside this remediation.
 
 Review follow-up: corrupted browser queues are validated and backed up under account-scoped recovery keys before repair; valid pending entries are retained. Guest freezer caches are parsed defensively, and merging stock to zero or below removes the depleted item. Regression tests cover malformed JSON, invalid shapes, partial corruption, failed backup storage, and depletion.
+
+Codex review follow-up: replay is serialized across browser tabs, with separate short storage locks that allow edits during network requests. Sync acknowledgments no longer rehydrate the dashboard over current local selections. Deleting authenticated freezer stock also removes its on-hand preference and refreshes meal prices. Tests cover concurrent tabs, lock release after failures, selections made during sync, and both explicit deletion and consuming the last half-unit.

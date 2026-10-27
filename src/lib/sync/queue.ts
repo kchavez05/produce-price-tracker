@@ -86,8 +86,18 @@ export function prepareSyncMutation(mutation: SyncMutation, current: UserSyncPay
   };
 }
 
+export type SyncLock = <T>(name: string, action: () => T | Promise<T>) => Promise<T>;
+
+const browserLock: SyncLock = async (name, action) => {
+  if (!navigator.locks) throw new Error('Account sync requires Web Locks in a secure browser context');
+  return navigator.locks.request(name, action);
+};
+
 /** Durable write-before-send queue; each immutable update survives until acknowledged. */
-export function createSyncQueue(storage: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>) {
+export function createSyncQueue(
+  storage: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>,
+  lock: SyncLock = browserLock,
+) {
   const inFlight = new Map<string, Promise<UserSyncPayload | null>>();
   function read(userId: string): QueuedMutation[] {
     const key = syncQueueKey(userId);
@@ -112,38 +122,45 @@ export function createSyncQueue(storage: Pick<Storage, 'getItem' | 'setItem' | '
     return valid;
   }
   function enqueue(userId: string, mutation: SyncMutation) {
-    const pending = read(userId);
-    pending.push({ ...mutation, userId, mutationId: crypto.randomUUID() });
-    storage.setItem(syncQueueKey(userId), JSON.stringify(pending));
+    return lock(`${syncQueueKey(userId)}:storage`, () => {
+      const pending = read(userId);
+      pending.push({ ...mutation, userId, mutationId: crypto.randomUUID() });
+      storage.setItem(syncQueueKey(userId), JSON.stringify(pending));
+    });
   }
   function flush(userId: string, send: (mutation: QueuedMutation) => Promise<UserSyncPayload | null>) {
     const running = inFlight.get(userId);
     if (running) return running;
-    const task = (async () => {
+    // One replay owner across every tab. Storage operations use a separate,
+    // short-lived lock so new edits can be persisted while a request is pending.
+    const task = lock(`${syncQueueKey(userId)}:replay`, async () => {
       let latest: UserSyncPayload | null = null;
       const key = syncQueueKey(userId);
       while (true) {
-        const queued = read(userId)[0];
+        const queued = await lock(`${key}:storage`, () => read(userId)[0]);
         if (!queued) return latest;
         if (queued.userId !== userId) throw new Error('Sync queue owner mismatch');
         const updated = await send(queued);
         if (!updated || updated.profile?.id !== userId) return null;
         latest = updated;
-        const remaining = read(userId).filter((item) => item.mutationId !== queued.mutationId);
-        if (remaining.length) storage.setItem(key, JSON.stringify(remaining));
-        else storage.removeItem(key);
+        await lock(`${key}:storage`, () => {
+          const remaining = read(userId).filter((item) => item.mutationId !== queued.mutationId);
+          if (remaining.length) storage.setItem(key, JSON.stringify(remaining));
+          else storage.removeItem(key);
+        });
       }
-    })().finally(() => inFlight.delete(userId));
+    }).finally(() => inFlight.delete(userId));
     inFlight.set(userId, task);
     return task;
   }
-  function overlay(payload: UserSyncPayload): UserSyncPayload {
+  async function overlay(payload: UserSyncPayload): Promise<UserSyncPayload> {
     if (!payload.profile) return payload;
-    return read(payload.profile.id).reduce((state, mutation) => ({
+    const userId = payload.profile.id;
+    return lock(`${syncQueueKey(userId)}:storage`, () => read(userId).reduce((state, mutation) => ({
       ...state,
       preferences: state.preferences ? { ...state.preferences, ...mutation.preferences } : null,
       freezerItems: mutation.freezerItems ?? state.freezerItems,
-    }), payload);
+    }), payload));
   }
   return { enqueue, flush, overlay };
 }

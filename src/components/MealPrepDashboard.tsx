@@ -523,10 +523,20 @@ export default function MealPrepDashboard({ initialData }: Props) {
   async function handleDeleteFreezerItem(id: string, canonicalIngredientId: string) {
     if (userSync.authenticated) {
       const items = freezerItems.filter((f) => f.id !== id);
+      const nextOnHand = onHandIds.filter((ingredientId) => ingredientId !== canonicalIngredientId);
       setFreezerItems(items);
+      setOnHandIds(nextOnHand);
+      setCustomAiDishes(null);
       persistFreezerToLocalStorage(items);
-      await userSync.pushCloudSync({ freezerItems: items });
-      setOnHandIds((ids) => ids.filter((ingredientId) => ingredientId !== canonicalIngredientId));
+      await userSync.pushCloudSync({
+        freezerItems: items,
+        preferences: { onHandIngredientIds: nextOnHand },
+      });
+      const remainingOnHand = [...new Set([
+        ...nextOnHand,
+        ...items.filter((item) => item.quantityLbOrDoz > 0).map((item) => item.canonicalIngredientId),
+      ])];
+      await syncDashboard(storeFilter, pinnedIds, remainingOnHand, targetServings);
       return;
     }
     try {

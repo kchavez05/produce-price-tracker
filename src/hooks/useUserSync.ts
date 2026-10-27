@@ -87,7 +87,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
     try {
       const res = await fetch('/api/sync');
       if (!res.ok) return;
-      const payload = getQueue().overlay((await res.json()) as UserSyncPayload);
+      const payload = await getQueue().overlay((await res.json()) as UserSyncPayload);
       lastPayloadRef.current = payload;
       activeUserRef.current = payload.profile?.id ?? null;
       setAuthenticated(payload.authenticated);
@@ -130,7 +130,8 @@ export function useUserSync(options?: UseUserSyncOptions) {
         setProfile(updated.profile);
         setPreferences(updated.preferences);
         setLastSyncedIso(updated.syncedAtIso);
-        onHydrated?.(updated);
+        // Acknowledgment is not initial hydration: replacing the dashboard here
+        // would roll back local selections and edits made during this request.
       }
       setSyncStatus(localStorage.getItem(syncQueueKey(userId)) ? 'OFFLINE_QUEUED' : 'SYNCED');
       return updated;
@@ -138,7 +139,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
       if (activeUserRef.current === userId) setSyncStatus('OFFLINE_QUEUED');
       return null;
     }
-  }, [onHydrated]);
+  }, []);
 
   const pushCloudSync = useCallback(async (mutation: SyncMutation): Promise<UserSyncPayload | null> => {
     const userId = profile?.id;
@@ -146,11 +147,13 @@ export function useUserSync(options?: UseUserSyncOptions) {
     try {
       const current = lastPayloadRef.current;
       const prepared = current ? prepareSyncMutation(mutation, current) : mutation;
-      getQueue().enqueue(userId, prepared);
-      if (current) lastPayloadRef.current = {
-        ...current,
-        preferences: current.preferences ? { ...current.preferences, ...prepared.preferences } : null,
-        freezerItems: prepared.freezerItems ?? current.freezerItems,
+      await getQueue().enqueue(userId, prepared);
+      if (activeUserRef.current !== userId) return null;
+      const latest = lastPayloadRef.current;
+      if (latest) lastPayloadRef.current = {
+        ...latest,
+        preferences: latest.preferences ? { ...latest.preferences, ...prepared.preferences } : null,
+        freezerItems: prepared.freezerItems ?? latest.freezerItems,
       };
       setSyncStatus('OFFLINE_QUEUED');
     } catch {
@@ -218,7 +221,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
         });
 
         if (res.ok) {
-          const payload = getQueue().overlay((await res.json()) as UserSyncPayload);
+          const payload = await getQueue().overlay((await res.json()) as UserSyncPayload);
           lastPayloadRef.current = payload;
           activeUserRef.current = payload.profile?.id ?? null;
           setAuthenticated(payload.authenticated);
