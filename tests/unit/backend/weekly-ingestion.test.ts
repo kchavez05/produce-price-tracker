@@ -63,6 +63,21 @@ describe('weekly ingestion through dashboard scoring', () => {
     expect(fetchMock.mock.calls.length).toBe(8);
   });
 
+  it('uses the completed retrieval week if a refresh crosses Wednesday midnight', async () => {
+    vi.setSystemTime(new Date('2026-10-28T05:59:59Z'));
+    vi.stubGlobal('fetch', vi.fn(async () => {
+      vi.setSystemTime(new Date('2026-10-28T06:00:01Z'));
+      return Response.json({ items: [{
+        id: 3, name: 'Boneless chicken thighs per lb', current_price: 2.99,
+        merchant_name: 'Safeway', valid_from: '2026-10-28', valid_to: '2026-11-03',
+      }] });
+    }));
+    const data = await buildDashboardPayload();
+    expect(data.adCycleLabel).toContain('Oct 28');
+    const chicken = data.commodities.find((item) => item.ingredient.id === 'chicken-thighs-boneless')!;
+    expect(chicken.priceHistory.at(-1)?.weekStart).toBe('2026-10-28');
+  });
+
   it('keeps a complete deterministic dashboard when every source fails, without claiming live freshness', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
     const first = await buildDashboardPayload();

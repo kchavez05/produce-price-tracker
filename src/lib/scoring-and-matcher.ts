@@ -737,7 +737,6 @@ export async function buildDashboardPayload(options?: {
   applianceFilter?: CookingVesselArchetype;
 }): Promise<DashboardPayload> {
   const attemptedAtIso = new Date().toISOString();
-  const adCycle = currentAdCycle(new Date(attemptedAtIso));
   const zipCode = options?.zipCode || process.env.NEXT_PUBLIC_DEFAULT_ZIP || '80542';
   const storeFilter = options?.storeFilter || 'ALL';
   const activeStores = options?.activeStores;
@@ -753,8 +752,10 @@ export async function buildDashboardPayload(options?: {
     lastSuccessfulRefresh(zipCode),
   ]);
 
+  const observedAt = new Date();
+  const adCycle = currentAdCycle(observedAt);
   const { current: liveOffers, offers: combinedOffers } = selectCurrentOffers(
-    [...flippResult.offers, ...krogerResult.offers], ALL_WEEKLY_BASELINE_OFFERS
+    [...flippResult.offers, ...krogerResult.offers], ALL_WEEKLY_BASELINE_OFFERS, observedAt
   );
   const flippCount = liveOffers.filter((offer) => offer.source === 'FLIPP_LIVE').length;
   const krogerCount = liveOffers.filter((offer) => offer.source === 'KROGER_API').length;

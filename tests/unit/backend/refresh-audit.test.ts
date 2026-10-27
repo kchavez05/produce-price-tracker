@@ -1,3 +1,4 @@
+import * as sqlite from '@/lib/db/sqlite';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { lastSuccessfulRefresh, recordRefreshAudit } from '@/lib/refresh-audit';
 import { resetSqliteTestInstance } from '@/lib/db/sqlite';
@@ -33,6 +34,12 @@ describe('refresh audit durability and failures', () => {
     await recordRefreshAudit({ ...entry, status: 'failed', flipp_offer_count: 0 });
     expect(await lastSuccessfulRefresh('80542')).toBe(successful);
     expect(await lastSuccessfulRefresh('80202')).toBeNull();
+  });
+
+  it('does not acknowledge local storage when SQLite failed and cloud storage is not configured', async () => {
+    vi.spyOn(sqlite, 'recordRefreshAuditToSqlite').mockImplementation(() => { throw new Error('read-only'); });
+    expect(await recordRefreshAudit(entry)).toBe('unavailable');
+    expect(await lastSuccessfulRefresh('80542')).toBeNull();
   });
 
   it('reports a cloud write error instead of acknowledging durable storage', async () => {

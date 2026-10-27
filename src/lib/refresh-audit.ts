@@ -30,10 +30,14 @@ export async function recordRefreshAudit(entry: Omit<RefreshAudit, 'id' | 'compl
   const row: RefreshAudit = { ...entry, id: randomUUID(), completed_at: new Date().toISOString() };
   // Structured runtime logs remain useful if either database is unavailable.
   console.info(JSON.stringify({ event: 'weekly_refresh', ...row }));
-  try { recordRefreshAuditToSqlite(row); } catch { console.error('Local refresh audit write failed'); }
+  let localSaved = false;
+  try {
+    recordRefreshAuditToSqlite(row);
+    localSaved = true;
+  } catch { console.error('Local refresh audit write failed'); }
   try {
     const client = auditClient();
-    if (!client) return 'local' as const;
+    if (!client) return localSaved ? 'local' as const : 'unavailable' as const;
     const { error } = await client.from('weekly_refresh_audit').insert(row);
     if (error) throw error;
     return 'cloud' as const;
