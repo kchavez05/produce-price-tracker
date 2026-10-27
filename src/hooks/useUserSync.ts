@@ -141,7 +141,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
     }
   }, []);
 
-  const pushCloudSync = useCallback(async (mutation: SyncMutation): Promise<UserSyncPayload | null> => {
+  const pushCloudSync = useCallback(async (mutation: SyncMutation, onQueued?: (prepared: SyncMutation) => void): Promise<UserSyncPayload | null> => {
     const userId = profile?.id;
     if (!authenticated || !userId || activeUserRef.current !== userId) return null;
     try {
@@ -156,6 +156,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
         freezerItems: prepared.freezerItems ?? latest.freezerItems,
       };
       setSyncStatus('OFFLINE_QUEUED');
+      onQueued?.(prepared);
     } catch {
       setSyncStatus('ERROR');
       return null;

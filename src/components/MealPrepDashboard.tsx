@@ -569,7 +569,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
     try {
       guestFreezer = parseGuestFreezer(localStorage.getItem('pantrybot_virtual_freezer_v12'));
     } catch { /* Ignore invalid guest cache. */ }
-    const updated = await userSync.pushCloudSync({
+    let queued = false;
+    await userSync.pushCloudSync({
       preferences: {
         defaultZip: currentZip,
         favoriteStoreIds: activeStores,
@@ -582,12 +583,17 @@ export default function MealPrepDashboard({ initialData }: Props) {
       },
       freezerItems: guestFreezer,
       mergeMode: true,
+    }, (prepared) => {
+      queued = true;
+      const mergedFreezer = prepared.mergeMode && prepared.freezerItems
+        ? mergeFreezerItems(freezerItems, prepared.freezerItems)
+        : (prepared.freezerItems ?? freezerItems);
+      setFreezerItems(mergedFreezer);
+      persistFreezerToLocalStorage(mergedFreezer);
+      userSync.dismissGuestMergePrompt();
     });
-    if (updated?.freezerItems) {
-      setFreezerItems(updated.freezerItems);
-      persistFreezerToLocalStorage(updated.freezerItems);
-    }
-    userSync.dismissGuestMergePrompt();
+    // Acknowledgments must not overwrite edits made while this request was pending.
+    return queued;
   }
 
   async function handleForceCloudSync() {

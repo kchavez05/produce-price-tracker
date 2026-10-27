@@ -39,6 +39,7 @@ let server: UserSyncPayload;
 let dashboardRequests: URL[];
 let acknowledge: (() => void) | undefined;
 let holdSync: boolean;
+let failSync: boolean;
 
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 function button(text: string) {
@@ -57,11 +58,13 @@ beforeEach(async () => {
   dashboardRequests = [];
   acknowledge = undefined;
   holdSync = false;
+  failSync = false;
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
   vi.stubGlobal('navigator', { onLine: true, locks: { request: createTestSyncLock() } });
   vi.stubGlobal('fetch', vi.fn(async (input: string, init?: RequestInit) => {
     if (input === '/api/sync') {
       if (init?.method === 'POST') {
+        if (failSync) throw new Error('offline');
         if (holdSync) await new Promise<void>((resolve) => { acknowledge = resolve; });
         const mutation = JSON.parse(init.body as string);
         server = { ...server, preferences: { ...server.preferences!, ...mutation.preferences },
@@ -86,6 +89,7 @@ afterEach(async () => {
   await act(async () => root.unmount());
   container.remove();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 describe('signed-in dashboard sync', () => {
@@ -104,6 +108,66 @@ describe('signed-in dashboard sync', () => {
     expect(dashboardRequests.at(-1)?.searchParams.get('pinned')).toBe('test-ingredient');
     // Release the second deliberately held request before unmounting.
     await act(async () => { acknowledge!(); await settle(); });
+  });
+
+  it('retains an offline guest import through a later freezer addition and reconnect replay', async () => {
+    await act(async () => root.unmount());
+    const imported = { ...stock, id: 'guest-import', canonicalIngredientId: 'guest-only', ingredientName: 'Imported Guest Stock' };
+    localStorage.setItem('pantrybot_virtual_freezer_v12', JSON.stringify([imported]));
+    server.freezerItems = [];
+    server.preferences!.onHandIngredientIds = [];
+    root = createRoot(container);
+    await act(async () => {
+      root.render(createElement(MealPrepDashboard, { initialData: { ...initialData, freezerInventory: [] } }));
+      await settle();
+    });
+    failSync = true;
+    await click(button('Alice'));
+    await click(button('Merge into Account'));
+    expect(JSON.parse(localStorage.getItem('pantrybot_virtual_freezer_v14:alice')!))
+      .toEqual([imported]);
+    expect(localStorage.getItem(syncQueueKey('alice'))).not.toBeNull();
+    await click(container.querySelector('[aria-label="Close account modal"]') as HTMLElement);
+    await click(button('Virtual Freezer'));
+    expect(container.textContent).toContain('Imported Guest Stock');
+    await click(button('Add to Freezer ($0 Prep)'));
+    const cached = JSON.parse(localStorage.getItem('pantrybot_virtual_freezer_v14:alice')!) as FreezerItem[];
+    expect(cached.some((item) => item.id === imported.id)).toBe(true);
+    expect(cached.some((item) => item.canonicalIngredientId === 'test-ingredient')).toBe(true);
+    failSync = false;
+    await act(async () => { window.dispatchEvent(new Event('online')); await settle(); });
+    expect(server.freezerItems.some((item) => item.id === imported.id)).toBe(true);
+    expect(server.freezerItems.some((item) => item.canonicalIngredientId === 'test-ingredient')).toBe(true);
+    expect(localStorage.getItem(syncQueueKey('alice'))).toBeNull();
+  });
+
+  it('keeps a failed guest enqueue retryable and imports it only once', async () => {
+    await act(async () => root.unmount());
+    const imported = { ...stock, id: 'guest-import', canonicalIngredientId: 'guest-only', ingredientName: 'Imported Guest Stock' };
+    localStorage.setItem('pantrybot_virtual_freezer_v12', JSON.stringify([imported]));
+    server.freezerItems = [];
+    server.preferences!.onHandIngredientIds = [];
+    root = createRoot(container);
+    await act(async () => {
+      root.render(createElement(MealPrepDashboard, { initialData: { ...initialData, freezerInventory: [] } }));
+      await settle();
+    });
+    const save = Storage.prototype.setItem;
+    const rejected = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, key: string, value: string) {
+      if (key === syncQueueKey('alice')) throw new Error('Storage full');
+      return save.call(this, key, value);
+    });
+    await click(button('Alice'));
+    await click(button('Merge into Account'));
+    expect(container.querySelector('[role="alert"]')?.textContent).toContain('Unable to save');
+    expect(button('Merge into Account')).toBeDefined();
+    expect(localStorage.getItem(syncQueueKey('alice'))).toBeNull();
+    rejected.mockRestore();
+    failSync = true;
+    await click(button('Merge into Account'));
+    const cached = JSON.parse(localStorage.getItem('pantrybot_virtual_freezer_v14:alice')!) as FreezerItem[];
+    expect(cached).toEqual([imported]);
+    expect(container.querySelector('[role="alert"]')).toBeNull();
   });
 
   it.each(['Thaw & Remove from Freezer', 'Consume 0.5 lb/doz'])('refreshes meal prices after %s', async (title) => {
