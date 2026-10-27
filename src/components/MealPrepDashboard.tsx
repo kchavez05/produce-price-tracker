@@ -585,7 +585,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
       mergeMode: true,
     }, (prepared) => {
       queued = true;
-      const mergedFreezer = prepared.freezerItems ?? freezerItems;
+      const mergedFreezer = prepared.mergeMode && prepared.freezerItems
+        ? mergeFreezerItems(freezerItems, prepared.freezerItems)
+        : (prepared.freezerItems ?? freezerItems);
       setFreezerItems(mergedFreezer);
       persistFreezerToLocalStorage(mergedFreezer);
       userSync.dismissGuestMergePrompt();
