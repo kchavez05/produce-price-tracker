@@ -5,7 +5,7 @@ describe('unit: OpenAPI 3.1.0 Specification', () => {
   it('has valid OpenAPI 3.1.0 root metadata and servers', () => {
     expect(PANTRYBOT_OPENAPI_SPEC.openapi).toBe('3.1.0');
     expect(PANTRYBOT_OPENAPI_SPEC.info.title).toBe('PantryBot API');
-    expect(PANTRYBOT_OPENAPI_SPEC.info.version).toBe('1.4.0');
+    expect(PANTRYBOT_OPENAPI_SPEC.info.version).toBe('1.4.1');
     expect(PANTRYBOT_OPENAPI_SPEC.info.contact.email).toBe('support@pantrybot.dev');
     expect(Array.isArray(PANTRYBOT_OPENAPI_SPEC.servers)).toBe(true);
     expect(PANTRYBOT_OPENAPI_SPEC.servers.length).toBeGreaterThanOrEqual(1);

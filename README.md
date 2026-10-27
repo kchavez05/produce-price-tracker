@@ -1,8 +1,10 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.4.0`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.4.1`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
-## Key Features (`v1.4.0`)
+## Key Features (`v1.4.1`)
+
+* **Current prices and explicit estimates:** Mountain Time ad cycles, source expiration checks, verified-price-first shopping budgets, accurate freshness indicators, and authenticated scheduled refreshes with optional durable audit history. See [weekly refresh operations](docs/weekly-refresh.md).
 
 * **Developer Platform, OpenAPI 3.1 & Interactive Swagger UI:** Standardized **OpenAPI 3.1.0** specification (`/api/openapi.json`) and embedded interactive **Swagger UI** console ([`/docs`](https://pantrybot.dev/docs)) with live route testing, tag filters, and typed schemas across 8 backend API route domains.
 * **User Accounts, SSO & Cross-Device Cloud Sync:** Optional 1-click **Sign in with Google** and **Sign in with Apple** via Supabase Auth + PostgreSQL Row-Level Security (RLS) (with automatic zero-key SQLite multi-tenant fallback). Syncs ZIP code, preferred stores, macro/dietary goals, cooking vessels, Virtual Freezer inventory, and saved recipes across devices with automatic Guest-to-Account migration, 1-click JSON export, and self-serve GDPR/CCPA account deletion.
@@ -38,6 +40,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.4.1 — Price Freshness and Sync Reliability](./docs/releases/v1.4.1.md)
   * [v1.4.0 — Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console](./docs/releases/v1.4.0.md)
   * [v1.3.1 — 3-Tier CI Test Automation & Branch Quality Gates](./docs/releases/v1.3.1.md)
   * [v1.3.0 — User Accounts, Cloud Sync & Legal Foundation](./docs/releases/v1.3.0.md)

@@ -5,6 +5,19 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-10-27
+
+### Fixed
+- Advance Mountain Time planning cycles and reject expired, future and undated circulars.
+- Prefer verified prices consistently across meal planning, shopping checklists and store optimizers; label historical estimates and suppress unsupported stock-up alerts.
+- Save history under the retrieved ad week and bound six-week statistics to the current calendar window.
+- Report actual offer counts, retrieval freshness and audit storage errors; authenticate cron recording with a bearer secret.
+- Preserve session ownership, private guest inventory and account-bound pending writes across cloud-sync failures (previously reviewed develop changes, #554).
+
+### Added
+- Optional server-only Supabase refresh audit records, source outcomes, and rollover/failure regression coverage.
+- [Release notes and configuration](docs/releases/v1.4.1.md).
+
 ## [1.4.0] - 2026-10-19
 
 ### 🌐 Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console
