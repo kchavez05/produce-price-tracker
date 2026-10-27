@@ -177,8 +177,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
     if (Array.isArray(prefs.onHandIngredientIds)) {
       setOnHandIds(prefs.onHandIngredientIds);
     }
-    setFreezerItems(payload.freezerItems);
-    setSavedRecipeIds(Object.fromEntries(payload.savedRecipes.map((dish) => [dish.id, true])));
+    setFreezerItems(payload.freezerItems || []);
+    setSavedRecipeIds(Object.fromEntries((payload.savedRecipes || []).map((dish) => [dish.id, true])));
   }, []);
 
   const userSync = useUserSync({
