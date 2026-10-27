@@ -1,4 +1,5 @@
-export const LOCAL_SESSION_COOKIE_NAME = 'pantrybot_session_v13';
+export const LOCAL_SESSION_COOKIE_NAME = 'pantrybot_session_v14';
+export const GUEST_SESSION_COOKIE_NAME = 'pantrybot_guest_v14';
 
 export interface SupabaseEnvConfig {
   url: string;

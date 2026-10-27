@@ -1,3 +1,4 @@
+import { cookieJar } from 'tests/support/cookies';
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import { NextRequest } from 'next/server';
 import { GET as getDashboard } from '@/app/api/dashboard/route';
@@ -23,6 +24,7 @@ function createRequest(url: string, options: { method?: string; body?: any } = {
 
 describe('smoke: API Route Handlers happy-path', () => {
   beforeEach(() => {
+    cookieJar.clear();
     process.env.PANTRYBOT_SQLITE_PATH = ':memory:';
     resetSqliteTestInstance();
   });

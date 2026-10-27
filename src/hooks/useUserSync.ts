@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createBrowserSupabaseClient } from '@/lib/supabase/client';
 import {
   AuthProviderType,
@@ -13,15 +13,8 @@ import {
   UserSyncPayload,
 } from '@/types/domain';
 
-const SYNC_QUEUE_STORAGE_KEY = 'pantrybot_sync_queue_v13';
+import { createSyncQueue, prepareSyncMutation, syncQueueKey, SyncMutation } from '@/lib/sync/queue';
 const MERGE_DISMISSED_KEY = 'pantrybot_guest_merge_dismissed_v13';
-
-interface QueuedSyncMutation {
-  preferences?: Partial<UserPreferences>;
-  freezerItems?: FreezerItem[];
-  mergeMode?: boolean;
-  queuedAtIso: string;
-}
 
 export interface UseUserSyncOptions {
   onCloudStateHydrated?: (payload: UserSyncPayload) => void;
@@ -29,6 +22,13 @@ export interface UseUserSyncOptions {
 
 export function useUserSync(options?: UseUserSyncOptions) {
   const onHydrated = options?.onCloudStateHydrated;
+  const queueRef = useRef<ReturnType<typeof createSyncQueue> | null>(null);
+  const lastPayloadRef = useRef<UserSyncPayload | null>(null);
+  const activeUserRef = useRef<string | null>(null);
+  function getQueue() {
+    if (!queueRef.current) queueRef.current = createSyncQueue(localStorage);
+    return queueRef.current;
+  }
   const [authenticated, setAuthenticated] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
@@ -87,7 +87,9 @@ export function useUserSync(options?: UseUserSyncOptions) {
     try {
       const res = await fetch('/api/sync');
       if (!res.ok) return;
-      const payload = (await res.json()) as UserSyncPayload;
+      const payload = await getQueue().overlay((await res.json()) as UserSyncPayload);
+      lastPayloadRef.current = payload;
+      activeUserRef.current = payload.profile?.id ?? null;
       setAuthenticated(payload.authenticated);
       setProfile(payload.profile);
       setPreferences(payload.preferences);
@@ -96,7 +98,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
       setLastSyncedIso(payload.syncedAtIso);
 
       if (payload.authenticated) {
-        setSyncStatus('SYNCED');
+        setSyncStatus(localStorage.getItem(syncQueueKey(payload.profile!.id)) ? 'OFFLINE_QUEUED' : 'SYNCED');
         checkLocalGuestData(payload.freezerItems.length);
         if (onHydrated) {
           onHydrated(payload);
@@ -110,96 +112,81 @@ export function useUserSync(options?: UseUserSyncOptions) {
     }
   }, [checkLocalGuestData, onHydrated]);
 
-  const pushCloudSync = useCallback(
-    async (mutation: {
-      preferences?: Partial<UserPreferences>;
-      freezerItems?: FreezerItem[];
-      mergeMode?: boolean;
-    }): Promise<UserSyncPayload | null> => {
-      if (!authenticated) return null;
-
-      // Queue offline if browser has no network connectivity
-      if (typeof navigator !== 'undefined' && !navigator.onLine) {
-        try {
-          const rawExisting = localStorage.getItem(SYNC_QUEUE_STORAGE_KEY);
-          let existing: Partial<QueuedSyncMutation> = {};
-          if (rawExisting) {
-            try {
-              existing = JSON.parse(rawExisting) as Partial<QueuedSyncMutation>;
-            } catch {
-              // Ignore malformed existing queue JSON
-            }
-          }
-          const queued: QueuedSyncMutation = {
-            preferences: {
-              ...existing.preferences,
-              ...mutation.preferences,
-            },
-            freezerItems: mutation.freezerItems ?? existing.freezerItems,
-            mergeMode: mutation.mergeMode ?? existing.mergeMode,
-            queuedAtIso: new Date().toISOString(),
-          };
-          localStorage.setItem(SYNC_QUEUE_STORAGE_KEY, JSON.stringify(queued));
-          setSyncStatus('OFFLINE_QUEUED');
-        } catch {
-          // Ignore storage error
-        }
-        return null;
-      }
-
+  const flushQueue = useCallback(async (userId: string): Promise<UserSyncPayload | null> => {
+    if (!navigator.onLine || activeUserRef.current !== userId) return null;
+    try {
       setSyncStatus('SYNCING');
-      try {
+      const updated = await getQueue().flush(userId, async (mutation) => {
+        if (activeUserRef.current !== userId) return null;
         const res = await fetch('/api/sync', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(mutation),
         });
-        if (!res.ok) {
-          setSyncStatus('ERROR');
-          return null;
-        }
-        const updated = (await res.json()) as UserSyncPayload;
+        return res.ok ? await res.json() as UserSyncPayload : null;
+      });
+      if (activeUserRef.current !== userId) return null;
+      if (updated) {
+        lastPayloadRef.current = updated;
         setProfile(updated.profile);
         setPreferences(updated.preferences);
         setLastSyncedIso(updated.syncedAtIso);
-        setSyncStatus('SYNCED');
-        return updated;
-      } catch {
-        setSyncStatus('OFFLINE_QUEUED');
-        return null;
+        // Acknowledgment is not initial hydration: replacing the dashboard here
+        // would roll back local selections and edits made during this request.
       }
-    },
-    [authenticated]
-  );
+      setSyncStatus(localStorage.getItem(syncQueueKey(userId)) ? 'OFFLINE_QUEUED' : 'SYNCED');
+      return updated;
+    } catch {
+      if (activeUserRef.current === userId) setSyncStatus('OFFLINE_QUEUED');
+      return null;
+    }
+  }, []);
+
+  const pushCloudSync = useCallback(async (mutation: SyncMutation): Promise<UserSyncPayload | null> => {
+    const userId = profile?.id;
+    if (!authenticated || !userId || activeUserRef.current !== userId) return null;
+    try {
+      const current = lastPayloadRef.current;
+      const prepared = current ? prepareSyncMutation(mutation, current) : mutation;
+      await getQueue().enqueue(userId, prepared);
+      if (activeUserRef.current !== userId) return null;
+      const latest = lastPayloadRef.current;
+      if (latest) lastPayloadRef.current = {
+        ...latest,
+        preferences: latest.preferences ? { ...latest.preferences, ...prepared.preferences } : null,
+        freezerItems: prepared.freezerItems ?? latest.freezerItems,
+      };
+      setSyncStatus('OFFLINE_QUEUED');
+    } catch {
+      setSyncStatus('ERROR');
+      return null;
+    }
+    return flushQueue(userId);
+  }, [authenticated, profile?.id, flushQueue]);
 
   useEffect(() => {
     refreshSyncState();
   }, [refreshSyncState]);
 
-  // Flush offline queue automatically when browser reconnects
+  // Retry on reconnect, after sign-in/reload, and while a failed request is queued.
   useEffect(() => {
-    async function handleOnline() {
-      if (!authenticated) return;
+    const userId = profile?.id;
+    if (!authenticated || !userId) return;
+    const ownerId = userId;
+    function retry() {
       try {
-        const raw = localStorage.getItem(SYNC_QUEUE_STORAGE_KEY);
-        if (!raw) return;
-        const queued = JSON.parse(raw) as QueuedSyncMutation;
-        localStorage.removeItem(SYNC_QUEUE_STORAGE_KEY);
-        await pushCloudSync({
-          preferences: queued.preferences,
-          freezerItems: queued.freezerItems,
-          mergeMode: queued.mergeMode,
-        });
+        if (localStorage.getItem(syncQueueKey(ownerId))) void flushQueue(ownerId);
       } catch {
-        // Ignore
+        setSyncStatus('ERROR');
       }
     }
-
-    window.addEventListener('online', handleOnline);
+    retry();
+    window.addEventListener('online', retry);
+    const timer = window.setInterval(retry, 30_000);
     return () => {
-      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('online', retry);
+      window.clearInterval(timer);
     };
-  }, [authenticated, pushCloudSync]);
+  }, [authenticated, profile?.id, flushQueue]);
 
   const signInWithProvider = useCallback(
     async (provider: AuthProviderType) => {
@@ -234,7 +221,9 @@ export function useUserSync(options?: UseUserSyncOptions) {
         });
 
         if (res.ok) {
-          const payload = (await res.json()) as UserSyncPayload;
+          const payload = await getQueue().overlay((await res.json()) as UserSyncPayload);
+          lastPayloadRef.current = payload;
+          activeUserRef.current = payload.profile?.id ?? null;
           setAuthenticated(payload.authenticated);
           setProfile(payload.profile);
           setPreferences(payload.preferences);
@@ -255,6 +244,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
   );
 
   const signOut = useCallback(async () => {
+    activeUserRef.current = null;
     setAuthLoading(true);
     try {
       const supabase = createBrowserSupabaseClient();
@@ -266,11 +256,13 @@ export function useUserSync(options?: UseUserSyncOptions) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'SIGN_OUT' }),
       });
+      activeUserRef.current = null;
       setAuthenticated(false);
       setProfile(null);
       setPreferences(null);
       setSyncStatus('IDLE');
       setHasGuestDataToMerge(false);
+      window.location.reload();
     } finally {
       setAuthLoading(false);
     }
@@ -323,12 +315,16 @@ export function useUserSync(options?: UseUserSyncOptions) {
         localStorage.removeItem('pantrybot_active_stores');
         localStorage.removeItem('pantrybot_user_zip');
         localStorage.removeItem('mead_on_hand_ids_v04');
-        localStorage.removeItem(SYNC_QUEUE_STORAGE_KEY);
+        if (profile) {
+          localStorage.removeItem(syncQueueKey(profile.id));
+          localStorage.removeItem(`pantrybot_virtual_freezer_v14:${profile.id}`);
+        }
         sessionStorage.removeItem(MERGE_DISMISSED_KEY);
       } catch {
         // Ignore
       }
 
+      activeUserRef.current = null;
       setAuthenticated(false);
       setProfile(null);
       setPreferences(null);
@@ -340,7 +336,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
     } finally {
       setAuthLoading(false);
     }
-  }, []);
+  }, [profile]);
 
   return {
     authenticated,

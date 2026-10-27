@@ -2,15 +2,15 @@
 
 ## 1. Branching & Environment Architecture
 
-Never commit or push directly to `main` or `develop`. All changes must flow through Pull Requests with passing CI and Gemini Code Assist review:
+Never commit or push directly to `main` or `develop`. All changes must flow through Pull Requests with passing CI and Codex code review:
 
 ```
 feature/* | fix/* | chore/* | docs/*
         │
-        ▼  (PR + CI Quality Gate + Gemini Code Assist Review)
+        ▼  (PR + CI Quality Gate + Codex Code Review)
      develop   ──► Vercel Preview / Staging Environment
         │
-        ▼  (Release PR + CI Quality Gate + Gemini Code Assist Review)
+        ▼  (Release PR + CI Quality Gate + Codex Code Review)
       main     ──► Vercel Production Environment (pantrybot.dev)
 ```
 
@@ -50,14 +50,14 @@ git push -u origin <branch-name>
 gh pr create --base develop --head <branch-name> --title "<title>" --body "<summary>"
 ```
 
-### Step 4: CI Quality Gate & Gemini Code Assist Review
+### Step 4: CI Quality Gate & Codex Code Review
 Every PR targeting `develop` must pass:
 1. **GitHub Actions CI (`CI Quality Gate / Typecheck, Lint & Build`)**: Defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml).
 2. **Vercel Preview Deployment**: Confirms the preview build succeeds.
-3. **Gemini Code Assist Review (`gemini-code-assist`)**:
-   * Automatically triggered when a PR is opened (configured in [`.gemini/config.yaml`](./.gemini/config.yaml) and [`.gemini/styleguide.md`](./.gemini/styleguide.md)).
-   * If follow-up commits are pushed or a manual review is needed, comment `/gemini review` on the PR (`gh pr comment --body "/gemini review"`).
-   * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and fix any `high` or `medium` severity findings on the feature branch before merging.
+3. **Codex Code Review (`chatgpt-codex-connector`)**:
+   * Connect this repository to Codex and enable automatic reviews in Codex settings. Review guidance lives in this file and [`docs/code-review.md`](./docs/code-review.md). See the [official setup guide](https://learn.chatgpt.com/docs/third-party/github).
+   * If follow-up commits are pushed or a manual review is needed, comment `@codex review` on the PR (`gh pr comment --body "@codex review"`).
+   * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and fix all actionable P0/P1/P2 findings on the feature branch before merging.
    * After pushing fixes (or explaining why a suggestion is skipped), **reply to each review comment thread** with a brief summary/commit SHA and **mark the review thread as resolved**:
 ```bash
 # 1. Reply to the inline review comment
@@ -74,7 +74,7 @@ gh api graphql -f query='
 ```
 
 ### Step 5: Merge into `develop` & Clean Up
-Once CI checks are green and Gemini Code Assist review feedback is addressed:
+Once CI checks are green and Codex code review feedback is addressed:
 * Merge the feature PR into `develop` (via the GitHub UI or `gh pr merge`).
 * Switch back to `develop`, pull the latest changes, and delete the feature branch:
 ```bash
@@ -97,7 +97,7 @@ When cutting a release (`vX.Y.Z`) to production (`main`), complete every item in
 gh pr create --base main --head develop --title "Release vX.Y.Z: <Milestone Title>" --body-file docs/releases/vX.Y.Z.md
 ```
    * [ ] Verify **CI Quality Gate (`Typecheck, Lint & Build`)** and **Vercel Preview** succeed.
-   * [ ] Run **Gemini Code Assist** review (`/gemini review` if needed), fix any `high`/`medium` findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
+   * [ ] Run **Codex** review (`@codex review` if needed), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
 3. **Merge to `main` & Sync `develop`**
    * [ ] Merge the Release PR into `main` (triggering the production deployment to [pantrybot.dev](https://pantrybot.dev)).
    * [ ] Pull `main` and fast-forward `develop` if any merge/hotfix commits landed on `main`:
@@ -121,7 +121,14 @@ gh api repos/{owner}/{repo}/milestones/<milestone-number> -X PATCH -f state="clo
 
 ## 3. Code Quality & Architecture Guardrails
 
-Keep code aligned with [`.gemini/styleguide.md`](./.gemini/styleguide.md):
+Keep code aligned with [`docs/code-review.md`](./docs/code-review.md):
 * **Zero-Key Offline Resilience**: The app must function 100% out-of-the-box without requiring `GEMINI_API_KEY`, `USDA_MARS_API_KEY`, or `KROGER_CLIENT_ID`. Always provide deterministic fallbacks.
 * **Gemini SDK**: Use `@google/genai` (`GoogleGenAI`) with `gemini-2.5-flash`. Never use the legacy `@google/generative-ai` package.
 * **Strict TypeScript & React Hooks**: Avoid `any`, guard against division-by-zero in unit price/arbitrage calculations, and avoid masking stale closures with `eslint-disable` in React hooks.
+
+
+## 4. Code Review Focus
+
+* Treat session identity and account ownership as security boundaries. Never trust caller-supplied user IDs as authentication or serve shared personal inventory. Guest mode must retain private ownership without requiring an API key.
+* Check sync failures and retries for lost or duplicated data. A cloud error must not acknowledge a pending update; queued changes must remain bound to the account that created them.
+* Preserve deterministic keyless behavior, price normalization guards, and authenticated access to server-funded AI generation. Follow the detailed review guide in `docs/code-review.md`.

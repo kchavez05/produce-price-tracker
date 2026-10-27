@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import {
@@ -13,7 +14,7 @@ import {
   getSecureCookieOptions,
   verifySameOrigin,
 } from '@/lib/security/rate-limit';
-import { upsertUserProfileToSqlite } from '@/lib/db/sqlite';
+import { createLocalSession, revokeLocalSession, upsertUserProfileToSqlite } from '@/lib/db/sqlite';
 import { AuthProviderType, UserProfile } from '@/types/domain';
 
 export async function GET(request: NextRequest) {
@@ -101,6 +102,7 @@ export async function POST(request: NextRequest) {
         }
       }
       const cookieStore = await cookies();
+      revokeLocalSession(cookieStore.get(LOCAL_SESSION_COOKIE_NAME)?.value);
       cookieStore.delete(LOCAL_SESSION_COOKIE_NAME);
       return NextResponse.json({
         authenticated: false,
@@ -113,21 +115,14 @@ export async function POST(request: NextRequest) {
         body.provider === 'apple' ? 'apple' : 'google';
       const now = new Date().toISOString();
       const profile: UserProfile = {
-        id: body.email?.trim()
-          ? `usr-local-${body.email
-              .trim()
-              .toLowerCase()
-              .replace(/[^a-zA-Z0-9]/g, '-')}`
-          : provider === 'apple'
-            ? 'usr-apple-demo-80542'
-            : 'usr-google-demo-80542',
+        id: `usr-local-${randomUUID()}`,
         email:
-          body.email?.trim() ||
+          (typeof body.email === 'string' ? body.email.trim() : '') ||
           (provider === 'apple'
             ? 'shopper@privaterelay.appleid.com'
             : 'shopper@pantrybot.dev'),
         displayName:
-          body.displayName?.trim() ||
+          (typeof body.displayName === 'string' ? body.displayName.trim() : '') ||
           (provider === 'apple' ? 'Apple Meal Prepper' : 'Google Meal Prepper'),
         provider,
         createdAtIso: now,
@@ -138,9 +133,10 @@ export async function POST(request: NextRequest) {
       upsertUserProfileToSqlite(profile);
 
       const cookieStore = await cookies();
+      revokeLocalSession(cookieStore.get(LOCAL_SESSION_COOKIE_NAME)?.value);
       cookieStore.set(
         LOCAL_SESSION_COOKIE_NAME,
-        JSON.stringify({ userId: profile.id, provider: profile.provider }),
+        createLocalSession(profile.id),
         getSecureCookieOptions()
       );
 
