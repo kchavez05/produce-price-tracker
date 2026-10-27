@@ -161,6 +161,7 @@ export interface StoreOffer {
   regularPricePerUnit: number;
   dealType: DealType;
   dealConditions?: string;
+  observedAtIso?: string;
   validFrom: string;
   validTo: string;
   imageUrl?: string;
@@ -412,7 +413,15 @@ export interface DashboardPayload {
   zipCode: string;
   cityLabel: string;
   adCycleLabel: string;
+  /** Response generation time, not the age of source prices. */
   lastUpdatedIso: string;
+  freshness?: {
+    attemptedAtIso: string;
+    liveRetrievedAtIso: string | null;
+    usableLiveOffers: number;
+    estimatedBestPrices: number;
+    sourceOfferCounts: { flipp: number; kroger: number };
+  };
   dataSourcesActive: {
     flippLive: boolean;
     usdaLive: boolean;
@@ -510,6 +519,8 @@ export interface SyncRunLogEntry {
 }
 
 export interface WeeklySyncCronResult {
+  refreshStatus?: 'live' | 'estimates_only';
+  auditStorage?: 'cloud' | 'local' | 'unavailable' | 'preview';
   ok: boolean;
   cycle: string;
   executedAtIso: string;

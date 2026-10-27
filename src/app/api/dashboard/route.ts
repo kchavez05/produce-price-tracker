@@ -8,6 +8,8 @@ import {
   StoreChain,
 } from '@/types/domain';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -63,7 +65,7 @@ export async function GET(request: NextRequest) {
       applianceFilter,
     });
 
-    return NextResponse.json(payload);
+    return NextResponse.json(payload, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (error) {
     console.error('Error building dashboard payload:', error);
     return NextResponse.json(

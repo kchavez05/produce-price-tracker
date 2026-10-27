@@ -54,3 +54,5 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 ## Security Policy
 
 Security vulnerabilities can be reported privately via GitHub Security Advisories or by email. Please refer to [SECURITY.md](./SECURITY.md) for details on supported versions and responsible disclosure procedures.
+
+Weekly refresh schedules, source freshness, fallback estimates, cron authentication and durable audit setup are documented in [Weekly price refresh](docs/weekly-refresh.md).

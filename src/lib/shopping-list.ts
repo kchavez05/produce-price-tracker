@@ -129,7 +129,11 @@ export function buildShoppingListAndStoreComparison(
       let optimalStore: StoreChain = activeStores[0] || 'ALDI';
       let minUnitCost = Infinity;
 
-      for (const chain of activeStores) {
+      const liveStores = activeStores.filter((chain) => {
+        const offer = offersByStore[chain];
+        return offer && offer.source !== 'CURATED_FALLBACK';
+      });
+      for (const chain of (liveStores.length > 0 ? liveStores : activeStores)) {
         const p = storePricing[chain];
         if (p && p.unitCost < minUnitCost) {
           minUnitCost = p.unitCost;

@@ -1,3 +1,4 @@
+import { currentAdCycle } from '@/lib/offer-freshness';
 import { createHash, randomBytes } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -30,7 +31,7 @@ const PRIOR_WEEKS: { weekStart: string; label: string; idx: number }[] = [
   { weekStart: '2026-09-23', label: 'Sep 23', idx: 2 },
   { weekStart: '2026-09-30', label: 'Sep 30', idx: 3 },
   { weekStart: '2026-10-07', label: 'Oct 7', idx: 4 },
-  { weekStart: '2026-10-14', label: 'Oct 14 (Now)', idx: 5 },
+  { weekStart: '2026-10-14', label: 'Oct 14 (sample)', idx: 5 },
 ];
 
 let dbInstance: DatabaseSync | null = null;
@@ -357,8 +358,8 @@ function initSchemaAndSeed(db: DatabaseSync) {
  */
 export function persistLiveOffersToSqlite(
   offers: StoreOffer[],
-  adCycleWeek: string = '2026-10-14',
-  weekLabel: string = 'Oct 14 (Now)'
+  adCycleWeek: string = currentAdCycle().start,
+  weekLabel: string = currentAdCycle().label
 ): void {
   if (offers.length === 0) return;
   const db = getDb();
@@ -373,8 +374,15 @@ export function persistLiveOffersToSqlite(
 
   db.exec('BEGIN TRANSACTION');
   try {
-    for (const o of offers) {
-      const deterministicId = `hist-${o.store === 'KING_SOOPERS' ? 'ks' : 'sw'}-${o.canonicalIngredientId}-${adCycleWeek}`;
+    const cheapest = new Map<string, StoreOffer>();
+    for (const offer of offers) {
+      const key = `${offer.store}:${offer.canonicalIngredientId}`;
+      if (!cheapest.has(key) || offer.normalizedPricePerUnit < cheapest.get(key)!.normalizedPricePerUnit) {
+        cheapest.set(key, offer);
+      }
+    }
+    for (const o of cheapest.values()) {
+      const deterministicId = `hist-${o.store}-${o.canonicalIngredientId}-${adCycleWeek}`;
       upsert.run(
         deterministicId,
         o.canonicalIngredientId,
@@ -1245,4 +1253,28 @@ export function revokeLocalSession(token: string | undefined): void {
   if (!token) return;
   getDb().prepare('DELETE FROM local_sessions WHERE token_hash = ?')
     .run(createHash('sha256').update(token).digest('hex'));
+}
+
+function ensureRefreshAuditTable() {
+  const db = getDb();
+  db.exec(`CREATE TABLE IF NOT EXISTS refresh_audit (
+    id TEXT PRIMARY KEY, zip_code TEXT NOT NULL, completed_at TEXT NOT NULL,
+    status TEXT NOT NULL, payload TEXT NOT NULL
+  ); CREATE INDEX IF NOT EXISTS refresh_audit_zip_time ON refresh_audit(zip_code, completed_at DESC)`);
+  return db;
+}
+
+export function recordRefreshAuditToSqlite(row: {
+  id: string; zip_code: string; completed_at: string; status: string;
+}): void {
+  ensureRefreshAuditTable().prepare(
+    'INSERT INTO refresh_audit (id, zip_code, completed_at, status, payload) VALUES (?, ?, ?, ?, ?)'
+  ).run(row.id, row.zip_code, row.completed_at, row.status, JSON.stringify(row));
+}
+
+export function getRefreshAuditFromSqlite(zip: string): string | null {
+  const row = ensureRefreshAuditTable().prepare(
+    "SELECT completed_at FROM refresh_audit WHERE zip_code = ? AND status = 'live' ORDER BY completed_at DESC LIMIT 1"
+  ).get(zip) as { completed_at: string } | undefined;
+  return row?.completed_at ?? null;
 }

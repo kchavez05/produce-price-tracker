@@ -1055,7 +1055,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['Automation & Cron'],
         summary: 'Execute or preview weekly circular synchronization',
         description:
-          'Triggers weekly circular ingestion from Flipp and USDA MARS. When invoked by Vercel Cron (via `x-vercel-cron` header) or `record=true`, writes audit run entry into SQLite.',
+          'Fetches current prices. Preview GET is public and unrecorded; scheduled cycles and record=true require Authorization: Bearer CRON_SECRET. x-vercel-cron is not authentication. Records exact live offer counts in the local audit and optionally Supabase.',
         operationId: 'getWeeklySync',
         parameters: [
           {
@@ -1076,11 +1076,13 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             name: 'record',
             in: 'query',
             required: false,
-            description: 'Whether to record the run in SQLite history',
+            description: 'Whether to record the run (requires cron bearer authentication)',
             schema: { type: 'string', enum: ['true', 'false'], default: 'false' },
           },
         ],
         responses: {
+          '401': { description: 'Missing or incorrect cron bearer secret' },
+          '429': { description: 'Preview request rate limit exceeded' },
           '200': {
             description: 'Weekly circular sync execution result, Friday digest, and Smart Push notifications',
             content: {
@@ -1103,7 +1105,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['Automation & Cron'],
         summary: 'Manually trigger weekly sync execution',
         description:
-          'Manually triggers weekly circular ingestion and records run to SQLite.',
+          'Same-origin, rate-limited manual refresh using the same ingestion path as scheduled refresh. Reports live versus estimates-only results and audit storage availability.',
         operationId: 'postWeeklySync',
         requestBody: {
           required: false,
@@ -1148,11 +1150,10 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         name: 'pantrybot_session_v14',
         description: 'Opaque, expiring, revocable local account session token. Private guests use pantrybot_guest_v14.',
       },
-      VercelCronHeader: {
-        type: 'apiKey',
-        in: 'header',
-        name: 'x-vercel-cron',
-        description: 'Vercel Cron invocation signature header',
+      VercelCronBearer: {
+        type: 'http',
+        scheme: 'bearer',
+        description: 'CRON_SECRET required for recording GET requests; preview GET is public.',
       },
     },
     schemas: {
@@ -1686,6 +1687,8 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       WeeklySyncCronResult: {
         type: 'object',
         properties: {
+          refreshStatus: { type: 'string', enum: ['live', 'estimates_only'] },
+          auditStorage: { type: 'string', enum: ['cloud', 'local', 'unavailable', 'preview'] },
           ok: { type: 'boolean', example: true },
           cycle: { type: 'string', example: 'wed_oct_14' },
           executedAtIso: { type: 'string', example: '2026-10-19T12:00:00.000Z' },
