@@ -420,15 +420,19 @@ export function getIngredientHistoryFromSqlite(ingredientId: string): {
   sixWeekMedian: number;
 } {
   const db = getDb();
+  const currentWeek = currentAdCycle().start;
+  const earliest = new Date(`${currentWeek}T12:00:00Z`);
+  earliest.setUTCDate(earliest.getUTCDate() - 35);
+  const earliestWeek = earliest.toISOString().slice(0, 10);
 
   const offerRows = db
     .prepare(
       `SELECT ad_cycle_week, week_label, store, normalized_price_per_unit
        FROM weekly_offers
-       WHERE canonical_ingredient_id = ?
+       WHERE canonical_ingredient_id = ? AND ad_cycle_week BETWEEN ? AND ?
        ORDER BY ad_cycle_week ASC`
     )
-    .all(ingredientId) as {
+    .all(ingredientId, earliestWeek, currentWeek) as {
     ad_cycle_week: string;
     week_label: string;
     store: string;
@@ -439,10 +443,10 @@ export function getIngredientHistoryFromSqlite(ingredientId: string): {
     .prepare(
       `SELECT snapshot_week, weighted_avg_price
        FROM usda_snapshots
-       WHERE canonical_ingredient_id = ?
+       WHERE canonical_ingredient_id = ? AND snapshot_week BETWEEN ? AND ?
        ORDER BY snapshot_week ASC`
     )
-    .all(ingredientId) as {
+    .all(ingredientId, earliestWeek, currentWeek) as {
     snapshot_week: string;
     weighted_avg_price: number;
   }[];

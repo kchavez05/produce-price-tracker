@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMockOffer } from '../../test-utils';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
-import { resetSqliteTestInstance, getSqliteDatabaseStats, persistLiveOffersToSqlite } from '@/lib/db/sqlite';
+import { resetSqliteTestInstance, getSqliteDatabaseStats, getIngredientHistoryFromSqlite, persistLiveOffersToSqlite } from '@/lib/db/sqlite';
 
 const now = new Date('2026-10-27T18:00:00Z');
 
@@ -24,6 +24,23 @@ describe('weekly ingestion through dashboard scoring', () => {
     expect(getSqliteDatabaseStats().totalHistoricalOfferRows).toBe(originalCount);
     persistLiveOffersToSqlite([{ ...offer, store: 'ALDI' }, { ...offer, store: 'TARGET' }], '2026-10-21', 'Oct 21');
     expect(getSqliteDatabaseStats().totalHistoricalOfferRows).toBe(originalCount + 2);
+  });
+
+  it('excludes older and future weeks from the rolling six-week statistics', () => {
+    const weeks = ['2026-09-09', '2026-09-16', '2026-09-23', '2026-09-30', '2026-10-07', '2026-10-14', '2026-10-21', '2026-10-28'];
+    for (const [index, week] of weeks.entries()) {
+      const price = index === 0 || index === 7 ? 1 : 4;
+      const offer = createMockOffer({ canonicalIngredientId: 'chicken-thighs-boneless', source: 'FLIPP_LIVE', normalizedPricePerUnit: price });
+      persistLiveOffersToSqlite([offer, { ...offer, store: 'SAFEWAY' }], week, week);
+    }
+    const history = getIngredientHistoryFromSqlite('chicken-thighs-boneless');
+    expect(history.priceHistory).toHaveLength(6);
+    expect(history.priceHistory[0].weekStart).toBe('2026-09-16');
+    expect(history.priceHistory[5].weekStart).toBe('2026-10-21');
+    expect(history.sixWeekLow).toBe(4);
+    expect(history.sixWeekHigh).toBe(4);
+    expect(history.sixWeekMedian).toBe(4);
+    expect(history.sixWeekLocalAvg).toBe(4);
   });
 
   it('retains successful merchants when another times out and excludes stale cheap specials', async () => {
