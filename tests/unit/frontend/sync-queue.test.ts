@@ -16,6 +16,20 @@ function setup() {
 }
 
 describe('durable account-scoped sync queue', () => {
+  it('hydrates without Web Locks while refusing unsafe queue writes and replay', async () => {
+    const { storage, queue } = setup();
+    await queue.enqueue('alice', { freezerItems: [] });
+    vi.stubGlobal('navigator', {});
+    try {
+      const browserQueue = createSyncQueue(storage);
+      expect(await browserQueue.overlay(payload)).toEqual(payload);
+      const send = vi.fn();
+      await expect(browserQueue.flush('alice', send)).rejects.toThrow('Web Locks');
+      await expect(browserQueue.enqueue('alice', {})).rejects.toThrow('Web Locks');
+      expect(send).not.toHaveBeenCalled();
+      expect(storage.getItem(syncQueueKey('alice'))).not.toBeNull();
+    } finally { vi.unstubAllGlobals(); }
+  });
   it('retains failed HTTP requests and network failures across reloads, then clears after acknowledgment', async () => {
     const { storage, queue, lock } = setup();
     await queue.enqueue('alice', { preferences: { defaultZip: '80542' } });
