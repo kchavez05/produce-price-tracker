@@ -1,5 +1,7 @@
 # Weekly price refresh
 
+Proposed follow-up: [Weekly USDA ingestion and durable market history](specs/usda-weekly-ingestion-and-market-history.md) describes scheduled USDA batches, Supabase storage and the migration of shared market history. It is a specification, not current runtime behavior.
+
 The dashboard fetches grocery prices on each request. Scheduled and manual syncs call the same ingestion path. Flipp and USDA fetches bypass Next.js caching; dashboard responses are private and not cached.
 
 The displayed planning cycle rolls over at Wednesday midnight in America/Denver, including daylight saving changes. It is a planning window, not a guarantee that every retailer uses those dates. Flipp offers must have source validity dates and be active now; exact timestamps are preserved. Kroger prices are same-day observations with no invented promotion expiration.
