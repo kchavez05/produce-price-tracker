@@ -373,12 +373,16 @@ export default function DataExplorer({
             <button
               className="ex-button"
               onClick={() => {
+                if (params.has('snapshot') || params.has('asof')) {
+                  navigate({ snapshot: '', asof: '', page: '' });
+                  return;
+                }
                 history.retry();
                 raw.retry();
                 score.retry();
               }}
             >
-              Retry
+              {params.has('snapshot') || params.has('asof') ? 'Reload current data' : 'Retry'}
             </button>{' '}
             <Link className="ex-link" href={href({ mode: 'demo' })}>
               Open labeled demonstration
