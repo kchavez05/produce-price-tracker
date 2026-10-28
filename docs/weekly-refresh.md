@@ -1,6 +1,6 @@
 # Weekly price refresh
 
-Proposed follow-up: [Weekly USDA ingestion and durable market history](specs/usda-weekly-ingestion-and-market-history.md) describes scheduled USDA batches, Supabase storage and the migration of shared market history. It is a specification, not current runtime behavior.
+v1.5.0 implementation: [Weekly USDA ingestion and durable market history](specs/usda-weekly-ingestion-and-market-history.md) describes scheduled USDA batches, Supabase storage and the migration of shared market history. See the [market-data runbook](usda-market-data.md) for the implementation and activation procedure.
 
 The dashboard fetches grocery prices on each request. Scheduled and manual syncs call the same ingestion path. Flipp and USDA fetches bypass Next.js caching; dashboard responses are private and not cached.
 

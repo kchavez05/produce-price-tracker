@@ -7,7 +7,7 @@ const cloud = vi.hoisted(() => ({ insert: vi.fn(), maybeSingle: vi.fn() }));
 vi.mock('@supabase/supabase-js', () => ({
   createClient: () => ({ from: () => ({
     insert: cloud.insert,
-    select: () => ({ eq: () => ({ eq: () => ({ order: () => ({ limit: () => ({ maybeSingle: cloud.maybeSingle }) }) }) }) }),
+    select: () => ({ eq: () => ({ eq: () => ({ order: () => ({ limit: () => ({ retry: () => ({ maybeSingle: cloud.maybeSingle }) }) }) }) }) }),
   }) }),
 }));
 

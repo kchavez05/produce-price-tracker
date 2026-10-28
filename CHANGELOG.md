@@ -5,6 +5,19 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-10-28
+
+### Added
+- Weekly authenticated USDA ingestion, validated report definitions, versioned Supabase source data and operator discovery/recovery/backfill commands.
+- Durable shared market-offer revisions and retrieval receipts, bounded six-week history reads, and quarantined legacy SQLite imports.
+- Source-period freshness and national-versus-regional labels, missing-data gaps, ingestion health checks, and database transaction/security tests.
+- Deterministic Wednesday recipe rotation while retaining the strongest value match.
+
+### Changed
+- Dashboard and digest requests use stored USDA benchmarks; they never fetch USDA on demand.
+- Production history uses Supabase. Synthetic seeds and static wholesale scenarios do not participate in verified cloud analytics.
+- Retail units and commodity mappings are explicit; incomplete or unordered report revisions cannot replace published data.
+
 ## [1.4.1] - 2026-10-27
 
 ### Fixed

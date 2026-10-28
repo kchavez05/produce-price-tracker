@@ -1,5 +1,7 @@
 'use client';
 
+import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   CommodityCategory,
@@ -1169,7 +1171,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
                   <span>PantryBot</span>
                   <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200 lg:inline-block">
-                    v1.3 Smart Kitchen &amp; Cloud Sync
+                    v1.5 Weekly Market Data
                   </span>
                 </h1>
               </div>
@@ -1367,7 +1369,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 {' '}Page generated: {new Date(data.lastUpdatedIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.</p>
               <p>Flipp: {data.dataSourcesActive.flippLive ? 'current offers available' : 'no usable current offers'}.
                 {' '}Kroger: {data.dataSourcesActive.krogerLive ? 'current prices available' : 'unavailable or not configured'}.
-                {' '}USDA benchmarks: {data.dataSourcesActive.usdaLive ? 'live' : 'baseline estimates'}.</p>
+                {' '}USDA benchmarks: {data.usda?.status === 'current' ? 'stored current reports' : data.usda?.status === 'stale' ? 'stored reports (stale)' : 'baseline estimates'}.</p>
+              {data.usda && <p>USDA source periods: {[...new Set(Object.values(data.usda.provenance).flatMap((p) => p.periodEnd ? [`${p.region === 'NATIONAL' ? 'National' : 'Mountain'} retail • week ending ${p.periodEnd}`] : []))].join('; ') || 'No compatible stored observations'}. Report age is separate from the price refresh time.</p>}
+              {data.marketHistory?.storage === 'unavailable' && <p>Verified market history is temporarily unavailable.</p>}
             </div>
           )}
 
@@ -2279,8 +2283,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
                             {ingredient.standardUnit}
                           </div>
                           <div>
-                            USDA Avg: ${ingredient.mountainBaselinePerUnit.toFixed(2)}/
+                            {item.usdaBenchmark?.region === 'NATIONAL' ? 'USDA national retail' : item.usdaBenchmark?.region === 'MOUNTAIN' ? 'USDA Mountain retail' : 'Estimated baseline'}: ${ingredient.mountainBaselinePerUnit.toFixed(2)}/
                             {ingredient.standardUnit}
+                            {item.usdaBenchmark?.periodEnd && <div>Week ending {item.usdaBenchmark.periodEnd} • {item.usdaBenchmark.status}<br />Checked {item.usdaBenchmark.checkedAt?.slice(0,10)}</div>}
                           </div>
                         </div>
                       </div>
@@ -2420,7 +2425,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       </div>
 
                       {/* v0.2 + v1.2 SQLite 6-Week Price History Mini-Chart */}
-                      {item.priceHistory && item.priceHistory.length > 0 && (
+                      {item.priceHistory && verifiedLocalWeekCount(item.priceHistory) > 0 && (
                         <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50/80 p-2">
                           <div className="flex items-center justify-between text-[10px] text-slate-500">
                             <span className="font-semibold text-slate-700">
@@ -2428,7 +2433,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)} • Peak $
                               {(item.sixWeekHigh ?? item.sixWeekLocalAvg).toFixed(2)}
                             </span>
-                            {bestOffer.source !== 'CURATED_FALLBACK' && bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
+                            {verifiedLocalWeekCount(item.priceHistory) >= 6 && bestOffer.source !== 'CURATED_FALLBACK' && bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
                               <span className="rounded bg-emerald-100 px-1.5 py-0.2 font-bold text-emerald-800">
                                 ★ 6-Week Floor
                               </span>
@@ -2436,20 +2441,21 @@ export default function MealPrepDashboard({ initialData }: Props) {
                           </div>
                           <div className="mt-1.5 grid grid-cols-6 gap-1 items-end h-9 pt-1">
                             {item.priceHistory.map((pt) => {
+                              if (pt.bestLocalPrice === null) return <div key={pt.weekStart} title={`${pt.label}: No verified local price`} className="text-center text-xs text-slate-400">—</div>;
                               const maxP = Math.max(
-                                ...item.priceHistory.map((h) => h.bestLocalPrice),
+                                ...item.priceHistory.map((h) => h.bestLocalPrice ?? 0),
                                 1
                               );
                               const heightPct = Math.max(
                                 22,
                                 Math.round((pt.bestLocalPrice / maxP) * 100)
                               );
-                              const isCurrent = pt.weekStart === '2026-10-14';
+                              const isCurrent = pt.weekStart === item.priceHistory.at(-1)?.weekStart;
                               return (
                                 <div
                                   key={pt.weekStart}
                                   className="flex flex-col items-center justify-end h-full"
-                                  title={`${pt.label}: Best $${pt.bestLocalPrice.toFixed(2)} (KS $${pt.kingSoopersPrice.toFixed(2)} | SW $${pt.safewayPrice.toFixed(2)})`}
+                                  title={`${pt.label}: Best $${pt.bestLocalPrice.toFixed(2)} (KS $${(pt.kingSoopersPrice?.toFixed(2) ?? '—')} | SW $${(pt.safewayPrice?.toFixed(2) ?? '—')})`}
                                 >
                                   <div
                                     style={{ height: `${heightPct}%` }}
@@ -3687,7 +3693,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     Predictive 6-Week Cycle Signals, USDA Wholesale &amp; Club Bulk Radar
                   </h2>
                   <p className="mt-1 text-xs text-slate-600 sm:text-sm">
-                    Combines 6-week SQLite longitudinal price history, USDA shipping-point momentum, and Costco / Sam&apos;s Club bulk benchmarks to show when to stock up and freeze vs. when to wait or substitute.
+                    Combines available verified price history, stored USDA retail benchmarks, and Costco / Sam&apos;s Club bulk benchmarks to show when to stock up and freeze vs. when to wait or substitute.
                   </p>
                 </div>
               </div>
@@ -3893,7 +3899,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     </h3>
                   </div>
                   <p className="mt-1 text-xs text-amber-800">
-                    USDA wholesale indexes rose this week on these items, but local stores still have an active loss-leader promo through Tuesday.
+                    Static wholesale scenario estimates are shown only in local demonstration mode; they are not verified current market movements.
                   </p>
 
                   <div className="mt-3 space-y-3">
@@ -3934,7 +3940,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                     </h3>
                   </div>
                   <p className="mt-1 text-xs text-sky-800">
-                    USDA shipping-point prices dropped sharply on these items, but local circulars haven&apos;t passed the savings along yet.
+                    These are fallback scenario estimates, not newly retrieved wholesale forecasts.
                   </p>
 
                   <div className="mt-3 space-y-3">
@@ -3976,12 +3982,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <div className="flex items-center gap-1.5 font-bold text-slate-900">
                   <Info className="h-4 w-4 text-emerald-600" />
                   <span>
-                    v1.2 Active Data Pipeline, SQLite History, Virtual Freezer &amp; Store Locations
+                    Market History, Virtual Freezer &amp; Store Locations
                   </span>
                 </div>
                 <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   <div>
-                    <strong>SQLite History DB:</strong>{' '}
+                    <strong>Market history: {data.marketHistory?.storage ?? 'local'}</strong>
+                    {data.marketHistory?.storage === 'local' ? ' • Includes synthetic demonstration history. ' : ' • Verified observations only. '}
+                    <strong>Local development cache:</strong>{' '}
                     <code>{data.sqliteStats.dbPath}</code> —{' '}
                     <span className="text-emerald-700 font-semibold">
                       {data.sqliteStats.totalHistoricalOfferRows} offer rows &amp;{' '}

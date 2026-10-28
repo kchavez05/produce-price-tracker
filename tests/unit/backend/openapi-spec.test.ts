@@ -1,3 +1,4 @@
+import packageInfo from '../../../package.json';
 import { describe, it, expect } from 'vitest';
 import { PANTRYBOT_OPENAPI_SPEC } from '@/lib/openapi/spec';
 
@@ -5,7 +6,7 @@ describe('unit: OpenAPI 3.1.0 Specification', () => {
   it('has valid OpenAPI 3.1.0 root metadata and servers', () => {
     expect(PANTRYBOT_OPENAPI_SPEC.openapi).toBe('3.1.0');
     expect(PANTRYBOT_OPENAPI_SPEC.info.title).toBe('PantryBot API');
-    expect(PANTRYBOT_OPENAPI_SPEC.info.version).toBe('1.4.1');
+    expect(PANTRYBOT_OPENAPI_SPEC.info.version).toBe(packageInfo.version);
     expect(PANTRYBOT_OPENAPI_SPEC.info.contact.email).toBe('support@pantrybot.dev');
     expect(Array.isArray(PANTRYBOT_OPENAPI_SPEC.servers)).toBe(true);
     expect(PANTRYBOT_OPENAPI_SPEC.servers.length).toBeGreaterThanOrEqual(1);
@@ -126,7 +127,9 @@ describe('unit: OpenAPI 3.1.0 Specification', () => {
     expect(publicJson.openapi).toBe('3.1.0');
     expect(docsJson.info.title).toBe('PantryBot API');
     expect(publicJson.info.title).toBe('PantryBot API');
-    expect(Object.keys(docsJson.paths).length).toBe(8);
+    expect(Object.keys(docsJson.paths).sort()).toEqual(Object.keys(PANTRYBOT_OPENAPI_SPEC.paths).sort());
+    expect(docsJson.paths['/api/cron/usda-ingest'].get.security).toEqual([{ VercelCronBearer: [] }]);
+    expect(docsJson.paths['/api/health/market'].get).toBeDefined();
   });
 });
 

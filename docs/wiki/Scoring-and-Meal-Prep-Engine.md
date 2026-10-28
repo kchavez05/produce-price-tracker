@@ -1,5 +1,8 @@
 # Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine
 
+> v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
+
+
 ## 1. Workhorse Value Score Formula (0–100)
 
 Because PantryBot prioritizes **real-world meal prep affordability** over deceptive marketing percentages, each canonical ingredient is scored using a weighted composite formula (`src/lib/scoring-and-matcher.ts`):

@@ -1,5 +1,8 @@
 # API Keys & Developer Setup Guide
 
+> v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
+
+
 ## Local Development
 
 ```bash

@@ -1,5 +1,8 @@
 # PantryBot Wiki
 
+> v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
+
+
 Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.3.0`, live at [pantrybot.dev](https://pantrybot.dev)).
 
 ## Purpose

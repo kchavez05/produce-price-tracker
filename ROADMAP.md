@@ -2,6 +2,10 @@
 
 This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to a fully automated, cloud-hosted weekend meal-prep companion (`v1.0`).
 
+## v1.5.0 — Weekly USDA and durable market history
+
+Implementation adds Wednesday-only USDA batches, immutable Supabase raw/normalized history, explicit source freshness, operator backfill/recovery, shared local-price archival, and synthetic-data quarantine. Historical analytics screens and live USDA calls remain future work. See the [approved spec](docs/specs/usda-weekly-ingestion-and-market-history.md) and [operations guide](docs/usda-market-data.md). Production activation requires reviewed migration, validated source definitions, and release verification.
+
 ```mermaid
 flowchart LR
     M0["✅ v0.1 PoC\nCore Scoring, 80542 Deals,\n3-Dish Stew/Casserole UI"] --> M1["✅ v0.2 Data & Persistence\nSQLite Price History, Live\nFlipp/USDA/Kroger Sync"]

@@ -1,0 +1,330 @@
+{
+  "slug": "3324",
+  "title": "Weekly Grocery Store Specialty Crops Feature Activity",
+  "config": {
+    "adapterVersion": "mars-retail-3324-v1",
+    "timezone": "America/Denver",
+    "publicationClock": "source_unspecified",
+    "cadenceDays": 7,
+    "graceDays": 2,
+    "sections": [
+      "Report Details"
+    ],
+    "fields": {
+      "section": "reportSection",
+      "rows": "results",
+      "periodStart": "report_begin_date",
+      "periodEnd": "report_end_date",
+      "publishedAt": "published_date",
+      "price": "wtd_avg_price",
+      "unit": "size",
+      "region": "region",
+      "weight": "store_count"
+    },
+    "regions": {
+      "National": "NATIONAL",
+      "NATIONAL": "NATIONAL"
+    },
+    "units": {
+      "per lb": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "1 lb bag": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "2 lb bag": {
+        "unit": "lb",
+        "multiplier": 0.5
+      },
+      "3 lb bag": {
+        "unit": "lb",
+        "multiplier": 0.3333333333333333
+      },
+      "5 lb bag": {
+        "unit": "lb",
+        "multiplier": 0.2
+      },
+      "8 lb bag": {
+        "unit": "lb",
+        "multiplier": 0.125
+      },
+      "10 lb bag": {
+        "unit": "lb",
+        "multiplier": 0.1
+      },
+      "8 oz package": {
+        "unit": "lb",
+        "multiplier": 2
+      },
+      "8 oz": {
+        "unit": "lb",
+        "multiplier": 2
+      },
+      "16 oz": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "24 oz": {
+        "unit": "lb",
+        "multiplier": 0.6666666666666666
+      },
+      "12 oz": {
+        "unit": "lb",
+        "multiplier": 1.3333333333333333
+      },
+      "1 lb package": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "2 lb package": {
+        "unit": "lb",
+        "multiplier": 0.5
+      },
+      "16 oz bag": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "32 oz bag": {
+        "unit": "lb",
+        "multiplier": 0.5
+      }
+    },
+    "metric": "retail_advertised_price",
+    "mappings": [
+      {
+        "ingredientId": "potatoes-russet-gold",
+        "equals": {
+          "commodity": "Potatoes",
+          "variety": "RUSSET",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "potatoes-russet-gold",
+        "equals": {
+          "commodity": "Potatoes",
+          "variety": "YELLOW TYPE",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "yellow-white-onions",
+        "equals": {
+          "commodity": "Onions, Dry",
+          "variety": "WHITE",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "yellow-white-onions",
+        "equals": {
+          "commodity": "Onions, Dry",
+          "variety": "YELLOW",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "butternut-acorn-squash",
+        "equals": {
+          "commodity": "Squash",
+          "variety": "Butternut",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "butternut-acorn-squash",
+        "equals": {
+          "commodity": "Squash",
+          "variety": "Acorn",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "zucchini-yellow-squash",
+        "equals": {
+          "commodity": "Squash",
+          "variety": "Zucchini",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "zucchini-yellow-squash",
+        "equals": {
+          "commodity": "Squash",
+          "variety": "Yellow Crookneck/Straightneck",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "tomatoes-roma-vine",
+        "equals": {
+          "commodity": "Tomatoes",
+          "variety": "Plum Type (Roma)",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "tomatoes-roma-vine",
+        "equals": {
+          "commodity": "Tomatoes",
+          "variety": "VINE RIPES",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "tomatoes-roma-vine",
+        "equals": {
+          "commodity": "Tomatoes",
+          "variety": "VINE RIPES - ON THE VINE",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "apples-honeycrisp-gala",
+        "equals": {
+          "commodity": "Apples",
+          "variety": "HONEYCRISP",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "apples-honeycrisp-gala",
+        "equals": {
+          "commodity": "Apples",
+          "variety": "Gala/Royal Gala",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "apples-honeycrisp-gala",
+        "equals": {
+          "commodity": "Apples",
+          "variety": "FUJI",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "sweet-potatoes",
+        "equals": {
+          "commodity": "Sweet Potatoes",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "carrots-whole-baby",
+        "equals": {
+          "commodity": "Carrots",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "poblano-anaheim-peppers",
+        "equals": {
+          "commodity": "Poblano Pepper",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "bell-peppers",
+        "equals": {
+          "commodity": "Peppers (Bell Type)",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "green-cabbage",
+        "equals": {
+          "commodity": "Cabbage",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "broccoli-cauliflower",
+        "equals": {
+          "commodity": "Broccoli",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "broccoli-cauliflower",
+        "equals": {
+          "commodity": "Cauliflower",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "mushrooms-cremini-white",
+        "equals": {
+          "commodity": "Mushrooms",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "spinach-kale-greens",
+        "equals": {
+          "commodity": "Spinach",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "spinach-kale-greens",
+        "equals": {
+          "commodity": "Kale",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "asparagus-fresh",
+        "equals": {
+          "commodity": "Asparagus",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "brussels-sprouts",
+        "equals": {
+          "commodity": "Brussels Sprouts",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      }
+    ],
+    "sourceSlug": "3324",
+    "requireStatistics": true
+  },
+  "validationEvidence": {
+    "catalogTitle": "Weekly Grocery Store Specialty Crops Feature Activity",
+    "releaseSchedule": "Weekly; authenticated catalog and sample published Friday 2026-10-23; Wednesday uses latest available release.",
+    "sourceTimezone": "Source publication clock is unzoned; preserve as timestamp without time zone. Reporting-period date age uses the application America/Denver calendar.",
+    "queryValidation": "Authenticated report_begin_date 10/14/2026:10/28/2026 with allSections=true; stats returnedRows equals totalRows in every selected section.",
+    "unitValidation": "Exact priced-package units converted to dollars per pound; store_count weights; ambiguous package ranges and each-sized produce excluded.",
+    "fixtureHash": "eecffec8689192d4ec990ab4d8ff1970e416cff90fad78a34ef4ecdcffb0f0ca"
+  }
+}
