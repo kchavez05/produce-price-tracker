@@ -1,3 +1,5 @@
+> v1.5.1 update: The [Data Explorer](https://pantrybot.dev/data?tab=score) exposes the shared 55/35/10 scoring calculation and its inputs. Verified-history scoring uses a neutral market-signal score of 60/100 (six weighted points), not measured wholesale momentum. Six-week-low badges require six observed local weeks and a price within $0.05 of the observed low with at least 32% off regular price; discount-only cases receive a separate label. The [explorer guide](../data-explorer.md) supersedes conflicting historical descriptions below.
+
 # Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine
 
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.

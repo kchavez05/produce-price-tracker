@@ -1,6 +1,6 @@
 # v1.5.1 — Data Explorer & Score Transparency
 
-Status: Approved October 28, 2026; implementation in progress. See [implementation and operating notes](../data-explorer.md).
+Status: Approved October 28, 2026; implemented for v1.5.1. See [implementation and operating notes](../data-explorer.md).
 
 Implementation decisions: retain yellow/white cooking onions and exclude sweet/red/green onions; remove the bag-only label. Require an observed six-week low as well as the discount threshold for the low badge; label discount-only cases separately. Preserve 55/35/10 weights. Publish an audited USDA market-field projection with attribution and the archive’s existing 4 MB report cap (largest stored report measured: 1,843,803 bytes).
 

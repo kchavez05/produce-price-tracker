@@ -5,6 +5,22 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-10-28
+
+### Added
+- Public Data Explorer (`/data`) with USDA/store price charts, weekly patterns, ingredient grouping rationale, and source coverage.
+- First-class raw-data tables, stored USDA report JSON inspection/download, filtered CSV exports with metadata, and revision-aware pagination.
+- Shared value-score traces showing source inputs, component weights, rounding, and separate recommendation rules.
+
+### Changed
+- Yellow/white cooking onions exclude sweet and red onions and no longer imply a required 3 lb bag.
+- Six-week-low badges require the observed low and adequate local coverage; a large discount alone is labeled separately.
+- Public archive reads preserve historical usable-version admissions, distinguish source periods from retrieval dates, and retain missing-data gaps.
+
+### Fixed
+- Demonstration prices and IDs remain stable across date filtering and chart drill-through.
+- Changed/expired snapshots fail explicitly and offer a fresh-data reload rather than silently changing paginated results.
+
 ## [1.5.0] - 2026-10-28
 
 ### Added
