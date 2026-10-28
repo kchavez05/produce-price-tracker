@@ -2425,7 +2425,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       </div>
 
                       {/* v0.2 + v1.2 SQLite 6-Week Price History Mini-Chart */}
-                      {item.priceHistory && item.priceHistory.length > 0 && (
+                      {item.priceHistory && verifiedLocalWeekCount(item.priceHistory) > 0 && (
                         <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50/80 p-2">
                           <div className="flex items-center justify-between text-[10px] text-slate-500">
                             <span className="font-semibold text-slate-700">

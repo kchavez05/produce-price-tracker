@@ -75,3 +75,7 @@ Wednesday at 16:00 UTC, `.github/workflows/market-health.yml` checks the sanitiz
 6. Rollback: disable ingestion, preserve immutable history, and use labeled baselines if reads fail. Do not restore request-time USDA calls. Update mappings by incrementing adapterVersion and revalidating, never rewriting old observations.
 
 Sources: [USDA report catalog](https://mymarketnews.ams.usda.gov/mymarketnews-api/reports), [query examples](https://mymarketnews.ams.usda.gov/mymarketnews-api/examples), and the authenticated October 28 responses. The Friday observation above comes from those samples rather than an assumed universal publication schedule.
+
+## Initial verification — October 28, 2026
+
+The controlled cloud batch published five reports with 89 current normalized observations covering 28 ingredients. Duplicate scheduled execution returned `duplicate` with zero upstream requests. Eleven prior report weeks were then backfilled, for twelve source weeks total; active selections remained on October 23. The legacy snapshot contained 420 offer rows and 210 USDA seed rows, all quarantined outside verified history. Dashboard assembly confirmed cloud benchmark reads and archival of 18 current grocery offers. Production activation follows the reviewed release; the next Wednesday schedule still requires observation.
