@@ -8,6 +8,14 @@ Expired, future and undated circulars do not participate in ranking or live hist
 
 The dashboard reports response generation time, refresh attempt time, usable offer counts, source availability, and the latest successful retrieval. When the current request has no live prices, the last recorded successful sync is shown if available. A successful HTTP response alone does not mean live prices were retrieved: `refreshStatus` distinguishes `live` from `estimates_only`. `syncedOffersCount` counts actual usable live offers, not baseline ingredients.
 
+## Recipe rotation
+
+Recipes use the existing curated blueprint library and the current session's saved recipes, not an external weekly recipe feed. Prices and ingredient substitutions are recalculated on dashboard requests. The strongest scoring recipe remains the value anchor; the other two slots rotate through the remaining recipes at Wednesday midnight in America/Denver. The rotation is deterministic within a planning week for unchanged prices and preferences, and uses the same completed-retrieval planning cycle as the value board. All recipes remain available in the cost-ranked browser. With four or more eligible recipes, unchanged inputs produce a different trio in adjacent weeks; three or fewer cannot provide a new trio without expanding the source. Current prices and preferences can also change recommendations within a week. User-selected or AI-generated plans override the automatic trio until reset.
+
+### Production audit: October 28, 2026
+
+The public dashboard for ZIP 80542 retrieved 18 usable Flipp offers at 15:57 UTC (9:57 AM MDT). Eleven of 35 ingredients had a live best offer; 24 retained historical estimates. Nine of those eleven live best offers began October 28, one began October 25, and one began October 14 but remained valid. USDA and Kroger reported inactive; Gemini was unconfigured. Static comparison baselines, fallback market signals, and the curated recipe library are not weekly external updates. Supabase contained successful 18-offer audit rows for the Wednesday sync at 13:23 UTC and release verification at 15:38 UTC. No earlier audit rows were available, so this confirms current retrieval and new circular dates, not a complete comparison with last week's prices or executions. Before rotation, the trio was chicken-butternut curry, pork green chile, and Tuscan sausage stew.
+
 ## Schedules and security
 
 `vercel.json` configures Wednesday at 13:00 UTC (7 AM MDT / 6 AM MST) and Friday at 22:00 UTC (4 PM MDT / 3 PM MST). Vercel schedules use UTC, so local times shift with daylight saving. Vercel cron runs on production deployments; use manual sync to test previews.

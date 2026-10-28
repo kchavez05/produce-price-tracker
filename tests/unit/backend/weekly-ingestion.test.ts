@@ -17,6 +17,36 @@ beforeEach(() => {
 afterEach(() => { resetSqliteTestInstance(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.useRealTimers(); });
 
 describe('weekly ingestion through dashboard scoring', () => {
+  it('rotates recipes at Mountain Wednesday midnight with identical prices, including DST', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    for (const boundary of ['2026-10-28T06:00:00Z', '2026-11-04T07:00:00Z']) {
+      vi.setSystemTime(new Date(Date.parse(boundary) - 1000));
+      const previous = await buildDashboardPayload();
+      const repeat = await buildDashboardPayload();
+      expect(repeat.recommendedTrio).toEqual(previous.recommendedTrio);
+      vi.setSystemTime(new Date(boundary));
+      const next = await buildDashboardPayload();
+      expect(next.recommendedTrio[0].id).toBe(previous.recommendedTrio[0].id);
+      expect(new Set(next.recommendedTrio.map((dish) => dish.id)).size).toBe(3);
+      expect(next.recommendedTrio.map((dish) => dish.id).sort())
+        .not.toEqual(previous.recommendedTrio.map((dish) => dish.id).sort());
+      expect(next.allRankedDishes).toEqual(previous.allRankedDishes);
+      expect(next.commodities.map((item) => item.bestOffer.normalizedPricePerUnit))
+        .toEqual(previous.commodities.map((item) => item.bestOffer.normalizedPricePerUnit));
+    }
+  });
+
+  it('does not invent or duplicate recipes when dietary constraints leave a small library', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    for (const date of ['2026-10-27T18:00:00Z', '2026-10-28T18:00:00Z']) {
+      vi.setSystemTime(new Date(date));
+      const data = await buildDashboardPayload({ dietaryConstraints: ['VEGETARIAN_PESCATARIAN'] });
+      expect(data.recommendedTrio.length).toBeGreaterThan(0);
+      expect(new Set(data.recommendedTrio.map((dish) => dish.id)).size).toBe(data.recommendedTrio.length);
+      expect(data.recommendedTrio.every((dish) => dish.dietaryTags?.includes('VEGETARIAN_PESCATARIAN'))).toBe(true);
+    }
+  });
+
   it('replaces seeded history rows and preserves distinct IDs for every store', () => {
     const originalCount = getSqliteDatabaseStats().totalHistoricalOfferRows;
     const offer = createMockOffer({ canonicalIngredientId: 'chicken-thighs-boneless', source: 'FLIPP_LIVE' });
