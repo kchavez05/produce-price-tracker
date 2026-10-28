@@ -381,6 +381,7 @@ export function rankMealPrepDishes(
     applianceFilter?: CookingVesselArchetype;
     freezerIngredientIds?: string[];
     savedRecipes?: RecommendedDish[];
+    now?: Date;
   }
 ): {
   recommendedTrio: RecommendedDish[];
@@ -682,8 +683,24 @@ export function rankMealPrepDishes(
     }
   }
 
+  // Keep the strongest match; cycle the remaining slots through existing recipes.
+  // Use calendar weeks, not elapsed local hours, so DST never shifts the rollover.
+  const cycleStart = currentAdCycle(options?.now).start;
+  const week = Math.floor(Date.parse(`${cycleStart}T00:00:00Z`) / (7 * 86400000));
+  const alternatives = [
+    ...recommendedTrio.slice(1),
+    ...evaluated.filter((dish) => !recommendedTrio.some((chosen) => chosen.id === dish.id)),
+  ];
+  const rotatingTrio = recommendedTrio.slice(0, 1);
+  if (alternatives.length > 0) {
+    const offset = ((week * 2) % alternatives.length + alternatives.length) % alternatives.length;
+    for (let index = 0; index < Math.min(2, alternatives.length); index += 1) {
+      rotatingTrio.push(alternatives[(offset + index) % alternatives.length]);
+    }
+  }
+
   return {
-    recommendedTrio,
+    recommendedTrio: rotatingTrio,
     allRankedDishes: evaluated,
   };
 }
@@ -786,6 +803,7 @@ export async function buildDashboardPayload(options?: {
       applianceFilter: options?.applianceFilter,
       freezerIngredientIds,
       savedRecipes: options?.savedRecipes,
+      now: observedAt,
     }
   );
 

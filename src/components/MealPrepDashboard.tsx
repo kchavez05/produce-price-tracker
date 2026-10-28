@@ -2555,6 +2555,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
                     Optimized around this week&apos;s lowest $/lb anchors in {data.cityLabel}, tailored to your Macro &amp; Dietary profile, and powered by $0 Virtual Freezer inventory.
+                    {' '}The strongest value match stays; two recipe slots rotate each Wednesday when enough recipes fit your profile. Planning cycle: {data.adCycleLabel}.
                   </p>
 
                   {/* v0.4 Batch Serving Scaler (Ticket #9) + Open Shopping List Button */}
