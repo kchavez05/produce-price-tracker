@@ -1,8 +1,10 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.5.0`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.5.1`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
-## Key Features (`v1.5.0`)
+## Key Features (`v1.5.1`)
+
+* **Public Data Explorer & Score Transparency:** Explore stored USDA and store price history, inspect score arithmetic and ingredient groupings, and download raw source JSON or filtered CSV. Available through **Explore the data** in the footer; see the [explorer guide](docs/data-explorer.md).
 
 * **Weekly USDA and durable market history:** Authenticated Wednesday batches, stored national retail benchmarks with source-period labels, immutable report revisions, and Supabase price history. Dashboard and digest requests never call USDA. Synthetic SQLite history remains local demonstration data. See the [market-data runbook](docs/usda-market-data.md).
 
@@ -14,7 +16,7 @@ A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot
 * **Persistent Virtual Freezer & Multi-Week Arbitrage (`"❄️ Buy 2: Prep 1, Freeze 1"`):** Detects deep 6-week cycle lows (`>38%` off / `💎 Splurge` alerts), banks extra roasts into a persistent Cloud + SQLite + `localStorage` Virtual Freezer, and automatically substitutes banked proteins into future 3-Dish Meal-Prep plans at **`$0.00` out-of-pocket cost**.
 * **Dietary, Macro & Cooking Vessel Personalization:** Customize **Macro Goals** (`High-Protein 40g+`, `Low-Carb / Keto`, `Calorie-Conscious <460 kcal`, `Balanced`), **Dietary Rules** (`Gluten-Free`, `Dairy-Free`, `Nut-Free`, `Pescatarian`) with automatic ingredient slot adaptation, and **Cooking Vessels** (`Slow Cooker / Instant Pot`, `Sheet-Pan / 9x13`, `Dutch Oven`, `Skillet`).
 * **Wholesale Club Price Normalizer (Costco & Sam's Club):** Benchmarks supermarket unit prices (`$/lb`, `$/doz`) against **Costco (Kirkland Signature)** and **Sam's Club (Member's Mark)** bulk baselines (`🏆 Beats Costco/Sam's Bulk -X%`).
-* **"Stock Up vs. Wait" Predictive Cycle Signals:** Classifies every commodity into `🟢 Stock Up Alert (6-Wk Low)`, `🟡 Fair Sale Price`, or `🔴 Cycle Peak (Wait / Swap)` with automatic in-category smart substitution suggestions.
+* **Observed price signals:** Distinguishes verified six-week lows, deep regular-price discounts, and insufficient history. Missing observations stay gaps; short histories do not establish recurring cycles or forecasts.
 * **1-Tap Curbside Cart Bridge & Checklist Export:** Deep links directly into **Walmart Grocery**, **Target Drive Up**, **Kroger**, **Safeway**, **Sprouts**, **ALDI**, and **Instacart** search, plus 1-tap **Apple Notes / Google Keep** aisle-grouped checklists and a printable kitchen slip.
 
 ## Quick Start
@@ -42,6 +44,8 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.5.1 — Data Explorer & Score Transparency](./docs/releases/v1.5.1.md)
+  * [v1.5.0 — Weekly USDA and Durable Market History](./docs/releases/v1.5.0.md)
   * [v1.4.1 — Price Freshness and Sync Reliability](./docs/releases/v1.4.1.md)
   * [v1.4.0 — Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console](./docs/releases/v1.4.0.md)
   * [v1.3.1 — 3-Tier CI Test Automation & Branch Quality Gates](./docs/releases/v1.3.1.md)
