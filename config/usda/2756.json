@@ -1,0 +1,75 @@
+{
+  "slug": "2756",
+  "title": "Weekly Grocery Store Chicken Feature Activity",
+  "config": {
+    "adapterVersion": "mars-retail-2756-v1",
+    "timezone": "America/Denver",
+    "publicationClock": "source_unspecified",
+    "cadenceDays": 7,
+    "graceDays": 2,
+    "sections": [
+      "Report Details"
+    ],
+    "fields": {
+      "section": "reportSection",
+      "rows": "results",
+      "periodStart": "report_begin_date",
+      "periodEnd": "report_end_date",
+      "publishedAt": "published_date",
+      "price": "price_avg",
+      "unit": "price_unit",
+      "region": "region",
+      "weight": "store_count"
+    },
+    "regions": {
+      "National": "NATIONAL",
+      "NATIONAL": "NATIONAL"
+    },
+    "units": {
+      "Per lb": {
+        "unit": "lb",
+        "multiplier": 1
+      }
+    },
+    "metric": "retail_advertised_price",
+    "mappings": [
+      {
+        "ingredientId": "chicken-thighs-boneless",
+        "equals": {
+          "type": "Thighs, Boneless/Skinless",
+          "condition": "Fresh",
+          "environment": "Conventional",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "chicken-thighs-bone-in",
+        "equals": {
+          "type": "Thighs",
+          "condition": "Fresh",
+          "environment": "Conventional",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "chicken-breast-boneless",
+        "equals": {
+          "type": "Breast, Boneless/Skinless",
+          "condition": "Fresh",
+          "environment": "Conventional",
+          "final_ind": "Final"
+        }
+      }
+    ],
+    "sourceSlug": "2756",
+    "requireStatistics": true
+  },
+  "validationEvidence": {
+    "catalogTitle": "Weekly Grocery Store Chicken Feature Activity",
+    "releaseSchedule": "Weekly; authenticated catalog and sample published Friday 2026-10-23; Wednesday uses latest available release.",
+    "sourceTimezone": "Source publication clock is unzoned; preserve as timestamp without time zone. Reporting-period date age uses the application America/Denver calendar.",
+    "queryValidation": "Authenticated report_begin_date 10/14/2026:10/28/2026 with allSections=true; stats returnedRows equals totalRows in every selected section.",
+    "unitValidation": "Exact priced-package units converted to dollars per pound; store_count weights; ambiguous package ranges and each-sized produce excluded.",
+    "fixtureHash": "bafbfb895e801221a0f375ea1628f64c03205dd8201da3fa6166fd160c4e7fe3"
+  }
+}

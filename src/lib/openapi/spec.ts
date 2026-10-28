@@ -9,7 +9,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
   openapi: '3.1.0',
   info: {
     title: 'PantryBot API',
-    version: '1.4.1',
+    version: '1.5.0',
     description:
       'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages virtual freezer protein arbitrage, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
@@ -1050,6 +1050,20 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         },
       },
     },
+    '/api/cron/usda-ingest': {
+      get: {
+        tags: ['Automation & Cron'], summary: 'Run the authenticated Wednesday USDA batch',
+        description: 'Requires CRON_SECRET bearer authorization. Disabled until USDA_INGEST_ENABLED=true and validated report definitions are registered. No parameters accepted. Recovery and backfill are CLI-only. Dashboard and digest requests never call USDA.',
+        security: [{ VercelCronBearer: [] }],
+        responses: { '200': { description: 'Succeeded, unchanged, disabled, or duplicate batch; inspect status' }, '400': { description: 'Parameters not supported' }, '401': { description: 'Invalid scheduler credentials' }, '503': { description: 'Partial, failed, or unavailable ingestion' } },
+      },
+    },
+    '/api/health/market': {
+      get: { tags: ['Automation & Cron'], summary: 'Sanitized weekly market ingestion health',
+        description: 'Reports whether a scheduled or recovery run succeeded for the current planning cycle. No upstream calls, raw reports, or personal data. Rate limited.',
+        responses: { '200': { description: 'Healthy' }, '429': { description: 'Rate limited' }, '503': { description: 'Missing, failed, partial, or unavailable run' } },
+      },
+    },
     '/api/cron/weekly-sync': {
       get: {
         tags: ['Automation & Cron'],
@@ -1475,11 +1489,15 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           cityLabel: { type: 'string', example: 'Mead, CO' },
           adCycleLabel: { type: 'string', example: 'Oct 14 - Oct 20, 2026' },
           lastUpdatedIso: { type: 'string', example: '2026-10-19T12:00:00.000Z' },
+          usda: { type: 'object', description: 'Stored benchmark status and ingredient-level report period, region, unit, version, fetched and checked times; not upstream request status.', properties: {
+            status: { type: 'string', enum: ['current','stale','fallback'] }, reason: { type: 'string' }, provenance: { type: 'object', additionalProperties: true },
+          } },
+          marketHistory: { type: 'object', properties: { storage: { type: 'string', enum: ['cloud','local','unavailable'] }, archiveStorage: { type: 'string', enum: ['cloud','local','unavailable'] }, provenance: { type: 'string', enum: ['verified_live','synthetic_seed'] } } },
           dataSourcesActive: {
             type: 'object',
             properties: {
               flippLive: { type: 'boolean' },
-              usdaLive: { type: 'boolean' },
+              usdaLive: { type: 'boolean', description: 'Compatibility field: at least one usable stored USDA benchmark; does not indicate a live upstream call.' },
               krogerLive: { type: 'boolean' },
               geminiConfigured: { type: 'boolean' },
               sqlitePersisted: { type: 'boolean' },
@@ -1698,7 +1716,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             properties: {
               flippLive: { type: 'boolean' },
               krogerLive: { type: 'boolean' },
-              usdaLive: { type: 'boolean' },
+              usdaLive: { type: 'boolean', description: 'Compatibility field: at least one usable stored USDA benchmark; does not indicate a live upstream call.' },
             },
             required: ['flippLive', 'krogerLive', 'usdaLive'],
           },

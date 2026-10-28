@@ -1,5 +1,8 @@
 # Architecture & Data Pipeline
 
+> v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
+
+
 ## 1. Four-Layer Data Ingestion & Benchmarking Pipeline
 
 PantryBot combines four complementary data layers so that local supermarket sale prices are always evaluated in the context of multi-vendor weekly circulars, warehouse club bulk baselines, regional retail averages, and wholesale commodity movements.

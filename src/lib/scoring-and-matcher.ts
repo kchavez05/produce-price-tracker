@@ -1,3 +1,6 @@
+import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
+import { archiveMarketOffers, loadMarketHistory, emptyHistory, type IngredientHistory } from '@/lib/market/history';
+import { readUsdaBenchmarks } from '@/lib/usda/read';
 import { lastSuccessfulRefresh } from '@/lib/refresh-audit';
 import { currentAdCycle, selectCurrentOffers } from '@/lib/offer-freshness';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
@@ -27,7 +30,7 @@ import {
   StoreOffer,
 } from '@/types/domain';
 import { fetchLiveFlippOffers } from './connectors/flipp';
-import { checkUsdaMarsStatus, fetchKrogerLiveOffers } from './connectors/usda-and-kroger';
+import { fetchKrogerLiveOffers } from './connectors/usda-and-kroger';
 import {
   getIngredientHistoryFromSqlite,
   getSqliteDatabaseStats,
@@ -88,11 +91,17 @@ export function scoreAllCommodities(
     string,
     { mountainBaseline?: number; mountainAdFeaturePct?: number; note?: string }
   > = {},
-  activeStores?: StoreChain[]
+  activeStores?: StoreChain[],
+  histories?: Record<string, IngredientHistory>
 ): ScoredCommodity[] {
   const scored: ScoredCommodity[] = [];
 
-  for (const rawIng of CANONICAL_INGREDIENTS) {
+  for (const sourceIng of CANONICAL_INGREDIENTS) {
+    // Verified retail benchmarks do not establish wholesale momentum.
+    const rawIng: CanonicalIngredient = histories ? { ...sourceIng, usdaSignal: { ...sourceIng.usdaSignal,
+      trend: 'STABLE', wholesaleChangePct: 0, mountainAdFeaturePct: 0,
+      note: 'Wholesale momentum unavailable; retail benchmark provenance is shown separately.',
+    } } : sourceIng;
     const override = usdaOverrides[rawIng.id];
     const ingredient: CanonicalIngredient = override
       ? {
@@ -212,7 +221,7 @@ export function scoreAllCommodities(
       sixWeekLow,
       sixWeekHigh,
       sixWeekMedian,
-    } = getIngredientHistoryFromSqlite(ingredient.id);
+    } = histories ? histories[ingredient.id] ?? emptyHistory() : getIngredientHistoryFromSqlite(ingredient.id);
 
     // Ticket #25: Wholesale Club (Costco & Sam's Club) Price Normalizer
     const clubBenchmark = compareAgainstWholesaleClubs(
@@ -246,6 +255,11 @@ export function scoreAllCommodities(
     ) {
       cycleStatus = 'STOCK_UP_6WK_LOW';
       badgeLabel = '🟢 Stock Up Alert (6-Week Low)';
+    }
+
+    if (histories && verifiedLocalWeekCount(priceHistory) < 6) {
+      cycleStatus = 'FAIR_SALE_PRICE';
+      badgeLabel = 'Current price; fewer than six weeks of verified history';
     }
 
     if (!verifiedPrice) {
@@ -381,6 +395,7 @@ export function rankMealPrepDishes(
     applianceFilter?: CookingVesselArchetype;
     freezerIngredientIds?: string[];
     savedRecipes?: RecommendedDish[];
+    now?: Date;
   }
 ): {
   recommendedTrio: RecommendedDish[];
@@ -682,8 +697,24 @@ export function rankMealPrepDishes(
     }
   }
 
+  // Keep the strongest match; cycle the remaining slots through existing recipes.
+  // Use calendar weeks, not elapsed local hours, so DST never shifts the rollover.
+  const cycleStart = currentAdCycle(options?.now).start;
+  const week = Math.floor(Date.parse(`${cycleStart}T00:00:00Z`) / (7 * 86400000));
+  const alternatives = [
+    ...recommendedTrio.slice(1),
+    ...evaluated.filter((dish) => !recommendedTrio.some((chosen) => chosen.id === dish.id)),
+  ];
+  const rotatingTrio = recommendedTrio.slice(0, 1);
+  if (alternatives.length > 0) {
+    const offset = ((week * 2) % alternatives.length + alternatives.length) % alternatives.length;
+    for (let index = 0; index < Math.min(2, alternatives.length); index += 1) {
+      rotatingTrio.push(alternatives[(offset + index) % alternatives.length]);
+    }
+  }
+
   return {
-    recommendedTrio,
+    recommendedTrio: rotatingTrio,
     allRankedDishes: evaluated,
   };
 }
@@ -723,6 +754,7 @@ export async function resolveCityStateFromZip(zipCode: string): Promise<string> 
 }
 
 export async function buildDashboardPayload(options?: {
+  archiveHistory?: boolean;
   zipCode?: string;
   storeFilter?: 'ALL' | StoreChain;
   activeStores?: StoreChain[];
@@ -744,12 +776,13 @@ export async function buildDashboardPayload(options?: {
   const onHandIngredientIds = options?.onHandIngredientIds || [];
   const targetServings = options?.targetServings || 6;
 
-  const [flippResult, usdaResult, krogerResult, cityLabel, priorLiveRefresh] = await Promise.all([
+  const [flippResult, usdaResult, krogerResult, cityLabel, priorLiveRefresh, marketHistory] = await Promise.all([
     fetchLiveFlippOffers(zipCode),
-    checkUsdaMarsStatus(),
+    readUsdaBenchmarks(),
     fetchKrogerLiveOffers(options?.kingSoopersLocationId),
     resolveCityStateFromZip(zipCode),
     lastSuccessfulRefresh(zipCode),
+    loadMarketHistory(zipCode),
   ]);
 
   const observedAt = new Date();
@@ -759,10 +792,11 @@ export async function buildDashboardPayload(options?: {
   );
   const flippCount = liveOffers.filter((offer) => offer.source === 'FLIPP_LIVE').length;
   const krogerCount = liveOffers.filter((offer) => offer.source === 'KROGER_API').length;
-  if (liveOffers.length > 0) {
+  if (liveOffers.length > 0 && marketHistory.storage === 'local') {
     persistLiveOffersToSqlite(liveOffers, adCycle.start, adCycle.label);
   }
 
+  const archiveStorage = options?.archiveHistory ? await archiveMarketOffers(liveOffers, zipCode, observedAt) : undefined;
   const freezerInventory = options?.freezerInventory || [];
   const freezerIngredientIds = freezerInventory
     .filter((f) => f.quantityLbOrDoz > 0)
@@ -772,8 +806,10 @@ export async function buildDashboardPayload(options?: {
     combinedOffers,
     storeFilter,
     usdaResult.overrides,
-    activeStores
+    activeStores,
+    marketHistory.storage === 'local' ? undefined : marketHistory.histories
   );
+  for (const item of commodities) item.usdaBenchmark = usdaResult.provenance[item.ingredient.id];
   const splurgeAlerts = commodities.filter((c) => c.isSplurgeAlert);
   const { recommendedTrio, allRankedDishes } = rankMealPrepDishes(
     commodities,
@@ -786,6 +822,7 @@ export async function buildDashboardPayload(options?: {
       applianceFilter: options?.applianceFilter,
       freezerIngredientIds,
       savedRecipes: options?.savedRecipes,
+      now: observedAt,
     }
   );
 
@@ -843,6 +880,8 @@ export async function buildDashboardPayload(options?: {
       estimatedBestPrices: commodities.filter((c) => c.bestOffer.source === 'CURATED_FALLBACK').length,
       sourceOfferCounts: { flipp: flippCount, kroger: krogerCount },
     },
+    usda: { status: usdaResult.status, reason: usdaResult.reason, provenance: usdaResult.provenance },
+    marketHistory: { storage: marketHistory.storage, archiveStorage, provenance: marketHistory.storage === 'local' ? 'synthetic_seed' : 'verified_live' },
     dataSourcesActive: {
       flippLive: flippCount > 0,
       usdaLive: usdaResult.usdaLive,

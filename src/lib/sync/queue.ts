@@ -109,7 +109,7 @@ export function createSyncQueue(
   lock: SyncLock = browserLock,
 ) {
   const inFlight = new Map<string, Promise<UserSyncPayload | null>>();
-  function read(userId: string): QueuedMutation[] {
+  function read(userId: string, repair = true): QueuedMutation[] {
     const key = syncQueueKey(userId);
     const raw = storage.getItem(key);
     if (!raw) return [];
@@ -122,7 +122,7 @@ export function createSyncQueue(
     const valid = Array.isArray(parsed)
       ? parsed.filter((value): value is QueuedMutation => isQueuedMutation(value, userId))
       : [];
-    if (!Array.isArray(parsed) || valid.length !== parsed.length) {
+    if (repair && (!Array.isArray(parsed) || valid.length !== parsed.length)) {
       // Preserve the original bytes for recovery before repairing the active queue.
       // Storage failures propagate: never clear the only copy if backup fails.
       storage.setItem(`${key}:recovery:${safeUUID()}`, raw);
@@ -166,6 +166,14 @@ export function createSyncQueue(
   async function overlay(payload: UserSyncPayload): Promise<UserSyncPayload> {
     if (!payload.profile) return payload;
     const userId = payload.profile.id;
+    const snapshot = () => read(userId, false).reduce((state, mutation) => ({
+      ...state,
+      preferences: state.preferences ? { ...state.preferences, ...mutation.preferences } : null,
+      freezerItems: mutation.freezerItems ?? state.freezerItems,
+    }), payload);
+    // Reading a storage snapshot needs no replay lock. Never repair storage
+    // without that lock, but do not prevent account hydration in HTTP contexts.
+    if (lock === browserLock && !navigator.locks) return snapshot();
     return lock(`${syncQueueKey(userId)}:storage`, () => read(userId).reduce((state, mutation) => ({
       ...state,
       preferences: state.preferences ? { ...state.preferences, ...mutation.preferences } : null,
