@@ -1,3 +1,4 @@
+import { demoArchive } from '@/lib/explorer/demo';
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { parseExplorerQuery, ExplorerError } from '@/lib/explorer/query';
@@ -101,6 +102,18 @@ describe('explorer queries and public projection', () => {
     expect(projected[0].results).toEqual([
       { commodity: 'Unmapped', store_count: 4 },
     ]);
+    expect(
+      publicSourceRow({
+        feature: '10.5',
+        wtd_Avg_Price: '1.99',
+        stores_with_Ads: '27',
+        api_key: 'private',
+      })
+    ).toEqual({
+      feature: '10.5',
+      wtd_Avg_Price: '1.99',
+      stores_with_Ads: '27',
+    });
   });
   it('escapes CSV delimiters and neutralizes spreadsheet formulas in text fields', () => {
     const rows = archiveRows(
@@ -117,6 +130,25 @@ describe('explorer queries and public projection', () => {
   });
 });
 describe('explorer history and revisions', () => {
+  it('keeps demonstration observations stable when a chart point narrows the date window', () => {
+    const q = query();
+    const full = demoArchive(q);
+    const older = full.offers.at(-1)!;
+    const narrow = demoArchive(query({ start: older.cycle, end: older.cycle }));
+    expect(narrow.offers.find((o) => o.id === older.id)).toEqual(older);
+    const point = historyPoints(full, q).find((p) =>
+      p.ids.includes(`offer:${older.id}`)
+    )!;
+    const rawQuery = query({
+      start: point.date,
+      end: point.date,
+      dataset: 'offers',
+      row: `offer:${older.id}`,
+    });
+    expect(
+      filterRows(archiveRows(narrow, rawQuery, 'demo'), rawQuery)[0].price
+    ).toBe(point.price);
+  });
   it('uses latest retrieval, including a return to an earlier price, for every store', () => {
     const a = offer(1, 2);
     const b = offer(2, 3);

@@ -543,6 +543,7 @@ export default function DataExplorer({
               <label>
                 Geography
                 <select
+                  disabled={dataset === 'offers'}
                   value={params.get('region') || ''}
                   onChange={(e) => navigate({ region: e.target.value })}
                 >
@@ -554,6 +555,7 @@ export default function DataExplorer({
               <label>
                 Report version
                 <select
+                  disabled={dataset === 'offers'}
                   value={params.get('version') || ''}
                   onChange={(e) =>
                     navigate({ version: e.target.value, row: '' })

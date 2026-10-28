@@ -8,7 +8,7 @@ begin
   select coalesce(jsonb_agg(t order by t.period_end,t.slug,t.id),'[]') into reports from (
     select v.id,v.slug,c.title,v.period_start,v.period_end,v.published_at,v.fetched_at,v.adapter_version,v.validation,
       v.config_snapshot as config,
-      exists(select 1 from public.usda_version_acceptances a where a.version_id=v.id and a.accepted_at<=p_asof) as accepted,
+      (v.validation='usable' or exists(select 1 from public.usda_version_acceptances a where a.version_id=v.id and a.accepted_at<=p_asof)) as accepted,
       c.enabled and exists(select 1 from public.usda_cycle_publications pub where pub.version_id=v.id and pub.published_at<=p_asof
         and pub.id=(select max(p2.id) from public.usda_cycle_publications p2 where p2.slug=v.slug and p2.published_at<=p_asof)) as active
     from public.usda_report_versions v join public.usda_report_catalog c on c.slug=v.slug

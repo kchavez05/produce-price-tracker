@@ -1,7 +1,7 @@
 import type { ReportConfig } from '@/lib/usda/adapter';
 /** Audited USDA market fields. Unknown fields are omitted, not blindly published. */
 const USDA_FIELDS = new Set(
-  `commodity community condition environment final_ind market_type office_city office_code office_name office_state organic package package_size price_avg price_max price_min price_unit prior_WK_store_count prior_WK_wtd_avg_price prior_YR_store_count prior_YR_wtd_avg_price published_date quality_grade region reportSection report_begin_date report_date report_end_date report_title size slug_id slug_name store_count type variety wtd_avg_price`.split(
+  `commodity community condition environment final_ind market_type office_city office_code office_name office_state organic package package_size price_avg price_max price_min price_unit prior_WK_store_count prior_WK_wtd_avg_price prior_YR_store_count prior_YR_wtd_avg_price published_date quality_grade region reportSection report_begin_date report_date report_end_date report_title size slug_id slug_name store_count type variety wtd_avg_price %_Marked_Local activity_Index feature last_Week_Activity_Index last_Week_Feature last_Week_Stores last_Year_Activity_Index last_Year_Feature last_Year_Stores price_Range published_Date report_Date section stores stores_with_Ads wtd_Avg_Price`.split(
     ' '
   )
 );
@@ -85,7 +85,9 @@ export function belongsToReport(
     const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(raw);
     return m ? `${m[3]}-${m[1]}-${m[2]}` : raw;
   };
-  const raw = String(row[config.fields.publishedAt] ?? '');
+  const raw = String(
+    row[config.fields.publishedAt] ?? row.published_Date ?? ''
+  );
   const m = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})$/.exec(raw);
   const clock = m
     ? `${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}`
