@@ -185,6 +185,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   const userSync = useUserSync({
     onCloudStateHydrated: handleCloudHydrated,
+    onSyncAcknowledged: () => {
+      void syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
+    },
   });
 
   // Combine manual onHandIds + any canonicalIngredientId currently in Virtual Freezer

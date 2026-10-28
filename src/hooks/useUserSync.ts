@@ -18,10 +18,13 @@ const MERGE_DISMISSED_KEY = 'pantrybot_guest_merge_dismissed_v13';
 
 export interface UseUserSyncOptions {
   onCloudStateHydrated?: (payload: UserSyncPayload) => void;
+  onSyncAcknowledged?: () => void;
 }
 
 export function useUserSync(options?: UseUserSyncOptions) {
   const onHydrated = options?.onCloudStateHydrated;
+  const onAcknowledgedRef = useRef(options?.onSyncAcknowledged);
+  useEffect(() => { onAcknowledgedRef.current = options?.onSyncAcknowledged; }, [options?.onSyncAcknowledged]);
   const queueRef = useRef<ReturnType<typeof createSyncQueue> | null>(null);
   const lastPayloadRef = useRef<UserSyncPayload | null>(null);
   const activeUserRef = useRef<string | null>(null);
@@ -130,6 +133,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
         setProfile(updated.profile);
         setPreferences(updated.preferences);
         setLastSyncedIso(updated.syncedAtIso);
+        onAcknowledgedRef.current?.();
         // Acknowledgment is not initial hydration: replacing the dashboard here
         // would roll back local selections and edits made during this request.
       }

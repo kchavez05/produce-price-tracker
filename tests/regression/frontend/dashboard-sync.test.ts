@@ -93,6 +93,19 @@ afterEach(async () => {
 });
 
 describe('signed-in dashboard sync', () => {
+  it('recomputes meal costs after reconnect acknowledges an offline freezer deletion', async () => {
+    failSync = true;
+    await click(button('Virtual Freezer'));
+    await click([...container.querySelectorAll('button')].find((element) => element.title === 'Thaw & Remove from Freezer')!);
+    expect(server.freezerItems).toHaveLength(1);
+    expect(localStorage.getItem(syncQueueKey('alice'))).not.toBeNull();
+    failSync = false;
+    await act(async () => { window.dispatchEvent(new Event('online')); await settle(); });
+    expect(server.freezerItems).toEqual([]);
+    expect(localStorage.getItem(syncQueueKey('alice'))).toBeNull();
+    expect(dashboardRequests.at(-1)?.searchParams.get('onHand')).toBe('');
+    expect(button('2. 3-Dish Meal Prep').textContent).toContain('$2.00/srv');
+  });
   it('preserves pins and servings selected before and during a preference acknowledgment', async () => {
     await click(button('Pin to Prep'));
     await click(button('2. 3-Dish Meal Prep'));
