@@ -4,7 +4,7 @@ This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to 
 
 ## Planned v1.5.1 — Data Explorer & Score Transparency
 
-Drafting a public data explorer with price charts and weekly patterns, exact score explanations, ingredient grouping rationale, and a first-class raw-data view with source JSON and filtered exports. See the [draft specification](docs/specs/data-explorer-and-score-transparency.md). Onion membership, cycle-badge semantics, and public report download constraints require explicit decisions before implementation is complete.
+Implementing a public data explorer with price charts and weekly patterns, exact score explanations, ingredient grouping rationale, and a first-class raw-data view with source JSON and filtered exports. See the [approved specification](docs/specs/data-explorer-and-score-transparency.md). Policy decisions and operational constraints are recorded in the [explorer guide](docs/data-explorer.md).
 
 ## v1.5.0 — Weekly USDA and durable market history
 

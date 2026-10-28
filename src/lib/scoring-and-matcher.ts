@@ -1,3 +1,4 @@
+import { calculateValueScore } from '@/lib/value-score';
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
 import { archiveMarketOffers, loadMarketHistory, emptyHistory, type IngredientHistory } from '@/lib/market/history';
 import { readUsdaBenchmarks } from '@/lib/usda/read';
@@ -38,52 +39,6 @@ import {
 } from './db/sqlite';
 import { isSupabaseConfigured } from './supabase/config';
 
-function calculateAffordabilityScore(
-  ingredient: CanonicalIngredient,
-  pricePerUnit: number
-): number {
-  if (ingredient.category === 'PROTEIN') {
-    if (pricePerUnit <= 1.25) return 100;
-    if (pricePerUnit >= 8.0) return 12;
-    const score = 100 - ((pricePerUnit - 1.25) / (8.0 - 1.25)) * 88;
-    return Math.round(Math.max(10, Math.min(100, score)));
-  }
-
-  if (ingredient.category === 'PRODUCE') {
-    if (pricePerUnit <= 0.6) return 100;
-    if (pricePerUnit >= 3.8) return 15;
-    const score = 100 - ((pricePerUnit - 0.6) / (3.8 - 0.6)) * 85;
-    return Math.round(Math.max(12, Math.min(100, score)));
-  }
-
-  // DAIRY_EGGS
-  if (pricePerUnit <= 1.6) return 100;
-  if (pricePerUnit >= 5.0) return 20;
-  const score = 100 - ((pricePerUnit - 1.6) / (5.0 - 1.6)) * 80;
-  return Math.round(Math.max(15, Math.min(100, score)));
-}
-
-function calculateDiscountDepthScore(
-  discountVsBaselinePct: number,
-  discountVsRegularPct: number
-): number {
-  const effectiveDiscount = Math.max(discountVsBaselinePct, discountVsRegularPct * 0.9);
-  if (effectiveDiscount <= 0) return 10;
-  if (effectiveDiscount >= 50) return 100;
-  return Math.round(10 + (effectiveDiscount / 50) * 90);
-}
-
-function calculateWholesaleBonus(
-  ingredient: CanonicalIngredient,
-  discountVsBaselinePct: number
-): number {
-  const { trend } = ingredient.usdaSignal;
-  if (trend === 'CYCLE_FLOOR' && discountVsBaselinePct >= 20) return 95;
-  if (trend === 'SPIKING_BUY_NOW' && discountVsBaselinePct >= 25) return 100;
-  if (trend === 'DROPPING_FAST' && discountVsBaselinePct < 15) return 20;
-  return 60;
-}
-
 export function scoreAllCommodities(
   allOffers: StoreOffer[],
   storeFilter: 'ALL' | StoreChain = 'ALL',
@@ -118,7 +73,7 @@ export function scoreAllCommodities(
       : rawIng;
 
     const matchingOffers = allOffers.filter(
-      (o) => o.canonicalIngredientId === ingredient.id
+      (o) => o.canonicalIngredientId === ingredient.id && Number.isFinite(o.normalizedPricePerUnit) && o.normalizedPricePerUnit > 0
     );
     if (matchingOffers.length === 0) continue;
 
@@ -155,35 +110,9 @@ export function scoreAllCommodities(
     const bestOffer = pool[0];
     const runnerUpOffer = pool[1];
 
-    const discountVsBaselinePct = Math.round(
-      ((ingredient.mountainBaselinePerUnit - bestOffer.normalizedPricePerUnit) /
-        ingredient.mountainBaselinePerUnit) *
-        100
-    );
-    const discountVsRegularPct = Math.round(
-      ((bestOffer.regularPricePerUnit - bestOffer.normalizedPricePerUnit) /
-        bestOffer.regularPricePerUnit) *
-        100
-    );
-
-    const affordabilityScore = calculateAffordabilityScore(
-      ingredient,
-      bestOffer.normalizedPricePerUnit
-    );
-    const discountDepthScore = calculateDiscountDepthScore(
-      discountVsBaselinePct,
-      discountVsRegularPct
-    );
-    const wholesaleBonusScore = calculateWholesaleBonus(
-      ingredient,
-      discountVsBaselinePct
-    );
-
-    const valueScore = Math.round(
-      0.55 * affordabilityScore +
-        0.35 * discountDepthScore +
-        0.1 * wholesaleBonusScore
-    );
+    const { discountVsBaselinePct, discountVsRegularPct, affordabilityScore,
+      discountDepthScore, wholesaleBonusScore, valueScore } = calculateValueScore(
+        ingredient, bestOffer.normalizedPricePerUnit, bestOffer.regularPricePerUnit);
 
     const isHighRegularPrice =
       bestOffer.regularPricePerUnit >= 4.75 ||
@@ -249,17 +178,21 @@ export function scoreAllCommodities(
       cycleStatus = 'CYCLE_PEAK_WAIT';
       badgeLabel = '🔴 Cycle Peak (Wait / Substitute)';
     } else if (
-      (bestOffer.normalizedPricePerUnit <= sixWeekLow + 0.05 &&
-        discountVsRegularPct >= 32) ||
-      discountVsRegularPct >= 42
+      sixWeekLow > 0 && bestOffer.normalizedPricePerUnit <= sixWeekLow + 0.05 &&
+        discountVsRegularPct >= 32
     ) {
       cycleStatus = 'STOCK_UP_6WK_LOW';
       badgeLabel = '🟢 Stock Up Alert (6-Week Low)';
     }
 
+    if (discountVsRegularPct >= 42 && cycleStatus !== 'STOCK_UP_6WK_LOW') {
+      badgeLabel = 'Deep discount against regular price';
+    }
     if (histories && verifiedLocalWeekCount(priceHistory) < 6) {
       cycleStatus = 'FAIR_SALE_PRICE';
-      badgeLabel = 'Current price; fewer than six weeks of verified history';
+      badgeLabel = discountVsRegularPct >= 42
+        ? 'Deep discount; fewer than six weeks of verified history'
+        : 'Current price; fewer than six weeks of verified history';
     }
 
     if (!verifiedPrice) {

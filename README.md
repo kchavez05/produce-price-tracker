@@ -61,3 +61,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 Security vulnerabilities can be reported privately via GitHub Security Advisories or by email. Please refer to [SECURITY.md](./SECURITY.md) for details on supported versions and responsible disclosure procedures.
 
 Weekly refresh schedules, source freshness, fallback estimates, cron authentication and durable audit setup are documented in [Weekly price refresh](docs/weekly-refresh.md).
+
+### Data exploration
+
+The public `/data` explorer connects price history, weekly patterns, score arithmetic, ingredient grouping rationale, and a first-class raw-data view. Inspect stored USDA rows and report JSON, compare normalized advertisements across stores, and export filtered CSV with provenance metadata. See the [Data Explorer guide](docs/data-explorer.md) for source semantics, limits, and migration requirements.

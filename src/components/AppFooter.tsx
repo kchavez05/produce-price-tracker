@@ -48,6 +48,13 @@ export default function AppFooter() {
               <span>Terms &amp; Conditions</span>
             </Link>
             <Link
+              href="/data"
+              className="inline-flex items-center gap-1 hover:text-emerald-700 hover:underline transition"
+            >
+              <BookOpen className="h-3.5 w-3.5 text-slate-400" />
+              <span>Explore the data</span>
+            </Link>
+            <Link
               href="/docs"
               className="inline-flex items-center gap-1 hover:text-emerald-700 hover:underline transition"
             >
