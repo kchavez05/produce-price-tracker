@@ -111,6 +111,7 @@ export default function DataExplorer({
     'region',
     'mode',
     'asof',
+    'snapshot',
   ]) {
     const value = params.get(key);
     if (value) core.set(key, value);
