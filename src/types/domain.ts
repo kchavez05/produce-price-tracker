@@ -171,10 +171,15 @@ export interface StoreOffer {
 export interface PriceHistoryPoint {
   weekStart: string; // e.g. "2026-09-09"
   label: string;     // e.g. "Sep 9"
-  kingSoopersPrice: number;
-  safewayPrice: number;
-  usdaMountainAvg: number;
-  bestLocalPrice: number;
+  kingSoopersPrice: number | null;
+  safewayPrice: number | null;
+  /** Legacy Mountain-only value; national observations use usdaBenchmarkAvg. */
+  usdaMountainAvg: number | null;
+  usdaBenchmarkAvg?: number | null;
+  usdaRegion?: 'MOUNTAIN' | 'NATIONAL';
+  usdaPeriodEnd?: string;
+  usdaVersionId?: string;
+  bestLocalPrice: number | null;
 }
 
 export interface KingSoopersLocation {
@@ -186,6 +191,7 @@ export interface KingSoopersLocation {
 }
 
 export interface ScoredCommodity {
+  usdaBenchmark?: import('@/lib/usda/read').UsdaProvenance;
   ingredient: CanonicalIngredient;
   bestOffer: StoreOffer;
   runnerUpOffer?: StoreOffer;
@@ -206,15 +212,15 @@ export interface ScoredCommodity {
   isSplurgeAlert: boolean;
   /** Recommendation tag for weekend shopping */
   actionTag: 'STOCK_UP_ANCHOR' | 'GREAT_STAPLE' | 'SPLURGE_DEAL' | 'WAIT_NEXT_WEEK' | 'BUY_BEFORE_SPIKE';
-  /** 6-week historical price series from SQLite */
+  /** 6-week historical price series (source reported separately) */
   priceHistory: PriceHistoryPoint[];
-  /** Rolling 6-week local average best price from SQLite */
+  /** Rolling 6-week local average best price from market history */
   sixWeekLocalAvg: number;
-  /** Lowest price observed in SQLite over the last 6 weeks */
+  /** Lowest price observed in market history over the last 6 weeks */
   sixWeekLow: number;
-  /** Highest price observed in SQLite over the last 6 weeks (v1.2 Ticket #24) */
+  /** Highest price observed in market history over the last 6 weeks (v1.2 Ticket #24) */
   sixWeekHigh?: number;
-  /** Median price observed in SQLite over the last 6 weeks (v1.2 Ticket #24) */
+  /** Median price observed in market history over the last 6 weeks (v1.2 Ticket #24) */
   sixWeekMedian?: number;
   /** Predictive 6-week cycle signal & smart substitution metadata (v1.2 Ticket #24) */
   cycleSignal?: CycleSignalMetadata;
@@ -422,6 +428,8 @@ export interface DashboardPayload {
     estimatedBestPrices: number;
     sourceOfferCounts: { flipp: number; kroger: number };
   };
+  usda?: { status: 'current' | 'stale' | 'fallback'; reason?: string; provenance: Record<string, import('@/lib/usda/read').UsdaProvenance> };
+  marketHistory?: { storage: 'cloud' | 'local' | 'unavailable'; archiveStorage?: 'cloud' | 'local' | 'unavailable'; provenance: 'verified_live' | 'synthetic_seed' };
   dataSourcesActive: {
     flippLive: boolean;
     usdaLive: boolean;
@@ -519,6 +527,8 @@ export interface SyncRunLogEntry {
 }
 
 export interface WeeklySyncCronResult {
+  marketHistoryStorage?: 'cloud' | 'local' | 'unavailable';
+  usdaStatus?: 'current' | 'stale' | 'fallback';
   refreshStatus?: 'live' | 'estimates_only';
   auditStorage?: 'cloud' | 'local' | 'unavailable' | 'preview';
   ok: boolean;

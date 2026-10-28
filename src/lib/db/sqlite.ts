@@ -484,14 +484,14 @@ export function getIngredientHistoryFromSqlite(ingredientId: string): {
       label: vals.label,
       kingSoopersPrice: ks,
       safewayPrice: sw,
-      usdaMountainAvg: vals.usda ?? ks,
+      usdaMountainAvg: vals.usda ?? null,
       bestLocalPrice: Number.isFinite(bestLocalPrice) ? bestLocalPrice : 0,
     });
   }
 
   const bestPrices = priceHistory
     .map((p) => p.bestLocalPrice)
-    .filter((p) => p > 0);
+    .filter((p): p is number => p !== null && p > 0);
   const sixWeekLocalAvg =
     bestPrices.length > 0
       ? Number(

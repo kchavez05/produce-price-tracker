@@ -53,7 +53,7 @@ export async function lastSuccessfulRefresh(zip: string): Promise<string | null>
     if (client) {
       const { data, error } = await client.from('weekly_refresh_audit')
         .select('completed_at').eq('zip_code', zip).eq('status', 'live')
-        .order('completed_at', { ascending: false }).limit(1).maybeSingle();
+        .order('completed_at', { ascending: false }).limit(1).retry(false).maybeSingle();
       if (!error && data) return data.completed_at;
     }
   } catch { /* Local audit is the keyless fallback. */ }

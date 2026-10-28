@@ -1,3 +1,4 @@
+import packageInfo from '../../../package.json';
 import { describe, it, expect } from 'vitest';
 import { GET as getOpenApiJson, OPTIONS as optionsOpenApiJson } from '@/app/api/openapi.json/route';
 
@@ -13,7 +14,7 @@ describe('smoke: OpenAPI Specification Endpoint (/api/openapi.json)', () => {
     const data = await res.json();
     expect(data.openapi).toBe('3.1.0');
     expect(data.info.title).toBe('PantryBot API');
-    expect(data.info.version).toBe('1.4.1');
+    expect(data.info.version).toBe(packageInfo.version);
     expect(data.paths['/api/dashboard']).toBeDefined();
     expect(data.paths['/api/locations']).toBeDefined();
     expect(data.paths['/api/freezer']).toBeDefined();

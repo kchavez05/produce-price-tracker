@@ -1,0 +1,125 @@
+{
+  "slug": "2995",
+  "title": "Weekly Grocery Store Dairy Feature Activity",
+  "config": {
+    "adapterVersion": "mars-retail-2995-v1",
+    "timezone": "America/Denver",
+    "publicationClock": "source_unspecified",
+    "cadenceDays": 7,
+    "graceDays": 2,
+    "sections": [
+      "Report Details"
+    ],
+    "fields": {
+      "section": "reportSection",
+      "rows": "results",
+      "periodStart": "report_begin_date",
+      "periodEnd": "report_end_date",
+      "publishedAt": "published_date",
+      "price": "wtd_avg_price",
+      "unit": "package",
+      "region": "region",
+      "weight": "store_count"
+    },
+    "regions": {
+      "National": "NATIONAL",
+      "NATIONAL": "NATIONAL"
+    },
+    "units": {
+      "1 lb": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "8 oz": {
+        "unit": "lb",
+        "multiplier": 2
+      },
+      "16 oz": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "24 oz": {
+        "unit": "lb",
+        "multiplier": 0.6666666666666666
+      },
+      "32 oz": {
+        "unit": "lb",
+        "multiplier": 0.5
+      },
+      "1 lb Block": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "2 lb Block": {
+        "unit": "lb",
+        "multiplier": 0.5
+      },
+      "1 lb Shred": {
+        "unit": "lb",
+        "multiplier": 1
+      },
+      "2 lb Shred": {
+        "unit": "lb",
+        "multiplier": 0.5
+      }
+    },
+    "metric": "retail_advertised_price",
+    "mappings": [
+      {
+        "ingredientId": "butter-salted-unsalted",
+        "equals": {
+          "commodity": "Butter",
+          "type": "N/A",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "greek-yogurt-tub",
+        "equals": {
+          "commodity": "Yogurt",
+          "type": "Greek",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "cottage-cheese-sour-cream",
+        "equals": {
+          "commodity": "Cottage Cheese",
+          "type": "N/A",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "cottage-cheese-sour-cream",
+        "equals": {
+          "commodity": "Sour Cream",
+          "type": "N/A",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      },
+      {
+        "ingredientId": "shredded-block-cheese",
+        "equals": {
+          "commodity": "Cheese",
+          "type": "Natural Varieties",
+          "organic": "No",
+          "final_ind": "Final"
+        }
+      }
+    ],
+    "sourceSlug": "2995",
+    "requireStatistics": true
+  },
+  "validationEvidence": {
+    "catalogTitle": "Weekly Grocery Store Dairy Feature Activity",
+    "releaseSchedule": "Weekly; authenticated catalog and sample published Friday 2026-10-23; Wednesday uses latest available release.",
+    "sourceTimezone": "Source publication clock is unzoned; preserve as timestamp without time zone. Reporting-period date age uses the application America/Denver calendar.",
+    "queryValidation": "Authenticated report_begin_date 10/14/2026:10/28/2026 with allSections=true; stats returnedRows equals totalRows in every selected section.",
+    "unitValidation": "Exact priced-package units converted to dollars per pound; store_count weights; ambiguous package ranges and each-sized produce excluded.",
+    "fixtureHash": "b686f33fc02f09ed972fafe78391001976770afb59384db03941487313b78b9b"
+  }
+}

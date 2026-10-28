@@ -1,8 +1,10 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.4.1`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.5.0`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
-## Key Features (`v1.4.1`)
+## Key Features (`v1.5.0`)
+
+* **Weekly USDA and durable market history:** Authenticated Wednesday batches, stored national retail benchmarks with source-period labels, immutable report revisions, and Supabase price history. Dashboard and digest requests never call USDA. Synthetic SQLite history remains local demonstration data. See the [market-data runbook](docs/usda-market-data.md).
 
 * **Current prices and explicit estimates:** Mountain Time ad cycles, source expiration checks, verified-price-first shopping budgets, accurate freshness indicators, and authenticated scheduled refreshes with optional durable audit history. See [weekly refresh operations](docs/weekly-refresh.md).
 

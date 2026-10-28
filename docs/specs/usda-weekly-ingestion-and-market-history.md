@@ -1,6 +1,6 @@
 # Weekly USDA ingestion and durable market history
 
-**Status:** Proposed specification; this change contains documentation only. Implementation is future work.  
+**Status:** Approved. Implementation and operational decisions are documented in [the v1.5.0 runbook](../usda-market-data.md).
 **Prepared:** October 28, 2026.  
 **Scope:** Activate scheduled USDA ingestion and move shared market history to Supabase. Deliver in two milestones within this improvement.
 

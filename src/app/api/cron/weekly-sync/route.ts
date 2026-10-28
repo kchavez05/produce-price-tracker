@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { authorizedCron } from '@/lib/security/cron';
 import { recordRefreshAudit } from '@/lib/refresh-audit';
 import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
 import { NextRequest, NextResponse } from 'next/server';
@@ -17,14 +17,6 @@ import {
 
 export const dynamic = 'force-dynamic';
 
-function authorizedCron(request: NextRequest): boolean {
-  const secret = process.env.CRON_SECRET?.trim();
-  const actual = request.headers.get('authorization') || '';
-  const expected = `Bearer ${secret}`;
-  return Boolean(secret && Buffer.byteLength(actual) === Buffer.byteLength(expected) &&
-    timingSafeEqual(Buffer.from(actual), Buffer.from(expected)));
-}
-
 async function executeWeeklySync(
   cycle: string,
   zipCode = '80542',
@@ -35,6 +27,7 @@ async function executeWeeklySync(
   try {
     const dashboard = await buildDashboardPayload({
       zipCode,
+      archiveHistory: recordRun,
       storeFilter: 'ALL',
       pinnedIngredientIds: [],
       onHandIngredientIds: [],
@@ -78,7 +71,7 @@ async function executeWeeklySync(
         scheduledWindowLabel: 'Wednesdays • 13:00 UTC (7 AM MDT / 6 AM MST)',
         title: `🛒 Mead (${zipCode}) Weekly Circulars Live!`,
         subtitle: `#1 Value: ${topCommodity.ingredient.name} at $${topCommodity.bestOffer.normalizedPricePerUnit.toFixed(2)}/${topCommodity.ingredient.standardUnit} (${storeName})`,
-        body: `${Math.round(topCommodity.discountVsBaselinePct)}% below USDA Mountain Region baseline. ${digitalCouponItems.length} digital coupons ready to clip for this weekend's top 3 batch meals.`,
+        body: `${Math.round(topCommodity.discountVsBaselinePct)}% below ${topCommodity.usdaBenchmark?.region === 'NATIONAL' ? 'USDA national retail' : 'estimated regional'} baseline. ${digitalCouponItems.length} digital coupons ready to clip for this weekend's top 3 batch meals.`,
         deepLinkPath: '/?tab=leaderboard',
         badgeText: `Score ${topCommodity.valueScore}/100`,
         priority: 'high',
@@ -119,6 +112,8 @@ async function executeWeeklySync(
     const markdownLines: string[] = [
       `# 🍲 Mead, CO (${zipCode}) Weekend Meal-Prep Digest`,
       `**Pricing:** ${dashboard.freshness?.usableLiveOffers ?? 0} verified live offers; ${dashboard.freshness?.estimatedBestPrices ?? 0} top prices are historical estimates. Verify estimates with the store.`,
+      `**USDA benchmarks:** ${dashboard.usda?.status ?? 'fallback'}; ${[...new Set(Object.values(dashboard.usda?.provenance ?? {}).flatMap((p) => p.periodEnd ? [`${p.region} retail week ending ${p.periodEnd}`] : []))].join('; ') || 'static estimates'}.`,
+      `**Market history:** ${dashboard.marketHistory?.storage ?? 'local'}; archive ${dashboard.marketHistory?.archiveStorage ?? 'not requested'}.`,
       `**Ad Cycle:** ${dashboard.adCycleLabel} | **Generated:** ${new Date(executedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT`,
       ``,
       `## 1. Weekend Batch Trio (${totalTrioServings} Total Servings)`,
@@ -144,7 +139,7 @@ async function executeWeeklySync(
       `## 4. Top 5 Commodity Value Leaders`,
       ...dashboard.commodities.slice(0, 5).map(
         (c, i) =>
-          `${i + 1}. **${c.ingredient.name}**: $${c.bestOffer.normalizedPricePerUnit.toFixed(2)}/${c.ingredient.standardUnit} at ${c.bestOffer.store === 'KING_SOOPERS' ? 'King Soopers' : 'Safeway'} (-${Math.round(c.discountVsBaselinePct)}% vs. USDA Mountain Baseline, Value Score: ${c.valueScore}/100)`
+          `${i + 1}. **${c.ingredient.name}**: $${c.bestOffer.normalizedPricePerUnit.toFixed(2)}/${c.ingredient.standardUnit} at ${c.bestOffer.store === 'KING_SOOPERS' ? 'King Soopers' : 'Safeway'} (-${Math.round(c.discountVsBaselinePct)}% vs. ${c.usdaBenchmark?.region === 'NATIONAL' ? 'USDA national retail' : 'estimated regional'} baseline, Value Score: ${c.valueScore}/100)`
       ),
     ];
 
@@ -207,8 +202,10 @@ async function executeWeeklySync(
     const recentSyncRuns = getRecentSyncRunsFromSqlite(6);
 
     return {
-      ok: true,
+      ok: dashboard.marketHistory?.archiveStorage !== 'unavailable',
       refreshStatus: dashboard.freshness?.usableLiveOffers ? 'live' : 'estimates_only',
+      marketHistoryStorage: dashboard.marketHistory?.archiveStorage,
+      usdaStatus: dashboard.usda?.status,
       auditStorage,
       cycle,
       executedAtIso,
@@ -255,7 +252,7 @@ export async function GET(request: NextRequest) {
     );
 
     return NextResponse.json(result, {
-      status: result.auditStorage === 'unavailable' ? 503 : 200,
+      status: result.auditStorage === 'unavailable' || result.marketHistoryStorage === 'unavailable' ? 503 : 200,
       headers: { 'Cache-Control': 'no-store' },
     });
   } catch (error) {
@@ -286,7 +283,7 @@ export async function POST(request: NextRequest) {
 
     const result = await executeWeeklySync(cycle, zipCode, true);
     return NextResponse.json(result, {
-      status: result.auditStorage === 'unavailable' ? 503 : 200,
+      status: result.auditStorage === 'unavailable' || result.marketHistoryStorage === 'unavailable' ? 503 : 200,
       headers: { 'Cache-Control': 'no-store' },
     });
   } catch (error) {
