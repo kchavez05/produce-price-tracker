@@ -1,5 +1,5 @@
 import { PGlite } from '@electric-sql/pglite';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 
 let db: PGlite;
@@ -11,7 +11,9 @@ const publish = (r: string, value = report(), observations = rows) => db.query<{
 beforeAll(async () => {
   db = new PGlite();
   await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
-  await db.exec(readFileSync('supabase/migrations/20261028162458_usda_market_history.sql', 'utf8'));
+  for(const file of readdirSync('supabase/migrations').filter((name)=>/_usda_(market_history|revision_acceptance)\.sql$/.test(name)).sort()) {
+    await db.exec(readFileSync(`supabase/migrations/${file}`,'utf8'));
+  }
   today = (await db.query<{ day: string }>("select current_date::text as day")).rows[0].day;
   await db.query("insert into public.usda_report_catalog(slug,title,enabled,validated_at,config) values('123','Synthetic test fixture',true,now(),$1)", [JSON.stringify({ adapterVersion: 'test-v1' })]);
 }, 20000);
@@ -43,6 +45,14 @@ describe('market history database guarantees', () => {
     expect((await publish(run, report({ content_hash: 'c'.repeat(64) }))).rows[0].result).toBe('quarantined');
     expect((await db.query<{ count: number }>('select count(*)::int as count from public.usda_cycle_publications')).rows[0].count).toBe(1);
   });
+  it('recognizes replays of accepted old and current revisions as unchanged',async()=>{
+    const correction=report({content_hash:'d'.repeat(64),published_at:`${today}T00:01:00Z`});
+    expect((await publish(run,correction)).rows[0].result).toBe('published');
+    const selections=(await db.query<{n:number}>('select count(*)::int as n from public.usda_cycle_publications')).rows[0].n;
+    expect((await publish(run)).rows[0].result).toBe('unchanged');
+    expect((await publish(run,correction)).rows[0].result).toBe('unchanged');
+    expect((await db.query<{n:number}>('select count(*)::int as n from public.usda_cycle_publications')).rows[0].n).toBe(selections);
+  });
   it('fences expired workers and requires explicit operator recovery', async () => {
     await db.query("update public.market_ingestion_claims set expires_at=now()-interval '1 second' where run_id=$1", [run]);
     await expect(publish(run)).rejects.toThrow('lease_lost');
@@ -73,6 +83,19 @@ describe('market history database guarantees', () => {
     expect((await publish(backfill,oldReport)).rows[0].result).toBe('published');
     const selected=await db.query<{period_end:string}>("select v.period_end::text from public.usda_cycle_publications p join public.usda_report_versions v on v.id=p.version_id order by p.id desc limit 1");
     expect(selected.rows[0].period_end).toBe(today);
+  });
+  it('makes a quarantined older version readable through explicit backfill acceptance',async()=>{
+    const older=(await db.query<{day:string}>("select (current_date-14)::text as day")).rows[0].day;
+    const recovery=(await db.query<{id:string}>("select public.claim_usda_run($1,'recovery','Quarantine admission regression') as id",[today])).rows[0].id;
+    const value=report({period_start:older,period_end:older,published_at:`${older}T00:00:00`,content_hash:'9'.repeat(64)});
+    expect((await publish(recovery,value)).rows[0].result).toBe('quarantined');
+    const backfill=(await db.query<{id:string}>("select public.claim_usda_run($1,'backfill','Accept quarantined historical content') as id",[older])).rows[0].id;
+    expect((await publish(backfill,value)).rows[0].result).toBe('published');
+    const history=await db.query<{data:{period_end:string}[]}>('select public.read_usda_history($1,$2) as data',[older,today]);
+    expect(history.rows[0].data.some((row)=>row.period_end===older)).toBe(true);
+    const raw=await db.query<{validation:string}>("select validation from public.usda_report_versions where content_hash=$1",['9'.repeat(64)]);
+    expect(raw.rows[0].validation).toBe('quarantined');
+    expect((await publish(backfill,value)).rows[0].result).toBe('unchanged');
   });
   it('limits history read windows', async () => {
     await expect(db.query("select public.read_market_history('80542',date '2026-01-01',date '2026-10-28')")).rejects.toThrow('history_window_limit');

@@ -143,6 +143,13 @@ export interface MarketDatabase { public: { Tables: {
 "config_snapshot": Json;
 "payload": Json;
 "validation": string;}>;
+"usda_version_acceptances": Table<{"version_id": string;
+"run_id": string;
+"purpose": string;
+"accepted_at": string;},{"version_id": string;
+"run_id": string;
+"purpose": string;
+"accepted_at"?: string;}>;
 }; Views: Record<string, never>; Functions: {
 "archive_market_offers": { Args: { p_rows: Json; }; Returns: number };
 "claim_usda_run": { Args: { p_cycle: string; p_trigger: string; p_reason: string; }; Returns: string };

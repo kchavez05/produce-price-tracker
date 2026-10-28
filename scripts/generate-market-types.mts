@@ -4,7 +4,9 @@ import fs from 'node:fs/promises';
 const db=new PGlite();
 try {
   await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
-  await db.exec(await fs.readFile('supabase/migrations/20261028162458_usda_market_history.sql','utf8'));
+  for(const file of (await fs.readdir('supabase/migrations')).filter((name)=>/_usda_(market_history|revision_acceptance)\.sql$/.test(name)).sort()) {
+    await db.exec(await fs.readFile(`supabase/migrations/${file}`,'utf8'));
+  }
   const columns=await db.query<{table_name:string;column_name:string;data_type:string;is_nullable:string;column_default:string|null;is_identity:string}>(
     "select table_name,column_name,data_type,is_nullable,column_default,is_identity from information_schema.columns where table_schema='public' order by table_name,ordinal_position");
   const functions=await db.query<{name:string;args:string;result:string}>(
