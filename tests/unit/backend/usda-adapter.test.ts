@@ -1,3 +1,5 @@
+import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
+import type { PriceHistoryPoint } from '@/types/domain';
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { parseReport, validateConfig, hash } from '@/lib/usda/adapter';
@@ -24,6 +26,24 @@ describe('validated USDA source adapters', () => {
       expect(reports[0].published_at).not.toContain('Z'); // source clock has no claimed timezone
     });
   }
+  it('separates corrected revisions contained in one response while preserving the full raw envelope',()=>{
+    const row=fixture[0].results[0];
+    const corrected={...row,published_date:'10/23/2026 09:23:53',price_avg:row.price_avg+1};
+    const envelope=[{...fixture[0],stats:{totalRows:2,returnedRows:2},results:[row,corrected]}];
+    const reports=parseReport(envelope,config,now);
+    expect(reports).toHaveLength(2);
+    expect(reports[0].content_hash).not.toBe(reports[1].content_hash);
+    expect(reports[0].rows).toHaveLength(1); expect(reports[1].rows).toHaveLength(1);
+    expect(reports[1].rows[0].value).toBe(reports[0].rows[0].value+1);
+    expect(reports.every((report)=>report.payload===envelope)).toBe(true);
+  });
+  it('counts distinct verified local weeks rather than USDA-only history points',()=>{
+    const points:PriceHistoryPoint[]=Array.from({length:6},(_,i)=>({weekStart:`2026-10-${String(i+1).padStart(2,'0')}`,label:'test',
+      kingSoopersPrice:null,safewayPrice:null,usdaMountainAvg:null,usdaBenchmarkAvg:3,bestLocalPrice:i===5?2:null}));
+    expect(verifiedLocalWeekCount(points)).toBe(1);
+    expect(verifiedLocalWeekCount([...points,points[5]])).toBe(1);
+    expect(verifiedLocalWeekCount(points.map((p)=>({...p,bestLocalPrice:2})))).toBe(6);
+  });
   it('rejects truncated sections, missing sections, invalid dates and incompatible metrics', () => {
     expect(() => parseReport([{ ...fixture[0], stats: { totalRows: 999 } }],config,now)).toThrow('incomplete_report');
     expect(() => parseReport([],config,now)).toThrow();

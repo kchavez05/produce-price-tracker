@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { ingestUsda } from '@/lib/usda/ingest';
 import { UsdaTransport } from '@/lib/usda/transport';
 import { GET } from '@/app/api/cron/usda-ingest/route';
+import { GET as weeklyGet, POST as weeklyPost } from '@/app/api/cron/weekly-sync/route';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
 import { resetSqliteTestInstance } from '@/lib/db/sqlite';
 
@@ -25,6 +26,7 @@ function api(duplicate=false) {
     if (url.includes('marsapi.ams.usda.gov')) { expect(new Headers(init?.headers).get('authorization')).toContain('Basic '); return Response.json(fixture); }
     if (url.includes('publish_usda_report')) return Response.json('published');
     if (url.includes('finish_usda_run')) return Response.json(null);
+    if (url.includes('weekly_refresh_audit')) return Response.json(null);
     if (url.includes('/rpc/read_')) return Response.json([]);
     throw new Error('offline');
   }));
@@ -47,6 +49,15 @@ describe('USDA scheduled ingestion boundaries',()=>{
     const dashboard=await buildDashboardPayload();
     expect(dashboard.usda?.status).toBe('fallback'); expect(dashboard.marketHistory?.storage).toBe('unavailable');
     expect(dashboard.commodities.every(c=>c.priceHistory.length===0)).toBe(true);
+    expect(calls.some(c=>c.includes('marsapi'))).toBe(false);
+  });
+  it('never calls USDA for Friday digests, public previews or ordinary manual refreshes',async()=>{
+    api();
+    const friday=await weeklyGet(new Request('http://localhost:3015/api/cron/weekly-sync?cycle=friday_prep_digest',{headers:{authorization:'Bearer cron-test-key'}}) as import('next/server').NextRequest);
+    const preview=await weeklyGet(new Request('http://localhost:3015/api/cron/weekly-sync?cycle=preview_digest') as import('next/server').NextRequest);
+    vi.setSystemTime(new Date('2026-10-28T18:00:01Z'));
+    const manual=await weeklyPost(new Request('http://localhost:3015/api/cron/weekly-sync',{method:'POST',headers:{origin:'http://localhost:3015',host:'localhost:3015','content-type':'application/json'},body:'{}'}) as import('next/server').NextRequest);
+    expect([friday.status,preview.status,manual.status]).toEqual([200,200,200]);
     expect(calls.some(c=>c.includes('marsapi'))).toBe(false);
   });
   it('rejects forged scheduling headers and public force parameters',async()=>{

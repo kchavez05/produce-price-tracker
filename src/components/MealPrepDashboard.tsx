@@ -1,5 +1,7 @@
 'use client';
 
+import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   CommodityCategory,
@@ -1169,7 +1171,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                 <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
                   <span>PantryBot</span>
                   <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200 lg:inline-block">
-                    v1.3 Smart Kitchen &amp; Cloud Sync
+                    v1.5 Weekly Market Data
                   </span>
                 </h1>
               </div>
@@ -2431,7 +2433,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
                               {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)} • Peak $
                               {(item.sixWeekHigh ?? item.sixWeekLocalAvg).toFixed(2)}
                             </span>
-                            {item.priceHistory.length >= 6 && bestOffer.source !== 'CURATED_FALLBACK' && bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
+                            {verifiedLocalWeekCount(item.priceHistory) >= 6 && bestOffer.source !== 'CURATED_FALLBACK' && bestOffer.normalizedPricePerUnit <= item.sixWeekLow + 0.02 && (
                               <span className="rounded bg-emerald-100 px-1.5 py-0.2 font-bold text-emerald-800">
                                 ★ 6-Week Floor
                               </span>

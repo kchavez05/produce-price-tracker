@@ -35,19 +35,29 @@ async function main() {
     for (const field of ['catalogTitle','releaseSchedule','sourceTimezone','queryValidation','unitValidation','fixtureHash']) {
       if (typeof evidence[field] !== 'string' || String(evidence[field]).trim().length < 3) throw new Error(`Missing validation evidence: ${field}`);
     }
+    const { data: prior,error:priorError } = await client.from('usda_report_catalog').select('config').eq('slug',slug).maybeSingle().retry(false);
+    if(priorError) throw new Error('Catalog validation read failed');
+    if(prior) {
+      const previous={...record(prior.config)}; delete previous.validationEvidence;
+      if(previous.adapterVersion===config.adapterVersion && hash(previous)!==hash(config)) throw new Error('Increment adapterVersion before changing report normalization');
+    }
     const { error } = await client.from('usda_report_catalog').upsert({ slug, title: String(definition.title),
       config: asJson({ ...config, validationEvidence: { ...evidence, validatedPayloadHash:hash(payload) } }), validated_at: now.toISOString(), updated_at:now.toISOString(), enabled: true });
     if (error) throw new Error('Catalog write failed');
     console.log(JSON.stringify({ status: 'validated', slug, observations: reports.reduce((n,r) => n+r.rows.length,0), requests: transport.requests }));
   } else if (command === 'recover') {
-    console.log(JSON.stringify(await ingestUsda({ trigger: 'recovery', reason: required('--reason') })));
+    const result=await ingestUsda({ trigger: 'recovery', reason: required('--reason') });
+    console.log(JSON.stringify(result));
+    if(!['succeeded','unchanged','duplicate'].includes(result.status)) process.exitCode=1;
   } else if (command === 'backfill') {
     required('--reason');
     // One cycle per invocation makes a 12-week backfill resumable and bounded by the worker's 20-call budget.
     const cycle = sourceDay(required('--week-ending'));
     if (cycle >= currentAdCycle().start) throw new Error('Backfill must precede the current planning cycle');
     if (Date.now() - Date.parse(cycle) > 84 * 86400000) throw new Error('Initial backfill is limited to 12 weeks');
-    console.log(JSON.stringify(await ingestUsda({ trigger: 'backfill', cycle, reason: required('--reason') })));
+    const result=await ingestUsda({ trigger: 'backfill', cycle, reason: required('--reason') });
+    console.log(JSON.stringify(result));
+    if(!['succeeded','unchanged','duplicate'].includes(result.status)) process.exitCode=1;
   } else if (command === 'import-sqlite') {
     if (!client) throw new Error('Server Supabase credentials required');
     const source = required('--file'); const snapshot = required('--snapshot');
@@ -79,7 +89,7 @@ async function main() {
   } else if (command === 'health') {
     if (!client) throw new Error('Server Supabase credentials required');
     const { data, error } = await client.from('market_ingestion_runs').select('id,cycle,status,completed_at,request_count,outcomes')
-      .eq('trigger','scheduled').eq('cycle', currentAdCycle().start).order('started_at', { ascending: false }).limit(1).maybeSingle();
+      .in('trigger',['scheduled','recovery']).eq('cycle', currentAdCycle().start).order('started_at', { ascending: false }).limit(1).maybeSingle();
     if (error) throw new Error('Health query failed');
     console.log(JSON.stringify(data ?? { status: 'missing_run' }));
     if (!data || !['succeeded','unchanged'].includes(data.status)) process.exitCode = 1;

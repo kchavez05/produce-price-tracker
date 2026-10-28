@@ -1,3 +1,4 @@
+import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
 import { archiveMarketOffers, loadMarketHistory, emptyHistory, type IngredientHistory } from '@/lib/market/history';
 import { readUsdaBenchmarks } from '@/lib/usda/read';
 import { lastSuccessfulRefresh } from '@/lib/refresh-audit';
@@ -256,7 +257,7 @@ export function scoreAllCommodities(
       badgeLabel = '🟢 Stock Up Alert (6-Week Low)';
     }
 
-    if (histories && priceHistory.filter((point) => (point.bestLocalPrice ?? 0) > 0).length < 6) {
+    if (histories && verifiedLocalWeekCount(priceHistory) < 6) {
       cycleStatus = 'FAIR_SALE_PRICE';
       badgeLabel = 'Current price; fewer than six weeks of verified history';
     }

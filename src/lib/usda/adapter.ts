@@ -71,6 +71,7 @@ export function parseReport(payload: unknown, config: ReportConfig, now = new Da
   const root = Array.isArray(payload) ? payload : record(payload).results;
   if (!Array.isArray(root)) throw new Error('invalid_sections');
   const groups = new Map<string, ParsedReport>();
+  const identityRows = new Map<string, {section: string; row: Record<string, unknown>}[]>();
   const seenSections = new Set<string>();
   for (const item of root) {
     const section = record(item);
@@ -110,7 +111,9 @@ export function parseReport(payload: unknown, config: ReportConfig, now = new Da
       if (!group) {
         group = { period_start: start, period_end: end, published_at: published, payload, content_hash: hash(payload), adapter_version: config.adapterVersion, rows: [] };
         groups.set(groupKey, group);
+        identityRows.set(groupKey, []);
       }
+      identityRows.get(groupKey)!.push({section: sectionName, row});
       const matches = config.mappings.filter((mapping) => Object.entries(mapping.equals).every(([key, value]) => String(row[key] ?? '') === value));
       const region = config.regions[String(row[config.fields.region] ?? '')];
       const conversion = config.units[String(row[config.fields.unit] ?? '')];
@@ -128,6 +131,13 @@ export function parseReport(payload: unknown, config: ReportConfig, now = new Da
     }
   }
   if (seenSections.size !== config.sections.length || !groups.size) throw new Error('missing_sections_or_periods');
-  for (const group of groups.values()) group.rows = [...new Map(group.rows.map((row) => [row.row_key, row])).values()];
+  for (const [key, group] of groups) {
+    // A response can contain several revisions; the envelope is evidence, not revision identity.
+    const content = [...new Map(identityRows.get(key)!.map((row) => [hash(row),row])).entries()]
+      .sort(([a],[b]) => a < b ? -1 : a > b ? 1 : 0).map(([,row]) => row);
+    group.content_hash = hash({ sourceSlug: config.sourceSlug, periodStart: group.period_start,
+      periodEnd: group.period_end, publishedAt: group.published_at, content });
+    group.rows = [...new Map(group.rows.map((row) => [row.row_key, row])).values()];
+  }
   return [...groups.values()].sort((a, b) => a.period_end.localeCompare(b.period_end) || a.published_at.localeCompare(b.published_at));
 }
