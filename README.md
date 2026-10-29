@@ -2,6 +2,12 @@
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
+## v1.6.0 implementation (staged, not released)
+
+Virtual Pantry records explicit Yes/No availability with optional quantity, location, unit, and date. It supports custom ingredients, private guest use, explicit account import, and revision-checked account sync. Recipes and shopping needs use boolean availability; quantity and dates never deduct or limit coverage. Buying or cooking does not change inventory. Staples have fixed USD recipe-use estimates; missing prices remain explicit.
+
+The production version remains v1.5.2 below. New behavior is behind `PANTRYBOT_PANTRY_ENABLED=false` by default. Before enabling it, install both additive pantry migrations, verify fresh-session and second-device account persistence in staging, and complete the release workflow. See the [implementation and rollout plan](docs/specs/v1.6.0-implementation-plan.md) and [Virtual Pantry guide](docs/wiki/Virtual-Pantry.md).
+
 ## Key Features (`v1.5.2`)
 
 * **Public Data Explorer & Score Transparency:** Explore stored USDA and store price history, inspect score arithmetic and ingredient groupings, and download raw source JSON or filtered CSV. Available through **Explore the data** in the footer; see the [explorer guide](docs/data-explorer.md).

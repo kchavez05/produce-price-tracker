@@ -33,9 +33,24 @@ export interface PantryCatalogIngredient {
 
 export interface PantryRequirement {
   ingredientId: string;
+  /** Used only for retained, unmapped recipe text; never implies an identity match. */
+  displayName?: string;
   quantity: number;
   unit: string;
   optional?: boolean;
+}
+
+export interface PantryShoppingNeed extends PantryRequirement {
+  ingredientName: string;
+  estimatedCost: number | null;
+  priceBasis: 'STATIC_ESTIMATE' | 'UNPRICED';
+}
+
+export interface PantryCoverage {
+  requiredCount: number;
+  availableRequiredCount: number;
+  optionalCount: number;
+  availableOptionalCount: number;
 }
 
 /** A future endpoint must take ownership from its session, never this body. */

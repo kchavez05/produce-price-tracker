@@ -346,6 +346,7 @@ export async function resolveCityStateFromZip(zipCode: string): Promise<string> 
 }
 
 export async function buildDashboardPayload(options?: {
+  pantryMode?: boolean;
   archiveHistory?: boolean;
   zipCode?: string;
   storeFilter?: 'ALL' | StoreChain;
@@ -419,6 +420,7 @@ export async function buildDashboardPayload(options?: {
       freezerIngredientIds,
       savedRecipes: options?.savedRecipes,
       now: observedAt,
+      pantryMode: options?.pantryMode ?? process.env.PANTRYBOT_PANTRY_ENABLED === 'true',
     }
   );
 

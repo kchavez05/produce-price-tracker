@@ -69,6 +69,11 @@ export function availableRecipeIngredientIds(entries: readonly PantryEntry[]): s
   }))];
 }
 
+export function availablePantryIngredientIds(entries: readonly PantryEntry[]): string[] {
+  return [...new Set([...availableRecipeIngredientIds(entries), ...entries.flatMap((entry) =>
+    entry.available && !entry.deletedAtIso && entry.ingredientId && pantryCatalog.has(entry.ingredientId) ? [entry.ingredientId] : [])])];
+}
+
 export function searchPantryCatalog(query: string) {
   const normalized = normalizePantryName(query);
   if (!normalized) return [];

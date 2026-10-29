@@ -66,3 +66,7 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 ## v1.4.1 release candidate
 
 Current planning cycles, verified live prices, explicit estimates and refresh audit status are documented in [weekly refresh operations](../weekly-refresh.md). See [v1.4.1 release notes](../releases/v1.4.1.md) for the complete scope, including the previously reviewed account and cloud-sync fixes.
+
+## Staged Virtual Pantry implementation
+
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.

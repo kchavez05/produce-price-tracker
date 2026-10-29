@@ -64,3 +64,7 @@ Using longitudinal SQLite price history (`sixWeekLow`, `sixWeekHigh`, `sixWeekMe
 
 * **Universal N-Store Basket Engine:** Evaluates all active stores (`Kroger`, `Safeway`, `ALDI`, `Walmart`, `Target`, `Sprouts`) to rank 1-stop shopping trips and compute the optimal $\binom{N}{2}$ **Best 2-Store Split**.
 * **1-Tap Curbside Cart Bridge (`src/lib/cart-exporter.ts`):** Generates deep search URLs for Walmart Grocery, Target Drive Up, localized Kroger & Albertsons banners, Sprouts, ALDI, and Instacart, plus aisle-categorized Apple Notes / Google Keep checklists and a printable kitchen slip.
+
+## Staged Virtual Pantry implementation
+
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.

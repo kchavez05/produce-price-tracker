@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
             <p className="mt-2">
               PantryBot works 100% out-of-the-box in anonymous Guest Mode without
               requiring an account. If you choose to sign in via Single Sign-On
-              (Google or Apple) to synchronize your Virtual Freezer and meal-prep
+              (Google or Apple) to synchronize your Virtual Pantry and meal-prep
               preferences across devices, we collect only the absolute minimum data
               necessary to operate your account.
             </p>
@@ -81,7 +81,7 @@ export default function PrivacyPolicyPage() {
                 <span>Row-Level Security</span>
               </div>
               <p className="mt-1.5 text-xs text-slate-600">
-                Your Virtual Freezer and store preferences are isolated at the
+                Your Virtual Pantry and store preferences are isolated at the
                 PostgreSQL engine level via <code>auth.uid() = user_id</code>.
               </p>
             </div>
@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Grocery &amp; Meal-Prep Preferences:</strong> Your selected
                 5-digit US ZIP code (used solely to query regional supermarket
                 circulars), preferred supermarket chains, macro/dietary targets,
-                cooking vessel preferences, and Virtual Freezer inventory items.
+                cooking vessel preferences, and Virtual Pantry inventory items.
               </li>
               <li>
                 <strong>Anonymous Guest Mode Data:</strong> If you use PantryBot
@@ -164,7 +164,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Right to Data Portability:</strong> Click{' '}
                 <em>&ldquo;Export My Grocery Data&rdquo;</em> to immediately
                 download a complete, machine-readable <code>.json</code> archive of
-                your profile, preferences, Virtual Freezer inventory, and saved
+                your profile, preferences, Virtual Pantry inventory, and saved
                 recipes.
               </li>
               <li>

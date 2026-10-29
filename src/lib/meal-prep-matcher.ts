@@ -1,5 +1,9 @@
 import { MEAL_PREP_BLUEPRINTS } from '@/data/meal-prep-blueprints';
 import { currentAdCycle } from '@/lib/offer-freshness';
+import { selectRecipeStaples } from '@/data/recipe-staples';
+import { applyPantryToRecipe, recipePantryRequirements } from '@/lib/pantry/recipe';
+import { evaluatePantryRequirementsByIds } from '@/lib/pantry/requirements';
+import { pantryCatalog } from '@/lib/pantry/model';
 import { CookingVesselArchetype, DietaryConstraint, MacroGoal, MatchedSlotIngredient, NutritionMacros, RecommendedDish, ScoredCommodity } from '@/types/domain';
 
 /**
@@ -20,11 +24,13 @@ export function rankMealPrepDishes(
     freezerIngredientIds?: string[];
     savedRecipes?: RecommendedDish[];
     now?: Date;
+    pantryMode?: boolean;
   }
 ): {
   recommendedTrio: RecommendedDish[];
   allRankedDishes: RecommendedDish[];
 } {
+  if (!Number.isFinite(targetServings) || targetServings <= 0) targetServings = 6;
   const commodityMap = new Map<string, ScoredCommodity>();
   for (const sc of scoredCommodities) {
     commodityMap.set(sc.ingredient.id, sc);
@@ -33,11 +39,11 @@ export function rankMealPrepDishes(
   const macroGoal: MacroGoal = options?.macroGoal || 'ANY';
   const dietaryConstraints: DietaryConstraint[] = options?.dietaryConstraints || [];
   const applianceFilter: CookingVesselArchetype = options?.applianceFilter || 'ANY';
-  const freezerSet = new Set(options?.freezerIngredientIds || []);
+  const freezerSet = new Set(options?.pantryMode ? [] : options?.freezerIngredientIds || []);
   const pinnedSet = new Set(pinnedIngredientIds);
   const onHandSet = new Set([
-    ...onHandIngredientIds,
-    ...(options?.freezerIngredientIds || []),
+    ...(options?.pantryMode ? onHandIngredientIds.filter((id) => pantryCatalog.has(id)) : onHandIngredientIds),
+    ...(options?.pantryMode ? [] : options?.freezerIngredientIds || []),
   ]);
 
   const savedDishesRaw = options?.savedRecipes || [];
@@ -46,6 +52,7 @@ export function rankMealPrepDishes(
   const evaluated: RecommendedDish[] = [];
 
   for (const blueprint of MEAL_PREP_BLUEPRINTS) {
+    if (options?.pantryMode && dietaryConstraints.includes('NUT_FREE') && !blueprint.dietaryTags?.includes('NUT_FREE')) continue;
     // Check strict dietary constraint compatibility (Ticket #22)
     const needsPescatarian = dietaryConstraints.includes('VEGETARIAN_PESCATARIAN');
     const needsDairyFree = dietaryConstraints.includes('DAIRY_FREE');
@@ -83,6 +90,7 @@ export function rankMealPrepDishes(
     let onHandHits = 0;
     let poweredByFreezerCount = 0;
     const adaptationNotes: string[] = [];
+    const missingRequirements = [];
 
     for (const slot of blueprint.slots) {
       // If DAIRY_FREE is requested and this is a dairy topper/finish slot, omit it cleanly
@@ -113,7 +121,12 @@ export function rankMealPrepDishes(
         .map((id) => commodityMap.get(id))
         .filter((c): c is ScoredCommodity => Boolean(c));
 
-      if (candidates.length === 0) continue;
+      if (candidates.length === 0) {
+        if (options?.pantryMode) missingRequirements.push({ ingredientId: `unmapped:${blueprint.id}:${slot.slotKey}`,
+          displayName: slot.label, quantity: Number((slot.quantityRequired * scaleFactor).toFixed(2)), unit: '',
+          ...(slot.optional ? { optional: true } : {}) });
+        continue;
+      }
 
       // Sort candidates: Pinned first, then On-Hand in Freezer/Pantry ($0 marginal cost), then highest valueScore
       candidates.sort((a, b) => {
@@ -143,7 +156,7 @@ export function rankMealPrepDishes(
       // Ticket #8 & #21: If item is already On-Hand in Virtual Freezer/Pantry, marginal out-of-pocket cost is $0.00!
       const slotCost = isOnHand ? 0 : rawSlotCost;
       const regularSlotCost = Number(
-        (chosen.bestOffer.regularPricePerUnit * scaledQty).toFixed(2)
+        (options?.pantryMode && isOnHand ? 0 : chosen.bestOffer.regularPricePerUnit * scaledQty).toFixed(2)
       );
 
       storeIngredientCost += slotCost;
@@ -157,7 +170,7 @@ export function rankMealPrepDishes(
         quantityUsed: scaledQty,
         unit: chosen.ingredient.standardUnit,
         store: chosen.bestOffer.store,
-        rawDealText: fromVirtualFreezer
+        rawDealText: options?.pantryMode && isOnHand ? 'Already have' : fromVirtualFreezer
           ? `❄️ From Virtual Freezer ($0 out-of-pocket • Banked val $${rawSlotCost.toFixed(2)})`
           : isOnHand
             ? `❄️ In Freezer/Pantry ($0 out-of-pocket • Store val $${rawSlotCost.toFixed(2)})`
@@ -170,6 +183,7 @@ export function rankMealPrepDishes(
         isUserPinned,
         isOnHand,
         fromVirtualFreezer,
+        ...(slot.optional ? { optional: true } : {}),
       });
     }
 
@@ -209,9 +223,9 @@ export function rankMealPrepDishes(
       macroBadges.push('🥛 Dairy-Free');
     }
 
-    const scaledPantryCost = Number(
-      (blueprint.estimatedPantryCost * scaleFactor).toFixed(2)
-    );
+    const pantryRequirements = options?.pantryMode ? selectRecipeStaples(blueprint.id, [...onHandSet], targetServings, dietaryConstraints, pinnedIngredientIds).concat(missingRequirements) : undefined;
+    const stapleEstimate = pantryRequirements ? evaluatePantryRequirementsByIds(pantryRequirements, [...onHandSet]) : null;
+    const scaledPantryCost = stapleEstimate?.estimatedAdditionalCost ?? Number((blueprint.estimatedPantryCost * scaleFactor).toFixed(2));
     const totalBatchCost = Number(
       (storeIngredientCost + scaledPantryCost).toFixed(2)
     );
@@ -227,7 +241,7 @@ export function rankMealPrepDishes(
       matchedIngredients.length > 0 ? scoreSum / matchedIngredients.length : 50;
     const costEfficiencyBonus = Math.max(0, (3.25 - costPerServing) * 14);
     const pinnedBonus = pinnedHits * 25;
-    const onHandBonus = onHandHits * 30;
+    const onHandBonus = (onHandHits + (stapleEstimate?.availableRequiredCount ?? 0)) * 30;
 
     let profileBonus = 0;
     if (macroGoal === 'HIGH_PROTEIN' && adjustedMacros.proteinGrams >= 40) {
@@ -253,7 +267,7 @@ export function rankMealPrepDishes(
         profileBonus
     );
 
-    evaluated.push({
+    const dish: RecommendedDish = {
       id: blueprint.id,
       title: blueprint.title,
       subtitle: blueprint.subtitle,
@@ -266,8 +280,8 @@ export function rankMealPrepDishes(
       freezerFriendly: blueprint.freezerFriendly,
       flavorProfile: blueprint.flavorProfile,
       macrosPerServing: adjustedMacros,
-      dietaryTags: Array.from(activeDietaryTags),
-      macroBadges,
+      dietaryTags: Array.from(activeDietaryTags).filter((tag) => tag !== 'GLUTEN_FREE' || !pantryRequirements?.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
+      macroBadges: macroBadges.filter((badge) => badge !== '🌾 Gluten-Free' || !pantryRequirements?.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
       adaptationNote:
         adaptationNotes.length > 0 ? adaptationNotes.join(' • ') : undefined,
       matchedIngredients,
@@ -283,14 +297,23 @@ export function rankMealPrepDishes(
       aiGenerated: false,
       savedInLibrary: savedIdsSet.has(blueprint.id),
       poweredByFreezerCount,
-    });
+    };
+    evaluated.push(options?.pantryMode ? applyPantryToRecipe(dish, [...onHandSet], scoredCommodities, pantryRequirements) : dish);
   }
 
   // Merge any custom AI-generated recipes saved into SQLite (Ticket #10)
   for (const saved of savedDishesRaw) {
+    if (options?.pantryMode && (dietaryConstraints.some((constraint) => !saved.dietaryTags?.includes(constraint)) ||
+      (applianceFilter !== 'ANY' && saved.vesselArchetype !== applianceFilter))) continue;
     if (!evaluated.some((e) => e.id === saved.id)) {
+      const scaled = options?.pantryMode && Number.isFinite(saved.servings) && saved.servings > 0 ? targetServings / saved.servings : 1;
+      const current = options?.pantryMode ? applyPantryToRecipe({ ...saved, servings: targetServings,
+        matchedIngredients: (Array.isArray(saved.matchedIngredients) ? saved.matchedIngredients : []).map((ingredient) => ({ ...ingredient, quantityUsed: ingredient.quantityUsed * scaled })),
+        pantryRequirements: recipePantryRequirements(saved).map((requirement) => ({ ...requirement, quantity: requirement.quantity * scaled })),
+        pantryStaples: [],
+      }, [...onHandSet], scoredCommodities) : saved;
       evaluated.push({
-        ...saved,
+        ...current,
         savedInLibrary: true,
       });
     }

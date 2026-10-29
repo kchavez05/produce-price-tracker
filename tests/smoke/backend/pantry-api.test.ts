@@ -1,4 +1,10 @@
 import { cookieJar } from 'tests/support/cookies';
+import { readProfilePantryAvailability } from '@/lib/pantry/server';
+import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
+import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
+import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
+import { createMockCommodity } from 'tests/test-utils';
+import { loadInventoryState } from '@/lib/supabase/session';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NextRequest } from 'next/server';
 import { GET, POST } from '@/app/api/pantry/route';
@@ -97,6 +103,17 @@ describe('private pantry API in keyless mode', () => {
       expect((await POST(req({ owner: 'account:alice', action: 'mutate', mutation: { mutationId: 'persist', entryId: 'oil', expectedRevision: 0, operation: 'put', entry: { displayName: 'Olive oil', ingredientId: 'olive-oil', available: true } } }))).status).toBe(200);
       resetSqliteTestInstance(); cookieJar.clear();
       cookieJar.set(LOCAL_SESSION_COOKIE_NAME, createLocalSession('alice'));
+      expect((await read()).entries).toMatchObject([{ id: 'oil', available: true, revision: 1 }]);
+      const inventory = await loadInventoryState();
+      const available = await readProfilePantryAvailability(inventory.profile);
+      expect(available).toEqual(['olive-oil']);
+      const commodities = CANONICAL_INGREDIENTS.map((ingredient) => createMockCommodity({ ingredient }));
+      const dishes = rankMealPrepDishes(commodities, [], available, 6, { pantryMode: true }).allRankedDishes;
+      const dish = dishes.find((item) => item.pantryRequirements?.some((requirement) => requirement.ingredientId === 'olive-oil'))!;
+      expect(dish.pantryCoverage!.availableRequiredCount).toBeGreaterThan(0);
+      const shopping = buildShoppingListAndStoreComparison([dish], commodities, available);
+      expect(shopping.pantryNeeds.some((need) => need.ingredientId === 'olive-oil')).toBe(false);
+      // Planning and shopping are read-only; the quantity-free entry is intact.
       expect((await read()).entries).toMatchObject([{ id: 'oil', available: true, revision: 1 }]);
     } finally { resetSqliteTestInstance(); rmSync(directory, { recursive: true, force: true }); }
   });

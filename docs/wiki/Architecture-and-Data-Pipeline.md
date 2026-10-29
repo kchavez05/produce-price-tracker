@@ -86,3 +86,7 @@ Every `StoreOffer` is classified into one of four redemption mechanics so the sh
 * `MULTI_BUY`: Requires purchasing a minimum quantity (e.g., *Must buy 3 to get $1.77/ea*).
 * `SHELF_OR_MEMBER`: Automatically applied with a loyalty card or phone number at checkout.
 * `EVERYDAY_LOW`: Zero-coupon Everyday Low Price (EDLP) at ALDI or Walmart.
+
+## Staged Virtual Pantry implementation
+
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.
