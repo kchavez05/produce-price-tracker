@@ -47,6 +47,10 @@ export default function PriceHistory({
       Math.min(weekly.get(point.date) ?? Infinity, point.price)
     );
   const stats = summarize([...weekly.values()]);
+  const benchmarkOnly = local.length === 0 && visible.length > 0;
+  const cardStats = benchmarkOnly
+    ? summarize(visible.map((point) => point.price))
+    : stats;
   const max = Math.max(...visible.map((p) => p.price), 1) * 1.15;
   const rangeStart = Math.min(
     Date.parse(start),
@@ -224,25 +228,27 @@ export default function PriceHistory({
       </div>
       <div className="ex-grid">
         <div className="ex-card">
-          <span className="ex-eyebrow">Lowest observed</span>
-          <p className="ex-stat">{money(stats?.min ?? null)}</p>
-          <p className="ex-note">Across visible stores in this window</p>
+          <span className="ex-eyebrow">{benchmarkOnly ? 'Lowest USDA benchmark' : 'Lowest observed'}</span>
+          <p className="ex-stat">{money(cardStats?.min ?? null)}</p>
+          <p className="ex-note">{benchmarkOnly ? 'National advertised retail · no local store observations' : 'Across visible stores in this window'}</p>
         </div>
         <div className="ex-card">
-          <span className="ex-eyebrow">Weekly mean / median</span>
+          <span className="ex-eyebrow">{benchmarkOnly ? 'USDA mean / median' : 'Weekly mean / median'}</span>
           <p className="ex-stat">
-            {money(stats?.mean ?? null)}{' '}
+            {money(cardStats?.mean ?? null)}{' '}
             <span style={{ fontSize: 16 }}>
-              / {money(stats?.median ?? null)}
+              / {money(cardStats?.median ?? null)}
             </span>
           </p>
           <p className="ex-note">
-            Best observed store price each week · {weekly.size} weeks
+            {benchmarkOnly
+              ? `Visible USDA period benchmarks · ${visible.length} observations`
+              : `Best observed store price each week · ${weekly.size} weeks`}
           </p>
         </div>
         <div className="ex-card">
-          <span className="ex-eyebrow">Highest observed weekly best</span>
-          <p className="ex-stat">{money(stats?.max ?? null)}</p>
+          <span className="ex-eyebrow">{benchmarkOnly ? 'Highest USDA benchmark' : 'Highest observed weekly best'}</span>
+          <p className="ex-stat">{money(cardStats?.max ?? null)}</p>
           <p className="ex-note">
             Missing weeks are excluded, never counted as zero
           </p>
