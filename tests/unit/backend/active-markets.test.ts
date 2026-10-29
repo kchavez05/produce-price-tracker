@@ -20,9 +20,9 @@ describe('active market scheduler', () => {
   expect((await db.query<{due:boolean}>("select next_refresh_at > now()+interval '2 days' as due from active_markets")).rows[0].due).toBe(true);
  });
  it('bounds admission and stops collecting expired markets', async () => {
-  await db.exec("insert into active_markets(zip_code) select lpad(i::text,5,'0') from generate_series(1,99) i");
+  await db.exec("insert into active_markets(zip_code) select lpad(i::text,5,'0') from generate_series(1,8) i");
   await db.query("select request_active_market('99999')");
-  expect((await db.query<{count:number}>('select count(*)::int as count from active_markets')).rows[0].count).toBe(100);
+  expect((await db.query<{count:number}>('select count(*)::int as count from active_markets')).rows[0].count).toBe(9);
   const batch = (await db.query<{claims:{zip_code:string;lease_id:string}[]}>("select claim_active_markets('',999) as claims")).rows[0].claims;
   expect(batch).toHaveLength(3);
   await db.query('select finish_active_market($1,$2,false)',[batch[0].zip_code,batch[0].lease_id]);

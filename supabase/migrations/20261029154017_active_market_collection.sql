@@ -20,7 +20,7 @@ begin
  -- Serialize admission to keep the initial global collection budget bounded.
  perform pg_advisory_xact_lock(541501);
  if exists(select 1 from active_markets where zip_code=p_zip and last_requested_at > now()-interval '30 days')
- or (select count(*) from active_markets where last_requested_at > now()-interval '30 days') < 100 then
+ or (select count(*) from active_markets where last_requested_at > now()-interval '30 days') < 9 then
    insert into active_markets(zip_code) values(p_zip)
    on conflict(zip_code) do update set last_requested_at=now()
    where active_markets.last_requested_at < now()-interval '1 hour';

@@ -3,7 +3,7 @@
   "crons": [
     {
       "path": "/api/cron/active-markets",
-      "schedule": "15 * * * *"
+      "schedule": "15 13 * * *"
     },
     {
       "path": "/api/cron/weekly-sync?cycle=wednesday_ad_drop",

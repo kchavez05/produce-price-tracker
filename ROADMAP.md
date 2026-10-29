@@ -8,7 +8,7 @@ Delivered a public data explorer with price charts and weekly patterns, exact sc
 
 ## v1.5.2 — Data clarity and active-market collection
 
-Track requested ZIPs in a shared, server-only registry. Archive a first due dashboard refresh, then collect active markets in bounded scheduled batches. Initial budget: 100 active ZIPs, active for 30 days after use, refresh every three days, three claims per hourly worker invocation. Failed collections retry after one hour; leases prevent duplicate work and recover interrupted jobs. No credentials retains offline behavior. Activate the migration and schedule through reviewed release changes.
+Track requested ZIPs in a shared, server-only registry. Archive a first due dashboard refresh, then collect active markets in bounded scheduled batches. Initial budget: nine active ZIPs, active for 30 days after use, refresh every three days, three claims per daily worker invocation. Failed collections become eligible after one hour; leases prevent duplicate work and recover interrupted jobs. No credentials retains offline behavior. Activate the migration and schedule through reviewed release changes.
 
 ## Future — Nationwide local-price coverage
 
