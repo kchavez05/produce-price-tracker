@@ -604,5 +604,6 @@ export interface UserDataExportArchive {
   preferences: UserPreferences;
   virtualFreezerInventory: FreezerItem[];
   savedMealPrepRecipes: RecommendedDish[];
+  virtualPantry?: import('@/lib/pantry/migration').PantryMigrationSnapshot;
 }
 

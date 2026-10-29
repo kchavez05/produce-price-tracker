@@ -44,3 +44,7 @@ export type PantryMutation = {
   entryId: string;
   expectedRevision: number;
 } & ({ operation: 'put'; entry: PantryEntryInput } | { operation: 'delete' });
+
+export type PantryMutationResult =
+  | { status: 'applied'; mutationId: string; entry: PantryEntry }
+  | { status: 'conflict'; mutationId: string; reason: 'revision' | 'identity'; current: PantryEntry | null };

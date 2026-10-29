@@ -4,6 +4,7 @@ import {
   persistUserSyncState,
 } from '@/lib/supabase/session';
 import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
+import { PantryError } from '@/lib/pantry/mutations';
 import {
   FreezerItem,
   RecommendedDish,
@@ -106,6 +107,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(updated);
   } catch (error) {
+    if (error instanceof PantryError) return NextResponse.json({ error: error.message, code: error.code }, { status: error.status });
     console.error('Error persisting user sync state:', error);
     return NextResponse.json(
       { error: 'Failed to sync user preferences' },
