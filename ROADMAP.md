@@ -6,7 +6,7 @@ This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to 
 
 Delivered a public data explorer with price charts and weekly patterns, exact score explanations, ingredient grouping rationale, and a first-class raw-data view with source JSON and filtered exports. See the [approved specification](docs/specs/data-explorer-and-score-transparency.md). Policy decisions and operational constraints are recorded in the [explorer guide](docs/data-explorer.md).
 
-## Next — Active-market collection
+## v1.5.2 — Data clarity and active-market collection
 
 Track requested ZIPs in a shared, server-only registry. Archive a first due dashboard refresh, then collect active markets in bounded scheduled batches. Initial budget: 100 active ZIPs, active for 30 days after use, refresh every three days, three claims per hourly worker invocation. Failed collections retry after one hour; leases prevent duplicate work and recover interrupted jobs. No credentials retains offline behavior. Activate the migration and schedule through reviewed release changes.
 

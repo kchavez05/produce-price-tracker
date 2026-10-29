@@ -5,6 +5,15 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - 2026-10-29
+
+- Show package sizes and original prices in raw data; preserve source conditions and calculation context.
+- Summarize explicitly labeled USDA period benchmarks when no local chart series is visible.
+- Explain canonical ingredient scope, grouping decisions, exclusions, and limitations.
+- Provide a labeled hypothetical score calculator and benchmark when retained local offers are absent.
+- Track requested ZIP markets with bounded scheduled collection, retryable failures, and fenced leases.
+- Prevent Mead-default Kroger prices from being attributed to unrelated ZIPs; add nationwide collection to the roadmap.
+
 ## [1.5.1] - 2026-10-28
 
 ### Added
