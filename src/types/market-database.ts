@@ -155,6 +155,7 @@ export interface MarketDatabase { public: { Tables: {
 "claim_usda_run": { Args: { p_cycle: string; p_trigger: string; p_reason: string; }; Returns: string };
 "finish_usda_run": { Args: { p_run: string; p_status: string; p_requests: number; p_outcomes: Json; }; Returns: undefined };
 "publish_usda_report": { Args: { p_run: string; p_report: Json; p_rows: Json; }; Returns: string };
+"read_data_explorer": { Args: { p_zip: string; p_ingredient: string; p_start: string; p_end: string; p_asof: string; }; Returns: Json };
 "read_market_history": { Args: { p_zip: string; p_start: string; p_end: string; }; Returns: Json };
 "read_usda_benchmarks": { Args: Record<string, never>; Returns: Json };
 "read_usda_history": { Args: { p_start: string; p_end: string; }; Returns: Json };

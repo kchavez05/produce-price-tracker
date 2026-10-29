@@ -1,3 +1,35 @@
+const explorerParameters = [
+  { name: 'ingredient', in: 'query', schema: { type: 'string', default: 'yellow-white-onions' } },
+  { name: 'zip', in: 'query', schema: { type: 'string', pattern: '^[0-9]{5}$', default: '80542' } },
+  { name: 'start', in: 'query', schema: { type: 'string', format: 'date' }, description: 'Inclusive start; at most 83 days before end.' },
+  { name: 'end', in: 'query', schema: { type: 'string', format: 'date' }, description: 'Inclusive end, no later than today in America/Denver.' },
+  { name: 'stores', in: 'query', schema: { type: 'string' }, description: 'Comma-separated supported store IDs.' },
+  { name: 'source', in: 'query', schema: { type: 'string', enum: ['', 'USDA', 'FLIPP_LIVE', 'KROGER_API'] } },
+  { name: 'region', in: 'query', schema: { type: 'string', enum: ['', 'NATIONAL', 'MOUNTAIN'] } },
+  { name: 'mode', in: 'query', schema: { type: 'string', enum: ['verified', 'demo'], default: 'verified' } },
+  { name: 'asof', in: 'query', schema: { type: 'string', format: 'date-time' }, description: 'Snapshot cutoff returned by history; expires after 24 hours.' },
+  { name: 'snapshot', in: 'query', schema: { type: 'string' }, description: 'History fingerprint. Changed data returns 409 rather than inconsistent paging.' },
+] as const;
+const explorerRowParameters = [
+  ...explorerParameters,
+  { name: 'dataset', in: 'query', schema: { type: 'string', enum: ['normalized', 'original', 'offers', 'calculated'], default: 'normalized' } },
+  { name: 'status', in: 'query', schema: { type: 'string', enum: ['accepted', 'all', 'superseded', 'quarantined', 'unmapped'], default: 'accepted' } },
+  { name: 'version', in: 'query', schema: { type: 'string', format: 'uuid' } },
+  { name: 'search', in: 'query', schema: { type: 'string', maxLength: 100 } },
+  { name: 'variety', in: 'query', schema: { type: 'string', maxLength: 100 } },
+  { name: 'row', in: 'query', schema: { type: 'string' }, description: 'Exact contributing record ID.' },
+  { name: 'sort', in: 'query', schema: { type: 'string', enum: ['date', 'price', 'source', 'variety', 'store', 'status'], default: 'date' } },
+  { name: 'direction', in: 'query', schema: { type: 'string', enum: ['asc', 'desc'], default: 'desc' } },
+  { name: 'page', in: 'query', schema: { type: 'integer', minimum: 0 }, description: 'Zero-based page; 100 rows per page. Exports include every matching page.' },
+] as const;
+const explorerErrors = {
+  '400': { description: 'Invalid filters or expired snapshot.' },
+  '409': { description: 'Snapshot changed; reload history.' },
+  '413': { description: 'Export exceeds 10,000 rows or report exceeds the 4 MB source cap.' },
+  '429': { description: 'Rate limited; Retry-After is provided.' },
+  '503': { description: 'Configured archive is unavailable; no synthetic substitution.' },
+} as const;
+
 /**
  * PantryBot OpenAPI 3.1.0 Specification
  * High-density weekend meal-prep optimization, multi-vendor supermarket circular deals,
@@ -9,7 +41,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
   openapi: '3.1.0',
   info: {
     title: 'PantryBot API',
-    version: '1.5.0',
+    version: '1.5.1',
     description:
       'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages virtual freezer protein arbitrage, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
@@ -34,6 +66,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     },
   ],
   tags: [
+    { name: 'Data Explorer', description: 'Public read-only market history, raw rows, source reports, grouping rationale, and score transparency.' },
     {
       name: 'Dashboard & Deals',
       description:
@@ -76,6 +109,24 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     },
   ],
   paths: {
+    '/api/data/history': { get: { tags: ['Data Explorer'], operationId: 'getDataHistory', summary: 'Read stored all-store and USDA price series',
+      description: 'Read only; no upstream requests or archive writes. Returns mode, asof, snapshot, coverage, reports, and points with contributing IDs. National USDA retail benchmarks are distinct from local advertisements.',
+      parameters: explorerParameters, responses: { '200': { description: 'History, coverage, and provenance.' }, ...explorerErrors } } },
+    '/api/data/rows': { get: { tags: ['Data Explorer'], operationId: 'getDataRows', summary: 'Inspect source, normalized, archived-offer, or calculated rows',
+      description: 'Original dataset selects one report and shows every retained market row in its period, including unmapped commodities. Other datasets select an ingredient. Original prices retain source units. Unknown source fields are omitted from the public projection.',
+      parameters: explorerRowParameters, responses: { '200': { description: 'Rows, total, page, pageSize, mode, asof, snapshot, selectedVersion, and dataset note.' }, ...explorerErrors } } },
+    '/api/data/export': { get: { tags: ['Data Explorer'], operationId: 'exportDataRows', summary: 'Download all filtered rows as CSV',
+      description: 'Same filters and ordering as rows, across all pages. Maximum 10,000 rows; never silently truncates. X-Export-Metadata contains URL-encoded JSON with filters, snapshot, units, mode, attribution, and revision policy. Text formulas are neutralized.',
+      parameters: explorerRowParameters, responses: { '200': { description: 'CSV attachment and encoded metadata header.', content: { 'text/csv': { schema: { type: 'string' } } } }, ...explorerErrors } } },
+    '/api/data/report': { get: { tags: ['Data Explorer'], operationId: 'getStoredDataReport', summary: 'Inspect a preserved USDA report version',
+      description: 'Sanitized public JSON projection of audited source market fields, including unmapped rows. Not the byte-original API response. Reads one immutable stored version; never calls USDA. Attribution: U.S. Department of Agriculture.',
+      parameters: [{ name: 'version', in: 'query', required: true, schema: { type: 'string', format: 'uuid' } }, { name: 'download', in: 'query', schema: { type: 'string', enum: ['0', '1'] } }],
+      responses: { '200': { description: 'Stored report metadata and sanitized source envelope.' }, '404': { description: 'Report unavailable.' }, ...explorerErrors } } },
+    '/api/data/catalog': { get: { tags: ['Data Explorer'], operationId: 'getDataCatalog', summary: 'Read ingredient definitions, grouping rationale, mappings, and conversions',
+      responses: { '200': { description: 'Public catalog with editorial and USDA mapping versions.' }, '429': explorerErrors['429'] } } },
+    '/api/data/score': { get: { tags: ['Data Explorer'], operationId: 'explainStoredScore', summary: 'Explain the latest retained offer score',
+      description: 'Uses shared dashboard scoring code over the latest archived offer cycle in the last six weeks, current usable stored benchmarks, and today’s policy. Dates and source filters do not change score policy. May differ from unarchived dashboard offers; not a historically recorded score.',
+      parameters: explorerParameters, responses: { '200': { description: 'Score trace (or null), policy inputs, context, mode, and evaluation time.' }, ...explorerErrors } } },
     '/api/dashboard': {
       get: {
         tags: ['Dashboard & Deals'],

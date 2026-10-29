@@ -11,7 +11,7 @@ const publish = (r: string, value = report(), observations = rows) => db.query<{
 beforeAll(async () => {
   db = new PGlite();
   await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
-  for(const file of readdirSync('supabase/migrations').filter((name)=>/_usda_(market_history|revision_acceptance)\.sql$/.test(name)).sort()) {
+  for(const file of readdirSync('supabase/migrations').filter((name)=>/_(usda_market_history|usda_revision_acceptance|data_explorer)\.sql$/.test(name)).sort()) {
     await db.exec(readFileSync(`supabase/migrations/${file}`,'utf8'));
   }
   today = (await db.query<{ day: string }>("select current_date::text as day")).rows[0].day;
@@ -96,6 +96,20 @@ describe('market history database guarantees', () => {
     const raw=await db.query<{validation:string}>("select validation from public.usda_report_versions where content_hash=$1",['9'.repeat(64)]);
     expect(raw.rows[0].validation).toBe('quarantined');
     expect((await publish(backfill,value)).rows[0].result).toBe('unchanged');
+  });
+  it('exposes a bounded read-only explorer snapshot without operational or personal fields', async()=>{
+    const legacy=(await db.query<{id:string}>("select id from public.usda_report_versions where validation='usable' and period_end=$1 limit 1",[today])).rows[0].id;
+    await db.query('delete from public.usda_version_acceptances where version_id=$1',[legacy]);
+    const asof=(await db.query<{clock:string}>("select clock_timestamp()::text as clock")).rows[0].clock;
+    const result=await db.query<{data:{reports:Record<string,unknown>[];observations:Record<string,unknown>[];offers:Record<string,unknown>[]}}>(
+      'select public.read_data_explorer($1,$2,$3,$3,$4) as data',['80542','ground-beef-80-20',today,asof]);
+    const data=result.rows[0].data;expect(data.reports.length).toBeGreaterThan(0);expect(data.observations.length).toBeGreaterThan(0);expect(data.offers).toHaveLength(2);
+    expect(data.reports.every(r=>!('payload' in r)&&!('run_id' in r))).toBe(true);
+    expect(data.reports.find(r=>r.id===legacy)?.accepted).toBe(true);
+    expect(data.reports.some(r=>r.validation==='quarantined' && r.accepted===false)).toBe(true);
+    const snapshotBefore=(await db.query<{clock:string}>("select (clock_timestamp()-interval '2 days')::text as clock")).rows[0].clock;
+    await expect(db.query('select public.read_data_explorer($1,$2,$3,$3,$4)',['80542','ground-beef-80-20',today,snapshotBefore])).rejects.toThrow('explorer_invalid_window');
+    await expect(db.query("select public.read_data_explorer('80542','test',date '2026-01-01',date '2026-10-28',now())")).rejects.toThrow('explorer_invalid_window');
   });
   it('limits history read windows', async () => {
     await expect(db.query("select public.read_market_history('80542',date '2026-01-01',date '2026-10-28')")).rejects.toThrow('history_window_limit');

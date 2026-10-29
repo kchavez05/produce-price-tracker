@@ -1,9 +1,11 @@
 # PantryBot Wiki
 
+> v1.5.1: The public [Data Explorer](https://pantrybot.dev/data) connects stored price history, exact score arithmetic, ingredient grouping rationale, raw source rows, and CSV/JSON exports. See the [explorer guide](../data-explorer.md) and [release notes](../releases/v1.5.1.md). Production uses stored verified data; previews without server database credentials use labeled demonstration data.
+
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
 
 
-Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.3.0`, live at [pantrybot.dev](https://pantrybot.dev)).
+Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.5.1`, live at [pantrybot.dev](https://pantrybot.dev)).
 
 ## Purpose
 
@@ -31,6 +33,8 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Milestones (`v0.1` PoC through `v1.3` User Accounts & Cloud Sync, and upcoming `v1.5+` native mobile tickets).
 6. **[Release Notes (`docs/releases/`)](../releases/)**
+   * **[v1.5.1 — Data Explorer & Score Transparency](../releases/v1.5.1.md)**
+   * **[v1.5.0 — Weekly USDA and Durable Market History](../releases/v1.5.0.md)**
    * **[v1.4.0 — Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console](../releases/v1.4.0.md)**
    * **[v1.3.1 — 3-Tier CI Test Automation & Branch Quality Gates](../releases/v1.3.1.md)**
    * **[v1.3.0 — User Accounts, Cloud Sync & Legal Foundation](../releases/v1.3.0.md)**

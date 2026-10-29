@@ -24,7 +24,7 @@ export default function AppFooter() {
             </span>
             <span className="hidden rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 border border-emerald-200 md:inline-flex items-center gap-1">
               <ShieldCheck className="h-3 w-3 text-emerald-600" />
-              v1.5 Weekly Data &amp; Cloud History
+              v1.5.1 Data Explorer &amp; Score Transparency
             </span>
           </div>
 
@@ -46,6 +46,13 @@ export default function AppFooter() {
             >
               <FileText className="h-3.5 w-3.5 text-slate-400" />
               <span>Terms &amp; Conditions</span>
+            </Link>
+            <Link
+              href="/data"
+              className="inline-flex items-center gap-1 hover:text-emerald-700 hover:underline transition"
+            >
+              <BookOpen className="h-3.5 w-3.5 text-slate-400" />
+              <span>Explore the data</span>
             </Link>
             <Link
               href="/docs"
