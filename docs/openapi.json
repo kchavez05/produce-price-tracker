@@ -27,6 +27,10 @@
   ],
   "tags": [
     {
+      "name": "Virtual Pantry",
+      "description": "Staged private boolean inventory with revision-checked writes. Disabled until PANTRYBOT_PANTRY_ENABLED=true and the additive storage migration is installed."
+    },
+    {
       "name": "Data Explorer",
       "description": "Public read-only market history, raw rows, source reports, grouping rationale, and score transparency."
     },
@@ -64,6 +68,146 @@
     }
   ],
   "paths": {
+    "/api/pantry": {
+      "get": {
+        "tags": [
+          "Virtual Pantry"
+        ],
+        "operationId": "getPrivatePantry",
+        "summary": "Read the current private pantry and legacy migration source",
+        "description": "Feature gated. Uses the verified account session or mints a private guest cookie. Never migrates automatically. All responses are private/no-store. Tombstones are included for conflict detection. Before migration, legacySource is a preview; after migration it is the preserved source archive.",
+        "responses": {
+          "200": {
+            "description": "Owner-scoped inventory snapshot.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PantrySnapshot"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No private session could be established."
+          },
+          "429": {
+            "description": "Rate limited; Retry-After is provided."
+          },
+          "503": {
+            "description": "Feature disabled or storage unavailable; no cached cloud success."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Virtual Pantry"
+        ],
+        "operationId": "writePrivatePantry",
+        "summary": "Explicitly migrate legacy inventory or apply one pantry mutation",
+        "description": "Feature gated, same-origin only, maximum request size 8192 characters. The owner field fences replay after an account switch; it is never authentication. Migration archives and converts only this session’s existing legacy data, atomically and once. It does not import guest data into an account. Mutations require migration first. Idempotency IDs acknowledge identical retries; a changed payload must use a new ID. Stale revisions or identity collisions return 409 with the current value/tombstone. Keep the edit pending and request an explicit user choice before retrying with a fresh ID and revision. Deleted identities stay reserved. No quantity arithmetic or automatic recipe/purchase deductions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "owner",
+                      "action"
+                    ],
+                    "properties": {
+                      "owner": {
+                        "type": "string",
+                        "pattern": "^(account|guest):.+"
+                      },
+                      "action": {
+                        "const": "migrate"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "owner",
+                      "action",
+                      "mutation"
+                    ],
+                    "properties": {
+                      "owner": {
+                        "type": "string",
+                        "pattern": "^(account|guest):.+"
+                      },
+                      "action": {
+                        "const": "mutate"
+                      },
+                      "mutation": {
+                        "$ref": "#/components/schemas/PantryMutation"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Migration snapshot or acknowledged entry mutation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PantrySnapshot"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PantryApplied"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request, entry, revision, or calendar date."
+          },
+          "401": {
+            "description": "Private session unavailable."
+          },
+          "403": {
+            "description": "Forbidden cross-origin mutation."
+          },
+          "409": {
+            "description": "Revision/identity conflict (PantryConflict), owner_changed, migration_required, legacy_changed, or mutation_id_reused. Errors carry code/error; retain pending edits.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PantryConflict"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request exceeds 8192 characters."
+          },
+          "429": {
+            "description": "Rate limited; Retry-After is provided."
+          },
+          "503": {
+            "description": "Feature disabled or storage unavailable; retry without losing pending changes."
+          }
+        }
+      }
+    },
     "/api/data/history": {
       "get": {
         "tags": [
@@ -1115,7 +1259,7 @@
           "Virtual Freezer"
         ],
         "summary": "Bank or add an item to the virtual freezer",
-        "description": "Saves or merges an ingredient purchase into virtual freezer inventory with weighted average cost basis and multi-week arbitrage tracking.",
+        "description": "Legacy contract. Saves or merges a purchase record for owners who have not migrated. Migrated owners receive 426 pantry_upgrade_required and must use /api/pantry; legacy quantities cannot overwrite boolean availability.",
         "operationId": "upsertFreezerItem",
         "requestBody": {
           "required": true,
@@ -1180,6 +1324,9 @@
                 }
               }
             }
+          },
+          "426": {
+            "description": "pantry_upgrade_required: this owner migrated; reload and use /api/pantry."
           },
           "429": {
             "description": "Rate limit exceeded for freezer mutations",
@@ -1294,6 +1441,9 @@
               }
             }
           },
+          "426": {
+            "description": "pantry_upgrade_required: quantity writes cannot overwrite migrated pantry availability."
+          },
           "429": {
             "description": "Rate limit exceeded",
             "content": {
@@ -1380,6 +1530,9 @@
                 }
               }
             }
+          },
+          "426": {
+            "description": "pantry_upgrade_required: delete the entry through /api/pantry with its latest revision."
           },
           "429": {
             "description": "Rate limit exceeded",
@@ -1849,6 +2002,9 @@
           "409": {
             "description": "Queued update belongs to a different account"
           },
+          "426": {
+            "description": "pantry_upgrade_required: migrated owners must update inventory through /api/pantry; unrelated preferences and saved recipes remain supported."
+          },
           "429": {
             "description": "Rate limit exceeded for cloud sync updates",
             "content": {
@@ -2315,6 +2471,258 @@
       }
     },
     "schemas": {
+      "PantryEntryInput": {
+        "type": "object",
+        "required": [
+          "displayName",
+          "available"
+        ],
+        "properties": {
+          "ingredientId": {
+            "type": "string",
+            "description": "Optional explicit catalog identity. Omit for a private custom ingredient."
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Explicit presence, independent of optional quantity and date."
+          },
+          "location": {
+            "type": "string",
+            "enum": [
+              "PANTRY",
+              "FRIDGE",
+              "FREEZER"
+            ]
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Finite optional context; zero never changes availability."
+          },
+          "unit": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "useByDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Valid calendar date YYYY-MM-DD, with no timezone conversion."
+          }
+        }
+      },
+      "PantryEntry": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PantryEntryInput"
+          },
+          {
+            "type": "object",
+            "required": [
+              "id",
+              "revision",
+              "updatedAtIso"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "maxLength": 1024
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "updatedAtIso": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "deletedAtIso": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "PantryMutation": {
+        "type": "object",
+        "required": [
+          "mutationId",
+          "entryId",
+          "expectedRevision",
+          "operation"
+        ],
+        "properties": {
+          "mutationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "entryId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740990,
+            "description": "Zero creates a new entry; existing entries including tombstones require their latest revision."
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "put",
+              "delete"
+            ]
+          },
+          "entry": {
+            "$ref": "#/components/schemas/PantryEntryInput"
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "operation": {
+                "const": "put"
+              }
+            },
+            "required": [
+              "entry"
+            ]
+          },
+          {
+            "properties": {
+              "operation": {
+                "const": "delete"
+              }
+            }
+          }
+        ]
+      },
+      "PantrySnapshot": {
+        "type": "object",
+        "required": [
+          "owner",
+          "entries",
+          "legacySource",
+          "needsCatalogMatch"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string",
+            "pattern": "^(account|guest):.+"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PantryEntry"
+            }
+          },
+          "legacyMigrationVersion": {
+            "type": "integer",
+            "const": 1,
+            "description": "Absent until migration completes."
+          },
+          "needsCatalogMatch": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "legacySource": {
+            "type": "object",
+            "required": [
+              "owner",
+              "freezerItems",
+              "onHandIngredientIds"
+            ],
+            "properties": {
+              "owner": {
+                "type": "string"
+              },
+              "freezerItems": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FreezerItem"
+                }
+              },
+              "onHandIngredientIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "PantryApplied": {
+        "type": "object",
+        "required": [
+          "owner",
+          "status",
+          "mutationId",
+          "entry"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string"
+          },
+          "status": {
+            "const": "applied"
+          },
+          "mutationId": {
+            "type": "string"
+          },
+          "entry": {
+            "$ref": "#/components/schemas/PantryEntry"
+          }
+        }
+      },
+      "PantryConflict": {
+        "type": "object",
+        "required": [
+          "owner",
+          "status",
+          "mutationId",
+          "reason",
+          "current"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string"
+          },
+          "status": {
+            "const": "conflict"
+          },
+          "mutationId": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "revision",
+              "identity"
+            ]
+          },
+          "current": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PantryEntry"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "properties": {
@@ -3423,6 +3831,10 @@
             "items": {
               "$ref": "#/components/schemas/RecommendedDish"
             }
+          },
+          "virtualPantry": {
+            "$ref": "#/components/schemas/PantrySnapshot",
+            "description": "Additive private pantry data and original legacy archive, included after migration."
           }
         },
         "required": [
