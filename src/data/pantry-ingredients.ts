@@ -40,6 +40,7 @@ export const PANTRY_INGREDIENTS: readonly PantryCatalogIngredient[] = [
   staple('tomato-paste', 'Tomato paste', 'tbsp', 0.15),
   staple('crushed-tomatoes-canned', 'Canned crushed tomatoes', 'oz', 0.06),
   staple('worcestershire-sauce', 'Worcestershire sauce', 'tbsp', 0.18),
+  staple('worcestershire-sauce-gluten-free', 'Gluten-free Worcestershire sauce', 'tbsp', 0.18),
   staple('coconut-aminos', 'Coconut aminos', 'tbsp', 0.30),
   staple('apple-cider-vinegar', 'Apple cider vinegar', 'tbsp', 0.06),
   staple('dijon-mustard', 'Dijon mustard', 'tbsp', 0.12),

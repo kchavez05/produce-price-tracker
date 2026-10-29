@@ -228,12 +228,14 @@ export function formatShoppingListForClipboard(options: {
     tripMode === 'SPLIT'
       ? tripComparison.bestTwoStoreSplit?.total ?? tripComparison.optimalSplitTotal
       : tripComparison.storeTotals?.[tripMode] ?? tripComparison.bestSingleStoreTotal;
+  const pantryMode = activeTrio.some((dish) => Array.isArray(dish.pantryRequirements));
 
   lines.push(`🛒 PANTRYBOT WEEKEND SHOPPING CHECKLIST`);
   lines.push(`📍 ${cityLabel} (${zipCode}) • Strategy: ${modeLabel}`);
-  lines.push(
-    `💰 Est. Total: $${activeTotal.toFixed(2)} (Reg $${tripComparison.regularShelfTotal.toFixed(2)} — Save $${Math.max(0, tripComparison.regularShelfTotal - activeTotal).toFixed(2)})`
-  );
+  if (pantryMode) {
+    lines.push(`Estimated additional grocery cost: $${activeTotal.toFixed(2)}${tripComparison.additionalCostEstimateComplete === false ? ' known subtotal — plus unpriced ingredients' : ''}`);
+    lines.push('Assumes ingredients marked Yes are on hand. Pantry staples use fixed estimates, not observed store prices.');
+  } else lines.push(`💰 Est. Total: $${activeTotal.toFixed(2)} (Reg $${tripComparison.regularShelfTotal.toFixed(2)} — Save $${Math.max(0, tripComparison.regularShelfTotal - activeTotal).toFixed(2)})`);
   lines.push('');
 
   lines.push(`🍲 3-DISH WEEKEND MEAL PREP TRIO:`);
@@ -285,7 +287,7 @@ export function formatShoppingListForClipboard(options: {
 
   const onHandItems = items.filter((i) => i.isOnHand);
   if (onHandItems.length > 0) {
-    lines.push(`❄️ PULL FROM VIRTUAL FREEZER / PANTRY ($0.00 OUT-OF-POCKET):`);
+    lines.push(pantryMode ? 'ALREADY HAVE (omitted from shopping needs):' : `❄️ PULL FROM VIRTUAL FREEZER / PANTRY ($0.00 OUT-OF-POCKET):`);
     for (const item of onHandItems) {
       lines.push(
         `- [x] ${item.ingredientName} (${item.totalQuantityNeeded} ${item.unit} — Already On-Hand)`
@@ -296,7 +298,8 @@ export function formatShoppingListForClipboard(options: {
 
   if (pantryChecklist.length > 0) {
     lines.push(
-      `🧂 PANTRY & SPICE CABINET CHECK (Est. $${tripComparison.estimatedPantryTotal.toFixed(2)}):`
+      pantryMode ? `STAPLES TO BUY (fixed estimates: $${tripComparison.estimatedPantryTotal.toFixed(2)}):`
+        : `🧂 PANTRY & SPICE CABINET CHECK (Est. $${tripComparison.estimatedPantryTotal.toFixed(2)}):`
     );
     for (const p of pantryChecklist) {
       const box = checkedItems[`pantry-${p}`] ? '[x]' : '[ ]';

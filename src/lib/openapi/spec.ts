@@ -33,7 +33,7 @@ const explorerErrors = {
 /**
  * PantryBot OpenAPI 3.1.0 Specification
  * High-density weekend meal-prep optimization, multi-vendor supermarket circular deals,
- * wholesale club bulk price normalization, virtual freezer protein arbitrage,
+ * wholesale club bulk price normalization, Virtual Pantry availability,
  * and cross-device cloud synchronization REST API.
  */
 
@@ -43,7 +43,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     title: 'PantryBot API',
     version: '1.5.2',
     description:
-      'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages virtual freezer protein arbitrage, and provides cross-device cloud synchronization with PostgreSQL RLS.',
+      'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages Virtual Pantry availability, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
     contact: {
       name: 'PantryBot Developer Team',
@@ -79,9 +79,9 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         'Supported supermarket ecosystems, local banner names, and store metadata by ZIP code',
     },
     {
-      name: 'Virtual Freezer',
+      name: 'Legacy Inventory',
       description:
-        'Persistent virtual freezer inventory, multi-week protein arbitrage, and automated $0.00 meal substitutions',
+        'Legacy purchase/quantity records retained for compatibility and migration. Migrated owners must use Virtual Pantry; unsupported legacy writes return 426.',
     },
     {
       name: 'Saved Recipes',
@@ -344,7 +344,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     },
     '/api/freezer': {
       get: {
-        tags: ['Virtual Freezer'],
+        tags: ['Legacy Inventory'],
         summary: 'Get virtual freezer inventory',
         description:
           'Retrieves banked freezer items for the active user session or private guest session.',
@@ -378,7 +378,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         },
       },
       post: {
-        tags: ['Virtual Freezer'],
+        tags: ['Legacy Inventory'],
         summary: 'Bank or add an item to the virtual freezer',
         description:
           'Legacy contract. Saves or merges a purchase record for owners who have not migrated. Migrated owners receive 426 pantry_upgrade_required and must use /api/pantry; legacy quantities cannot overwrite boolean availability.',
@@ -458,7 +458,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         },
       },
       patch: {
-        tags: ['Virtual Freezer'],
+        tags: ['Legacy Inventory'],
         summary: 'Update freezer item quantity',
         description:
           'Modifies remaining quantity in lbs or dozens, recalculating cost basis and estimated savings.',
@@ -538,7 +538,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         },
       },
       delete: {
-        tags: ['Virtual Freezer'],
+        tags: ['Legacy Inventory'],
         summary: 'Remove item from virtual freezer',
         description: 'Deletes a virtual freezer item by ID.',
         operationId: 'deleteFreezerItem',
@@ -1431,6 +1431,12 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           'isUserPinned',
         ],
       },
+      PantryRequirement: {
+        type: 'object', properties: {
+          ingredientId: { type: 'string' }, displayName: { type: 'string' },
+          quantity: { type: 'number', minimum: 0 }, unit: { type: 'string' }, optional: { type: 'boolean' },
+        }, required: ['ingredientId', 'quantity', 'unit'],
+      },
       RecommendedDish: {
         type: 'object',
         properties: {
@@ -1465,7 +1471,14 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             items: { type: 'string' },
             example: ['Beef broth', 'Olive oil', 'Salt & pepper'],
           },
-          estimatedPantryCost: { type: 'number', example: 2.5 },
+          pantryRequirements: { type: 'array', items: { $ref: '#/components/schemas/PantryRequirement' }, description: 'Explicit batch-use staple requirements in staged pantry mode; legacy free text remains unpriced.' },
+          pantryCoverage: { type: 'object', properties: {
+            requiredCount: { type: 'integer' }, availableRequiredCount: { type: 'integer' },
+            optionalCount: { type: 'integer' }, availableOptionalCount: { type: 'integer' },
+          } },
+          additionalCostEstimateComplete: { type: 'boolean', description: 'False means totals are known subtotals plus unpriced ingredients.' },
+          missingPriceIngredientIds: { type: 'array', items: { type: 'string' } },
+          estimatedPantryCost: { type: 'number', example: 2.5, description: 'Fixed USD recipe-use estimate for uncovered required staples in pantry mode; never an observed store offer.' },
           totalBatchCost: { type: 'number', example: 14.85 },
           regularBatchCost: { type: 'number', example: 23.4 },
           totalBatchSavings: { type: 'number', example: 8.55 },

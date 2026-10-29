@@ -1,11 +1,13 @@
 'use client';
 
+import { formatPantryRequirement } from '@/lib/pantry/recipe';
+
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
 
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { usePantry } from '@/hooks/usePantry';
-import { availableRecipeIngredientIds, pantryCatalog } from '@/lib/pantry/model';
+import { availablePantryIngredientIds, pantryCatalog } from '@/lib/pantry/model';
 import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import {
@@ -213,10 +215,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
   // Combine manual onHandIds + any canonicalIngredientId currently in Virtual Freezer
   const effectiveOnHandIds = useMemo(() => {
-    if (pantryEnabled) return [...new Set([
-      ...availableRecipeIngredientIds(pantry.entries),
-      ...pantry.entries.flatMap((entry) => entry.available && !entry.deletedAtIso && entry.ingredientId && pantryCatalog.has(entry.ingredientId) ? [entry.ingredientId] : []),
-    ])];
+    if (pantryEnabled) return availablePantryIngredientIds(pantry.entries);
     const set = new Set<string>(onHandIds);
     for (const f of freezerItems) {
       if (f.quantityLbOrDoz > 0) {
@@ -233,6 +232,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     if (!pantryEnabled) return serverData;
     const ranked = rankMealPrepDishes(serverData.commodities, pinnedIds, effectiveOnHandIds, targetServings, {
       macroGoal, dietaryConstraints, applianceFilter,
+      pantryMode: true,
       savedRecipes: savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest) ? savedLibrary.recipes : [],
       now: new Date(serverData.lastUpdatedIso || Date.now()),
     });
@@ -1041,7 +1041,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
         data.commodities,
         effectiveOnHandIds,
         data.zipCode || currentZip,
-        activeStores
+        activeStores,
+        pantryEnabled,
       ),
     [
       activeTrio,
@@ -1050,6 +1051,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       data.zipCode,
       currentZip,
       activeStores,
+      pantryEnabled,
     ]
   );
 
@@ -2053,7 +2055,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 <ListChecks className="h-4 w-4" />
                 <span>3. Shopping List &amp; Cart Bridge</span>
                 <span className="rounded-full bg-black/15 px-1.5 py-0.5 text-[11px]">
-                  {shoppingPlan.items.length} items
+                  {shoppingPlan.items.length + shoppingPlan.pantryNeeds.length} items
                 </span>
               </button>
 
@@ -2076,7 +2078,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                   {pinnedIds.length > 0 && `${pinnedIds.length} Pinned`}
                   {pinnedIds.length > 0 && effectiveOnHandIds.length > 0 && ' • '}
                   {effectiveOnHandIds.length > 0 &&
-                    `${effectiveOnHandIds.length} In Freezer/Pantry ($0)`}
+                    (pantryEnabled ? `${effectiveOnHandIds.length} marked available` : `${effectiveOnHandIds.length} In Freezer/Pantry ($0)`)}
                 </span>
                 <button
                   onClick={() => setActiveTab('MEAL_PLAN')}
@@ -2579,7 +2581,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
                         <button
                           onClick={() => handleToggleOnHand(ingredient.id)}
-                          title="Mark as already in your Virtual Freezer/Pantry ($0 out-of-pocket cost)"
+                          title={pantryEnabled ? 'Update explicit pantry availability' : 'Mark as already in your Virtual Freezer/Pantry ($0 out-of-pocket cost)'}
                           className={`flex items-center justify-center gap-1 rounded-xl border px-2.5 py-2 text-xs font-bold transition ${
                             isOnHand
                               ? 'border-sky-500 bg-sky-600 text-white shadow-xs'
@@ -2588,7 +2590,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                         >
                           <Snowflake className="h-3.5 w-3.5" />
                           <span>
-                            {inVirtualFreezer
+                            {pantryEnabled ? (isOnHand ? 'Already have' : 'Not marked available') : inVirtualFreezer
                               ? 'In Freezer ($0)'
                               : isOnHand
                                 ? 'On-Hand ($0)'
@@ -2639,7 +2641,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     Your 3-Dish Weekend Meal Prep Plan ({trioTotals.totalServings} Total Meals)
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
-                    Optimized around this week&apos;s lowest $/lb anchors in {data.cityLabel}, tailored to your Macro &amp; Dietary profile, and powered by $0 Virtual Freezer inventory.
+                    {pantryEnabled ? `Recipes in ${data.cityLabel} reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple prices are fixed recipe-use estimates, not package checkout prices.` : `Optimized around this week's lowest $/lb anchors in ${data.cityLabel}, tailored to your Macro & Dietary profile, and powered by $0 Virtual Freezer inventory.`}
                     {' '}The strongest value match stays; two recipe slots rotate each Wednesday when enough recipes fit your profile. Planning cycle: {data.adCycleLabel}.
                   </p>
 
@@ -2677,7 +2679,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
                 <div className="grid grid-cols-3 gap-3 rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-xs sm:min-w-[360px]">
                   <div>
-                    <div className="text-[11px] text-slate-300 uppercase">Cost / Serving</div>
+                    <div className="text-[11px] text-slate-300 uppercase">{pantryEnabled ? 'Additional / Serving' : 'Cost / Serving'}</div>
                     <div className="text-xl font-black text-emerald-300">
                       ${trioTotals.avgPerServing}
                     </div>
@@ -2687,7 +2689,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                   </div>
                   <div className="border-x border-white/15 px-2">
                     <div className="text-[11px] text-slate-300 uppercase">
-                      3-Dish Out-of-Pocket
+                      {pantryEnabled ? 'Estimated additional grocery cost' : '3-Dish Out-of-Pocket'}
                     </div>
                     <div className="text-xl font-black text-white">
                       ${trioTotals.totalBatchCost}
@@ -2697,15 +2699,16 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     </div>
                   </div>
                   <div>
-                    <div className="text-[11px] text-amber-300 uppercase">Total Saved</div>
+                    <div className="text-[11px] text-amber-300 uppercase">{pantryEnabled ? 'Price difference' : 'Total Saved'}</div>
                     <div className="text-xl font-black text-amber-300">
                       ${trioTotals.totalSavings}
                     </div>
-                    <div className="text-[10px] text-emerald-200">promos + freezer</div>
+                    <div className="text-[10px] text-emerald-200">{pantryEnabled ? 'purchase prices only' : 'promos + freezer'}</div>
                   </div>
                 </div>
               </div>
 
+              {pantryEnabled && activeTrio.some((dish) => dish.additionalCostEstimateComplete === false) && <p className="mt-3 text-sm text-amber-200">Known subtotal only — additional ingredients have no price.</p>}
               {/* v1.2 Ticket #22: Dietary Preferences, Macro Goals & Cooking Vessel Archetype Bar */}
               <div className="mt-4 rounded-xl border border-white/15 bg-black/25 p-3.5 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2918,7 +2921,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                                 Freezer Friendly
                               </span>
                             )}
-                            {hasFreezerPower && (
+                            {!pantryEnabled && hasFreezerPower && (
                               <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2.5 py-0.5 text-xs font-bold text-white">
                                 <Snowflake className="h-3.5 w-3.5" />
                                 Powered by Virtual Freezer ($0 Stock)
@@ -2995,7 +2998,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                           <div className="flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-right">
                             <div>
                               <div className="text-[11px] font-semibold text-emerald-800 uppercase">
-                                Per Serving ({dish.servings} srv)
+                                {pantryEnabled ? 'Additional / Serving' : 'Per Serving'} ({dish.servings} srv)
                               </div>
                               <div className="text-2xl font-black text-emerald-700">
                                 ${dish.costPerServing.toFixed(2)}
@@ -3003,13 +3006,13 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                             </div>
                             <div className="border-l border-emerald-200 pl-3 text-xs text-slate-600">
                               <div>
-                                Batch:{' '}
+                                {pantryEnabled ? 'Additional batch estimate:' : 'Batch:'}{' '}
                                 <strong className="text-slate-900">
                                   ${dish.totalBatchCost.toFixed(2)}
                                 </strong>
                               </div>
                               <div className="text-emerald-700 font-semibold">
-                                Save ${dish.totalBatchSavings.toFixed(2)}
+                                {pantryEnabled ? 'Price difference' : 'Save'} ${dish.totalBatchSavings.toFixed(2)}
                               </div>
                             </div>
                           </div>
@@ -3018,8 +3021,13 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     </div>
 
                     <div className="p-4 sm:p-5">
+                      {pantryEnabled && dish.pantryCoverage && <p className="mb-3 text-sm font-semibold text-sky-900">
+                        You have {dish.pantryCoverage.availableRequiredCount} of {dish.pantryCoverage.requiredCount} required ingredients.
+                        {dish.pantryCoverage.optionalCount > 0 && ` Optional: ${dish.pantryCoverage.availableOptionalCount} of ${dish.pantryCoverage.optionalCount} available.`}
+                        {dish.additionalCostEstimateComplete === false && ' Known subtotal only — additional ingredients have no price.'}
+                      </p>}
                       <h4 className="mb-2.5 text-xs font-bold tracking-wider text-slate-500 uppercase">
-                        On-Sale Store Ingredients Used in This Batch ({dish.servings} Servings)
+                        {pantryEnabled ? 'Recipe ingredients' : 'On-Sale Store Ingredients Used in This Batch'} ({dish.servings} Servings)
                       </h4>
                       <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
                         {dish.matchedIngredients.map((ing, i) => (
@@ -3040,7 +3048,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                               {ing.isOnHand ? (
                                 <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-[11px] font-bold text-white">
                                   <Snowflake className="h-3 w-3" />{' '}
-                                  {ing.fromVirtualFreezer
+                                  {pantryEnabled ? 'Already have' : ing.fromVirtualFreezer
                                     ? 'Virtual Freezer ($0)'
                                     : 'In Freezer/Pantry'}
                                 </span>
@@ -3053,14 +3061,14 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                             </div>
                             <div className="mt-1 flex items-baseline justify-between">
                               <span className="text-slate-600">
-                                Need:{' '}
+                                {pantryEnabled ? (ing.isOnHand ? 'Recipe uses:' : ing.optional ? 'Optional:' : 'Need to buy:') : 'Need:'}{' '}
                                 <strong>
                                   {ing.quantityUsed} {ing.unit}
                                 </strong>{' '}
-                                (@ ${ing.unitCost.toFixed(2)}/{ing.unit})
+                                {(!pantryEnabled || !ing.isOnHand) && <> (@ ${ing.unitCost.toFixed(2)}/{ing.unit})</>}
                               </span>
                               <span className="text-sm font-extrabold text-emerald-700">
-                                ${ing.slotCost.toFixed(2)}
+                                {pantryEnabled && ing.isOnHand ? 'Covered' : `$${ing.slotCost.toFixed(2)}`}
                               </span>
                             </div>
                             <div className="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
@@ -3078,9 +3086,9 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
                         <div className="text-xs text-slate-600">
                           <strong className="text-slate-800">
-                            Pantry Staples (+${dish.estimatedPantryCost.toFixed(2)}):
+                            {pantryEnabled ? 'Staples (fixed additional estimate)' : 'Pantry Staples'} (+${dish.estimatedPantryCost.toFixed(2)}):
                           </strong>{' '}
-                          {dish.pantryStaples.join(' • ')}
+                          {pantryEnabled ? (dish.pantryRequirements ?? []).map((requirement) => `${formatPantryRequirement(requirement)} — ${effectiveOnHandIds.includes(requirement.ingredientId) ? 'Already have' : requirement.optional ? 'Optional' : 'Need to buy'}`).join(' • ') : dish.pantryStaples.join(' • ')}
                         </div>
                         <button
                           onClick={() =>
@@ -3178,6 +3186,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                       </div>
                       <button
                         onClick={() => {
+                          customAiOwner.current = pantry.owner;
+                          customAiContext.current = mealContextSignature;
                           setCustomAiDishes([
                             dish,
                             ...activeTrio.filter((d) => d.id !== dish.id).slice(0, 2),
@@ -3215,6 +3225,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
                     {shoppingPlan.tripComparison.recommendationDetail}
+                    {pantryEnabled && ' Estimated additional grocery cost assumes marked ingredients are on hand. Staple prices are fixed estimates, separate from store offers.'}
+                    {pantryEnabled && shoppingPlan.tripComparison.additionalCostEstimateComplete === false && ' Known subtotal only — plus ingredients with no price.'}
                   </p>
                 </div>
 
@@ -3278,7 +3290,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 {/* Ranked 1-Stop Store Leaderboard (v1.1) */}
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                    Ranked 1-Stop Trips (All {shoppingPlan.items.length} Ingredients at 1 Store)
+                    Ranked 1-Stop Trips ({shoppingPlan.items.length} priced market ingredients; staples estimated separately)
                   </div>
                   <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                     {(shoppingPlan.tripComparison.singleStoreRankings || []).map(
@@ -3590,7 +3602,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                 <div>
                   <h3 className="text-base font-extrabold text-slate-900 sm:text-lg">
-                    Deduplicated 3-Dish Shopping List ({resolvedShoppingItems.length} Unique Store Staples)
+                    Deduplicated 3-Dish Shopping List ({resolvedShoppingItems.length + shoppingPlan.pantryNeeds.length} Ingredients to Buy)
                   </h3>
                   <p className="text-xs text-slate-500">
                     Overlapping ingredients across your 3 batch dishes are automatically combined. Click any 1-tap curbside link to open the item directly in Walmart, Target, Kroger, or Instacart.
@@ -3724,9 +3736,11 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 })}
               </div>
 
+              {pantryEnabled && <p className="mt-4 text-xs text-slate-600">Estimated additional grocery cost assumes marked ingredients are on hand. Staple costs use fixed recipe-use estimates, not observed store prices.
+                {shoppingPlan.tripComparison.additionalCostEstimateComplete === false && ' Known subtotal only — plus unpriced ingredients.'}</p>}
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                  Pantry &amp; Spice Cabinet Check (Est. $
+                  {pantryEnabled ? 'Staples to buy — fixed estimates (Est. $' : 'Pantry & Spice Cabinet Check (Est. $'}
                   {shoppingPlan.tripComparison.estimatedPantryTotal.toFixed(2)} total across 3 dishes)
                 </h4>
                 <div className="mt-2.5 flex flex-wrap gap-2">
@@ -4061,7 +4075,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 <div className="flex items-center gap-1.5 font-bold text-slate-900">
                   <Info className="h-4 w-4 text-emerald-600" />
                   <span>
-                    Market History, Virtual Freezer &amp; Store Locations
+                    {pantryEnabled ? 'Market History, Virtual Pantry & Store Locations' : 'Market History, Virtual Freezer & Store Locations'}
                   </span>
                 </div>
                 <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

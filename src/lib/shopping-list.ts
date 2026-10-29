@@ -10,17 +10,22 @@ import {
   StoreChain,
   StoreTripComparison,
 } from '@/types/domain';
+import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
+import { pantryCatalog } from '@/lib/pantry/model';
+import { formatPantryRequirement, pantryShoppingNeeds, recipePantryRequirements } from '@/lib/pantry/recipe';
 
 export function buildShoppingListAndStoreComparison(
   activeDishes: RecommendedDish[],
   commodities: ScoredCommodity[],
   onHandIngredientIds: string[] = [],
   zipCode: string = '80542',
-  activeStoresList?: StoreChain[]
+  activeStoresList?: StoreChain[],
+  pantryMode = activeDishes.some((dish) => Array.isArray(dish.pantryRequirements)),
 ): {
   items: AggregatedShoppingItem[];
   pantryChecklist: string[];
   tripComparison: StoreTripComparison;
+  pantryNeeds: PantryShoppingNeed[];
 } {
   const commodityMap = new Map<string, ScoredCommodity>();
   for (const c of commodities) {
@@ -33,7 +38,7 @@ export function buildShoppingListAndStoreComparison(
       (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
     return Boolean(offer && offer.source !== 'CURATED_FALLBACK');
   }
-  const onHandSet = new Set(onHandIngredientIds);
+  const onHandSet = new Set(pantryMode ? onHandIngredientIds.filter((id) => pantryCatalog.has(id)) : onHandIngredientIds);
 
   const activeStores: StoreChain[] =
     activeStoresList && activeStoresList.length > 0
@@ -43,15 +48,26 @@ export function buildShoppingListAndStoreComparison(
   const itemMap = new Map<string, AggregatedShoppingItem>();
   const pantrySet = new Set<string>();
   let estimatedPantryTotal = 0;
+  const requirements: PantryRequirement[] = [];
 
   for (const dish of activeDishes) {
-    estimatedPantryTotal += dish.estimatedPantryCost || 0;
-    for (const p of dish.pantryStaples || []) {
-      pantrySet.add(p);
+    if (pantryMode) {
+      requirements.push(...recipePantryRequirements(dish));
+    } else {
+      estimatedPantryTotal += dish.estimatedPantryCost || 0;
+      for (const p of dish.pantryStaples || []) pantrySet.add(p);
     }
 
     for (const slotIng of dish.matchedIngredients) {
-      const isOnHand = Boolean(slotIng.isOnHand || onHandSet.has(slotIng.ingredientId));
+      const isOnHand = pantryMode ? onHandSet.has(slotIng.ingredientId) : Boolean(slotIng.isOnHand || onHandSet.has(slotIng.ingredientId));
+      if (pantryMode && (isOnHand || slotIng.optional)) continue;
+      if (pantryMode && (!commodityMap.has(slotIng.ingredientId) || !Number.isFinite(slotIng.quantityUsed) || slotIng.quantityUsed < 0 ||
+        commodityMap.get(slotIng.ingredientId)?.ingredient.standardUnit !== slotIng.unit)) {
+        requirements.push({ ingredientId: slotIng.ingredientId, displayName: slotIng.ingredientName,
+          quantity: Number.isFinite(slotIng.quantityUsed) && slotIng.quantityUsed >= 0 ? slotIng.quantityUsed : 1,
+          unit: Number.isFinite(slotIng.quantityUsed) && slotIng.quantityUsed >= 0 ? slotIng.unit : '' });
+        continue;
+      }
       const existing = itemMap.get(slotIng.ingredientId);
 
       if (existing) {
@@ -189,6 +205,12 @@ export function buildShoppingListAndStoreComparison(
     }
   }
 
+  const pantryNeeds = pantryMode ? pantryShoppingNeeds(requirements, [...onHandSet]) : [];
+  if (pantryMode) {
+    estimatedPantryTotal = pantryNeeds.reduce((sum, need) => sum + (need.estimatedCost ?? 0), 0);
+    for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} fixed estimate`}`);
+  }
+  const missingPriceIngredientIds = [...new Set(pantryNeeds.filter((need) => need.estimatedCost === null).map((need) => need.ingredientId))];
   const items = Array.from(itemMap.values()).sort((a, b) => {
     if (a.isOnHand !== b.isOnHand) return a.isOnHand ? 1 : -1;
     const order = { PROTEIN: 0, PRODUCE: 1, DAIRY_EGGS: 2 };
@@ -319,7 +341,9 @@ export function buildShoppingListAndStoreComparison(
   return {
     items,
     pantryChecklist: Array.from(pantrySet),
+    pantryNeeds,
     tripComparison: {
+      ...(pantryMode ? { additionalCostEstimateComplete: missingPriceIngredientIds.length === 0, missingPriceIngredientIds } : {}),
       optimalSplitTotal,
       kingSoopersOnlyTotal,
       safewayOnlyTotal,

@@ -26,6 +26,7 @@ beforeAll(async () => {
     grant usage on schema auth to authenticated;`);
   await db.exec(readFileSync('supabase/migrations/20261019000000_v1_3_multi_tenant_rls_schema.sql', 'utf8'));
   await db.exec(readFileSync('supabase/migrations/20261029171953_virtual_pantry_persistence.sql', 'utf8'));
+  await db.exec(readFileSync('supabase/migrations/20261029211728_pantry_staple_catalog.sql', 'utf8'));
   await db.exec('grant select,insert,update,delete on public.users, public.user_preferences, public.user_freezer_items, public.user_saved_recipes to authenticated');
   await db.query('insert into auth.users(id,email) values($1,$3),($2,$3)', [alice, bob, 'fixture@example.test']);
 }, 20000);

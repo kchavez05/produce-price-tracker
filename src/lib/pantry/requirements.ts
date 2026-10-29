@@ -9,9 +9,14 @@ export function evaluatePantryRequirements(
   requirements: readonly PantryRequirement[],
   entries: readonly PantryEntry[],
 ) {
-  const available = new Set(entries
+  const available = entries
     .filter((entry) => entry.available && !entry.deletedAtIso && entry.ingredientId && pantryCatalog.has(entry.ingredientId))
-    .map((entry) => entry.ingredientId));
+    .flatMap((entry) => entry.ingredientId ? [entry.ingredientId] : []);
+  return evaluatePantryRequirementsByIds(requirements, available);
+}
+
+export function evaluatePantryRequirementsByIds(requirements: readonly PantryRequirement[], availableIds: readonly string[]) {
+  const available = new Set(availableIds.filter((id) => pantryCatalog.has(id)));
   const requiredIds = new Set<string>();
   const optionalIds = new Set<string>();
   const needToBuy: PantryRequirement[] = [];

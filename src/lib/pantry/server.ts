@@ -5,6 +5,7 @@ import { PantryMutation, PantryMutationResult, PantryOwner } from '@/types/pantr
 import { UserProfile } from '@/types/domain';
 import { migrateLegacyPantry, PantryMigrationSnapshot } from './migration';
 import { PantryError } from './mutations';
+import { availablePantryIngredientIds } from './model';
 
 export interface PantryContext { owner: PantryOwner; profile: UserProfile }
 
@@ -33,6 +34,15 @@ export async function pantryRpc<T>(action: string, payload: object = {}): Promis
 
 export function readPrivatePantry(context: PantryContext): Promise<PantryMigrationSnapshot> {
   return context.profile.isCloudBacked ? pantryRpc('read') : Promise.resolve(readPantryFromSqlite(context.owner));
+}
+
+/** The profile must come from the verified session, never a request body. */
+export async function readProfilePantryAvailability(profile: UserProfile | null): Promise<string[]> {
+  if (!profile) return [];
+  const owner: PantryOwner = `${profile.id.startsWith('guest-') ? 'guest' : 'account'}:${profile.id}`;
+  const snapshot = await readPrivatePantry({ owner, profile });
+  if (snapshot.owner !== owner) throw new PantryError('owner_changed', 409, 'The pantry account changed.');
+  return snapshot.legacyMigrationVersion ? availablePantryIngredientIds(snapshot.entries) : [];
 }
 
 export async function migratePrivatePantry(context: PantryContext): Promise<PantryMigrationSnapshot> {

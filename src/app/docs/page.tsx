@@ -8,7 +8,7 @@ import AppFooter from '@/components/AppFooter';
 export const metadata: Metadata = {
   title: 'API Documentation & Swagger UI | PantryBot',
   description:
-    'Interactive OpenAPI 3.1 REST API specification and Swagger testing console for PantryBot grocery deal discovery, batch meal planning, and virtual freezer arbitrage.',
+    'Interactive OpenAPI 3.1 REST API specification and Swagger testing console for PantryBot grocery deal discovery, batch meal planning, and Virtual Pantry availability.',
 };
 
 export default function ApiDocsPage() {
