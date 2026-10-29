@@ -147,6 +147,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
   const [aiBannerMessage, setAiBannerMessage] = useState<string | null>(null);
   const [customAiDishes, setCustomAiDishes] = useState<RecommendedDish[] | null>(null);
   const customAiOwner = useRef<string | null>(null);
+  const customAiContext = useRef<string>('');
 
   // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
   const [showAlertsModal, setShowAlertsModal] = useState(false);
@@ -224,6 +225,9 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     }
     return Array.from(set);
   }, [pantryEnabled, pantry.entries, onHandIds, freezerItems]);
+  const mealContextSignature = JSON.stringify({ available: [...effectiveOnHandIds].sort(), pinned: [...pinnedIds].sort(),
+    targetServings, macroGoal, dietary: [...dietaryConstraints].sort(), vessel: applianceFilter,
+    stores: [...activeStores].sort(), storeFilter, zip: currentZip });
 
   const data = useMemo(() => {
     if (!pantryEnabled) return serverData;
@@ -862,6 +866,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
   async function handleGenerateAiPlan() {
     const requestOwner = pantryOwnerRef.current;
+    const requestContext = mealContextSignature;
     setAiLoading(true);
     setAiBannerMessage(null);
     try {
@@ -886,6 +891,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
       if (result.dishes && Array.isArray(result.dishes)) {
         customAiOwner.current = requestOwner;
+        customAiContext.current = requestContext;
         setCustomAiDishes(result.dishes);
         setAiBannerMessage(result.message || 'Updated 3-dish meal prep plan!');
         if (result.dishes[0]?.id) {
@@ -1007,7 +1013,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     });
   }, [data.commodities, categoryFilter, sortMode]);
 
-  const activeTrio = (pantryEnabled && customAiOwner.current !== pantry.owner ? null : customAiDishes) || data.recommendedTrio;
+  const activeTrio = (pantryEnabled && (customAiOwner.current !== pantry.owner || customAiContext.current !== mealContextSignature)
+    ? null : customAiDishes) || data.recommendedTrio;
 
   const trioTotals = useMemo(() => {
     const totalBatchCost = activeTrio.reduce((acc, d) => acc + d.totalBatchCost, 0);
