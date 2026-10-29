@@ -14,6 +14,8 @@ Cooking onions include yellow and white varieties for cooked recipe roles; sweet
 
 ## Raw data and exports
 
+The Package / source detail column distinguishes package sizes at a glance and shows original USDA prices alongside the table's per-unit prices. Meat rows include available package sizes, grades, and fresh/frozen conditions; store offers show their advertised price and conditions. Calculated rows explain their aggregation method. Missing source details are labeled explicitly.
+
 The Raw data view is always accessible independently of charts. It offers normalized USDA observations, original USDA market rows, archived store offers, and calculated weekly results. Expand a row to inspect source fields, conversions, mapping versions, report metadata, or offer retrieval receipts. Calculated rows also include the current-policy score trace when the selected range contains the complete six-week scoring window. Historical or narrower ranges do not imply replayed scores. The score view exposes those same full inputs and outputs as JSON.
 
 Original USDA rows select one report version and include all its commodities and unmapped rows for that source period/publication, rather than hiding rows outside the selected ingredient. Full stored report JSON is lazy-loaded and downloadable as a **sanitized public projection**. It preserves audited market fields and unmapped rows, omits unknown fields and envelope internals, and is not the byte-original API response. Store data is the offer projection PantryBot retained, not a claim to have kept the upstream response.

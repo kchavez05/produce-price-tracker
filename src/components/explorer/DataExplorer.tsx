@@ -802,6 +802,7 @@ function RowsTable({ rows }: { rows: DataRow[] }) {
             <th>Period / week</th>
             <th>Source / store</th>
             <th>Variety / title</th>
+            <th>Package / source detail</th>
             <th>Price</th>
             <th>Status</th>
             <th>Source evidence</th>
@@ -825,6 +826,9 @@ function RowsTable({ rows }: { rows: DataRow[] }) {
                 ) : null}
               </td>
               <td style={{ minWidth: 170 }}>{r.variety || r.ingredient}</td>
+              <td style={{ minWidth: 190 }}>
+                <RowContext row={r} />
+              </td>
               <td className="price">
                 {money(r.price)}
                 <br />
@@ -848,6 +852,37 @@ function RowsTable({ rows }: { rows: DataRow[] }) {
         </tbody>
       </table>
     </div>
+  );
+}
+function RowContext({ row }: { row: DataRow }) {
+  const record = (value: unknown): Record<string, unknown> =>
+    value !== null && typeof value === 'object' && !Array.isArray(value)
+      ? value as Record<string, unknown>
+      : {};
+  const text = (value: unknown): string =>
+    typeof value === 'string' || typeof value === 'number' ? String(value) : '';
+  const details = row.details;
+  const original = record(details.original);
+  const payload = record(details.payload);
+  const sourceUnit = text(details.originalUnit) || text(original.size) ||
+    text(original.package) || text(original.price_unit);
+  const packageLabel = text(original.package_size) || sourceUnit;
+  const originalPrice = details.originalPrice ?? original.wtd_avg_price ?? original.price_avg;
+  const attributes = [original.quality_grade, original.condition,
+    original.organic === 'Yes' ? 'Organic' : original.organic === 'No' ? 'Conventional' : original.environment]
+    .map(text).filter((value) => value && value !== 'N/A');
+  const offerPrice = text(payload.rawPriceText);
+  const method = text(details.method) || text(details.kind);
+  return (
+    <>
+      <div>{packageLabel || offerPrice || (method ? 'Weekly calculation' : 'Not specified in source')}</div>
+      {packageLabel && typeof originalPrice === 'number' ? (
+        <div className="ex-note">Source: {money(originalPrice)} / {sourceUnit || packageLabel}</div>
+      ) : null}
+      {attributes.length ? <div className="ex-note">{attributes.join(' · ')}</div> : null}
+      {text(payload.dealConditions) ? <div className="ex-note">{text(payload.dealConditions)}</div> : null}
+      {method ? <div className="ex-note">{method}</div> : null}
+    </>
   );
 }
 function ScorePanel({
