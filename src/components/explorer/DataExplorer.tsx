@@ -1219,6 +1219,11 @@ function SourcesPanel({ data }: { data: ExplorerData | null }) {
         <div>
           <span className="ex-eyebrow">Know what you’re comparing</span>
           <h2>Sources & coverage</h2>
+          <p className="ex-note">
+            {data?.tracking
+              ? `Market tracking began ${data.tracking.first_requested_at.slice(0, 10)} · ${data.tracking.active ? 'active' : 'inactive'} · last successful collection: ${data.tracking.last_collected_at?.slice(0, 10) ?? 'none yet'}. Tracking does not guarantee an offer for every ingredient.`
+              : 'Scheduled tracking is not confirmed for this market. Open the meal-planning dashboard to request coverage; collection is subject to the active-market budget.'}
+          </p>
           <p className="ex-subtitle">
             Source dates, retrieval dates, and scoring eligibility answer
             different questions.

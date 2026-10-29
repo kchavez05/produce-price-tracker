@@ -712,7 +712,11 @@ export async function buildDashboardPayload(options?: {
   const [flippResult, usdaResult, krogerResult, cityLabel, priorLiveRefresh, marketHistory] = await Promise.all([
     fetchLiveFlippOffers(zipCode),
     readUsdaBenchmarks(),
-    fetchKrogerLiveOffers(options?.kingSoopersLocationId),
+    // The current Kroger integration has a Mead-specific default location.
+    // Never archive those prices under an unrelated requested ZIP.
+    zipCode === '80542' || options?.kingSoopersLocationId
+      ? fetchKrogerLiveOffers(options?.kingSoopersLocationId)
+      : Promise.resolve({ krogerLive: false, locations: [], selectedLocationId: '', offers: [] }),
     resolveCityStateFromZip(zipCode),
     lastSuccessfulRefresh(zipCode),
     loadMarketHistory(zipCode),
