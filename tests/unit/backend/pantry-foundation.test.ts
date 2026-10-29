@@ -3,6 +3,7 @@ import { PANTRY_INGREDIENTS } from '@/data/pantry-ingredients';
 import { availableRecipeIngredientIds, isCalendarDate, normalizePantryName, pantryIdentity, searchPantryCatalog, validatePantryEntry } from '@/lib/pantry/model';
 import { LegacyPantrySource, migrateLegacyPantry, PantryMigrationSnapshot } from '@/lib/pantry/migration';
 import { evaluatePantryRequirements } from '@/lib/pantry/requirements';
+import { validatePantryMutation } from '@/lib/pantry/mutations';
 import { FreezerItem } from '@/types/domain';
 import { PantryEntry } from '@/types/pantry';
 
@@ -116,6 +117,20 @@ describe('ownership-preserving legacy migration preparation', () => {
     const first = migrateLegacyPantry(empty, legacy, now).entries[0].id;
     expect(migrateLegacyPantry(empty, legacy, '2026-10-30T12:00:00Z').entries[0].id).toBe(first);
     expect(migrateLegacyPantry({ ...empty, owner: 'account:alice' }, { ...legacy, owner: 'account:alice' }, now).entries[0].id).not.toBe(first);
+  });
+  it('preserves a reviewed catalog link if a legacy source is imported again', () => {
+    const legacy = source({ freezerItems: [lot({ canonicalIngredientId: 'old-custom', ingredientName: 'My rice' })] });
+    const migrated = migrateLegacyPantry(empty, legacy, now);
+    const reviewed = { ...migrated, legacyMigrationVersion: undefined,
+      entries: [{ ...migrated.entries[0], ingredientId: 'basmati-rice-dry', displayName: 'Dry basmati rice', available: false, revision: 2 }] };
+    expect(migrateLegacyPantry(reviewed, legacy, now).entries).toEqual(reviewed.entries);
+  });
+  it('keeps valid long Unicode names within the persisted entry-ID limit', () => {
+    const migrated = migrateLegacyPantry(empty, source({ freezerItems: [lot({ canonicalIngredientId: 'custom-rice', ingredientName: '米'.repeat(120) })] }), now);
+    const entry = migrated.entries[0];
+    expect(entry.id.length).toBeLessThanOrEqual(1024);
+    expect(entry.displayName).toHaveLength(120);
+    expect(() => validatePantryMutation({ mutationId: 'unicode', entryId: entry.id, expectedRevision: 0, operation: 'put', entry })).not.toThrow();
   });
 });
 

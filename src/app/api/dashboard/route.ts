@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     const marketClaim = await requestMarket(zipCode);
     const payload = await buildDashboardPayload({
       archiveHistory: Boolean(marketClaim),
-      freezerInventory: inventory.freezerItems,
+      freezerInventory: process.env.PANTRYBOT_PANTRY_ENABLED === 'true' ? [] : inventory.freezerItems,
       savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter: storeParam,

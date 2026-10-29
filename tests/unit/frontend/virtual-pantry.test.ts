@@ -1,0 +1,72 @@
+// @vitest-environment jsdom
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, createElement } from 'react';
+import { createRoot, Root } from 'react-dom/client';
+import VirtualPantry from '@/components/VirtualPantry';
+import { PantryEntry } from '@/types/pantry';
+let root: Root;
+let container: HTMLDivElement;
+const save = vi.fn().mockResolvedValue(undefined);
+const saved: PantryEntry = { id: 'broth', displayName: 'Chicken broth', ingredientId: 'chicken-broth', available: false, quantity: 0, unit: 'cups', location: 'FRIDGE', useByDate: '2000-01-01', revision: 3, updatedAtIso: '' };
+const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+async function run(action: () => void) { await act(async () => { action(); await settle(); }); }
+function button(text: string) {
+  const found = [...container.querySelectorAll('button')].find((item) => item.textContent?.includes(text));
+  if (!found) throw new Error(`Missing button: ${text}`);
+  return found;
+}
+async function render(entries: PantryEntry[] = []) { await run(() => root.render(createElement(VirtualPantry, {
+  entries, status: 'Saved', error: null, guest: true, hasLegacyEdits: false, importDuplicates: [], guestEntries: [], conflicts: [],
+  onSave: save, onDelete: vi.fn(), onRetry: vi.fn(), onResolve: vi.fn(), onImportGuest: vi.fn(), onClose: vi.fn(),
+  onReviewLegacy: vi.fn().mockResolvedValue([]), onImportLegacy: vi.fn(),
+}))); }
+async function search(value: string) { await run(() => {
+  const field = container.querySelector('input[type=search]') as HTMLInputElement;
+  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(field, value);
+  field.dispatchEvent(new Event('input', { bubbles: true }));
+}); }
+beforeEach(() => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true); save.mockClear();
+  container = document.createElement('div'); document.body.append(container); root = createRoot(container);
+});
+afterEach(async () => { await run(() => root.unmount()); container.remove(); vi.unstubAllGlobals(); });
+describe('Virtual Pantry accessible controls', () => {
+  it('leaves shortcuts optional and adds a catalog ingredient without quantity or price', async () => {
+    await render();
+    expect(save).not.toHaveBeenCalled();
+    expect(container.textContent).toContain('Nothing is preselected or required.');
+    await run(() => button('Add Olive oil').click());
+    expect(save).toHaveBeenCalledWith({ ingredientId: 'olive-oil', displayName: 'Olive oil', available: true }, undefined);
+  });
+  it('re-adds a No ingredient without clearing details and exposes an explicit availability label', async () => {
+    await render([saved]);
+    expect(container.querySelector('[aria-label="Chicken broth availability"]')).toBeNull();
+    await run(() => (container.querySelector('input[type=checkbox]') as HTMLInputElement).click());
+    const availability = container.querySelector('[aria-label="Chicken broth availability"]') as HTMLSelectElement;
+    availability.focus(); expect(document.activeElement).toBe(availability);
+    expect(availability.value).toBe('false');
+    expect(container.textContent).toContain('Use by 2000-01-01');
+    await search('chicken broth');
+    await run(() => button('Add Chicken broth').click());
+    expect(save).toHaveBeenCalledWith({ ...saved, available: true }, saved.id);
+  });
+  it('adds a private custom name when search has no suitable result', async () => {
+    await render(); await search('My family spice blend');
+    expect(container.textContent).toContain('No matching ingredient.');
+    await run(() => button('Add custom ingredient:').click());
+    await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
+    expect(save).toHaveBeenCalledWith({ displayName: 'My family spice blend', available: true }, undefined);
+  });
+  it('keeps invalid optional details recoverable with inline errors', async () => {
+    await render([{ ...saved, available: true }]);
+    await run(() => button('Edit').click());
+    await run(() => {
+      const quantity = container.querySelector('input[name=quantity]') as HTMLInputElement;
+      quantity.value = '-1';
+      container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    });
+    expect(save).not.toHaveBeenCalled();
+    expect(container.querySelector('[role=alert]')?.textContent).toContain('nonnegative');
+    expect(container.querySelector('form')).not.toBeNull();
+  });
+});

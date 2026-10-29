@@ -2,7 +2,12 @@
 
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
 
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import { usePantry } from '@/hooks/usePantry';
+import { availableRecipeIngredientIds, pantryCatalog } from '@/lib/pantry/model';
+import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
+const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import {
   CommodityCategory,
   CookingVesselArchetype,
@@ -77,10 +82,14 @@ import {
 
 interface Props {
   initialData: DashboardPayload;
+  pantryEnabled?: boolean;
+  initialAccountId?: string | null;
+  initialPrivateRecipes?: RecommendedDish[];
 }
 
-export default function MealPrepDashboard({ initialData }: Props) {
-  const [data, setData] = useState<DashboardPayload>(initialData);
+export default function MealPrepDashboard({ initialData, pantryEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
+  const [serverData, setData] = useState<DashboardPayload>(initialData);
+  const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
   const [activeTab, setActiveTab] = useState<
     'BOARD' | 'MEAL_PLAN' | 'SHOPPING_LIST' | 'RADAR'
   >('BOARD');
@@ -93,13 +102,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
   // v0.4: On-Hand in Freezer/Pantry IDs (Ticket #8) & Target Servings 4/6/8 (Ticket #9)
   const [onHandIds, setOnHandIds] = useState<string[]>([]);
   const [targetServings, setTargetServings] = useState<4 | 6 | 8>(6);
-  const [savedRecipeIds, setSavedRecipeIds] = useState<Record<string, boolean>>({});
+  const [legacySavedRecipeIds, setSavedRecipeIds] = useState<Record<string, boolean>>({});
 
   // v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage state
   const [freezerItems, setFreezerItems] = useState<FreezerItem[]>(
-    () => initialData.freezerInventory || []
+    () => pantryEnabled ? [] : initialData.freezerInventory || []
   );
   const [showFreezerModal, setShowFreezerModal] = useState(false);
+  const pantryTrigger = useRef<HTMLButtonElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
   const [customFreezerIngredientId, setCustomFreezerIngredientId] = useState<string>(
     initialData.commodities[0]?.ingredient.id || 'pork-shoulder-butt'
@@ -136,6 +146,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiBannerMessage, setAiBannerMessage] = useState<string | null>(null);
   const [customAiDishes, setCustomAiDishes] = useState<RecommendedDish[] | null>(null);
+  const customAiOwner = useRef<string | null>(null);
+  const customAiContext = useRef<string>('');
 
   // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
   const [showAlertsModal, setShowAlertsModal] = useState(false);
@@ -145,9 +157,9 @@ export default function MealPrepDashboard({ initialData }: Props) {
   const [copiedDigest, setCopiedDigest] = useState(false);
 
   // Dynamic Zip Code / Location state (De-localization)
-  const [currentZip, setCurrentZip] = useState(data.zipCode || '80542');
+  const [currentZip, setCurrentZip] = useState(initialData.zipCode || '80542');
   const [showZipModal, setShowZipModal] = useState(false);
-  const [zipInput, setZipInput] = useState(data.zipCode || '80542');
+  const [zipInput, setZipInput] = useState(initialData.zipCode || '80542');
   const [zipLoading, setZipLoading] = useState(false);
   const [zipError, setZipError] = useState<string | null>(null);
 
@@ -176,12 +188,13 @@ export default function MealPrepDashboard({ initialData }: Props) {
     if (Array.isArray(prefs.pinnedIngredientIds)) {
       setPinnedIds(prefs.pinnedIngredientIds);
     }
-    if (Array.isArray(prefs.onHandIngredientIds)) {
+    if (!pantryEnabled && Array.isArray(prefs.onHandIngredientIds)) {
       setOnHandIds(prefs.onHandIngredientIds);
     }
-    setFreezerItems(payload.freezerItems || []);
+    if (!pantryEnabled) setFreezerItems(payload.freezerItems || []);
+    setSavedLibrary({ owner: `account:${payload.profile!.id}`, recipes: payload.savedRecipes || [] });
     setSavedRecipeIds(Object.fromEntries((payload.savedRecipes || []).map((dish) => [dish.id, true])));
-  }, []);
+  }, [pantryEnabled]);
 
   const userSync = useUserSync({
     onCloudStateHydrated: handleCloudHydrated,
@@ -189,9 +202,21 @@ export default function MealPrepDashboard({ initialData }: Props) {
       void syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
     },
   });
+  const pantryAccountId = userSync.lastSyncedIso !== null ? userSync.profile?.id ?? null : initialAccountId;
+  const pantry = usePantry(pantryEnabled, pantryAccountId);
+  const savedRecipeIds = pantryEnabled
+    ? savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest)
+      ? Object.fromEntries(savedLibrary.recipes.map((dish) => [dish.id, true])) : {}
+    : legacySavedRecipeIds;
+  const pantryOwnerRef = useRef(pantry.owner);
+  pantryOwnerRef.current = pantry.owner;
 
   // Combine manual onHandIds + any canonicalIngredientId currently in Virtual Freezer
   const effectiveOnHandIds = useMemo(() => {
+    if (pantryEnabled) return [...new Set([
+      ...availableRecipeIngredientIds(pantry.entries),
+      ...pantry.entries.flatMap((entry) => entry.available && !entry.deletedAtIso && entry.ingredientId && pantryCatalog.has(entry.ingredientId) ? [entry.ingredientId] : []),
+    ])];
     const set = new Set<string>(onHandIds);
     for (const f of freezerItems) {
       if (f.quantityLbOrDoz > 0) {
@@ -199,7 +224,20 @@ export default function MealPrepDashboard({ initialData }: Props) {
       }
     }
     return Array.from(set);
-  }, [onHandIds, freezerItems]);
+  }, [pantryEnabled, pantry.entries, onHandIds, freezerItems]);
+  const mealContextSignature = JSON.stringify({ available: [...effectiveOnHandIds].sort(), pinned: [...pinnedIds].sort(),
+    targetServings, macroGoal, dietary: [...dietaryConstraints].sort(), vessel: applianceFilter,
+    stores: [...activeStores].sort(), storeFilter, zip: currentZip });
+
+  const data = useMemo(() => {
+    if (!pantryEnabled) return serverData;
+    const ranked = rankMealPrepDishes(serverData.commodities, pinnedIds, effectiveOnHandIds, targetServings, {
+      macroGoal, dietaryConstraints, applianceFilter,
+      savedRecipes: savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest) ? savedLibrary.recipes : [],
+      now: new Date(serverData.lastUpdatedIso || Date.now()),
+    });
+    return { ...serverData, ...ranked, freezerInventory: [] };
+  }, [pantryEnabled, serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest]);
 
   const freezerSummary = useMemo(() => {
     const totalItems = freezerItems.length;
@@ -226,7 +264,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
       let loadedOnHandIds = onHandIds;
       const savedOnHand = localStorage.getItem('mead_on_hand_ids_v04');
-      if (savedOnHand) {
+      if (!pantryEnabled && savedOnHand) {
         const parsed = JSON.parse(savedOnHand);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setOnHandIds(parsed);
@@ -235,7 +273,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
       }
 
       const savedFreezer = localStorage.getItem('pantrybot_virtual_freezer_v12');
-      if (savedFreezer) {
+      if (!pantryEnabled && savedFreezer) {
         const parsed = JSON.parse(savedFreezer);
         if (Array.isArray(parsed) && parsed.length > 0 && freezerItems.length === 0) {
           setFreezerItems(parsed);
@@ -361,6 +399,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
     nextDietary: DietaryConstraint[] = dietaryConstraints,
     nextVessel: CookingVesselArchetype = applianceFilter
   ) {
+    const requestOwner = pantryOwnerRef.current;
     try {
       const params = new URLSearchParams({
         zip: nextZip,
@@ -376,6 +415,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
       const res = await fetch(`/api/dashboard?${params.toString()}`);
       if (res.ok) {
         const updated: DashboardPayload = await res.json();
+        if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
         setData(updated);
         setCurrentZip(updated.zipCode);
       }
@@ -404,6 +444,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
 
   // v1.2 Ticket #21: "Buy 2: Prep 1, Freeze 1" 1-Tap Arbitrage Handler
   async function handleBuyTwoPrepOneFreezeOne(item: ScoredCommodity) {
+    if (pantryEnabled) { setArbitrageToast('This is a purchase suggestion. Update Virtual Pantry explicitly when you want to record an ingredient.'); return; }
     const qty =
       item.arbitragePrompt?.recommendedFreezeQty ||
       Math.max(2.0, Number(item.ingredient.avgEachWeightLb.toFixed(1)));
@@ -602,6 +643,12 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   async function handleForceCloudSync() {
+    if (pantryEnabled) {
+      await pantry.retry();
+      await userSync.pushCloudSync({ preferences: { defaultZip: currentZip, favoriteStoreIds: activeStores, macroGoal,
+        dietaryConstraints, vesselArchetype: applianceFilter, targetServings, pinnedIngredientIds: pinnedIds } });
+      return;
+    }
     await userSync.pushCloudSync({
       preferences: {
         defaultZip: currentZip,
@@ -737,6 +784,14 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   function handleToggleOnHand(ingredientId: string) {
+    if (pantryEnabled) {
+      const ingredient = pantryCatalog.get(ingredientId);
+      if (!ingredient) { setShowFreezerModal(true); setArbitrageToast('Choose the specific ingredient in Virtual Pantry. Grouped deals do not establish an exact ingredient identity.'); return; }
+      const existing = pantry.entries.find((entry) => entry.ingredientId === ingredientId);
+      void pantry.save({ ...(existing ?? { ingredientId, displayName: ingredient.name }), available: !(existing?.available && !existing.deletedAtIso) }, existing?.id)
+        .catch((error: unknown) => setArbitrageToast(error instanceof Error ? error.message : 'Could not update the pantry.'));
+      return;
+    }
     const inFreezer = freezerItems.find(
       (f) => f.canonicalIngredientId === ingredientId
     );
@@ -789,6 +844,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   async function handleToggleSaveRecipe(dish: RecommendedDish) {
+    const requestOwner = pantryOwnerRef.current;
     const isCurrentlySaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
     try {
       const res = isCurrentlySaved
@@ -797,7 +853,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
             method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dish }),
           });
       if (!res.ok) throw new Error('Recipe save failed');
+      if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
       setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: !isCurrentlySaved }));
+      if (pantryEnabled && requestOwner) setSavedLibrary((previous) => ({ owner: requestOwner,
+        recipes: isCurrentlySaved ? previous.recipes.filter((entry) => entry.id !== dish.id) : [...previous.recipes.filter((entry) => entry.id !== dish.id), { ...dish, savedInLibrary: true }] }));
     } catch {
       setAiBannerMessage('Unable to update your saved recipes. Please try again.');
       return;
@@ -806,6 +865,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
   }
 
   async function handleGenerateAiPlan() {
+    const requestOwner = pantryOwnerRef.current;
+    const requestContext = mealContextSignature;
     setAiLoading(true);
     setAiBannerMessage(null);
     try {
@@ -827,7 +888,10 @@ export default function MealPrepDashboard({ initialData }: Props) {
         }),
       });
       const result = await res.json();
+      if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
       if (result.dishes && Array.isArray(result.dishes)) {
+        customAiOwner.current = requestOwner;
+        customAiContext.current = requestContext;
         setCustomAiDishes(result.dishes);
         setAiBannerMessage(result.message || 'Updated 3-dish meal prep plan!');
         if (result.dishes[0]?.id) {
@@ -949,7 +1013,8 @@ export default function MealPrepDashboard({ initialData }: Props) {
     });
   }, [data.commodities, categoryFilter, sortMode]);
 
-  const activeTrio = customAiDishes || data.recommendedTrio;
+  const activeTrio = (pantryEnabled && (customAiOwner.current !== pantry.owner || customAiContext.current !== mealContextSignature)
+    ? null : customAiDishes) || data.recommendedTrio;
 
   const trioTotals = useMemo(() => {
     const totalBatchCost = activeTrio.reduce((acc, d) => acc + d.totalBatchCost, 0);
@@ -1161,7 +1226,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
   return (
     <div className="min-h-screen pb-24">
       {/* Top Header — Two-Tier Navigation Architecture */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print">
+      <header className={`${pantryEnabled && showFreezerModal ? 'relative' : 'sticky top-0'} z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
         <div className="mx-auto max-w-6xl px-4 py-2.5">
           {/* Tier 1: Primary Brand & Location (Left) + Utilities & User Account (Pinned Top-Right) */}
           <div className="flex items-center justify-between gap-3">
@@ -1200,6 +1265,7 @@ export default function MealPrepDashboard({ initialData }: Props) {
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {/* v1.2 Ticket #21: Virtual Freezer Drawer Trigger */}
               <button
+                ref={pantryTrigger}
                 onClick={() => setShowFreezerModal(!showFreezerModal)}
                 className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
                   showFreezerModal
@@ -1208,16 +1274,16 @@ export default function MealPrepDashboard({ initialData }: Props) {
                       ? 'border-sky-300 bg-sky-50 text-sky-900 hover:bg-sky-100'
                       : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                 }`}
-                title="Open Virtual Freezer & Multi-Week Protein Arbitrage Inventory"
+                title={pantryEnabled ? 'Open Virtual Pantry' : 'Open Virtual Freezer & Multi-Week Protein Arbitrage Inventory'}
               >
                 <Snowflake
                   className={`h-3.5 w-3.5 ${
                     showFreezerModal ? 'text-white' : 'text-sky-500'
                   }`}
                 />
-                <span className="hidden sm:inline">Virtual Freezer</span>
-                <span className="sm:hidden">Freezer</span>
-                <span>({freezerItems.length})</span>
+                <span className="hidden sm:inline">{pantryEnabled ? 'Virtual Pantry' : 'Virtual Freezer'}</span>
+                <span className="sm:hidden">{pantryEnabled ? 'Pantry' : 'Freezer'}</span>
+                <span>({pantryEnabled ? pantry.entries.filter((entry) => entry.available && !entry.deletedAtIso).length : freezerItems.length})</span>
               </button>
 
               <button
@@ -1389,14 +1455,15 @@ export default function MealPrepDashboard({ initialData }: Props) {
             syncStatus={userSync.syncStatus}
             lastSyncedIso={userSync.lastSyncedIso}
             authLoading={userSync.authLoading}
-            hasGuestDataToMerge={userSync.hasGuestDataToMerge}
+            hasGuestDataToMerge={!pantryEnabled && userSync.hasGuestDataToMerge}
             guestFreezerCount={userSync.guestFreezerCount}
             currentZip={currentZip}
             activeStores={activeStores}
             macroGoal={macroGoal}
             dietaryConstraints={dietaryConstraints}
             applianceFilter={applianceFilter}
-            freezerItemCount={freezerItems.length}
+            freezerItemCount={pantryEnabled ? pantry.entries.filter((entry) => !entry.deletedAtIso).length : freezerItems.length}
+            pantryEnabled={pantryEnabled}
             onSignIn={userSync.signInWithProvider}
             onSignOut={userSync.signOut}
             onMergeGuestData={handleMergeGuestData}
@@ -1423,7 +1490,16 @@ export default function MealPrepDashboard({ initialData }: Props) {
           )}
 
           {/* v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage Drawer */}
-          {showFreezerModal && (
+          {showFreezerModal && pantryEnabled && <VirtualPantry
+            key={pantry.owner ?? `loading:${pantryAccountId ?? 'guest'}`}
+            entries={pantry.entries} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
+            importDuplicates={pantry.importDuplicates}
+            guestEntries={pantry.guestEntries} conflicts={pantry.conflicts}
+            onSave={pantry.save} onDelete={pantry.remove} onRetry={pantry.retry} onResolve={pantry.resolve}
+            onImportGuest={pantry.importGuest} onReviewLegacy={pantry.reviewLegacy} onImportLegacy={pantry.importLegacy}
+            onClose={() => { setShowFreezerModal(false); pantryTrigger.current?.focus(); }}
+          />}
+          {showFreezerModal && !pantryEnabled && (
             <div className="mt-3 rounded-xl border border-sky-300 bg-white p-4 shadow-lg text-xs text-slate-700">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
                 <div className="flex items-center gap-2">
