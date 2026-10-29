@@ -16,6 +16,10 @@ Cooking onions include yellow and white varieties for cooked recipe roles; sweet
 
 ## Raw data and exports
 
+The score view remains useful without a retained local offer: it shows the available comparison benchmark (or labeled static catalog fallback), scoring weights, and a hypothetical per-unit price calculator. The optional regular-price comparison is user supplied; leaving it blank asserts no regular-price discount. Calculations use the shared score policy with a neutral market signal and never save observations or imply verified cycle badges.
+
+Local history backfill still requires dated source advertisements with market and package details. The current Flipp and Kroger connectors do not implement historical queries. A direct Flipp onion search for ZIP 80542 on October 29 returned no items; no historical local rows were imported. USDA history cannot substitute for local store observations.
+
 The Package / source detail column distinguishes package sizes at a glance and shows original USDA prices alongside the table's per-unit prices. Meat rows include available package sizes, grades, and fresh/frozen conditions; store offers show their advertised price and conditions. Calculated rows explain their aggregation method. Missing source details are labeled explicitly.
 
 The Raw data view is always accessible independently of charts. It offers normalized USDA observations, original USDA market rows, archived store offers, and calculated weekly results. Expand a row to inspect source fields, conversions, mapping versions, report metadata, or offer retrieval receipts. Calculated rows also include the current-policy score trace when the selected range contains the complete six-week scoring window. Historical or narrower ranges do not imply replayed scores. The score view exposes those same full inputs and outputs as JSON.

@@ -6,6 +6,8 @@ import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import type { explorerCatalog } from '@/lib/explorer/catalog';
 import type { DataRow, ExplorerData, HistoryPoint } from '@/lib/explorer/types';
 import PriceHistory, { money } from './PriceHistory';
+import { calculateValueScore } from '@/lib/value-score';
+import type { scoreInputs } from '@/lib/explorer/derive';
 type Catalog = ReturnType<typeof explorerCatalog>;
 type RowsResult = {
   rows: DataRow[];
@@ -24,6 +26,7 @@ type ReportResult = {
   payload: unknown;
 };
 type ScoreResult = {
+  inputs: ReturnType<typeof scoreInputs>;
   score: ExplorerData['score'];
   mode: string;
   asof: string;
@@ -885,6 +888,36 @@ function RowContext({ row }: { row: DataRow }) {
     </>
   );
 }
+function ScoreCalculator({ inputs }: { inputs: ScoreResult['inputs'] }) {
+  const [price, setPrice] = useState('');
+  const [regular, setRegular] = useState('');
+  if (!inputs) return null;
+  const { ingredient, benchmark } = inputs;
+  const priceNumber = Number(price);
+  const regularNumber = Number(regular);
+  const validPrice = Number.isFinite(priceNumber) && priceNumber > 0;
+  const validRegular = regular === '' || (Number.isFinite(regularNumber) && regularNumber > 0);
+  const trace = validPrice && validRegular ? calculateValueScore(ingredient, priceNumber, regularNumber) : null;
+  return <section className="ex-card" aria-label="Hypothetical score calculator">
+    <span className="ex-eyebrow">What would this score?</span>
+    <h3>{ingredient.name}</h3>
+    <p>Hypothetical calculation only. Enter prices per {ingredient.standardUnit}; this does not save an offer or create price history.</p>
+    <p>Comparison baseline: {money(ingredient.mountainBaselinePerUnit)}/{ingredient.standardUnit} · {benchmark && benchmark.status !== 'fallback' ? `${benchmark.region} USDA advertised retail · ${benchmark.periodEnd} · ${benchmark.status}` : 'Static catalog estimate; no usable USDA benchmark'}.</p>
+    <p>Value score = affordability × 55% + discount depth × 35% + neutral market signal (60) × 10%. Discounts are rounded to whole percentages before scoring.</p>
+    <p className="ex-note">Affordability follows the {ingredient.category.toLowerCase().replaceAll('_', ' ')} price curve. Discount depth uses max(baseline discount, regular-price discount × 0.9): 10 points at zero or below, rising linearly to 100 at 50%. Final weighted score rounds to a whole number.</p>
+    <label>Price per {ingredient.standardUnit}<input type="number" min="0.01" step="0.01" value={price} onChange={(event) => setPrice(event.target.value)} /></label>{' '}
+    <label>Regular price per {ingredient.standardUnit} (optional)<input type="number" min="0.01" step="0.01" value={regular} onChange={(event) => setRegular(event.target.value)} /></label>
+    <p className="ex-note">Leave regular price blank to assert no regular-price discount. A supplied comparison price is your assumption.</p>
+    {price && !validPrice || !validRegular ? <p role="alert">Enter positive, finite prices.</p> : null}
+    {trace ? <div aria-live="polite">
+      <h3>Hypothetical value score: {trace.valueScore}/100</h3>
+      <p>Affordability {trace.affordabilityScore}/100 · Discount depth {trace.discountDepthScore}/100 · Market signal {trace.wholesaleBonusScore}/100</p>
+      <p>Baseline discount: {trace.discountVsBaselinePct}% · Regular-price discount: {trace.discountVsRegularPct}% · Effective discount: {trace.effectiveDiscount.toFixed(2)}%</p>
+      <p>{trace.contributions.map((n) => n.toFixed(2)).join(' + ')} = {trace.unroundedScore.toFixed(2)} → {trace.valueScore}</p>
+      <details><summary>Full hypothetical calculation</summary><pre>{JSON.stringify(trace, null, 2)}</pre></details>
+    </div> : null}
+  </section>;
+}
 function ScorePanel({
   result,
   onRows,
@@ -895,9 +928,10 @@ function ScorePanel({
   if (!result) return null;
   if (!result.score)
     return (
-      <div className="ex-empty">
+      <div className="ex-card">
         No retained offer is available for this ingredient and market in the
-        last six weeks. The catalog still explains the policy.
+        last six weeks. You can still explore how a price would score below.
+        <ScoreCalculator key={result.inputs?.ingredient.id} inputs={result.inputs} />
       </div>
     );
   const { commodity: c, trace } = result.score;
@@ -937,6 +971,7 @@ function ScorePanel({
         </button>
       </div>
       <div className="ex-notice">{result.context}</div>
+      <ScoreCalculator key={c.ingredient.id} inputs={result.inputs} />
       <div className="ex-two">
         <div className="ex-card">
           <h3>The retained offer</h3>

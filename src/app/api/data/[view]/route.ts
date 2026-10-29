@@ -9,6 +9,7 @@ import {
   filterRows,
   latestReports,
   reportStatus,
+  scoreInputs,
 } from '@/lib/explorer/derive';
 import { explorerCatalog } from '@/lib/explorer/catalog';
 import { rowsCsv } from '@/lib/explorer/csv';
@@ -84,6 +85,7 @@ export async function GET(
       return NextResponse.json(
         {
           score: result.score,
+          inputs: scoreInputs(read.archive, scoringQuery),
           mode: result.mode,
           asof: result.asof,
           context:
