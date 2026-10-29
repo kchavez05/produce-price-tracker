@@ -126,6 +126,28 @@ flowchart LR
 
 ---
 
+## Planned v1.6 — Virtual Pantry
+
+- **v1.6.0:** Account-persistent Virtual Pantry with explicit Yes/No ingredient availability, search, optional quick-add suggestions, custom generic ingredients, optional inventory details, and recipe integration. No automatic inventory deductions. See the [approved specification](docs/specs/v1.6.0-virtual-pantry.md).
+- **v1.6.1:** Speech-to-inventory with review and confirmation before adding recognized ingredients.
+- **v1.6.2:** Barcode scanning with mapping to generic ingredients and user confirmation/correction.
+
+---
+
+## Planned v1.7 — Sign in to Access AI Features
+
+**Goal:** Make app-funded AI assistance standard for all signed-in users, replacing the bring-your-own API key experience. Initial focus: recipe remix and speech-to-inventory (introduced in v1.6.1).
+
+- Remove the bring-your-own-key input and retire the user-supplied-key request path. Remove previously stored user keys from app-managed browser storage during migration; never upload them.
+- Offer a clear **Sign in to access AI features** action to guests. Enforce authenticated access on the server, with provider credentials held server-side.
+- Give every signed-in user access at launch, without requiring payment, a subscription, or a personal API key. Add appropriate account-based usage limits and recoverable service-error states.
+- Preserve manual pantry entry and deterministic recipe suggestions for guests and when AI is unavailable.
+- Plan for a future paid entitlement model, but leave billing, subscriptions, and a paywall out of v1.7.
+
+**Sequencing:** Speech-to-inventory remains planned for v1.6.1 and barcode scanning for v1.6.2. Define speech's interim access and funding behavior in its own spec; v1.7 standardizes access across AI features. This roadmap entry does not expand the approved v1.6.0 scope.
+
+---
+
 ## 📱 Horizon 2 & 3: Native iOS / Android & Feature Expansion (`v1.5` – `v3.0`)
 
 For the long-term mobile architecture (Turborepo + Expo React Native), native hardware features (Camera Shelf-Tag OCR, iOS Live Activities, Push Alerts), Virtual Freezer arbitrage loop, and nationwide store expansion, see:
