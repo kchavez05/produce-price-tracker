@@ -1,4 +1,5 @@
 import { belongsToReport } from '@/lib/explorer/public-fields';
+import { marketCoverage } from '@/lib/market/active';
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { parseExplorerQuery, ExplorerError } from '@/lib/explorer/query';
@@ -9,6 +10,7 @@ import {
   filterRows,
   latestReports,
   reportStatus,
+  scoreInputs,
 } from '@/lib/explorer/derive';
 import { explorerCatalog } from '@/lib/explorer/catalog';
 import { rowsCsv } from '@/lib/explorer/csv';
@@ -84,6 +86,7 @@ export async function GET(
       return NextResponse.json(
         {
           score: result.score,
+          inputs: scoreInputs(read.archive, scoringQuery),
           mode: result.mode,
           asof: result.asof,
           context:
@@ -95,7 +98,7 @@ export async function GET(
     const read = await readArchive(query);
     const result = deriveData(read.archive, query, read.mode);
     if (view === 'history')
-      return NextResponse.json(result, {
+      return NextResponse.json({ ...result, tracking: read.mode === 'demo' ? null : await marketCoverage(query.zip) }, {
         headers: { 'Cache-Control': 'no-store' },
       });
     let rows: DataRow[];
