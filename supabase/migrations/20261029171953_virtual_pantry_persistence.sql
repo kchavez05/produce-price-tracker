@@ -234,7 +234,10 @@ begin
   perform pg_advisory_xact_lock(hashtextextended(uid::text,1600));
   if exists(select 1 from public.user_pantry_migrations where user_id=uid) and exists(select 1 from public.users where id=uid) then
     if tg_table_name='user_freezer_items' then inventory_change:=true;
-    elsif tg_op='INSERT' then inventory_change:=cardinality(new.on_hand_ingredient_ids)>0;
+    elsif tg_op='INSERT' then
+      -- BEFORE INSERT runs even when ON CONFLICT later becomes an UPDATE.
+      inventory_change := new.on_hand_ingredient_ids is distinct from coalesce(
+        (select on_hand_ingredient_ids from public.user_preferences where user_id=uid), array[]::text[]);
     else inventory_change:=new.on_hand_ingredient_ids is distinct from old.on_hand_ingredient_ids; end if;
     if inventory_change then raise exception 'pantry_upgrade_required'; end if;
   end if;

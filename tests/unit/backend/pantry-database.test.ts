@@ -82,6 +82,11 @@ describe('pantry database storage boundaries', () => {
   it('fences legacy on-hand changes while allowing unrelated preferences', async () => {
     await expect(db.query('update public.user_preferences set on_hand_ingredient_ids=$1 where user_id=$2', [[], alice])).rejects.toThrow('pantry_upgrade_required');
     await db.query('update public.user_preferences set default_zip=$1 where user_id=$2', ['10001', alice]);
+    await db.query(`insert into public.user_preferences(user_id,default_zip,on_hand_ingredient_ids) values($1,$2,$3)
+      on conflict(user_id) do update set default_zip=excluded.default_zip,on_hand_ingredient_ids=excluded.on_hand_ingredient_ids`, [alice, '10002', ['ground-turkey']]);
+    await expect(db.query(`insert into public.user_preferences(user_id,on_hand_ingredient_ids) values($1,$2)
+      on conflict(user_id) do update set on_hand_ingredient_ids=excluded.on_hand_ingredient_ids`, [alice, []])).rejects.toThrow('pantry_upgrade_required');
+    await db.query("insert into public.user_saved_recipes(id,user_id,title,style,dish_json) values('kept-recipe',$1,'Saved recipe','CHILI_SOUP','{}')", [alice]);
     await expect(db.query("insert into public.user_freezer_items(id,user_id,canonical_ingredient_id,ingredient_name,category,quantity_lb_or_doz,purchase_price_per_unit,regular_price_per_unit,total_cost_basis,store,store_banner) values('legacy',$1,'x','X','PROTEIN',1,1,2,1,'KING_SOOPERS','KS')", [alice])).rejects.toThrow('pantry_upgrade_required');
   });
   it('denies direct writes and isolates accounts even with identical entry and mutation IDs', async () => {
