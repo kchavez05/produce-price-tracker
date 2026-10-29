@@ -1,6 +1,7 @@
 import { PantryMutation, PantryMutationResult, PantryOwner } from '@/types/pantry';
 import { SyncLock } from '@/lib/sync/queue';
 import { validatePantryMutation } from './mutations';
+import { pantryCacheKey } from './client-cache';
 
 type Conflict = Extract<PantryMutationResult, { status: 'conflict' }>;
 interface Pending { owner: PantryOwner; mutation: PantryMutation; conflict?: Conflict }
@@ -9,9 +10,10 @@ export const pantryQueueKey = (owner: PantryOwner) => `pantrybot_pantry_queue_v1
 
 export function clearPantryQueue(storage: Pick<Storage, 'key' | 'length' | 'removeItem'>, owner: PantryOwner): void {
   const prefix = pantryQueueKey(owner);
+  const cache = pantryCacheKey(owner);
   for (let index = storage.length - 1; index >= 0; index--) {
     const key = storage.key(index);
-    if (key === prefix || key?.startsWith(`${prefix}:recovery:`)) storage.removeItem(key);
+    if (key === prefix || key?.startsWith(`${prefix}:recovery:`) || key === cache || key?.startsWith(`${cache}:recovery:`)) storage.removeItem(key);
   }
 }
 

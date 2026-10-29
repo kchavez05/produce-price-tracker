@@ -117,6 +117,13 @@ describe('ownership-preserving legacy migration preparation', () => {
     expect(migrateLegacyPantry(empty, legacy, '2026-10-30T12:00:00Z').entries[0].id).toBe(first);
     expect(migrateLegacyPantry({ ...empty, owner: 'account:alice' }, { ...legacy, owner: 'account:alice' }, now).entries[0].id).not.toBe(first);
   });
+  it('preserves a reviewed catalog link if a legacy source is imported again', () => {
+    const legacy = source({ freezerItems: [lot({ canonicalIngredientId: 'old-custom', ingredientName: 'My rice' })] });
+    const migrated = migrateLegacyPantry(empty, legacy, now);
+    const reviewed = { ...migrated, legacyMigrationVersion: undefined,
+      entries: [{ ...migrated.entries[0], ingredientId: 'basmati-rice-dry', displayName: 'Dry basmati rice', available: false, revision: 2 }] };
+    expect(migrateLegacyPantry(reviewed, legacy, now).entries).toEqual(reviewed.entries);
+  });
 });
 
 describe('static staple estimates and boolean recipe coverage', () => {

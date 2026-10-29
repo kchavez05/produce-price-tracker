@@ -6,13 +6,16 @@ export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const inventory = await loadInventoryState();
+  const pantryEnabled = process.env.PANTRYBOT_PANTRY_ENABLED === 'true';
   const initialData = await buildDashboardPayload({
-    freezerInventory: inventory.freezerItems,
+    freezerInventory: pantryEnabled ? [] : inventory.freezerItems,
     savedRecipes: inventory.savedRecipes,
     zipCode: '80542',
     storeFilter: 'ALL',
     pinnedIngredientIds: [],
   });
 
-  return <MealPrepDashboard initialData={initialData} />;
+  return <MealPrepDashboard initialData={initialData} pantryEnabled={pantryEnabled}
+    initialPrivateRecipes={inventory.savedRecipes}
+    initialAccountId={inventory.profile && !inventory.profile.id.startsWith('guest-') ? inventory.profile.id : null} />;
 }

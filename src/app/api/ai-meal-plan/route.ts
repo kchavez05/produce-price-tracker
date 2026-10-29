@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     const inventory = await loadInventoryState();
     const dashboard = await buildDashboardPayload({
-      freezerInventory: inventory.freezerItems,
+      freezerInventory: process.env.PANTRYBOT_PANTRY_ENABLED === 'true' ? [] : inventory.freezerItems,
       savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter,

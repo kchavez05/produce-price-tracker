@@ -287,7 +287,11 @@ export function useUserSync(options?: UseUserSyncOptions) {
       const res = await fetch('/api/account');
       if (!res.ok) return false;
       const archive = (await res.json()) as UserDataExportArchive;
-      const blob = new Blob([JSON.stringify(archive, null, 2)], {
+      if (activeUserRef.current !== archive.profile.id) return false;
+      const { pantryBrowserExport } = await import('@/lib/pantry/browser-export');
+      const browserPantryRecovery = pantryBrowserExport(localStorage, `account:${archive.profile.id}`);
+      if (activeUserRef.current !== archive.profile.id) return false;
+      const blob = new Blob([JSON.stringify({ ...archive, browserPantryRecovery }, null, 2)], {
         type: 'application/json',
       });
       const url = URL.createObjectURL(blob);

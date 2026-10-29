@@ -44,12 +44,14 @@ export function migrateLegacyPantry(
 
   const entries = current.entries.map((entry) => ({ ...entry }));
   const originalIdentities = new Set(entries.map(pantryIdentity));
+  const originalIds = new Set(entries.map((entry) => entry.id));
   const byIdentity = new Map(entries.map((entry) => [pantryIdentity(entry), entry]));
   const unmatched = new Set(current.needsCatalogMatch);
   const add = (input: PantryEntryInput) => {
     const identity = pantryIdentity(input);
+    const id = `legacy:${encodeURIComponent(current.owner)}:${encodeURIComponent(identity)}`;
     // Preserve new-model edits and tombstones if migration resumes after interruption.
-    if (originalIdentities.has(identity)) return;
+    if (originalIdentities.has(identity) || originalIds.has(id)) return;
     const prior = byIdentity.get(identity);
     if (prior) {
       prior.available ||= input.available;
@@ -63,7 +65,7 @@ export function migrateLegacyPantry(
     }
     const entry: PantryEntry = {
       ...input,
-      id: `legacy:${encodeURIComponent(current.owner)}:${encodeURIComponent(identity)}`,
+      id,
       revision: 0,
       updatedAtIso: nowIso,
     };
