@@ -1,5 +1,15 @@
 # USDA weekly ingestion and Supabase market history
 
+## Active-market collection (pending release)
+
+Apply `20261029154017_active_market_collection.sql` before releasing the active-market worker. Dashboard requests register a shared ZIP-only market interest record (no account IDs) and claim a due initial collection. The first nine recently used markets are admitted; requests beyond that budget still receive a dashboard but do not create scheduled coverage. Interest expires after 30 days without use. No-key environments skip registration and preserve offline behavior.
+
+The authenticated `/api/cron/active-markets` worker runs daily, claims at most three due ZIPs with 15-minute leases, and archives only current live offers. Successful collections become due after three days; failures/no usable offers become eligible after one hour. Token-fenced completion and expired leases allow recovery without overlapping collection claims. Offer revisions/receipts retain their existing idempotency. A process failure after archival may repeat retrieval, but does not invent a new price revision. Registry failures leave the dashboard usable and log an operational error.
+
+ZIP validation, per-client request rate limiting, a global nine-active-market admission budget, and bounded batches constrain collection. This initial budget is deliberate and should be reviewed against real usage. Ordinary dashboard reads now archive only when they acquire a due market claim. The existing Wednesday/Friday 80542 sync remains available. Other ZIPs do not use the Mead-specific Kroger default; they rely on supported Flipp offers until location-aware Kroger discovery is added. This does not promise complete store coverage or historical backfill.
+
+Before activation, verify cron frequency support for the deployment plan, server database credentials, `CRON_SECRET`, authenticated access, successful/failed collection state, and provider load. The daily worker fits the current Vercel Hobby plan. No production migration or schedule is activated by local implementation alone. Nationwide store/ad-market deduplication remains on the roadmap.
+
 ## Runtime
 
 `GET /api/cron/usda-ingest` runs Wednesday at 13:00 UTC (7 AM MDT / 6 AM MST). It requires the existing cron bearer secret and accepts no URL parameters. Enable it with server-only `USDA_INGEST_ENABLED=true` after applying the migration and validating reports. Loading dashboards, creating recipes, Friday digests, public previews and ordinary manual refreshes never call USDA, even during a cloud outage.
@@ -79,3 +89,5 @@ Sources: [USDA report catalog](https://mymarketnews.ams.usda.gov/mymarketnews-ap
 ## Initial verification — October 28, 2026
 
 The controlled cloud batch published five reports with 89 current normalized observations covering 28 ingredients. Duplicate scheduled execution returned `duplicate` with zero upstream requests. Eleven prior report weeks were then backfilled, for twelve source weeks total; active selections remained on October 23. The legacy snapshot contained 420 offer rows and 210 USDA seed rows, all quarantined outside verified history. Dashboard assembly confirmed cloud benchmark reads and archival of 18 current grocery offers. Production activation follows the reviewed release; the next Wednesday schedule still requires observation.
+
+The daily worker collects at most three due markets; the nine-market cap matches a three-day refresh target on the current free plan. Backlogs or failures can delay collection. A due dashboard visit can collect sooner. Failed markets become eligible after one hour but otherwise wait for the next daily worker. Expanding beyond this budget requires a supported collection cadence and a revised admission cap.

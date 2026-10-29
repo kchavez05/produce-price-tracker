@@ -74,6 +74,7 @@ export interface HistoryPoint {
   details?: Record<string, unknown>;
 }
 export interface ExplorerData {
+  tracking?: { first_requested_at: string; last_requested_at: string; last_collected_at: string | null; last_status: string | null; active: boolean } | null;
   mode: 'verified' | 'demo';
   asof: string;
   snapshot: string;

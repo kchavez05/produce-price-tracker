@@ -1,11 +1,13 @@
 # PantryBot Wiki
 
+> v1.5.2 adds visible source/package details, USDA-only history statistics, a hypothetical score calculator, canonical ingredient explanations, and bounded active-market collection. See the [release notes](../releases/v1.5.2.md).
+
 > v1.5.1: The public [Data Explorer](https://pantrybot.dev/data) connects stored price history, exact score arithmetic, ingredient grouping rationale, raw source rows, and CSV/JSON exports. See the [explorer guide](../data-explorer.md) and [release notes](../releases/v1.5.1.md). Production uses stored verified data; previews without server database credentials use labeled demonstration data.
 
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
 
 
-Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.5.1`, live at [pantrybot.dev](https://pantrybot.dev)).
+Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.5.2`, live at [pantrybot.dev](https://pantrybot.dev)).
 
 ## Purpose
 

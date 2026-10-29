@@ -6,6 +6,14 @@ This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to 
 
 Delivered a public data explorer with price charts and weekly patterns, exact score explanations, ingredient grouping rationale, and a first-class raw-data view with source JSON and filtered exports. See the [approved specification](docs/specs/data-explorer-and-score-transparency.md). Policy decisions and operational constraints are recorded in the [explorer guide](docs/data-explorer.md).
 
+## v1.5.2 — Data clarity and active-market collection
+
+Track requested ZIPs in a shared, server-only registry. Archive a first due dashboard refresh, then collect active markets in bounded scheduled batches. Initial budget: nine active ZIPs, active for 30 days after use, refresh every three days, three claims per daily worker invocation. Failed collections become eligible after one hour; leases prevent duplicate work and recover interrupted jobs. No credentials retains offline behavior. Activate the migration and schedule through reviewed release changes.
+
+## Future — Nationwide local-price coverage
+
+Expand toward all US ZIPs using provider-supported bulk access and queued collection. Deduplicate shared store/circular coverage rather than storing identical advertisements once per ZIP; retain store-specific exceptions, source validity, package details, and collection provenance. Add real store/ad-market identity, provider rate budgets, coverage/freshness monitoring, and measured storage/retention planning before national rollout. Historical backfill requires genuine dated source advertisements. Active-market collection is the first stage, not a claim of nationwide historical coverage.
+
 ## v1.5.0 — Weekly USDA and durable market history
 
 Implementation adds Wednesday-only USDA batches, immutable Supabase raw/normalized history, explicit source freshness, operator backfill/recovery, shared local-price archival, and synthetic-data quarantine. Historical analytics screens are delivered in v1.5.1; ordinary reads still never call USDA. See the [approved spec](docs/specs/usda-weekly-ingestion-and-market-history.md) and [operations guide](docs/usda-market-data.md). Production activation requires reviewed migration, validated source definitions, and release verification.

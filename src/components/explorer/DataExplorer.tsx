@@ -6,6 +6,8 @@ import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import type { explorerCatalog } from '@/lib/explorer/catalog';
 import type { DataRow, ExplorerData, HistoryPoint } from '@/lib/explorer/types';
 import PriceHistory, { money } from './PriceHistory';
+import { calculateValueScore } from '@/lib/value-score';
+import type { scoreInputs } from '@/lib/explorer/derive';
 type Catalog = ReturnType<typeof explorerCatalog>;
 type RowsResult = {
   rows: DataRow[];
@@ -24,6 +26,7 @@ type ReportResult = {
   payload: unknown;
 };
 type ScoreResult = {
+  inputs: ReturnType<typeof scoreInputs>;
   score: ExplorerData['score'];
   mode: string;
   asof: string;
@@ -749,7 +752,7 @@ export default function DataExplorer({
             )}
           </>
         ) : null}
-        {tab === 'sources' ? <SourcesPanel data={history.data} /> : null}
+        {tab === 'sources' ? <SourcesPanel data={history.data} catalog={catalog} catalogHref={href({ tab: 'catalog' }, false)} /> : null}
         {!TABS.some(([id]) => id === tab) ? (
           <div className="ex-empty">
             Unknown view.{' '}
@@ -802,6 +805,7 @@ function RowsTable({ rows }: { rows: DataRow[] }) {
             <th>Period / week</th>
             <th>Source / store</th>
             <th>Variety / title</th>
+            <th>Package / source detail</th>
             <th>Price</th>
             <th>Status</th>
             <th>Source evidence</th>
@@ -825,6 +829,9 @@ function RowsTable({ rows }: { rows: DataRow[] }) {
                 ) : null}
               </td>
               <td style={{ minWidth: 170 }}>{r.variety || r.ingredient}</td>
+              <td style={{ minWidth: 190 }}>
+                <RowContext row={r} />
+              </td>
               <td className="price">
                 {money(r.price)}
                 <br />
@@ -850,6 +857,67 @@ function RowsTable({ rows }: { rows: DataRow[] }) {
     </div>
   );
 }
+function RowContext({ row }: { row: DataRow }) {
+  const record = (value: unknown): Record<string, unknown> =>
+    value !== null && typeof value === 'object' && !Array.isArray(value)
+      ? value as Record<string, unknown>
+      : {};
+  const text = (value: unknown): string =>
+    typeof value === 'string' || typeof value === 'number' ? String(value) : '';
+  const details = row.details;
+  const original = record(details.original);
+  const payload = record(details.payload);
+  const sourceUnit = text(details.originalUnit) || text(original.size) ||
+    text(original.package) || text(original.price_unit);
+  const packageLabel = text(original.package_size) || sourceUnit;
+  const originalPrice = details.originalPrice ?? original.wtd_avg_price ?? original.price_avg;
+  const attributes = [original.quality_grade, original.condition,
+    original.organic === 'Yes' ? 'Organic' : original.organic === 'No' ? 'Conventional' : original.environment]
+    .map(text).filter((value) => value && value !== 'N/A');
+  const offerPrice = text(payload.rawPriceText);
+  const method = text(details.method) || text(details.kind);
+  return (
+    <>
+      <div>{packageLabel || offerPrice || (method ? 'Weekly calculation' : 'Not specified in source')}</div>
+      {packageLabel && typeof originalPrice === 'number' ? (
+        <div className="ex-note">Source: {money(originalPrice)} / {sourceUnit || packageLabel}</div>
+      ) : null}
+      {attributes.length ? <div className="ex-note">{attributes.join(' · ')}</div> : null}
+      {text(payload.dealConditions) ? <div className="ex-note">{text(payload.dealConditions)}</div> : null}
+      {method ? <div className="ex-note">{method}</div> : null}
+    </>
+  );
+}
+function ScoreCalculator({ inputs }: { inputs: ScoreResult['inputs'] }) {
+  const [price, setPrice] = useState('');
+  const [regular, setRegular] = useState('');
+  if (!inputs) return null;
+  const { ingredient, benchmark } = inputs;
+  const priceNumber = Number(price);
+  const regularNumber = Number(regular);
+  const validPrice = Number.isFinite(priceNumber) && priceNumber > 0;
+  const validRegular = regular === '' || (Number.isFinite(regularNumber) && regularNumber > 0);
+  const trace = validPrice && validRegular ? calculateValueScore(ingredient, priceNumber, regularNumber) : null;
+  return <section className="ex-card" aria-label="Hypothetical score calculator">
+    <span className="ex-eyebrow">What would this score?</span>
+    <h3>{ingredient.name}</h3>
+    <p>Hypothetical calculation only. Enter prices per {ingredient.standardUnit}; this does not save an offer or create price history.</p>
+    <p>Comparison baseline: {money(ingredient.mountainBaselinePerUnit)}/{ingredient.standardUnit} · {benchmark && benchmark.status !== 'fallback' ? `${benchmark.region} USDA advertised retail · ${benchmark.periodEnd} · ${benchmark.status}` : 'Static catalog estimate; no usable USDA benchmark'}.</p>
+    <p>Value score = affordability × 55% + discount depth × 35% + neutral market signal (60) × 10%. Discounts are rounded to whole percentages before scoring.</p>
+    <p className="ex-note">Affordability follows the {ingredient.category.toLowerCase().replaceAll('_', ' ')} price curve. Discount depth uses max(baseline discount, regular-price discount × 0.9): 10 points at zero or below, rising linearly to 100 at 50%. Final weighted score rounds to a whole number.</p>
+    <label>Price per {ingredient.standardUnit}<input type="number" min="0.01" step="0.01" value={price} onChange={(event) => setPrice(event.target.value)} /></label>{' '}
+    <label>Regular price per {ingredient.standardUnit} (optional)<input type="number" min="0.01" step="0.01" value={regular} onChange={(event) => setRegular(event.target.value)} /></label>
+    <p className="ex-note">Leave regular price blank to assert no regular-price discount. A supplied comparison price is your assumption.</p>
+    {price && !validPrice || !validRegular ? <p role="alert">Enter positive, finite prices.</p> : null}
+    {trace ? <div aria-live="polite">
+      <h3>Hypothetical value score: {trace.valueScore}/100</h3>
+      <p>Affordability {trace.affordabilityScore}/100 · Discount depth {trace.discountDepthScore}/100 · Market signal {trace.wholesaleBonusScore}/100</p>
+      <p>Baseline discount: {trace.discountVsBaselinePct}% · Regular-price discount: {trace.discountVsRegularPct}% · Effective discount: {trace.effectiveDiscount.toFixed(2)}%</p>
+      <p>{trace.contributions.map((n) => n.toFixed(2)).join(' + ')} = {trace.unroundedScore.toFixed(2)} → {trace.valueScore}</p>
+      <details><summary>Full hypothetical calculation</summary><pre>{JSON.stringify(trace, null, 2)}</pre></details>
+    </div> : null}
+  </section>;
+}
 function ScorePanel({
   result,
   onRows,
@@ -860,9 +928,10 @@ function ScorePanel({
   if (!result) return null;
   if (!result.score)
     return (
-      <div className="ex-empty">
+      <div className="ex-card">
         No retained offer is available for this ingredient and market in the
-        last six weeks. The catalog still explains the policy.
+        last six weeks. You can still explore how a price would score below.
+        <ScoreCalculator key={result.inputs?.ingredient.id} inputs={result.inputs} />
       </div>
     );
   const { commodity: c, trace } = result.score;
@@ -902,6 +971,7 @@ function ScorePanel({
         </button>
       </div>
       <div className="ex-notice">{result.context}</div>
+      <ScoreCalculator key={c.ingredient.id} inputs={result.inputs} />
       <div className="ex-two">
         <div className="ex-card">
           <h3>The retained offer</h3>
@@ -1142,19 +1212,83 @@ function CatalogPanel({
     </>
   );
 }
-function SourcesPanel({ data }: { data: ExplorerData | null }) {
+function SourcesPanel({ data, catalog, catalogHref }: { data: ExplorerData | null; catalog: Catalog; catalogHref: string }) {
   return (
     <>
       <div className="ex-heading">
         <div>
           <span className="ex-eyebrow">Know what you’re comparing</span>
           <h2>Sources & coverage</h2>
+          <p className="ex-note">
+            {data?.tracking
+              ? `Market tracking began ${data.tracking.first_requested_at.slice(0, 10)} · ${data.tracking.active ? 'active' : 'inactive'} · last successful collection: ${data.tracking.last_collected_at?.slice(0, 10) ?? 'none yet'}. Tracking does not guarantee an offer for every ingredient.`
+              : 'Scheduled tracking is not confirmed for this market. Open the meal-planning dashboard to request coverage; collection is subject to the active-market budget.'}
+          </p>
           <p className="ex-subtitle">
             Source dates, retrieval dates, and scoring eligibility answer
             different questions.
           </p>
         </div>
       </div>
+      <section className="ex-card" aria-labelledby="canonical-ingredients-heading">
+        <span className="ex-eyebrow">How we organize food</span>
+        <h3 id="canonical-ingredients-heading">What is a canonical ingredient?</h3>
+        <p className="ex-subtitle">
+          It is PantryBot’s shared name for a recipe ingredient group. Store
+          advertisements and USDA rows use different names; we map compatible
+          products to one group so we can compare unit prices and use them in
+          supported recipes. “Canonical” means consistent within PantryBot,
+          rather than an official USDA category or a universal definition.
+        </p>
+        <h4>How the groups were chosen</h4>
+        <p>
+          The catalog is a hand-maintained starting set for batch meal prep:
+          protein anchors, vegetables and fruit, and dairy and eggs used in our
+          recipe roles. Groups reflect cooking use, product form, and whether
+          prices can be converted to a common unit. This is an editorial design
+          choice, not a ranking of every food or a statistically selected basket.
+          USDA mappings are attached separately; a group can exist without a
+          direct USDA benchmark.
+        </p>
+        <h4>What is included today</h4>
+        <p>
+          {catalog.length} groups: {catalog.filter((item) => item.category === 'PROTEIN').length} protein groups
+          {' '}(meat, poultry, seafood and sausage), {catalog.filter((item) => item.category === 'PRODUCE').length} produce groups
+          {' '}(including cooking onions, potatoes, greens and apples), and {catalog.filter((item) => item.category === 'DAIRY_EGGS').length} dairy and egg groups.
+          Brands and package sizes can share a group when the matching and
+          conversion rules support them. Cuts, varieties and source packages
+          remain visible in the raw records.
+        </p>
+        <h4>Why some similar products are separated or excluded</h4>
+        <p>
+          Yellow and white cooking onions share an aromatic role in supported
+          cooked recipes. Sweet, red and green onions are outside that group.
+          Bone-in chicken has a separate group from boneless chicken because
+          bone and edible yield differ. Exclusion keywords also filter misleading
+          matches such as onion dip, crispy onion toppings, pet food or prepared
+          meals. Each ingredient has its own rules; matching can still make mistakes.
+        </p>
+        <h4>What is outside the catalog</h4>
+        <p>
+          This is not a complete grocery catalog. Grains, legumes, oils, spices,
+          beverages, snacks and many prepared foods do not currently have their
+          own tracked groups. That is a limit of the current meal-prep price
+          tracker, not a judgment about nutrition, value or whether those foods
+          belong in your meals. An unmatched product is not evidence that it is
+          unavailable or expensive.
+        </p>
+        <p className="ex-note">
+          Sharing a group does not mean identical flavor, nutrition, quality,
+          price or edible yield. Normalizing dollars per pound or dozen does not
+          remove those differences. A USDA benchmark may cover only some members
+          of a group. Static fallback prices are estimates whose original empirical
+          source is not documented. Group rules and source mappings can evolve;
+          retained source records preserve their mapping version.
+        </p>
+        <Link className="ex-link" href={catalogHref}>
+          Browse every group, its inclusion keywords, exclusions and USDA mappings ↗
+        </Link>
+      </section>
       <div className="ex-grid">
         <div className="ex-card">
           <h3>USDA retail reports</h3>

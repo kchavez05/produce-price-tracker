@@ -1,4 +1,5 @@
 import { hash } from '@/lib/usda/adapter';
+import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { selectBenchmarks, type BenchmarkRow } from '@/lib/usda/read';
 import { scoreAllCommodities } from '@/lib/scoring-and-matcher';
 import { calculateValueScore } from '@/lib/value-score';
@@ -14,6 +15,20 @@ import type {
 import type { ExplorerQuery } from './query';
 import { ExplorerError } from './query';
 import type { PriceHistoryPoint, StoreChain } from '@/types/domain';
+
+export function scoreInputs(archive: Archive, query: ExplorerQuery) {
+  const ingredient = CANONICAL_INGREDIENTS.find((item) => item.id === query.ingredient)!;
+  const active = new Set(archive.reports.filter((r) => r.active && r.accepted).map((r) => r.id));
+  const benchmarks = selectBenchmarks(benchmarkRows(archive, active), new Date(query.asof));
+  return {
+    ingredient: {
+      ...ingredient,
+      mountainBaselinePerUnit: benchmarks.overrides[ingredient.id]?.mountainBaseline ?? ingredient.mountainBaselinePerUnit,
+      usdaSignal: { ...ingredient.usdaSignal, trend: 'STABLE' as const },
+    },
+    benchmark: benchmarks.provenance[ingredient.id] ?? null,
+  };
+}
 
 export function latestReports(reports: ExplorerReport[]) {
   const chosen = new Map<string, ExplorerReport>();

@@ -9,6 +9,7 @@ import {
   deriveData,
   currentOfferRevisions,
   latestReports,
+  scoreInputs,
 } from '@/lib/explorer/derive';
 import { publicSourceRow, publicReport } from '@/lib/explorer/public-fields';
 import { rowsCsv } from '@/lib/explorer/csv';
@@ -20,6 +21,15 @@ import { ALL_WEEKLY_BASELINE_OFFERS } from '@/data/mead-baseline-offers';
 import type { Archive, ExplorerOffer } from '@/lib/explorer/types';
 import type { PriceHistoryPoint } from '@/types/domain';
 const now = new Date('2026-10-28T21:00:00Z');
+it('provides neutral hypothetical scoring inputs without a retained offer', () => {
+  const inputs = scoreInputs({ reports: [], observations: [], offers: [] }, parseExplorerQuery(new URLSearchParams({ ingredient: 'yellow-white-onions' })));
+  expect(inputs.ingredient.id).toBe('yellow-white-onions');
+  expect(inputs.benchmark?.status).toBe('fallback');
+  expect(inputs.ingredient.usdaSignal.trend).toBe('STABLE');
+  const trace = calculateValueScore(inputs.ingredient, 0.99, 0);
+  expect(trace.wholesaleBonusScore).toBe(60);
+  expect(trace.discountVsRegularPct).toBe(0);
+});
 const query = (patch: Record<string, string> = {}) =>
   parseExplorerQuery(
     new URLSearchParams({
