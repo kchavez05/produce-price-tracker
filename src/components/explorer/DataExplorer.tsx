@@ -752,7 +752,7 @@ export default function DataExplorer({
             )}
           </>
         ) : null}
-        {tab === 'sources' ? <SourcesPanel data={history.data} /> : null}
+        {tab === 'sources' ? <SourcesPanel data={history.data} catalog={catalog} catalogHref={href({ tab: 'catalog' }, false)} /> : null}
         {!TABS.some(([id]) => id === tab) ? (
           <div className="ex-empty">
             Unknown view.{' '}
@@ -1212,7 +1212,7 @@ function CatalogPanel({
     </>
   );
 }
-function SourcesPanel({ data }: { data: ExplorerData | null }) {
+function SourcesPanel({ data, catalog, catalogHref }: { data: ExplorerData | null; catalog: Catalog; catalogHref: string }) {
   return (
     <>
       <div className="ex-heading">
@@ -1230,6 +1230,65 @@ function SourcesPanel({ data }: { data: ExplorerData | null }) {
           </p>
         </div>
       </div>
+      <section className="ex-card" aria-labelledby="canonical-ingredients-heading">
+        <span className="ex-eyebrow">How we organize food</span>
+        <h3 id="canonical-ingredients-heading">What is a canonical ingredient?</h3>
+        <p className="ex-subtitle">
+          It is PantryBot’s shared name for a recipe ingredient group. Store
+          advertisements and USDA rows use different names; we map compatible
+          products to one group so we can compare unit prices and use them in
+          supported recipes. “Canonical” means consistent within PantryBot,
+          rather than an official USDA category or a universal definition.
+        </p>
+        <h4>How the groups were chosen</h4>
+        <p>
+          The catalog is a hand-maintained starting set for batch meal prep:
+          protein anchors, vegetables and fruit, and dairy and eggs used in our
+          recipe roles. Groups reflect cooking use, product form, and whether
+          prices can be converted to a common unit. This is an editorial design
+          choice, not a ranking of every food or a statistically selected basket.
+          USDA mappings are attached separately; a group can exist without a
+          direct USDA benchmark.
+        </p>
+        <h4>What is included today</h4>
+        <p>
+          {catalog.length} groups: {catalog.filter((item) => item.category === 'PROTEIN').length} protein groups
+          {' '}(meat, poultry, seafood and sausage), {catalog.filter((item) => item.category === 'PRODUCE').length} produce groups
+          {' '}(including cooking onions, potatoes, greens and apples), and {catalog.filter((item) => item.category === 'DAIRY_EGGS').length} dairy and egg groups.
+          Brands and package sizes can share a group when the matching and
+          conversion rules support them. Cuts, varieties and source packages
+          remain visible in the raw records.
+        </p>
+        <h4>Why some similar products are separated or excluded</h4>
+        <p>
+          Yellow and white cooking onions share an aromatic role in supported
+          cooked recipes. Sweet, red and green onions are outside that group.
+          Bone-in chicken has a separate group from boneless chicken because
+          bone and edible yield differ. Exclusion keywords also filter misleading
+          matches such as onion dip, crispy onion toppings, pet food or prepared
+          meals. Each ingredient has its own rules; matching can still make mistakes.
+        </p>
+        <h4>What is outside the catalog</h4>
+        <p>
+          This is not a complete grocery catalog. Grains, legumes, oils, spices,
+          beverages, snacks and many prepared foods do not currently have their
+          own tracked groups. That is a limit of the current meal-prep price
+          tracker, not a judgment about nutrition, value or whether those foods
+          belong in your meals. An unmatched product is not evidence that it is
+          unavailable or expensive.
+        </p>
+        <p className="ex-note">
+          Sharing a group does not mean identical flavor, nutrition, quality,
+          price or edible yield. Normalizing dollars per pound or dozen does not
+          remove those differences. A USDA benchmark may cover only some members
+          of a group. Static fallback prices are estimates whose original empirical
+          source is not documented. Group rules and source mappings can evolve;
+          retained source records preserve their mapping version.
+        </p>
+        <Link className="ex-link" href={catalogHref}>
+          Browse every group, its inclusion keywords, exclusions and USDA mappings ↗
+        </Link>
+      </section>
       <div className="ex-grid">
         <div className="ex-card">
           <h3>USDA retail reports</h3>

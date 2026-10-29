@@ -14,6 +14,8 @@ Weights remain 55% affordability, 35% discount depth, and 10% market signal. The
 
 Cooking onions include yellow and white varieties for cooked recipe roles; sweet, red, and green onions are excluded from matching. The ingredient no longer implies a mandatory 3 lb bag. Other combined groups publish editorial recipe-role rationales and limitations. These groups are distinct from USDA commodity classifications, and source varieties remain inspectable.
 
+Sources & Coverage includes a plain-language explanation of canonical ingredients: a hand-maintained meal-prep catalog rather than a universal food taxonomy or statistically selected grocery basket. It explains the recipe-role/product-form basis, live category counts, package normalization, exclusions with onion and chicken examples, and untracked grocery categories. A link preserves the selected ingredient and applicable filters when opening the detailed catalog. Missing matches or benchmarks do not establish product unavailability; static fallback estimates have no documented original empirical source.
+
 ## Raw data and exports
 
 The score view remains useful without a retained local offer: it shows the available comparison benchmark (or labeled static catalog fallback), scoring weights, and a hypothetical per-unit price calculator. The optional regular-price comparison is user supplied; leaving it blank asserts no regular-price discount. Calculations use the shared score policy with a neutral market signal and never save observations or imply verified cycle badges.
