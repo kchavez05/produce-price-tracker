@@ -130,7 +130,7 @@ flowchart LR
 
 - **v1.6.0:** Account-persistent Virtual Pantry with explicit Yes/No ingredient availability, search, optional quick-add suggestions, custom generic ingredients, optional inventory details, and recipe integration. No automatic inventory deductions. See the [approved specification](docs/specs/v1.6.0-virtual-pantry.md).
 - **v1.6.1:** Speech-to-inventory with review and confirmation before adding recognized ingredients.
-- **v1.6.2:** Barcode scanning with mapping to generic ingredients and user confirmation/correction.
+- **v1.6.2:** Barcode scanning with mapping to generic ingredients and user confirmation/correction, plus dynamic pantry-staple pricing (v1.6.0 uses fixed estimates).
 
 ---
 
