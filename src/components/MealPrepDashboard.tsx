@@ -55,6 +55,7 @@ import {
   Gem,
   Clock,
   Snowflake,
+  DoorOpen,
   ChevronDown,
   ChevronUp,
   KeyRound,
@@ -91,6 +92,7 @@ interface Props {
 }
 
 export default function MealPrepDashboard({ initialData, pantryEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
+  const InventoryIcon = pantryEnabled ? DoorOpen : Snowflake;
   const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
   const [activeTab, setActiveTab] = useState<
@@ -1280,7 +1282,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 }`}
                 title={pantryEnabled ? 'Open Virtual Pantry' : 'Open Virtual Freezer & Multi-Week Protein Arbitrage Inventory'}
               >
-                <Snowflake
+                <InventoryIcon
                   className={`h-3.5 w-3.5 ${
                     showFreezerModal ? 'text-white' : 'text-sky-500'
                   }`}
@@ -1481,7 +1483,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
           {arbitrageToast && (
             <div className="mt-2.5 flex items-center justify-between rounded-xl border border-sky-300 bg-sky-950 px-3.5 py-2 text-xs font-semibold text-sky-100 shadow-md">
               <div className="flex items-center gap-2">
-                <Snowflake className="h-4 w-4 text-sky-400 shrink-0" />
+                <InventoryIcon className="h-4 w-4 text-sky-400 shrink-0" />
                 <span>{arbitrageToast}</span>
               </div>
               <button
@@ -2590,7 +2592,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                               : 'border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200'
                           }`}
                         >
-                          <Snowflake className="h-3.5 w-3.5" />
+                          <InventoryIcon className="h-3.5 w-3.5" />
                           <span>
                             {pantryEnabled ? (isOnHand ? 'Already have' : 'Not marked available') : inVirtualFreezer
                               ? 'In Freezer ($0)'
@@ -3049,7 +3051,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                               </span>
                               {ing.isOnHand ? (
                                 <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-[11px] font-bold text-white">
-                                  <Snowflake className="h-3 w-3" />{' '}
+                                  <InventoryIcon className="h-3 w-3" />{' '}
                                   {pantryEnabled ? 'Already have' : ing.fromVirtualFreezer
                                     ? 'Virtual Freezer ($0)'
                                     : 'In Freezer/Pantry'}
