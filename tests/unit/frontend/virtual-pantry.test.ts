@@ -51,6 +51,12 @@ describe('Virtual Pantry accessible controls', () => {
     await run(() => button('Add Chicken broth').click());
     expect(save).toHaveBeenCalledWith({ ...saved, available: true }, saved.id);
   });
+  it('can re-add an existing No identity while account readiness metadata is unavailable', async () => {
+    await render([saved], []); await search('chicken broth');
+    expect(button('Add Chicken broth').disabled).toBe(false);
+    await run(() => button('Add Chicken broth').click());
+    expect(save).toHaveBeenCalledWith({ ...saved, available: true }, saved.id);
+  });
   it('adds a private custom name when search has no suitable result', async () => {
     await render(); await search('My family spice blend');
     expect(container.textContent).toContain('No matching ingredient.');

@@ -39,6 +39,7 @@ export default function VirtualPantry(props: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => { heading.current?.focus(); heading.current?.scrollIntoView?.({ block: 'start' }); }, []);
   useEffect(() => { if (editing) editor.current?.querySelector<HTMLInputElement>('[name=displayName]')?.focus(); }, [editing]);
+  const accepts = (id: string) => props.acceptedCatalogIds.includes(id) || props.entries.some((entry) => entry.ingredientId === id);
   const results = searchPantryCatalog(query).slice(0, 12);
   const customResults = props.entries.filter((entry) => !entry.deletedAtIso && !entry.ingredientId && normalizePantryName(entry.displayName).includes(normalizePantryName(query)));
   const shown = props.entries.filter((entry) => !entry.deletedAtIso && (showNo || entry.available) && (!query.trim() || normalizePantryName(entry.displayName).includes(normalizePantryName(query))));
@@ -123,10 +124,10 @@ export default function VirtualPantry(props: Props) {
     {query.trim() && <div className="mt-2 space-y-2">
       {results.length === 0 && customResults.length === 0 && <p className="text-sm">No matching ingredient. Add your own name below.</p>}
       <ul className="grid gap-2 sm:grid-cols-2">{results.map((ingredient) => <li key={ingredient.id}>
-        <button disabled={busy || !props.acceptedCatalogIds.includes(ingredient.id)} className={`${button} w-full text-left`} onClick={() => void perform(() => add({ ingredientId: ingredient.id, displayName: ingredient.name, available: true }))}>Add {ingredient.name}</button>
-        {!props.acceptedCatalogIds.includes(ingredient.id) && <p className="text-xs text-slate-600">Available after your account’s catalog update. Reconnect to retry.</p>}
+        <button disabled={busy || !accepts(ingredient.id)} className={`${button} w-full text-left`} onClick={() => void perform(() => add({ ingredientId: ingredient.id, displayName: ingredient.name, available: true }))}>Add {ingredient.name}</button>
+        {!accepts(ingredient.id) && <p className="text-xs text-slate-600">Available after your account’s catalog update. Reconnect to retry.</p>}
         {cookingCatalogVariants(activeCookingIngredients, ingredient.id).length > 0 && <details className="mt-1 text-sm"><summary className="cursor-pointer">Choose a variety (optional)</summary>
-          <ul className="mt-1 space-y-1">{cookingCatalogVariants(activeCookingIngredients, ingredient.id).map((variant) => <li key={variant.id}><button className={button} disabled={busy || !props.acceptedCatalogIds.includes(variant.id)} onClick={() => void perform(() => add({ ingredientId: variant.id, displayName: variant.name, available: true }))}>Add {variant.name}</button></li>)}</ul>
+          <ul className="mt-1 space-y-1">{cookingCatalogVariants(activeCookingIngredients, ingredient.id).map((variant) => <li key={variant.id}><button className={button} disabled={busy || !accepts(variant.id)} onClick={() => void perform(() => add({ ingredientId: variant.id, displayName: variant.name, available: true }))}>Add {variant.name}</button></li>)}</ul>
         </details>}
       </li>)}
         {customResults.map((entry) => <li key={entry.id}><button disabled={busy} className={`${button} w-full text-left`} onClick={() => void perform(() => add(entry))}>Add {entry.displayName} (custom)</button></li>)}</ul>
