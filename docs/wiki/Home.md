@@ -70,3 +70,5 @@ Current planning cycles, verified live prices, explicit estimates and refresh au
 ## Staged Virtual Pantry implementation
 
 See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.
+
+The draft [USDA catalog ingestion standards](../specs/usda-catalog-ingestion.md) define recurring source review and a compact cooking-ingredient catalog, including optional varieties and safe updates. Candidate records remain separate from published search choices.
