@@ -23,7 +23,7 @@ import {
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import { PantryEntry, PantryMutation, PantryMutationResult, PantryOwner } from '@/types/pantry';
 import { LegacyPantrySource, migrateLegacyPantry, PantryMigrationSnapshot } from '@/lib/pantry/migration';
-import { pantryIdentity, validatePantryEntry } from '@/lib/pantry/model';
+import { pantryIdentity, pantryCatalog, validatePantryEntry } from '@/lib/pantry/model';
 import { evaluatePantryMutation, mutationFingerprint, PantryError, validatePantryMutation } from '@/lib/pantry/mutations';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -66,6 +66,10 @@ export function readPantryFromSqlite(owner: PantryOwner): PantryMigrationSnapsho
     needsCatalogMatch: entries.filter((entry) => !entry.ingredientId && !entry.deletedAtIso).map((entry) => entry.id) };
 }
 
+export function readAcceptedPantryCatalogFromSqlite(): string[] {
+  return (getDb().prepare('SELECT id FROM pantry_catalog ORDER BY id').all() as { id: string }[]).map((row) => row.id);
+}
+
 export function hasPantryMigrationInSqlite(userId: string): boolean {
   return Boolean(getDb().prepare('SELECT 1 FROM user_pantry_migrations WHERE user_id = ?').get(userId));
 }
@@ -98,7 +102,7 @@ export function migratePantryInSqlite(owner: PantryOwner): PantryMigrationSnapsh
 }
 
 export function mutatePantryInSqlite(owner: PantryOwner, mutation: PantryMutation): PantryMutationResult {
-  mutation = validatePantryMutation(mutation);
+  mutation = validatePantryMutation(mutation, true);
   const db = getDb();
   const userId = pantryUserId(owner);
   const fingerprint = mutationFingerprint(mutation);
@@ -112,6 +116,9 @@ export function mutatePantryInSqlite(owner: PantryOwner, mutation: PantryMutatio
       if (prior.fingerprint !== fingerprint) throw new PantryError('mutation_id_reused', 409, 'Use a new mutation ID for a different edit.');
       result = JSON.parse(prior.result_json) as PantryMutationResult;
     } else {
+      if (mutation.operation === 'put' && mutation.entry.ingredientId &&
+          !db.prepare('SELECT 1 FROM pantry_catalog WHERE id=?').get(mutation.entry.ingredientId) &&
+          !readPantryFromSqlite(owner).entries.some((entry) => entry.id === mutation.entryId && entry.ingredientId === mutation.entry.ingredientId)) throw new PantryError('invalid_entry', 400, 'Choose an accepted catalog ingredient.');
       result = evaluatePantryMutation(readPantryFromSqlite(owner).entries, mutation, new Date().toISOString());
       if (result.status === 'applied') {
         writePantryEntryToSqlite(userId, result.entry);
@@ -294,6 +301,7 @@ function initSchemaAndSeed(db: DatabaseSync) {
       PRIMARY KEY (user_id, id)
     );
 
+    CREATE TABLE IF NOT EXISTS pantry_catalog (id TEXT PRIMARY KEY);
     CREATE TABLE IF NOT EXISTS user_pantry_entries (
       user_id TEXT NOT NULL REFERENCES user_accounts(id) ON DELETE CASCADE,
       id TEXT NOT NULL,
@@ -313,6 +321,10 @@ function initSchemaAndSeed(db: DatabaseSync) {
       PRIMARY KEY (user_id, mutation_id)
     );
   `);
+
+  // Append accepted IDs on startup and retain them across presentation/code rollback.
+  const acceptIngredient = db.prepare('INSERT OR IGNORE INTO pantry_catalog(id) VALUES(?)');
+  for (const id of pantryCatalog.keys()) acceptIngredient.run(id);
 
   // Check if weekly_offers already seeded
   const countRow = db

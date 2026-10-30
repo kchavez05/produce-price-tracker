@@ -1,7 +1,7 @@
 import { PGlite } from '@electric-sql/pglite';
 import { readFileSync } from 'node:fs';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { PANTRY_INGREDIENTS } from '@/data/pantry-ingredients';
+import { cookingIngredients } from '@/lib/pantry/model';
 import { migrateLegacyPantry, PantryMigrationSnapshot } from '@/lib/pantry/migration';
 import { PantryMutation, PantryMutationResult } from '@/types/pantry';
 
@@ -27,6 +27,7 @@ beforeAll(async () => {
   await db.exec(readFileSync('supabase/migrations/20261019000000_v1_3_multi_tenant_rls_schema.sql', 'utf8'));
   await db.exec(readFileSync('supabase/migrations/20261029171953_virtual_pantry_persistence.sql', 'utf8'));
   await db.exec(readFileSync('supabase/migrations/20261029211728_pantry_staple_catalog.sql', 'utf8'));
+  await db.exec(readFileSync('supabase/migrations/20261030173404_reviewed_cooking_catalog.sql', 'utf8'));
   await db.exec('grant select,insert,update,delete on public.users, public.user_preferences, public.user_freezer_items, public.user_saved_recipes to authenticated');
   await db.query('insert into auth.users(id,email) values($1,$3),($2,$3)', [alice, bob, 'fixture@example.test']);
 }, 20000);
@@ -35,7 +36,7 @@ afterAll(async () => { await db?.close(); });
 describe('pantry database storage boundaries', () => {
   it('keeps catalog IDs synchronized and denies anonymous execution', async () => {
     const ids = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows.map((r) => r.id);
-    expect(ids).toEqual(PANTRY_INGREDIENTS.map((r) => r.id).sort());
+    expect(ids).toEqual(cookingIngredients.map((r) => r.id).sort());
     await db.exec('set role anon');
     await expect(rpc('read')).rejects.toThrow('permission denied');
     await db.exec('reset role');
@@ -79,6 +80,17 @@ describe('pantry database storage boundaries', () => {
       await expect(rpc('mutate', put({ mutationId: 'invalid', entryId: 'invalid', entry: { displayName: 'Item', available: true, ...patch } } as Partial<PantryMutation>))).rejects.toThrow('invalid_entry');
     }
     await expect(rpc('mutate', { ...put(), operation: null })).rejects.toThrow('invalid_mutation');
+  });
+  it('accepts new IDs additively, preserves them on presentation rollback, and retains existing inventory', async () => {
+    const before = await rpc<PantryMigrationSnapshot>('read');
+    expect(await rpc('mutate', put({ mutationId: 'new-lentils', entryId: 'lentils', entry: { displayName: 'Dried lentils', ingredientId: 'lentils-dried', available: true } }))).toMatchObject({ status: 'applied' });
+    // A presentation rollback never deletes accepted database IDs. Reapply is idempotent.
+    await db.exec('reset role');
+    await db.exec(readFileSync('supabase/migrations/20261030173404_reviewed_cooking_catalog.sql', 'utf8'));
+    await asUser(alice);
+    expect(await rpc('mutate', put({ mutationId: 'edit-after-rollback', entryId: 'lentils', expectedRevision: 1, entry: { displayName: 'Dried lentils', ingredientId: 'lentils-dried', available: false, quantity: 0 } }))).toMatchObject({ status: 'applied', entry: { revision: 2, ingredientId: 'lentils-dried' } });
+    const after = await rpc<PantryMigrationSnapshot>('read');
+    expect(after.entries.filter((entry) => entry.id !== 'lentils')).toEqual(before.entries);
   });
   it('fences legacy on-hand changes while allowing unrelated preferences', async () => {
     await expect(db.query('update public.user_preferences set on_hand_ingredient_ids=$1 where user_id=$2', [[], alice])).rejects.toThrow('pantry_upgrade_required');

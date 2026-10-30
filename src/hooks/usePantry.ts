@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { PantryEntry, PantryEntryInput, PantryMutation, PantryOwner } from '@/types/pantry';
 import { LegacyPantrySource, migrateLegacyPantry, PantryMigrationSnapshot } from '@/lib/pantry/migration';
 import { evaluatePantryMutation, validatePantryMutation } from '@/lib/pantry/mutations';
-import { pantryIdentity } from '@/lib/pantry/model';
+import { pantryIdentity, pantryCatalog, canSavePantryIngredient } from '@/lib/pantry/model';
 import { createPantryQueue, PantryAcknowledgment } from '@/lib/pantry/queue';
 import { cachePantrySnapshot, guestPantryKey, mergeAcknowledgedEntry, pantryCacheKey, parsePantrySnapshot, readGuestPantry } from '@/lib/pantry/client-cache';
 import { createSyncQueue, parseGuestFreezer, syncQueueKey } from '@/lib/sync/queue';
@@ -193,8 +193,10 @@ export function usePantry(enabled: boolean, accountId: string | null) {
     const owner = visibleOwner;
     if (!owner || activeOwner.current !== owner || snapshot?.owner !== owner) throw new Error('Wait for the current pantry to load.');
     const existing = id ? snapshot.entries.find((entry) => entry.id === id) : undefined;
+    const accepted = owner.startsWith('guest:') ? [...pantryCatalog.keys()] : snapshot.acceptedCatalogIds ?? [];
+    if (input && !canSavePantryIngredient(input, existing, accepted)) throw new Error('This ingredient is not ready for this account yet. Reconnect and retry after the catalog update.');
     const mutation = validatePantryMutation({ mutationId: crypto.randomUUID(), entryId: id ?? crypto.randomUUID(), expectedRevision: existing?.revision ?? 0,
-      ...(input ? { operation: 'put', entry: input } : { operation: 'delete' }) });
+      ...(input ? { operation: 'put', entry: input } : { operation: 'delete' }) }, Boolean(existing && input?.ingredientId === existing.ingredientId));
     if (owner.startsWith('guest:')) {
       await guestLock(async () => {
         if (activeOwner.current !== owner) throw new Error('Pantry account changed.');
@@ -217,6 +219,7 @@ export function usePantry(enabled: boolean, accountId: string | null) {
     if (!owner?.startsWith('account:') || activeOwner.current !== owner || snapshot?.owner !== owner) throw new Error('Sign in before importing.');
     const guest = await guestLock(() => readGuestPantry(localStorage));
     const duplicates = guest.entries.filter((entry) => !entry.deletedAtIso && snapshot.entries.some((current) => pantryIdentity(current) === pantryIdentity(entry))).map((entry) => entry.displayName);
+    if (guest.entries.some((entry) => !entry.deletedAtIso && !snapshot.entries.some((current) => pantryIdentity(current) === pantryIdentity(entry)) && !canSavePantryIngredient(entry, undefined, snapshot.acceptedCatalogIds ?? []))) throw new Error('Some guest ingredients need an account catalog update before import. Your guest pantry is preserved.');
     setImportReport({ owner, duplicates });
     const digest = async (value: string) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value)))).map((byte) => byte.toString(16).padStart(2, '0')).join('');
     for (const entry of guest.entries) {
@@ -295,7 +298,7 @@ export function usePantry(enabled: boolean, accountId: string | null) {
     });
   }, [visibleOwner, publish, getQueue, synchronize]);
 
-  return { owner: visibleOwner, entries: visibleOwner ? snapshot!.entries : noEntries, guestEntries, guest: !accountId, hasLegacyEdits: Boolean(visibleOwner && hasLegacyEdits),
+  return { acceptedCatalogIds: visibleOwner ? accountId ? snapshot?.acceptedCatalogIds ?? [] : [...pantryCatalog.keys()] : [], owner: visibleOwner, entries: visibleOwner ? snapshot!.entries : noEntries, guestEntries, guest: !accountId, hasLegacyEdits: Boolean(visibleOwner && hasLegacyEdits),
     importDuplicates: importReport?.owner === visibleOwner ? importReport.duplicates : [],
     status: visibleOwner ? status : error ? 'Couldn’t sync — Retry' as Status : 'Loading' as Status, error, conflicts: visibleOwner ? pending : noPending,
     save: (input: PantryEntryInput, id?: string) => write(input, id), remove: (entry: PantryEntry) => write(null, entry.id),

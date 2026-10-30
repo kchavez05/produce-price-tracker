@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import VirtualPantry from '@/components/VirtualPantry';
+import { cookingIngredients } from '@/lib/pantry/model';
 import { PantryEntry } from '@/types/pantry';
 let root: Root;
 let container: HTMLDivElement;
@@ -15,8 +16,8 @@ function button(text: string) {
   if (!found) throw new Error(`Missing button: ${text}`);
   return found;
 }
-async function render(entries: PantryEntry[] = []) { await run(() => root.render(createElement(VirtualPantry, {
-  entries, status: 'Saved', error: null, guest: true, hasLegacyEdits: false, importDuplicates: [], guestEntries: [], conflicts: [],
+async function render(entries: PantryEntry[] = [], acceptedCatalogIds = cookingIngredients.map((r) => r.id)) { await run(() => root.render(createElement(VirtualPantry, {
+  entries, acceptedCatalogIds, status: 'Saved', error: null, guest: true, hasLegacyEdits: false, importDuplicates: [], guestEntries: [], conflicts: [],
   onSave: save, onDelete: vi.fn(), onRetry: vi.fn(), onResolve: vi.fn(), onImportGuest: vi.fn(), onClose: vi.fn(),
   onReviewLegacy: vi.fn().mockResolvedValue([]), onImportLegacy: vi.fn(),
 }))); }
@@ -50,12 +51,43 @@ describe('Virtual Pantry accessible controls', () => {
     await run(() => button('Add Chicken broth').click());
     expect(save).toHaveBeenCalledWith({ ...saved, available: true }, saved.id);
   });
+  it('can re-add an existing No identity while account readiness metadata is unavailable', async () => {
+    await render([saved], []); await search('chicken broth');
+    expect(button('Add Chicken broth').disabled).toBe(false);
+    await run(() => button('Add Chicken broth').click());
+    expect(save).toHaveBeenCalledWith({ ...saved, available: true }, saved.id);
+  });
   it('adds a private custom name when search has no suitable result', async () => {
     await render(); await search('My family spice blend');
     expect(container.textContent).toContain('No matching ingredient.');
     await run(() => button('Add custom ingredient:').click());
     await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
     expect(save).toHaveBeenCalledWith({ displayName: 'My family spice blend', available: true }, undefined);
+  });
+  it('offers two primary lentil forms, optional red variety, and a direct specific query', async () => {
+    await render(); await search('lentils');
+    const primary = [...container.querySelectorAll('ul.grid > li > button')].map((b) => b.textContent);
+    expect(primary).toEqual(['Add Canned lentils', 'Add Dried lentils']);
+    expect(container.querySelector('summary')?.textContent).toBe('Choose a variety (optional)');
+    await run(() => button('Add Dried lentils').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'lentils-dried', displayName: 'Dried lentils', available: true }, undefined);
+    await search('red lentils');
+    expect(button('Add Dried red lentils')).toBeTruthy();
+    expect(container.querySelector('summary')).toBeNull();
+  });
+  it('prevents adding an ID before server acceptance and explains explicit No coverage', async () => {
+    await render([], ['red-lentils-dried']); await search('lentils');
+    expect(button('Add Dried lentils').disabled).toBe(true);
+    expect(container.textContent).toContain('account’s catalog update');
+    await render([{ ...saved, id: 'general', ingredientId: 'lentils-dried', displayName: 'Dried lentils' }, { ...saved, id: 'red', ingredientId: 'red-lentils-dried', displayName: 'Dried red lentils', available: true }]);
+    await search(''); await run(() => (container.querySelector('input[type=checkbox]') as HTMLInputElement).click());
+    expect(container.textContent).toContain('Marked No: available varieties do not cover');
+  });
+  it('edits an unfamiliar saved identity without clearing its ID or optional details', async () => {
+    await render([{ ...saved, available: true, ingredientId: 'future-catalog-item', displayName: 'Future ingredient' }]);
+    await run(() => button('Edit').click());
+    await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
+    expect(save).toHaveBeenCalledWith(expect.objectContaining({ ingredientId: 'future-catalog-item', displayName: 'Future ingredient', quantity: 0, useByDate: '2000-01-01' }), saved.id);
   });
   it('keeps invalid optional details recoverable with inline errors', async () => {
     await render([{ ...saved, available: true }]);

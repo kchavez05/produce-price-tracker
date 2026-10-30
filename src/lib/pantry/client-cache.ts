@@ -12,10 +12,11 @@ export function parsePantrySnapshot(raw: unknown, owner?: PantryOwner): PantryMi
   if (typeof value.owner !== 'string' || !/^(account|guest):.+/.test(value.owner) || (owner && value.owner !== owner) || !Array.isArray(value.entries)) {
     throw new Error('The saved pantry owner does not match this session.');
   }
+  if (value.acceptedCatalogIds !== undefined && (!Array.isArray(value.acceptedCatalogIds) || !value.acceptedCatalogIds.every((id) => typeof id === 'string' && /^[a-z0-9][a-z0-9._:-]{0,119}$/.test(id)))) throw new Error('Invalid catalog readiness metadata.');
   const entries: PantryEntry[] = value.entries.map((item: unknown) => {
     if (!item || typeof item !== 'object') throw new Error('Invalid saved pantry entry; original data retained.');
     const row = item as Record<string, unknown>;
-    const validated = validatePantryEntry(row);
+    const validated = validatePantryEntry(row, true);
     if (!validated.ok || typeof row.id !== 'string' || !Number.isSafeInteger(row.revision) || (row.revision as number) < 1 || typeof row.updatedAtIso !== 'string' || (row.deletedAtIso !== undefined && typeof row.deletedAtIso !== 'string')) {
       throw new Error('Invalid saved pantry details; original data retained.');
     }

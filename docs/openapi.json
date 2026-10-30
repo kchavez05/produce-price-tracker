@@ -75,7 +75,7 @@
         ],
         "operationId": "getPrivatePantry",
         "summary": "Read the current private pantry and legacy migration source",
-        "description": "Feature gated. Uses the verified account session or mints a private guest cookie. Never migrates automatically. All responses are private/no-store. Tombstones are included for conflict detection. Before migration, legacySource is a preview; after migration it is the preserved source archive.",
+        "description": "Feature gated. Uses the verified account session or mints a private guest cookie. Never migrates automatically. GET includes catalogVersion and installed acceptedCatalogIds; clients must verify an ID is accepted before creating a new reference. Preserve unfamiliar IDs on reads, edits, queues, and exports; they do not confer recipe coverage. All responses are private/no-store. Tombstones are included for conflict detection. Before migration, legacySource is a preview; after migration it is the preserved source archive.",
         "responses": {
           "200": {
             "description": "Owner-scoped inventory snapshot.",
@@ -2623,6 +2623,17 @@
             "items": {
               "$ref": "#/components/schemas/PantryEntry"
             }
+          },
+          "catalogVersion": {
+            "type": "string",
+            "description": "Application cooking catalog version; acceptedCatalogIds separately reflects database readiness."
+          },
+          "acceptedCatalogIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Installed server identities, checked before saving new references. Absent on older responses; reconnect to verify readiness."
           },
           "legacyMigrationVersion": {
             "type": "integer",

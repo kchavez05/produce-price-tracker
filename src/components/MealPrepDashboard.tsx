@@ -1494,7 +1494,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
           {/* v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage Drawer */}
           {showFreezerModal && pantryEnabled && <VirtualPantry
             key={pantry.owner ?? `loading:${pantryAccountId ?? 'guest'}`}
-            entries={pantry.entries} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
+            entries={pantry.entries} acceptedCatalogIds={pantry.acceptedCatalogIds} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
             importDuplicates={pantry.importDuplicates}
             guestEntries={pantry.guestEntries} conflicts={pantry.conflicts}
             onSave={pantry.save} onDelete={pantry.remove} onRetry={pantry.retry} onResolve={pantry.resolve}

@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     if (input.owner !== context.owner) return json({ error: 'Sign in to the original account before retrying.', code: 'owner_changed' }, 409);
     if (input.action === 'migrate') return json(await migratePrivatePantry(context));
     if (input.action !== 'mutate') return json({ error: 'Choose migrate or mutate.' }, 400);
-    const result = await mutatePrivatePantry(context, validatePantryMutation(input.mutation));
+    const result = await mutatePrivatePantry(context, validatePantryMutation(input.mutation, true));
     return json({ owner: context.owner, ...result }, result.status === 'conflict' ? 409 : 200);
   } catch (error) { return handleError(error); }
 }

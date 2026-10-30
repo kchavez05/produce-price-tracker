@@ -1,18 +1,15 @@
 import { PantryEntry, PantryRequirement } from '@/types/pantry';
-import { pantryCatalog } from './model';
+import { pantryCatalog, availablePantryIngredientIds } from './model';
 
 /**
- * Uses only exact catalog identities. Optional quantities/dates on the user's
+ * Uses exact identities and reviewed one-hop coverage with explicit No precedence. Optional quantities/dates on the user's
  * entry never influence coverage. Unknown required identities remain uncovered.
  */
 export function evaluatePantryRequirements(
   requirements: readonly PantryRequirement[],
   entries: readonly PantryEntry[],
 ) {
-  const available = entries
-    .filter((entry) => entry.available && !entry.deletedAtIso && entry.ingredientId && pantryCatalog.has(entry.ingredientId))
-    .flatMap((entry) => entry.ingredientId ? [entry.ingredientId] : []);
-  return evaluatePantryRequirementsByIds(requirements, available);
+  return evaluatePantryRequirementsByIds(requirements, availablePantryIngredientIds(entries));
 }
 
 export function evaluatePantryRequirementsByIds(requirements: readonly PantryRequirement[], availableIds: readonly string[]) {

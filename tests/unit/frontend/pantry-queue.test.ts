@@ -39,6 +39,16 @@ describe('durable pantry mutation queue', () => {
     await reloaded.flush(alice, async (owner, m) => applied(owner, m));
     expect(storage.getItem(pantryQueueKey(alice))).toBeNull();
   });
+  it('retains unfamiliar future catalog edits through reload and server rejection', async () => {
+    const { queue, storage, active, lock } = setup();
+    const future = mutation({ operation: 'put', entry: { ingredientId: 'future-item', displayName: 'Future item', available: false, quantity: 0 } });
+    await queue.enqueue(alice, future);
+    const original = storage.getItem(pantryQueueKey(alice));
+    const reloaded = createPantryQueue(storage, active, lock);
+    expect((await reloaded.pending(alice))[0].mutation).toEqual(future);
+    await expect(reloaded.flush(alice, async () => { throw new Error('server not ready'); })).rejects.toThrow('server not ready');
+    expect(storage.getItem(pantryQueueKey(alice))).toBe(original);
+  });
   it('never replays a previous account and retains an in-flight acknowledgment across account switching', async () => {
     const { queue, switchTo, storage } = setup();
     await queue.enqueue(alice, mutation());

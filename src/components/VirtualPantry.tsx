@@ -1,12 +1,13 @@
 'use client';
 
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import { PANTRY_INGREDIENTS } from '@/data/pantry-ingredients';
-import { normalizePantryName, pantryIdentity, searchPantryCatalog, validatePantryEntry } from '@/lib/pantry/model';
+import { cookingCatalogVariants } from '@/lib/pantry/catalog-search';
+import { normalizePantryName, pantryIdentity, searchPantryCatalog, validatePantryEntry, cookingIngredients, activeCookingIngredients, cookingCompatibility, pantryCatalog } from '@/lib/pantry/model';
 import { PantryEntry, PantryEntryInput, PantryMutation, PantryMutationResult } from '@/types/pantry';
 
 interface Props {
   entries: readonly PantryEntry[];
+  acceptedCatalogIds: readonly string[];
   status: 'Loading' | 'Saved' | 'Pending sync' | 'Couldn’t sync — Retry';
   error: string | null;
   guest: boolean;
@@ -38,6 +39,7 @@ export default function VirtualPantry(props: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => { heading.current?.focus(); heading.current?.scrollIntoView?.({ block: 'start' }); }, []);
   useEffect(() => { if (editing) editor.current?.querySelector<HTMLInputElement>('[name=displayName]')?.focus(); }, [editing]);
+  const accepts = (id: string) => props.acceptedCatalogIds.includes(id) || props.entries.some((entry) => entry.ingredientId === id);
   const results = searchPantryCatalog(query).slice(0, 12);
   const customResults = props.entries.filter((entry) => !entry.deletedAtIso && !entry.ingredientId && normalizePantryName(entry.displayName).includes(normalizePantryName(query)));
   const shown = props.entries.filter((entry) => !entry.deletedAtIso && (showNo || entry.available) && (!query.trim() || normalizePantryName(entry.displayName).includes(normalizePantryName(query))));
@@ -59,8 +61,9 @@ export default function VirtualPantry(props: Props) {
     if (!editing) return;
     const fields = new FormData(event.currentTarget);
     const ingredientId = String(fields.get('ingredientId') || '');
-    const catalog = PANTRY_INGREDIENTS.find((ingredient) => ingredient.id === ingredientId);
+    const catalog = cookingIngredients.find((ingredient) => ingredient.id === ingredientId);
     const quantity = String(fields.get('quantity') || '').trim();
+    const retainedId = editing.ingredientId === ingredientId ? ingredientId : undefined;
     const input = validatePantryEntry({
       displayName: catalog?.name ?? fields.get('displayName'), available: fields.get('available') === 'true',
       ...(ingredientId ? { ingredientId } : {}),
@@ -68,7 +71,7 @@ export default function VirtualPantry(props: Props) {
       ...(quantity ? { quantity: Number(quantity) } : {}),
       ...(fields.get('unit') ? { unit: fields.get('unit') } : {}),
       ...(fields.get('useByDate') ? { useByDate: fields.get('useByDate') } : {}),
-    });
+    }, Boolean(retainedId));
     if (!input.ok) { setFormError(Object.values(input.errors).join(' ')); return; }
     void perform(async () => { await props.onSave(input.value, 'id' in editing ? editing.id : undefined); setEditing(null); });
   }
@@ -120,14 +123,20 @@ export default function VirtualPantry(props: Props) {
     </label>
     {query.trim() && <div className="mt-2 space-y-2">
       {results.length === 0 && customResults.length === 0 && <p className="text-sm">No matching ingredient. Add your own name below.</p>}
-      <ul className="grid gap-2 sm:grid-cols-2">{results.map((ingredient) => <li key={ingredient.id}><button disabled={busy} className={`${button} w-full text-left`} onClick={() => void perform(() => add({ ingredientId: ingredient.id, displayName: ingredient.name, available: true }))}>Add {ingredient.name}</button></li>)}
+      <ul className="grid gap-2 sm:grid-cols-2">{results.map((ingredient) => <li key={ingredient.id}>
+        <button disabled={busy || !accepts(ingredient.id)} className={`${button} w-full text-left`} onClick={() => void perform(() => add({ ingredientId: ingredient.id, displayName: ingredient.name, available: true }))}>Add {ingredient.name}</button>
+        {!accepts(ingredient.id) && <p className="text-xs text-slate-600">Available after your account’s catalog update. Reconnect to retry.</p>}
+        {cookingCatalogVariants(activeCookingIngredients, ingredient.id).length > 0 && <details className="mt-1 text-sm"><summary className="cursor-pointer">Choose a variety (optional)</summary>
+          <ul className="mt-1 space-y-1">{cookingCatalogVariants(activeCookingIngredients, ingredient.id).map((variant) => <li key={variant.id}><button className={button} disabled={busy || !accepts(variant.id)} onClick={() => void perform(() => add({ ingredientId: variant.id, displayName: variant.name, available: true }))}>Add {variant.name}</button></li>)}</ul>
+        </details>}
+      </li>)}
         {customResults.map((entry) => <li key={entry.id}><button disabled={busy} className={`${button} w-full text-left`} onClick={() => void perform(() => add(entry))}>Add {entry.displayName} (custom)</button></li>)}</ul>
       <button className={button} onClick={() => { setEditing({ displayName: query.trim(), available: true }); setFormError(null); }}>Add custom ingredient: {query.trim()}</button>
     </div>}
     {!props.entries.some((entry) => !entry.deletedAtIso) && !query.trim() && <div className="mt-3 text-sm">
       <p>Your pantry is empty. Search above, add a custom ingredient, or use an optional shortcut:</p>
       <div className="mt-2 flex flex-wrap gap-2">{['olive-oil', 'salt', 'black-beans-canned', 'basmati-rice-dry'].map((id) => {
-        const ingredient = PANTRY_INGREDIENTS.find((item) => item.id === id)!;
+        const ingredient = cookingIngredients.find((item) => item.id === id)!;
         return <button className={button} disabled={busy} key={id} onClick={() => void perform(() => add({ ingredientId: id, displayName: ingredient.name, available: true }))}>Add {ingredient.name}</button>;
       })}</div><p className="mt-1 text-slate-600">These are shortcuts. Nothing is preselected or required.</p>
     </div>}
@@ -135,6 +144,8 @@ export default function VirtualPantry(props: Props) {
     <ul className="divide-y divide-slate-200">{shown.map((entry) => <li key={entry.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
       <div className="min-w-0"><p className="break-words font-semibold">{entry.displayName}</p>
         <p className="text-xs text-slate-600">{entry.location ? `${entry.location.toLowerCase()} · ` : ''}{entry.quantity !== undefined ? `${entry.quantity} ${entry.unit ?? ''} · ` : ''}{entry.useByDate ? `Use by ${entry.useByDate}` : ''}</p>
+        {entry.ingredientId && cookingCompatibility.some((edge) => edge.to === entry.ingredientId && !entry.available && props.entries.some((other) => other.ingredientId === edge.from && other.available && !other.deletedAtIso)) && <p className="text-xs text-amber-800">Marked No: available varieties do not cover recipes requiring {entry.displayName}. Change this entry explicitly if you have it.</p>}
+        {entry.ingredientId && !pantryCatalog.has(entry.ingredientId) && <p className="text-xs text-slate-600">Saved catalog ingredient. Your details are preserved; recipe matching needs a newer catalog.</p>}
         {!entry.ingredientId && <p className="text-xs text-slate-600">Custom ingredient. Choose a catalog match in Edit to use it in recipe matching.</p>}
       </div>
       <div className="flex flex-wrap items-center gap-2">
@@ -157,7 +168,7 @@ export default function VirtualPantry(props: Props) {
           <label className="text-sm">Quantity<input name="quantity" type="number" min="0" step="any" defaultValue={editing.quantity ?? ''} className="mt-1 block w-full rounded-lg border border-slate-300 p-2" /></label>
           <label className="text-sm">Unit<input name="unit" maxLength={40} defaultValue={editing.unit ?? ''} placeholder="cans, bags, g, lb" className="mt-1 block w-full rounded-lg border border-slate-300 p-2" /></label>
           <label className="text-sm">Use-by date<input name="useByDate" type="date" defaultValue={editing.useByDate ?? ''} className="mt-1 block w-full rounded-lg border border-slate-300 p-2" /></label>
-          <label className="text-sm sm:col-span-2">Catalog ingredient<select name="ingredientId" defaultValue={editing.ingredientId ?? ''} className="mt-1 block w-full rounded-lg border border-slate-300 p-2"><option value="">Custom name — no recipe match</option>{PANTRY_INGREDIENTS.map((ingredient) => <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>)}</select></label>
+          <label className="text-sm sm:col-span-2">Catalog ingredient<select name="ingredientId" defaultValue={editing.ingredientId ?? ''} className="mt-1 block w-full rounded-lg border border-slate-300 p-2"><option value="">Custom name — no recipe match</option>{editing.ingredientId && !pantryCatalog.has(editing.ingredientId) && <option value={editing.ingredientId}>{editing.displayName} (saved ingredient)</option>}{cookingIngredients.filter((ingredient) => ingredient.id === editing.ingredientId || activeCookingIngredients.some((active) => active.id === ingredient.id) && ingredient.lifecycle !== 'retired' && props.acceptedCatalogIds.includes(ingredient.id)).map((ingredient) => <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>)}</select></label>
         </div><p className="mt-2 text-xs text-slate-600">Quantity and dates are context; they never change Yes/No. A date does not certify food safety.</p>
       </details>
       <div className="mt-3 flex gap-2"><button type="submit" disabled={busy} className={button}>Save ingredient</button><button type="button" className={button} onClick={() => setEditing(null)}>Cancel</button></div>
