@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "decisions": [
+    {
+      "id": "fresh-onions-for-cooking-onion-recipes",
+      "revision": 1,
+      "marketIngredientId": "yellow-white-onions",
+      "pantryIngredientId": "onions-fresh",
+      "rationale": "The maintainer explicitly requested that pantry Onions cover recipes using Yellow or White Cooking Onions. This is a recipe-use link for the general fresh cooking-onion requirement, not a claim about onion variety, USDA source equivalence, nutrition, market pricing, or ownership of a grouped offer.",
+      "status": "approved",
+      "review": {
+        "by": "kchavez05",
+        "date": "2026-10-30",
+        "payloadSha256": "0a4754f88a35dd0722ff879f4dbc691cfde86379096ac894fd5a9d2cdbcd1051"
+      }
+    }
+  ]
+}

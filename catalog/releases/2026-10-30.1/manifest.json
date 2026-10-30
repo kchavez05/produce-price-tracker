@@ -1,0 +1,231 @@
+{
+  "formatVersion": 1,
+  "catalogVersion": "2026-10-30.1",
+  "contentHash": "19ac18b02d4d81194f5724e09f679ff8e802e6608d62909199e25adebf591ece",
+  "parentVersion": "baseline-1.5.2",
+  "status": "APPROVED_FOR_INTEGRATION",
+  "published": false,
+  "productApproval": {
+    "by": "kchavez05",
+    "date": "2026-10-30",
+    "scope": "All ten exact initial-batch decision payloads in catalog/curation-ledger.json",
+    "evidence": "Explicit Approve this batch response in the Codex implementation chat"
+  },
+  "validation": {
+    "sourceDispositions": {
+      "candidate": 6670,
+      "excluded": 1547,
+      "quarantined": 74
+    },
+    "approvedIngredientCount": 72,
+    "approvedDecisionCount": 10,
+    "curationChecksPassed": true,
+    "fixtureResults": [
+      {
+        "query": "lentils",
+        "expected": [
+          "lentils-canned",
+          "lentils-dried"
+        ],
+        "actual": [
+          "lentils-canned",
+          "lentils-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "lentils-canned",
+          "lentils-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "red lentils",
+        "expected": [
+          "red-lentils-dried"
+        ],
+        "actual": [
+          "red-lentils-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "red-lentils-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "rice",
+        "expected": [
+          "basmati-rice-dry",
+          "brown-rice-dry",
+          "jasmine-rice-dry"
+        ],
+        "actual": [
+          "basmati-rice-dry",
+          "brown-rice-dry",
+          "jasmine-rice-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "basmati-rice-dry",
+          "brown-rice-dry",
+          "jasmine-rice-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "flour",
+        "expected": [
+          "all-purpose-flour",
+          "rice-flour",
+          "whole-wheat-flour"
+        ],
+        "actual": [
+          "all-purpose-flour",
+          "rice-flour",
+          "whole-wheat-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "all-purpose-flour",
+          "rice-flour",
+          "whole-wheat-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "black beans",
+        "expected": [
+          "black-beans-canned",
+          "black-beans-dried"
+        ],
+        "actual": [
+          "black-beans-canned",
+          "black-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "black-beans-canned",
+          "black-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "garlic",
+        "expected": [
+          "garlic-fresh",
+          "garlic-powder"
+        ],
+        "actual": [
+          "garlic-fresh",
+          "garlic-powder"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "garlic-fresh",
+          "garlic-powder"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "onions",
+        "expected": [
+          "onions-fresh"
+        ],
+        "actual": [
+          "onions-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "onions-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "broth",
+        "expected": [
+          "beef-broth",
+          "chicken-broth",
+          "vegetable-broth"
+        ],
+        "actual": [
+          "beef-broth",
+          "chicken-broth",
+          "vegetable-broth"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-broth",
+          "chicken-broth",
+          "vegetable-broth"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cumin",
+        "expected": [
+          "ground-cumin"
+        ],
+        "actual": [
+          "ground-cumin"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ground-cumin"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "paprika",
+        "expected": [
+          "smoked-paprika"
+        ],
+        "actual": [
+          "smoked-paprika"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-paprika"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "tahini",
+        "expected": [
+          "tahini"
+        ],
+        "actual": [
+          "tahini"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tahini"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "garbanzo",
+        "expected": [
+          "chickpeas-canned"
+        ],
+        "actual": [
+          "chickpeas-canned"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chickpeas-canned"
+        ],
+        "approvedPassed": true
+      }
+    ],
+    "unapprovedQuarantines": [],
+    "blockedDecisions": [],
+    "stalePublishedLinks": []
+  },
+  "activationGates": [
+    "Install additive server IDs before clients can save them",
+    "Preserve unfamiliar IDs in older-client cache, queues, edits, export, and rollback",
+    "Integrate grouped search, optional varieties, and reviewed directional coverage",
+    "Verify isolated staging and rollback; shared Preview/Production database cannot be used",
+    "Follow repository CI, Codex review, and release workflow"
+  ]
+}

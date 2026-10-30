@@ -1,5 +1,7 @@
 # PantryBot Wiki
 
+> v1.6.0 introduces [Virtual Pantry](Virtual-Pantry.md), explicit boolean availability, private guest/account persistence, reviewed cooking ingredients, and recipe/shopping coverage. See the [release notes](../releases/v1.6.0.md) and [rollout guide](../usda-catalog-integration.md).
+
 > v1.5.2 adds visible source/package details, USDA-only history statistics, a hypothetical score calculator, canonical ingredient explanations, and bounded active-market collection. See the [release notes](../releases/v1.5.2.md).
 
 > v1.5.1: The public [Data Explorer](https://pantrybot.dev/data) connects stored price history, exact score arithmetic, ingredient grouping rationale, raw source rows, and CSV/JSON exports. See the [explorer guide](../data-explorer.md) and [release notes](../releases/v1.5.1.md). Production uses stored verified data; previews without server database credentials use labeled demonstration data.
@@ -7,7 +9,7 @@
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
 
 
-Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Freezer & Weekend Meal-Prep Optimizer** (`v1.5.2`, live at [pantrybot.dev](https://pantrybot.dev)).
+Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Pantry & Weekend Meal-Prep Optimizer** (`v1.6.0`, live at [pantrybot.dev](https://pantrybot.dev)).
 
 ## Purpose
 
@@ -35,6 +37,7 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Milestones (`v0.1` PoC through `v1.3` User Accounts & Cloud Sync, and upcoming `v1.5+` native mobile tickets).
 6. **[Release Notes (`docs/releases/`)](../releases/)**
+   * **[v1.6.0 — Virtual Pantry](../releases/v1.6.0.md)**
    * **[v1.5.1 — Data Explorer & Score Transparency](../releases/v1.5.1.md)**
    * **[v1.5.0 — Weekly USDA and Durable Market History](../releases/v1.5.0.md)**
    * **[v1.4.0 — Developer Platform, OpenAPI 3.1 & Interactive Swagger UI Console](../releases/v1.4.0.md)**
@@ -66,3 +69,9 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 ## v1.4.1 release candidate
 
 Current planning cycles, verified live prices, explicit estimates and refresh audit status are documented in [weekly refresh operations](../weekly-refresh.md). See [v1.4.1 release notes](../releases/v1.4.1.md) for the complete scope, including the previously reviewed account and cloud-sync fixes.
+
+## Staged Virtual Pantry implementation
+
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.
+
+The approved [USDA catalog ingestion standards](../specs/usda-catalog-ingestion.md) define recurring source review and a compact cooking-ingredient catalog, including optional varieties and safe updates. Candidate records remain separate from published search choices.

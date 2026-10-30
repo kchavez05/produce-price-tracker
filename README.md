@@ -1,8 +1,16 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Freezer & Meal-Prep Optimizer (`v1.5.2`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.0`)
 
-A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, multi-week **Virtual Freezer** protein arbitrage, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
+A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
-## Key Features (`v1.5.2`)
+## v1.6.0 — Virtual Pantry
+
+Virtual Pantry records explicit Yes/No availability with optional quantity, location, unit, and date. It supports custom ingredients, private guest use, explicit account import, and revision-checked account sync. Recipes and shopping needs use boolean availability; quantity and dates never deduct or limit coverage. Buying or cooking does not change inventory. Staples have fixed USD recipe-use estimates; missing prices remain explicit.
+
+Hosted activation requires the three additive pantry migrations, isolated staging verification, and `PANTRYBOT_PANTRY_ENABLED=true`. The default remains off for unmigrated installations. Local manual/guest pantry use needs no account or API key. See the [release notes](docs/releases/v1.6.0.md), [rollout guide](docs/usda-catalog-integration.md), and [Virtual Pantry guide](docs/wiki/Virtual-Pantry.md).
+
+A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) prepares Foundation/SR Legacy ingredients and a coverage report for review. It does not activate catalog changes. The [curation ledger and staging command](catalog/README.md) prepare compact review choices without activating unapproved data. The approved [ingestion standards](docs/specs/usda-catalog-ingestion.md) define cooking relevance, compact search results, recurring refreshes, and publication gates.
+
+## Key Features (`v1.6.0`)
 
 * **Public Data Explorer & Score Transparency:** Explore stored USDA and store price history, inspect score arithmetic and ingredient groupings, and download raw source JSON or filtered CSV. Available through **Explore the data** in the footer; see the [explorer guide](docs/data-explorer.md).
 
@@ -11,9 +19,9 @@ A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot
 * **Current prices and explicit estimates:** Mountain Time ad cycles, source expiration checks, verified-price-first shopping budgets, accurate freshness indicators, and authenticated scheduled refreshes with optional durable audit history. See [weekly refresh operations](docs/weekly-refresh.md).
 
 * **Developer Platform, OpenAPI 3.1 & Interactive Swagger UI:** Standardized **OpenAPI 3.1.0** specification (`/api/openapi.json`) and embedded interactive **Swagger UI** console ([`/docs`](https://pantrybot.dev/docs)) with live route testing, tag filters, and typed schemas across 8 backend API route domains.
-* **User Accounts, SSO & Cross-Device Cloud Sync:** Optional 1-click **Sign in with Google** and **Sign in with Apple** via Supabase Auth + PostgreSQL Row-Level Security (RLS) (with automatic zero-key SQLite multi-tenant fallback). Syncs ZIP code, preferred stores, macro/dietary goals, cooking vessels, Virtual Freezer inventory, and saved recipes across devices with automatic Guest-to-Account migration, 1-click JSON export, and self-serve GDPR/CCPA account deletion.
+* **User Accounts, SSO & Cross-Device Cloud Sync:** Optional 1-click **Sign in with Google** and **Sign in with Apple** via Supabase Auth + PostgreSQL Row-Level Security (RLS) (with automatic zero-key SQLite multi-tenant fallback). Syncs ZIP code, preferred stores, macro/dietary goals, cooking vessels, Virtual Pantry entries, and saved recipes across devices with explicit reviewed guest pantry import, 1-click JSON export, and self-serve GDPR/CCPA account deletion.
 * **6-Vendor Supermarket Ecosystem + Nationwide ZIP Support:** Compares weekly circular deals and digital loyalty coupons across **Kroger** (King Soopers, Ralphs, Fred Meyer, Fry's), **Albertsons** (Safeway, Vons, Jewel-Osco), **ALDI**, **Walmart**, **Target**, and **Sprouts Farmers Market** for any 5-digit US ZIP code.
-* **Persistent Virtual Freezer & Multi-Week Arbitrage (`"❄️ Buy 2: Prep 1, Freeze 1"`):** Detects deep 6-week cycle lows (`>38%` off / `💎 Splurge` alerts), banks extra roasts into a persistent Cloud + SQLite + `localStorage` Virtual Freezer, and automatically substitutes banked proteins into future 3-Dish Meal-Prep plans at **`$0.00` out-of-pocket cost**.
+* **Virtual Pantry:** Mark ingredients Yes/No with optional details, compact cooking-ingredient search, optional varieties, and custom items. Recipes show distinct required coverage and estimated additional grocery costs. Available ingredients leave shopping needs; purchases and cooking never mutate inventory. Legacy freezer records are preserved for migration and compatibility.
 * **Dietary, Macro & Cooking Vessel Personalization:** Customize **Macro Goals** (`High-Protein 40g+`, `Low-Carb / Keto`, `Calorie-Conscious <460 kcal`, `Balanced`), **Dietary Rules** (`Gluten-Free`, `Dairy-Free`, `Nut-Free`, `Pescatarian`) with automatic ingredient slot adaptation, and **Cooking Vessels** (`Slow Cooker / Instant Pot`, `Sheet-Pan / 9x13`, `Dutch Oven`, `Skillet`).
 * **Wholesale Club Price Normalizer (Costco & Sam's Club):** Benchmarks supermarket unit prices (`$/lb`, `$/doz`) against **Costco (Kirkland Signature)** and **Sam's Club (Member's Mark)** bulk baselines (`🏆 Beats Costco/Sam's Bulk -X%`).
 * **Observed price signals:** Distinguishes verified six-week lows, deep regular-price discounts, and insufficient history. Missing observations stay gaps; short histories do not establish recurring cycles or forecasts.
@@ -44,6 +52,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.6.0 — Virtual Pantry](./docs/releases/v1.6.0.md)
   * [v1.5.2 — Data Clarity & Active Markets](./docs/releases/v1.5.2.md)
   * [v1.5.1 — Data Explorer & Score Transparency](./docs/releases/v1.5.1.md)
   * [v1.5.0 — Weekly USDA and Durable Market History](./docs/releases/v1.5.0.md)
@@ -70,3 +79,5 @@ Weekly refresh schedules, source freshness, fallback estimates, cron authenticat
 ### Data exploration
 
 The public `/data` explorer connects price history, weekly patterns, score arithmetic, ingredient grouping rationale, and a first-class raw-data view. Inspect stored USDA rows and report JSON, compare normalized advertisements across stores, and export filtered CSV with provenance metadata. See the [Data Explorer guide](docs/data-explorer.md) for source semantics, limits, and migration requirements.
+
+Cooking catalog integration and rollout: [operator guide](docs/usda-catalog-integration.md).

@@ -1,3 +1,5 @@
+> v1.6.0: Private pantry entries, revisioned mutations, legacy archives, and account-owned queues extend the inventory model. The approved cooking catalog and market-link audits remain separate from public price observations. See the [pantry guide](Virtual-Pantry.md) and [integration/rollback guide](../usda-catalog-integration.md).
+
 # Architecture & Data Pipeline
 
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
@@ -86,3 +88,7 @@ Every `StoreOffer` is classified into one of four redemption mechanics so the sh
 * `MULTI_BUY`: Requires purchasing a minimum quantity (e.g., *Must buy 3 to get $1.77/ea*).
 * `SHELF_OR_MEMBER`: Automatically applied with a loyalty card or phone number at checkout.
 * `EVERYDAY_LOW`: Zero-coupon Everyday Low Price (EDLP) at ALDI or Walmart.
+
+## Staged Virtual Pantry implementation
+
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.

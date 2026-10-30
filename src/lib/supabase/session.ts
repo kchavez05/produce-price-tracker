@@ -14,6 +14,7 @@ import {
   getUserSavedRecipesFromSqlite,
   replaceUserFreezerItemsInSqlite,
   replaceUserSavedRecipesInSqlite,
+  hasPantryMigrationInSqlite,
   upsertUserPreferencesToSqlite,
   upsertUserProfileToSqlite,
 } from '@/lib/db/sqlite';
@@ -33,6 +34,7 @@ import {
   UserSyncPayload,
 } from '@/types/domain';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
+import { PantryError } from '@/lib/pantry/mutations';
 
 interface SupabasePreferencesRow {
   user_id: string;
@@ -324,6 +326,9 @@ export async function persistUserSyncState(options: {
   mergeMode?: boolean;
 }): Promise<UserSyncPayload> {
   const { profile, preferences, freezerItems, savedRecipes, mergeMode } = options;
+  if ((freezerItems !== undefined || preferences?.onHandIngredientIds !== undefined) && hasPantryMigrationInSqlite(profile.id)) {
+    throw new PantryError('pantry_upgrade_required', 426, 'Reload to manage inventory in Virtual Pantry.');
+  }
   const now = new Date().toISOString();
 
   // 1. Update SQLite Multi-Tenant Store
@@ -455,6 +460,7 @@ export async function persistUserSyncState(options: {
     if (!supabase) throw new Error('Cloud sync unavailable');
     const check = async <T extends { error: { message: string } | null }>(query: PromiseLike<T>): Promise<T> => {
       const result = await query;
+      if (result.error?.message === 'pantry_upgrade_required') throw new PantryError('pantry_upgrade_required', 426, 'Reload to manage inventory in Virtual Pantry.');
       if (result.error) throw new Error(`Cloud sync failed: ${result.error.message}`);
       return result;
     };
@@ -524,6 +530,23 @@ export async function buildUserDataExportArchive(
   const preferences =
     payload.preferences || getDefaultUserPreferences(profile.id);
 
+  let virtualPantry: import('@/lib/pantry/migration').PantryMigrationSnapshot | undefined;
+  if (profile.isCloudBacked) {
+    const { pantryRpc } = await import('@/lib/pantry/server');
+    try { virtualPantry = await pantryRpc('read'); }
+    catch (error) {
+      // Before the additive migration is installed, legacy exports still work.
+      // Once enabled, fail rather than export an incomplete account archive.
+      if (process.env.PANTRYBOT_PANTRY_ENABLED === 'true') throw error;
+      const client = await createServerSupabaseClient();
+      const probe = client && await client.from('user_pantry_migrations').select('user_id').eq('user_id', profile.id).maybeSingle();
+      if (!probe || (probe.error && !['42P01', 'PGRST205'].includes(probe.error.code)) || probe.data) throw error;
+    }
+  } else {
+    const { readPantryFromSqlite } = await import('@/lib/db/sqlite');
+    if (hasPantryMigrationInSqlite(profile.id)) virtualPantry = readPantryFromSqlite(`account:${profile.id}`);
+  }
+
   return {
     schemaVersion: '1.3.0',
     exportedAtIso: new Date().toISOString(),
@@ -534,6 +557,7 @@ export async function buildUserDataExportArchive(
     preferences,
     virtualFreezerInventory: payload.freezerItems,
     savedMealPrepRecipes: payload.savedRecipes,
+    ...(virtualPantry?.legacyMigrationVersion ? { virtualPantry } : {}),
   };
 }
 
@@ -541,26 +565,13 @@ export async function purgeUserAccountAndData(profile: UserProfile): Promise<voi
   // 1. Delete from Supabase RLS tables and sign out if cloud-backed
   if (profile.isCloudBacked && isSupabaseConfigured()) {
     const supabase = await createServerSupabaseClient();
-    if (supabase) {
-      try {
-        await supabase
-          .from('user_saved_recipes')
-          .delete()
-          .eq('user_id', profile.id);
-        await supabase
-          .from('user_freezer_items')
-          .delete()
-          .eq('user_id', profile.id);
-        await supabase
-          .from('user_preferences')
-          .delete()
-          .eq('user_id', profile.id);
-        await supabase.from('users').delete().eq('id', profile.id);
-        await supabase.auth.signOut();
-      } catch {
-        // Continue to local SQLite purge
-      }
-    }
+    if (!supabase) throw new Error('Cloud account deletion unavailable');
+    // One parent delete cascades to pantry entries, receipts, archives, and legacy
+    // children. Do not report deletion after a failed cloud write.
+    const deleted = await supabase.from('users').delete().eq('id', profile.id);
+    if (deleted.error) throw new Error('Cloud account deletion failed');
+    const signedOut = await supabase.auth.signOut();
+    if (signedOut.error) throw new Error('Could not revoke the account session');
   }
 
   // 2. Delete from local SQLite multi-tenant tables

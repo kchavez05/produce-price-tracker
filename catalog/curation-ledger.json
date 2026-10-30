@@ -1,0 +1,565 @@
+{
+  "formatVersion": 1,
+  "decisions": [
+    {
+      "id": "ingredient-lentils-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2644283",
+          "fingerprint": "2b500e1305c8e0097fc3773ad4fbb5f1cdb6b1837d7871e1b3644743ff8b7fd9"
+        }
+      ],
+      "rationale": "Unspecified dried lentils provides the broad cooking choice without claiming a variety. Link only to the general dry source record; fixed cost remains unpriced until reviewed.",
+      "ingredient": {
+        "id": "lentils-dried",
+        "aliases": [],
+        "name": "Dried lentils",
+        "familyId": "lentils",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "42c87d02554a05dc1001028eea83f3b79885a2bbf3d70df056b49c636ef8178e"
+      }
+    },
+    {
+      "id": "ingredient-lentils-canned",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Maintainer-curated proposal for the canned form. No suitable generic canned-lentil record was found in the Foundation/SR subset. Do not invent a USDA link or infer price.",
+      "ingredient": {
+        "id": "lentils-canned",
+        "aliases": [],
+        "name": "Canned lentils",
+        "familyId": "lentils",
+        "form": "canned",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "ef3dc1d31e0ec4a62db44fa5e9f9471f4059fce036597b11781922cadc1d61e7"
+      }
+    },
+    {
+      "id": "ingredient-red-lentils-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174284",
+          "fingerprint": "1837b6ae4b1c1dd067fbda3053594f28abd2c5e98a8aedf069c156cde5e60d23"
+        }
+      ],
+      "rationale": "Preserve the existing red-lentil ID and estimate while placing it under the optional variety choices. Review the raw pink/red source description against the dried culinary form before approving the identity evidence.",
+      "ingredient": {
+        "id": "red-lentils-dried",
+        "name": "Dried red lentils",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.8
+        },
+        "familyId": "lentils",
+        "form": "dried",
+        "searchVisibility": "variant",
+        "variety": "red",
+        "parentIngredientId": "lentils-dried"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "0bf18b1e9e0d7cc3f60785d53bd811161cb73cd0010ad97ef35307069d56cc80"
+      }
+    },
+    {
+      "id": "ingredient-onions-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170000",
+          "fingerprint": "4741d9a03f916612258b37fe01a2f338f48d40bb8a6c0cc0cf8e07d4fbc0b47a"
+        }
+      ],
+      "rationale": "Generic fresh onions is a cooking choice missing from the small initial catalog. This does not imply a specific onion variety or match grouped market offers. No price is inferred.",
+      "ingredient": {
+        "id": "onions-fresh",
+        "aliases": [],
+        "name": "Onions",
+        "familyId": "onions",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "3fb85db5f728e07fbb5a4528d0a94537002843311b6136385f1deea6ff75b172"
+      }
+    },
+    {
+      "id": "ingredient-basmati-rice-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "ingredient": {
+        "id": "basmati-rice-dry",
+        "name": "Dry basmati rice",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.65
+        },
+        "familyId": "rice",
+        "form": "dry",
+        "searchVisibility": "primary",
+        "variety": "basmati"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "1ae9aa27ce049728dfc2d0a76ee5bba15136a47aaa283598457d7efeeee33dfa"
+      }
+    },
+    {
+      "id": "ingredient-jasmine-rice-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "ingredient": {
+        "id": "jasmine-rice-dry",
+        "name": "Dry jasmine rice",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.6
+        },
+        "familyId": "rice",
+        "form": "dry",
+        "searchVisibility": "primary",
+        "variety": "jasmine"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "3a38c487f161ede48213fb9841aa2d1594b60c8b11e56a73436be578f034b26a"
+      }
+    },
+    {
+      "id": "ingredient-brown-rice-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "ingredient": {
+        "id": "brown-rice-dry",
+        "name": "Dry brown rice",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.5
+        },
+        "familyId": "rice",
+        "form": "dry",
+        "searchVisibility": "primary",
+        "variety": "brown"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "8a0761873db235e4955b822f14092035cb4004d7fc01ce8ce73cd6cc4d510f58"
+      }
+    },
+    {
+      "id": "ingredient-rice-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing rice-flour ID/price and require a flour-qualified query, so a broad rice query does not mix flour with cooking rice. It remains reachable by flour and rice flour.",
+      "ingredient": {
+        "id": "rice-flour",
+        "name": "Rice flour",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "tbsp",
+          "usdPerUnit": 0.06
+        },
+        "familyId": "rice-flour",
+        "form": "flour",
+        "searchVisibility": "specific"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "7687082ae71f71148819ac155b2f58a5471f3ca05f9fc0ce1ec6f04b8284f6dc"
+      }
+    },
+    {
+      "id": "red-lentils-cover-general-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Propose only the directional red dried -> unspecified dried rule. Broad lentils must not satisfy red lentils; explicit No for the required identity overrides derived coverage. This edge does not activate recipe matching.",
+      "compatibility": {
+        "from": "red-lentils-dried",
+        "to": "lentils-dried"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "ec4f67de76f022a388fce48bcc621faff520e5a42373e6659a9eb1d1e93b08f4"
+      }
+    },
+    {
+      "id": "hold-foundation-orphans-2026-10-29",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "defer",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1105430",
+          "fingerprint": "a18204306abf3ffbe92a0c13d05b805c0c1af4ad7cdc0b2d5275749b3cee6773"
+        },
+        {
+          "key": "foundation_food:1105547",
+          "fingerprint": "42359a7c5e9de8affafb277ae9c6d1e65bcf5f8da158921b113e6a473029b95d"
+        },
+        {
+          "key": "foundation_food:1105664",
+          "fingerprint": "fad29a57afd296a3a3d1da0b2f0bd77b7bff912d4b32092cbc60b2b816b68458"
+        },
+        {
+          "key": "foundation_food:1105781",
+          "fingerprint": "d1a7b492bbea8046d4f2715e7d3f1e3afa22260eecc5d2ce4460173018b1daad"
+        },
+        {
+          "key": "foundation_food:1105897",
+          "fingerprint": "a87d21f607e9643c3327150cf1def8c29a20cca514e9d64a6fe625a37b2b7a66"
+        },
+        {
+          "key": "foundation_food:1750337",
+          "fingerprint": "e1dfa055ad5268dae41eaf21563da1f22cae5cc8a5f8d1fb2f7b491e11c28886"
+        },
+        {
+          "key": "foundation_food:1750338",
+          "fingerprint": "c90935dba5b1b80ad5e3a83b4d06ca2a752ed9e5dab4aa18c87d182d1471f704"
+        },
+        {
+          "key": "foundation_food:1750344",
+          "fingerprint": "8c693a536e76ac76c8f6c7f6d5ccf1a645a81bc786cbefd3e7a8ffe7fc91ffe8"
+        },
+        {
+          "key": "foundation_food:1750345",
+          "fingerprint": "80f4d2e4ef63fddd2555bad10b6cfb041bc3befbce22a824a4ef797d75672372"
+        },
+        {
+          "key": "foundation_food:1750346",
+          "fingerprint": "42fd1ca2b95ead58af259e226214000027cede4ad1d58a3ab2b1c5f1018c924a"
+        },
+        {
+          "key": "foundation_food:1750347",
+          "fingerprint": "1071df4c3b196eb734c43bc5d9e2990589716607d252384663508f6612d394cc"
+        },
+        {
+          "key": "foundation_food:1750352",
+          "fingerprint": "2d7b05f9ff4e63d88402c160586d8da03a85f3bd05b2903395c143dea3991a77"
+        },
+        {
+          "key": "foundation_food:1750353",
+          "fingerprint": "66887e97e479152e5da85fa29b5430d8f318fee42fea1404c4f48bff320ea5c1"
+        },
+        {
+          "key": "foundation_food:1750354",
+          "fingerprint": "366b1a3f038d9cb93d8f4c3785d0fec064d3fc7118c5c77d76f9deb724d6347a"
+        },
+        {
+          "key": "foundation_food:2263887",
+          "fingerprint": "1c845d58aabc26f5fff0b222dcf77b8693b882152c3fc0a1b7bfa636bd1fd1b6"
+        },
+        {
+          "key": "foundation_food:2263888",
+          "fingerprint": "2e0a0a7892edd9b6237753943a9f39aebeb2881ea7d8e18b8ca06354a1ceedc3"
+        },
+        {
+          "key": "foundation_food:2263889",
+          "fingerprint": "092a3865116027a823030cf364e8ca94a5a2fe211898e181282e66315a0fc441"
+        },
+        {
+          "key": "foundation_food:2263890",
+          "fingerprint": "0f4951a91f183120863c323f3d1bbfe82c11c1c7005bbcd4c6aa47d95a29aa29"
+        },
+        {
+          "key": "foundation_food:2263891",
+          "fingerprint": "534414428b79f3c65113a9dc54aea7d98e08ece1706f8e10cf8a85fe18422a47"
+        },
+        {
+          "key": "foundation_food:2263892",
+          "fingerprint": "f0a668ceb8c4baddcb55eda605432bd35b68f21d54db9b695b426880dafd8592"
+        },
+        {
+          "key": "foundation_food:2758999",
+          "fingerprint": "5f505c40bb2d7fd6d72675c8f8fb9a80af494a5862334c3881166b84ca23fad7"
+        },
+        {
+          "key": "foundation_food:321359",
+          "fingerprint": "7393ea646ba5b4da1c05dc9fde828d360a41e18e38a7a03d0dce5f8bfb05934a"
+        },
+        {
+          "key": "foundation_food:321505",
+          "fingerprint": "24cdc4bd8f05b6858a08c1fd698ad9548a1dff52b7373bbfb99fbfc8a2a66cce"
+        },
+        {
+          "key": "foundation_food:321900",
+          "fingerprint": "eb559f1e4fcdfcbd89cc532a3613ada566178256408e3ff02692512a3d8e01da"
+        },
+        {
+          "key": "foundation_food:322228",
+          "fingerprint": "9f2aa38f3319012c109736ce3ca902cbe607880db702a63d8b4f05eed8854f80"
+        },
+        {
+          "key": "foundation_food:322559",
+          "fingerprint": "fdf4637a3a377ade1a35123799e17b4af6f205b1d4b3f3a90090dd9fc7efa73e"
+        },
+        {
+          "key": "foundation_food:322892",
+          "fingerprint": "7d87e0f7a81ae1a88f357e44f71ba4145731357f36cdd603d5847ea61a831da9"
+        },
+        {
+          "key": "foundation_food:323444",
+          "fingerprint": "5898c67e950574e58fbddee99121cffdb8022d59b6501595b6573ccdb2294cc9"
+        },
+        {
+          "key": "foundation_food:324038",
+          "fingerprint": "0ce3f3667e92eb44d8513d614b3363a811c41b93810f334edf882b01ef2badf6"
+        },
+        {
+          "key": "foundation_food:324157",
+          "fingerprint": "9eca1e423f7183170504645b4aaa55ceb8ff166ea86ccebebed22fa0dd6b113c"
+        },
+        {
+          "key": "foundation_food:324860",
+          "fingerprint": "0240caaf3b40c12097460000c96281ef5b64c8710216161991740bded9fd7679"
+        },
+        {
+          "key": "foundation_food:325658",
+          "fingerprint": "f569486ec9e79aa2146982f2d6ae93902b3c9c67746c5a9bf1c144ce42e7ed6b"
+        },
+        {
+          "key": "foundation_food:325871",
+          "fingerprint": "745cbdd80b5f7c5769e7e7d41bcb91dd4147c8c3d492c1f4a3bc970804e2b68a"
+        },
+        {
+          "key": "foundation_food:325992",
+          "fingerprint": "a1faf396faa0dae85b8837b7022cf1bfb4460b2be3fedecd18ccb2a06a1728f1"
+        },
+        {
+          "key": "foundation_food:326135",
+          "fingerprint": "6ac2fc45a7795158c7d1063bace582421394677e1b2d03490aa086eb71f44ad1"
+        },
+        {
+          "key": "foundation_food:326458",
+          "fingerprint": "fcdc6bd728baf8bc1f26aa98ee498f7972742379934b2f067328d7c16c5c4166"
+        },
+        {
+          "key": "foundation_food:326905",
+          "fingerprint": "24f0a1a31531d040d80e2f05e13d65932651b7f8aac0e3aba77c6dd894d9e888"
+        },
+        {
+          "key": "foundation_food:327198",
+          "fingerprint": "18fc7f91a679e773418c5749b357c94ea17873ce472c0997bfe9ef870790124e"
+        },
+        {
+          "key": "foundation_food:327501",
+          "fingerprint": "ff6f86a34ff25527651781c89293ac8f72b2a4782dad84ab1f90860098bc4025"
+        },
+        {
+          "key": "foundation_food:327699",
+          "fingerprint": "e6092eac249e13c9ad94b1f748123c4c36ef984497b374bf24672150ecb86a4e"
+        },
+        {
+          "key": "foundation_food:327923",
+          "fingerprint": "af17a4f7d12055788235056192fe11c6e5d4840b77fc46d0d56f24d48f376c59"
+        },
+        {
+          "key": "foundation_food:329830",
+          "fingerprint": "b8a35fd20b54c31492ceca1af5bdbd7165ca49390c2460cd8ff2727e2a7b5e83"
+        },
+        {
+          "key": "foundation_food:330869",
+          "fingerprint": "ee0dd5a988b4886bab5a3e77074b68790f6b16863e24e20294702ababc02b2c7"
+        },
+        {
+          "key": "foundation_food:332597",
+          "fingerprint": "db6245c090de3a30c3e63795c662d90b8175541cd22fc6134e831c9b8dd10b6b"
+        },
+        {
+          "key": "foundation_food:332864",
+          "fingerprint": "8051a05f188343bfb0b7162296a14fbb7dc6301193278669daf414951c0ef23c"
+        },
+        {
+          "key": "foundation_food:334247",
+          "fingerprint": "6cb49aa910070216573383020f5e83a5ee2866251cce5887acdddd79355a5b0b"
+        },
+        {
+          "key": "foundation_food:334462",
+          "fingerprint": "d64d5062ee1caaa5802042245beacb429dba9b07042074599412cd7f92bb5909"
+        },
+        {
+          "key": "foundation_food:334849",
+          "fingerprint": "32c61d2e3d226202ff3b9e7caef9830f1564f4f31767584b1bfb9f032a384a89"
+        },
+        {
+          "key": "foundation_food:334897",
+          "fingerprint": "6dc6a1c83af015205834604b6e08e95b069cac9863782baeb3b119d6a67eb002"
+        },
+        {
+          "key": "foundation_food:334898",
+          "fingerprint": "4681b1d05edad884c9a70d319e2485f7e079fc8b02504f25de01d9eed332d2df"
+        },
+        {
+          "key": "foundation_food:334963",
+          "fingerprint": "54ded8f0f41f41e855ffa544368ac8ffaa53fac7fcbe61424b8e03d5eb1368c5"
+        },
+        {
+          "key": "foundation_food:335061",
+          "fingerprint": "05ccdcdddd1559af87c5c7b105caeb36472b701ed5689f951ed703aeb5f39fb2"
+        },
+        {
+          "key": "foundation_food:335109",
+          "fingerprint": "646c1a0b704263b28fa27b4c5b15e18994d64e3ed218c26feeff74b07bd12fcf"
+        },
+        {
+          "key": "foundation_food:335240",
+          "fingerprint": "aa6c84fea7bbded350e1e9d3898074c0e5b1534d2dbb8d222e35b1499e416e8f"
+        },
+        {
+          "key": "foundation_food:335245",
+          "fingerprint": "300f96b6dd6c0fcb140c9723c2f564d926afa5150926a831d010955cb76309b0"
+        },
+        {
+          "key": "foundation_food:335306",
+          "fingerprint": "8dcf3ff27308fe844c089a7d4690401ae592a54a5f49caacd50a6fbbcce7309a"
+        },
+        {
+          "key": "foundation_food:335419",
+          "fingerprint": "ae087d87f5c93680f05155b0c00fe09e5486e7505a1c3f6359aae8ef941a1157"
+        },
+        {
+          "key": "foundation_food:335422",
+          "fingerprint": "9cae9c2ff02ef63b68340d8a35c7bf6618285d7707d36d15ef9d131b8e1ca184"
+        },
+        {
+          "key": "foundation_food:335425",
+          "fingerprint": "cf4d5b333f499a417d93f51c8137137282d10ffc61c5a8f54945ab748f139a76"
+        },
+        {
+          "key": "foundation_food:335428",
+          "fingerprint": "ec048816a56b252fc6044c2e2d3a5b25dd652dca966cd063e6749566ce445a81"
+        },
+        {
+          "key": "foundation_food:335433",
+          "fingerprint": "350f499b0193fb38c07c600327dd4c70aed5b0778ae31891671493aecc4075ca"
+        },
+        {
+          "key": "foundation_food:335442",
+          "fingerprint": "1c0a639c574cd4ec6214c6cd61747fbce479876c395651fe16d883299e81e0e1"
+        },
+        {
+          "key": "foundation_food:335695",
+          "fingerprint": "d07d94754e546ef6d39fbc67b397b5fa885f3aca2f44ceb1c630fb9a9eadb0ec"
+        },
+        {
+          "key": "foundation_food:335774",
+          "fingerprint": "3235da648b147e420253ba27a161ebde38eb75b7305faa03a69f14529a722b87"
+        },
+        {
+          "key": "foundation_food:335777",
+          "fingerprint": "172ddf75d7b0cc59b32121fe7bd5b5d7e2bb2987ea5a827d611e6edc9df9cc86"
+        },
+        {
+          "key": "foundation_food:335782",
+          "fingerprint": "de7fb02f1bfd5c9eed8bd6e6e1f3bced31509103da76486a9546404a08522beb"
+        },
+        {
+          "key": "foundation_food:335785",
+          "fingerprint": "6de5e4b130ebc213a03428308edcbe7274213af35ad88cd2c3fd71f7e3be70ce"
+        },
+        {
+          "key": "foundation_food:335912",
+          "fingerprint": "855e6052387d1735f3280fe4164816bb879f947fa062315b4a563bf30b430b07"
+        },
+        {
+          "key": "foundation_food:335927",
+          "fingerprint": "2a3d2d849d1ce40b29152238afbed874cd59e04971f805c02936b1acf5bee241"
+        },
+        {
+          "key": "foundation_food:335930",
+          "fingerprint": "79d31671a40d59804802a5fda87dbe7646ef25b0f1e1498ffce92d91dd8b3101"
+        },
+        {
+          "key": "foundation_food:336067",
+          "fingerprint": "34a7c661846e02d52975151bfd902d7d19a624587d3d1a0c81776ca45cdc4ed9"
+        },
+        {
+          "key": "foundation_food:747448",
+          "fingerprint": "e80e783918512ddf086fd7e0f39b5178d0036131e9a2792f0316ace676c19d31"
+        },
+        {
+          "key": "foundation_food:790774",
+          "fingerprint": "e510ce709257562fdca6c543cd55a02ec3022868d9bbfaae70ca6f96f5727306"
+        },
+        {
+          "key": "foundation_food:790991",
+          "fingerprint": "04565e845ba4e506827c6f49f1d9191289b816bcc0aa88cb97eaa7b6c2d4162a"
+        }
+      ],
+      "rationale": "Proposed release-scoped hold for the 74 Foundation parent-only records. Of these, 68 share descriptions with subtype-backed records and six do not; none are established replacements or active source links. Keep all out of the approved catalog while investigating, with an owned review deadline. Approval must be renewed for the next source release.",
+      "exception": {
+        "sourceReleaseDate": "2026-10-29",
+        "owner": "Catalog maintainer",
+        "reviewBy": "2027-04-30"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "31e6948ae12725760fe963cc06ec4398cc6abf486854c21d09e34c2c01908631"
+      }
+    }
+  ]
+}

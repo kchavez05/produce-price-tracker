@@ -287,7 +287,11 @@ export function useUserSync(options?: UseUserSyncOptions) {
       const res = await fetch('/api/account');
       if (!res.ok) return false;
       const archive = (await res.json()) as UserDataExportArchive;
-      const blob = new Blob([JSON.stringify(archive, null, 2)], {
+      if (activeUserRef.current !== archive.profile.id) return false;
+      const { pantryBrowserExport } = await import('@/lib/pantry/browser-export');
+      const browserPantryRecovery = pantryBrowserExport(localStorage, `account:${archive.profile.id}`);
+      if (activeUserRef.current !== archive.profile.id) return false;
+      const blob = new Blob([JSON.stringify({ ...archive, browserPantryRecovery }, null, 2)], {
         type: 'application/json',
       });
       const url = URL.createObjectURL(blob);
@@ -314,6 +318,8 @@ export function useUserSync(options?: UseUserSyncOptions) {
       if (!res.ok) return false;
 
       // Clear local storage keys to complete Right to be Forgotten purge
+      activeUserRef.current = null;
+      let localCleanupComplete = true;
       try {
         localStorage.removeItem('pantrybot_virtual_freezer_v12');
         localStorage.removeItem('pantrybot_nutrition_profile_v12');
@@ -321,12 +327,14 @@ export function useUserSync(options?: UseUserSyncOptions) {
         localStorage.removeItem('pantrybot_user_zip');
         localStorage.removeItem('mead_on_hand_ids_v04');
         if (profile) {
+          const { clearPantryQueue } = await import('@/lib/pantry/queue');
+          clearPantryQueue(localStorage, `account:${profile.id}`);
           localStorage.removeItem(syncQueueKey(profile.id));
           localStorage.removeItem(`pantrybot_virtual_freezer_v14:${profile.id}`);
         }
         sessionStorage.removeItem(MERGE_DISMISSED_KEY);
       } catch {
-        // Ignore
+        localCleanupComplete = false;
       }
 
       activeUserRef.current = null;
@@ -335,7 +343,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
       setPreferences(null);
       setSyncStatus('IDLE');
       setHasGuestDataToMerge(false);
-      return true;
+      return localCleanupComplete;
     } catch {
       return false;
     } finally {

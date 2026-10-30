@@ -1,3 +1,5 @@
+> v1.6.0: Pantry availability uses explicit Yes/No and reviewed identities/forms. Available requirements cost $0 additional, retain recipe quantities under “Make sure you have,” and are omitted from shopping. Distinct required coverage includes staples; ownership is not measured savings. Fresh onions and onion powder never satisfy each other. Buying/cooking never writes inventory.
+
 > v1.5.1 update: The [Data Explorer](https://pantrybot.dev/data?tab=score) exposes the shared 55/35/10 scoring calculation and its inputs. Verified-history scoring uses a neutral market-signal score of 60/100 (six weighted points), not measured wholesale momentum. Six-week-low badges require six observed local weeks and a price within $0.05 of the observed low with at least 32% off regular price; discount-only cases receive a separate label. The [explorer guide](../data-explorer.md) supersedes conflicting historical descriptions below.
 
 # Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine
@@ -64,3 +66,7 @@ Using longitudinal SQLite price history (`sixWeekLow`, `sixWeekHigh`, `sixWeekMe
 
 * **Universal N-Store Basket Engine:** Evaluates all active stores (`Kroger`, `Safeway`, `ALDI`, `Walmart`, `Target`, `Sprouts`) to rank 1-stop shopping trips and compute the optimal $\binom{N}{2}$ **Best 2-Store Split**.
 * **1-Tap Curbside Cart Bridge (`src/lib/cart-exporter.ts`):** Generates deep search URLs for Walmart Grocery, Target Drive Up, localized Kroger & Albertsons banners, Sprouts, ALDI, and Instacart, plus aisle-categorized Apple Notes / Google Keep checklists and a printable kitchen slip.
+
+## Staged Virtual Pantry implementation
+
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.

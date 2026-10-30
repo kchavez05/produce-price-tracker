@@ -5,6 +5,7 @@ import {
   loadInventoryState,
 } from '@/lib/supabase/session';
 import { FreezerItem } from '@/types/domain';
+import { PantryError } from '@/lib/pantry/mutations';
 
 export async function GET() {
   try {
@@ -106,6 +107,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: 'Session required' }, { status: 401 });
   } catch (error) {
+    if (error instanceof PantryError) return NextResponse.json({ error: error.message, code: error.code }, { status: error.status });
     console.error('Error saving freezer item:', error);
     return NextResponse.json(
       { error: 'Failed to save virtual freezer item' },
@@ -176,6 +178,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'Session required' }, { status: 401 });
   } catch (error) {
+    if (error instanceof PantryError) return NextResponse.json({ error: error.message, code: error.code }, { status: error.status });
     console.error('Error updating freezer item:', error);
     return NextResponse.json(
       { error: 'Failed to update virtual freezer item' },
@@ -218,6 +221,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ error: 'Session required' }, { status: 401 });
   } catch (error) {
+    if (error instanceof PantryError) return NextResponse.json({ error: error.message, code: error.code }, { status: error.status });
     console.error('Error deleting freezer item:', error);
     return NextResponse.json(
       { error: 'Failed to delete virtual freezer item' },

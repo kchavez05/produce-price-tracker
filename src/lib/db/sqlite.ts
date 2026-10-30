@@ -21,6 +21,10 @@ import {
   UserProfile,
 } from '@/types/domain';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
+import { PantryEntry, PantryMutation, PantryMutationResult, PantryOwner } from '@/types/pantry';
+import { LegacyPantrySource, migrateLegacyPantry, PantryMigrationSnapshot } from '@/lib/pantry/migration';
+import { pantryIdentity, pantryCatalog, validatePantryEntry } from '@/lib/pantry/model';
+import { evaluatePantryMutation, mutationFingerprint, PantryError, validatePantryMutation } from '@/lib/pantry/mutations';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE_PATH = path.join(DATA_DIR, 'mead-price-history.sqlite');
@@ -46,6 +50,85 @@ export function resetSqliteTestInstance(): void {
     }
     dbInstance = null;
   }
+}
+
+function pantryUserId(owner: PantryOwner): string { return owner.slice(owner.indexOf(':') + 1); }
+
+export function readPantryFromSqlite(owner: PantryOwner): PantryMigrationSnapshot {
+  const userId = pantryUserId(owner);
+  const rows = getDb().prepare('SELECT entry_json FROM user_pantry_entries WHERE user_id = ? ORDER BY id').all(userId) as { entry_json: string }[];
+  const entries = rows.map((row) => JSON.parse(row.entry_json) as PantryEntry);
+  const archived = getDb().prepare('SELECT source_json FROM user_pantry_migrations WHERE user_id = ?').get(userId) as { source_json: string } | undefined;
+  const legacySource: LegacyPantrySource = archived ? JSON.parse(archived.source_json) : {
+    owner, freezerItems: getUserFreezerItemsFromSqlite(userId), onHandIngredientIds: getUserPreferencesFromSqlite(userId).onHandIngredientIds,
+  };
+  return { owner, entries, legacySource, ...(archived ? { legacyMigrationVersion: 1 as const } : {}),
+    needsCatalogMatch: entries.filter((entry) => !entry.ingredientId && !entry.deletedAtIso).map((entry) => entry.id) };
+}
+
+export function readAcceptedPantryCatalogFromSqlite(): string[] {
+  return (getDb().prepare('SELECT id FROM pantry_catalog ORDER BY id').all() as { id: string }[]).map((row) => row.id);
+}
+
+export function hasPantryMigrationInSqlite(userId: string): boolean {
+  return Boolean(getDb().prepare('SELECT 1 FROM user_pantry_migrations WHERE user_id = ?').get(userId));
+}
+
+function writePantryEntryToSqlite(userId: string, entry: PantryEntry): void {
+  getDb().prepare(`INSERT INTO user_pantry_entries(user_id,id,identity_key,entry_json) VALUES(?,?,?,?)
+    ON CONFLICT(user_id,id) DO UPDATE SET identity_key=excluded.identity_key, entry_json=excluded.entry_json`)
+    .run(userId, entry.id, pantryIdentity(entry), JSON.stringify(entry));
+}
+
+export function migratePantryInSqlite(owner: PantryOwner): PantryMigrationSnapshot {
+  const db = getDb();
+  db.exec('BEGIN IMMEDIATE');
+  try {
+    const current = readPantryFromSqlite(owner);
+    if (!current.legacyMigrationVersion) {
+      const prepared = migrateLegacyPantry(current, current.legacySource!, new Date().toISOString());
+      for (const entry of prepared.entries) {
+        const validated = validatePantryEntry(entry);
+        if (!validated.ok) throw new PantryError('invalid_entry', 400, 'Review invalid legacy ingredient details before migrating.');
+        writePantryEntryToSqlite(pantryUserId(owner), { ...entry, ...validated.value, revision: Math.max(1, entry.revision) });
+      }
+      db.prepare('INSERT INTO user_pantry_migrations(user_id,source_json) VALUES(?,?)')
+        .run(pantryUserId(owner), JSON.stringify(prepared.legacySource));
+    }
+    const result = readPantryFromSqlite(owner);
+    db.exec('COMMIT');
+    return result;
+  } catch (error) { db.exec('ROLLBACK'); throw error; }
+}
+
+export function mutatePantryInSqlite(owner: PantryOwner, mutation: PantryMutation): PantryMutationResult {
+  mutation = validatePantryMutation(mutation, true);
+  const db = getDb();
+  const userId = pantryUserId(owner);
+  const fingerprint = mutationFingerprint(mutation);
+  db.exec('BEGIN IMMEDIATE');
+  try {
+    if (!hasPantryMigrationInSqlite(userId)) throw new PantryError('migration_required', 409, 'Migrate this private inventory before editing the pantry.');
+    const prior = db.prepare('SELECT fingerprint,result_json FROM user_pantry_mutations WHERE user_id=? AND mutation_id=?')
+      .get(userId, mutation.mutationId) as { fingerprint: string; result_json: string } | undefined;
+    let result: PantryMutationResult;
+    if (prior) {
+      if (prior.fingerprint !== fingerprint) throw new PantryError('mutation_id_reused', 409, 'Use a new mutation ID for a different edit.');
+      result = JSON.parse(prior.result_json) as PantryMutationResult;
+    } else {
+      if (mutation.operation === 'put' && mutation.entry.ingredientId &&
+          !db.prepare('SELECT 1 FROM pantry_catalog WHERE id=?').get(mutation.entry.ingredientId) &&
+          !readPantryFromSqlite(owner).entries.some((entry) => entry.id === mutation.entryId && entry.ingredientId === mutation.entry.ingredientId)) throw new PantryError('invalid_entry', 400, 'Choose an accepted catalog ingredient.');
+      result = evaluatePantryMutation(readPantryFromSqlite(owner).entries, mutation, new Date().toISOString());
+      if (result.status === 'applied') {
+        writePantryEntryToSqlite(userId, result.entry);
+        db.prepare('INSERT INTO user_pantry_mutations(user_id,mutation_id,fingerprint,result_json) VALUES(?,?,?,?)')
+          .run(userId, mutation.mutationId, fingerprint, JSON.stringify(result));
+      }
+    }
+    db.exec('COMMIT');
+    return result;
+  } catch (error) { db.exec('ROLLBACK'); throw error; }
 }
 
 function getDb(): DatabaseSync {
@@ -217,7 +300,31 @@ function initSchemaAndSeed(db: DatabaseSync) {
       updated_at_iso TEXT NOT NULL,
       PRIMARY KEY (user_id, id)
     );
+
+    CREATE TABLE IF NOT EXISTS pantry_catalog (id TEXT PRIMARY KEY);
+    CREATE TABLE IF NOT EXISTS user_pantry_entries (
+      user_id TEXT NOT NULL REFERENCES user_accounts(id) ON DELETE CASCADE,
+      id TEXT NOT NULL,
+      identity_key TEXT NOT NULL,
+      entry_json TEXT NOT NULL,
+      PRIMARY KEY (user_id, id), UNIQUE (user_id, identity_key)
+    );
+    CREATE TABLE IF NOT EXISTS user_pantry_migrations (
+      user_id TEXT PRIMARY KEY REFERENCES user_accounts(id) ON DELETE CASCADE,
+      source_json TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS user_pantry_mutations (
+      user_id TEXT NOT NULL REFERENCES user_accounts(id) ON DELETE CASCADE,
+      mutation_id TEXT NOT NULL,
+      fingerprint TEXT NOT NULL,
+      result_json TEXT NOT NULL,
+      PRIMARY KEY (user_id, mutation_id)
+    );
   `);
+
+  // Append accepted IDs on startup and retain them across presentation/code rollback.
+  const acceptIngredient = db.prepare('INSERT OR IGNORE INTO pantry_catalog(id) VALUES(?)');
+  for (const id of pantryCatalog.keys()) acceptIngredient.run(id);
 
   // Check if weekly_offers already seeded
   const countRow = db
@@ -1046,6 +1153,10 @@ export function getUserPreferencesFromSqlite(userId: string): UserPreferences {
 
 export function upsertUserPreferencesToSqlite(prefs: UserPreferences): UserPreferences {
   const db = getDb();
+  if (hasPantryMigrationInSqlite(prefs.userId) &&
+      JSON.stringify(prefs.onHandIngredientIds) !== JSON.stringify(getUserPreferencesFromSqlite(prefs.userId).onHandIngredientIds)) {
+    throw new PantryError('pantry_upgrade_required', 426, 'Reload to manage inventory in Virtual Pantry.');
+  }
   const updatedAtIso = new Date().toISOString();
   const nextPrefs: UserPreferences = {
     ...prefs,
@@ -1124,6 +1235,7 @@ export function replaceUserFreezerItemsInSqlite(
   userId: string,
   items: FreezerItem[]
 ): FreezerItem[] {
+  if (hasPantryMigrationInSqlite(userId)) throw new PantryError('pantry_upgrade_required', 426, 'Reload to manage inventory in Virtual Pantry.');
   const db = getDb();
   const now = new Date().toISOString();
 
@@ -1224,6 +1336,9 @@ export function deleteUserAccountFromSqlite(userId: string): void {
   const db = getDb();
   db.exec('BEGIN TRANSACTION');
   try {
+    db.prepare('DELETE FROM user_pantry_mutations WHERE user_id = ?').run(userId);
+    db.prepare('DELETE FROM user_pantry_entries WHERE user_id = ?').run(userId);
+    db.prepare('DELETE FROM user_pantry_migrations WHERE user_id = ?').run(userId);
     db.prepare(`DELETE FROM user_saved_recipes WHERE user_id = ?`).run(userId);
     db.prepare(`DELETE FROM user_freezer_items WHERE user_id = ?`).run(userId);
     db.prepare(`DELETE FROM user_preferences WHERE user_id = ?`).run(userId);

@@ -16,7 +16,7 @@ describe('unit: OpenAPI 3.1.0 Specification', () => {
     const tags = PANTRYBOT_OPENAPI_SPEC.tags.map((t) => t.name);
     expect(tags).toContain('Dashboard & Deals');
     expect(tags).toContain('Locations & Stores');
-    expect(tags).toContain('Virtual Freezer');
+    expect(tags).toContain('Legacy Inventory');
     expect(tags).toContain('Saved Recipes');
     expect(tags).toContain('AI Meal Planner');
     expect(tags).toContain('Cloud Sync');

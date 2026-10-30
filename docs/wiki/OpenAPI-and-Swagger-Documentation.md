@@ -1,3 +1,5 @@
+> v1.6.0: `/api/pantry` documents private reads, explicit migration, revisioned mutations, conflicts, and installed catalog readiness. Unknown saved IDs are preserved across compatible clients and exports. Regenerate both schema copies with `npm run openapi:export`.
+
 # OpenAPI 3.1.0 Specification & Swagger UI Console
 
 PantryBot exposes a production-ready, standardized **OpenAPI 3.1.0** specification covering all backend routes, data models, and security schemes, alongside an embedded **Swagger UI** testing and documentation console.
@@ -87,3 +89,7 @@ flowchart TD
 3. Use the **Quick Filter** pills to narrow endpoints by tag (e.g. *Virtual Freezer*, *AI Meal Planner*, *Dashboard & Deals*).
 4. Click **"Try it out"** on any endpoint to execute queries directly against your local backend.
 5. Inspect request parameters, response headers (such as `Retry-After`), and schema models.
+
+## Staged Virtual Pantry implementation
+
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.

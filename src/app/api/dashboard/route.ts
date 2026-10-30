@@ -1,3 +1,5 @@
+import { readProfilePantryAvailability } from '@/lib/pantry/server';
+import { pantryCatalog } from '@/lib/pantry/model';
 import { loadInventoryState } from '@/lib/supabase/session';
 import { NextRequest, NextResponse } from 'next/server';
 import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
@@ -41,7 +43,7 @@ export async function GET(request: NextRequest) {
       .map((s) => s.trim())
       .filter(Boolean);
 
-    const onHandIngredientIds = onHandParam
+    let onHandIngredientIds = onHandParam
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
@@ -56,10 +58,14 @@ export async function GET(request: NextRequest) {
     const targetServings = [4, 6, 8].includes(servingsParam) ? servingsParam : 6;
 
     const inventory = await loadInventoryState();
+    if (process.env.PANTRYBOT_PANTRY_ENABLED === 'true') {
+      onHandIngredientIds = searchParams.has('onHand') ? onHandIngredientIds.filter((id) => pantryCatalog.has(id))
+        : await readProfilePantryAvailability(inventory.profile);
+    }
     const marketClaim = await requestMarket(zipCode);
     const payload = await buildDashboardPayload({
       archiveHistory: Boolean(marketClaim),
-      freezerInventory: inventory.freezerItems,
+      freezerInventory: process.env.PANTRYBOT_PANTRY_ENABLED === 'true' ? [] : inventory.freezerItems,
       savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter: storeParam,

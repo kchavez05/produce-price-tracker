@@ -44,6 +44,7 @@ interface AccountModalProps {
   dietaryConstraints: DietaryConstraint[];
   applianceFilter: CookingVesselArchetype;
   freezerItemCount: number;
+  pantryEnabled?: boolean;
   onSignIn: (provider: AuthProviderType) => Promise<void>;
   onSignOut: () => Promise<void>;
   onMergeGuestData: () => Promise<boolean>;
@@ -71,6 +72,7 @@ export default function AccountModal({
   dietaryConstraints,
   applianceFilter,
   freezerItemCount,
+  pantryEnabled = false,
   onSignIn,
   onSignOut,
   onMergeGuestData,
@@ -140,7 +142,7 @@ export default function AccountModal({
             <h3 className="font-bold text-sm text-slate-900">
               {authenticated
                 ? 'Account, Cloud Sync & Privacy Controls (v1.3)'
-                : 'Sign In to Sync Your Virtual Freezer & Preferences'}
+                : pantryEnabled ? 'Sign In to Sync Your Virtual Pantry & Preferences' : 'Sign In to Sync Your Virtual Freezer & Preferences'}
             </h3>
             <p className="text-[11px] text-slate-500">
               {authenticated
@@ -189,7 +191,7 @@ export default function AccountModal({
                 </span>
               </div>
               <p className="mt-1.5 text-[11px] text-slate-600 leading-relaxed">
-                Sign in to back up your <strong>Virtual Freezer</strong>,{' '}
+                Sign in to back up your <strong>{pantryEnabled ? 'Virtual Pantry' : 'Virtual Freezer'}</strong>,{' '}
                 <strong>My Stores</strong> filter, and{' '}
                 <strong>Macro/Dietary profile</strong> across your phone, tablet,
                 and desktop.
@@ -458,10 +460,10 @@ export default function AccountModal({
                   </div>
                   <div className="rounded-lg bg-slate-50 p-2 border border-slate-100">
                     <div className="text-slate-400 text-[10px]">
-                      Virtual Freezer
+                      {pantryEnabled ? 'Virtual Pantry' : 'Virtual Freezer'}
                     </div>
                     <div className="font-bold text-sky-800">
-                      {freezerItemCount} Cut(s) Banked
+                      {freezerItemCount} {pantryEnabled ? 'ingredients' : 'Cut(s) Banked'}
                     </div>
                   </div>
                   <div className="rounded-lg bg-slate-50 p-2 border border-slate-100">

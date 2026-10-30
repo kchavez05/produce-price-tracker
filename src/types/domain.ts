@@ -293,6 +293,7 @@ export interface MatchedSlotIngredient {
   isUserPinned: boolean;
   isOnHand?: boolean;
   fromVirtualFreezer?: boolean;
+  optional?: boolean;
 }
 
 export interface RecommendedDish {
@@ -324,6 +325,10 @@ export interface RecommendedDish {
   aiGenerated?: boolean;
   savedInLibrary?: boolean;
   poweredByFreezerCount?: number;
+  pantryRequirements?: import('@/types/pantry').PantryRequirement[];
+  pantryCoverage?: import('@/types/pantry').PantryCoverage;
+  additionalCostEstimateComplete?: boolean;
+  missingPriceIngredientIds?: string[];
 }
 
 export interface AggregatedShoppingItem {
@@ -372,6 +377,8 @@ export interface AggregatedShoppingItem {
 }
 
 export interface StoreTripComparison {
+  additionalCostEstimateComplete?: boolean;
+  missingPriceIngredientIds?: string[];
   optimalSplitTotal: number;
   kingSoopersOnlyTotal: number;
   safewayOnlyTotal: number;
@@ -604,5 +611,6 @@ export interface UserDataExportArchive {
   preferences: UserPreferences;
   virtualFreezerInventory: FreezerItem[];
   savedMealPrepRecipes: RecommendedDish[];
+  virtualPantry?: import('@/lib/pantry/migration').PantryMigrationSnapshot;
 }
 
