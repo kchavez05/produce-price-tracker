@@ -5,7 +5,7 @@
       "id": "ingredient-lentils-dried",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "USDA",
       "sourceRefs": [
@@ -22,13 +22,18 @@
         "familyId": "lentils",
         "form": "dried",
         "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "42c87d02554a05dc1001028eea83f3b79885a2bbf3d70df056b49c636ef8178e"
       }
     },
     {
       "id": "ingredient-lentils-canned",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "CURATED",
       "sourceRefs": [],
@@ -40,13 +45,18 @@
         "familyId": "lentils",
         "form": "canned",
         "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "ef3dc1d31e0ec4a62db44fa5e9f9471f4059fce036597b11781922cadc1d61e7"
       }
     },
     {
       "id": "ingredient-red-lentils-dried",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "USDA",
       "sourceRefs": [
@@ -69,13 +79,18 @@
         "searchVisibility": "variant",
         "variety": "red",
         "parentIngredientId": "lentils-dried"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "0bf18b1e9e0d7cc3f60785d53bd811161cb73cd0010ad97ef35307069d56cc80"
       }
     },
     {
       "id": "ingredient-onions-fresh",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "USDA",
       "sourceRefs": [
@@ -92,13 +107,18 @@
         "familyId": "onions",
         "form": "fresh",
         "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "3fb85db5f728e07fbb5a4528d0a94537002843311b6136385f1deea6ff75b172"
       }
     },
     {
       "id": "ingredient-basmati-rice-dry",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "CURATED",
       "sourceRefs": [],
@@ -115,13 +135,18 @@
         "form": "dry",
         "searchVisibility": "primary",
         "variety": "basmati"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "1ae9aa27ce049728dfc2d0a76ee5bba15136a47aaa283598457d7efeeee33dfa"
       }
     },
     {
       "id": "ingredient-jasmine-rice-dry",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "CURATED",
       "sourceRefs": [],
@@ -138,13 +163,18 @@
         "form": "dry",
         "searchVisibility": "primary",
         "variety": "jasmine"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "3a38c487f161ede48213fb9841aa2d1594b60c8b11e56a73436be578f034b26a"
       }
     },
     {
       "id": "ingredient-brown-rice-dry",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "CURATED",
       "sourceRefs": [],
@@ -161,13 +191,18 @@
         "form": "dry",
         "searchVisibility": "primary",
         "variety": "brown"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "8a0761873db235e4955b822f14092035cb4004d7fc01ce8ce73cd6cc4d510f58"
       }
     },
     {
       "id": "ingredient-rice-flour",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "upsert",
       "sourceKind": "CURATED",
       "sourceRefs": [],
@@ -183,13 +218,18 @@
         "familyId": "rice-flour",
         "form": "flour",
         "searchVisibility": "specific"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "7687082ae71f71148819ac155b2f58a5471f3ca05f9fc0ce1ec6f04b8284f6dc"
       }
     },
     {
       "id": "red-lentils-cover-general-dried",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "compatibility",
       "sourceKind": "CURATED",
       "sourceRefs": [],
@@ -197,13 +237,18 @@
       "compatibility": {
         "from": "red-lentils-dried",
         "to": "lentils-dried"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "ec4f67de76f022a388fce48bcc621faff520e5a42373e6659a9eb1d1e93b08f4"
       }
     },
     {
       "id": "hold-foundation-orphans-2026-10-29",
       "revision": 1,
       "rulesVersion": 1,
-      "status": "proposed",
+      "status": "approved",
       "action": "defer",
       "sourceKind": "USDA",
       "sourceRefs": [
@@ -509,6 +554,11 @@
         "sourceReleaseDate": "2026-10-29",
         "owner": "Catalog maintainer",
         "reviewBy": "2027-04-30"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "31e6948ae12725760fe963cc06ec4398cc6abf486854c21d09e34c2c01908631"
       }
     }
   ]
