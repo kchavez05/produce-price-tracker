@@ -8,6 +8,7 @@ import json
 import re
 import sys
 import unicodedata
+import uuid
 from pathlib import Path
 
 RULES_VERSION = 1
@@ -89,10 +90,11 @@ def build_review(source, release, existing):
         counts[row['data_type']] += 1
         if row['data_type'] in TYPES or row['fdc_id'] in wanted:
             identity = row['fdc_id']
-            if not identity or identity in food or not row['description'].strip():
+            if not identity.isdigit() or identity in food or not row['description'].strip():
                 raise ValueError(f'food.csv: blank/duplicate relevant ID or blank description: {identity!r}')
             try:
-                datetime.date.fromisoformat(row['publication_date'])
+                if datetime.date.fromisoformat(row['publication_date']).isoformat() != row['publication_date']:
+                    raise ValueError('Noncanonical calendar date')
             except ValueError as error:
                 raise ValueError(f'food.csv: invalid publication date for {identity}') from error
             food[identity] = row
@@ -195,7 +197,23 @@ def build_review(source, release, existing):
             'Branded foods, nutrition, portions, samples, and acquisitions are not imported.',
         ],
     }
-    return summary, result, sorted(excluded, key=lambda r: (r['dataType'], r['fdcId']))
+    source_records = []
+    for kind, children in sorted(subtypes.items()):
+        excluded_ids = {r['fdcId'] for r in excluded if r['dataType'] == kind}
+        for identity, row in sorted(food.items()):
+            if row['data_type'] != kind:
+                continue
+            child = children.get(identity, {})
+            category = categories.get(row['food_category_id'], {})
+            record = {'dataType': kind, 'fdcId': identity, 'ndbNumber': child.get('NDB_number') or None,
+                      'description': row['description'], 'publicationDate': row['publication_date'],
+                      'categoryId': row['food_category_id'], 'categoryName': category.get('description'),
+                      'footnote': child.get('footnote') or None}
+            fingerprint = hashlib.sha256(json.dumps(record, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()
+            source_records.append({**record, 'key': f'{kind}:{identity}', 'fingerprint': fingerprint,
+                                   'disposition': 'quarantined' if identity not in children else 'excluded' if identity in excluded_ids else 'candidate'})
+    summary['sourceRecordsVersion'] = 1
+    return summary, result, sorted(excluded, key=lambda r: (r['dataType'], r['fdcId'])), source_records
 
 
 def markdown_report(summary):
@@ -239,6 +257,8 @@ def main():
     parser.add_argument('--output', type=Path, required=True, help='New review directory, separate from the input')
     parser.add_argument('--release', required=True, help='Source release date in YYYY-MM-DD format')
     args = parser.parse_args()
+    audit = {'runId': str(uuid.uuid4()), 'startedAtIso': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+             'importer': 'fdc-discovery-v1', 'rulesVersion': RULES_VERSION, 'sourceRelease': args.release, 'published': False}
     try:
         if datetime.date.fromisoformat(args.release).isoformat() != args.release:
             raise ValueError('Release date must use YYYY-MM-DD.')
@@ -254,16 +274,18 @@ def main():
             raise ValueError('Expected an existing ingredient catalog as JSON on stdin.')
         if len({r['id'] for r in existing}) != len(existing):
             raise ValueError('Existing ingredient IDs must be unique.')
-        summary, candidates, excluded = build_review(source, args.release, existing)
+        summary, candidates, excluded, source_records = build_review(source, args.release, existing)
         output.mkdir(parents=True, exist_ok=False)
         for name, value in [('candidates.json', {'formatVersion': 1, 'rulesVersion': RULES_VERSION, 'candidates': candidates}),
-                            ('report.json', summary), ('excluded.json', excluded)]:
+                            ('report.json', summary), ('excluded.json', excluded),
+                            ('source-records.json', {'formatVersion': 1, 'rulesVersion': RULES_VERSION, 'releaseDate': args.release, 'records': source_records})]:
             (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         (output / 'report.md').write_text(markdown_report(summary), encoding='utf-8')
+        (output / 'audit.json').write_text(json.dumps({**audit, 'outcome': 'discovered', 'sourceManifest': summary['source'], 'counts': summary['counts']}, indent=2) + '\n', encoding='utf-8')
         print(json.dumps({'output': str(output), **summary['counts']}))
         return 0
     except (ValueError, OSError, csv.Error) as error:
-        print(f'FDC import failed: {error}', file=sys.stderr)
+        print(json.dumps({**audit, 'outcome': 'validation_failed', 'error': str(error)}), file=sys.stderr)
         return 1
 
 

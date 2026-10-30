@@ -1,3 +1,4 @@
+import { parseSources } from '../../../scripts/lib/catalog-curation';
 import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, writeFileSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -42,6 +43,9 @@ afterEach(() => rmSync(directory, { recursive: true, force: true }));
 describe('USDA candidate catalog importer', () => {
   it('joins the relational files, preserves provenance and quoted Unicode/newline CSV, and keeps identities distinct', () => {
     const result = run(); expect(result.status, result.stderr).toBe(0);
+    const records = parseSources(document('source-records.json')).records;
+    expect(records).toHaveLength(9);
+    expect(records.find((r) => r.fdcId === '4')?.disposition).toBe('quarantined');
     const candidates = document('candidates.json').candidates;
     expect(candidates).toHaveLength(5);
     const general = candidates.find((c: { candidateId: string }) => c.candidateId === 'usda-ndb:0100');
@@ -69,7 +73,9 @@ describe('USDA candidate catalog importer', () => {
     const before = readdirSync(input).map((name) => [name, readFileSync(join(input, name), 'utf8')]);
     expect(run().status).toBe(0);
     const second = join(directory, 'second'); expect(run(second).status).toBe(0);
-    for (const name of readdirSync(second)) expect(readFileSync(join(second, name))).toEqual(readFileSync(join(directory, 'review', name)));
+    for (const name of readdirSync(second).filter((name) => name !== 'audit.json')) expect(readFileSync(join(second, name))).toEqual(readFileSync(join(directory, 'review', name)));
+    expect(document('audit.json').published).toBe(false);
+    expect(document('audit.json').runId).not.toBe(document('audit.json', second).runId);
     expect(readdirSync(input).map((name) => [name, readFileSync(join(input, name), 'utf8')])).toEqual(before);
     writeFileSync(join(directory, 'review', 'human-notes.md'), 'Do not overwrite');
     expect(run().status).toBe(1);
