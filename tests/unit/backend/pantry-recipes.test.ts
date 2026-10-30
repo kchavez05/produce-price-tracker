@@ -102,6 +102,39 @@ describe('pantry recipe and shopping integration', () => {
     expect(applyPantryToRecipe(dish, ['yellow-white-onions'], commodities).matchedIngredients[0].isOnHand).toBe(false);
     expect(JSON.stringify([onion, dish])).toBe(before);
   });
+  it.each([
+    { fresh: false, powder: false, count: 0 },
+    { fresh: true, powder: false, count: 1 },
+    { fresh: false, powder: true, count: 1 },
+    { fresh: true, powder: true, count: 2 },
+  ])('keeps fresh onion main ingredients separate from onion powder staples: $fresh/$powder', ({ fresh, powder, count }) => {
+    const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;
+    const dish = createMockDish({ pantryStaples: [], pantryRequirements: [{ ingredientId: 'onion-powder', quantity: 2, unit: 'tsp' }], matchedIngredients: [{
+      slotLabel: 'Fresh onions', ingredientId: commodity.ingredient.id, ingredientName: commodity.ingredient.name, quantityUsed: 2, unit: 'lb',
+      store: commodity.bestOffer.store, rawDealText: commodity.bestOffer.rawPriceText, dealType: commodity.bestOffer.dealType,
+      unitCost: commodity.bestOffer.normalizedPricePerUnit, slotCost: 4, regularSlotCost: 6, isUserPinned: false, isOnHand: false, fromVirtualFreezer: false,
+    }] });
+    // Explicit Yes/No is independent of zero quantity and past dates.
+    const entries: PantryEntry[] = [
+      { id: 'fresh', ingredientId: 'onions-fresh', displayName: 'Onions', available: fresh, quantity: 0, useByDate: '2000-01-01', revision: 1, updatedAtIso: '' },
+      { id: 'powder', ingredientId: 'onion-powder', displayName: 'Onion powder', available: powder, revision: 1, updatedAtIso: '' },
+    ];
+    const original = JSON.stringify([dish, entries]);
+    const available = availablePantryIngredientIds(entries);
+    // Reprice a previously covered saved view, rather than trusting its old flags.
+    const previouslyCovered = applyPantryToRecipe(dish, ['onions-fresh', 'onion-powder'], commodities);
+    const current = applyPantryToRecipe(previouslyCovered, available, commodities);
+    const freshCost = fresh ? 0 : Number((2 * commodity.bestOffer.normalizedPricePerUnit).toFixed(2));
+    const powderCost = powder ? 0 : 0.12;
+    expect(current.matchedIngredients[0]).toMatchObject({ isOnHand: fresh, slotCost: freshCost });
+    expect(current.estimatedPantryCost).toBe(powderCost);
+    expect(current.totalBatchCost).toBeCloseTo(freshCost + powderCost);
+    expect(current.pantryCoverage).toMatchObject({ requiredCount: 2, availableRequiredCount: count });
+    const plan = buildShoppingListAndStoreComparison([current], commodities, available, '80542', undefined, true);
+    expect(plan.items.some((r) => r.ingredientId === 'yellow-white-onions')).toBe(!fresh);
+    expect(plan.pantryNeeds.some((r) => r.ingredientId === 'onion-powder')).toBe(!powder);
+    expect(JSON.stringify([dish, entries])).toBe(original);
+  });
   it('normalizes reviewed recipe requirements for distinct coverage without inferring unrelated grouped deals', () => {
     const result = evaluatePantryRequirementsByIds([
       { ingredientId: 'yellow-white-onions', quantity: 1, unit: 'lb' }, { ingredientId: 'onions-fresh', quantity: 1, unit: 'lb' },
