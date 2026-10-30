@@ -5,6 +5,23 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-10-30
+
+### Added
+- Virtual Pantry with explicit Yes/No availability, custom ingredients, optional storage/quantity/unit/date details, and private guest persistence.
+- Account-owned pantry sync with durable offline queues, idempotent retries, revision conflicts, explicit guest import, and retained legacy inventory.
+- Reviewed 72-identity cooking catalog with compact lentil search, optional varieties, provenance/approval ledgers, repeatable USDA refreshes, and full market-link applicability audits.
+- Directional recipe coverage, explicit No precedence, and reviewed fresh-onion recipe-use mapping; fresh onions and onion powder remain separate requirements.
+
+### Changed
+- Recipe cards show “Make sure you have” and $0.00 additional cost for available ingredients; coverage and shopping needs refresh together.
+- Staples use labeled fixed recipe-use estimates; missing prices remain explicit. Buying, cooking, planning, and saving recipes never deduct inventory.
+- Pantry uses a door icon; freezer-specific snowflakes remain. Dropdown arrows have consistent spacing.
+- Account export/deletion and OpenAPI cover pantry records, ownership, catalog readiness, and compatibility behavior.
+
+### Rollout
+- Install the three additive pantry migrations and verify isolated staging before hosted activation. Retain accepted IDs during catalog rollback; see [release notes](docs/releases/v1.6.0.md).
+
 ## [1.5.2] - 2026-10-29
 
 - Show package sizes and original prices in raw data; preserve source conditions and calculation context.
