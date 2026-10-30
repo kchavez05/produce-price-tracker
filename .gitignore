@@ -40,3 +40,6 @@ next-env.d.ts
 
 # Supabase CLI local metadata
 /supabase/.temp/
+
+# Local USDA catalog review artifacts (never raw bulk data in the app bundle)
+/data/fdc-catalog-review/
