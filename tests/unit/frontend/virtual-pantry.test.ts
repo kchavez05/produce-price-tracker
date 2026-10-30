@@ -4,6 +4,7 @@ import { act, createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import VirtualPantry from '@/components/VirtualPantry';
 import { cookingIngredients } from '@/lib/pantry/model';
+import { evaluatePantryMutation } from '@/lib/pantry/mutations';
 import { PantryEntry } from '@/types/pantry';
 let root: Root;
 let container: HTMLDivElement;
@@ -63,6 +64,19 @@ describe('Virtual Pantry accessible controls', () => {
     await run(() => button('Add custom ingredient:').click());
     await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
     expect(save).toHaveBeenCalledWith({ displayName: 'My family spice blend', available: true }, undefined);
+  });
+  it('restores a deleted custom identity through the form using its existing ID and revision', async () => {
+    const deleted: PantryEntry = { id: 'custom-blend', displayName: 'My family spice blend', available: true,
+      revision: 4, updatedAtIso: '2026-10-30T00:00:00Z', deletedAtIso: '2026-10-30T00:00:00Z' };
+    await render([deleted]); await search('MY  FAMILY spice blend');
+    await run(() => button('Add custom ingredient:').click());
+    await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
+    expect(save).toHaveBeenCalledWith({ displayName: 'MY FAMILY spice blend', available: true }, deleted.id);
+    const [entry, entryId] = save.mock.calls[0];
+    const restored = evaluatePantryMutation([deleted], { mutationId: 'restore', entryId, expectedRevision: deleted.revision,
+      operation: 'put', entry }, '2026-10-30T01:00:00Z');
+    expect(restored).toMatchObject({ status: 'applied', entry: { id: deleted.id, revision: 5, available: true } });
+    if (restored.status === 'applied') expect(restored.entry.deletedAtIso).toBeUndefined();
   });
   it('offers two primary lentil forms, optional red variety, and a direct specific query', async () => {
     await render(); await search('lentils');
