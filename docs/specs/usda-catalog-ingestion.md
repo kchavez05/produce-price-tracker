@@ -104,6 +104,14 @@ No is scoped to the exact recorded identity; it is not a family-wide deletion. D
 
 Coverage MUST count a distinct recipe requirement once even if multiple available variants satisfy it. Shopping needs may be omitted only after the requirement is covered by exact identity or an approved compatibility rule. A broader match must not create duplicate coverage or fabricated prices. Missing price/recipe mappings remain explicit.
 
+### Market links and form isolation
+
+Clarification approved October 30, 2026: every pantry cooking identity MUST be assessed for an applicable item in the market catalog. Record either its explicit reviewed link or a reasoned “no current market item” disposition. A link is required where a matching market item exists; a missing counterpart must stay visible in the audit rather than becoming a guessed link. Reassess when either catalog or the reviewed recipe-use links change.
+
+Match cooking form and intended recipe use, not just shared ingredient words or families. Fresh onions and onion powder are separate identities: fresh onions may cover the fresh-onion recipe requirement through its reviewed market link; onion powder covers only its own staple requirement. Neither establishes the other. The same boundary applies to fresh/dried herbs, fresh/powdered garlic, dry/canned beans, varieties, and composite products unless a separately reviewed compatibility rule explicitly permits coverage.
+
+Recipe-use links remain separate from USDA source equivalence and observed prices. They MUST be applied consistently to recipe cards, additional costs, distinct required-ingredient coverage, and shopping needs. A recipe requiring both fresh onions as a main ingredient and onion powder as a staple MUST test all four availability combinations. Fresh-only covers one of two requirements, powder-only covers the other, both covers two, and neither covers zero; each missing form retains its own cost and shopping need. Existing Yes/No and tombstone rules still apply, and no recipe evaluation mutates inventory.
+
 ## 7. Recurring ingestion workflow
 
 Each run follows the same stages. Re-running discovery is authorized maintenance; publication is a separate reviewed change.
@@ -161,7 +169,7 @@ Before the first curated catalog activates, and on each applicable subsequent re
 1. An identical snapshot/rules/decisions run reproduces identical catalog content and review diffs; source files and prior review work are unchanged.
 2. Every relevant input row reconciles to a documented disposition. Parent-only records and source revisions are visible; unmatched IDs are never silently discarded.
 3. Generic `lentils` shows only the approved dried/canned primary choices. Varieties are optional; `red lentils` can find a reviewed specific option. Lentil soup and USDA boiled-with/without-salt duplicates do not crowd the list.
-4. Search fixtures cover rice varieties, canned/dry beans, wheat/rice flour, garlic, onions, broth, cumin, paprika, tahini, and reviewed aliases. Specific ingredient identities remain reachable when grouped.
+4. Every pantry identity has a current market-link applicability audit; applicable links are installed and missing counterparts are explicit. Search fixtures cover rice varieties, canned/dry beans, wheat/rice flour, garlic, onions, broth, cumin, paprika, tahini, and reviewed aliases. Specific ingredient identities remain reachable when grouped.
 5. Generic and specific recipe coverage follows the table in section 6, including explicit No precedence. Dry/canned forms and unrelated varieties never match by string similarity. Multiple matching entries count a requirement once.
 6. Quantity zero, missing quantity, and past date do not change availability. Planning, cooking, saving recipes, source refresh, and catalog publication do not write pantry inventory.
 7. Existing ingredient IDs, private custom items, pending mutations, tombstones, account isolation, exports/deletion, and old-client compatibility survive the update and rollback tests.

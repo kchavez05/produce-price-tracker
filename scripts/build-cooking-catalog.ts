@@ -1,3 +1,4 @@
+import { validateMarketLinkAudit } from './lib/market-link-audit';
 import { readFileSync, writeFileSync, renameSync, rmSync } from 'node:fs';
 import { CANONICAL_INGREDIENTS } from '../src/data/canonical-ingredients';
 import { parseArtifact, parseLedger, decisionHash, sha256 } from './lib/catalog-curation';
@@ -27,6 +28,7 @@ for (const value of rows) {
   targets.add(payload.marketIngredientId);
   recipeLinks.push({ marketIngredientId: payload.marketIngredientId, pantryIngredientId: payload.pantryIngredientId });
 }
+validateMarketLinkAudit(JSON.parse(readFileSync('catalog/market-link-audit.json', 'utf8')), artifact, recipeLinks, CANONICAL_INGREDIENTS);
 const data = { recipeLinksFormatVersion: recipeLedger.formatVersion, recipeLinksHash: sha256(recipeLinks), recipeLinks, rollbackVersion: baseline.catalogVersion, rollbackIngredientIds: baseline.ingredients.map((r) => r.id), catalogVersion: artifact.catalogVersion, contentHash: artifact.contentHash, ingredients: artifact.ingredients, compatibility: artifact.compatibility };
 const content = JSON.stringify(data, null, 2) + '\n';
 const output = 'src/data/cooking-catalog.json';
