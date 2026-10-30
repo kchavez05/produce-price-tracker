@@ -1,7 +1,22 @@
-import { PANTRY_INGREDIENTS } from '@/data/pantry-ingredients';
-import { PantryCatalogIngredient, PantryEntry, PantryEntryInput } from '@/types/pantry';
+import cookingData from '@/data/cooking-catalog.json';
+import { CookingIngredient, CatalogCompatibility } from '@/types/catalog';
+import { availableCookingIngredientIds, searchCookingCatalog } from './catalog-search';
+import { PantryEntry, PantryEntryInput } from '@/types/pantry';
 
-export const pantryCatalog: ReadonlyMap<string, PantryCatalogIngredient> = new Map(PANTRY_INGREDIENTS.map((ingredient) => [ingredient.id, ingredient]));
+export const cookingIngredients: readonly CookingIngredient[] = cookingData.ingredients as CookingIngredient[];
+/** Rollback changes presentation/derived coverage, never the accepted-ID registry. */
+export function cookingCatalogView(version: string) {
+  if (version === cookingData.catalogVersion) return { version, ingredients: cookingIngredients, compatibility: cookingData.compatibility as readonly CatalogCompatibility[] };
+  if (version !== cookingData.rollbackVersion) throw new Error(`Unsupported cooking catalog version: ${version}`);
+  const oldIds = new Set(cookingData.rollbackIngredientIds);
+  const ingredients: CookingIngredient[] = cookingIngredients.filter((r) => oldIds.has(r.id)).map(({ id, name, aliases, recipeIngredientId, staticPrice }) => ({ id, name, aliases, ...(recipeIngredientId ? { recipeIngredientId } : {}), ...(staticPrice ? { staticPrice } : {}) }));
+  return { version, ingredients, compatibility: [] as readonly CatalogCompatibility[] };
+}
+const activeCatalog = cookingCatalogView(process.env.NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION || cookingData.catalogVersion);
+export const activeCookingIngredients = activeCatalog.ingredients;
+export const cookingCompatibility = activeCatalog.compatibility;
+export const cookingCatalogVersion = activeCatalog.version;
+export const pantryCatalog: ReadonlyMap<string, CookingIngredient> = new Map(cookingIngredients.map((ingredient) => [ingredient.id, ingredient]));
 
 export function normalizePantryName(name: string): string {
   return name.normalize('NFC').trim().replace(/\s+/gu, ' ').toLowerCase();
@@ -25,7 +40,7 @@ export type PantryValidationResult =
   | { ok: true; value: PantryEntryInput }
   | { ok: false; errors: Partial<Record<EntryField, string>> };
 
-export function validatePantryEntry(input: unknown): PantryValidationResult {
+export function validatePantryEntry(input: unknown, allowUnrecognizedCatalogId = false): PantryValidationResult {
   if (typeof input !== 'object' || input === null || Array.isArray(input)) {
     return { ok: false, errors: { displayName: 'Enter an ingredient.' } };
   }
@@ -34,7 +49,7 @@ export function validatePantryEntry(input: unknown): PantryValidationResult {
   const displayName = typeof raw.displayName === 'string' ? raw.displayName.trim().replace(/\s+/gu, ' ') : '';
   if (!displayName || displayName.length > 120) errors.displayName = 'Use an ingredient name of 1–120 characters.';
   if (typeof raw.available !== 'boolean') errors.available = 'Choose Yes or No.';
-  if (raw.ingredientId !== undefined && (typeof raw.ingredientId !== 'string' || !pantryCatalog.has(raw.ingredientId))) {
+  if (raw.ingredientId !== undefined && (typeof raw.ingredientId !== 'string' || !/^[a-z0-9][a-z0-9._:-]{0,119}$/.test(raw.ingredientId) || !allowUnrecognizedCatalogId && !pantryCatalog.has(raw.ingredientId))) {
     errors.ingredientId = 'Choose a catalog ingredient or use a custom name.';
   }
   if (raw.location !== undefined && (typeof raw.location !== 'string' || !['PANTRY', 'FRIDGE', 'FREEZER'].includes(raw.location))) {
@@ -63,20 +78,20 @@ export function validatePantryEntry(input: unknown): PantryValidationResult {
 }
 
 export function availableRecipeIngredientIds(entries: readonly PantryEntry[]): string[] {
-  return [...new Set(entries.flatMap((entry) => {
-    const recipeId = entry.ingredientId && pantryCatalog.get(entry.ingredientId)?.recipeIngredientId;
-    return entry.available && !entry.deletedAtIso && recipeId ? [recipeId] : [];
-  }))];
+  return [...new Set(availableCookingIngredientIds(entries, cookingIngredients, cookingCompatibility)
+    .flatMap((id) => pantryCatalog.get(id)?.recipeIngredientId ? [pantryCatalog.get(id)!.recipeIngredientId!] : []))];
 }
 
+/** Resolve compatibility once, while explicit No entries are still present. */
 export function availablePantryIngredientIds(entries: readonly PantryEntry[]): string[] {
-  return [...new Set([...availableRecipeIngredientIds(entries), ...entries.flatMap((entry) =>
-    entry.available && !entry.deletedAtIso && entry.ingredientId && pantryCatalog.has(entry.ingredientId) ? [entry.ingredientId] : [])])];
+  return [...new Set([...availableRecipeIngredientIds(entries), ...availableCookingIngredientIds(entries, cookingIngredients, cookingCompatibility)])];
 }
 
 export function searchPantryCatalog(query: string) {
-  const normalized = normalizePantryName(query);
-  if (!normalized) return [];
-  return PANTRY_INGREDIENTS.filter((ingredient) => [ingredient.name, ...ingredient.aliases]
-    .some((name) => normalizePantryName(name).includes(normalized)));
+  return searchCookingCatalog(activeCookingIngredients, query);
+}
+
+/** New IDs need server acceptance first; unfamiliar existing entries stay editable. */
+export function canSavePantryIngredient(input: PantryEntryInput, existing: PantryEntry | undefined, acceptedIds: readonly string[]): boolean {
+  return !input.ingredientId || existing?.ingredientId === input.ingredientId || activeCookingIngredients.some((r) => r.id === input.ingredientId && r.lifecycle !== 'retired') && acceptedIds.includes(input.ingredientId);
 }

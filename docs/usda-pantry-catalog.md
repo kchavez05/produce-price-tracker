@@ -53,4 +53,4 @@ Source: [USDA FoodData Central downloads](https://fdc.nal.usda.gov/download-data
 
 ## Curation and replay implementation
 
-The [curation ledger and command](../catalog/README.md) implement review decisions, fingerprint replay, source/catalog diffs, quarantine exceptions, versioned staging artifacts, audit envelopes, and core search fixtures. The initial ledger is proposed; it does not activate the three new ingredient IDs or grouped search in the app.
+The [curation ledger and command](../catalog/README.md) implement review decisions, fingerprint replay, source/catalog diffs, quarantine exceptions, versioned staging artifacts, audit envelopes, and core search fixtures. The initial ledger is approved, and the app uses its compact 72-identity projection behind the pantry feature gate. See the [integration guide](usda-catalog-integration.md) for readiness checks, migration order, and rollback. The curation command itself never activates an environment.

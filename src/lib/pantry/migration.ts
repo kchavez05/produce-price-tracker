@@ -11,6 +11,9 @@ export interface LegacyPantrySource {
 
 export interface PantryMigrationSnapshot {
   owner: PantryOwner;
+  /** Verified server acceptance; absent on pre-catalog servers. */
+  acceptedCatalogIds?: readonly string[];
+  catalogVersion?: string;
   entries: readonly PantryEntry[];
   /** Store separately from editable pantry fields; do not discard or sum purchase lots. */
   legacySource?: LegacyPantrySource;

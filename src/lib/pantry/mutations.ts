@@ -5,7 +5,7 @@ export class PantryError extends Error {
   constructor(public code: string, public status: number, message: string) { super(message); }
 }
 
-export function validatePantryMutation(input: unknown): PantryMutation {
+export function validatePantryMutation(input: unknown, allowUnrecognizedCatalogId = false): PantryMutation {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new PantryError('invalid_mutation', 400, 'Enter a pantry mutation.');
   const raw = input as Record<string, unknown>;
   if (typeof raw.mutationId !== 'string' || !raw.mutationId.trim() || raw.mutationId.length > 128 ||
@@ -16,7 +16,7 @@ export function validatePantryMutation(input: unknown): PantryMutation {
   const base = { mutationId: raw.mutationId, entryId: raw.entryId, expectedRevision: raw.expectedRevision as number };
   if (raw.operation === 'delete') return { ...base, operation: 'delete' };
   if (raw.operation !== 'put') throw new PantryError('invalid_mutation', 400, 'Choose put or delete.');
-  const validated = validatePantryEntry(raw.entry);
+  const validated = validatePantryEntry(raw.entry, allowUnrecognizedCatalogId);
   if (!validated.ok) throw new PantryError('invalid_entry', 400, JSON.stringify(validated.errors));
   return { ...base, operation: 'put', entry: validated.value };
 }
@@ -40,5 +40,5 @@ export function evaluatePantryMutation(entries: readonly PantryEntry[], mutation
 
 export function mutationFingerprint(mutation: PantryMutation): string {
   // validatePantryMutation emits a stable whitelist/order for retry comparison.
-  return JSON.stringify(validatePantryMutation(mutation));
+  return JSON.stringify(validatePantryMutation(mutation, true));
 }

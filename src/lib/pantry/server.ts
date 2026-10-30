@@ -1,11 +1,11 @@
 import { loadInventoryState, resolveCurrentUserProfile } from '@/lib/supabase/session';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
-import { migratePantryInSqlite, mutatePantryInSqlite, readPantryFromSqlite } from '@/lib/db/sqlite';
+import { migratePantryInSqlite, mutatePantryInSqlite, readPantryFromSqlite, readAcceptedPantryCatalogFromSqlite } from '@/lib/db/sqlite';
 import { PantryMutation, PantryMutationResult, PantryOwner } from '@/types/pantry';
 import { UserProfile } from '@/types/domain';
 import { migrateLegacyPantry, PantryMigrationSnapshot } from './migration';
 import { PantryError } from './mutations';
-import { availablePantryIngredientIds } from './model';
+import { availablePantryIngredientIds, cookingCatalogVersion } from './model';
 
 export interface PantryContext { owner: PantryOwner; profile: UserProfile }
 
@@ -32,8 +32,15 @@ export async function pantryRpc<T>(action: string, payload: object = {}): Promis
   return data as T;
 }
 
-export function readPrivatePantry(context: PantryContext): Promise<PantryMigrationSnapshot> {
-  return context.profile.isCloudBacked ? pantryRpc('read') : Promise.resolve(readPantryFromSqlite(context.owner));
+export async function readPrivatePantry(context: PantryContext): Promise<PantryMigrationSnapshot> {
+  if (!context.profile.isCloudBacked) return { ...readPantryFromSqlite(context.owner), acceptedCatalogIds: readAcceptedPantryCatalogFromSqlite(), catalogVersion: cookingCatalogVersion };
+  const client = await createServerSupabaseClient();
+  if (!client) throw new PantryError('storage_unavailable', 503, 'Pantry storage is unavailable.');
+  const [snapshot, catalog] = await Promise.all([
+    pantryRpc<PantryMigrationSnapshot>('read'), client.from('pantry_catalog').select('id'),
+  ]);
+  if (catalog.error || !catalog.data) throw new PantryError('storage_unavailable', 503, 'Could not verify catalog readiness. Retry when connected.');
+  return { ...snapshot, acceptedCatalogIds: catalog.data.map((row: { id: string }) => row.id), catalogVersion: cookingCatalogVersion };
 }
 
 /** The profile must come from the verified session, never a request body. */
@@ -54,6 +61,8 @@ export async function migratePrivatePantry(context: PantryContext): Promise<Pant
   return pantryRpc('migrate', { source: prepared.legacySource, entries: prepared.entries });
 }
 
-export function mutatePrivatePantry(context: PantryContext, mutation: PantryMutation): Promise<PantryMutationResult> {
+export async function mutatePrivatePantry(context: PantryContext, mutation: PantryMutation): Promise<PantryMutationResult> {
+  // Cloud SQL owns the durable accepted-ID registry, including IDs a newer
+  // client queued before a presentation rollback. Never replace it with a bundle allowlist.
   return context.profile.isCloudBacked ? pantryRpc('mutate', mutation) : Promise.resolve(mutatePantryInSqlite(context.owner, mutation));
 }

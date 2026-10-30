@@ -1,6 +1,6 @@
 import { applyPantryToRecipe } from '@/lib/pantry/recipe';
 import { readProfilePantryAvailability } from '@/lib/pantry/server';
-import { pantryCatalog } from '@/lib/pantry/model';
+import { pantryCatalog, activeCookingIngredients } from '@/lib/pantry/model';
 import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
 import { loadInventoryState, resolveCurrentUserProfile } from '@/lib/supabase/session';
 import { NextRequest, NextResponse } from 'next/server';
@@ -128,7 +128,7 @@ Household Nutrition & Cooking Profile (Milestone v1.2):
 Live ${cityLabel} (${zipCode}) Sale Ingredients JSON:
 ${JSON.stringify(topDealsContext, null, 2)}
 
-${pantryMode ? `Available catalog IDs: ${JSON.stringify(onHandIngredientIds)}. Pantry availability is boolean and does not imply quantity sufficiency. Favor available ingredients only when compatible with strict dietary constraints and the user request. Never deduct inventory. Put every staple in pantryRequirements using an exact catalog ID, quantity for the entire batch, and the listed kitchen unit. Use an unmapped ID and displayName for ingredients outside this catalog; never invent an identity or price. pantryStaples must be empty when pantryRequirements are supplied. Fixed pantry catalog: ${JSON.stringify([...pantryCatalog.values()].filter((entry) => entry.staticPrice))}` : ''}
+${pantryMode ? `Available catalog IDs: ${JSON.stringify(onHandIngredientIds)}. Pantry availability is boolean and does not imply quantity sufficiency. Favor available ingredients only when compatible with strict dietary constraints and the user request. Never deduct inventory. Put every staple in pantryRequirements using an exact catalog ID, quantity for the entire batch, and the listed kitchen unit. Use an unmapped ID and displayName for ingredients outside this catalog; never invent an identity or price. pantryStaples must be empty when pantryRequirements are supplied. Cooking catalog (missing staticPrice means unpriced): ${JSON.stringify(activeCookingIngredients.map(({ id, name, staticPrice }) => ({ id, name, staticPrice })))}` : ''}
 
 Calculate realistic batch costs using the exact normalizedPricePerUnit values provided (set slotCost to 0 if isOnHand is true).`;
 

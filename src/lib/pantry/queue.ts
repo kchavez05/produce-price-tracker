@@ -38,7 +38,7 @@ export function createPantryQueue(
     if (Array.isArray(parsed)) for (const value of parsed) {
       try {
         if (!value || value.owner !== owner) continue;
-        const mutation = validatePantryMutation(value.mutation);
+        const mutation = validatePantryMutation(value.mutation, true);
         // An invalid conflict must never be repaired into an automatic retry.
         if (value.conflict && (value.conflict.status !== 'conflict' || value.conflict.mutationId !== mutation.mutationId || !['revision', 'identity'].includes(value.conflict.reason))) continue;
         valid.push({ owner, mutation, ...(value.conflict ? { conflict: value.conflict as Conflict } : {}) });
@@ -60,7 +60,7 @@ export function createPantryQueue(
     pending: (owner: PantryOwner) => storageLock(owner, () => read(owner)),
     enqueue: (owner: PantryOwner, input: PantryMutation) => storageLock(owner, () => {
       if (activeOwner() !== owner) throw new Error('Pantry account changed');
-      const mutation = validatePantryMutation(input);
+      const mutation = validatePantryMutation(input, true);
       const pending = read(owner);
       if (pending.some((item) => item.mutation.mutationId === mutation.mutationId)) throw new Error('Mutation ID is already queued');
       pending.push({ owner, mutation });

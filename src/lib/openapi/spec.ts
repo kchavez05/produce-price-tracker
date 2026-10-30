@@ -113,7 +113,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     '/api/pantry': {
       get: {
         tags: ['Virtual Pantry'], operationId: 'getPrivatePantry', summary: 'Read the current private pantry and legacy migration source',
-        description: 'Feature gated. Uses the verified account session or mints a private guest cookie. Never migrates automatically. All responses are private/no-store. Tombstones are included for conflict detection. Before migration, legacySource is a preview; after migration it is the preserved source archive.',
+        description: 'Feature gated. Uses the verified account session or mints a private guest cookie. Never migrates automatically. GET includes catalogVersion and installed acceptedCatalogIds; clients must verify an ID is accepted before creating a new reference. Preserve unfamiliar IDs on reads, edits, queues, and exports; they do not confer recipe coverage. All responses are private/no-store. Tombstones are included for conflict detection. Before migration, legacySource is a preview; after migration it is the preserved source archive.',
         responses: {
           '200': { description: 'Owner-scoped inventory snapshot.', content: { 'application/json': { schema: { $ref: '#/components/schemas/PantrySnapshot' } } } },
           '401': { description: 'No private session could be established.' },
@@ -1289,6 +1289,8 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         type: 'object', required: ['owner', 'entries', 'legacySource', 'needsCatalogMatch'], properties: {
           owner: { type: 'string', pattern: '^(account|guest):.+' },
           entries: { type: 'array', items: { $ref: '#/components/schemas/PantryEntry' } },
+          catalogVersion: { type: 'string', description: 'Application cooking catalog version; acceptedCatalogIds separately reflects database readiness.' },
+          acceptedCatalogIds: { type: 'array', items: { type: 'string' }, description: 'Installed server identities, checked before saving new references. Absent on older responses; reconnect to verify readiness.' },
           legacyMigrationVersion: { type: 'integer', const: 1, description: 'Absent until migration completes.' },
           needsCatalogMatch: { type: 'array', items: { type: 'string' } },
           legacySource: { type: 'object', required: ['owner', 'freezerItems', 'onHandIngredientIds'], properties: {

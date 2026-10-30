@@ -4,7 +4,7 @@ This directory implements the decision/replay stage of the [approved ingestion s
 
 - `baseline-1.5.2.json` freezes the existing 69 PantryBot ingredient IDs, labels, aliases, fixed estimates, and recipe mappings. It is an inherited app baseline, not a claim that USDA or a maintainer approved new source links.
 - `curation-ledger.json` contains the initial ingredient/grouping decisions and release-scoped quarantine hold, explicitly approved by the maintainer on October 30, 2026. Each approval records its exact payload hash. It introduces three approved IDs: unspecified dried lentils, canned lentils, and fresh onions; existing red lentils/rice/rice-flour IDs remain intact.
-- `releases/2026-10-30.1/` retains the approved 72-identity artifact, compact validation/activation manifest, and separate run audit. It is staged for integration and is not imported by the app.
+- `releases/2026-10-30.1/` retains the approved 72-identity artifact, compact validation/activation manifest, and separate run audit. The app consumes a generated compact projection of this artifact; provenance and approval records stay outside the browser bundle. See the [integration and rollout guide](../docs/usda-catalog-integration.md).
 - `core-search-fixtures.json` describes the intended compact search results. These fixtures are checked separately against the unapproved preview and the approved artifact. Passing preview searches cannot authorize unapproved ingredients.
 
 ## Generate and inspect a proposal
@@ -61,4 +61,4 @@ Use a unique catalog version for changed content or approval history. Repeating 
 
 ## Implementation boundary
 
-The grouped search and one-hop availability helpers in `src/lib/pantry/catalog-search.ts` implement the approved artifact contract and are tested against the fixtures. They are not connected to the dashboard's live catalog or recipe matching yet. Actual pantry entry APIs, quantities/dates, sync, export, deletion, and current exact-ID matching are unchanged. Product approval of the initial choices is recorded; integration still requires the separate migration/compatibility gates; this command does not call Supabase, change Preview/Production, or schedule recurring work.
+The app now uses the reviewed catalog through its generated runtime projection. Grouped search, optional varieties, directional coverage, installed-ID readiness checks, and forward-compatible storage are integrated behind the existing pantry feature gate. See the [integration guide](../docs/usda-catalog-integration.md) for migration order, baseline presentation rollback, and verification. This tooling still does not apply hosted migrations, change Preview/Production flags, or schedule recurring work.

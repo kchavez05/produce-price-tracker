@@ -1,9 +1,11 @@
+import baseline from '../../../catalog/baseline-1.5.2.json';
+import { searchCookingCatalog } from '@/lib/pantry/catalog-search';
 import { describe, expect, it } from 'vitest';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { MEAL_PREP_BLUEPRINTS } from '@/data/meal-prep-blueprints';
 import { RECIPE_STAPLES, selectRecipeStaples } from '@/data/recipe-staples';
 import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
-import { availablePantryIngredientIds, pantryCatalog } from '@/lib/pantry/model';
+import { availablePantryIngredientIds, pantryCatalog, cookingCatalogView, canSavePantryIngredient } from '@/lib/pantry/model';
 import { applyPantryToRecipe, pantryShoppingNeeds } from '@/lib/pantry/recipe';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import { formatShoppingListForClipboard } from '@/lib/cart-exporter';
@@ -39,6 +41,34 @@ describe('pantry recipe and shopping integration', () => {
     expect(after.totalBatchSavings).toBe(0);
     expect(before.pantryRequirements?.[0].quantity).toBe(3);
     expect(applyPantryToRecipe(before, [], commodities).totalBatchCost).toBe(.6);
+  });
+  it('applies reviewed lentil coverage once, respects No, and keeps missing prices explicit', () => {
+    const red = { id: 'red', ingredientId: 'red-lentils-dried', displayName: 'Dried red lentils', available: true, revision: 1, updatedAtIso: '', quantity: 0, useByDate: '2000-01-01' };
+    const general = { ...red, id: 'general', ingredientId: 'lentils-dried', displayName: 'Dried lentils' };
+    const requirements = [{ ingredientId: 'lentils-dried', quantity: 1, unit: 'cup' }];
+    const dish = createMockDish({ pantryStaples: [], pantryRequirements: requirements });
+    const before = JSON.stringify([red, general, dish]);
+    const covered = availablePantryIngredientIds([red]);
+    expect(applyPantryToRecipe(dish, covered, []).pantryCoverage?.availableRequiredCount).toBe(1);
+    expect(pantryShoppingNeeds(requirements, covered)).toEqual([]);
+    const denied = availablePantryIngredientIds([red, { ...general, available: false }]);
+    const result = applyPantryToRecipe(dish, denied, []);
+    expect(result.pantryCoverage?.availableRequiredCount).toBe(0);
+    expect(result.additionalCostEstimateComplete).toBe(false);
+    expect(pantryShoppingNeeds(requirements, denied)[0]).toMatchObject({ priceBasis: 'UNPRICED', estimatedCost: null });
+    expect(availablePantryIngredientIds([general])).not.toContain(red.ingredientId);
+    expect(availablePantryIngredientIds([{ ...general, ingredientId: 'lentils-canned' }])).not.toContain('lentils-dried');
+    expect(JSON.stringify([red, general, dish])).toBe(before);
+  });
+  it('rolls back presentation while retaining accepted new identities for edits and recipes', () => {
+    const rollback = cookingCatalogView('baseline-1.5.2');
+    expect(rollback.ingredients).toEqual(baseline.ingredients);
+    expect(rollback.compatibility).toEqual([]);
+    expect(searchCookingCatalog(rollback.ingredients, 'lentils').map((r) => r.id)).toEqual(['red-lentils-dried']);
+    expect(pantryCatalog.has('lentils-dried')).toBe(true);
+    const saved = { id: 'general', ingredientId: 'lentils-dried', displayName: 'Dried lentils', available: false, revision: 1, updatedAtIso: '' };
+    expect(canSavePantryIngredient(saved, saved, [])).toBe(true);
+    expect(() => cookingCatalogView('unreviewed')).toThrow('Unsupported');
   });
   it('uses reviewed alternatives, respects explicit pins and gluten-free constraints', () => {
     const id = 'dutch-oven-beef-chuck-pot-roast-stew';

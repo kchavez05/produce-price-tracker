@@ -1,0 +1,723 @@
+{
+  "rollbackVersion": "baseline-1.5.2",
+  "rollbackIngredientIds": [
+    "all-purpose-flour",
+    "apple-cider-vinegar",
+    "asparagus-fresh",
+    "avocado-oil",
+    "avocados-hass",
+    "basmati-rice-dry",
+    "bay-leaf",
+    "beef-broth",
+    "bell-peppers",
+    "black-beans-canned",
+    "black-beans-dried",
+    "black-pepper",
+    "brown-rice-dry",
+    "brussels-sprouts",
+    "butter-salted-unsalted",
+    "cannellini-beans-canned",
+    "caraway-seeds",
+    "celery-stalks",
+    "chicken-breast-boneless",
+    "chicken-broth",
+    "chicken-thighs-boneless",
+    "chickpeas-canned",
+    "chili-powder",
+    "coconut-aminos",
+    "coconut-milk-canned",
+    "cornstarch",
+    "crushed-tomatoes-canned",
+    "curry-powder",
+    "dijon-mustard",
+    "dill-dried",
+    "garam-masala",
+    "garlic-fresh",
+    "garlic-powder",
+    "ginger-fresh",
+    "great-northern-beans-canned",
+    "green-cabbage",
+    "ground-beef-80-20",
+    "ground-cumin",
+    "ground-turkey",
+    "italian-seasoning",
+    "jasmine-rice-dry",
+    "kidney-beans-canned",
+    "large-eggs-dozen",
+    "lemon-fresh",
+    "lime-juice",
+    "masa-harina",
+    "mexican-oregano-dried",
+    "olive-oil",
+    "onion-powder",
+    "orange-juice",
+    "oregano-dried",
+    "pork-shoulder-butt",
+    "red-lentils-dried",
+    "red-pepper-flakes",
+    "rice-flour",
+    "rosemary-dried",
+    "salt",
+    "smoked-paprika",
+    "soy-sauce",
+    "sweet-potatoes",
+    "tahini",
+    "thyme-dried",
+    "tofu-firm",
+    "tomato-paste",
+    "vegetable-broth",
+    "whole-grain-mustard",
+    "whole-wheat-flour",
+    "worcestershire-sauce",
+    "worcestershire-sauce-gluten-free"
+  ],
+  "catalogVersion": "2026-10-30.1",
+  "contentHash": "19ac18b02d4d81194f5724e09f679ff8e802e6608d62909199e25adebf591ece",
+  "ingredients": [
+    {
+      "id": "all-purpose-flour",
+      "name": "All-purpose wheat flour",
+      "aliases": [
+        "all purpose flour"
+      ],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.03
+      }
+    },
+    {
+      "id": "apple-cider-vinegar",
+      "name": "Apple cider vinegar",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "asparagus-fresh",
+      "name": "Asparagus",
+      "aliases": [],
+      "recipeIngredientId": "asparagus-fresh"
+    },
+    {
+      "id": "avocado-oil",
+      "name": "Avocado oil",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.25
+      }
+    },
+    {
+      "id": "avocados-hass",
+      "name": "Hass avocado",
+      "aliases": [],
+      "recipeIngredientId": "avocados-hass"
+    },
+    {
+      "id": "basmati-rice-dry",
+      "name": "Dry basmati rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.65
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "basmati"
+    },
+    {
+      "id": "bay-leaf",
+      "name": "Bay leaf",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "beef-broth",
+      "name": "Beef broth",
+      "aliases": [
+        "beef stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.45
+      }
+    },
+    {
+      "id": "bell-peppers",
+      "name": "Bell peppers",
+      "aliases": [],
+      "recipeIngredientId": "bell-peppers"
+    },
+    {
+      "id": "black-beans-canned",
+      "name": "Canned black beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "black-beans-dried",
+      "name": "Dried black beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "black-pepper",
+      "name": "Black pepper",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.05
+      }
+    },
+    {
+      "id": "brown-rice-dry",
+      "name": "Dry brown rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.5
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "brown"
+    },
+    {
+      "id": "brussels-sprouts",
+      "name": "Brussels sprouts",
+      "aliases": [],
+      "recipeIngredientId": "brussels-sprouts"
+    },
+    {
+      "id": "butter-salted-unsalted",
+      "name": "Butter",
+      "aliases": [],
+      "recipeIngredientId": "butter-salted-unsalted"
+    },
+    {
+      "id": "cannellini-beans-canned",
+      "name": "Canned cannellini beans",
+      "aliases": [
+        "canned white kidney beans"
+      ],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "caraway-seeds",
+      "name": "Caraway seeds",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "celery-stalks",
+      "name": "Celery",
+      "aliases": [],
+      "recipeIngredientId": "celery-stalks"
+    },
+    {
+      "id": "chicken-breast-boneless",
+      "name": "Boneless skinless chicken breast",
+      "aliases": [],
+      "recipeIngredientId": "chicken-breast-boneless"
+    },
+    {
+      "id": "chicken-broth",
+      "name": "Chicken broth",
+      "aliases": [
+        "chicken stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "chicken-thighs-boneless",
+      "name": "Boneless skinless chicken thighs",
+      "aliases": [],
+      "recipeIngredientId": "chicken-thighs-boneless"
+    },
+    {
+      "id": "chickpeas-canned",
+      "name": "Canned chickpeas",
+      "aliases": [
+        "canned garbanzo beans"
+      ],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "chili-powder",
+      "name": "Chili powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "coconut-aminos",
+      "name": "Coconut aminos",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.3
+      }
+    },
+    {
+      "id": "coconut-milk-canned",
+      "name": "Canned coconut milk",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 1
+      }
+    },
+    {
+      "id": "cornstarch",
+      "name": "Cornstarch",
+      "aliases": [
+        "corn starch"
+      ],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.05
+      }
+    },
+    {
+      "id": "crushed-tomatoes-canned",
+      "name": "Canned crushed tomatoes",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "curry-powder",
+      "name": "Curry powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "dijon-mustard",
+      "name": "Dijon mustard",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.12
+      }
+    },
+    {
+      "id": "dill-dried",
+      "name": "Dried dill",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "garam-masala",
+      "name": "Garam masala",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.12
+      }
+    },
+    {
+      "id": "garlic-fresh",
+      "name": "Garlic",
+      "aliases": [
+        "garlic cloves"
+      ],
+      "staticPrice": {
+        "unit": "clove",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "garlic-powder",
+      "name": "Garlic powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "ginger-fresh",
+      "name": "Ginger",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "great-northern-beans-canned",
+      "name": "Canned Great Northern beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "green-cabbage",
+      "name": "Green cabbage",
+      "aliases": [],
+      "recipeIngredientId": "green-cabbage"
+    },
+    {
+      "id": "ground-beef-80-20",
+      "name": "Ground beef",
+      "aliases": [],
+      "recipeIngredientId": "ground-beef-80-20"
+    },
+    {
+      "id": "ground-cumin",
+      "name": "Ground cumin",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "ground-turkey",
+      "name": "Ground turkey",
+      "aliases": [],
+      "recipeIngredientId": "ground-turkey"
+    },
+    {
+      "id": "italian-seasoning",
+      "name": "Italian seasoning",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "jasmine-rice-dry",
+      "name": "Dry jasmine rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.6
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "jasmine"
+    },
+    {
+      "id": "kidney-beans-canned",
+      "name": "Canned kidney beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "large-eggs-dozen",
+      "name": "Chicken eggs",
+      "aliases": [],
+      "recipeIngredientId": "large-eggs-dozen"
+    },
+    {
+      "id": "lemon-fresh",
+      "name": "Lemon",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.6
+      }
+    },
+    {
+      "id": "lentils-canned",
+      "aliases": [],
+      "name": "Canned lentils",
+      "familyId": "lentils",
+      "form": "canned",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "lentils-dried",
+      "aliases": [],
+      "name": "Dried lentils",
+      "familyId": "lentils",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "lime-juice",
+      "name": "Lime juice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "masa-harina",
+      "name": "Masa harina",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "mexican-oregano-dried",
+      "name": "Dried Mexican oregano",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "olive-oil",
+      "name": "Olive oil",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.2
+      }
+    },
+    {
+      "id": "onion-powder",
+      "name": "Onion powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "onions-fresh",
+      "aliases": [],
+      "name": "Onions",
+      "familyId": "onions",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "orange-juice",
+      "name": "Orange juice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.5
+      }
+    },
+    {
+      "id": "oregano-dried",
+      "name": "Dried oregano",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "pork-shoulder-butt",
+      "name": "Pork shoulder",
+      "aliases": [],
+      "recipeIngredientId": "pork-shoulder-butt"
+    },
+    {
+      "id": "red-lentils-dried",
+      "name": "Dried red lentils",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.8
+      },
+      "familyId": "lentils",
+      "form": "dried",
+      "searchVisibility": "variant",
+      "variety": "red",
+      "parentIngredientId": "lentils-dried"
+    },
+    {
+      "id": "red-pepper-flakes",
+      "name": "Red pepper flakes",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "rice-flour",
+      "name": "Rice flour",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "rice-flour",
+      "form": "flour",
+      "searchVisibility": "specific"
+    },
+    {
+      "id": "rosemary-dried",
+      "name": "Dried rosemary",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.01
+      }
+    },
+    {
+      "id": "smoked-paprika",
+      "name": "Smoked paprika",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "soy-sauce",
+      "name": "Soy sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "sweet-potatoes",
+      "name": "Sweet potatoes",
+      "aliases": [],
+      "recipeIngredientId": "sweet-potatoes"
+    },
+    {
+      "id": "tahini",
+      "name": "Tahini",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.25
+      }
+    },
+    {
+      "id": "thyme-dried",
+      "name": "Dried thyme",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "tofu-firm",
+      "name": "Firm tofu",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "tomato-paste",
+      "name": "Tomato paste",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "vegetable-broth",
+      "name": "Vegetable broth",
+      "aliases": [
+        "vegetable stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "whole-grain-mustard",
+      "name": "Whole grain mustard",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.14
+      }
+    },
+    {
+      "id": "whole-wheat-flour",
+      "name": "Whole wheat flour",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.04
+      }
+    },
+    {
+      "id": "worcestershire-sauce",
+      "name": "Worcestershire sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      }
+    },
+    {
+      "id": "worcestershire-sauce-gluten-free",
+      "name": "Gluten-free Worcestershire sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      }
+    }
+  ],
+  "compatibility": [
+    {
+      "from": "red-lentils-dried",
+      "to": "lentils-dried"
+    }
+  ]
+}

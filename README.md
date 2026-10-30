@@ -78,3 +78,5 @@ Weekly refresh schedules, source freshness, fallback estimates, cron authenticat
 ### Data exploration
 
 The public `/data` explorer connects price history, weekly patterns, score arithmetic, ingredient grouping rationale, and a first-class raw-data view. Inspect stored USDA rows and report JSON, compare normalized advertisements across stores, and export filtered CSV with provenance metadata. See the [Data Explorer guide](docs/data-explorer.md) for source semantics, limits, and migration requirements.
+
+Cooking catalog integration and rollout: [operator guide](docs/usda-catalog-integration.md).

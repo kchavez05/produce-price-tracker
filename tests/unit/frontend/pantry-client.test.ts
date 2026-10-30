@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { webcrypto } from 'node:crypto';
+import { cookingIngredients } from '@/lib/pantry/model';
 import { usePantry } from '@/hooks/usePantry';
 import { PantryEntry, PantryMutationResult, PantryOwner } from '@/types/pantry';
 import { migrateLegacyPantry, PantryMigrationSnapshot } from '@/lib/pantry/migration';
@@ -23,7 +24,7 @@ let loseAcknowledgment: boolean;
 let server: Map<PantryOwner, PantryMigrationSnapshot>;
 let receipts: Map<string, { fingerprint: string; result: PantryMutationResult }>;
 const now = '2026-10-29T12:00:00Z';
-const empty = (scope: PantryOwner): PantryMigrationSnapshot => ({ owner: scope, entries: [], legacyMigrationVersion: 1, needsCatalogMatch: [], legacySource: { owner: scope, freezerItems: [], onHandIngredientIds: [] } });
+const empty = (scope: PantryOwner): PantryMigrationSnapshot => ({ owner: scope, acceptedCatalogIds: cookingIngredients.map((r) => r.id), entries: [], legacyMigrationVersion: 1, needsCatalogMatch: [], legacySource: { owner: scope, freezerItems: [], onHandIngredientIds: [] } });
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 async function run(action: () => unknown) { await act(async () => { await action(); for (let i = 0; i < 5; i++) await settle(); }); }
 function Harness({ accountId }: { accountId: string | null }) { client = usePantry(true, accountId); return null; }
@@ -98,6 +99,24 @@ describe('pantry client persistence and ownership', () => {
     await run(() => client.retry());
     expect(localStorage.getItem(pantryQueueKey(owner))).toBeNull();
     expect(client.entries[0].revision).toBe(1);
+  });
+  it('waits for verified account acceptance before persisting a new catalog identity', async () => {
+    server.set(owner, { ...empty(owner), acceptedCatalogIds: ['olive-oil'] });
+    await render('alice');
+    await expect(run(() => client.save({ ingredientId: 'lentils-dried', displayName: 'Dried lentils', available: true }))).rejects.toThrow('not ready');
+    expect(localStorage.getItem(pantryQueueKey(owner))).toBeNull();
+    server.set(owner, empty(owner)); await run(() => client.retry());
+    await run(() => client.save({ ingredientId: 'lentils-dried', displayName: 'Dried lentils', available: true }));
+    expect(server.get(owner)?.entries).toMatchObject([{ ingredientId: 'lentils-dried' }]);
+  });
+  it('preserves, edits, and exports an unfamiliar saved catalog entry after rollback', async () => {
+    const future: PantryEntry = { id: 'future', ingredientId: 'future-item', displayName: 'Future item', available: true, quantity: 0, useByDate: '2000-01-01', revision: 1, updatedAtIso: now };
+    const guest = { ...empty('guest:local-future'), entries: [future] };
+    localStorage.setItem(guestPantryKey, JSON.stringify(guest)); await render(null);
+    expect(client.entries).toEqual([future]);
+    await run(() => client.save({ ...future, available: false }, future.id));
+    expect(client.entries[0]).toMatchObject({ ingredientId: 'future-item', available: false, revision: 2, quantity: 0 });
+    expect(JSON.parse(localStorage.getItem(guestPantryKey)!)).toMatchObject({ entries: [{ ingredientId: 'future-item' }] });
   });
   it('never displays or replays account A’s pending edits in account B', async () => {
     await render('alice'); offline = true;

@@ -1,5 +1,6 @@
 import { PantryCatalogIngredient } from '@/types/pantry';
 
+// Frozen pre-curation baseline retained for migration/integrity tests. Runtime uses cooking-catalog.json.
 // Separate from market commodities: no offer, brand, API key, or price is required.
 // Prices are fixed USD estimates for the stated kitchen unit, not live offers.
 // Grouped legacy commodities deliberately have no automatic identity mapping.
