@@ -22,6 +22,8 @@ Generated reviews live under the Git-ignored `data/fdc-catalog-review/` director
 ## Review files
 
 - `candidates.json`: source-backed candidates, all marked `needs_review`; original descriptions, preparation tags, FDC IDs, NDB numbers, categories, publication dates, and footnotes are retained.
+- `audit.json`: unique run/timestamp envelope with source manifest, counts, discovery outcome, and `published: false`; excluded from deterministic content comparisons. Fatal validation errors emit a structured failure envelope on stderr.
+- `source-records.json`: complete relevant Foundation/SR rows, stable source keys, row fingerprints, source release, and triage dispositions for the curation stage.
 - `excluded.json`: original source references and the reason for excluding them from the initial candidate set.
 - `report.json`: counts, file fingerprints, parent/subtype reconciliation, representative query coverage, and up to ten search suggestions for each existing ingredient. `suggestionCount` records the full count.
 - `report.md`: compact human-readable results and the activation checklist. The checked-in [October 2026 report](research/usda-fdc-2026-10-29.md) is a snapshot of these results.
@@ -48,3 +50,7 @@ Approved additions need a separate catalog PR with the matching database catalog
 For v1.6.2, use branded records as a separate product lookup source: retain barcode strings and leading zeros, distinguish product revisions, and ask users to confirm a generic pantry match. Do not infer ownership of every ingredient listed in a mixed product. API search/details can later refresh cached data and fill barcode misses; keep those calls server-side and separate from the existing USDA MARS market-price pipeline. [USDA API guide](https://fdc.nal.usda.gov/api-guide/)
 
 Source: [USDA FoodData Central downloads](https://fdc.nal.usda.gov/download-datasets/), public domain under [CC0 as documented by USDA](https://fdc.nal.usda.gov/api-guide/#licensing).
+
+## Curation and replay implementation
+
+The [curation ledger and command](../catalog/README.md) implement review decisions, fingerprint replay, source/catalog diffs, quarantine exceptions, versioned staging artifacts, audit envelopes, and core search fixtures. The initial ledger is proposed; it does not activate the three new ingredient IDs or grouped search in the app.

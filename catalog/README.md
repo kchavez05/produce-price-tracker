@@ -1,0 +1,63 @@
+# Cooking catalog curation
+
+This directory implements the decision/replay stage of the [approved ingestion standards](../docs/specs/usda-catalog-ingestion.md). It is separate from the active application catalog.
+
+- `baseline-1.5.2.json` freezes the existing 69 PantryBot ingredient IDs, labels, aliases, fixed estimates, and recipe mappings. It is an inherited app baseline, not a claim that USDA or a maintainer approved new source links.
+- `curation-ledger.json` contains the initial **proposed** ingredient/grouping decisions and a proposed release-scoped quarantine hold. None has approval metadata. It introduces three proposed IDs: unspecified dried lentils, canned lentils, and fresh onions; existing red lentils/rice/rice-flour IDs remain intact.
+- `core-search-fixtures.json` describes the intended compact search results. These fixtures are checked separately against the unapproved preview and the approved artifact. Passing preview searches cannot authorize unapproved ingredients.
+
+## Generate and inspect a proposal
+
+First run discovery using a new output directory; current discovery emits `source-records.json` alongside its existing review files. Every relevant Foundation/SR row has a stable source key, a content fingerprint, and a candidate/excluded/quarantined disposition. The source release date is explicit.
+
+```bash
+npm run catalog:fdc -- \
+  --input /path/to/extracted/USDA/download \
+  --output data/fdc-catalog-review/source-2026-10-29 \
+  --release 2026-10-29
+
+npm run catalog:curate -- \
+  --review data/fdc-catalog-review/source-2026-10-29 \
+  --ledger catalog/curation-ledger.json \
+  --previous catalog/baseline-1.5.2.json \
+  --output data/fdc-catalog-review/curation-2026-10-29 \
+  --version 2026-10-30.1 \
+  --fixtures catalog/core-search-fixtures.json
+```
+
+The initial real-data run exits **2**, as expected: the 74 quarantined Foundation records have no approved exception, and the approved baseline does not yet pass the new lentil/rice/onion search expectations. Its preview passes all 12 fixtures. The command writes review artifacts even when publication is blocked; it never publishes anything. Exit 1 means invalid input or an I/O error; exit 0 means the curation checks passed for staging, with deployment/compatibility gates still required.
+
+Output files:
+
+- `catalog.json`: inherited content plus only unchanged, reviewed approvals. Proposed/stale edits cannot replace existing ingredients or appear here.
+- `preview-catalog.json`: explicitly marked `UNAPPROVED_PREVIEW`; includes valid proposals solely for product review. Never import it into the app.
+- `report.json` and `report.md`: replay states, evidence/exception blockers, source and catalog diffs, and both preview/approved search checks.
+- `audit.json`: unique run/timestamp envelope, source manifest/hash, ledger hash/version, rules version, parent catalog, report hash, counts, and staged/blocked outcome. It always records `published: false`. Fatal validation errors emit a structured failure envelope on stderr; capture it in operator logs.
+
+Outputs must be new directories separate from input files/directories, including symlink aliases. Review work is never intentionally overwritten. Timestamps/run IDs are excluded from deterministic catalog/report content. Artifact writes are staged; invalid inputs leave the previous artifact and source data untouched.
+
+## Record a product review
+
+A maintainer must review each proposed payload, including source equivalence, labels, grouping, forms/varieties, existing identity preservation, aliases, recipe implications, and estimates. Approval of the standards is not approval of these individual choices. Do not invent reviewer names or approve proposals just to make checks pass.
+
+Inspect exact proposed payload hashes with:
+
+```bash
+npm run catalog:curate -- --ledger catalog/curation-ledger.json --decision-hashes
+```
+
+After the maintainer explicitly approves a payload, record `status: "approved"` and `review: {by, date, payloadSha256}` using that reviewer, the actual approval date, and the reviewed hash. The hash excludes status/review metadata and covers the entire decision payload. This is a change-detection safeguard, not a cryptographic proof of a human signature; protected repository review supplies the authority.
+
+Append a new consecutive revision for corrections. Never edit or remove an already published approval. New revisions can upsert an identity, exclude/defer source evidence, add compatibility, or explicitly remove compatibility. A changed existing family/form/variety requires a new identity/transition plan, not a silent reinterpretation. A full curated upsert explicitly replaces prior source links; source history remains in previous artifacts and ledger revisions.
+
+Quarantine deferrals require approved source-row hashes, source release, an accountable owner, and a review-by date. They expire at that deadline and must be renewed for a new source release even if row bytes are unchanged. They cannot justify an active source link to quarantined evidence. The initial hold remains proposed; its role owner and review deadline are reviewable choices.
+
+## Repeat a source refresh
+
+Supply the last approved `catalog.json` as `--previous` and the preceding discovery directory as `--previous-review`. The report distinguishes new/modified/missing source rows from changes in user-facing identities. Identical relevant rows/rules replay approvals; changed/missing evidence becomes `needs_review`. Previously accepted IDs remain present. Unresolved active links and unapproved quarantines block publication. A new source record or name similarity never establishes a replacement.
+
+Use a unique catalog version for changed content or approval history. Repeating the same version is allowed only for the identical artifact. Retired entries remain accepted identities while new-add search hides them. Additive database migrations, old-client/queue compatibility, isolated staging, rollout, and rollback verification remain required before activating any new IDs.
+
+## Implementation boundary
+
+The grouped search and one-hop availability helpers in `src/lib/pantry/catalog-search.ts` implement the proposed artifact contract and are tested against the fixtures. They are not connected to the dashboard's live catalog or recipe matching yet. Actual pantry entry APIs, quantities/dates, sync, export, deletion, and current exact-ID matching are unchanged. Integration follows product approval of the initial choices and the separate migration/compatibility gates; this command does not call Supabase, change Preview/Production, or schedule recurring work.
