@@ -73,7 +73,9 @@ export default function VirtualPantry(props: Props) {
       ...(fields.get('useByDate') ? { useByDate: fields.get('useByDate') } : {}),
     }, Boolean(retainedId));
     if (!input.ok) { setFormError(Object.values(input.errors).join(' ')); return; }
-    void perform(async () => { await props.onSave(input.value, 'id' in editing ? editing.id : undefined); setEditing(null); });
+    const entryId = 'id' in editing ? editing.id
+      : props.entries.find((entry) => pantryIdentity(entry) === pantryIdentity(input.value))?.id;
+    void perform(async () => { await props.onSave(input.value, entryId); setEditing(null); });
   }
 
   return <section aria-labelledby="virtual-pantry-title" className="mt-3 rounded-xl border border-emerald-300 bg-white p-4 text-slate-800 shadow-lg">
