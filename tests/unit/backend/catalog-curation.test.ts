@@ -61,6 +61,24 @@ describe('curation and recurring approval gates', () => {
       expect(next.report.diff.removed).toEqual([]);
     }
   });
+  it('keeps retained approval freshness gates when a newer revision is only proposed', () => {
+    for (const sourceKind of ['USDA', 'CURATED'] as const) {
+      const approved = approve(decision({ sourceKind, ...(sourceKind === 'CURATED' ? { sourceRefs: [] } : {}) }));
+      const first = compile([approved]);
+      const proposal = decision({ ...approved, revision: 2, rulesVersion: 2, status: 'proposed', review: undefined });
+      const sources = { rulesVersion: 2, records: [record()] };
+      const pending = compile([approved, proposal], { previous: first.artifact, version: 'pending', sources });
+      expect(pending.report.publishable).toBe(false);
+      expect(pending.report.retainedApprovalsNeedReview).toEqual([approved.id]);
+      expect(pending.artifact.ingredients).toEqual(first.artifact.ingredients);
+      expect(compile([approved, approve(proposal)], { previous: first.artifact, version: 'reviewed', sources }).report.publishable).toBe(true);
+    }
+  });
+  it('preserves an established unspecified variety while permitting legacy metadata enrichment', () => {
+    expect(() => compile([approve(decision({ ingredient: { ...general, variety: 'red' } }))])).toThrow('unspecified variety');
+    const legacy = makeBaseline([{ id: general.id, name: general.name, aliases: [] }], 'legacy');
+    expect(compile([approve(decision())], { previous: legacy }).artifact.ingredients[0]).toEqual(general);
+  });
   it('requires a new reviewed revision for edits and preserves published approval history', () => {
     const approved = approve(decision());
     expect(() => compile([{ ...approved, ingredient: { ...general, name: 'Different' } }])).toThrow('changed after review');

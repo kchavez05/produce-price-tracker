@@ -171,6 +171,9 @@ export function curateCatalog(options: { ledger: CatalogLedger; sources: ReturnT
   const sourceLinks = new Map(previous.sourceLinks.map((r) => [r.key, r]));
   const compatibility = new Map(previous.compatibility.map((r) => [`${r.from}:${r.to}`, r]));
   const history = new Map(previous.decisions.map((d) => [`${d.id}:${d.revision}`, d]));
+  const retainedApprovalsNeedReview = new Set<string>();
+  const publishedRevisions = new Map<string, number>();
+  for (const approval of previous.decisions) publishedRevisions.set(approval.id, Math.max(publishedRevisions.get(approval.id) ?? 0, approval.revision));
   const decisions: { id: string; revision: number; state: 'needs_review' | 'proposed' | 'replayed'; changedSources: string[]; quarantinedSources: string[] }[] = [];
   const targets = new Set(); const edgeTargets = new Set();
   for (const decision of sorted([...latest.values()], (d) => d.id)) {
@@ -184,11 +187,19 @@ export function curateCatalog(options: { ledger: CatalogLedger; sources: ReturnT
       assert(!targets.has(decision.ingredient.id), 'Multiple latest decisions target the same cooking identity'); targets.add(decision.ingredient.id);
       if (!stale) preview.set(decision.ingredient.id, decision.ingredient);
     }
-    if (state !== 'replayed') continue;
+    if (state !== 'replayed') {
+      const publishedRevision = publishedRevisions.get(decision.id);
+      const retained = publishedRevision && all.get(`${decision.id}:${publishedRevision}`);
+      if (retained && (retained.rulesVersion !== sources.rulesVersion ||
+          retained.sourceRefs.some((ref) => sourceByKey.get(ref.key)?.fingerprint !== ref.fingerprint || sourceByKey.get(ref.key)?.disposition === 'quarantined') ||
+          retained.exception && (retained.exception.sourceReleaseDate !== sources.releaseDate || !asOfDate || retained.exception.reviewBy < asOfDate))) retainedApprovalsNeedReview.add(decision.id);
+      continue;
+    }
     history.set(`${decision.id}:${decision.revision}`, { id: decision.id, revision: decision.revision, payloadSha256: decisionHash(decision) });
     if (decision.action === 'upsert' && decision.ingredient) {
       const before = ingredients.get(decision.ingredient.id);
       if (before) for (const field of ['familyId', 'form', 'variety'] as const) assert(before[field] === undefined || before[field] === decision.ingredient[field], 'Existing cooking meaning cannot change in place; use a new identity and transition plan');
+      assert(!before?.familyId || !before.form || before.variety === decision.ingredient.variety, 'Existing cooking meaning cannot change in place; unspecified variety must remain unspecified');
       ingredients.set(decision.ingredient.id, decision.ingredient);
       for (const [key, link] of sourceLinks) if (link.ingredientId === decision.ingredient.id) sourceLinks.delete(key);
       if (decision.sourceKind === 'USDA') {
@@ -211,7 +222,7 @@ export function curateCatalog(options: { ledger: CatalogLedger; sources: ReturnT
   parseArtifact(artifact);
   validateCookingCatalog([...preview.values()], artifact.compatibility);
   assert(previous.catalogVersion !== artifact.catalogVersion || stableJson(previous) === stableJson(artifact), 'A catalog version cannot be reused for different content or approval history');
-  const blockedDecisions = decisions.filter((d) => d.state === 'needs_review' && latest.get(d.id)?.status === 'approved').map((d) => d.id);
+  const blockedDecisions = [...new Set([...decisions.filter((d) => d.state === 'needs_review' && latest.get(d.id)?.status === 'approved').map((d) => d.id), ...retainedApprovalsNeedReview])].sort();
   const rejected = new Set([...latest.values()].filter((d) => ['exclude', 'defer'].includes(d.action) && decisions.find((r) => r.id === d.id)?.state === 'replayed').flatMap((d) => d.sourceRefs.map((ref) => ref.key)));
   const stalePublishedLinks = artifact.sourceLinks.filter((ref) => sourceByKey.get(ref.key)?.fingerprint !== ref.fingerprint || sourceByKey.get(ref.key)?.disposition === 'quarantined' || rejected.has(ref.key)).map((ref) => ref.key);
   const previousSources = options.previousSources ? parseSources({ formatVersion: 1, ...options.previousSources }) : undefined;
@@ -237,7 +248,7 @@ export function curateCatalog(options: { ledger: CatalogLedger; sources: ReturnT
   return { artifact, preview: { status: 'UNAPPROVED_PREVIEW' as const, ingredients: sorted([...preview.values()], (r) => r.id) },
     report: { formatVersion: 1, rulesVersion: sources.rulesVersion, parentVersion: previous.catalogVersion, catalogVersion: artifact.catalogVersion,
       contentHash: artifact.contentHash, publishable: blockedDecisions.length === 0 && stalePublishedLinks.length === 0 && unapprovedQuarantines.length === 0,
-      blockedDecisions, stalePublishedLinks, unapprovedQuarantines, decisions, sourceDiff, diff: { added, modified, removed: [] as string[],
+      blockedDecisions, retainedApprovalsNeedReview: [...retainedApprovalsNeedReview].sort(), stalePublishedLinks, unapprovedQuarantines, decisions, sourceDiff, diff: { added, modified, removed: [] as string[],
         sourceLinksChanged: stableJson(previous.sourceLinks) !== stableJson(artifact.sourceLinks), compatibilityChanged: stableJson(previous.compatibility) !== stableJson(artifact.compatibility) },
       sourceDispositions: { candidate: sources.records.filter((r) => r.disposition === 'candidate').length, excluded: sources.records.filter((r) => r.disposition === 'excluded').length, quarantined: sources.records.filter((r) => r.disposition === 'quarantined').length } } };
 }
