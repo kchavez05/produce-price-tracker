@@ -1,3 +1,5 @@
+> v1.6.0: Private pantry entries, revisioned mutations, legacy archives, and account-owned queues extend the inventory model. The approved cooking catalog and market-link audits remain separate from public price observations. See the [pantry guide](Virtual-Pantry.md) and [integration/rollback guide](../usda-catalog-integration.md).
+
 # Architecture & Data Pipeline
 
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.

@@ -1,3 +1,5 @@
+> v1.6.0: Pantry availability uses explicit Yes/No and reviewed identities/forms. Available requirements cost $0 additional, retain recipe quantities under “Make sure you have,” and are omitted from shopping. Distinct required coverage includes staples; ownership is not measured savings. Fresh onions and onion powder never satisfy each other. Buying/cooking never writes inventory.
+
 > v1.5.1 update: The [Data Explorer](https://pantrybot.dev/data?tab=score) exposes the shared 55/35/10 scoring calculation and its inputs. Verified-history scoring uses a neutral market-signal score of 60/100 (six weighted points), not measured wholesale momentum. Six-week-low badges require six observed local weeks and a price within $0.05 of the observed low with at least 32% off regular price; discount-only cases receive a separate label. The [explorer guide](../data-explorer.md) supersedes conflicting historical descriptions below.
 
 # Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine

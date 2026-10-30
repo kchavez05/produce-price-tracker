@@ -1,3 +1,5 @@
+> v1.6.0: After installing the pantry migrations, set `PANTRYBOT_PANTRY_ENABLED=true` to use Virtual Pantry. Local guest entry and deterministic recipes need no keys. See the [pantry guide](Virtual-Pantry.md) and [rollout guide](../usda-catalog-integration.md).
+
 # API Keys & Developer Setup Guide
 
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
