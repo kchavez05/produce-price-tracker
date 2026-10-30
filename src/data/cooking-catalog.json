@@ -1,4 +1,12 @@
 {
+  "recipeLinksFormatVersion": 1,
+  "recipeLinksHash": "1b51bcd6775c05f4bf169c047c001d498b2e21cf19431f5b4a0e79fb68fa57ff",
+  "recipeLinks": [
+    {
+      "marketIngredientId": "yellow-white-onions",
+      "pantryIngredientId": "onions-fresh"
+    }
+  ],
   "rollbackVersion": "baseline-1.5.2",
   "rollbackIngredientIds": [
     "all-purpose-flour",

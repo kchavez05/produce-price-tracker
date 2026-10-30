@@ -3,7 +3,7 @@ import { currentAdCycle } from '@/lib/offer-freshness';
 import { selectRecipeStaples } from '@/data/recipe-staples';
 import { applyPantryToRecipe, recipePantryRequirements } from '@/lib/pantry/recipe';
 import { evaluatePantryRequirementsByIds } from '@/lib/pantry/requirements';
-import { pantryCatalog } from '@/lib/pantry/model';
+import { recipeAvailableIngredientIds } from '@/lib/pantry/recipe-identity';
 import { CookingVesselArchetype, DietaryConstraint, MacroGoal, MatchedSlotIngredient, NutritionMacros, RecommendedDish, ScoredCommodity } from '@/types/domain';
 
 /**
@@ -42,7 +42,7 @@ export function rankMealPrepDishes(
   const freezerSet = new Set(options?.pantryMode ? [] : options?.freezerIngredientIds || []);
   const pinnedSet = new Set(pinnedIngredientIds);
   const onHandSet = new Set([
-    ...(options?.pantryMode ? onHandIngredientIds.filter((id) => pantryCatalog.has(id)) : onHandIngredientIds),
+    ...(options?.pantryMode ? recipeAvailableIngredientIds(onHandIngredientIds) : onHandIngredientIds),
     ...(options?.pantryMode ? [] : options?.freezerIngredientIds || []),
   ]);
 

@@ -6,6 +6,8 @@ import { MEAL_PREP_BLUEPRINTS } from '@/data/meal-prep-blueprints';
 import { RECIPE_STAPLES, selectRecipeStaples } from '@/data/recipe-staples';
 import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 import { availablePantryIngredientIds, pantryCatalog, cookingCatalogView, canSavePantryIngredient } from '@/lib/pantry/model';
+import { evaluatePantryRequirementsByIds } from '@/lib/pantry/requirements';
+import { PantryEntry } from '@/types/pantry';
 import { applyPantryToRecipe, pantryShoppingNeeds } from '@/lib/pantry/recipe';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import { formatShoppingListForClipboard } from '@/lib/cart-exporter';
@@ -69,6 +71,54 @@ describe('pantry recipe and shopping integration', () => {
     const saved = { id: 'general', ingredientId: 'lentils-dried', displayName: 'Dried lentils', available: false, revision: 1, updatedAtIso: '' };
     expect(canSavePantryIngredient(saved, saved, [])).toBe(true);
     expect(() => cookingCatalogView('unreviewed')).toThrow('Unsupported');
+  });
+  it('covers market onion cards, zeroes costs, and omits shopping needs using fresh pantry onions', () => {
+    const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;
+    const slot = { slotLabel: 'Cooking onions', ingredientId: commodity.ingredient.id, ingredientName: commodity.ingredient.name, quantityUsed: 2, unit: commodity.ingredient.standardUnit,
+      store: commodity.bestOffer.store, rawDealText: commodity.bestOffer.rawPriceText, dealType: commodity.bestOffer.dealType,
+      unitCost: commodity.bestOffer.normalizedPricePerUnit, slotCost: 4, regularSlotCost: 6, isUserPinned: false, isOnHand: false, fromVirtualFreezer: false };
+    const dish = createMockDish({ pantryStaples: [], pantryRequirements: [], matchedIngredients: [slot] });
+    const onion: PantryEntry = { id: 'onions', ingredientId: 'onions-fresh', displayName: 'Onions', available: true, quantity: 0, useByDate: '2000-01-01', revision: 1, updatedAtIso: '' };
+    const before = JSON.stringify([onion, dish]);
+    const ids = availablePantryIngredientIds([onion]);
+    expect(ids).toEqual(['onions-fresh']);
+    const covered = applyPantryToRecipe(dish, ids, commodities);
+    expect(covered.matchedIngredients[0]).toMatchObject({ isOnHand: true, slotCost: 0, regularSlotCost: 0, quantityUsed: 2 });
+    expect(covered.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 1 });
+    expect(covered.totalBatchCost).toBe(0);
+    const structured = applyPantryToRecipe(createMockDish({ pantryStaples: [], pantryRequirements: [{ ingredientId: 'yellow-white-onions', quantity: 2, unit: 'lb' }] }), ids, commodities);
+    expect(structured.pantryRequirements?.[0].ingredientId).toBe('onions-fresh');
+    expect(structured.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 1 });
+    expect(buildShoppingListAndStoreComparison([covered], commodities, ids, '80542', undefined, true).items).toEqual([]);
+    for (const entries of [[{ ...onion, available: false }], [{ ...onion, deletedAtIso: '2026-10-30' }], [{ ...onion, ingredientId: undefined }], [{ ...onion, ingredientId: 'onion-powder' }]]) {
+      const missingIds = availablePantryIngredientIds(entries);
+      const missing = applyPantryToRecipe(covered, missingIds, commodities);
+      expect(missing.matchedIngredients[0].isOnHand).toBe(false);
+      expect(missing.totalBatchCost).toBeCloseTo(commodity.bestOffer.normalizedPricePerUnit * 2);
+      expect(missing.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 0 });
+      expect(buildShoppingListAndStoreComparison([missing], commodities, missingIds, '80542', undefined, true).items[0].ingredientId).toBe('yellow-white-onions');
+    }
+    // Market IDs alone and a matching custom display name never imply ownership.
+    expect(applyPantryToRecipe(dish, ['yellow-white-onions'], commodities).matchedIngredients[0].isOnHand).toBe(false);
+    expect(JSON.stringify([onion, dish])).toBe(before);
+  });
+  it('normalizes reviewed recipe requirements for distinct coverage without inferring unrelated grouped deals', () => {
+    const result = evaluatePantryRequirementsByIds([
+      { ingredientId: 'yellow-white-onions', quantity: 1, unit: 'lb' }, { ingredientId: 'onions-fresh', quantity: 1, unit: 'lb' },
+      { ingredientId: 'yellow-white-onions', quantity: 1, unit: 'lb', optional: true },
+    ], ['onions-fresh']);
+    expect(result).toMatchObject({ requiredCount: 1, availableRequiredCount: 1, optionalCount: 0, needToBuy: [] });
+    const rankedOnions = rankMealPrepDishes(commodities, ['yellow-white-onions'], ['onions-fresh'], 6, { pantryMode: true }).allRankedDishes;
+    const cards = rankedOnions.flatMap((dish) => dish.matchedIngredients).filter((r) => r.ingredientId === 'yellow-white-onions');
+    expect(cards.length).toBeGreaterThan(0);
+    expect(cards.every((r) => r.isOnHand && r.slotCost === 0)).toBe(true);
+    expect(evaluatePantryRequirementsByIds([{ ingredientId: 'russet-yukon-potatoes', quantity: 1, unit: 'lb' }], ['onions-fresh']).availableRequiredCount).toBe(0);
+    for (const id of ['chicken-thighs-boneless', 'bell-peppers', 'celery-stalks']) {
+      const dishes = rankMealPrepDishes(commodities, [id], [id], 6, { pantryMode: true }).allRankedDishes;
+      const exactCards = dishes.flatMap((dish) => dish.matchedIngredients).filter((r) => r.ingredientId === id);
+      expect(exactCards.length).toBeGreaterThan(0);
+      expect(exactCards.every((r) => r.isOnHand && r.slotCost === 0)).toBe(true);
+    }
   });
   it('uses reviewed alternatives, respects explicit pins and gluten-free constraints', () => {
     const id = 'dutch-oven-beef-chuck-pot-roast-stew';

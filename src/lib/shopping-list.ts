@@ -11,7 +11,7 @@ import {
   StoreTripComparison,
 } from '@/types/domain';
 import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
-import { pantryCatalog } from '@/lib/pantry/model';
+import { recipeAvailableIngredientIds, recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { formatPantryRequirement, pantryShoppingNeeds, recipePantryRequirements } from '@/lib/pantry/recipe';
 
 export function buildShoppingListAndStoreComparison(
@@ -38,7 +38,7 @@ export function buildShoppingListAndStoreComparison(
       (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
     return Boolean(offer && offer.source !== 'CURATED_FALLBACK');
   }
-  const onHandSet = new Set(pantryMode ? onHandIngredientIds.filter((id) => pantryCatalog.has(id)) : onHandIngredientIds);
+  const onHandSet = new Set(pantryMode ? recipeAvailableIngredientIds(onHandIngredientIds) : onHandIngredientIds);
 
   const activeStores: StoreChain[] =
     activeStoresList && activeStoresList.length > 0
@@ -63,7 +63,7 @@ export function buildShoppingListAndStoreComparison(
       if (pantryMode && (isOnHand || slotIng.optional)) continue;
       if (pantryMode && (!commodityMap.has(slotIng.ingredientId) || !Number.isFinite(slotIng.quantityUsed) || slotIng.quantityUsed < 0 ||
         commodityMap.get(slotIng.ingredientId)?.ingredient.standardUnit !== slotIng.unit)) {
-        requirements.push({ ingredientId: slotIng.ingredientId, displayName: slotIng.ingredientName,
+        requirements.push({ ingredientId: recipePantryIngredientId(slotIng.ingredientId), displayName: slotIng.ingredientName,
           quantity: Number.isFinite(slotIng.quantityUsed) && slotIng.quantityUsed >= 0 ? slotIng.quantityUsed : 1,
           unit: Number.isFinite(slotIng.quantityUsed) && slotIng.quantityUsed >= 0 ? slotIng.unit : '' });
         continue;
