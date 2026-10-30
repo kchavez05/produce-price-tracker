@@ -129,7 +129,7 @@ flowchart LR
 ## Planned v1.6 — Virtual Pantry
 
 - **v1.6.0:** Account-persistent Virtual Pantry with explicit Yes/No ingredient availability, search, optional quick-add suggestions, custom generic ingredients, optional inventory details, and recipe integration. No automatic inventory deductions. See the [approved specification](docs/specs/v1.6.0-virtual-pantry.md).
-- **Catalog standards:** Define repeatable USDA ingestion and a curated cooking-ingredient layer with optional varieties, compact search, and stable IDs. See the [draft ingestion spec](docs/specs/usda-catalog-ingestion.md); documenting it does not activate the candidate pool or change current exact-ID matching.
+- **Catalog standards:** Approved standards for repeatable USDA ingestion and a curated cooking-ingredient layer with optional varieties, compact search, and stable IDs. See the [approved ingestion spec](docs/specs/usda-catalog-ingestion.md); documenting it does not activate the candidate pool or change current exact-ID matching.
 - **v1.6.1:** Speech-to-inventory with review and confirmation before adding recognized ingredients.
 - **v1.6.2:** Barcode scanning with mapping to generic ingredients and user confirmation/correction, plus dynamic pantry-staple pricing (v1.6.0 uses fixed estimates).
 

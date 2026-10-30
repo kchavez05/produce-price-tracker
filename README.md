@@ -8,7 +8,7 @@ Virtual Pantry records explicit Yes/No availability with optional quantity, loca
 
 The production version remains v1.5.2 below. New behavior is behind `PANTRYBOT_PANTRY_ENABLED=false` by default. Before enabling it, install both additive pantry migrations, verify fresh-session and second-device account persistence in staging, and complete the release workflow. See the [implementation and rollout plan](docs/specs/v1.6.0-implementation-plan.md) and [Virtual Pantry guide](docs/wiki/Virtual-Pantry.md).
 
-A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) prepares Foundation/SR Legacy ingredients and a coverage report for review. It does not activate catalog changes. The draft [ingestion standards](docs/specs/usda-catalog-ingestion.md) define cooking relevance, compact search results, recurring refreshes, and publication gates.
+A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) prepares Foundation/SR Legacy ingredients and a coverage report for review. It does not activate catalog changes. The approved [ingestion standards](docs/specs/usda-catalog-ingestion.md) define cooking relevance, compact search results, recurring refreshes, and publication gates.
 
 ## Key Features (`v1.5.2`)
 
