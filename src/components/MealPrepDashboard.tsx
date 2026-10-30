@@ -1,5 +1,6 @@
 'use client';
 
+import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { formatPantryRequirement } from '@/lib/pantry/recipe';
 
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
@@ -785,10 +786,11 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
   function handleToggleOnHand(ingredientId: string) {
     if (pantryEnabled) {
-      const ingredient = pantryCatalog.get(ingredientId);
+      const pantryId = recipePantryIngredientId(ingredientId);
+      const ingredient = pantryCatalog.get(pantryId);
       if (!ingredient) { setShowFreezerModal(true); setArbitrageToast('Choose the specific ingredient in Virtual Pantry. Grouped deals do not establish an exact ingredient identity.'); return; }
-      const existing = pantry.entries.find((entry) => entry.ingredientId === ingredientId);
-      void pantry.save({ ...(existing ?? { ingredientId, displayName: ingredient.name }), available: !(existing?.available && !existing.deletedAtIso) }, existing?.id)
+      const existing = pantry.entries.find((entry) => entry.ingredientId === pantryId);
+      void pantry.save({ ...(existing ?? { ingredientId: pantryId, displayName: ingredient.name }), available: !(existing?.available && !existing.deletedAtIso) }, existing?.id)
         .catch((error: unknown) => setArbitrageToast(error instanceof Error ? error.message : 'Could not update the pantry.'));
       return;
     }
@@ -2272,7 +2274,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredCommodities.map((item: ScoredCommodity) => {
                 const isPinned = pinnedIds.includes(item.ingredient.id);
-                const isOnHand = effectiveOnHandIds.includes(item.ingredient.id);
+                const isOnHand = effectiveOnHandIds.includes(pantryEnabled ? recipePantryIngredientId(item.ingredient.id) : item.ingredient.id);
                 const inVirtualFreezer = freezerItems.some(
                   (f) => f.canonicalIngredientId === item.ingredient.id
                 );
@@ -3061,14 +3063,14 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                             </div>
                             <div className="mt-1 flex items-baseline justify-between">
                               <span className="text-slate-600">
-                                {pantryEnabled ? (ing.isOnHand ? 'Recipe uses:' : ing.optional ? 'Optional:' : 'Need to buy:') : 'Need:'}{' '}
+                                {pantryEnabled ? (ing.isOnHand ? 'Make sure you have:' : ing.optional ? 'Optional:' : 'Need to buy:') : 'Need:'}{' '}
                                 <strong>
                                   {ing.quantityUsed} {ing.unit}
                                 </strong>{' '}
                                 {(!pantryEnabled || !ing.isOnHand) && <> (@ ${ing.unitCost.toFixed(2)}/{ing.unit})</>}
                               </span>
                               <span className="text-sm font-extrabold text-emerald-700">
-                                {pantryEnabled && ing.isOnHand ? 'Covered' : `$${ing.slotCost.toFixed(2)}`}
+                                {`$${ing.slotCost.toFixed(2)}`}
                               </span>
                             </div>
                             <div className="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">

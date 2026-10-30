@@ -1,3 +1,4 @@
+import { recipePantryIngredientId } from './recipe-identity';
 import { PantryEntry, PantryRequirement } from '@/types/pantry';
 import { pantryCatalog, availablePantryIngredientIds } from './model';
 
@@ -13,6 +14,7 @@ export function evaluatePantryRequirements(
 }
 
 export function evaluatePantryRequirementsByIds(requirements: readonly PantryRequirement[], availableIds: readonly string[]) {
+  requirements = requirements.map((r) => ({ ...r, ingredientId: recipePantryIngredientId(r.ingredientId) }));
   const available = new Set(availableIds.filter((id) => pantryCatalog.has(id)));
   const requiredIds = new Set<string>();
   const optionalIds = new Set<string>();

@@ -1,3 +1,4 @@
+import { linkedRecipeIngredientIds } from './recipe-identity';
 import cookingData from '@/data/cooking-catalog.json';
 import { CookingIngredient, CatalogCompatibility } from '@/types/catalog';
 import { availableCookingIngredientIds, searchCookingCatalog } from './catalog-search';
@@ -78,13 +79,12 @@ export function validatePantryEntry(input: unknown, allowUnrecognizedCatalogId =
 }
 
 export function availableRecipeIngredientIds(entries: readonly PantryEntry[]): string[] {
-  return [...new Set(availableCookingIngredientIds(entries, cookingIngredients, cookingCompatibility)
-    .flatMap((id) => pantryCatalog.get(id)?.recipeIngredientId ? [pantryCatalog.get(id)!.recipeIngredientId!] : []))];
+  return linkedRecipeIngredientIds(availableCookingIngredientIds(entries, cookingIngredients, cookingCompatibility));
 }
 
 /** Resolve compatibility once, while explicit No entries are still present. */
 export function availablePantryIngredientIds(entries: readonly PantryEntry[]): string[] {
-  return [...new Set([...availableRecipeIngredientIds(entries), ...availableCookingIngredientIds(entries, cookingIngredients, cookingCompatibility)])];
+  return availableCookingIngredientIds(entries, cookingIngredients, cookingCompatibility);
 }
 
 export function searchPantryCatalog(query: string) {
