@@ -1,0 +1,47 @@
+{
+  "runId": "4ba0648c-dbb5-4758-9e87-833e763dcba8",
+  "startedAtIso": "2026-10-30T16:44:09.143Z",
+  "importer": "catalog-curation-v1",
+  "published": false,
+  "rulesVersion": 1,
+  "decisionLedgerVersion": 1,
+  "sourceDispositions": {
+    "candidate": 6670,
+    "excluded": 1547,
+    "quarantined": 74
+  },
+  "reportHash": "99e52cfe3f44f5f7023073f14c7b6756a032bf2a8e668b19cf3b9c62df9b79d8",
+  "sourceManifest": {
+    "publisher": "USDA Agricultural Research Service, FoodData Central",
+    "releaseDate": "2026-10-29",
+    "license": "CC0-1.0",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "files": [
+      {
+        "file": "food.csv",
+        "bytes": 221920942,
+        "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+      },
+      {
+        "file": "foundation_food.csv",
+        "bytes": 18053,
+        "sha256": "4c4296ee78ee9a2f17aca1b0b89e8fc0ceb1a8b9e75fa72176af90d4da4367ef"
+      },
+      {
+        "file": "sr_legacy_food.csv",
+        "bytes": 130404,
+        "sha256": "ff0fe85a469aa6d6702d68348850fc79dee35e9515324026964f1209a0e3544d"
+      },
+      {
+        "file": "food_category.csv",
+        "bytes": 997,
+        "sha256": "a8e05c18cf010d44303f2a02765637a21f9ad621f90b4f811ab4a4a436cfedd9"
+      }
+    ]
+  },
+  "ledgerHash": "1b4a47ce053745534b3e801c78d365b1ec616eeab4980b126d6e384412e2f42f",
+  "sourceSnapshotHash": "ce143b49fda0c9b8bb2a0436f94bebb0d12f86b292f478404ce739361c1ded4e",
+  "parentVersion": "baseline-1.5.2",
+  "proposedVersion": "2026-10-30.1",
+  "outcome": "staged"
+}
