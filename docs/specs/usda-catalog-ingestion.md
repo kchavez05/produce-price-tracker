@@ -1,6 +1,6 @@
 # USDA catalog ingestion and cooking-ingredient standards
 
-Status: Draft for product review, October 30, 2026. Standards version: 1. This specifies the ingestion and publication process to implement; it does not approve the current candidate pool, activate new ingredients, schedule a job, or change the application version.
+Status: Approved October 30, 2026. Standards version: 1. This specifies the ingestion and publication process to implement; it does not approve the current candidate pool, activate new ingredients, schedule a job, or change the application version.
 
 ## 1. Purpose and success criteria
 
@@ -8,7 +8,7 @@ PantryBot needs a useful, accurate cooking-ingredient catalog that can be refres
 
 The primary rule is **one understandable cooking choice per search result, with optional precision where it changes cooking behavior**. Source coverage and source-record counts are internal measures. Success means people find the ingredient they mean, can add it without extra details, and do not acquire inaccurate recipe matches.
 
-This spec supplements the [Virtual Pantry specification](v1.6.0-virtual-pantry.md). Its proposed family/variety presentation and one-way recipe compatibility require a separate implementation and review. Until that work is approved and shipped, the current exact-ID matching contract remains in force. The existing [importer guide](../usda-pantry-catalog.md) documents today's discovery tool; it is not the publication policy.
+This spec supplements the [Virtual Pantry specification](v1.6.0-virtual-pantry.md). Its family/variety presentation and one-way recipe compatibility require a separate implementation and review. Until that implementation ships, the current exact-ID matching contract remains in force. The existing [importer guide](../usda-pantry-catalog.md) documents today's discovery tool; it is not the publication policy.
 
 “MUST” denotes a release requirement. “SHOULD” denotes the normal policy; an exception must record a reason and maintainer approval.
 
@@ -131,7 +131,7 @@ Unresolved rows may remain quarantined without blocking unrelated approved work 
 | Branded refresh, once v1.6.2 exists | Monthly versioned refresh or cached server-side lookups; no automatic generic-catalog publication |
 | Unresolved review items | Keep an owned backlog; revisit at the next source release or sooner if they affect a reported ingredient |
 
-These are proposed operational standards. This document creates no recurring automation. The maintainer initiating a run owns its validation and report; the publishing maintainer owns the approval ledger, exceptions, deployment verification, and rollback readiness. The same person may perform both roles, with repository review gates still required.
+These are the approved operational standards. This document creates no recurring automation. The maintainer initiating a run owns its validation and report; the publishing maintainer owns the approval ledger, exceptions, deployment verification, and rollback readiness. The same person may perform both roles, with repository review gates still required.
 
 Each run audit MUST record run ID, source manifest, importer/rule/decision-ledger versions, previous catalog version, outcome, row-count reconciliation, validation failures, reviewer decisions, and published version if any. Failures must leave the last approved catalog available and must never report a partial import as successfully published. Interrupted runs use a new output location or a verified resumable staging area; never overwrite human review work.
 
@@ -173,7 +173,7 @@ Before the first curated catalog activates, and on each applicable subsequent re
 
 The current importer and [October review report](../research/usda-fdc-2026-10-29.md) provide discovery, basic triage, fingerprints, suggestions, and discrepancy reporting. Their 6,463 candidates are not an approved cooking catalog. The following work remains:
 
-1. Approve this spec and establish the decision ledger, cooking relevance/granularity rules, and the core search fixtures.
+1. Establish the decision ledger, cooking relevance/granularity rules, and core search fixtures under these approved standards.
 2. Extend discovery to replay unchanged decisions, report material diffs, and compile approved versioned artifacts.
 3. Curate the initial cooking catalog, starting with Foundation-backed entries and targeted SR/curated gaps. Preserve existing IDs and explicitly approve aliases and source links.
 4. Implement grouped search and optional varieties, the reviewed directional compatibility contract, and update/rollback compatibility tests. These are future behavior; do not enable them by documenting them.

@@ -1,6 +1,6 @@
 # USDA pantry catalog review
 
-The draft [USDA ingestion and cooking-ingredient standards](specs/usda-catalog-ingestion.md) define the proposed recurring curation, compact search presentation, update, and publication policy. This guide describes the current discovery tool; its output is not a user-facing ingredient list.
+The approved [USDA ingestion and cooking-ingredient standards](specs/usda-catalog-ingestion.md) define the required recurring curation, compact search presentation, update, and publication policy. This guide describes the current discovery tool; its output is not a user-facing ingredient list.
 
 `npm run catalog:fdc` generates a reviewable candidate catalog from an extracted USDA FoodData Central CSV snapshot. It does not update the application catalog, pantry inventory, prices, recipe mappings, or any database. No network access or API key is required. The current app continues to use `src/data/pantry-ingredients.ts`.
 
