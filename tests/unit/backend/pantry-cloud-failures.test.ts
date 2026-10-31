@@ -9,7 +9,7 @@ describe('pantry cloud acknowledgment failures', () => {
     cloud.from.mockReturnValue({ select: cloud.select });
     cloud.rpc.mockResolvedValue({ data: { owner: 'account:alice', entries: [] }, error: null });
     cloud.select.mockResolvedValueOnce({ data: [{ id: 'olive-oil' }], error: null });
-    expect(await readPrivatePantry(context)).toMatchObject({ acceptedCatalogIds: ['olive-oil'], catalogVersion: '2026-10-30.1' });
+    expect(await readPrivatePantry(context)).toMatchObject({ acceptedCatalogIds: ['olive-oil'], catalogVersion: '2026-10-31.1' });
     cloud.select.mockResolvedValueOnce({ data: null, error: { message: 'missing migration' } });
     await expect(readPrivatePantry(context)).rejects.toMatchObject({ code: 'storage_unavailable' });
   });

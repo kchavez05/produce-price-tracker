@@ -1,6 +1,6 @@
-# Initial cooking catalog integration
+# Cooking catalog integration
 
-The app uses reviewed catalog `2026-10-30.1`: 72 accepted identities, three new choices, and the single approved red dried → general dried compatibility rule. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
+The app now compiles reviewed catalog `2026-10-31.1`: 101 accepted identities, including the approved 29-addition legumes/grains/flours batch and six provenance updates. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
 
 ## Runtime behavior
 
@@ -41,3 +41,17 @@ The maintainer's October 30 request explicitly links `onions-fresh` to recipes p
 Recipe selection, saved-recipe repricing, coverage, shopping, and explicit availability controls use the same link. Coverage counts the normalized cooking requirement once; market aliases do not inflate the number of pantry identities. Available ingredient cards retain recipe quantities under “Make sure you have” and display $0.00. Quantity zero and dates never change explicit Yes/No, and recipe evaluation does not mutate inventory.
 
 The market-link applicability audit covers every current pantry identity and is checked by `catalog:build` in CI. It fingerprints the pantry artifact, market IDs/names/units/matching rules, and reviewed recipe-use links. New batches and market additions require re-audit; a valid “no current market item” classification does not infer any substitute or price. Fresh onions as a market-priced ingredient and onion powder as a staple are tested together for neither/fresh-only/powder-only/both ownership, including their separate costs and shopping needs.
+
+## v1.6.1 first expansion batch
+
+The maintainer explicitly approved all 35 unchanged payloads on October 31, 2026. See the [batch review](research/v1.6.1-legumes-grains-flours-review.md), [reviewed artifact](../catalog/releases/2026-10-31.1/catalog.json), and [manifest](../catalog/releases/2026-10-31.1/manifest.json). The earlier deployment steps describe initial v1.6.0 activation; existing installations do not repeat that rollout.
+
+For this expansion, install `20261031143749_pantry_legumes_grains_flours.sql` after the existing pantry migrations. It inserts only the 29 newly accepted IDs, idempotently, and changes no grants, RLS policies, user rows, or inventory. Clients query the installed registry and refuse to queue a new account identity until acceptance is present. Private local guest use requires no provider key.
+
+The reviewed runtime has 101 identities, 39 USDA identity source links (38 distinct ingredients), unchanged fixed estimates, no new prices, and no new recipe compatibility. The full market audit has 15 explicit links and 86 no-current-counterpart dispositions. Rice-flour variants are optional and cannot establish general rice-flour availability without a separately reviewed compatibility edge. Broad grain queries exclude flour variants.
+
+Before rollout, verify migration/reapply, a new-ID write and idempotent retry, guest reload, account isolation, existing inventory preservation, export/deletion, and client readiness. The isolated PGlite suite tests a new ID being rejected before migration and accepted afterward without acknowledging the earlier rejected attempt. The SQLite smoke suite exercises quantity-free guest save/reopen/retry and a fresh private session. UI tests cover database readiness and optional flour variants.
+
+Use `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-31.1` (default) to present the expansion. Build the same compatibility-capable code with `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-30.1` to restore the exact previous 72 ingredients and compatibility edges. The original `baseline-1.5.2` view remains available. Both rollback paths retain all 101 accepted IDs for existing entries, queues, edits, and exports; never delete registry IDs or restore old inventory data as presentation rollback.
+
+This implementation does not apply hosted migrations, enable a feature flag, publish v1.6.1, approve the 42 follow-up research choices, or schedule ingestion. Complete the required release and environment verification before hosted activation.

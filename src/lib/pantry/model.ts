@@ -8,6 +8,7 @@ export const cookingIngredients: readonly CookingIngredient[] = cookingData.ingr
 /** Rollback changes presentation/derived coverage, never the accepted-ID registry. */
 export function cookingCatalogView(version: string) {
   if (version === cookingData.catalogVersion) return { version, ingredients: cookingIngredients, compatibility: cookingData.compatibility as readonly CatalogCompatibility[] };
+  if (version === cookingData.previousCatalog.version) return { version, ingredients: cookingData.previousCatalog.ingredients as CookingIngredient[], compatibility: cookingData.previousCatalog.compatibility as readonly CatalogCompatibility[] };
   if (version !== cookingData.rollbackVersion) throw new Error(`Unsupported cooking catalog version: ${version}`);
   const oldIds = new Set(cookingData.rollbackIngredientIds);
   const ingredients: CookingIngredient[] = cookingIngredients.filter((r) => oldIds.has(r.id)).map(({ id, name, aliases, recipeIngredientId, staticPrice }) => ({ id, name, aliases, ...(recipeIngredientId ? { recipeIngredientId } : {}), ...(staticPrice ? { staticPrice } : {}) }));

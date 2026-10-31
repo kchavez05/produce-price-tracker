@@ -59,7 +59,7 @@ describe('pantry input and exact identity', () => {
     expect(new Set(PANTRY_INGREDIENTS.map((item) => item.id)).size).toBe(PANTRY_INGREDIENTS.length);
   });
   it('searches generic identities and reviewed alternate names without granting a match', () => {
-    expect(searchPantryCatalog('garbanzo').map((item) => item.id)).toEqual(['chickpeas-canned']);
+    expect(searchPantryCatalog('garbanzo').map((item) => item.id)).toEqual(['chickpeas-canned', 'chickpeas-dried']);
     expect(searchPantryCatalog('rice').map((item) => item.id)).toContain('jasmine-rice-dry');
     expect(searchPantryCatalog('')).toEqual([]);
     expect(availableRecipeIngredientIds([

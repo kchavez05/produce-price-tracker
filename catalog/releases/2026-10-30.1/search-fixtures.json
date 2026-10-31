@@ -1,0 +1,83 @@
+[
+  {
+    "query": "lentils",
+    "expected": [
+      "lentils-dried",
+      "lentils-canned"
+    ]
+  },
+  {
+    "query": "red lentils",
+    "expected": [
+      "red-lentils-dried"
+    ]
+  },
+  {
+    "query": "rice",
+    "expected": [
+      "basmati-rice-dry",
+      "jasmine-rice-dry",
+      "brown-rice-dry"
+    ]
+  },
+  {
+    "query": "flour",
+    "expected": [
+      "rice-flour",
+      "all-purpose-flour",
+      "whole-wheat-flour"
+    ]
+  },
+  {
+    "query": "black beans",
+    "expected": [
+      "black-beans-canned",
+      "black-beans-dried"
+    ]
+  },
+  {
+    "query": "garlic",
+    "expected": [
+      "garlic-fresh",
+      "garlic-powder"
+    ]
+  },
+  {
+    "query": "onions",
+    "expected": [
+      "onions-fresh"
+    ]
+  },
+  {
+    "query": "broth",
+    "expected": [
+      "chicken-broth",
+      "beef-broth",
+      "vegetable-broth"
+    ]
+  },
+  {
+    "query": "cumin",
+    "expected": [
+      "ground-cumin"
+    ]
+  },
+  {
+    "query": "paprika",
+    "expected": [
+      "smoked-paprika"
+    ]
+  },
+  {
+    "query": "tahini",
+    "expected": [
+      "tahini"
+    ]
+  },
+  {
+    "query": "garbanzo",
+    "expected": [
+      "chickpeas-canned"
+    ]
+  }
+]

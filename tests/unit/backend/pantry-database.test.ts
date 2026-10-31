@@ -34,6 +34,32 @@ beforeAll(async () => {
 afterAll(async () => { await db?.close(); });
 
 describe('pantry database storage boundaries', () => {
+  it('accepts expanded IDs only after the additive migration and preserves them across replay', async () => {
+    const charlie = '00000000-0000-4000-8000-000000000003';
+    await db.query('insert into auth.users(id,email) values($1,$2)', [charlie, 'catalog@example.test']);
+    await asUser(charlie);
+    const original = await rpc<PantryMigrationSnapshot>('read');
+    await rpc('migrate', { source: original.legacySource, entries: [] });
+    const expandedEntry = { displayName: 'Dried pinto beans', ingredientId: 'pinto-beans-dried', available: true };
+    const mutation = put({ mutationId: 'expanded', entryId: 'pinto', entry: expandedEntry });
+    await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
+    await db.exec('reset role');
+    expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(72);
+    const migration = readFileSync('supabase/migrations/20261031143749_pantry_legumes_grains_flours.sql', 'utf8');
+    await db.exec(migration);
+    await asUser(charlie);
+    const applied = await rpc('mutate', mutation);
+    expect(applied).toMatchObject({ status: 'applied', entry: { revision: 1, ingredientId: 'pinto-beans-dried' } });
+    expect(await rpc('mutate', mutation)).toEqual(applied);
+    await db.exec('reset role');
+    await db.exec(migration);
+    await asUser(charlie);
+    expect(await rpc('mutate', put({ mutationId: 'expanded-edit', entryId: 'pinto', expectedRevision: 1, entry: { ...expandedEntry, available: false } }))).toMatchObject({ status: 'applied', entry: { revision: 2 } });
+    await expect(db.exec("insert into public.pantry_catalog(id) values('unapproved')")).rejects.toThrow('permission denied');
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries).toHaveLength(1);
+    await db.query('delete from public.users where id=$1', [charlie]);
+    await db.exec('reset role');
+  });
   it('keeps catalog IDs synchronized and denies anonymous execution', async () => {
     const ids = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows.map((r) => r.id);
     expect(ids).toEqual(cookingIngredients.map((r) => r.id).sort());

@@ -3,9 +3,9 @@
 This directory implements the decision/replay stage of the [approved ingestion standards](../docs/specs/usda-catalog-ingestion.md). It is separate from the active application catalog.
 
 - `baseline-1.5.2.json` freezes the existing 69 PantryBot ingredient IDs, labels, aliases, fixed estimates, and recipe mappings. It is an inherited app baseline, not a claim that USDA or a maintainer approved new source links.
-- `curation-ledger.json` contains the initial ingredient/grouping decisions and release-scoped quarantine hold, explicitly approved by the maintainer on October 30, 2026. Each approval records its exact payload hash. It introduces three approved IDs: unspecified dried lentils, canned lentils, and fresh onions; existing red lentils/rice/rice-flour IDs remain intact.
-- `releases/2026-10-30.1/` retains the approved 72-identity artifact, compact validation/activation manifest, and separate run audit. The app consumes a generated compact projection of this artifact; provenance and approval records stay outside the browser bundle. See the [integration and rollout guide](../docs/usda-catalog-integration.md).
-- `market-link-audit.json` classifies all 72 identities: 15 linked and 57 with no current market counterpart. The build rejects a stale catalog/link fingerprint, an omitted or duplicate identity, or an applicable link missing from the compiled mappings. Re-audit when pantry identities, market item names/units/matching rules, or approved links change.
+- `curation-ledger.json` contains 45 approved decisions: the initial ten ingredient/grouping/hold decisions and the October 31 batch of 29 additions plus six provenance updates. Every approval records its exact payload hash; earlier IDs and approval history remain intact.
+- `releases/2026-10-30.1/` retains the approved 72-identity artifact, compact validation/activation manifest, and separate run audit. It remains the exact prior catalog view for rollback. The app consumes a compact projection of `releases/2026-10-31.1/`; provenance and approval records stay outside the browser bundle. See the [integration and rollout guide](../docs/usda-catalog-integration.md).
+- `market-link-audit.json` classifies all 101 identities: 15 linked and 86 with no current market counterpart. The build rejects a stale catalog/link fingerprint, an omitted or duplicate identity, or an applicable link missing from the compiled mappings. Re-audit when pantry identities, market item names/units/matching rules, or approved links change.
 - `recipe-use-links.json` records separately approved links from market-priced recipe requirements to pantry cooking identities. It does not alter USDA identity evidence or prices. The build verifies reviewed payload hashes and emits compact links separately from the immutable catalog artifact.
 - `core-search-fixtures.json` describes the intended compact search results. These fixtures are checked separately against the unapproved preview and the approved artifact. Passing preview searches cannot authorize unapproved ingredients.
 
@@ -22,9 +22,9 @@ npm run catalog:fdc -- \
 npm run catalog:curate -- \
   --review data/fdc-catalog-review/source-2026-10-29 \
   --ledger catalog/curation-ledger.json \
-  --previous catalog/baseline-1.5.2.json \
-  --output data/fdc-catalog-review/curation-2026-10-29 \
-  --version 2026-10-30.1 \
+  --previous catalog/releases/2026-10-31.1/catalog.json \
+  --output data/fdc-catalog-review/curation-NEXT-RUN \
+  --version NEXT-REVIEW-VERSION \
   --fixtures catalog/core-search-fixtures.json
 ```
 
@@ -67,6 +67,6 @@ The app now uses the reviewed catalog through its generated runtime projection. 
 
 ## v1.6.1 expansion proposals
 
-The [first batch review](../docs/research/v1.6.1-legumes-grains-flours-review.md) describes 29 proposed additions and six existing-ingredient provenance updates. `proposals/2026-10-31-legumes-grains-flours/` retains the complete replay ledger (including unchanged earlier approvals), exact new decision hashes, 36 source-evidence rows, 56 search expectations, and a validation record. Every new decision remains proposed. The evidence subset is not a full discovery input; replay uses the complete retained checksum-matching source snapshot and a new output directory. See the review for the exact command and expected exit 2.
+The [first batch review](../docs/research/v1.6.1-legumes-grains-flours-review.md) records explicit October 31 approval of 29 additions and six existing-ingredient provenance updates. `proposals/2026-10-31-legumes-grains-flours/` retains the complete replay ledger (including unchanged earlier approvals), exact new decision hashes, 36 source-evidence rows, 56 search expectations, and a validation record. Every new decision remains proposed in that frozen historical package; the active ledger records the exact approved payloads. The evidence subset is not a full discovery input; replay uses the complete retained checksum-matching source snapshot and a new output directory. See the review for the exact command and expected exit 2.
 
-`proposals/2026-10-31-follow-up-triage.json` records 42 research choices and candidate-description comparisons for all 74 held Foundation rows. It is research, not a curation ledger or replacement source. Neither proposals nor triage are runtime imports. Publication follows explicit product review, new approved compilation, the full market audit, accepted-ID migration, client verification, and repository release gates.
+`proposals/2026-10-31-follow-up-triage.json` records 42 research choices and candidate-description comparisons for all 74 held Foundation rows. It is research, not a curation ledger or replacement source. Neither proposals nor triage are runtime imports. The reviewed `releases/2026-10-31.1/` artifact now compiles 101 identities with no pending decisions. The build consumes that artifact, audits all 101 identities (15 linked, 86 no-current-counterpart), and retains the prior 72-identity view for rollback. Install `20261031143749_pantry_legumes_grains_flours.sql` before account clients can save the additions. Hosted verification and repository release gates remain.

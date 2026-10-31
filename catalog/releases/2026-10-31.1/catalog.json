@@ -1,0 +1,1382 @@
+{
+  "formatVersion": 1,
+  "catalogVersion": "2026-10-31.1",
+  "contentHash": "35eca6dc8f9ea2f494941d3e1e05d4cb68e3a21b9873c1857f430d4bb5cfaae3",
+  "ingredients": [
+    {
+      "id": "all-purpose-flour",
+      "name": "All-purpose wheat flour",
+      "aliases": [
+        "all purpose flour"
+      ],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.03
+      },
+      "familyId": "wheat-flour",
+      "form": "all-purpose-flour"
+    },
+    {
+      "id": "apple-cider-vinegar",
+      "name": "Apple cider vinegar",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "asparagus-fresh",
+      "name": "Asparagus",
+      "aliases": [],
+      "recipeIngredientId": "asparagus-fresh"
+    },
+    {
+      "id": "avocado-oil",
+      "name": "Avocado oil",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.25
+      }
+    },
+    {
+      "id": "avocados-hass",
+      "name": "Hass avocado",
+      "aliases": [],
+      "recipeIngredientId": "avocados-hass"
+    },
+    {
+      "id": "barley-hulled",
+      "name": "Hulled barley",
+      "aliases": [],
+      "familyId": "barley",
+      "form": "hulled",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "barley-pearled",
+      "name": "Pearled barley",
+      "aliases": [
+        "pearl barley"
+      ],
+      "familyId": "barley",
+      "form": "pearled",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "basmati-rice-dry",
+      "name": "Dry basmati rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.65
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "basmati"
+    },
+    {
+      "id": "bay-leaf",
+      "name": "Bay leaf",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "beef-broth",
+      "name": "Beef broth",
+      "aliases": [
+        "beef stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.45
+      }
+    },
+    {
+      "id": "bell-peppers",
+      "name": "Bell peppers",
+      "aliases": [],
+      "recipeIngredientId": "bell-peppers"
+    },
+    {
+      "id": "black-beans-canned",
+      "name": "Canned black beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "black-beans",
+      "form": "canned"
+    },
+    {
+      "id": "black-beans-dried",
+      "name": "Dried black beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.1
+      },
+      "familyId": "black-beans",
+      "form": "dried"
+    },
+    {
+      "id": "black-pepper",
+      "name": "Black pepper",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.05
+      }
+    },
+    {
+      "id": "bread-flour",
+      "name": "Wheat bread flour",
+      "aliases": [],
+      "familyId": "wheat-flour",
+      "form": "bread-flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "brown-rice-dry",
+      "name": "Dry brown rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.5
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "brown"
+    },
+    {
+      "id": "brown-rice-flour",
+      "name": "Brown rice flour",
+      "aliases": [],
+      "familyId": "rice-flour",
+      "form": "flour",
+      "searchVisibility": "variant",
+      "variety": "brown",
+      "parentIngredientId": "rice-flour"
+    },
+    {
+      "id": "brussels-sprouts",
+      "name": "Brussels sprouts",
+      "aliases": [],
+      "recipeIngredientId": "brussels-sprouts"
+    },
+    {
+      "id": "buckwheat-flour",
+      "name": "Buckwheat flour",
+      "aliases": [],
+      "familyId": "buckwheat-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "buckwheat-whole",
+      "name": "Whole-grain buckwheat",
+      "aliases": [],
+      "familyId": "buckwheat",
+      "form": "whole-grain",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "bulgur-dry",
+      "name": "Dry bulgur",
+      "aliases": [
+        "bulgur wheat"
+      ],
+      "familyId": "bulgur",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "butter-salted-unsalted",
+      "name": "Butter",
+      "aliases": [],
+      "recipeIngredientId": "butter-salted-unsalted"
+    },
+    {
+      "id": "cannellini-beans-canned",
+      "name": "Canned cannellini beans",
+      "aliases": [
+        "canned white kidney beans"
+      ],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "caraway-seeds",
+      "name": "Caraway seeds",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "celery-stalks",
+      "name": "Celery",
+      "aliases": [],
+      "recipeIngredientId": "celery-stalks"
+    },
+    {
+      "id": "chicken-breast-boneless",
+      "name": "Boneless skinless chicken breast",
+      "aliases": [],
+      "recipeIngredientId": "chicken-breast-boneless"
+    },
+    {
+      "id": "chicken-broth",
+      "name": "Chicken broth",
+      "aliases": [
+        "chicken stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "chicken-thighs-boneless",
+      "name": "Boneless skinless chicken thighs",
+      "aliases": [],
+      "recipeIngredientId": "chicken-thighs-boneless"
+    },
+    {
+      "id": "chickpea-flour",
+      "name": "Chickpea flour",
+      "aliases": [
+        "besan",
+        "gram flour"
+      ],
+      "familyId": "chickpea-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chickpeas-canned",
+      "name": "Canned chickpeas",
+      "aliases": [
+        "canned garbanzo beans"
+      ],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "chickpeas",
+      "form": "canned"
+    },
+    {
+      "id": "chickpeas-dried",
+      "name": "Dried chickpeas",
+      "aliases": [
+        "dried garbanzo beans"
+      ],
+      "familyId": "chickpeas",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chili-powder",
+      "name": "Chili powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "coconut-aminos",
+      "name": "Coconut aminos",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.3
+      }
+    },
+    {
+      "id": "coconut-milk-canned",
+      "name": "Canned coconut milk",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 1
+      }
+    },
+    {
+      "id": "cornmeal-yellow-whole",
+      "name": "Whole-grain yellow cornmeal",
+      "aliases": [],
+      "familyId": "cornmeal",
+      "form": "whole-grain",
+      "searchVisibility": "primary",
+      "variety": "yellow"
+    },
+    {
+      "id": "cornstarch",
+      "name": "Cornstarch",
+      "aliases": [
+        "corn starch"
+      ],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.05
+      }
+    },
+    {
+      "id": "couscous-dry",
+      "name": "Dry couscous",
+      "aliases": [],
+      "familyId": "couscous",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "crushed-tomatoes-canned",
+      "name": "Canned crushed tomatoes",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "curry-powder",
+      "name": "Curry powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "dijon-mustard",
+      "name": "Dijon mustard",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.12
+      }
+    },
+    {
+      "id": "dill-dried",
+      "name": "Dried dill",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "garam-masala",
+      "name": "Garam masala",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.12
+      }
+    },
+    {
+      "id": "garlic-fresh",
+      "name": "Garlic",
+      "aliases": [
+        "garlic cloves"
+      ],
+      "staticPrice": {
+        "unit": "clove",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "garlic-powder",
+      "name": "Garlic powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "ginger-fresh",
+      "name": "Ginger",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "glutinous-rice-flour",
+      "name": "Glutinous rice flour",
+      "aliases": [],
+      "familyId": "rice-flour",
+      "form": "flour",
+      "searchVisibility": "variant",
+      "variety": "glutinous",
+      "parentIngredientId": "rice-flour"
+    },
+    {
+      "id": "great-northern-beans-canned",
+      "name": "Canned Great Northern beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "green-cabbage",
+      "name": "Green cabbage",
+      "aliases": [],
+      "recipeIngredientId": "green-cabbage"
+    },
+    {
+      "id": "green-split-peas-dried",
+      "name": "Dried green split peas",
+      "aliases": [],
+      "familyId": "split-peas",
+      "form": "dried",
+      "searchVisibility": "primary",
+      "variety": "green"
+    },
+    {
+      "id": "ground-beef-80-20",
+      "name": "Ground beef",
+      "aliases": [],
+      "recipeIngredientId": "ground-beef-80-20"
+    },
+    {
+      "id": "ground-cumin",
+      "name": "Ground cumin",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "ground-turkey",
+      "name": "Ground turkey",
+      "aliases": [],
+      "recipeIngredientId": "ground-turkey"
+    },
+    {
+      "id": "italian-seasoning",
+      "name": "Italian seasoning",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "jasmine-rice-dry",
+      "name": "Dry jasmine rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.6
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "jasmine"
+    },
+    {
+      "id": "kidney-beans-canned",
+      "name": "Canned kidney beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "kidney-beans",
+      "form": "canned"
+    },
+    {
+      "id": "kidney-beans-dried",
+      "name": "Dried kidney beans",
+      "aliases": [],
+      "familyId": "kidney-beans",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "large-eggs-dozen",
+      "name": "Chicken eggs",
+      "aliases": [],
+      "recipeIngredientId": "large-eggs-dozen"
+    },
+    {
+      "id": "lemon-fresh",
+      "name": "Lemon",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.6
+      }
+    },
+    {
+      "id": "lentils-canned",
+      "aliases": [],
+      "name": "Canned lentils",
+      "familyId": "lentils",
+      "form": "canned",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "lentils-dried",
+      "aliases": [],
+      "name": "Dried lentils",
+      "familyId": "lentils",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "lime-juice",
+      "name": "Lime juice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "masa-harina",
+      "name": "Masa harina",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "mexican-oregano-dried",
+      "name": "Dried Mexican oregano",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "millet-whole",
+      "name": "Whole-grain millet",
+      "aliases": [],
+      "familyId": "millet",
+      "form": "whole-grain",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "navy-beans-canned",
+      "name": "Canned navy beans",
+      "aliases": [],
+      "familyId": "navy-beans",
+      "form": "canned",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "navy-beans-dried",
+      "name": "Dried navy beans",
+      "aliases": [],
+      "familyId": "navy-beans",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "oat-flour",
+      "name": "Whole-grain oat flour",
+      "aliases": [],
+      "familyId": "oat-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "olive-oil",
+      "name": "Olive oil",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.2
+      }
+    },
+    {
+      "id": "onion-powder",
+      "name": "Onion powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "onions-fresh",
+      "aliases": [],
+      "name": "Onions",
+      "familyId": "onions",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "orange-juice",
+      "name": "Orange juice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.5
+      }
+    },
+    {
+      "id": "oregano-dried",
+      "name": "Dried oregano",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "pasta-dry",
+      "name": "Dry pasta",
+      "aliases": [],
+      "familyId": "pasta",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pinto-beans-canned",
+      "name": "Canned pinto beans",
+      "aliases": [],
+      "familyId": "pinto-beans",
+      "form": "canned",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pinto-beans-dried",
+      "name": "Dried pinto beans",
+      "aliases": [],
+      "familyId": "pinto-beans",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pork-shoulder-butt",
+      "name": "Pork shoulder",
+      "aliases": [],
+      "recipeIngredientId": "pork-shoulder-butt"
+    },
+    {
+      "id": "quinoa-dry",
+      "name": "Dry quinoa",
+      "aliases": [],
+      "familyId": "quinoa",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "red-lentils-dried",
+      "name": "Dried red lentils",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.8
+      },
+      "familyId": "lentils",
+      "form": "dried",
+      "searchVisibility": "variant",
+      "variety": "red",
+      "parentIngredientId": "lentils-dried"
+    },
+    {
+      "id": "red-pepper-flakes",
+      "name": "Red pepper flakes",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "rice-flour",
+      "name": "Rice flour",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "rice-flour",
+      "form": "flour",
+      "searchVisibility": "specific"
+    },
+    {
+      "id": "rolled-oats",
+      "name": "Rolled oats",
+      "aliases": [
+        "old-fashioned oats",
+        "old fashioned oats"
+      ],
+      "familyId": "oats",
+      "form": "rolled",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "rosemary-dried",
+      "name": "Dried rosemary",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "rye-flour",
+      "name": "Rye flour",
+      "aliases": [],
+      "familyId": "rye-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.01
+      }
+    },
+    {
+      "id": "self-rising-wheat-flour",
+      "name": "Self-rising wheat flour",
+      "aliases": [
+        "self raising flour",
+        "self-raising flour"
+      ],
+      "familyId": "wheat-flour",
+      "form": "self-rising-flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "smoked-paprika",
+      "name": "Smoked paprika",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "sorghum-flour",
+      "name": "Sorghum flour",
+      "aliases": [],
+      "familyId": "sorghum-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sorghum-whole",
+      "name": "Whole-grain sorghum",
+      "aliases": [],
+      "familyId": "sorghum",
+      "form": "whole-grain",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "soy-sauce",
+      "name": "Soy sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "steel-cut-oats",
+      "name": "Steel-cut oats",
+      "aliases": [
+        "steel cut oats"
+      ],
+      "familyId": "oats",
+      "form": "steel-cut",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sweet-potatoes",
+      "name": "Sweet potatoes",
+      "aliases": [],
+      "recipeIngredientId": "sweet-potatoes"
+    },
+    {
+      "id": "tahini",
+      "name": "Tahini",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.25
+      }
+    },
+    {
+      "id": "tapioca-pearls-dry",
+      "name": "Dry tapioca pearls",
+      "aliases": [],
+      "familyId": "tapioca",
+      "form": "pearls",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "thyme-dried",
+      "name": "Dried thyme",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "tofu-firm",
+      "name": "Firm tofu",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "tomato-paste",
+      "name": "Tomato paste",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "vegetable-broth",
+      "name": "Vegetable broth",
+      "aliases": [
+        "vegetable stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "whole-grain-mustard",
+      "name": "Whole grain mustard",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.14
+      }
+    },
+    {
+      "id": "whole-wheat-flour",
+      "name": "Whole wheat flour",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.04
+      },
+      "familyId": "wheat-flour",
+      "form": "whole-wheat-flour"
+    },
+    {
+      "id": "worcestershire-sauce",
+      "name": "Worcestershire sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      }
+    },
+    {
+      "id": "worcestershire-sauce-gluten-free",
+      "name": "Gluten-free Worcestershire sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      }
+    }
+  ],
+  "compatibility": [
+    {
+      "from": "red-lentils-dried",
+      "to": "lentils-dried"
+    }
+  ],
+  "sourceLinks": [
+    {
+      "ingredientId": "all-purpose-flour",
+      "key": "sr_legacy_food:168894",
+      "fingerprint": "cb88c159de6f8771c629fbaba11e4f1911ffcdf37716c0bc16da84d9d737b66d",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "all-purpose-flour",
+      "key": "sr_legacy_food:168936",
+      "fingerprint": "be90e795d5ad75bc5c0fe400c6e19c67991dddd76663058380f2214eacd3d097",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "barley-hulled",
+      "key": "sr_legacy_food:170283",
+      "fingerprint": "ae1a460c98c5f3e169b3a2559abaccdafe1c5b1674252d5ab5f913471245f8b4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "barley-pearled",
+      "key": "sr_legacy_food:170284",
+      "fingerprint": "e11a8f54f2fe9bdc9a7396605a419905fb824fc06c3fac67875b5e9c8d0154dd",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "black-beans-canned",
+      "key": "foundation_food:2644285",
+      "fingerprint": "e9d95a8b7dd9107b2c9240928adee0db4a69fa58d9fd105c4cc5e74e604a8a6a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "black-beans-dried",
+      "key": "sr_legacy_food:173734",
+      "fingerprint": "cd69514940a144eba406b77ce23762e96aba18d947d77819579a4541026de5e5",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bread-flour",
+      "key": "sr_legacy_food:168896",
+      "fingerprint": "15066bbe340f9b5e8e4d368a7e20b888f2f082fd5076298ad8748481e9d97e75",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "brown-rice-flour",
+      "key": "foundation_food:1104812",
+      "fingerprint": "5198f6f97376e2275f0515ee5f5d348f478d596d47da76385ed54b78789432bc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "buckwheat-flour",
+      "key": "foundation_food:2512374",
+      "fingerprint": "1f758e261245530d894dfdcf868a70c0f1d5f12c2aa9ca5b6bf3dbb6215558c9",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "buckwheat-whole",
+      "key": "foundation_food:2512378",
+      "fingerprint": "3f543e1ca90a7efb5c5725ec023897f84aec9b2357f27aa7e2437f397ef34d02",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bulgur-dry",
+      "key": "foundation_food:2710820",
+      "fingerprint": "6e40b8d2d92608b503fa58db760a1d4dd764de9ece8eba67747a6137d790eb73",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chickpea-flour",
+      "key": "sr_legacy_food:174288",
+      "fingerprint": "8c38c11ba6da2cccdd32679f2c78445caab5db047b7e7c2637d54aaef6c1d5f7",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chickpeas-canned",
+      "key": "foundation_food:2644288",
+      "fingerprint": "17eb16da8bac3fb8e7b0a3495573ecc82685ede4edabc1a19bf10b7a70473e1f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chickpeas-dried",
+      "key": "foundation_food:2644282",
+      "fingerprint": "3c79ab70bbf5fbf1d4f6e9b7064110cf21467ab301a1c5d7b62349e39cf1515f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cornmeal-yellow-whole",
+      "key": "sr_legacy_food:169697",
+      "fingerprint": "0789dcb55750fe85b902fc9080eca57b62ab61aad3091564237e75a79d4eea81",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "couscous-dry",
+      "key": "sr_legacy_food:169699",
+      "fingerprint": "cc290824fb887adf47941b8dfda9d2f43ec63c59c3a672ab481458cd56442c61",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "glutinous-rice-flour",
+      "key": "foundation_food:1104867",
+      "fingerprint": "8ae1d3fa2fe365831b5a1eddaa0d0b31c038dfda7fa1426c8b866e9696684703",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "green-split-peas-dried",
+      "key": "sr_legacy_food:172428",
+      "fingerprint": "e37d720dd02b87530e3a5efa7931228bb391352038afc985f0de2a968f64fd3e",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "kidney-beans-canned",
+      "key": "sr_legacy_food:173741",
+      "fingerprint": "2f4bcc8c12bbdd93bd4038556eb7955c02c80351457a3bfe1563839d7ca72d72",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "kidney-beans-dried",
+      "key": "sr_legacy_food:175193",
+      "fingerprint": "767a65b31b3582c549bfe8acb74867c98f67ee4384a7cf915e4411922d1e4443",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "lentils-dried",
+      "key": "foundation_food:2644283",
+      "fingerprint": "2b500e1305c8e0097fc3773ad4fbb5f1cdb6b1837d7871e1b3644743ff8b7fd9",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "millet-whole",
+      "key": "foundation_food:2512379",
+      "fingerprint": "f782575621792cf3794715466b440850467a2784ec7cdc8bda2dc5d46633447b",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "navy-beans-canned",
+      "key": "foundation_food:2644286",
+      "fingerprint": "aa750439a2e98caaa9f05c22ae2f57fcd2c390d86bacfa257c1cf2d50f3a7c94",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "navy-beans-dried",
+      "key": "sr_legacy_food:173745",
+      "fingerprint": "c771d795050c8a4b17497fd4b569b269239c6c9ba85df12bbc30573da7c56516",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "oat-flour",
+      "key": "foundation_food:2261421",
+      "fingerprint": "57676c9f50efea0c0965065418e2576988731beed28b3374a1aaca17fc567553",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "onions-fresh",
+      "key": "sr_legacy_food:170000",
+      "fingerprint": "4741d9a03f916612258b37fe01a2f338f48d40bb8a6c0cc0cf8e07d4fbc0b47a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pasta-dry",
+      "key": "sr_legacy_food:169736",
+      "fingerprint": "04fc5016104fc49da04014fc3b501724315c928598fe34871b68534574a7ca40",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pinto-beans-canned",
+      "key": "foundation_food:2644292",
+      "fingerprint": "1046498f4206d075380e339d2036d8f56b5770489c447662d5abb775cbf402f1",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pinto-beans-dried",
+      "key": "sr_legacy_food:175199",
+      "fingerprint": "4f68c11a4187882a0b29c0be7f107cbdbb273d39fce341b5c69eb158a34f3e15",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "quinoa-dry",
+      "key": "sr_legacy_food:168874",
+      "fingerprint": "d4107cefe33d239200d0a3d75cf9a50713127c7da8e9548e4a0c32856ec7f885",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "red-lentils-dried",
+      "key": "sr_legacy_food:174284",
+      "fingerprint": "1837b6ae4b1c1dd067fbda3053594f28abd2c5e98a8aedf069c156cde5e60d23",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "rolled-oats",
+      "key": "foundation_food:2346396",
+      "fingerprint": "f538c76f2fbec4480109c7c81027af39ac5f5bb0865d91bc101ce16dc1de21c7",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "rye-flour",
+      "key": "foundation_food:2512375",
+      "fingerprint": "a22e520d8953649f267dabf63c363d7de4c63ff67cff6261733f12819ea702cc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "self-rising-wheat-flour",
+      "key": "sr_legacy_food:168895",
+      "fingerprint": "7d74786cb4da91d3261c113f735468f8f231d003b4325955ce12459a2ec4e409",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sorghum-flour",
+      "key": "foundation_food:2512373",
+      "fingerprint": "bbeda74cc55fdb648eb8597cb18db2b551525c4d09be78e03b924dd2a3054d26",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sorghum-whole",
+      "key": "foundation_food:2710842",
+      "fingerprint": "9c0b120a56ae129082936b145a2f5179ac98bd9f77e6e71ac4a6068eacc4a0fc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "steel-cut-oats",
+      "key": "foundation_food:2346397",
+      "fingerprint": "deda55699165d5707402ae78d766776e27d29ea2c08fc2cf6186bd44c8f539b7",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tapioca-pearls-dry",
+      "key": "sr_legacy_food:169717",
+      "fingerprint": "2bec3b7a20862a2b185fe514fa2d323d4381e138dd45b114492b4419d49d2c2f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "whole-wheat-flour",
+      "key": "sr_legacy_food:168893",
+      "fingerprint": "7ac6a113aaca6eb9a140be8e9b1be0958fcfa64295d002b1035aba0327d11fe4",
+      "purpose": "identity"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "hold-foundation-orphans-2026-10-29",
+      "revision": 1,
+      "payloadSha256": "31e6948ae12725760fe963cc06ec4398cc6abf486854c21d09e34c2c01908631"
+    },
+    {
+      "id": "ingredient-all-purpose-flour",
+      "revision": 1,
+      "payloadSha256": "c8c2792273105fce0546a50d7ceac445e4d6ece51457eaf10ab82c5ca6cbc793"
+    },
+    {
+      "id": "ingredient-barley-hulled",
+      "revision": 1,
+      "payloadSha256": "bf88e02bf9071669741fbfbf1698e4ada25ec72b9040285b4da80e8e749f0d84"
+    },
+    {
+      "id": "ingredient-barley-pearled",
+      "revision": 1,
+      "payloadSha256": "a7ee1b557970ce6af1e2ef13fe7ab60043959d57b61b5c83a23c6fdc1f67dc4f"
+    },
+    {
+      "id": "ingredient-basmati-rice-dry",
+      "revision": 1,
+      "payloadSha256": "1ae9aa27ce049728dfc2d0a76ee5bba15136a47aaa283598457d7efeeee33dfa"
+    },
+    {
+      "id": "ingredient-black-beans-canned",
+      "revision": 1,
+      "payloadSha256": "b12e8ab8030b22b7f45a92c10622200e03d7c4bfeb4daa3a340a12786823c411"
+    },
+    {
+      "id": "ingredient-black-beans-dried",
+      "revision": 1,
+      "payloadSha256": "7abceb6bb1361a49235e25812ab766dcbd27809d5cd9c6cb539e1ee504fb7e81"
+    },
+    {
+      "id": "ingredient-bread-flour",
+      "revision": 1,
+      "payloadSha256": "305d72baece9e5f2d48a932b746e5f40b6940996ddf1252bf1fb6ffa085dac25"
+    },
+    {
+      "id": "ingredient-brown-rice-dry",
+      "revision": 1,
+      "payloadSha256": "8a0761873db235e4955b822f14092035cb4004d7fc01ce8ce73cd6cc4d510f58"
+    },
+    {
+      "id": "ingredient-brown-rice-flour",
+      "revision": 1,
+      "payloadSha256": "07aa0faf9bb1dc6915f1baf3bee32eee10deace3f68bc5dd12f996b46383d38c"
+    },
+    {
+      "id": "ingredient-buckwheat-flour",
+      "revision": 1,
+      "payloadSha256": "f794c644538d60f8c0b2876f73d515f39ecaa35233248bebfa57c442788ff2c8"
+    },
+    {
+      "id": "ingredient-buckwheat-whole",
+      "revision": 1,
+      "payloadSha256": "9fa5fa771b27ac8aa58ba3014cc6c5cd93fe8ebd16e1d4fd17bbf39e88d633ef"
+    },
+    {
+      "id": "ingredient-bulgur-dry",
+      "revision": 1,
+      "payloadSha256": "cb6c8447db270f236b63426dfa8ec1c106d901a9ab5d995220bef2db81e09b06"
+    },
+    {
+      "id": "ingredient-chickpea-flour",
+      "revision": 1,
+      "payloadSha256": "c0950286f2c96243a55c737e8b5a22f2246f445470bef919761faca8a0885c67"
+    },
+    {
+      "id": "ingredient-chickpeas-canned",
+      "revision": 1,
+      "payloadSha256": "ab321eba7db6190fdff4cc882950f0e0115d2a9d3f668991f43f649f3a1f3587"
+    },
+    {
+      "id": "ingredient-chickpeas-dried",
+      "revision": 1,
+      "payloadSha256": "dd234eab1744165a3acfc3aa2fd82811cc4b74c9bb484f7d5017071adfeb7cba"
+    },
+    {
+      "id": "ingredient-cornmeal-yellow-whole",
+      "revision": 1,
+      "payloadSha256": "a83e2304d6709367b86786d75f6801ff92fcf934905568e87490061352176ebf"
+    },
+    {
+      "id": "ingredient-couscous-dry",
+      "revision": 1,
+      "payloadSha256": "aeb3774fcf8c8834f40409de6c41f56f3491ecde0625986702237d0e9651db0f"
+    },
+    {
+      "id": "ingredient-glutinous-rice-flour",
+      "revision": 1,
+      "payloadSha256": "65a73bfb203448cd142ee029a4cc4b651b1feda6bf01e8550530fa9f3002f1f5"
+    },
+    {
+      "id": "ingredient-green-split-peas-dried",
+      "revision": 1,
+      "payloadSha256": "2ac17d814236d69f5a29ad20335437e1a14246e10a947b1acbc03739beb2514b"
+    },
+    {
+      "id": "ingredient-jasmine-rice-dry",
+      "revision": 1,
+      "payloadSha256": "3a38c487f161ede48213fb9841aa2d1594b60c8b11e56a73436be578f034b26a"
+    },
+    {
+      "id": "ingredient-kidney-beans-canned",
+      "revision": 1,
+      "payloadSha256": "40ca746f2b242ad71edb47fd14d419fdb8030a42e9dd3d47f6eb778bf6e78be4"
+    },
+    {
+      "id": "ingredient-kidney-beans-dried",
+      "revision": 1,
+      "payloadSha256": "662feca44f727df4d9c648698681ecd24b82872592b592feb08ca0d2e532ad85"
+    },
+    {
+      "id": "ingredient-lentils-canned",
+      "revision": 1,
+      "payloadSha256": "ef3dc1d31e0ec4a62db44fa5e9f9471f4059fce036597b11781922cadc1d61e7"
+    },
+    {
+      "id": "ingredient-lentils-dried",
+      "revision": 1,
+      "payloadSha256": "42c87d02554a05dc1001028eea83f3b79885a2bbf3d70df056b49c636ef8178e"
+    },
+    {
+      "id": "ingredient-millet-whole",
+      "revision": 1,
+      "payloadSha256": "df4a0f1f30eacc78e37f236c687ccfe644655a160aab76e09c92e687be18ca0e"
+    },
+    {
+      "id": "ingredient-navy-beans-canned",
+      "revision": 1,
+      "payloadSha256": "a2a27a33ad9fc17013edd8b5c88e36c8e00cf23e9272b929418f8991d63fded4"
+    },
+    {
+      "id": "ingredient-navy-beans-dried",
+      "revision": 1,
+      "payloadSha256": "068b694cf32444156de52f046b761cd5097d899fd9af13c64b8abeb8e3441604"
+    },
+    {
+      "id": "ingredient-oat-flour",
+      "revision": 1,
+      "payloadSha256": "c263941aeb7dd0def366fe752a24d428021d26897c319770e8216b9bd534b28a"
+    },
+    {
+      "id": "ingredient-onions-fresh",
+      "revision": 1,
+      "payloadSha256": "3fb85db5f728e07fbb5a4528d0a94537002843311b6136385f1deea6ff75b172"
+    },
+    {
+      "id": "ingredient-pasta-dry",
+      "revision": 1,
+      "payloadSha256": "c9e96578e160b8036b647bd93f6f04ea2d0fe3f50ab1a96721b76b27d4568c95"
+    },
+    {
+      "id": "ingredient-pinto-beans-canned",
+      "revision": 1,
+      "payloadSha256": "419bf81de92e2fac8237b2f08734e720ded7c0f045302da7bd92b6e3f8fbe134"
+    },
+    {
+      "id": "ingredient-pinto-beans-dried",
+      "revision": 1,
+      "payloadSha256": "15c300f7aae68a59c390a86f023c55e674b4bf974eeb68b6ed8583495037ddf5"
+    },
+    {
+      "id": "ingredient-quinoa-dry",
+      "revision": 1,
+      "payloadSha256": "e128e593be3946059c9da7ac17c70eb354176e709b7c58c2cf7f14980d1b6de0"
+    },
+    {
+      "id": "ingredient-red-lentils-dried",
+      "revision": 1,
+      "payloadSha256": "0bf18b1e9e0d7cc3f60785d53bd811161cb73cd0010ad97ef35307069d56cc80"
+    },
+    {
+      "id": "ingredient-rice-flour",
+      "revision": 1,
+      "payloadSha256": "7687082ae71f71148819ac155b2f58a5471f3ca05f9fc0ce1ec6f04b8284f6dc"
+    },
+    {
+      "id": "ingredient-rolled-oats",
+      "revision": 1,
+      "payloadSha256": "96ae055ae7b8b96e546ffed0dc8f24d6a43579233dcd185f88589daf216ec0cc"
+    },
+    {
+      "id": "ingredient-rye-flour",
+      "revision": 1,
+      "payloadSha256": "c4e4be5760e8fc3dff9d1767e9e9353369a3d0334038d8c9d34066c29c5b44a6"
+    },
+    {
+      "id": "ingredient-self-rising-wheat-flour",
+      "revision": 1,
+      "payloadSha256": "f563f0afb952b48d1cbe9c72c693d8ec833b948e65164c3bc5a57d70fca49833"
+    },
+    {
+      "id": "ingredient-sorghum-flour",
+      "revision": 1,
+      "payloadSha256": "2db3ca0b1498221db21bbc8fee2a2063e1365e010b156b14d5f66354f2944649"
+    },
+    {
+      "id": "ingredient-sorghum-whole",
+      "revision": 1,
+      "payloadSha256": "5c1a6b849ab1501314ef6599a145de1bbb92cdeafb4f78303605d5700a2727b5"
+    },
+    {
+      "id": "ingredient-steel-cut-oats",
+      "revision": 1,
+      "payloadSha256": "c57eaf92579bf19f547826f6998e9b2feadb5e1d5550c3ab3bbe173289efd964"
+    },
+    {
+      "id": "ingredient-tapioca-pearls-dry",
+      "revision": 1,
+      "payloadSha256": "35c86eaddd860875bace6e55460e5993bc49a10d814fca97a6679b8e59feae80"
+    },
+    {
+      "id": "ingredient-whole-wheat-flour",
+      "revision": 1,
+      "payloadSha256": "7d6e241743c8f128b26854b529f0c45fb35c076e6bea3c1977aa6529b1802dae"
+    },
+    {
+      "id": "red-lentils-cover-general-dried",
+      "revision": 1,
+      "payloadSha256": "ec4f67de76f022a388fce48bcc621faff520e5a42373e6659a9eb1d1e93b08f4"
+    }
+  ]
+}

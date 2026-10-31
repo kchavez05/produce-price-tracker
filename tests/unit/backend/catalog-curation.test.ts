@@ -7,6 +7,12 @@ import { availableCookingIngredientIds, cookingCatalogVariants, searchCookingCat
 import baselineData from '../../../catalog/baseline-1.5.2.json';
 import ledgerData from '../../../catalog/curation-ledger.json';
 import fixtures from '../../../catalog/core-search-fixtures.json';
+import initialFixtures from '../../../catalog/releases/2026-10-30.1/search-fixtures.json';
+import expansionData from '../../../catalog/releases/2026-10-31.1/catalog.json';
+import expansionManifest from '../../../catalog/releases/2026-10-31.1/manifest.json';
+import expansionAudit from '../../../catalog/releases/2026-10-31.1/audit.json';
+import expansionHashes from '../../../catalog/proposals/2026-10-31-legumes-grains-flours/decision-hashes.json';
+import expansionEvidence from '../../../catalog/proposals/2026-10-31-legumes-grains-flours/source-evidence.json';
 import approvedData from '../../../catalog/releases/2026-10-30.1/catalog.json';
 import releaseManifest from '../../../catalog/releases/2026-10-30.1/manifest.json';
 import releaseAudit from '../../../catalog/releases/2026-10-30.1/audit.json';
@@ -36,18 +42,41 @@ describe('curation and recurring approval gates', () => {
     expect(parseLedger(ledgerData).decisions.every((d) => d.status === 'approved' && d.review?.payloadSha256 === decisionHash(d))).toBe(true);
   });
   it('retains the exact reviewed release with matching approvals, provenance, and search gates', () => {
-    const approved = parseArtifact(approvedData); const ledger = parseLedger(ledgerData);
+    const approved = parseArtifact(approvedData); const fullLedger = parseLedger(ledgerData);
+    const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => approved.decisions.some((history) => history.id === d.id && history.revision === d.revision)) };
     expect(approved.ingredients).toHaveLength(72);
     expect(approved.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
     expect(releaseManifest).toMatchObject({ catalogVersion: approved.catalogVersion, contentHash: approved.contentHash, published: false, status: 'APPROVED_FOR_INTEGRATION' });
     expect(releaseAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: 'baseline-1.5.2', outcome: 'staged', published: false });
-    for (const fixture of fixtures) expect(searchCookingCatalog(approved.ingredients, fixture.query).map((r) => r.id).sort()).toEqual([...fixture.expected].sort());
+    for (const fixture of initialFixtures) expect(searchCookingCatalog(approved.ingredients, fixture.query).map((r) => r.id).sort()).toEqual([...fixture.expected].sort());
     for (const old of parseArtifact(baselineData).ingredients) {
       const current = approved.ingredients.find((r) => r.id === old.id);
       expect(current).toMatchObject(old);
     }
     expect(approved.compatibility).toEqual([{ from: red.id, to: general.id }]);
     expect(approved.sourceLinks).toHaveLength(3);
+  });
+  it('retains the approved expansion, all earlier identities, and unchanged recipe compatibility', () => {
+    const expanded = parseArtifact(expansionData); const ledger = parseLedger(ledgerData);
+    const previous = parseArtifact(approvedData);
+    expect(expanded.ingredients).toHaveLength(101);
+    expect(expanded.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(expansionManifest).toMatchObject({ catalogVersion: expanded.catalogVersion, contentHash: expanded.contentHash, published: false, status: 'APPROVED_FOR_INTEGRATION' });
+    expect(expansionAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: previous.catalogVersion, outcome: 'staged', published: false });
+    const evidence = parseSources(expansionEvidence);
+    for (const reviewed of expansionHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id && d.revision === reviewed.revision)!;
+      expect(decision.status).toBe('approved');
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      for (const ref of decision.sourceRefs) expect(evidence.records.find((r) => r.key === ref.key)?.fingerprint).toBe(ref.fingerprint);
+    }
+    expect(expanded.compatibility).toEqual(previous.compatibility);
+    for (const before of previous.ingredients) expect(expanded.ingredients.find((r) => r.id === before.id)).toMatchObject(before);
+    const additions = expanded.ingredients.filter((r) => !previous.ingredients.some((before) => before.id === r.id));
+    expect(additions).toHaveLength(29);
+    expect(additions.every((r) => !r.staticPrice && !r.recipeIngredientId)).toBe(true);
+    for (const fixture of fixtures) expect(searchCookingCatalog(expanded.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+    for (const query of ['beans', 'flour', 'rice', 'lentils']) expect(searchCookingCatalog(expanded.ingredients, query, 1000).length).toBeLessThanOrEqual(12);
   });
   it('keeps proposals in the unapproved preview and replays only approvals with unchanged fingerprints', () => {
     const proposal = decision({ ingredient: { ...general, name: 'Dry lentils' } });

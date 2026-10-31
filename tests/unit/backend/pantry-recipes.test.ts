@@ -1,3 +1,4 @@
+import previousCatalog from '../../../catalog/releases/2026-10-30.1/catalog.json';
 import baseline from '../../../catalog/baseline-1.5.2.json';
 import { searchCookingCatalog } from '@/lib/pantry/catalog-search';
 import { describe, expect, it } from 'vitest';
@@ -71,6 +72,19 @@ describe('pantry recipe and shopping integration', () => {
     const saved = { id: 'general', ingredientId: 'lentils-dried', displayName: 'Dried lentils', available: false, revision: 1, updatedAtIso: '' };
     expect(canSavePantryIngredient(saved, saved, [])).toBe(true);
     expect(() => cookingCatalogView('unreviewed')).toThrow('Unsupported');
+  });
+  it('restores the exact previous pantry view without losing expanded IDs or creating flour coverage', () => {
+    const rollback = cookingCatalogView('2026-10-30.1');
+    expect(rollback.ingredients).toEqual(previousCatalog.ingredients);
+    expect(rollback.compatibility).toEqual(previousCatalog.compatibility);
+    expect(searchCookingCatalog(rollback.ingredients, 'quinoa')).toEqual([]);
+    expect(pantryCatalog.has('quinoa-dry')).toBe(true);
+    const saved = { id: 'quinoa', ingredientId: 'quinoa-dry', displayName: 'Dry quinoa', available: false, revision: 1, updatedAtIso: '' };
+    expect(canSavePantryIngredient(saved, saved, [])).toBe(true);
+    const flour = { ...saved, id: 'flour', ingredientId: 'brown-rice-flour', displayName: 'Brown rice flour', available: true };
+    expect(availablePantryIngredientIds([flour])).toEqual(['brown-rice-flour']);
+    const requirements = [{ ingredientId: 'rice-flour', quantity: 1, unit: 'tbsp' }];
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([flour]))).toHaveLength(1);
   });
   it('covers market onion cards, zeroes costs, and omits shopping needs using fresh pantry onions', () => {
     const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;
