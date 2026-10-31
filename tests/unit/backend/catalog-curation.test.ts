@@ -192,6 +192,21 @@ describe('grouped cooking search and availability contract (not yet active in th
     expect(searchCookingCatalog(retired, 'lentils').map((r) => r.id)).not.toContain(general.id);
     expect(availableCookingIngredientIds([entry(general.id)], retired, [])).toEqual([general.id]);
   });
+  it('keeps optional flour varieties out of grain searches while retaining precise and optional discovery', () => {
+    const flour: CookingIngredient = { id: 'rice-flour', name: 'Rice flour', aliases: [], familyId: 'rice-flour', form: 'flour', searchVisibility: 'specific' };
+    const brownFlour: CookingIngredient = { ...flour, id: 'brown-rice-flour', name: 'Brown rice flour', variety: 'brown', searchVisibility: 'variant', parentIngredientId: flour.id };
+    const grain: CookingIngredient = { id: 'brown-rice-dry', name: 'Dry brown rice', aliases: [] };
+    const catalog = [flour, brownFlour, grain];
+    expect(searchCookingCatalog(catalog, 'rice').map((r) => r.id)).toEqual([grain.id]);
+    expect(searchCookingCatalog(catalog, 'brown rice').map((r) => r.id)).toEqual([grain.id]);
+    expect(searchCookingCatalog(catalog, 'flour').map((r) => r.id)).toEqual([flour.id]);
+    expect(searchCookingCatalog(catalog, 'BROWN  RICE FLOUR').map((r) => r.id)).toEqual([brownFlour.id]);
+    expect(cookingCatalogVariants(catalog, flour.id)).toEqual([brownFlour]);
+    expect(availableCookingIngredientIds([entry(brownFlour.id)], catalog, [])).toEqual([brownFlour.id]);
+    const retiredParent = catalog.map((r) => r.id === flour.id ? { ...r, lifecycle: 'retired' as const } : r);
+    expect(searchCookingCatalog(retiredParent, 'brown rice').map((r) => r.id)).toEqual([grain.id]);
+    expect(searchCookingCatalog(retiredParent, 'brown rice flour').map((r) => r.id)).toEqual([brownFlour.id]);
+  });
   it('honors specific-to-general coverage, explicit No precedence, quantities, and dates without transitive inference', () => {
     const exact = [entry(red.id, true, { quantity: 0, useByDate: '2000-01-01' })];
     expect(availableCookingIngredientIds(exact, items, pair)).toEqual([general.id, red.id]);

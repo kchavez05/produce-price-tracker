@@ -1,0 +1,2773 @@
+{
+  "status": "RESEARCH_ONLY_NOT_APPROVED",
+  "preparedOn": "2026-10-31",
+  "sourceRelease": "2026-10-29",
+  "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+  "counts": {
+    "vegetables-and-aromatics": 17,
+    "oils-spices-sauces-condiments": 15,
+    "proteins-dairy-cooking-basics": 10
+  },
+  "choices": [
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Carrots",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170393",
+        "ndbNumber": "11124",
+        "description": "Carrots, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170393",
+        "fingerprint": "4c738bfd45ca39629e68d44cc3b298b9b01eeb3c6babd5663fe6d6f992db78f9",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "General raw carrots; retain baby/whole presentation as context.",
+      "marketAssessment": "Candidate market counterpart carrots-whole-baby; explicit recipe/price-use review needed."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Broccoli",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "747447",
+        "ndbNumber": "11090",
+        "description": "Broccoli, raw",
+        "publicationDate": "2019-12-16",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": "Source number reflects the actual number of samples analyzed for a nutrient. Repeat nutrient analyses may have been done on the same sample with the values shown.",
+        "key": "foundation_food:747447",
+        "fingerprint": "3edc41696e599c808e167aafbf26f2c6167e09a9b4931c89e6d6ca65ba8382ab",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Use subtype-backed candidate, not held parent 321900.",
+      "marketAssessment": "Blocked: current broccoli-cauliflower market group mixes separate identities. Split or review requirement alternatives before linking."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Cauliflower",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2685573",
+        "ndbNumber": "11135",
+        "description": "Cauliflower, raw",
+        "publicationDate": "2024-04-18",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "foundation_food:2685573",
+        "fingerprint": "685c63203e96a869c7b8e076869b09777b99ac2b255996c83a9556067568b574",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Keep separate from broccoli.",
+      "marketAssessment": "Blocked: current broccoli-cauliflower market group mixes separate identities."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Spinach",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "168462",
+        "ndbNumber": "11457",
+        "description": "Spinach, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:168462",
+        "fingerprint": "9942f2985601f57f8207491a6cbe2dddc33d7ca0dbd7c9b6228ce2f778309080",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Do not use New Zealand spinach as identical evidence.",
+      "marketAssessment": "Blocked: spinach-kale-greens market group cannot establish spinach specifically."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Kale",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "323505",
+        "ndbNumber": "11233",
+        "description": "Kale, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "foundation_food:323505",
+        "fingerprint": "9b33d1b8fd00519f942915b0bd4cb37265a9d307555c5ba48b55ae5b8b82f22f",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Keep separate from spinach.",
+      "marketAssessment": "Blocked: spinach-kale-greens market group cannot establish kale specifically."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Leeks",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2727584",
+        "ndbNumber": "100390",
+        "description": "Leeks, bulb and greens, root removed, raw",
+        "publicationDate": "2025-04-24",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "foundation_food:2727584",
+        "fingerprint": "3d1a0054d784e05052c73774e736d9200f91821bd5a11d2d3bae56e8055a942a",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Source includes bulb and greens; clarify edible-part label.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Beets",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2685576",
+        "ndbNumber": "11080",
+        "description": "Beets, raw",
+        "publicationDate": "2024-04-18",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "foundation_food:2685576",
+        "fingerprint": "6ae2ec5908a903b5ce813f984e475826b441c90f07c30798e763f28b805cee6f",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Root ingredient; greens are distinct.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Radishes",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "169276",
+        "ndbNumber": "11429",
+        "description": "Radishes, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:169276",
+        "fingerprint": "9505635edd93d105697d13c384de1899d04df5204e19d565167158f7929ea9ae",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Review general radish scope; no named daikon variety inferred.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Okra",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "169260",
+        "ndbNumber": "11278",
+        "description": "Okra, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:169260",
+        "fingerprint": "a53a88a30de118fa7192cbbc4356180fa96914b1d722b8aa598718edac60f53d",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Fresh form; no automatic frozen/cooked coverage.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Eggplant",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2685577",
+        "ndbNumber": "11209",
+        "description": "Eggplant, raw",
+        "publicationDate": "2024-04-18",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "foundation_food:2685577",
+        "fingerprint": "a21afbc643014f2af285102f2d9cf1096ac080863b92aad470a0950ee3d0fea4",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "General fresh identity, no named variety inferred.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Cilantro",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "169997",
+        "ndbNumber": "11165",
+        "description": "Coriander (cilantro) leaves, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:169997",
+        "fingerprint": "842315f341911e2384ad696851105b06a479f3ee707a3446c644395e19e572cd",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Fresh leaves, separate from coriander seed and dried leaf.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Parsley",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170416",
+        "ndbNumber": "11297",
+        "description": "Parsley, fresh",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170416",
+        "fingerprint": "ccaee9b4b7ff655387da61c37a2df2ad774a6a7e92de2f10eb94cef9c1007ba8",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Fresh, separate from dried parsley.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Basil",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "172232",
+        "ndbNumber": "2044",
+        "description": "Basil, fresh",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:172232",
+        "fingerprint": "694b955b720ecf8122299d15b0409ec0b23c07aed1a71b5264e5da1a762c03ae",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Fresh, separate from dried basil.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Spearmint",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "173475",
+        "ndbNumber": "2065",
+        "description": "Spearmint, fresh",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:173475",
+        "fingerprint": "0fe6c223359550361da9a87840cc1959806767f57c8a912383097b3d80bf3a7a",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Do not collapse peppermint and spearmint into one evidence-backed named species.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "White mushrooms",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "169251",
+        "ndbNumber": "11260",
+        "description": "Mushrooms, white, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:169251",
+        "fingerprint": "a93b69e17cb32262c6cc9ecc8f3d80b2c74176ba8c6c8497329777a3f7e4dad8",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Separate species/variety choice.",
+      "marketAssessment": "Blocked: mushrooms-cremini-white market group mixes white and cremini; review generic recipe-use semantics first."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Cucumber",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2346406",
+        "ndbNumber": "11205",
+        "description": "Cucumber, with peel, raw",
+        "publicationDate": "2022-10-28",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": "Vitamin K (phylloquinone) median value corrected on 4/18/2024",
+        "key": "foundation_food:2346406",
+        "fingerprint": "061ca8667f318907179dc8a69b8eeb35fab1a7fe2c30a349b861d7c92659e0b3",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Peel treatment is context, not a second default identity; review source scope.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "vegetables-and-aromatics",
+      "proposedCookingChoice": "Fresh tomatoes",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170457",
+        "ndbNumber": "11529",
+        "description": "Tomatoes, red, ripe, raw, year round average",
+        "publicationDate": "2019-04-01",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170457",
+        "fingerprint": "99301b0c881c048e438e819f74c973dcd68e161f373795b5a810cd7c8191dd00",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Do not use evidence for tomatillos or canned tomatoes.",
+      "marketAssessment": "Blocked: tomatoes-roma-vine market group also includes tomatillos; separate before broad recipe linkage."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Canola oil",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "748278",
+        "ndbNumber": "4582",
+        "description": "Oil, canola",
+        "publicationDate": "2019-12-16",
+        "categoryId": "4",
+        "categoryName": "Fats and Oils",
+        "footnote": null,
+        "key": "foundation_food:748278",
+        "fingerprint": "55458f2f822cd8def7e973f3786602f1aa8b5258d0895d14a5edfd547608f3d5",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Cooking oil, no brand or dietary claim.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Sesame oil",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "171016",
+        "ndbNumber": "4058",
+        "description": "Oil, sesame, salad or cooking",
+        "publicationDate": "2019-04-01",
+        "categoryId": "4",
+        "categoryName": "Fats and Oils",
+        "footnote": null,
+        "key": "sr_legacy_food:171016",
+        "fingerprint": "4bd13cfac550003456545a2607e12338ce7556d8307d4d7ac8d8d1704593d7fb",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Generic cooking oil; toasted sesame oil requires distinct evidence/review.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Ground cinnamon",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "171320",
+        "ndbNumber": "2010",
+        "description": "Spices, cinnamon, ground",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:171320",
+        "fingerprint": "3d2b4e36ebc255c96264f4759f37c9a378ec57ae8c3559423c3a6a0b8e733f0f",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Ground form, species unspecified; not a stick/whole-spice conversion.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Ground cloves",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "171321",
+        "ndbNumber": "2011",
+        "description": "Spices, cloves, ground",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:171321",
+        "fingerprint": "a1b249a9b31f1e6985dfaa20e324b0fa6d2390240cf8865d143f5fa32d0fc986",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Ground form stays separate from whole cloves.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Ground turmeric",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "172232",
+        "ndbNumber": "2044",
+        "description": "Basil, fresh",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:172232",
+        "fingerprint": "694b955b720ecf8122299d15b0409ec0b23c07aed1a71b5264e5da1a762c03ae",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Separate from fresh turmeric root.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Coriander seed",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170922",
+        "ndbNumber": "2013",
+        "description": "Spices, coriander seed",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:170922",
+        "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Seed spice is not cilantro leaves; review whole-versus-ground source granularity.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Ground ginger",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170926",
+        "ndbNumber": "2021",
+        "description": "Spices, ginger, ground",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:170926",
+        "fingerprint": "19229788eae49dc6af71026bd1879ae88e3a50c494ee577bd70c9e72df202cc1",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Separate from existing fresh ginger.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Cardamom",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170919",
+        "ndbNumber": "2006",
+        "description": "Spices, cardamom",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:170919",
+        "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Review pods/seeds/ground distinction; do not fabricate a form from broad description.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Red wine vinegar",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "172240",
+        "ndbNumber": "2068",
+        "description": "Vinegar, red wine",
+        "publicationDate": "2019-04-01",
+        "categoryId": "2",
+        "categoryName": "Spices and Herbs",
+        "footnote": null,
+        "key": "sr_legacy_food:172240",
+        "fingerprint": "3703fd9fd1d2c69a60cc646eb899926dae355636a18ae3eeb70916fe15d6858e",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Separate from wine and other vinegar identities.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Miso",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "172442",
+        "ndbNumber": "16112",
+        "description": "Miso",
+        "publicationDate": "2019-04-01",
+        "categoryId": "16",
+        "categoryName": "Legumes and Legume Products",
+        "footnote": null,
+        "key": "sr_legacy_food:172442",
+        "fingerprint": "f91a561f9825af390b2c0cb0ac0f85b166f76e53a9e7c27a0a0c44139137f682",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Composite ingredient; no automatic ownership of soybeans or rice.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Fish sauce",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "174531",
+        "ndbNumber": "6179",
+        "description": "Sauce, fish, ready-to-serve",
+        "publicationDate": "2019-04-01",
+        "categoryId": "6",
+        "categoryName": "Soups, Sauces, and Gravies",
+        "footnote": null,
+        "key": "sr_legacy_food:174531",
+        "fingerprint": "43b2039590adb96b414fcec02d1f53633e39547ec08417afdc1cd64f6d347b41",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Composite condiment, not fish inventory or a dietary guarantee.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Oyster sauce",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "174529",
+        "ndbNumber": "6176",
+        "description": "Sauce, oyster, ready-to-serve",
+        "publicationDate": "2019-04-01",
+        "categoryId": "6",
+        "categoryName": "Soups, Sauces, and Gravies",
+        "footnote": null,
+        "key": "sr_legacy_food:174529",
+        "fingerprint": "46e5e680a507b6218edb21201b53d0587bf9dd07c0d141ae87c7695587fbadfd",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Composite condiment; distinguish mushroom-based alternatives.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Granulated sugar",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "169655",
+        "ndbNumber": "19335",
+        "description": "Sugars, granulated",
+        "publicationDate": "2019-04-01",
+        "categoryId": "19",
+        "categoryName": "Sweets",
+        "footnote": null,
+        "key": "sr_legacy_food:169655",
+        "fingerprint": "c592e94e7addca3e059216841f4ad3667f478d56befab7f6612cdaa433280382",
+        "disposition": "excluded"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Discovery excluded this valid cooking ingredient; record explicit inclusion rationale before upsert.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Brown sugar",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "168833",
+        "ndbNumber": "19334",
+        "description": "Sugars, brown",
+        "publicationDate": "2019-04-01",
+        "categoryId": "19",
+        "categoryName": "Sweets",
+        "footnote": null,
+        "key": "sr_legacy_food:168833",
+        "fingerprint": "d85a8ae357f533a330a7847fa0be83a847f1bb8c83a0b8f59e164217513c8223",
+        "disposition": "excluded"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Discovery exclusion needs explicit override; distinguish from granulated sugar.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "oils-spices-sauces-condiments",
+      "proposedCookingChoice": "Honey",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "169640",
+        "ndbNumber": "19296",
+        "description": "Honey",
+        "publicationDate": "2019-04-01",
+        "categoryId": "19",
+        "categoryName": "Sweets",
+        "footnote": null,
+        "key": "sr_legacy_food:169640",
+        "fingerprint": "5b69a5fb782c2b5cadb4e16309c4972fad2dd7adaa0accf071abbeb087e79a29",
+        "disposition": "excluded"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Discovery exclusion needs explicit override; not a sugar substitution rule.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Tempeh",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "174272",
+        "ndbNumber": "16114",
+        "description": "Tempeh",
+        "publicationDate": "2019-04-01",
+        "categoryId": "16",
+        "categoryName": "Legumes and Legume Products",
+        "footnote": null,
+        "key": "sr_legacy_food:174272",
+        "fingerprint": "fd96eda916dd10d468e900cfea4df28c54b5c950f17e1add45cbba02845525dc",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Plain ingredient; cooked record is separate evidence, not the default choice.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Soft tofu",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "172449",
+        "ndbNumber": "16127",
+        "description": "Tofu, soft, prepared with calcium sulfate and magnesium chloride (nigari)",
+        "publicationDate": "2019-04-01",
+        "categoryId": "16",
+        "categoryName": "Legumes and Legume Products",
+        "footnote": null,
+        "key": "sr_legacy_food:172449",
+        "fingerprint": "13a3c3239ca5010299d79b6e75241dc7669b7ee699daf771077fad6361fb5e92",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Soft tofu is distinct from existing firm tofu; no calcium/sodium claim.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Whole milk",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "746782",
+        "ndbNumber": "1077",
+        "description": "Milk, whole, 3.25% milkfat, with added vitamin D",
+        "publicationDate": "2019-12-16",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": "Source number reflects the actual number of samples analyzed for a nutrient. Repeat nutrient analyses may have been done on the same sample with the values shown.",
+        "key": "foundation_food:746782",
+        "fingerprint": "57718b64c7f2eee4fb843dc8380892dd4ae2dbb8719291670bf6455053fec4ac",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Use subtype-backed candidate, not quarantined parent 322892; review species/scope.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Plain yogurt",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2259793",
+        "ndbNumber": "1116",
+        "description": "Yogurt, plain, whole milk",
+        "publicationDate": "2022-04-28",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "foundation_food:2259793",
+        "fingerprint": "16cd2eee7d5474f1246bc8cab49094c5da11c227490e940ad09d38df5e167bfc",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Whole-milk evidence does not establish every fat level or Greek yogurt.",
+      "marketAssessment": "Blocked: greek-yogurt-tub includes plain/vanilla Greek yogurt; do not link ordinary plain yogurt."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Feta",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "173420",
+        "ndbNumber": "1019",
+        "description": "Cheese, feta",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:173420",
+        "fingerprint": "b5e75294c90ed40489a5ab8399e4852d2125a1acf3e2e85e6ca73d7835231e74",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Avoid claiming only crumbled texture from Foundation-specific record.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Hard Parmesan",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170848",
+        "ndbNumber": "1033",
+        "description": "Cheese, parmesan, hard",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170848",
+        "fingerprint": "21ecf4003068f9226f07193cb810b6d1797ac1b996b30bfe62005bb0ff1a35b4",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Grated/shredded preparations require grouping review; do not infer DOP authenticity.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Canned light tuna in water",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "334194",
+        "ndbNumber": "15121",
+        "description": "Fish, tuna, light, canned in water, drained solids",
+        "publicationDate": "2019-04-01",
+        "categoryId": "15",
+        "categoryName": "Finfish and Shellfish Products",
+        "footnote": null,
+        "key": "foundation_food:334194",
+        "fingerprint": "a8f3f5a2ee615d9a4961aada5f1aff885c28311a5706066ac00340c19d8799ca",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Drainage as context; oil-packed tuna stays separate.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Raw almonds",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2346393",
+        "ndbNumber": "12061",
+        "description": "Nuts, almonds, whole, raw",
+        "publicationDate": "2022-10-28",
+        "categoryId": "12",
+        "categoryName": "Nut and Seed Products",
+        "footnote": "Fatty acids, total saturated and total monounsaturated and total polyunsaturated median values corrected on 4/18/2024.",
+        "key": "foundation_food:2346393",
+        "fingerprint": "15e727d15a87d766d2f982f6c608e841d17d3f0a7aebac3c6b3a53d4abc97550",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Raw versus roasted forms need explicit presentation policy.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "English walnuts",
+      "sourceEvidence": {
+        "dataType": "foundation_food",
+        "fdcId": "2346394",
+        "ndbNumber": "12155",
+        "description": "Nuts, walnuts, English, halves, raw",
+        "publicationDate": "2022-10-28",
+        "categoryId": "12",
+        "categoryName": "Nut and Seed Products",
+        "footnote": "Vitamin K (phylloquinone) and Fatty acids, total saturated and total monounsaturated and total polyunsaturated median values corrected on 4/18/2024.",
+        "key": "foundation_food:2346394",
+        "fingerprint": "c8e0ab6a463c773b906e81394a7611a63f879e46e5196424881cfe554e6bcd6c",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Do not infer black-walnut identity.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    },
+    {
+      "batch": "proteins-dairy-cooking-basics",
+      "proposedCookingChoice": "Dried whole sesame seeds",
+      "sourceEvidence": {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170150",
+        "ndbNumber": "12023",
+        "description": "Seeds, sesame seeds, whole, dried",
+        "publicationDate": "2019-04-01",
+        "categoryId": "12",
+        "categoryName": "Nut and Seed Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170150",
+        "fingerprint": "0448969913ac3517949b5b379cc21cdac334eccaa7016fb501dacf5650c222e0",
+        "disposition": "candidate"
+      },
+      "state": "RESEARCH_ONLY_NOT_A_CURATION_DECISION",
+      "reviewBoundary": "Whole versus hulled/toasted forms need explicit review; not tahini.",
+      "marketAssessment": "No direct counterpart identified in current market catalog; re-audit during the batch."
+    }
+  ],
+  "quarantineInvestigation": {
+    "heldCount": 74,
+    "withCandidateDescriptionMatch": 70,
+    "withoutCandidateDescriptionMatch": 4,
+    "policy": "Description/NDB equality is only an investigation hint. Retain original release-scoped hold through 2027-04-30; no evidence is relinked and no hold is cleared by this research.",
+    "records": [
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1105430",
+          "ndbNumber": null,
+          "description": "Apples, red delicious, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1105430",
+          "fingerprint": "a18204306abf3ffbe92a0c13d05b805c0c1af4ad7cdc0b2d5275749b3cee6773",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1750339",
+            "fingerprint": "ebfd734417f21fef70818a143de8881719f7f37886d86f5dbb5eb038e0a7df7f",
+            "ndbNumber": "9500",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1105547",
+          "ndbNumber": null,
+          "description": "Apples, honeycrisp, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1105547",
+          "fingerprint": "42359a7c5e9de8affafb277ae9c6d1e65bcf5f8da158921b113e6a473029b95d",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1750343",
+            "fingerprint": "b89906f36932e20e9cee8daa4e309a5d6cfacabdbb246f428f839329293e20fd",
+            "ndbNumber": "9501",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1105664",
+          "ndbNumber": null,
+          "description": "Apples, granny smith, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1105664",
+          "fingerprint": "fad29a57afd296a3a3d1da0b2f0bd77b7bff912d4b32092cbc60b2b816b68458",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1750342",
+            "fingerprint": "14085c931d3bf58c88a476f195c8a5335d37e2e944ef1e3fd29ec5e614e42e90",
+            "ndbNumber": "9502",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1105781",
+          "ndbNumber": null,
+          "description": "Apples, gala, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1105781",
+          "fingerprint": "d1a7b492bbea8046d4f2715e7d3f1e3afa22260eecc5d2ce4460173018b1daad",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1750341",
+            "fingerprint": "73993b2d4e7c7faa5fdd3399f4eb33e6bbf15dd51840726dc152965025f36bea",
+            "ndbNumber": "9503",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1105897",
+          "ndbNumber": null,
+          "description": "Apples, fuji, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1105897",
+          "fingerprint": "a87d21f607e9643c3327150cf1def8c29a20cca514e9d64a6fe625a37b2b7a66",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1750340",
+            "fingerprint": "99fa5e49fc1373ccde5ca9a7a77b95294fa37ad35434c5f963abc5e56c7f7634",
+            "ndbNumber": "9504",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750337",
+          "ndbNumber": null,
+          "description": "Soy milk, unsweetened, plain, shelf stable",
+          "publicationDate": "2021-04-28",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:1750337",
+          "fingerprint": "e1dfa055ad5268dae41eaf21563da1f22cae5cc8a5f8d1fb2f7b491e11c28886",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999630",
+            "fingerprint": "b7a152a7c46c6fe011ecf9b15b3e2008eeb95fe638284f31e006119d51dd78a5",
+            "ndbNumber": "16222",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750338",
+          "ndbNumber": null,
+          "description": "Almond milk, unsweetened, plain, shelf stable",
+          "publicationDate": "2021-04-28",
+          "categoryId": "14",
+          "categoryName": "Beverages",
+          "footnote": null,
+          "key": "foundation_food:1750338",
+          "fingerprint": "c90935dba5b1b80ad5e3a83b4d06ca2a752ed9e5dab4aa18c87d182d1471f704",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999631",
+            "fingerprint": "02ec54e7455114acadd5cf798653a20beecd05e82ef881f8d6db1a8e680c653c",
+            "ndbNumber": "14091",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750344",
+          "ndbNumber": null,
+          "description": "Mushroom, lion's mane",
+          "publicationDate": "2021-04-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:1750344",
+          "fingerprint": "8c693a536e76ac76c8f6c7f6d5ccf1a645a81bc786cbefd3e7a8ffe7fc91ffe8",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999626",
+            "fingerprint": "82d96dbf15af000833825c47d3b5e3a3ba394ac2440bd8e3f6be7e3216d46906",
+            "ndbNumber": "100259",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750345",
+          "ndbNumber": null,
+          "description": "Mushroom, oyster",
+          "publicationDate": "2021-04-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:1750345",
+          "fingerprint": "80f4d2e4ef63fddd2555bad10b6cfb041bc3befbce22a824a4ef797d75672372",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999627",
+            "fingerprint": "56bd159251ec274ab9c42847df88c51f79e838fbc5ea00907c89a46143e9e2be",
+            "ndbNumber": "11987",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750346",
+          "ndbNumber": null,
+          "description": "Mushrooms, shiitake",
+          "publicationDate": "2021-04-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:1750346",
+          "fingerprint": "42fd1ca2b95ead58af259e226214000027cede4ad1d58a3ab2b1c5f1018c924a",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999628",
+            "fingerprint": "50f9d1178be20f0b033f8c7f81482b06249210010d9a35540c448ac182387785",
+            "ndbNumber": "11238",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750347",
+          "ndbNumber": null,
+          "description": "Mushrooms, white button",
+          "publicationDate": "2021-04-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:1750347",
+          "fingerprint": "1071df4c3b196eb734c43bc5d9e2990589716607d252384663508f6612d394cc",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999629",
+            "fingerprint": "a06637954876ff70cabf908dd97323be3547f7df1a92f8f11d38269d4a456cd9",
+            "ndbNumber": "11260",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750352",
+          "ndbNumber": null,
+          "description": "Spinach, baby",
+          "publicationDate": "2021-04-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:1750352",
+          "fingerprint": "2d7b05f9ff4e63d88402c160586d8da03a85f3bd05b2903395c143dea3991a77",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999632",
+            "fingerprint": "b777e987283c8fd47e6eba3f5a2191fb5ccb32e4c1a02c04af7333a47e690c41",
+            "ndbNumber": "100260",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750353",
+          "ndbNumber": null,
+          "description": "Spinach, mature",
+          "publicationDate": "2021-04-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:1750353",
+          "fingerprint": "66887e97e479152e5da85fa29b5430d8f318fee42fea1404c4f48bff320ea5c1",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999633",
+            "fingerprint": "aa45d5dd0a05202bf3c97e622e9339845e88f243a31e8e4a9b456b20fccf3fcf",
+            "ndbNumber": "11457",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "1750354",
+          "ndbNumber": null,
+          "description": "Tomato, roma",
+          "publicationDate": "2021-04-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:1750354",
+          "fingerprint": "366b1a3f038d9cb93d8f4c3785d0fec064d3fc7118c5c77d76f9deb724d6347a",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1999634",
+            "fingerprint": "c08201f7b76d39fe03332135bb55f3aabaaf643ca4c51068c76e10f2ae63f1cf",
+            "ndbNumber": "100261",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "2263887",
+          "ndbNumber": null,
+          "description": "Strawberries, raw",
+          "publicationDate": "2022-04-28",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:2263887",
+          "fingerprint": "1c845d58aabc26f5fff0b222dcf77b8693b882152c3fc0a1b7bfa636bd1fd1b6",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346409",
+            "fingerprint": "fee4f9a9be0e37dfa4652e841f294cebd39532a1c71b872bde92084854e57e5e",
+            "ndbNumber": "9316",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:167762",
+            "fingerprint": "2a13ce3fcde37427b7d8e7dc94db6302cef2a427c9fbf197403f414347e8c42a",
+            "ndbNumber": "9316",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "2263888",
+          "ndbNumber": null,
+          "description": "Raspberries, raw",
+          "publicationDate": "2022-04-28",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:2263888",
+          "fingerprint": "2e0a0a7892edd9b6237753943a9f39aebeb2881ea7d8e18b8ca06354a1ceedc3",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346410",
+            "fingerprint": "9774052ec4c2ab525c2a265e93b17f1ab4462ec0ebf90a3b7c3ab9d5071de64c",
+            "ndbNumber": "9302",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:167755",
+            "fingerprint": "d0400c779bca1f8638e880585434dd9d7c7b7b8b23b79d8ec3e9a29cc181ee3f",
+            "ndbNumber": "9302",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "2263889",
+          "ndbNumber": null,
+          "description": "Blueberries, raw",
+          "publicationDate": "2022-04-28",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:2263889",
+          "fingerprint": "092a3865116027a823030cf364e8ca94a5a2fe211898e181282e66315a0fc441",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346411",
+            "fingerprint": "c60ba5cc07d2325f1eb267d47dd48dd2cb5f24c070ecc6f1d324159fbb8ad686",
+            "ndbNumber": "9050",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:171711",
+            "fingerprint": "3d9cd8f2188e99f4c6068033925dad63d756a10f4cb1959db2b6e8ce027f3105",
+            "ndbNumber": "9050",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "2263890",
+          "ndbNumber": null,
+          "description": "Grapes, red, seedless, raw",
+          "publicationDate": "2022-04-28",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:2263890",
+          "fingerprint": "0f4951a91f183120863c323f3d1bbfe82c11c1c7005bbcd4c6aa47d95a29aa29",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346412",
+            "fingerprint": "5beab0e083c9aee28c0de26058effd204a2ed4f79939c25d290de009bdcfbfbf",
+            "ndbNumber": "100279",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "2263891",
+          "ndbNumber": null,
+          "description": "Grapes, green, seedless, raw",
+          "publicationDate": "2022-04-28",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:2263891",
+          "fingerprint": "534414428b79f3c65113a9dc54aea7d98e08ece1706f8e10cf8a85fe18422a47",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346413",
+            "fingerprint": "8dec3b725d9549b5bc3200f819024547383ae54983f76d0c297049be84e64a07",
+            "ndbNumber": "100280",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "2263892",
+          "ndbNumber": null,
+          "description": "Applesauce, unsweetened, with added vitamin C",
+          "publicationDate": "2022-04-28",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:2263892",
+          "fingerprint": "f0a668ceb8c4baddcb55eda605432bd35b68f21d54db9b695b426880dafd8592",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346414",
+            "fingerprint": "80edb7d8495b77aa248b7a3c7dac752f0509d13c94f4c02a00e4b4bf9b577f30",
+            "ndbNumber": "9401",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "2758999",
+          "ndbNumber": null,
+          "description": "Pasta, dry, whole grain, spaghetti",
+          "publicationDate": "2026-04-30",
+          "categoryId": "20",
+          "categoryName": "Cereal Grains and Pasta",
+          "footnote": null,
+          "key": "foundation_food:2758999",
+          "fingerprint": "5f505c40bb2d7fd6d72675c8f8fb9a80af494a5862334c3881166b84ca23fad7",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2759000",
+            "fingerprint": "e19e5ca1a5a405990ffaad5d086f8dcffda7979e896e15d93940c77dbd40e56c",
+            "ndbNumber": "100420",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "321359",
+          "ndbNumber": null,
+          "description": "Milk, reduced fat, fluid, 2% milkfat, with added vitamin A and vitamin D",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:321359",
+          "fingerprint": "7393ea646ba5b4da1c05dc9fde828d360a41e18e38a7a03d0dce5f8bfb05934a",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746778",
+            "fingerprint": "ca3e40374ecb9ddba60d222a2028aa86a31063e6f7c15b69b32feab86627b5cb",
+            "ndbNumber": "1079",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:171267",
+            "fingerprint": "99e54392998b7faaff36b568b6e9ef3eacb91217cdd77222b76130fdb9fef961",
+            "ndbNumber": "1079",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "321505",
+          "ndbNumber": null,
+          "description": "Salt, table, iodized",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "foundation_food:321505",
+          "fingerprint": "24cdc4bd8f05b6858a08c1fd698ad9548a1dff52b7373bbfb99fbfc8a2a66cce",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746775",
+            "fingerprint": "9c97c7b56065f8e3255d2b6aef2e190c6ace4475c497ffc49c4beaf378166f26",
+            "ndbNumber": "2047",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "321900",
+          "ndbNumber": null,
+          "description": "Broccoli, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:321900",
+          "fingerprint": "eb559f1e4fcdfcbd89cc532a3613ada566178256408e3ff02692512a3d8e01da",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747447",
+            "fingerprint": "3edc41696e599c808e167aafbf26f2c6167e09a9b4931c89e6d6ca65ba8382ab",
+            "ndbNumber": "11090",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:170379",
+            "fingerprint": "c63ac25458fbdc4ec5839d8e51fc4c9b528c97409437366a5ca70e823d6cab73",
+            "ndbNumber": "11090",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "322228",
+          "ndbNumber": null,
+          "description": "Milk, lowfat, fluid, 1% milkfat, with added vitamin A and vitamin D",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:322228",
+          "fingerprint": "9f2aa38f3319012c109736ce3ca902cbe607880db702a63d8b4f05eed8854f80",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746772",
+            "fingerprint": "2f1401d3fbe572a964e85c3cf2271e380232be7fb67b0572a9abbf4817831277",
+            "ndbNumber": "1082",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:170872",
+            "fingerprint": "c125ae63ba41af135a989ab4ee7c8cc28ce004463a1868710d16aa93d6720806",
+            "ndbNumber": "1082",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "322559",
+          "ndbNumber": null,
+          "description": "Milk, nonfat, fluid, with added vitamin A and vitamin D (fat free or skim)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:322559",
+          "fingerprint": "fdf4637a3a377ade1a35123799e17b4af6f205b1d4b3f3a90090dd9fc7efa73e",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746776",
+            "fingerprint": "b22b5f51c50e33ae4f01f847fb91155d6805cc97f7d03117ce41c1f92d10c7e5",
+            "ndbNumber": "1085",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:171269",
+            "fingerprint": "98ec08eb6cde0e5b5b74168009448024193b615dff78367f2828dbc26a2deee2",
+            "ndbNumber": "1085",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "322892",
+          "ndbNumber": null,
+          "description": "Milk, whole, 3.25% milkfat, with added vitamin D",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:322892",
+          "fingerprint": "7d87e0f7a81ae1a88f357e44f71ba4145731357f36cdd603d5847ea61a831da9",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746782",
+            "fingerprint": "57718b64c7f2eee4fb843dc8380892dd4ae2dbb8719291670bf6455053fec4ac",
+            "ndbNumber": "1077",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:171265",
+            "fingerprint": "414dc35701eac15098bf0acfcf08962b9c65ed532c4008a3e9dd418f227ed4f8",
+            "ndbNumber": "1077",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "323444",
+          "ndbNumber": null,
+          "description": "Cheese, ricotta, whole milk",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:323444",
+          "fingerprint": "5898c67e950574e58fbddee99121cffdb8022d59b6501595b6573ccdb2294cc9",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746766",
+            "fingerprint": "fe5166019b4a2ec23859f357f72438529a06e90db5ff8986820d8df0e77748e7",
+            "ndbNumber": "1036",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:170851",
+            "fingerprint": "2594a9af0d848d0a900ad3b1408a663fa91197354aa1ee4e461f75770bd4c382",
+            "ndbNumber": "1036",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "324038",
+          "ndbNumber": null,
+          "description": "Sauce, salsa, ready-to-serve",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "foundation_food:324038",
+          "fingerprint": "0ce3f3667e92eb44d8513d614b3363a811c41b93810f334edf882b01ef2badf6",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746777",
+            "fingerprint": "6690552cbd563ab3e090f032a59c55c8271403408530946284622eee2afa5a6d",
+            "ndbNumber": "6164",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:174524",
+            "fingerprint": "0ece902968970f42162045012b36e0bb33071efd1bcd416fb032921b8a4da851",
+            "ndbNumber": "6164",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "324157",
+          "ndbNumber": null,
+          "description": "Sausage, breakfast sausage, beef, pre-cooked, unprepared",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "foundation_food:324157",
+          "fingerprint": "9eca1e423f7183170504645b4aaa55ceb8ff166ea86ccebebed22fa0dd6b113c",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746779",
+            "fingerprint": "9945eee969d594bebde23bc84da291a3b27222854d07bcfeb76d37b98c9c20fa",
+            "ndbNumber": "7954",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:174616",
+            "fingerprint": "783f6867c320ef4e73c8e1eabeaba0d25e5ca04620e93961f98653033e154b26",
+            "ndbNumber": "7954",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "324860",
+          "ndbNumber": null,
+          "description": "Peanut butter, smooth style, with salt",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:324860",
+          "fingerprint": "0240caaf3b40c12097460000c96281ef5b64c8710216161991740bded9fd7679",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "325658",
+          "ndbNumber": null,
+          "description": "Sausage, Italian, pork, mild, cooked, pan-fried",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "foundation_food:325658",
+          "fingerprint": "f569486ec9e79aa2146982f2d6ae93902b3c9c67746c5a9bf1c144ce42e7ed6b",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746780",
+            "fingerprint": "c66c302b4c25b072689995336427ec6a87e164e2fe5aaa76065b156fda3eb476",
+            "ndbNumber": "7089",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:174586",
+            "fingerprint": "afd3cb007171f506e1bbdf99fb99e92658d4ed613b004d470d9c90bf82741ef0",
+            "ndbNumber": "7089",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "325871",
+          "ndbNumber": null,
+          "description": "Bread, white, commercially prepared",
+          "publicationDate": "2019-04-01",
+          "categoryId": "18",
+          "categoryName": "Baked Products",
+          "footnote": null,
+          "key": "foundation_food:325871",
+          "fingerprint": "745cbdd80b5f7c5769e7e7d41bcb91dd4147c8c3d492c1f4a3bc970804e2b68a",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "325992",
+          "ndbNumber": null,
+          "description": "Sausage, turkey, breakfast links, mild, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "foundation_food:325992",
+          "fingerprint": "a1faf396faa0dae85b8837b7022cf1bfb4460b2be3fedecd18ccb2a06a1728f1",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746783",
+            "fingerprint": "3c6a8a529575cc3abae4f548ab4b2dc58081b462388502d3a20fe317c3a7e58e",
+            "ndbNumber": "7919",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:174600",
+            "fingerprint": "5f3c6dddfab967f7d3d83505640d4ef0394df0366fe784e36cdcd4a1c4c34392",
+            "ndbNumber": "7919",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "326135",
+          "ndbNumber": null,
+          "description": "Cheese, swiss",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:326135",
+          "fingerprint": "6ac2fc45a7795158c7d1063bace582421394677e1b2d03490aa086eb71f44ad1",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746767",
+            "fingerprint": "98ce401ab763461e167d656761d2b9f289173e4c8082de4b07217a57af38fd84",
+            "ndbNumber": "1040",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:171251",
+            "fingerprint": "e20e4fb4f31192e3b2e73ea86e6f9f032f5413c3ac59b336ee576cb70cd4fdd8",
+            "ndbNumber": "1040",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "326458",
+          "ndbNumber": null,
+          "description": "Carrots, frozen, unprepared (Includes foods for USDA's Food Distribution Program)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:326458",
+          "fingerprint": "fcdc6bd728baf8bc1f26aa98ee498f7972742379934b2f067328d7c16c5c4166",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "sr_legacy_food:169983",
+            "fingerprint": "eb17d97cf343df4c5938c92b8b3c4e5948804764f38b0370baa13adb154f5101",
+            "ndbNumber": "11130",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "326905",
+          "ndbNumber": null,
+          "description": "Figs, dried, uncooked",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:326905",
+          "fingerprint": "24f0a1a31531d040d80e2f05e13d65932651b7f8aac0e3aba77c6dd894d9e888",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746768",
+            "fingerprint": "2a0bcc464207eade5f36fc71204ee5dfc0887ee61caf3a6d130888abc2cea620",
+            "ndbNumber": "9094",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:174665",
+            "fingerprint": "afd14dbac6d00f671e70ae7a84d1286aa3d49ab37aa2ed626d1b142de8343dbf",
+            "ndbNumber": "9094",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "327198",
+          "ndbNumber": null,
+          "description": "Melons, cantaloupe, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:327198",
+          "fingerprint": "18fc7f91a679e773418c5749b357c94ea17873ce472c0997bfe9ef870790124e",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746770",
+            "fingerprint": "0f474bc4ddbb68a94cd282c832e30837ed317befe44a9f16e396a6b8fad86057",
+            "ndbNumber": "9181",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:169092",
+            "fingerprint": "0595356288b2dae2bf45a639e695e6bf52b34bc0089a2dfc858d323caeddca65",
+            "ndbNumber": "9181",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "327501",
+          "ndbNumber": null,
+          "description": "Oranges, raw, navels (Includes foods for USDA's Food Distribution Program)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:327501",
+          "fingerprint": "ff6f86a34ff25527651781c89293ac8f72b2a4782dad84ab1f90860098bc4025",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "sr_legacy_food:169917",
+            "fingerprint": "d6f25891bd6490f3f22a102e053d1281342b9471fdb4376cdea725a4fdd3af52",
+            "ndbNumber": "9202",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "327699",
+          "ndbNumber": null,
+          "description": "Strawberries, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:327699",
+          "fingerprint": "e6092eac249e13c9ad94b1f748123c4c36ef984497b374bf24672150ecb86a4e",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346409",
+            "fingerprint": "fee4f9a9be0e37dfa4652e841f294cebd39532a1c71b872bde92084854e57e5e",
+            "ndbNumber": "9316",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:167762",
+            "fingerprint": "2a13ce3fcde37427b7d8e7dc94db6302cef2a427c9fbf197403f414347e8c42a",
+            "ndbNumber": "9316",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "327923",
+          "ndbNumber": null,
+          "description": "Lettuce, cos or romaine, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:327923",
+          "fingerprint": "af17a4f7d12055788235056192fe11c6e5d4840b77fc46d0d56f24d48f376c59",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746769",
+            "fingerprint": "e391894738e206354766f4dcc19464ae353580ad4b71e3189826456a9a4c09eb",
+            "ndbNumber": "11251",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:169247",
+            "fingerprint": "08724852994b7b2416565b6be9a10020a775d612615c995657f68ab76b78870c",
+            "ndbNumber": "11251",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "329830",
+          "ndbNumber": null,
+          "description": "Cheese, dry white, queso seco",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:329830",
+          "fingerprint": "b8a35fd20b54c31492ceca1af5bdbd7165ca49390c2460cd8ff2727e2a7b5e83",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746765",
+            "fingerprint": "e2c1eb8bc9b79f698ad20968a98577d27017197facf064392614326f4d0be54e",
+            "ndbNumber": "1227",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:172222",
+            "fingerprint": "141cae6ed1f3f5580478e1bc71ccea52a700d57aac3ee18bf429484a99836fa7",
+            "ndbNumber": "1227",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "330869",
+          "ndbNumber": null,
+          "description": "Turkey, ground, 93% lean, 7% fat, pan-broiled crumbles",
+          "publicationDate": "2019-04-01",
+          "categoryId": "5",
+          "categoryName": "Poultry Products",
+          "footnote": null,
+          "key": "foundation_food:330869",
+          "fingerprint": "ee0dd5a988b4886bab5a3e77074b68790f6b16863e24e20294702ababc02b2c7",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746785",
+            "fingerprint": "8bfe6cbcf5880d7c96425558a41075dec5bea8a4f7850438bd8ff471ae99c6bd",
+            "ndbNumber": "5666",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:172851",
+            "fingerprint": "3dacd1312626c2c7c502820adbca9a6b7f8f9c3a517e68e71c87be094f887fcb",
+            "ndbNumber": "5666",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "332597",
+          "ndbNumber": null,
+          "description": "Pears, raw, bartlett (Includes foods for USDA's Food Distribution Program)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:332597",
+          "fingerprint": "db6245c090de3a30c3e63795c662d90b8175541cd22fc6134e831c9b8dd10b6b",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "sr_legacy_food:167776",
+            "fingerprint": "3909887c3a44b048a9078a706f9533ad1f2b01dcc853fa890fc28237a4264617",
+            "ndbNumber": "9412",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "332864",
+          "ndbNumber": null,
+          "description": "Sausage, pork, chorizo, link or ground, cooked, pan-fried",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "foundation_food:332864",
+          "fingerprint": "8051a05f188343bfb0b7162296a14fbb7dc6301193278669daf414951c0ef23c",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746781",
+            "fingerprint": "39dcba298d600e3093331a640c5e3bbd80291e631c1a275eb406876a6fae5629",
+            "ndbNumber": "100173",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "334247",
+          "ndbNumber": null,
+          "description": "Sugars, granulated",
+          "publicationDate": "2019-04-01",
+          "categoryId": "19",
+          "categoryName": "Sweets",
+          "footnote": null,
+          "key": "foundation_food:334247",
+          "fingerprint": "6cb49aa910070216573383020f5e83a5ee2866251cce5887acdddd79355a5b0b",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "334462",
+          "ndbNumber": null,
+          "description": "Restaurant, Chinese, sweet and sour pork",
+          "publicationDate": "2019-04-01",
+          "categoryId": "25",
+          "categoryName": "Restaurant Foods",
+          "footnote": null,
+          "key": "foundation_food:334462",
+          "fingerprint": "d64d5062ee1caaa5802042245beacb429dba9b07042074599412cd7f92bb5909",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "334849",
+          "ndbNumber": null,
+          "description": "Beef, loin, top loin steak, boneless, lip-on, separable lean only, trimmed to 1/8\" fat, choice, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:334849",
+          "fingerprint": "32c61d2e3d226202ff3b9e7caef9830f1564f4f31767584b1bfb9f032a384a89",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746759",
+            "fingerprint": "b2ffec2fdaa50945e35d566c325886ce1e8c93e333deaf3ce8747e410ddb3ffe",
+            "ndbNumber": "23385",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:174010",
+            "fingerprint": "29e8699fa3bff2448181e0e223584776cf1cfafe781ec20ece0fca33a1ccb550",
+            "ndbNumber": "23385",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "334897",
+          "ndbNumber": null,
+          "description": "Beef, loin, tenderloin roast, separable lean only, boneless, trimmed to 0\" fat, select, cooked, roasted",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:334897",
+          "fingerprint": "6dc6a1c83af015205834604b6e08e95b069cac9863782baeb3b119d6a67eb002",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746758",
+            "fingerprint": "9f0f605a0eccc15a3ddaefa136cc405d8f240f83cb73dc1da672817c9536b796",
+            "ndbNumber": "23377",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:174006",
+            "fingerprint": "4def5ee73f5f80c4cd6afd2c2dc92e854b83d09bf6355bae35bf52e969b033be",
+            "ndbNumber": "23377",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "334898",
+          "ndbNumber": null,
+          "description": "Beef, round, eye of round roast, boneless, separable lean only, trimmed to 0\" fat, select, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:334898",
+          "fingerprint": "4681b1d05edad884c9a70d319e2485f7e079fc8b02504f25de01d9eed332d2df",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746760",
+            "fingerprint": "957c19942f64104abf3fcaa5170997e959e9109f3aed3aba4475248515630ced",
+            "ndbNumber": "23362",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:171761",
+            "fingerprint": "4f6365ac61ec38ad396b7e4d5714c3237f404818434c6ffd9727ef40439e315f",
+            "ndbNumber": "23362",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "334963",
+          "ndbNumber": null,
+          "description": "Beef, round, top round roast, boneless, separable lean only, trimmed to 0\" fat, select, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:334963",
+          "fingerprint": "54ded8f0f41f41e855ffa544368ac8ffaa53fac7fcbe61424b8e03d5eb1368c5",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746761",
+            "fingerprint": "d86227fbdfe3fe92464aab3ce2a83af9925435b9ffef1aa6914eb28f094e62ae",
+            "ndbNumber": "23359",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:173997",
+            "fingerprint": "667ed923cdc76e3e3e947d6b351da4ef6be94f2c8cd2e5ee110111014cfea81d",
+            "ndbNumber": "23359",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335061",
+          "ndbNumber": null,
+          "description": "Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8\" fat, choice, cooked, grilled",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:335061",
+          "fingerprint": "05ccdcdddd1559af87c5c7b105caeb36472b701ed5689f951ed703aeb5f39fb2",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746763",
+            "fingerprint": "c0d002e41b14c25416423e98f60d701d140f92af46b52a985495db0514e55043",
+            "ndbNumber": "13236",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:168620",
+            "fingerprint": "c084df275ff6bc9bcbb67e98537a528b4776e5eeacca1aa80d09732f42b95154",
+            "ndbNumber": "13236",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335109",
+          "ndbNumber": null,
+          "description": "Beef, short loin, porterhouse steak, separable lean only, trimmed to 1/8\" fat, select, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:335109",
+          "fingerprint": "646c1a0b704263b28fa27b4c5b15e18994d64e3ed218c26feeff74b07bd12fcf",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:746762",
+            "fingerprint": "61c72d87366b7222f15d37dd2b641b519c593bf79e9c807cdbdefe33aabc602e",
+            "ndbNumber": "13468",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:168640",
+            "fingerprint": "ab944677ebaff44cbb94db5b1b4c3f7c6baa7eade22a7fe1d1a031072236c1b6",
+            "ndbNumber": "13468",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335240",
+          "ndbNumber": null,
+          "description": "Bread, whole-wheat, commercially prepared",
+          "publicationDate": "2019-04-01",
+          "categoryId": "18",
+          "categoryName": "Baked Products",
+          "footnote": null,
+          "key": "foundation_food:335240",
+          "fingerprint": "aa6c84fea7bbded350e1e9d3898074c0e5b1534d2dbb8d222e35b1499e416e8f",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "sr_legacy_food:172688",
+            "fingerprint": "eb5dd1ec7fd75b9b5756ab4ace7694cb5019f064742537512912e3dc6aeb3209",
+            "ndbNumber": "18075",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335245",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Dark Red Kidney (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335245",
+          "fingerprint": "300f96b6dd6c0fcb140c9723c2f564d926afa5150926a831d010955cb76309b0",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747440",
+            "fingerprint": "633689b5eae09e3e5afaba874951e9b27d2b14c9230a28cdf77146a4e6c6e9f9",
+            "ndbNumber": "16510",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335306",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Pink (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335306",
+          "fingerprint": "8dcf3ff27308fe844c089a7d4690401ae592a54a5f49caacd50a6fbbcce7309a",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747439",
+            "fingerprint": "1997134cd2806fb863cdf09378185b43699cffa11fffa331a0b0c1d7712ab40b",
+            "ndbNumber": "16509",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335419",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Navy (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335419",
+          "fingerprint": "ae087d87f5c93680f05155b0c00fe09e5486e7505a1c3f6359aae8ef941a1157",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747441",
+            "fingerprint": "c6b60d3cccc3ffe83f5ebe2a0804efe4036c5a8b0b50e0b1704d6af409071a9c",
+            "ndbNumber": "16511",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335422",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Light Red Kidney (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335422",
+          "fingerprint": "9cae9c2ff02ef63b68340d8a35c7bf6618285d7707d36d15ef9d131b8e1ca184",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747438",
+            "fingerprint": "2cd20a23b33088e1fa93175433b8e7c1f852d078cae6695c61c5569c00dc82ee",
+            "ndbNumber": "16508",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335425",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Brown (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335425",
+          "fingerprint": "cf4d5b333f499a417d93f51c8137137282d10ffc61c5a8f54945ab748f139a76",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747433",
+            "fingerprint": "32cd41265bb74296d1d2ecdd1de756c0c3f3e2649f1469a00e69dd24c9c2f39c",
+            "ndbNumber": "16503",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335428",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Flor de Mayo (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335428",
+          "fingerprint": "ec048816a56b252fc6044c2e2d3a5b25dd652dca966cd063e6749566ce445a81",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747432",
+            "fingerprint": "672299582173605512decdbe4c34901ba82c18a67388e97bf9bf94dcff5cbd20",
+            "ndbNumber": "16502",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335433",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Carioca (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335433",
+          "fingerprint": "350f499b0193fb38c07c600327dd4c70aed5b0778ae31891671493aecc4075ca",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747436",
+            "fingerprint": "d799a495b149f8c407a76b137cc10f531964ada4ae96c1989beb5da7516af763",
+            "ndbNumber": "16506",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335442",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Tan (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335442",
+          "fingerprint": "1c0a639c574cd4ec6214c6cd61747fbce479876c395651fe16d883299e81e0e1",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747434",
+            "fingerprint": "0c0f5ff9e017c98327023aad729bc3a584fcfe47948dd0c764265fa1990d1569",
+            "ndbNumber": "16504",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335695",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Pinto (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335695",
+          "fingerprint": "d07d94754e546ef6d39fbc67b397b5fa885f3aca2f44ceb1c630fb9a9eadb0ec",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747445",
+            "fingerprint": "6089cc07a9402d6864c61950d2cdb7b689cc3c7e48664b1b628907f37780e7ce",
+            "ndbNumber": "16515",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335774",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Small Red (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335774",
+          "fingerprint": "3235da648b147e420253ba27a161ebde38eb75b7305faa03a69f14529a722b87",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747443",
+            "fingerprint": "c17370add31b24327d5b19a8753dcd839f5c42598fb5742145a5d529bd1b746f",
+            "ndbNumber": "16513",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335777",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Medium Red (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335777",
+          "fingerprint": "172ddf75d7b0cc59b32121fe7bd5b5d7e2bb2987ea5a827d611e6edc9df9cc86",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747430",
+            "fingerprint": "1ee0cbef6c28cb878b7a63c3ab6b58762a9e80a93414c8357e2d568c25453b9e",
+            "ndbNumber": "16500",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335782",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Cranberry (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335782",
+          "fingerprint": "de7fb02f1bfd5c9eed8bd6e6e1f3bced31509103da76486a9546404a08522beb",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747437",
+            "fingerprint": "b4c73ba4191b31bde16c03b0a76ac96dd25bb4013bc67a1c74d295f5bd09b42b",
+            "ndbNumber": "16507",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335785",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Light Tan (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335785",
+          "fingerprint": "6de5e4b130ebc213a03428308edcbe7274213af35ad88cd2c3fd71f7e3be70ce",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747435",
+            "fingerprint": "a4a46a950997e96be3471a9a28c670c14dbb179598db7c6b313e6d7b48abc8b7",
+            "ndbNumber": "16505",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335912",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Black (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335912",
+          "fingerprint": "855e6052387d1735f3280fe4164816bb879f947fa062315b4a563bf30b430b07",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747444",
+            "fingerprint": "3349daeea7f14d191c2d3c3d1d42d040f6e2ac8d3df6396a538e60772450dac5",
+            "ndbNumber": "16514",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335927",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Small White (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335927",
+          "fingerprint": "2a3d2d849d1ce40b29152238afbed874cd59e04971f805c02936b1acf5bee241",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747442",
+            "fingerprint": "c1388fab544c6a3457961bbb4df5cd20583e8df05499bd0f3f9d9a8814767255",
+            "ndbNumber": "16512",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "335930",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Red (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:335930",
+          "fingerprint": "79d31671a40d59804802a5fda87dbe7646ef25b0f1e1498ffce92d91dd8b3101",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747431",
+            "fingerprint": "dc4ae49f609de34f671875ce0a6fe035bb0b0c09b0969f583fe60738118d99a8",
+            "ndbNumber": "16501",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "336067",
+          "ndbNumber": null,
+          "description": "Beans, Dry, Great Northern (0% moisture)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "foundation_food:336067",
+          "fingerprint": "34a7c661846e02d52975151bfd902d7d19a624587d3d1a0c81776ca45cdc4ed9",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:747446",
+            "fingerprint": "83fbb36272f311ce12c759f11d83aa1578fef403ec7bbd5e5cc884d5babea161",
+            "ndbNumber": "16516",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "747448",
+          "ndbNumber": null,
+          "description": "Strawberries, raw",
+          "publicationDate": "2019-12-16",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:747448",
+          "fingerprint": "e80e783918512ddf086fd7e0f39b5178d0036131e9a2792f0316ace676c19d31",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:2346409",
+            "fingerprint": "fee4f9a9be0e37dfa4652e841f294cebd39532a1c71b872bde92084854e57e5e",
+            "ndbNumber": "9316",
+            "sameNdb": false
+          },
+          {
+            "key": "sr_legacy_food:167762",
+            "fingerprint": "2a13ce3fcde37427b7d8e7dc94db6302cef2a427c9fbf197403f414347e8c42a",
+            "ndbNumber": "9316",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "790774",
+          "ndbNumber": null,
+          "description": "Bananas, overripe, raw",
+          "publicationDate": "2020-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:790774",
+          "fingerprint": "e510ce709257562fdca6c543cd55a02ec3022868d9bbfaae70ca6f96f5727306",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1105073",
+            "fingerprint": "748fbc952b980328d6d33427f752aec33c955e6dfb9c5531a3086d813b94ed81",
+            "ndbNumber": "100254",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      },
+      {
+        "heldSource": {
+          "dataType": "foundation_food",
+          "fdcId": "790991",
+          "ndbNumber": null,
+          "description": "Bananas, ripe and slightly ripe, raw",
+          "publicationDate": "2020-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:790991",
+          "fingerprint": "04565e845ba4e506827c6f49f1d9191289b816bcc0aa88cb97eaa7b6c2d4162a",
+          "disposition": "quarantined"
+        },
+        "candidateDescriptionMatches": [
+          {
+            "key": "foundation_food:1105314",
+            "fingerprint": "fe89423f7dd72d7ee554f3eec8cefbd6671e8e85f8a86dc7eeaaba94e8ca124f",
+            "ndbNumber": "9040",
+            "sameNdb": false
+          }
+        ],
+        "disposition": "HOLD_RETAINED_NO_REPLACEMENT_APPROVED"
+      }
+    ],
+    "withFoundationCandidateDescriptionMatch": 66,
+    "withSrOnlyCandidateDescriptionMatch": 4
+  }
+}

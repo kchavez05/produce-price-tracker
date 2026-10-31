@@ -1,0 +1,177 @@
+[
+  {
+    "id": "ingredient-chickpeas-dried",
+    "revision": 1,
+    "payloadSha256": "dd234eab1744165a3acfc3aa2fd82811cc4b74c9bb484f7d5017071adfeb7cba"
+  },
+  {
+    "id": "ingredient-pinto-beans-canned",
+    "revision": 1,
+    "payloadSha256": "419bf81de92e2fac8237b2f08734e720ded7c0f045302da7bd92b6e3f8fbe134"
+  },
+  {
+    "id": "ingredient-pinto-beans-dried",
+    "revision": 1,
+    "payloadSha256": "15c300f7aae68a59c390a86f023c55e674b4bf974eeb68b6ed8583495037ddf5"
+  },
+  {
+    "id": "ingredient-navy-beans-canned",
+    "revision": 1,
+    "payloadSha256": "a2a27a33ad9fc17013edd8b5c88e36c8e00cf23e9272b929418f8991d63fded4"
+  },
+  {
+    "id": "ingredient-navy-beans-dried",
+    "revision": 1,
+    "payloadSha256": "068b694cf32444156de52f046b761cd5097d899fd9af13c64b8abeb8e3441604"
+  },
+  {
+    "id": "ingredient-kidney-beans-dried",
+    "revision": 1,
+    "payloadSha256": "662feca44f727df4d9c648698681ecd24b82872592b592feb08ca0d2e532ad85"
+  },
+  {
+    "id": "ingredient-green-split-peas-dried",
+    "revision": 1,
+    "payloadSha256": "2ac17d814236d69f5a29ad20335437e1a14246e10a947b1acbc03739beb2514b"
+  },
+  {
+    "id": "ingredient-rolled-oats",
+    "revision": 1,
+    "payloadSha256": "96ae055ae7b8b96e546ffed0dc8f24d6a43579233dcd185f88589daf216ec0cc"
+  },
+  {
+    "id": "ingredient-steel-cut-oats",
+    "revision": 1,
+    "payloadSha256": "c57eaf92579bf19f547826f6998e9b2feadb5e1d5550c3ab3bbe173289efd964"
+  },
+  {
+    "id": "ingredient-quinoa-dry",
+    "revision": 1,
+    "payloadSha256": "e128e593be3946059c9da7ac17c70eb354176e709b7c58c2cf7f14980d1b6de0"
+  },
+  {
+    "id": "ingredient-bulgur-dry",
+    "revision": 1,
+    "payloadSha256": "cb6c8447db270f236b63426dfa8ec1c106d901a9ab5d995220bef2db81e09b06"
+  },
+  {
+    "id": "ingredient-barley-pearled",
+    "revision": 1,
+    "payloadSha256": "a7ee1b557970ce6af1e2ef13fe7ab60043959d57b61b5c83a23c6fdc1f67dc4f"
+  },
+  {
+    "id": "ingredient-barley-hulled",
+    "revision": 1,
+    "payloadSha256": "bf88e02bf9071669741fbfbf1698e4ada25ec72b9040285b4da80e8e749f0d84"
+  },
+  {
+    "id": "ingredient-buckwheat-whole",
+    "revision": 1,
+    "payloadSha256": "9fa5fa771b27ac8aa58ba3014cc6c5cd93fe8ebd16e1d4fd17bbf39e88d633ef"
+  },
+  {
+    "id": "ingredient-millet-whole",
+    "revision": 1,
+    "payloadSha256": "df4a0f1f30eacc78e37f236c687ccfe644655a160aab76e09c92e687be18ca0e"
+  },
+  {
+    "id": "ingredient-couscous-dry",
+    "revision": 1,
+    "payloadSha256": "aeb3774fcf8c8834f40409de6c41f56f3491ecde0625986702237d0e9651db0f"
+  },
+  {
+    "id": "ingredient-pasta-dry",
+    "revision": 1,
+    "payloadSha256": "c9e96578e160b8036b647bd93f6f04ea2d0fe3f50ab1a96721b76b27d4568c95"
+  },
+  {
+    "id": "ingredient-sorghum-whole",
+    "revision": 1,
+    "payloadSha256": "5c1a6b849ab1501314ef6599a145de1bbb92cdeafb4f78303605d5700a2727b5"
+  },
+  {
+    "id": "ingredient-cornmeal-yellow-whole",
+    "revision": 1,
+    "payloadSha256": "a83e2304d6709367b86786d75f6801ff92fcf934905568e87490061352176ebf"
+  },
+  {
+    "id": "ingredient-tapioca-pearls-dry",
+    "revision": 1,
+    "payloadSha256": "35c86eaddd860875bace6e55460e5993bc49a10d814fca97a6679b8e59feae80"
+  },
+  {
+    "id": "ingredient-oat-flour",
+    "revision": 1,
+    "payloadSha256": "c263941aeb7dd0def366fe752a24d428021d26897c319770e8216b9bd534b28a"
+  },
+  {
+    "id": "ingredient-rye-flour",
+    "revision": 1,
+    "payloadSha256": "c4e4be5760e8fc3dff9d1767e9e9353369a3d0334038d8c9d34066c29c5b44a6"
+  },
+  {
+    "id": "ingredient-buckwheat-flour",
+    "revision": 1,
+    "payloadSha256": "f794c644538d60f8c0b2876f73d515f39ecaa35233248bebfa57c442788ff2c8"
+  },
+  {
+    "id": "ingredient-chickpea-flour",
+    "revision": 1,
+    "payloadSha256": "c0950286f2c96243a55c737e8b5a22f2246f445470bef919761faca8a0885c67"
+  },
+  {
+    "id": "ingredient-sorghum-flour",
+    "revision": 1,
+    "payloadSha256": "2db3ca0b1498221db21bbc8fee2a2063e1365e010b156b14d5f66354f2944649"
+  },
+  {
+    "id": "ingredient-bread-flour",
+    "revision": 1,
+    "payloadSha256": "305d72baece9e5f2d48a932b746e5f40b6940996ddf1252bf1fb6ffa085dac25"
+  },
+  {
+    "id": "ingredient-self-rising-wheat-flour",
+    "revision": 1,
+    "payloadSha256": "f563f0afb952b48d1cbe9c72c693d8ec833b948e65164c3bc5a57d70fca49833"
+  },
+  {
+    "id": "ingredient-brown-rice-flour",
+    "revision": 1,
+    "payloadSha256": "07aa0faf9bb1dc6915f1baf3bee32eee10deace3f68bc5dd12f996b46383d38c"
+  },
+  {
+    "id": "ingredient-glutinous-rice-flour",
+    "revision": 1,
+    "payloadSha256": "65a73bfb203448cd142ee029a4cc4b651b1feda6bf01e8550530fa9f3002f1f5"
+  },
+  {
+    "id": "ingredient-black-beans-canned",
+    "revision": 1,
+    "payloadSha256": "b12e8ab8030b22b7f45a92c10622200e03d7c4bfeb4daa3a340a12786823c411"
+  },
+  {
+    "id": "ingredient-black-beans-dried",
+    "revision": 1,
+    "payloadSha256": "7abceb6bb1361a49235e25812ab766dcbd27809d5cd9c6cb539e1ee504fb7e81"
+  },
+  {
+    "id": "ingredient-chickpeas-canned",
+    "revision": 1,
+    "payloadSha256": "ab321eba7db6190fdff4cc882950f0e0115d2a9d3f668991f43f649f3a1f3587"
+  },
+  {
+    "id": "ingredient-kidney-beans-canned",
+    "revision": 1,
+    "payloadSha256": "40ca746f2b242ad71edb47fd14d419fdb8030a42e9dd3d47f6eb778bf6e78be4"
+  },
+  {
+    "id": "ingredient-all-purpose-flour",
+    "revision": 1,
+    "payloadSha256": "c8c2792273105fce0546a50d7ceac445e4d6ece51457eaf10ab82c5ca6cbc793"
+  },
+  {
+    "id": "ingredient-whole-wheat-flour",
+    "revision": 1,
+    "payloadSha256": "7d6e241743c8f128b26854b529f0c45fb35c076e6bea3c1977aa6529b1802dae"
+  }
+]

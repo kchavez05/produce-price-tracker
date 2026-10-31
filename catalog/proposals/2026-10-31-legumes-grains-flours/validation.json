@@ -1,0 +1,892 @@
+{
+  "status": "UNAPPROVED_PROPOSAL",
+  "validatedOn": "2026-10-31",
+  "parentVersion": "2026-10-30.1",
+  "parentContentHash": "19ac18b02d4d81194f5724e09f679ff8e802e6608d62909199e25adebf591ece",
+  "proposedVersion": "2026-10-31.proposal-1",
+  "ledgerHash": "3a42cebfd6e9eb98b145491ab5966aebdb380cd34da12695683ac1384778aacd",
+  "evidenceHash": "792ae1cc6832d9cee8da01146ea58504fe9cf5c1f32156fed9d6e6c375c44f40",
+  "upstreamSource": {
+    "publisher": "USDA Agricultural Research Service, FoodData Central",
+    "releaseDate": "2026-10-29",
+    "license": "CC0-1.0",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "files": [
+      {
+        "file": "food.csv",
+        "bytes": 221920942,
+        "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+      },
+      {
+        "file": "foundation_food.csv",
+        "bytes": 18053,
+        "sha256": "4c4296ee78ee9a2f17aca1b0b89e8fc0ceb1a8b9e75fa72176af90d4da4367ef"
+      },
+      {
+        "file": "sr_legacy_food.csv",
+        "bytes": 130404,
+        "sha256": "ff0fe85a469aa6d6702d68348850fc79dee35e9515324026964f1209a0e3544d"
+      },
+      {
+        "file": "food_category.csv",
+        "bytes": 997,
+        "sha256": "a8e05c18cf010d44303f2a02765637a21f9ad621f90b4f811ab4a4a436cfedd9"
+      }
+    ]
+  },
+  "upstreamSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+  "scope": "36 exact decision-reference rows retained; subset evidence is not a complete discovery snapshot. Validation used the complete retained 8291-row snapshot.",
+  "counts": {
+    "upstreamSourceRows": 8291,
+    "proposedDecisions": 35,
+    "newIngredients": 29,
+    "existingProvenanceUpdates": 6,
+    "evidenceRows": 36,
+    "activeIngredients": 72,
+    "previewIngredients": 101
+  },
+  "checks": {
+    "previewFixturesPassed": 56,
+    "approvedContentsUnchanged": true,
+    "uniqueProposedSourceAssignments": true,
+    "existingLabelsAliasesPricesRecipeLinksUnchanged": true,
+    "newPricesOrRecipeCompatibility": false,
+    "staleApprovedDecisions": [],
+    "stalePublishedLinks": [],
+    "unapprovedQuarantines": [],
+    "broadQueriesWithinLimit": true,
+    "riceFlourVarietiesReachable": true,
+    "deterministicReplay": true
+  },
+  "fixtureResults": [
+    {
+      "query": "lentils",
+      "expected": [
+        "lentils-canned",
+        "lentils-dried"
+      ],
+      "actual": [
+        "lentils-canned",
+        "lentils-dried"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "lentils-canned",
+        "lentils-dried"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "red lentils",
+      "expected": [
+        "red-lentils-dried"
+      ],
+      "actual": [
+        "red-lentils-dried"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "red-lentils-dried"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "rice",
+      "expected": [
+        "basmati-rice-dry",
+        "brown-rice-dry",
+        "jasmine-rice-dry"
+      ],
+      "actual": [
+        "basmati-rice-dry",
+        "brown-rice-dry",
+        "jasmine-rice-dry"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "basmati-rice-dry",
+        "brown-rice-dry",
+        "jasmine-rice-dry"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "flour",
+      "expected": [
+        "all-purpose-flour",
+        "bread-flour",
+        "buckwheat-flour",
+        "chickpea-flour",
+        "oat-flour",
+        "rice-flour",
+        "rye-flour",
+        "self-rising-wheat-flour",
+        "sorghum-flour",
+        "whole-wheat-flour"
+      ],
+      "actual": [
+        "all-purpose-flour",
+        "bread-flour",
+        "buckwheat-flour",
+        "chickpea-flour",
+        "oat-flour",
+        "rice-flour",
+        "rye-flour",
+        "self-rising-wheat-flour",
+        "sorghum-flour",
+        "whole-wheat-flour"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "all-purpose-flour",
+        "rice-flour",
+        "whole-wheat-flour"
+      ],
+      "approvedPassed": false
+    },
+    {
+      "query": "black beans",
+      "expected": [
+        "black-beans-canned",
+        "black-beans-dried"
+      ],
+      "actual": [
+        "black-beans-canned",
+        "black-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "black-beans-canned",
+        "black-beans-dried"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "garlic",
+      "expected": [
+        "garlic-fresh",
+        "garlic-powder"
+      ],
+      "actual": [
+        "garlic-fresh",
+        "garlic-powder"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "garlic-fresh",
+        "garlic-powder"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "onions",
+      "expected": [
+        "onions-fresh"
+      ],
+      "actual": [
+        "onions-fresh"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "onions-fresh"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "broth",
+      "expected": [
+        "beef-broth",
+        "chicken-broth",
+        "vegetable-broth"
+      ],
+      "actual": [
+        "beef-broth",
+        "chicken-broth",
+        "vegetable-broth"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "beef-broth",
+        "chicken-broth",
+        "vegetable-broth"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "cumin",
+      "expected": [
+        "ground-cumin"
+      ],
+      "actual": [
+        "ground-cumin"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "ground-cumin"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "paprika",
+      "expected": [
+        "smoked-paprika"
+      ],
+      "actual": [
+        "smoked-paprika"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "smoked-paprika"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "tahini",
+      "expected": [
+        "tahini"
+      ],
+      "actual": [
+        "tahini"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "tahini"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "garbanzo",
+      "expected": [
+        "chickpeas-canned",
+        "chickpeas-dried"
+      ],
+      "actual": [
+        "chickpeas-canned",
+        "chickpeas-dried"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "chickpeas-canned"
+      ],
+      "approvedPassed": false
+    },
+    {
+      "query": "beans",
+      "expected": [
+        "black-beans-canned",
+        "black-beans-dried",
+        "cannellini-beans-canned",
+        "chickpeas-canned",
+        "chickpeas-dried",
+        "great-northern-beans-canned",
+        "kidney-beans-canned",
+        "kidney-beans-dried",
+        "navy-beans-canned",
+        "navy-beans-dried",
+        "pinto-beans-canned",
+        "pinto-beans-dried"
+      ],
+      "actual": [
+        "black-beans-canned",
+        "black-beans-dried",
+        "cannellini-beans-canned",
+        "chickpeas-canned",
+        "chickpeas-dried",
+        "great-northern-beans-canned",
+        "kidney-beans-canned",
+        "kidney-beans-dried",
+        "navy-beans-canned",
+        "navy-beans-dried",
+        "pinto-beans-canned",
+        "pinto-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "black-beans-canned",
+        "black-beans-dried",
+        "cannellini-beans-canned",
+        "chickpeas-canned",
+        "great-northern-beans-canned",
+        "kidney-beans-canned"
+      ],
+      "approvedPassed": false
+    },
+    {
+      "query": "chickpeas",
+      "expected": [
+        "chickpeas-canned",
+        "chickpeas-dried"
+      ],
+      "actual": [
+        "chickpeas-canned",
+        "chickpeas-dried"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "chickpeas-canned"
+      ],
+      "approvedPassed": false
+    },
+    {
+      "query": "pinto",
+      "expected": [
+        "pinto-beans-canned",
+        "pinto-beans-dried"
+      ],
+      "actual": [
+        "pinto-beans-canned",
+        "pinto-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "navy",
+      "expected": [
+        "navy-beans-canned",
+        "navy-beans-dried"
+      ],
+      "actual": [
+        "navy-beans-canned",
+        "navy-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "kidney",
+      "expected": [
+        "cannellini-beans-canned",
+        "kidney-beans-canned",
+        "kidney-beans-dried"
+      ],
+      "actual": [
+        "cannellini-beans-canned",
+        "kidney-beans-canned",
+        "kidney-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "cannellini-beans-canned",
+        "kidney-beans-canned"
+      ],
+      "approvedPassed": false
+    },
+    {
+      "query": "mung",
+      "expected": [],
+      "actual": [],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": true
+    },
+    {
+      "query": "oats",
+      "expected": [
+        "rolled-oats",
+        "steel-cut-oats"
+      ],
+      "actual": [
+        "rolled-oats",
+        "steel-cut-oats"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "barley",
+      "expected": [
+        "barley-hulled",
+        "barley-pearled"
+      ],
+      "actual": [
+        "barley-hulled",
+        "barley-pearled"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "brown rice flour",
+      "expected": [
+        "brown-rice-flour"
+      ],
+      "actual": [
+        "brown-rice-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "glutinous rice flour",
+      "expected": [
+        "glutinous-rice-flour"
+      ],
+      "actual": [
+        "glutinous-rice-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "besan",
+      "expected": [
+        "chickpea-flour"
+      ],
+      "actual": [
+        "chickpea-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "lentil soup",
+      "expected": [],
+      "actual": [],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": true
+    },
+    {
+      "query": "mung sprouts",
+      "expected": [],
+      "actual": [],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": true
+    },
+    {
+      "query": "Dried chickpeas",
+      "expected": [
+        "chickpeas-dried"
+      ],
+      "actual": [
+        "chickpeas-dried"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Canned pinto beans",
+      "expected": [
+        "pinto-beans-canned"
+      ],
+      "actual": [
+        "pinto-beans-canned"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dried pinto beans",
+      "expected": [
+        "pinto-beans-dried"
+      ],
+      "actual": [
+        "pinto-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Canned navy beans",
+      "expected": [
+        "navy-beans-canned"
+      ],
+      "actual": [
+        "navy-beans-canned"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dried navy beans",
+      "expected": [
+        "navy-beans-dried"
+      ],
+      "actual": [
+        "navy-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dried kidney beans",
+      "expected": [
+        "kidney-beans-dried"
+      ],
+      "actual": [
+        "kidney-beans-dried"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dried green split peas",
+      "expected": [
+        "green-split-peas-dried"
+      ],
+      "actual": [
+        "green-split-peas-dried"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Rolled oats",
+      "expected": [
+        "rolled-oats"
+      ],
+      "actual": [
+        "rolled-oats"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Steel-cut oats",
+      "expected": [
+        "steel-cut-oats"
+      ],
+      "actual": [
+        "steel-cut-oats"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dry quinoa",
+      "expected": [
+        "quinoa-dry"
+      ],
+      "actual": [
+        "quinoa-dry"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dry bulgur",
+      "expected": [
+        "bulgur-dry"
+      ],
+      "actual": [
+        "bulgur-dry"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Pearled barley",
+      "expected": [
+        "barley-pearled"
+      ],
+      "actual": [
+        "barley-pearled"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Hulled barley",
+      "expected": [
+        "barley-hulled"
+      ],
+      "actual": [
+        "barley-hulled"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Whole-grain buckwheat",
+      "expected": [
+        "buckwheat-whole"
+      ],
+      "actual": [
+        "buckwheat-whole"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Whole-grain millet",
+      "expected": [
+        "millet-whole"
+      ],
+      "actual": [
+        "millet-whole"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dry couscous",
+      "expected": [
+        "couscous-dry"
+      ],
+      "actual": [
+        "couscous-dry"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dry pasta",
+      "expected": [
+        "pasta-dry"
+      ],
+      "actual": [
+        "pasta-dry"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Whole-grain sorghum",
+      "expected": [
+        "sorghum-whole"
+      ],
+      "actual": [
+        "sorghum-whole"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Whole-grain yellow cornmeal",
+      "expected": [
+        "cornmeal-yellow-whole"
+      ],
+      "actual": [
+        "cornmeal-yellow-whole"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Dry tapioca pearls",
+      "expected": [
+        "tapioca-pearls-dry"
+      ],
+      "actual": [
+        "tapioca-pearls-dry"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Whole-grain oat flour",
+      "expected": [
+        "oat-flour"
+      ],
+      "actual": [
+        "oat-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Rye flour",
+      "expected": [
+        "rye-flour"
+      ],
+      "actual": [
+        "rye-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Buckwheat flour",
+      "expected": [
+        "buckwheat-flour"
+      ],
+      "actual": [
+        "buckwheat-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Chickpea flour",
+      "expected": [
+        "chickpea-flour"
+      ],
+      "actual": [
+        "chickpea-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Sorghum flour",
+      "expected": [
+        "sorghum-flour"
+      ],
+      "actual": [
+        "sorghum-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Wheat bread flour",
+      "expected": [
+        "bread-flour"
+      ],
+      "actual": [
+        "bread-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Self-rising wheat flour",
+      "expected": [
+        "self-rising-wheat-flour"
+      ],
+      "actual": [
+        "self-rising-wheat-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Brown rice flour",
+      "expected": [
+        "brown-rice-flour"
+      ],
+      "actual": [
+        "brown-rice-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "Glutinous rice flour",
+      "expected": [
+        "glutinous-rice-flour"
+      ],
+      "actual": [
+        "glutinous-rice-flour"
+      ],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": false
+    },
+    {
+      "query": "brown rice",
+      "expected": [
+        "brown-rice-dry"
+      ],
+      "actual": [
+        "brown-rice-dry"
+      ],
+      "passed": true,
+      "approvedActual": [
+        "brown-rice-dry"
+      ],
+      "approvedPassed": true
+    },
+    {
+      "query": "glutinous rice",
+      "expected": [],
+      "actual": [],
+      "passed": true,
+      "approvedActual": [],
+      "approvedPassed": true
+    }
+  ],
+  "proposedMarketApplicability": {
+    "status": "PROPOSED_REQUIRES_PRODUCT_REVIEW",
+    "marketCatalogHash": "87d3adf646930c3dae99f7aedf571405b267d23f235b413809e687f8083c8815",
+    "newIngredientIds": [
+      "barley-hulled",
+      "barley-pearled",
+      "bread-flour",
+      "brown-rice-flour",
+      "buckwheat-flour",
+      "buckwheat-whole",
+      "bulgur-dry",
+      "chickpea-flour",
+      "chickpeas-dried",
+      "cornmeal-yellow-whole",
+      "couscous-dry",
+      "glutinous-rice-flour",
+      "green-split-peas-dried",
+      "kidney-beans-dried",
+      "millet-whole",
+      "navy-beans-canned",
+      "navy-beans-dried",
+      "oat-flour",
+      "pasta-dry",
+      "pinto-beans-canned",
+      "pinto-beans-dried",
+      "quinoa-dry",
+      "rolled-oats",
+      "rye-flour",
+      "self-rising-wheat-flour",
+      "sorghum-flour",
+      "sorghum-whole",
+      "steel-cut-oats",
+      "tapioca-pearls-dry"
+    ],
+    "linkedIngredientIds": [],
+    "noMarketItemReason": "The current 35-item market catalog contains no legumes, grain, pasta, or flour counterpart for these 29 new forms. No source identity creates a price or recipe link. Re-audit all accepted identities and recipe links against the full proposed artifact after approval."
+  },
+  "pendingGates": [
+    "Explicit product approval against decision-hashes.json",
+    "Record approvals and compile a reviewed versioned artifact",
+    "Refresh full market-link audit",
+    "Additive accepted-ID migration before runtime projection",
+    "Verify client readiness, queues, account isolation and rollback",
+    "Required local checks, CI, Preview and Codex review",
+    "Reviewed release and hosted verification"
+  ],
+  "published": false,
+  "repositoryChecks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unitTests": 279,
+    "smokeTests": 19,
+    "regressionTests": 37,
+    "productionBuild": "passed",
+    "activeCatalogProjectionAndMarketAudit": "passed"
+  }
+}

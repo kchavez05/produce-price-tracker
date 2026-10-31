@@ -64,3 +64,9 @@ Use a unique catalog version for changed content or approval history. Repeating 
 ## Implementation boundary
 
 The app now uses the reviewed catalog through its generated runtime projection. Grouped search, optional varieties, directional coverage, installed-ID readiness checks, and forward-compatible storage are integrated behind the existing pantry feature gate. See the [integration guide](../docs/usda-catalog-integration.md) for migration order, baseline presentation rollback, and verification. This tooling still does not apply hosted migrations, change Preview/Production flags, or schedule recurring work.
+
+## v1.6.1 expansion proposals
+
+The [first batch review](../docs/research/v1.6.1-legumes-grains-flours-review.md) describes 29 proposed additions and six existing-ingredient provenance updates. `proposals/2026-10-31-legumes-grains-flours/` retains the complete replay ledger (including unchanged earlier approvals), exact new decision hashes, 36 source-evidence rows, 56 search expectations, and a validation record. Every new decision remains proposed. The evidence subset is not a full discovery input; replay uses the complete retained checksum-matching source snapshot and a new output directory. See the review for the exact command and expected exit 2.
+
+`proposals/2026-10-31-follow-up-triage.json` records 42 research choices and candidate-description comparisons for all 74 held Foundation rows. It is research, not a curation ledger or replacement source. Neither proposals nor triage are runtime imports. Publication follows explicit product review, new approved compilation, the full market audit, accepted-ID migration, client verification, and repository release gates.

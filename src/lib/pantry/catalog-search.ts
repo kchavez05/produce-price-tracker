@@ -4,6 +4,9 @@ const normalized = (text: string) => text.normalize('NFC').trim().replace(/\s+/g
 function matches(ingredient: CookingIngredient, query: string): boolean {
   return [ingredient.name, ...ingredient.aliases].some((text) => normalized(text).includes(query));
 }
+function hasSpecificQualifier(ingredient: CookingIngredient, query: string): boolean {
+  return [ingredient.variety, ingredient.form].some((qualifier) => Boolean(qualifier && query.includes(normalized(qualifier))));
+}
 
 /** Presentation only. Grouping and aliases never establish inventory coverage. */
 export function searchCookingCatalog(catalog: readonly CookingIngredient[], query: string, limit = 12): CookingIngredient[] {
@@ -12,9 +15,12 @@ export function searchCookingCatalog(catalog: readonly CookingIngredient[], quer
   const matching = catalog.filter((ingredient) => ingredient.lifecycle !== 'retired' && matches(ingredient, search));
   const ids = new Map(catalog.map((ingredient) => [ingredient.id, ingredient]));
   return matching.filter((ingredient) => {
-    if (ingredient.searchVisibility === 'specific') return [ingredient.variety, ingredient.form].some((qualifier) => qualifier && search.includes(normalized(qualifier))); 
+    if (ingredient.searchVisibility === 'specific') return hasSpecificQualifier(ingredient, search);
     if (ingredient.searchVisibility !== 'variant') return true;
     const parent = ingredient.parentIngredientId && ids.get(ingredient.parentIngredientId);
+    // A variety must retain its parent's form-qualified discovery boundary.
+    // Brown rice flour must not leak into a search for brown rice.
+    if (parent && parent.searchVisibility === 'specific' && !hasSpecificQualifier(parent, search)) return false;
     // A family/form query shows the primary result. A specific query can reveal
     // a child even when its label includes the same broad search words.
     return !parent || parent.lifecycle === 'retired' || !matches(parent, search);
