@@ -38,6 +38,25 @@ describe('private pantry API in keyless mode', () => {
     expect((await POST(new NextRequest('http://localhost/api/pantry', { method: 'POST', headers: { host: 'localhost', origin: 'https://elsewhere.test' } }))).status).toBe(403);
     expect((await POST(req([]))).status).toBe(400);
   });
+  it('persists an expanded catalog ingredient privately across a keyless guest reload', async () => {
+    const directory = mkdtempSync(join(tmpdir(), 'pantry-expanded-'));
+    try {
+      vi.stubEnv('PANTRYBOT_SQLITE_PATH', join(directory, 'pantry.sqlite'));
+      resetSqliteTestInstance();
+      const current = await read();
+      expect(current.acceptedCatalogIds).toContain('quinoa-dry');
+      expect((await migrate()).status).toBe(200);
+      const mutation: PantryMutation = { mutationId: 'quinoa', entryId: 'quinoa', expectedRevision: 0, operation: 'put', entry: { ingredientId: 'quinoa-dry', displayName: 'Dry quinoa', available: true } };
+      const body = { owner: current.owner, action: 'mutate', mutation };
+      expect((await POST(req(body))).status).toBe(200);
+      resetSqliteTestInstance();
+      expect((await read()).entries).toMatchObject([{ id: 'quinoa', ingredientId: 'quinoa-dry', available: true, revision: 1 }]);
+      expect((await POST(req(body))).status).toBe(200);
+      expect((await read()).entries).toHaveLength(1);
+      cookieJar.clear();
+      expect((await read()).entries).toEqual([]);
+    } finally { resetSqliteTestInstance(); rmSync(directory, { recursive: true, force: true }); }
+  });
   it('persists quantity-free guest entries, retries idempotently, and isolates private sessions', async () => {
     const current = await read();
     expect(current.owner).toMatch(/^guest:/);

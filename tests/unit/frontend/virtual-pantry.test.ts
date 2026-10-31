@@ -89,6 +89,20 @@ describe('Virtual Pantry accessible controls', () => {
     expect(button('Add Dried red lentils')).toBeTruthy();
     expect(container.querySelector('summary')).toBeNull();
   });
+  it('adds approved expanded ingredients after server readiness and keeps flour varieties optional', async () => {
+    await render([], ['olive-oil']); await search('quinoa');
+    expect(button('Add Dry quinoa').disabled).toBe(true);
+    await render();
+    expect(button('Add Dry quinoa').disabled).toBe(false);
+    await run(() => button('Add Dry quinoa').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'quinoa-dry', displayName: 'Dry quinoa', available: true }, undefined);
+    await search('rice flour');
+    expect(container.querySelector('summary')?.textContent).toBe('Choose a variety (optional)');
+    await run(() => button('Add Brown rice flour').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'brown-rice-flour', displayName: 'Brown rice flour', available: true }, undefined);
+    await search('brown rice');
+    expect(container.textContent).not.toContain('Add Brown rice flour');
+  });
   it('prevents adding an ID before server acceptance and explains explicit No coverage', async () => {
     await render([], ['red-lentils-dried']); await search('lentils');
     expect(button('Add Dried lentils').disabled).toBe(true);

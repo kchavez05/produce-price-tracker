@@ -10,6 +10,10 @@ Hosted activation requires the three additive pantry migrations, isolated stagin
 
 A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) prepares Foundation/SR Legacy ingredients and a coverage report for review. It does not activate catalog changes. The [curation ledger and staging command](catalog/README.md) prepare compact review choices without activating unapproved data. The approved [ingestion standards](docs/specs/usda-catalog-ingestion.md) define cooking relevance, compact search results, recurring refreshes, and publication gates.
 
+## Next: v1.6.1 — Pantry Catalog Expansion
+
+The next release prioritizes the remaining ingredient batches before speech entry. The [plan](docs/specs/v1.6.1-pantry-catalog-expansion.md), [first approved batch](docs/research/v1.6.1-legumes-grains-flours-review.md), and [coverage audit](docs/research/v1.6.1-catalog-coverage-audit.md) track review and integration. The first approved batch compiles to 101 identities with additive migration and compatibility support; hosted activation remains a release step. The 42 follow-up research choices remain unapproved.
+
 ## Key Features (`v1.6.0`)
 
 * **Public Data Explorer & Score Transparency:** Explore stored USDA and store price history, inspect score arithmetic and ingredient groupings, and download raw source JSON or filtered CSV. Available through **Explore the data** in the footer; see the [explorer guide](docs/data-explorer.md).

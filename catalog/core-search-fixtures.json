@@ -25,7 +25,14 @@
     "expected": [
       "rice-flour",
       "all-purpose-flour",
-      "whole-wheat-flour"
+      "whole-wheat-flour",
+      "oat-flour",
+      "rye-flour",
+      "buckwheat-flour",
+      "chickpea-flour",
+      "sorghum-flour",
+      "bread-flour",
+      "self-rising-wheat-flour"
     ]
   },
   {
@@ -77,7 +84,282 @@
   {
     "query": "garbanzo",
     "expected": [
-      "chickpeas-canned"
+      "chickpeas-canned",
+      "chickpeas-dried"
     ]
+  },
+  {
+    "query": "beans",
+    "expected": [
+      "black-beans-canned",
+      "black-beans-dried",
+      "cannellini-beans-canned",
+      "great-northern-beans-canned",
+      "kidney-beans-canned",
+      "chickpeas-canned",
+      "chickpeas-dried",
+      "kidney-beans-dried",
+      "navy-beans-canned",
+      "navy-beans-dried",
+      "pinto-beans-canned",
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "chickpeas",
+    "expected": [
+      "chickpeas-canned",
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "pinto",
+    "expected": [
+      "pinto-beans-canned",
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "navy",
+    "expected": [
+      "navy-beans-canned",
+      "navy-beans-dried"
+    ]
+  },
+  {
+    "query": "kidney",
+    "expected": [
+      "cannellini-beans-canned",
+      "kidney-beans-canned",
+      "kidney-beans-dried"
+    ]
+  },
+  {
+    "query": "mung",
+    "expected": []
+  },
+  {
+    "query": "oats",
+    "expected": [
+      "rolled-oats",
+      "steel-cut-oats"
+    ]
+  },
+  {
+    "query": "barley",
+    "expected": [
+      "barley-pearled",
+      "barley-hulled"
+    ]
+  },
+  {
+    "query": "brown rice flour",
+    "expected": [
+      "brown-rice-flour"
+    ]
+  },
+  {
+    "query": "glutinous rice flour",
+    "expected": [
+      "glutinous-rice-flour"
+    ]
+  },
+  {
+    "query": "besan",
+    "expected": [
+      "chickpea-flour"
+    ]
+  },
+  {
+    "query": "lentil soup",
+    "expected": []
+  },
+  {
+    "query": "mung sprouts",
+    "expected": []
+  },
+  {
+    "query": "Dried chickpeas",
+    "expected": [
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "Canned pinto beans",
+    "expected": [
+      "pinto-beans-canned"
+    ]
+  },
+  {
+    "query": "Dried pinto beans",
+    "expected": [
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "Canned navy beans",
+    "expected": [
+      "navy-beans-canned"
+    ]
+  },
+  {
+    "query": "Dried navy beans",
+    "expected": [
+      "navy-beans-dried"
+    ]
+  },
+  {
+    "query": "Dried kidney beans",
+    "expected": [
+      "kidney-beans-dried"
+    ]
+  },
+  {
+    "query": "Dried green split peas",
+    "expected": [
+      "green-split-peas-dried"
+    ]
+  },
+  {
+    "query": "Rolled oats",
+    "expected": [
+      "rolled-oats"
+    ]
+  },
+  {
+    "query": "Steel-cut oats",
+    "expected": [
+      "steel-cut-oats"
+    ]
+  },
+  {
+    "query": "Dry quinoa",
+    "expected": [
+      "quinoa-dry"
+    ]
+  },
+  {
+    "query": "Dry bulgur",
+    "expected": [
+      "bulgur-dry"
+    ]
+  },
+  {
+    "query": "Pearled barley",
+    "expected": [
+      "barley-pearled"
+    ]
+  },
+  {
+    "query": "Hulled barley",
+    "expected": [
+      "barley-hulled"
+    ]
+  },
+  {
+    "query": "Whole-grain buckwheat",
+    "expected": [
+      "buckwheat-whole"
+    ]
+  },
+  {
+    "query": "Whole-grain millet",
+    "expected": [
+      "millet-whole"
+    ]
+  },
+  {
+    "query": "Dry couscous",
+    "expected": [
+      "couscous-dry"
+    ]
+  },
+  {
+    "query": "Dry pasta",
+    "expected": [
+      "pasta-dry"
+    ]
+  },
+  {
+    "query": "Whole-grain sorghum",
+    "expected": [
+      "sorghum-whole"
+    ]
+  },
+  {
+    "query": "Whole-grain yellow cornmeal",
+    "expected": [
+      "cornmeal-yellow-whole"
+    ]
+  },
+  {
+    "query": "Dry tapioca pearls",
+    "expected": [
+      "tapioca-pearls-dry"
+    ]
+  },
+  {
+    "query": "Whole-grain oat flour",
+    "expected": [
+      "oat-flour"
+    ]
+  },
+  {
+    "query": "Rye flour",
+    "expected": [
+      "rye-flour"
+    ]
+  },
+  {
+    "query": "Buckwheat flour",
+    "expected": [
+      "buckwheat-flour"
+    ]
+  },
+  {
+    "query": "Chickpea flour",
+    "expected": [
+      "chickpea-flour"
+    ]
+  },
+  {
+    "query": "Sorghum flour",
+    "expected": [
+      "sorghum-flour"
+    ]
+  },
+  {
+    "query": "Wheat bread flour",
+    "expected": [
+      "bread-flour"
+    ]
+  },
+  {
+    "query": "Self-rising wheat flour",
+    "expected": [
+      "self-rising-wheat-flour"
+    ]
+  },
+  {
+    "query": "Brown rice flour",
+    "expected": [
+      "brown-rice-flour"
+    ]
+  },
+  {
+    "query": "Glutinous rice flour",
+    "expected": [
+      "glutinous-rice-flour"
+    ]
+  },
+  {
+    "query": "brown rice",
+    "expected": [
+      "brown-rice-dry"
+    ]
+  },
+  {
+    "query": "glutinous rice",
+    "expected": []
   }
 ]
