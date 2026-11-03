@@ -23,7 +23,7 @@
     "catalog:build": "node --import tsx scripts/build-cooking-catalog.ts"
   },
   "dependencies": {
-    "@google/genai": "^2.31.0",
+    "@google/genai": "^2.32.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.118.0",
     "@vercel/analytics": "^2.0.1",
