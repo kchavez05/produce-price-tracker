@@ -51,12 +51,27 @@ const foodTerms: Readonly<Record<string, RegExp>> = {
   tomatoes: /\btomato(?:es)?\b/i, tomatillos: /\btomatillos?\b/i,
 };
 const incompatible = /\b(?:frozen|canned|tinned|dried|dehydrated|powder(?:ed)?|juice[ds]?|soups?|dips?|sauces?|paste|ketchup|crusts?|tots?|riced|rice|slaw|salads?|cooked|roasted|grilled|pickled|cream(?:ed)?|pasta|ravioli|tortellini|gnocchi|lasagna|pizza|smoothies?|chips?|puree|pureed|salsa|stir[ -]?fry|medley|mix(?:ed)?|blend|cakes?|breads?|muffins?|cookies?|bagels?|wraps?|tortillas?|quiche|casserole|hummus|glaz(?:e|ed)|caramelized|saut[eé](?:ed)?|steamable|New Zealand|collard|chard)\b/i;
+const preparationTerms: Readonly<Record<string, readonly string[]>> = {
+  carrots: ['whole', 'peeled', 'unpeeled', 'baby', 'sliced', 'chopped', 'diced'],
+  broccoli: ['whole', 'crowns', 'florets', 'chopped'], cauliflower: ['whole', 'florets', 'chopped'],
+  spinach: ['baby', 'leaves'], kale: ['baby', 'leaves', 'chopped'],
+  'white-mushrooms': ['whole', 'sliced', 'chopped'], 'cremini-mushrooms': ['whole', 'sliced', 'chopped'],
+  tomatoes: ['whole', 'sliced', 'diced'], tomatillos: ['whole'],
+};
+function sharedPreparation(part: string, namedFoods: string[]): boolean {
+  let words = part.toLowerCase().replace(/[®™]/g, '').trim();
+  const prefix = /^(?:kroger|signature(?:\s+farms)?|simple\s+truth|fresh|organic)\s+/;
+  while (prefix.test(words)) words = words.replace(prefix, '');
+  // Only preparation-only fragments can inherit a named food. Unknown food nouns
+  // cannot: "Whole parsnips or baby carrots" still fails the carrot requirement.
+  return Boolean(words) && words.split(/\s+/).every((word) => namedFoods.every((food) => preparationTerms[food]?.includes(word)));
+}
 export function recipeOfferAllowed(use: ScopedRecipeUse, rawTitle: string): boolean {
   if (typeof rawTitle !== 'string' || incompatible.test(rawTitle)) return false;
   const found = Object.entries(foodTerms).filter(([, terms]) => terms.test(rawTitle)).map(([food]) => food);
   const alternatives = rawTitle.split(/\bor\b|\band\b|&|\s+\/\s+/i);
   return found.length > 0 && found.every((food) => use.offerFoods.includes(food)) &&
-    alternatives.every((part) => Object.entries(foodTerms).some(([food, term]) => use.offerFoods.includes(food) && term.test(part)));
+    alternatives.every((part) => Object.entries(foodTerms).some(([food, term]) => use.offerFoods.includes(food) && term.test(part)) || sharedPreparation(part, found));
 }
 
 /** Filter each actual offer separately; never relabel the original commodity or its history. */

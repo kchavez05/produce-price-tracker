@@ -42,12 +42,13 @@
     "selectedRecipeStorePoolPreserved": true,
     "uncollapsedSameStoreOffersFilteredBeforeSelection": true,
     "storeSpecificOfferTitlesAndPickupQueries": true,
-    "ownedScopedAlternativesPrecedeUnrelatedQuotes": true
+    "ownedScopedAlternativesPrecedeUnrelatedQuotes": true,
+    "keylessSharedPreparationOfferPreserved": true
   },
   "localChecks": {
     "typecheck": "passed",
     "lint": "passed",
-    "unitTests": 345,
+    "unitTests": 346,
     "smokeTests": 28,
     "regressionTests": 37,
     "productionBuild": "passed",

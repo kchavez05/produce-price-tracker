@@ -8,6 +8,7 @@ import { compileScopedRecipeUses } from '../../../scripts/lib/scoped-recipe-uses
 import { parseArtifact, sha256 } from '../../../scripts/lib/catalog-curation';
 import { MEAL_PREP_BLUEPRINTS } from '@/data/meal-prep-blueprints';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
+import { ALL_WEEKLY_BASELINE_OFFERS } from '@/data/mead-baseline-offers';
 import { ScopedRecipeUse } from '@/types/catalog';
 import { MatchedSlotIngredient, RecommendedDish, StoreChain } from '@/types/domain';
 import { PantryEntry } from '@/types/pantry';
@@ -189,6 +190,22 @@ describe('approved vegetable recipe-use integration', () => {
       expect(recipeOfferAllowed(useFor('spinach'), title), title).toBe(false);
     for (const [policy, title] of [['carrots', 'Carrot cake'], ['broccoli', 'Fresh broccoli slaw'], ['spinach', 'Spinach tortellini'], ['carrots', 'Honey glazed carrots']])
       expect(recipeOfferAllowed(useFor(policy), title), title).toBe(false);
+    for (const title of ['Whole parsnips or peeled baby carrots', 'Kroger Whole Vegetables or Peeled Baby Carrots'])
+      expect(recipeOfferAllowed(useFor('carrots'), title), title).toBe(false);
+    expect(recipeOfferAllowed(useFor('mushrooms'), 'Whole or Sliced White Mushrooms')).toBe(true);
+    expect(recipeOfferAllowed(useFor('broccoli'), 'Fresh Broccoli Crowns or Florets')).toBe(true);
+  });
+
+  it('retains the real keyless whole-or-peeled carrot offer through scoring, recipe pricing and shopping', () => {
+    const use = useFor('carrots');
+    const commodities = scoreAllCommodities(ALL_WEEKLY_BASELINE_OFFERS, 'KING_SOOPERS', {}, ['KING_SOOPERS'], {});
+    const result = applyPantryToRecipe(dish(use), [], commodities);
+    expect(result.matchedIngredients[0]).toMatchObject({ ingredientId: 'carrots-whole-baby', store: 'KING_SOOPERS', unitCost: 0.75, slotCost: 1.5 });
+    expect(result.matchedIngredients[0].rawDealText).toContain('Kroger Whole or Peeled Baby Carrots');
+    expect(result.additionalCostEstimateComplete).toBe(true);
+    const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
+    expect(shopping.items[0]).toMatchObject({ optimalStore: 'KING_SOOPERS', optimalUnitCost: 0.75, optimalTotalCost: 1.5 });
+    expect(shopping.pantryNeeds).toEqual([]);
   });
 
   it('applies exact availability during ranking, including when no market commodity exists', () => {
