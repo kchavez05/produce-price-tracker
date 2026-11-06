@@ -4,13 +4,13 @@ import { CANONICAL_INGREDIENTS } from '../src/data/canonical-ingredients';
 import { parseArtifact, parseLedger, decisionHash, sha256 } from './lib/catalog-curation';
 
 // Only the reviewed release can generate browser data; raw sources stay server-side.
-const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-06.2/catalog.json', 'utf8')));
+const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-06.3/catalog.json', 'utf8')));
 const ledger = parseLedger(JSON.parse(readFileSync('catalog/curation-ledger.json', 'utf8')));
 for (const history of artifact.decisions) {
   const decision = ledger.decisions.find((d) => d.id === history.id && d.revision === history.revision);
   if (!decision || decision.status !== 'approved' || decisionHash(decision) !== history.payloadSha256) throw new Error('Catalog approval history does not match ledger');
 }
-const retainedCatalogs = ['2026-10-30.1', '2026-10-31.1', '2026-11-06.1'].map((version) => {
+const retainedCatalogs = ['2026-10-30.1', '2026-10-31.1', '2026-11-06.1', '2026-11-06.2'].map((version) => {
   const retained = parseArtifact(JSON.parse(readFileSync(`catalog/releases/${version}/catalog.json`, 'utf8')));
   return { version: retained.catalogVersion, ingredients: retained.ingredients, compatibility: retained.compatibility };
 });

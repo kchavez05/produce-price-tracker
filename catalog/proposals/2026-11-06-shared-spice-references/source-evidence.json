@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "rulesVersion": 1,
+  "releaseDate": "2026-10-29",
+  "records": [
+    {
+      "dataType": "sr_legacy_food",
+      "fdcId": "170919",
+      "ndbNumber": "2006",
+      "description": "Spices, cardamom",
+      "publicationDate": "2019-04-01",
+      "categoryId": "2",
+      "categoryName": "Spices and Herbs",
+      "footnote": null,
+      "key": "sr_legacy_food:170919",
+      "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "sr_legacy_food",
+      "fdcId": "170922",
+      "ndbNumber": "2013",
+      "description": "Spices, coriander seed",
+      "publicationDate": "2019-04-01",
+      "categoryId": "2",
+      "categoryName": "Spices and Herbs",
+      "footnote": null,
+      "key": "sr_legacy_food:170922",
+      "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c",
+      "disposition": "candidate"
+    }
+  ]
+}

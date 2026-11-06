@@ -22,7 +22,10 @@ export interface CatalogSourceRecord {
   categoryName: string | null;
   footnote: string | null;
 }
-export interface CatalogSourceLink { ingredientId: string; key: string; fingerprint: string; purpose: 'identity' }
+export type CatalogSourceLink = { ingredientId: string; key: string; fingerprint: string } & (
+  | { purpose: 'identity' }
+  | { purpose: 'general-reference'; familyId: string }
+);
 export interface CatalogCompatibility { from: string; to: string }
 export interface CatalogDecision {
   id: string;
@@ -32,6 +35,8 @@ export interface CatalogDecision {
   action: 'upsert' | 'exclude' | 'defer' | 'compatibility' | 'remove-compatibility';
   sourceKind: 'USDA' | 'CURATED';
   sourceRefs: { key: string; fingerprint: string }[];
+  /** An explicitly reviewed shared record that does not establish the cooking form. */
+  sourcePurpose?: 'general-reference';
   rationale: string;
   ingredient?: CookingIngredient;
   compatibility?: CatalogCompatibility;

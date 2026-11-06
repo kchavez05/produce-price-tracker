@@ -119,6 +119,29 @@ describe('pantry database storage boundaries', () => {
     await db.exec('reset role');
     expect((await db.query('select * from public.user_pantry_entries where user_id=$1', [owner])).rows).toEqual([]);
   });
+  it('accepts four distinct spice forms only after migration and retains independent Yes/No entries', async () => {
+    const owner = '00000000-0000-4000-8000-000000000006';
+    await db.query('insert into auth.users(id,email) values($1,$2)', [owner, 'spices@example.test']);
+    await asUser(owner);
+    const before = await rpc<PantryMigrationSnapshot>('read');
+    await rpc('migrate', { source: before.legacySource, entries: [] });
+    const ids = ['coriander-seeds-whole', 'coriander-ground', 'cardamom-pods', 'cardamom-ground'];
+    const mutations = ids.map((id, index) => put({ mutationId: id, entryId: id, entry: { ingredientId: id, displayName: id, available: index % 2 === 0 } }));
+    for (const mutation of mutations) await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
+    await db.exec('reset role');
+    expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(134);
+    const migration = readFileSync('supabase/migrations/20261106170650_pantry_spice_forms.sql', 'utf8');
+    await db.exec(migration); await db.exec(migration);
+    await asUser(owner);
+    for (const mutation of mutations) {
+      const applied = await rpc('mutate', mutation);
+      expect(applied).toMatchObject({ status: 'applied', entry: { revision: 1 } });
+      expect(await rpc('mutate', mutation)).toEqual(applied);
+    }
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries.filter((r) => r.available).map((r) => r.ingredientId).sort()).toEqual(['cardamom-pods', 'coriander-seeds-whole']);
+    await db.query('delete from public.users where id=$1', [owner]);
+    await db.exec('reset role');
+  });
   it('keeps catalog IDs synchronized and denies anonymous execution', async () => {
     const ids = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows.map((r) => r.id);
     expect(ids).toEqual(cookingIngredients.map((r) => r.id).sort());

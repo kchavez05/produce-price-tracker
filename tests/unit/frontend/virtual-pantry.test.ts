@@ -124,6 +124,17 @@ describe('Virtual Pantry accessible controls', () => {
     await search('Greek yogurt');
     expect(container.textContent).not.toContain('Add Plain whole-milk yogurt');
   });
+  it('shows independent whole/ground spice choices through their seed, pod and powder aliases', async () => {
+    await render([], ['coriander-seeds-whole']); await search('coriander');
+    expect(button('Add Whole coriander seeds').disabled).toBe(false);
+    expect(button('Add Ground coriander').disabled).toBe(true);
+    await render(); await search('coriander powder');
+    await run(() => button('Add Ground coriander').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'coriander-ground', displayName: 'Ground coriander', available: true }, undefined);
+    await search('cardamom pods');
+    await run(() => button('Add Whole cardamom pods').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'cardamom-pods', displayName: 'Whole cardamom pods', available: true }, undefined);
+  });
   it('prevents adding an ID before server acceptance and explains explicit No coverage', async () => {
     await render([], ['red-lentils-dried']); await search('lentils');
     expect(button('Add Dried lentils').disabled).toBe(true);

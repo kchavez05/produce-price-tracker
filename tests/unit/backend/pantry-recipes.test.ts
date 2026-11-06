@@ -1,3 +1,4 @@
+import staplesCatalog from '../../../catalog/releases/2026-11-06.2/catalog.json';
 import vegetableCatalog from '../../../catalog/releases/2026-11-06.1/catalog.json';
 import firstExpandedCatalog from '../../../catalog/releases/2026-10-31.1/catalog.json';
 import previousCatalog from '../../../catalog/releases/2026-10-30.1/catalog.json';
@@ -122,6 +123,17 @@ describe('pantry recipe and shopping integration', () => {
     expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([milk, yogurt]))).toEqual([]);
     expect(availablePantryIngredientIds([{ ...milk, ingredientId: 'ginger-ground' }])).toEqual(['ginger-ground']);
     expect(JSON.stringify([milk, yogurt, dish])).toBe(before);
+  });
+  it('shares spice provenance without sharing whole/ground availability and retains the 134-identity view', () => {
+    expect(cookingCatalogView('2026-11-06.2').ingredients).toEqual(staplesCatalog.ingredients);
+    const whole: PantryEntry = { id: 'whole', ingredientId: 'coriander-seeds-whole', displayName: 'Whole coriander seeds', available: true, revision: 1, updatedAtIso: '' };
+    const ground: PantryEntry = { ...whole, id: 'ground', ingredientId: 'coriander-ground', displayName: 'Ground coriander' };
+    const requirements = [{ ingredientId: whole.ingredientId!, quantity: 1, unit: 'tsp' }, { ingredientId: ground.ingredientId!, quantity: 1, unit: 'tsp' }];
+    expect(availablePantryIngredientIds([whole])).toEqual([whole.ingredientId]);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([whole]))).toMatchObject([{ ingredientId: ground.ingredientId, priceBasis: 'UNPRICED' }]);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([whole, ground]))).toEqual([]);
+    expect(availablePantryIngredientIds([{ ...whole, ingredientId: 'cardamom-pods' }])).toEqual(['cardamom-pods']);
+    expect(availablePantryIngredientIds([whole])).not.toContain('cilantro-fresh');
   });
   it('covers market onion cards, zeroes costs, and omits shopping needs using fresh pantry onions', () => {
     const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;

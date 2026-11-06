@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { CatalogArtifact, CatalogDecision, CatalogLedger, CatalogSourceRecord, CookingIngredient } from '../../src/types/catalog';
+import { CatalogArtifact, CatalogDecision, CatalogLedger, CatalogSourceLink, CatalogSourceRecord, CookingIngredient } from '../../src/types/catalog';
 
 const object = (value: unknown): value is Record<string, unknown> => Boolean(value && typeof value === 'object' && !Array.isArray(value));
 const text = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
@@ -49,7 +49,7 @@ export function parseLedger(value: unknown): CatalogLedger {
   const revisions = new Map<string, number[]>();
   for (const decision of value.decisions) {
     assert(object(decision) && id(decision.id) && Number.isSafeInteger(decision.revision) && Number(decision.revision) > 0, 'Invalid decision identity/revision');
-    keys(decision, ['id', 'revision', 'rulesVersion', 'status', 'action', 'sourceKind', 'sourceRefs', 'rationale', 'ingredient', 'compatibility', 'exception', 'review'], 'Decision');
+    keys(decision, ['id', 'revision', 'rulesVersion', 'status', 'action', 'sourceKind', 'sourceRefs', 'sourcePurpose', 'rationale', 'ingredient', 'compatibility', 'exception', 'review'], 'Decision');
     assert(Number.isSafeInteger(decision.rulesVersion) && Number(decision.rulesVersion) > 0, 'Invalid decision rules version');
     assert(['proposed', 'approved'].includes(String(decision.status)) && ['upsert', 'exclude', 'defer', 'compatibility', 'remove-compatibility'].includes(String(decision.action)), 'Invalid decision status/action');
     assert(['USDA', 'CURATED'].includes(String(decision.sourceKind)) && text(decision.rationale), 'Decision requires source kind and rationale');
@@ -65,6 +65,9 @@ export function parseLedger(value: unknown): CatalogLedger {
     if (decision.action === 'upsert') { ingredient(decision.ingredient); assert(decision.compatibility === undefined, 'Upsert cannot contain an edge'); }
     else if (['compatibility', 'remove-compatibility'].includes(String(decision.action))) { edge(decision.compatibility); assert(decision.ingredient === undefined, 'Compatibility cannot redefine an ingredient'); }
     else assert(decision.ingredient === undefined && decision.compatibility === undefined, 'Source disposition cannot redefine ingredients');
+    if (decision.sourcePurpose !== undefined) {
+      assert(decision.sourcePurpose === 'general-reference' && decision.sourceKind === 'USDA' && decision.action === 'upsert' && object(decision.ingredient) && id(decision.ingredient.familyId), 'General references require a USDA upsert with an explicit ingredient family');
+    }
     if (decision.exception !== undefined) {
       const exception = decision.exception;
       assert(decision.action === 'defer' && object(exception) && date(exception.sourceReleaseDate) && text(exception.owner) && date(exception.reviewBy) && String(exception.reviewBy) >= String(exception.sourceReleaseDate), 'Quarantine exceptions require deferral, source release, owner, and review date');
@@ -126,18 +129,35 @@ function validateCookingCatalog(ingredients: CookingIngredient[], compatibility:
 export function artifactContent(artifact: Pick<CatalogArtifact, 'ingredients' | 'compatibility' | 'sourceLinks'>) {
   return { ingredients: sorted(artifact.ingredients, (r) => r.id), compatibility: sorted(artifact.compatibility, (r) => `${r.from}:${r.to}`), sourceLinks: sorted(artifact.sourceLinks, (r) => `${r.ingredientId}:${r.key}`) };
 }
+const sourceLinkKey = (link: Pick<CatalogSourceLink, 'ingredientId' | 'key'>) => JSON.stringify([link.ingredientId, link.key]);
+function validateSourceLinks(ingredients: readonly CookingIngredient[], links: readonly unknown[]) {
+  const identities = new Map(ingredients.map((item) => [item.id, item]));
+  const pairs = new Set<string>();
+  const assigned = new Map<string, { purpose: string; familyId?: string; fingerprint: string }>();
+  for (const link of links) {
+    assert(object(link) && typeof link.ingredientId === 'string' && identities.has(link.ingredientId) && typeof link.key === 'string' && /^(foundation_food|sr_legacy_food):\d+$/.test(link.key) && digest(link.fingerprint) && (link.purpose === 'identity' || link.purpose === 'general-reference'), 'Invalid artifact source link');
+    const previous = assigned.get(link.key);
+    if (link.purpose === 'general-reference') {
+      keys(link, ['ingredientId', 'key', 'fingerprint', 'purpose', 'familyId'], 'General source reference');
+      assert(id(link.familyId) && identities.get(link.ingredientId)?.familyId === link.familyId, 'General source reference must match its ingredient family');
+      assert(!previous || previous.purpose === 'general-reference' && previous.familyId === link.familyId && previous.fingerprint === link.fingerprint, 'Source record already assigned with a different purpose, family, or fingerprint');
+      assigned.set(link.key, { purpose: link.purpose, familyId: link.familyId, fingerprint: link.fingerprint });
+    } else {
+      keys(link, ['ingredientId', 'key', 'fingerprint', 'purpose'], 'Source link');
+      assert(!previous, 'Source record already assigned to a different identity');
+      assigned.set(link.key, { purpose: 'identity', fingerprint: link.fingerprint });
+    }
+    const pair = sourceLinkKey({ ingredientId: link.ingredientId, key: link.key });
+    assert(!pairs.has(pair), 'Duplicate ingredient/source reference'); pairs.add(pair);
+  }
+}
 export function parseArtifact(value: unknown): CatalogArtifact {
   assert(object(value) && value.formatVersion === 1 && typeof value.catalogVersion === 'string' && /^[a-zA-Z0-9._-]{1,80}$/.test(value.catalogVersion) && digest(value.contentHash), 'Invalid published catalog manifest');
   keys(value, ['formatVersion', 'catalogVersion', 'contentHash', 'ingredients', 'compatibility', 'sourceLinks', 'decisions'], 'Artifact');
   assert(Array.isArray(value.ingredients) && Array.isArray(value.compatibility) && Array.isArray(value.sourceLinks) && Array.isArray(value.decisions), 'Invalid catalog arrays');
   value.ingredients.forEach(ingredient); value.compatibility.forEach(edge);
   validateCookingCatalog(value.ingredients, value.compatibility);
-  const identities = new Set(value.ingredients.map((r) => r.id)); const links = new Set();
-  for (const link of value.sourceLinks) {
-    assert(object(link) && identities.has(String(link.ingredientId)) && typeof link.key === 'string' && /^(foundation_food|sr_legacy_food):\d+$/.test(link.key) && digest(link.fingerprint) && link.purpose === 'identity', 'Invalid artifact source link');
-    keys(link, ['ingredientId', 'key', 'fingerprint', 'purpose'], 'Artifact source link');
-    assert(!links.has(link.key), 'A source identity cannot silently support multiple cooking identities'); links.add(link.key);
-  }
+  validateSourceLinks(value.ingredients, value.sourceLinks);
   const revisions = new Set();
   for (const decision of value.decisions) {
     assert(object(decision) && id(decision.id) && Number.isSafeInteger(decision.revision) && Number(decision.revision) > 0 && digest(decision.payloadSha256), 'Invalid artifact decision');
@@ -168,7 +188,7 @@ export function curateCatalog(options: { ledger: CatalogLedger; sources: ReturnT
   for (const decision of ledger.decisions) if ((latest.get(decision.id)?.revision ?? 0) < decision.revision) latest.set(decision.id, decision);
   const ingredients = new Map(previous.ingredients.map((r) => [r.id, r]));
   const preview = new Map(previous.ingredients.map((r) => [r.id, r]));
-  const sourceLinks = new Map(previous.sourceLinks.map((r) => [r.key, r]));
+  const sourceLinks = new Map(previous.sourceLinks.map((r) => [sourceLinkKey(r), r]));
   const compatibility = new Map(previous.compatibility.map((r) => [`${r.from}:${r.to}`, r]));
   const history = new Map(previous.decisions.map((d) => [`${d.id}:${d.revision}`, d]));
   const retainedApprovalsNeedReview = new Set<string>();
@@ -204,9 +224,10 @@ export function curateCatalog(options: { ledger: CatalogLedger; sources: ReturnT
       for (const [key, link] of sourceLinks) if (link.ingredientId === decision.ingredient.id) sourceLinks.delete(key);
       if (decision.sourceKind === 'USDA') {
         for (const ref of decision.sourceRefs) {
-          const assigned = sourceLinks.get(ref.key);
-          assert(!assigned || assigned.ingredientId === decision.ingredient.id, 'Source record already assigned to a different identity');
-          sourceLinks.set(ref.key, { ingredientId: decision.ingredient.id, ...ref, purpose: 'identity' });
+          const link: CatalogSourceLink = decision.sourcePurpose === 'general-reference'
+            ? { ingredientId: decision.ingredient.id, ...ref, purpose: 'general-reference', familyId: decision.ingredient.familyId! }
+            : { ingredientId: decision.ingredient.id, ...ref, purpose: 'identity' };
+          sourceLinks.set(sourceLinkKey(link), link);
         }
       }
     }
