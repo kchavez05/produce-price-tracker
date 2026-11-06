@@ -11,6 +11,10 @@ import initialFixtures from '../../../catalog/releases/2026-10-30.1/search-fixtu
 import firstExpansionFixtures from '../../../catalog/releases/2026-10-31.1/search-fixtures.json';
 import vegetableFixtures from '../../../catalog/releases/2026-11-06.1/search-fixtures.json';
 import staplesFixtures from '../../../catalog/releases/2026-11-06.2/search-fixtures.json';
+import spiceFixtures from '../../../catalog/proposals/2026-11-06-shared-spice-references/search-fixtures.json';
+import currentData from '../../../catalog/releases/2026-11-06.4/catalog.json';
+import vegetableMappingHashes from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/decision-hashes.json';
+import vegetableMappingEvidence from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/source-evidence.json';
 import spiceData from '../../../catalog/releases/2026-11-06.3/catalog.json';
 import spiceManifest from '../../../catalog/releases/2026-11-06.3/manifest.json';
 import spiceHashes from '../../../catalog/proposals/2026-11-06-shared-spice-references/decision-hashes.json';
@@ -100,7 +104,7 @@ describe('curation and recurring approval gates', () => {
     const catalog = parseArtifact(vegetableData), previous = parseArtifact(expansionData), fullLedger = parseLedger(ledgerData);
     const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)) };
     expect(catalog.ingredients).toHaveLength(111);
-    expect(catalog.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(catalog.decisions).toEqual(ledger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)).map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
     expect(vegetableManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, status: 'APPROVED_FOR_INTEGRATION', published: false });
     expect(vegetableAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: previous.catalogVersion, outcome: 'staged' });
     const evidence = parseSources(vegetableEvidence);
@@ -121,7 +125,7 @@ describe('curation and recurring approval gates', () => {
     const catalog = parseArtifact(staplesData), previous = parseArtifact(vegetableData), fullLedger = parseLedger(ledgerData);
     const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)) };
     expect(catalog.ingredients).toHaveLength(134);
-    expect(catalog.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(catalog.decisions).toEqual(ledger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)).map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
     expect(staplesManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, status: 'APPROVED_FOR_INTEGRATION', published: false });
     expect(staplesAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: previous.catalogVersion, outcome: 'staged' });
     const evidence = parseSources(staplesEvidence);
@@ -147,7 +151,7 @@ describe('curation and recurring approval gates', () => {
   it('retains four distinct spice forms with two explicit shared form-unspecified USDA records', () => {
     const catalog = parseArtifact(spiceData), previous = parseArtifact(staplesData), ledger = parseLedger(ledgerData);
     expect(catalog.ingredients).toHaveLength(138);
-    expect(catalog.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(catalog.decisions).toEqual(ledger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)).map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
     expect(spiceManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, published: false });
     const evidence = parseSources(spiceEvidence);
     for (const reviewed of spiceHashes) {
@@ -161,6 +165,24 @@ describe('curation and recurring approval gates', () => {
     expect([...new Set(shared.map((r) => r.key))].sort()).toEqual(['sr_legacy_food:170919', 'sr_legacy_food:170922']);
     expect(catalog.sourceLinks.filter((r) => r.purpose === 'identity')).toEqual(previous.sourceLinks);
     for (const before of previous.ingredients) expect(catalog.ingredients.find((r) => r.id === before.id)).toEqual(before);
+    expect(catalog.compatibility).toEqual(previous.compatibility);
+    for (const fixture of spiceFixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+  });
+  it('integrates seven exact fresh vegetable approvals without altering older identities or compatibility', () => {
+    const catalog = parseArtifact(currentData), previous = parseArtifact(spiceData), ledger = parseLedger(ledgerData);
+    expect(catalog.ingredients).toHaveLength(145);
+    expect(catalog.decisions).toHaveLength(94);
+    const evidence = parseSources(vegetableMappingEvidence);
+    for (const reviewed of vegetableMappingHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id)!;
+      expect(decision.status).toBe('approved');
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      expect(decision.review?.payloadSha256).toBe(reviewed.payloadSha256);
+      for (const ref of decision.sourceRefs) expect(evidence.records.find((r) => r.key === ref.key)?.fingerprint).toBe(ref.fingerprint);
+    }
+    for (const before of previous.ingredients) expect(catalog.ingredients.find((r) => r.id === before.id)).toEqual(before);
+    expect(catalog.sourceLinks).toEqual(expect.arrayContaining(previous.sourceLinks));
+    expect(catalog.sourceLinks).toHaveLength(88);
     expect(catalog.compatibility).toEqual(previous.compatibility);
     for (const fixture of fixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
   });

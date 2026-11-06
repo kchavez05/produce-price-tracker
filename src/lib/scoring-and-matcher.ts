@@ -36,6 +36,7 @@ import {
   persistLiveOffersToSqlite,
 } from './db/sqlite';
 import { isSupabaseConfigured } from './supabase/config';
+import { isProtectedMarketIngredient } from './pantry/recipe-use';
 
 export function scoreAllCommodities(
   allOffers: StoreOffer[],
@@ -240,6 +241,10 @@ export function scoreAllCommodities(
       kingSoopersOffer,
       safewayOffer,
       storeOffers,
+      ...(isProtectedMarketIngredient(ingredient.id) ? {
+        recipeOffers: matchingOffers,
+        recipeStorePool: storeFilter !== 'ALL' ? [storeFilter] : activeStores?.length ? [...activeStores] : [...ALL_STORE_CHAINS],
+      } : {}),
       valueScore,
       affordabilityScore,
       discountDepthScore,

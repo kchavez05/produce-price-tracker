@@ -1,4 +1,5 @@
 import { resolveStoreBanner } from '@/data/store-registry';
+import { offerFoodSearchTerm } from '@/lib/pantry/offer-food';
 import {
   AggregatedShoppingItem,
   CommodityCategory,
@@ -25,11 +26,14 @@ export interface CurbsideDeepLink {
  * (e.g., "Russet or Yukon Gold Potatoes (5 lb Bag)" -> "russet potatoes 5 lb")
  */
 export function cleanSearchQueryForIngredient(rawName: string): string {
-  return rawName
+  const primary = rawName
     .replace(/\([^)]*\)/g, '')
     .replace(/\s+or\s+.*/i, '')
     .replace(/\s*\/\s*.*/g, '')
     .trim();
+  // "Kroger Whole or Sliced Baby Bella / White Mushrooms" must not become
+  // "Kroger Whole". Preserve legacy queries when they already name the food.
+  return offerFoodSearchTerm(primary) ? primary : offerFoodSearchTerm(rawName) ?? primary;
 }
 
 /**

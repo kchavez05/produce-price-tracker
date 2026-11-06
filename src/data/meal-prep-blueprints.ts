@@ -191,8 +191,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     steps: [
       'Preheat oven to 400°F. Toss ½-inch cubed potatoes and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.',
       'Whisk sour cream (or blended cottage cheese/Greek yogurt) with half the shredded cheese and ½ cup chicken broth.',
-      'Remove dish, stir in fresh broccoli florets and the creamy cheese mixture, and blanket the top with the remaining shredded cheese.',
-      'Bake an additional 20–22 minutes until broccoli is tender and cheese is bubbling golden brown.',
+      'Remove dish, stir in the selected fresh broccoli or cauliflower florets and the creamy cheese mixture, and blanket the top with the remaining shredded cheese.',
+      'Bake an additional 20–22 minutes until the selected florets are tender and cheese is bubbling golden brown.',
     ],
     reheatTip: 'Reheats cleanly in the microwave or 8 minutes in an air fryer / toaster oven to re-crisp the cheese crust.',
   },
@@ -393,7 +393,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     steps: [
       'Brown Italian sausage in the Instant Pot (or Dutch oven) with diced onion, carrots, and garlic.',
       'Add halved baby/russet potatoes (or cauliflower florets for keto), white beans, Italian seasoning, and chicken broth. Pressure cook HIGH for 8 minutes (or simmer 22 minutes on stovetop).',
-      'Turn off heat and stir in fresh baby spinach until wilted, followed by sour cream (or coconut milk for dairy-free) for a rich, velvety broth.',
+      'For kale, simmer the chopped leaves in the broth until tender before turning off the heat. For spinach, turn off heat and stir in the leaves until wilted. Finish with sour cream (or coconut milk for dairy-free) for a rich, velvety broth.',
     ],
     reheatTip: 'Heat on medium-high (70% power) in microwave so the creamy broth stays emulsified.',
   },
@@ -457,9 +457,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Curry powder & garam masala (2 tbsp)', 'Coconut milk or chicken broth (1 can)', 'Garlic & ginger', 'Basmati rice (optional base)'],
     estimatedPantryCost: 2.6,
     steps: [
-      'Place cubed butternut squash (or sweet potatoes), diced onions, diced tomatoes, and chicken thighs into the slow cooker.',
+      'Place cubed butternut squash (or sweet potatoes, or cauliflower florets for the low-carb replacement), diced onions, diced tomatoes, and chicken thighs into the slow cooker.',
       'Whisk broth/coconut milk with curry powder, garam masala, garlic, and ginger; pour over chicken and cook on LOW for 4.5 hours.',
-      'Shred or chunk the chicken in the pot, fold in fresh spinach and Greek yogurt (or full-fat coconut milk if dairy-free) until creamy, and portion into meal containers.',
+      'Shred or chunk the chicken in the pot, cook the selected cauliflower florets until tender, or fold in fresh spinach until wilted, then add Greek yogurt (or full-fat coconut milk if dairy-free) until creamy, and portion into meal containers.',
     ],
     reheatTip: 'Curries are famous for tasting even better after 48 hours in the fridge as spices meld into the squash.',
   },
@@ -523,7 +523,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Salt, black pepper, smoked paprika, garlic powder', 'Cooking spray or 1 tbsp olive oil'],
     estimatedPantryCost: 0.75,
     steps: [
-      'Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms/zucchini for keto) and diced peppers/onions in a skillet for 10 minutes until tender; spread into a greased 9x13 baking dish.',
+      'Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms/zucchini for keto) and diced peppers/onions in a skillet for 10 minutes until tender. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.',
       'Whisk eggs with cottage cheese (the secret to ultra-fluffy reheatable eggs that never get rubbery) and half the shredded cheddar.',
       'Pour egg mixture over the sausage-vegetable hash, top with remaining cheddar, and bake at 375°F for 35–40 minutes until set in the center.',
     ],
@@ -625,7 +625,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'low_carb_base',
-        label: 'Cauliflower & Broccoli Florets',
+        label: 'Cauliflower Florets for Mash',
         candidateIngredientIds: ['broccoli-cauliflower', 'green-cabbage'],
         quantityRequired: 2.25,
       },
@@ -709,7 +709,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     steps: [
       'Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes/zucchini on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.',
       'Push vegetables to the edges, place portioned salmon fillets and asparagus spears in the center, and brush salmon with olive oil, lemon juice, Dijon mustard, and dill.',
-      'Roast 11–13 minutes more until salmon flakes easily at 135°F internal temp so it stays moist when reheated.',
+      'If serving the low-carb spinach or kale side, saute those greens separately until tender. Roast 11–13 minutes more until salmon flakes easily at 135°F internal temp so it stays moist when reheated.',
     ],
     reheatTip: 'Reheat salmon at 60% microwave power for 90 seconds (or enjoy flaked cold over greens) so it never overcooks.',
   },

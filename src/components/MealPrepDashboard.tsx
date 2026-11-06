@@ -1,6 +1,6 @@
 'use client';
 
-import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
+import { recipeAvailableIngredientIds, recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { formatPantryRequirement } from '@/lib/pantry/recipe';
 
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
@@ -227,6 +227,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     }
     return Array.from(set);
   }, [pantryEnabled, pantry.entries, onHandIds, freezerItems]);
+  const effectiveRecipeIds = useMemo(() => new Set(recipeAvailableIngredientIds(effectiveOnHandIds)), [effectiveOnHandIds]);
   const mealContextSignature = JSON.stringify({ available: [...effectiveOnHandIds].sort(), pinned: [...pinnedIds].sort(),
     targetServings, macroGoal, dietary: [...dietaryConstraints].sort(), vessel: applianceFilter,
     stores: [...activeStores].sort(), storeFilter, zip: currentZip });
@@ -1105,6 +1106,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
       return {
         ...item,
+        ingredientName: sp?.ingredientName ?? item.ingredientName,
         activeStore: store,
         activeUnitCost: unitCost,
         activeTotalCost: totalCost,
@@ -3092,7 +3094,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                           <strong className="text-slate-800">
                             {pantryEnabled ? 'Staples (fixed additional estimate)' : 'Pantry Staples'} (+${dish.estimatedPantryCost.toFixed(2)}):
                           </strong>{' '}
-                          {pantryEnabled ? (dish.pantryRequirements ?? []).map((requirement) => `${formatPantryRequirement(requirement)} — ${effectiveOnHandIds.includes(requirement.ingredientId) ? 'Already have' : requirement.optional ? 'Optional' : 'Need to buy'}`).join(' • ') : dish.pantryStaples.join(' • ')}
+                          {pantryEnabled ? (dish.pantryRequirements ?? []).map((requirement) => `${formatPantryRequirement(requirement)} — ${effectiveRecipeIds.has(requirement.ingredientId) ? 'Already have' : requirement.optional ? 'Optional' : 'Need to buy'}`).join(' • ') : dish.pantryStaples.join(' • ')}
                         </div>
                         <button
                           onClick={() =>

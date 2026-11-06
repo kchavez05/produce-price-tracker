@@ -840,5 +840,181 @@
   {
     "query": "black cardamom",
     "expected": []
+  },
+  {
+    "query": "Carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "fresh carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "raw carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "baby carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "Broccoli",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "fresh broccoli",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "broccoli florets",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "broccoli crowns",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "Cauliflower",
+    "expected": [
+      "cauliflower-fresh"
+    ]
+  },
+  {
+    "query": "fresh cauliflower",
+    "expected": [
+      "cauliflower-fresh"
+    ]
+  },
+  {
+    "query": "cauliflower florets",
+    "expected": [
+      "cauliflower-fresh"
+    ]
+  },
+  {
+    "query": "Fresh spinach",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "baby spinach",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "raw spinach",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "Fresh kale",
+    "expected": [
+      "kale-fresh"
+    ]
+  },
+  {
+    "query": "raw kale",
+    "expected": [
+      "kale-fresh"
+    ]
+  },
+  {
+    "query": "Fresh white mushrooms",
+    "expected": [
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "white button mushrooms",
+    "expected": [
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "fresh white button mushrooms",
+    "expected": [
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "Fresh tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "fresh red tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "Roma tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "vine-ripened tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "cremini",
+    "expected": []
+  },
+  {
+    "query": "baby bella",
+    "expected": []
+  },
+  {
+    "query": "tomatillos",
+    "expected": []
+  },
+  {
+    "query": "New Zealand spinach",
+    "expected": []
+  },
+  {
+    "query": "frozen broccoli",
+    "expected": []
+  },
+  {
+    "query": "canned tomatoes",
+    "expected": []
+  },
+  {
+    "query": "collard greens",
+    "expected": []
+  },
+  {
+    "query": "Swiss chard",
+    "expected": []
   }
 ]
