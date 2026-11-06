@@ -54,3 +54,16 @@ export interface CatalogArtifact {
   /** Revision identities and approved payloads are retained across runs. */
   decisions: { id: string; revision: number; payloadSha256: string }[];
 }
+
+/** A reviewed alternative for one candidate in one recipe slot, never an inventory ID. */
+export interface ScopedRecipeUse {
+  id: string;
+  recipeId: string;
+  slotKey: string;
+  slotLabel: string;
+  marketIngredientId: string;
+  marketIngredientName: string;
+  displayName: string;
+  pantryIngredientIds: string[];
+  offerFoods: string[];
+}

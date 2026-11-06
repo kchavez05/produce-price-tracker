@@ -3004,7 +3004,8 @@
         "type": "object",
         "properties": {
           "ingredientId": {
-            "type": "string"
+            "type": "string",
+            "description": "Exact pantry identity or a reviewed recipe-use requirement ID. Recipe-use IDs represent alternatives within a specific recipe slot and cannot be stored as pantry inventory."
           },
           "displayName": {
             "type": "string"

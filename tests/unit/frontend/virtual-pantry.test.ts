@@ -135,6 +135,21 @@ describe('Virtual Pantry accessible controls', () => {
     await run(() => button('Add Whole cardamom pods').click());
     expect(save).toHaveBeenLastCalledWith({ ingredientId: 'cardamom-pods', displayName: 'Whole cardamom pods', available: true }, undefined);
   });
+  it.each([
+    ['baby carrots', 'Carrots', 'carrots-fresh'],
+    ['broccoli crowns', 'Broccoli', 'broccoli-fresh'],
+    ['cauliflower florets', 'Cauliflower', 'cauliflower-fresh'],
+    ['baby spinach', 'Fresh spinach', 'spinach-fresh'],
+    ['raw kale', 'Fresh kale', 'kale-fresh'],
+    ['white button mushrooms', 'Fresh white mushrooms', 'mushrooms-white-fresh'],
+    ['Roma tomatoes', 'Fresh tomatoes', 'tomatoes-fresh'],
+  ])('discovers %s and saves the exact fresh identity only after installation', async (query, displayName, ingredientId) => {
+    await render([], []); await search(query);
+    expect(button(`Add ${displayName}`).disabled).toBe(true);
+    await render(); await search(query);
+    await run(() => button(`Add ${displayName}`).click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId, displayName, available: true }, undefined);
+  });
   it('prevents adding an ID before server acceptance and explains explicit No coverage', async () => {
     await render([], ['red-lentils-dried']); await search('lentils');
     expect(button('Add Dried lentils').disabled).toBe(true);

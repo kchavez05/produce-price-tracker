@@ -12,7 +12,9 @@ import {
 } from '@/types/domain';
 import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { recipeAvailableIngredientIds, recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
-import { formatPantryRequirement, pantryShoppingNeeds, recipePantryRequirements } from '@/lib/pantry/recipe';
+import { applyPantryToRecipe, formatPantryRequirement, pantryShoppingNeeds, recipePantryRequirements } from '@/lib/pantry/recipe';
+import { recipeCommodity, resolveRecipeUse } from '@/lib/pantry/recipe-use';
+import { recipeUseRequirementId } from '@/lib/pantry/recipe-identity';
 
 export function buildShoppingListAndStoreComparison(
   activeDishes: RecommendedDish[],
@@ -27,6 +29,24 @@ export function buildShoppingListAndStoreComparison(
   tripComparison: StoreTripComparison;
   pantryNeeds: PantryShoppingNeed[];
 } {
+  // Project only reviewed recipe uses. Store prices retain their original offer provenance;
+  // separate scopes cannot aggregate into a cheaper, incompatible vegetable requirement.
+  if (pantryMode) {
+    const original = new Map(commodities.map((c) => [c.ingredient.id, c]));
+    const scoped = new Map<string, ScoredCommodity>();
+    activeDishes = activeDishes.map((input) => {
+      const dish = applyPantryToRecipe(input, onHandIngredientIds, commodities);
+      return { ...dish, matchedIngredients: dish.matchedIngredients.map((ingredient) => {
+        const use = resolveRecipeUse(dish, ingredient);
+        const commodity = recipeCommodity(dish, ingredient, original.get(ingredient.ingredientId));
+        if (!use || !commodity) return ingredient;
+        const id = recipeUseRequirementId(use);
+        scoped.set(id, { ...commodity, ingredient: { ...commodity.ingredient, id, name: use.displayName } });
+        return { ...ingredient, ingredientId: id, ingredientName: use.displayName };
+      }) };
+    });
+    commodities = [...commodities, ...scoped.values()];
+  }
   const commodityMap = new Map<string, ScoredCommodity>();
   for (const c of commodities) {
     commodityMap.set(c.ingredient.id, c);
@@ -49,6 +69,7 @@ export function buildShoppingListAndStoreComparison(
   const pantrySet = new Set<string>();
   let estimatedPantryTotal = 0;
   const requirements: PantryRequirement[] = [];
+  const missingScopedStorePrices = new Set<string>();
 
   for (const dish of activeDishes) {
     if (pantryMode) {
@@ -133,6 +154,8 @@ export function buildShoppingListAndStoreComparison(
           (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
 
         const unitCost = offer?.normalizedPricePerUnit ?? slotIng.unitCost;
+        const scopedEstimate = pantryMode && slotIng.ingredientId.startsWith('recipe-use:') && !offer;
+        if (scopedEstimate && activeStores.includes(chain)) missingScopedStorePrices.add(slotIng.ingredientId);
         const totalCost = isOnHand
           ? 0
           : Number((slotIng.quantityUsed * unitCost).toFixed(2));
@@ -142,9 +165,9 @@ export function buildShoppingListAndStoreComparison(
           totalCost,
           rawDealText: isOnHand
             ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
-            : offer?.rawPriceText || slotIng.rawDealText,
-          dealType: offer?.dealType || slotIng.dealType,
-          dealConditions: offer?.dealConditions || slotIng.dealConditions,
+            : scopedEstimate ? `Price unavailable at this store; estimate from ${slotIng.store}` : offer?.rawPriceText || slotIng.rawDealText,
+          dealType: scopedEstimate ? 'SHELF_OR_MEMBER' : offer?.dealType || slotIng.dealType,
+          dealConditions: scopedEstimate ? undefined : offer?.dealConditions || slotIng.dealConditions,
         };
       }
 
@@ -210,7 +233,7 @@ export function buildShoppingListAndStoreComparison(
     estimatedPantryTotal = pantryNeeds.reduce((sum, need) => sum + (need.estimatedCost ?? 0), 0);
     for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} fixed estimate`}`);
   }
-  const missingPriceIngredientIds = [...new Set(pantryNeeds.filter((need) => need.estimatedCost === null).map((need) => need.ingredientId))];
+  const missingPriceIngredientIds = [...new Set([...pantryNeeds.filter((need) => need.estimatedCost === null).map((need) => need.ingredientId), ...missingScopedStorePrices])];
   const items = Array.from(itemMap.values()).sort((a, b) => {
     if (a.isOnHand !== b.isOnHand) return a.isOnHand ? 1 : -1;
     const order = { PROTEIN: 0, PRODUCE: 1, DAIRY_EGGS: 2 };
@@ -337,6 +360,8 @@ export function buildShoppingListAndStoreComparison(
     recommendationHeadline = `1-Stop at ${bestStoreName} is the sweet spot ($${bestSingleStoreTotal.toFixed(2)})`;
     recommendationDetail = `Splitting stores only saves $${extraSavingsFromSplitting.toFixed(2)} more than doing a single trip to ${bestStoreName}.`;
   }
+
+  if (missingScopedStorePrices.size) recommendationDetail += ' Some store prices are unavailable; estimates from another store are labeled and are not verified offers at this store.';
 
   return {
     items,

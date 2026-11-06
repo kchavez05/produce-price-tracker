@@ -1,4 +1,5 @@
-import { recipeAvailableIngredientIds, recipePantryIngredientId } from './recipe-identity';
+import { recipeAvailableIngredientIds, recipePantryIngredientId, recipeUseRequirementName } from './recipe-identity';
+import { matchedRecipeRequirement, recipeCommodity, recipeUseForRequirement } from './recipe-use';
 import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity } from '@/types/domain';
 import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { normalizePantryName, pantryCatalog } from './model';
@@ -6,7 +7,7 @@ import { evaluatePantryRequirementsByIds } from './requirements';
 
 const finiteNonnegative = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value) && value >= 0;
 export function pantryRequirementName(requirement: PantryRequirement): string {
-  return pantryCatalog.get(requirement.ingredientId)?.name ?? requirement.displayName ?? requirement.ingredientId;
+  return pantryCatalog.get(requirement.ingredientId)?.name ?? recipeUseRequirementName(requirement.ingredientId) ?? requirement.displayName ?? requirement.ingredientId;
 }
 export function formatPantryRequirement(requirement: PantryRequirement): string {
   return `${pantryRequirementName(requirement)}${requirement.unit ? ` (${requirement.quantity} ${requirement.unit})` : ''}`;
@@ -56,9 +57,29 @@ export function applyPantryToRecipe(
   const available = new Set(recipeAvailableIngredientIds(availableIds));
   const prices = new Map(commodities.map((commodity) => [commodity.ingredient.id, commodity]));
   const sourceRequirements = explicitRequirements ?? recipePantryRequirements(dish);
-  const requirements = sourceRequirements.map((requirement, index): PantryRequirement => {
+  const sourceMatched = [...(Array.isArray(dish.matchedIngredients) ? dish.matchedIngredients : [])];
+  const represented = new Set(sourceMatched.filter((ingredient) => ingredient && typeof ingredient.ingredientId === 'string')
+    .map((ingredient) => matchedRecipeRequirement(dish, ingredient).ingredientId));
+  const restored = new Set<PantryRequirement>();
+  // An unpriced scoped requirement retains its exact rule ID, so later prices/availability
+  // can be evaluated again without saving stale costs or guessing from its display text.
+  for (const requirement of sourceRequirements) {
+    if (!requirement || typeof requirement.ingredientId !== 'string') continue;
+    const use = recipeUseForRequirement(dish, requirement.ingredientId);
+    if (!use || !['lb', 'doz'].includes(requirement.unit) || !finiteNonnegative(requirement.quantity)) continue;
+    if (!represented.has(requirement.ingredientId)) {
+      const offer = prices.get(use.marketIngredientId)?.bestOffer;
+      sourceMatched.push({ ingredientId: use.marketIngredientId, ingredientName: use.marketIngredientName, slotLabel: use.slotLabel,
+        quantityUsed: requirement.quantity, unit: requirement.unit as 'lb' | 'doz', store: offer?.store ?? 'KING_SOOPERS',
+        rawDealText: '', dealType: offer?.dealType ?? 'SHELF_OR_MEMBER', unitCost: 0, slotCost: 0, regularSlotCost: 0,
+        isUserPinned: false, ...(requirement.optional ? { optional: true } : {}) });
+    }
+    restored.add(requirement);
+  }
+  const requirements = sourceRequirements.filter((r) => !restored.has(r)).map((requirement, index): PantryRequirement => {
     if (!requirement || typeof requirement.ingredientId !== 'string') return unpricedRecipeText(`Unmapped ingredient ${index + 1}`);
-    const ingredientId = recipePantryIngredientId(requirement.ingredientId);
+    const ingredientId = requirement.ingredientId.startsWith('recipe-use:') && !recipeUseForRequirement(dish, requirement.ingredientId)
+      ? `unmapped:${requirement.ingredientId}` : recipePantryIngredientId(requirement.ingredientId);
     const price = pantryCatalog.get(ingredientId)?.staticPrice;
     const usable = finiteNonnegative(requirement.quantity) && typeof requirement.unit === 'string' &&
       (!price || Number.isFinite(requirement.quantity * price.usdPerUnit) && requirement.quantity * price.usdPerUnit * 100 <= Number.MAX_SAFE_INTEGER / Math.max(1, sourceRequirements.length));
@@ -68,18 +89,17 @@ export function applyPantryToRecipe(
   const marketRequirements: PantryRequirement[] = [];
   let storeCost = 0;
   let regularStoreCost = 0;
-  for (const ingredient of Array.isArray(dish.matchedIngredients) ? dish.matchedIngredients : []) {
+  for (const ingredient of sourceMatched) {
     if (!ingredient || typeof ingredient.ingredientId !== 'string') { requirements.push(unpricedRecipeText('Unmapped recipe ingredient')); continue; }
-    const commodity = prices.get(ingredient.ingredientId);
+    const commodity = recipeCommodity(dish, ingredient, prices.get(ingredient.ingredientId));
     const validQuantity = finiteNonnegative(ingredient.quantityUsed);
     const known = commodity && validQuantity && commodity.ingredient.standardUnit === ingredient.unit && finiteNonnegative(commodity.bestOffer.normalizedPricePerUnit)
       && Number.isFinite(ingredient.quantityUsed * commodity.bestOffer.normalizedPricePerUnit)
       && (storeCost + ingredient.quantityUsed * commodity.bestOffer.normalizedPricePerUnit) * 100 <= Number.MAX_SAFE_INTEGER;
-    const requirement: PantryRequirement = { ingredientId: recipePantryIngredientId(ingredient.ingredientId), displayName: ingredient.ingredientName,
-      quantity: validQuantity ? ingredient.quantityUsed : 1, unit: validQuantity ? ingredient.unit : '', ...(ingredient.optional ? { optional: true } : {}) };
+    const requirement = matchedRecipeRequirement(dish, ingredient);
     if (!known) { requirements.push(requirement); continue; }
     marketRequirements.push(requirement);
-    const isOnHand = available.has(ingredient.ingredientId);
+    const isOnHand = available.has(requirement.ingredientId);
     const slotCost = isOnHand || ingredient.optional ? 0 : Number((ingredient.quantityUsed * commodity.bestOffer.normalizedPricePerUnit).toFixed(2));
     const regularUnit = finiteNonnegative(commodity.bestOffer.regularPricePerUnit)
       && Number.isFinite(ingredient.quantityUsed * commodity.bestOffer.regularPricePerUnit)
@@ -87,7 +107,7 @@ export function applyPantryToRecipe(
       ? commodity.bestOffer.regularPricePerUnit : commodity.bestOffer.normalizedPricePerUnit;
     const regularSlotCost = isOnHand || ingredient.optional ? 0 : Number((ingredient.quantityUsed * regularUnit).toFixed(2));
     storeCost += slotCost; regularStoreCost += regularSlotCost;
-    matched.push({ ...ingredient, isOnHand, fromVirtualFreezer: false, store: commodity.bestOffer.store,
+    matched.push({ ...ingredient, ingredientName: requirement.displayName ?? ingredient.ingredientName, isOnHand, fromVirtualFreezer: false, store: commodity.bestOffer.store,
       rawDealText: isOnHand ? 'Already have' : commodity.bestOffer.rawPriceText,
       dealType: commodity.bestOffer.dealType, dealConditions: commodity.bestOffer.dealConditions,
       unitCost: commodity.bestOffer.normalizedPricePerUnit, slotCost, regularSlotCost });

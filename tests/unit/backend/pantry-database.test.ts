@@ -142,6 +142,35 @@ describe('pantry database storage boundaries', () => {
     await db.query('delete from public.users where id=$1', [owner]);
     await db.exec('reset role');
   });
+  it('installs seven fresh IDs additively and keeps independent availability on retries and presentation rollback', async () => {
+    const owner = '00000000-0000-4000-8000-000000000007';
+    await db.query('insert into auth.users(id,email) values($1,$2)', [owner, 'vegetables@example.test']);
+    await asUser(owner);
+    const before = await rpc<PantryMigrationSnapshot>('read');
+    await rpc('migrate', { source: before.legacySource, entries: [] });
+    const ids = ['broccoli-fresh', 'cauliflower-fresh', 'carrots-fresh', 'kale-fresh', 'mushrooms-white-fresh', 'spinach-fresh', 'tomatoes-fresh'];
+    const mutations = ids.map((id, index) => put({ mutationId: id, entryId: id, entry: { ingredientId: id, displayName: id, available: index % 2 === 0 } }));
+    for (const mutation of mutations) await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
+    await db.exec('reset role');
+    expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(138);
+    const migration = readFileSync('supabase/migrations/20261106175108_pantry_remaining_vegetables.sql', 'utf8');
+    await db.exec(migration); await db.exec(migration);
+    await asUser(owner);
+    for (const mutation of mutations) {
+      const applied = await rpc('mutate', mutation);
+      expect(applied).toMatchObject({ status: 'applied', entry: { revision: 1 } });
+      expect(await rpc('mutate', mutation)).toEqual(applied);
+    }
+    const saved = await rpc<PantryMigrationSnapshot>('read');
+    expect(saved.entries.find((r) => r.ingredientId === 'broccoli-fresh')?.available).toBe(true);
+    expect(saved.entries.find((r) => r.ingredientId === 'cauliflower-fresh')?.available).toBe(false);
+    await db.exec('reset role');
+    await db.exec(readFileSync('supabase/migrations/20261106170650_pantry_spice_forms.sql', 'utf8'));
+    await asUser(owner);
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(saved.entries);
+    await db.query('delete from public.users where id=$1', [owner]);
+    await db.exec('reset role');
+  });
   it('keeps catalog IDs synchronized and denies anonymous execution', async () => {
     const ids = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows.map((r) => r.id);
     expect(ids).toEqual(cookingIngredients.map((r) => r.id).sort());

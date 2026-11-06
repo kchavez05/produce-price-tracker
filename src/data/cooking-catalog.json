@@ -3789,14 +3789,1706 @@
           "to": "lentils-dried"
         }
       ]
+    },
+    {
+      "version": "2026-11-06.3",
+      "ingredients": [
+        {
+          "id": "all-purpose-flour",
+          "name": "All-purpose wheat flour",
+          "aliases": [
+            "all purpose flour"
+          ],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.03
+          },
+          "familyId": "wheat-flour",
+          "form": "all-purpose-flour"
+        },
+        {
+          "id": "almonds-whole-raw",
+          "name": "Whole raw almonds",
+          "aliases": [],
+          "familyId": "almonds",
+          "form": "whole-raw",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "apple-cider-vinegar",
+          "name": "Apple cider vinegar",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.06
+          }
+        },
+        {
+          "id": "asparagus-fresh",
+          "name": "Asparagus",
+          "aliases": [],
+          "recipeIngredientId": "asparagus-fresh",
+          "familyId": "asparagus",
+          "form": "fresh"
+        },
+        {
+          "id": "avocado-oil",
+          "name": "Avocado oil",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.25
+          }
+        },
+        {
+          "id": "avocados-hass",
+          "name": "Hass avocado",
+          "aliases": [],
+          "recipeIngredientId": "avocados-hass"
+        },
+        {
+          "id": "barley-hulled",
+          "name": "Hulled barley",
+          "aliases": [],
+          "familyId": "barley",
+          "form": "hulled",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "barley-pearled",
+          "name": "Pearled barley",
+          "aliases": [
+            "pearl barley"
+          ],
+          "familyId": "barley",
+          "form": "pearled",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "basil-fresh",
+          "name": "Fresh basil",
+          "aliases": [],
+          "familyId": "basil",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "basmati-rice-dry",
+          "name": "Dry basmati rice",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.65
+          },
+          "familyId": "rice",
+          "form": "dry",
+          "searchVisibility": "primary",
+          "variety": "basmati"
+        },
+        {
+          "id": "bay-leaf",
+          "name": "Bay leaf",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "each",
+            "usdPerUnit": 0.1
+          }
+        },
+        {
+          "id": "beef-broth",
+          "name": "Beef broth",
+          "aliases": [
+            "beef stock"
+          ],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.45
+          }
+        },
+        {
+          "id": "beets-fresh",
+          "name": "Beets",
+          "aliases": [
+            "beetroot"
+          ],
+          "familyId": "beets",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "bell-peppers",
+          "name": "Bell peppers",
+          "aliases": [],
+          "recipeIngredientId": "bell-peppers"
+        },
+        {
+          "id": "black-beans-canned",
+          "name": "Canned black beans",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.06
+          },
+          "familyId": "black-beans",
+          "form": "canned"
+        },
+        {
+          "id": "black-beans-dried",
+          "name": "Dried black beans",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.1
+          },
+          "familyId": "black-beans",
+          "form": "dried"
+        },
+        {
+          "id": "black-pepper",
+          "name": "Black pepper",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.05
+          }
+        },
+        {
+          "id": "bread-flour",
+          "name": "Wheat bread flour",
+          "aliases": [],
+          "familyId": "wheat-flour",
+          "form": "bread-flour",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "brown-rice-dry",
+          "name": "Dry brown rice",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.5
+          },
+          "familyId": "rice",
+          "form": "dry",
+          "searchVisibility": "primary",
+          "variety": "brown"
+        },
+        {
+          "id": "brown-rice-flour",
+          "name": "Brown rice flour",
+          "aliases": [],
+          "familyId": "rice-flour",
+          "form": "flour",
+          "searchVisibility": "variant",
+          "variety": "brown",
+          "parentIngredientId": "rice-flour"
+        },
+        {
+          "id": "brussels-sprouts",
+          "name": "Brussels sprouts",
+          "aliases": [],
+          "recipeIngredientId": "brussels-sprouts",
+          "familyId": "brussels-sprouts",
+          "form": "fresh"
+        },
+        {
+          "id": "buckwheat-flour",
+          "name": "Buckwheat flour",
+          "aliases": [],
+          "familyId": "buckwheat-flour",
+          "form": "flour",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "buckwheat-whole",
+          "name": "Whole-grain buckwheat",
+          "aliases": [],
+          "familyId": "buckwheat",
+          "form": "whole-grain",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "bulgur-dry",
+          "name": "Dry bulgur",
+          "aliases": [
+            "bulgur wheat"
+          ],
+          "familyId": "bulgur",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "butter-salted-unsalted",
+          "name": "Butter",
+          "aliases": [],
+          "recipeIngredientId": "butter-salted-unsalted"
+        },
+        {
+          "id": "cannellini-beans-canned",
+          "name": "Canned cannellini beans",
+          "aliases": [
+            "canned white kidney beans"
+          ],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.07
+          }
+        },
+        {
+          "id": "canola-oil",
+          "name": "Canola oil",
+          "aliases": [],
+          "familyId": "canola",
+          "form": "oil",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "caraway-seeds",
+          "name": "Caraway seeds",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "cardamom-ground",
+          "name": "Ground cardamom",
+          "aliases": [
+            "cardamom powder"
+          ],
+          "familyId": "cardamom",
+          "form": "ground",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "cardamom-pods",
+          "name": "Whole cardamom pods",
+          "aliases": [
+            "cardamom pods",
+            "whole cardamom"
+          ],
+          "familyId": "cardamom",
+          "form": "pods",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "celery-stalks",
+          "name": "Celery",
+          "aliases": [],
+          "recipeIngredientId": "celery-stalks",
+          "familyId": "celery",
+          "form": "fresh"
+        },
+        {
+          "id": "chicken-breast-boneless",
+          "name": "Boneless skinless chicken breast",
+          "aliases": [],
+          "recipeIngredientId": "chicken-breast-boneless"
+        },
+        {
+          "id": "chicken-broth",
+          "name": "Chicken broth",
+          "aliases": [
+            "chicken stock"
+          ],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.4
+          }
+        },
+        {
+          "id": "chicken-thighs-boneless",
+          "name": "Boneless skinless chicken thighs",
+          "aliases": [],
+          "recipeIngredientId": "chicken-thighs-boneless"
+        },
+        {
+          "id": "chickpea-flour",
+          "name": "Chickpea flour",
+          "aliases": [
+            "besan",
+            "gram flour"
+          ],
+          "familyId": "chickpea-flour",
+          "form": "flour",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "chickpeas-canned",
+          "name": "Canned chickpeas",
+          "aliases": [
+            "canned garbanzo beans"
+          ],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.06
+          },
+          "familyId": "chickpeas",
+          "form": "canned"
+        },
+        {
+          "id": "chickpeas-dried",
+          "name": "Dried chickpeas",
+          "aliases": [
+            "dried garbanzo beans"
+          ],
+          "familyId": "chickpeas",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "chili-powder",
+          "name": "Chili powder",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "cilantro-fresh",
+          "name": "Fresh cilantro",
+          "aliases": [
+            "fresh coriander"
+          ],
+          "familyId": "coriander-leaf",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "cinnamon-ground",
+          "name": "Ground cinnamon",
+          "aliases": [],
+          "familyId": "cinnamon",
+          "form": "ground",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "cloves-ground",
+          "name": "Ground cloves",
+          "aliases": [],
+          "familyId": "cloves",
+          "form": "ground",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "coconut-aminos",
+          "name": "Coconut aminos",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.3
+          }
+        },
+        {
+          "id": "coconut-milk-canned",
+          "name": "Canned coconut milk",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 1
+          }
+        },
+        {
+          "id": "coriander-ground",
+          "name": "Ground coriander",
+          "aliases": [
+            "coriander powder"
+          ],
+          "familyId": "coriander-seed",
+          "form": "ground",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "coriander-seeds-whole",
+          "name": "Whole coriander seeds",
+          "aliases": [
+            "coriander seed",
+            "coriander seeds",
+            "whole coriander"
+          ],
+          "familyId": "coriander-seed",
+          "form": "whole-seeds",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "cornmeal-yellow-whole",
+          "name": "Whole-grain yellow cornmeal",
+          "aliases": [],
+          "familyId": "cornmeal",
+          "form": "whole-grain",
+          "searchVisibility": "primary",
+          "variety": "yellow"
+        },
+        {
+          "id": "cornstarch",
+          "name": "Cornstarch",
+          "aliases": [
+            "corn starch"
+          ],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.05
+          }
+        },
+        {
+          "id": "couscous-dry",
+          "name": "Dry couscous",
+          "aliases": [],
+          "familyId": "couscous",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "crushed-tomatoes-canned",
+          "name": "Canned crushed tomatoes",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.06
+          }
+        },
+        {
+          "id": "cucumber-fresh",
+          "name": "Cucumber",
+          "aliases": [],
+          "familyId": "cucumber",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "curry-powder",
+          "name": "Curry powder",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.1
+          }
+        },
+        {
+          "id": "dijon-mustard",
+          "name": "Dijon mustard",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.12
+          }
+        },
+        {
+          "id": "dill-dried",
+          "name": "Dried dill",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "eggplant-fresh",
+          "name": "Eggplant",
+          "aliases": [
+            "aubergine"
+          ],
+          "familyId": "eggplant",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "feta-cheese",
+          "name": "Feta",
+          "aliases": [
+            "feta cheese"
+          ],
+          "familyId": "feta",
+          "form": "cheese",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "fish-sauce",
+          "name": "Fish sauce",
+          "aliases": [],
+          "familyId": "fish-sauce",
+          "form": "sauce",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "garam-masala",
+          "name": "Garam masala",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.12
+          }
+        },
+        {
+          "id": "garlic-fresh",
+          "name": "Garlic",
+          "aliases": [
+            "garlic cloves"
+          ],
+          "staticPrice": {
+            "unit": "clove",
+            "usdPerUnit": 0.08
+          },
+          "familyId": "garlic",
+          "form": "fresh"
+        },
+        {
+          "id": "garlic-powder",
+          "name": "Garlic powder",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.06
+          }
+        },
+        {
+          "id": "ginger-fresh",
+          "name": "Ginger",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.15
+          },
+          "familyId": "ginger",
+          "form": "fresh"
+        },
+        {
+          "id": "ginger-ground",
+          "name": "Ground ginger",
+          "aliases": [],
+          "familyId": "ginger",
+          "form": "ground",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "glutinous-rice-flour",
+          "name": "Glutinous rice flour",
+          "aliases": [],
+          "familyId": "rice-flour",
+          "form": "flour",
+          "searchVisibility": "variant",
+          "variety": "glutinous",
+          "parentIngredientId": "rice-flour"
+        },
+        {
+          "id": "great-northern-beans-canned",
+          "name": "Canned Great Northern beans",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.07
+          }
+        },
+        {
+          "id": "green-cabbage",
+          "name": "Green cabbage",
+          "aliases": [],
+          "recipeIngredientId": "green-cabbage"
+        },
+        {
+          "id": "green-split-peas-dried",
+          "name": "Dried green split peas",
+          "aliases": [],
+          "familyId": "split-peas",
+          "form": "dried",
+          "searchVisibility": "primary",
+          "variety": "green"
+        },
+        {
+          "id": "ground-beef-80-20",
+          "name": "Ground beef",
+          "aliases": [],
+          "recipeIngredientId": "ground-beef-80-20"
+        },
+        {
+          "id": "ground-cumin",
+          "name": "Ground cumin",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "ground-turkey",
+          "name": "Ground turkey",
+          "aliases": [],
+          "recipeIngredientId": "ground-turkey"
+        },
+        {
+          "id": "honey",
+          "name": "Honey",
+          "aliases": [],
+          "familyId": "honey",
+          "form": "unspecified",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "italian-seasoning",
+          "name": "Italian seasoning",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "jasmine-rice-dry",
+          "name": "Dry jasmine rice",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.6
+          },
+          "familyId": "rice",
+          "form": "dry",
+          "searchVisibility": "primary",
+          "variety": "jasmine"
+        },
+        {
+          "id": "kidney-beans-canned",
+          "name": "Canned kidney beans",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.06
+          },
+          "familyId": "kidney-beans",
+          "form": "canned"
+        },
+        {
+          "id": "kidney-beans-dried",
+          "name": "Dried kidney beans",
+          "aliases": [],
+          "familyId": "kidney-beans",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "large-eggs-dozen",
+          "name": "Chicken eggs",
+          "aliases": [],
+          "recipeIngredientId": "large-eggs-dozen"
+        },
+        {
+          "id": "leeks-fresh",
+          "name": "Leeks",
+          "aliases": [],
+          "familyId": "leeks",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "lemon-fresh",
+          "name": "Lemon",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "each",
+            "usdPerUnit": 0.6
+          }
+        },
+        {
+          "id": "lentils-canned",
+          "aliases": [],
+          "name": "Canned lentils",
+          "familyId": "lentils",
+          "form": "canned",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "lentils-dried",
+          "aliases": [],
+          "name": "Dried lentils",
+          "familyId": "lentils",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "lime-juice",
+          "name": "Lime juice",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.15
+          }
+        },
+        {
+          "id": "masa-harina",
+          "name": "Masa harina",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.4
+          }
+        },
+        {
+          "id": "mexican-oregano-dried",
+          "name": "Dried Mexican oregano",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "milk-whole",
+          "name": "Whole milk (3.25%)",
+          "aliases": [
+            "whole milk"
+          ],
+          "familyId": "milk",
+          "form": "whole",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "millet-whole",
+          "name": "Whole-grain millet",
+          "aliases": [],
+          "familyId": "millet",
+          "form": "whole-grain",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "miso",
+          "name": "Miso",
+          "aliases": [
+            "miso paste"
+          ],
+          "familyId": "miso",
+          "form": "paste",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "navy-beans-canned",
+          "name": "Canned navy beans",
+          "aliases": [],
+          "familyId": "navy-beans",
+          "form": "canned",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "navy-beans-dried",
+          "name": "Dried navy beans",
+          "aliases": [],
+          "familyId": "navy-beans",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "oat-flour",
+          "name": "Whole-grain oat flour",
+          "aliases": [],
+          "familyId": "oat-flour",
+          "form": "flour",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "okra-fresh",
+          "name": "Okra",
+          "aliases": [],
+          "familyId": "okra",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "olive-oil",
+          "name": "Olive oil",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.2
+          }
+        },
+        {
+          "id": "onion-powder",
+          "name": "Onion powder",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.06
+          }
+        },
+        {
+          "id": "onions-fresh",
+          "aliases": [],
+          "name": "Onions",
+          "familyId": "onions",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "orange-juice",
+          "name": "Orange juice",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.5
+          }
+        },
+        {
+          "id": "oregano-dried",
+          "name": "Dried oregano",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.07
+          }
+        },
+        {
+          "id": "oyster-sauce",
+          "name": "Oyster sauce",
+          "aliases": [],
+          "familyId": "oyster-sauce",
+          "form": "sauce",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "parmesan-hard",
+          "name": "Hard Parmesan",
+          "aliases": [
+            "hard parmesan cheese"
+          ],
+          "familyId": "parmesan",
+          "form": "hard",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "parsley-fresh",
+          "name": "Fresh parsley",
+          "aliases": [],
+          "familyId": "parsley",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "pasta-dry",
+          "name": "Dry pasta",
+          "aliases": [],
+          "familyId": "pasta",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "pinto-beans-canned",
+          "name": "Canned pinto beans",
+          "aliases": [],
+          "familyId": "pinto-beans",
+          "form": "canned",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "pinto-beans-dried",
+          "name": "Dried pinto beans",
+          "aliases": [],
+          "familyId": "pinto-beans",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "pork-shoulder-butt",
+          "name": "Pork shoulder",
+          "aliases": [],
+          "recipeIngredientId": "pork-shoulder-butt"
+        },
+        {
+          "id": "quinoa-dry",
+          "name": "Dry quinoa",
+          "aliases": [],
+          "familyId": "quinoa",
+          "form": "dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "radishes-fresh",
+          "name": "Radishes",
+          "aliases": [],
+          "familyId": "radishes",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "red-lentils-dried",
+          "name": "Dried red lentils",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.8
+          },
+          "familyId": "lentils",
+          "form": "dried",
+          "searchVisibility": "variant",
+          "variety": "red",
+          "parentIngredientId": "lentils-dried"
+        },
+        {
+          "id": "red-pepper-flakes",
+          "name": "Red pepper flakes",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.06
+          }
+        },
+        {
+          "id": "red-wine-vinegar",
+          "name": "Red wine vinegar",
+          "aliases": [],
+          "familyId": "red-wine-vinegar",
+          "form": "vinegar",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "rice-flour",
+          "name": "Rice flour",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.06
+          },
+          "familyId": "rice-flour",
+          "form": "flour",
+          "searchVisibility": "specific"
+        },
+        {
+          "id": "rolled-oats",
+          "name": "Rolled oats",
+          "aliases": [
+            "old-fashioned oats",
+            "old fashioned oats"
+          ],
+          "familyId": "oats",
+          "form": "rolled",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "rosemary-dried",
+          "name": "Dried rosemary",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "rye-flour",
+          "name": "Rye flour",
+          "aliases": [],
+          "familyId": "rye-flour",
+          "form": "flour",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "salt",
+          "name": "Salt",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.01
+          }
+        },
+        {
+          "id": "self-rising-wheat-flour",
+          "name": "Self-rising wheat flour",
+          "aliases": [
+            "self raising flour",
+            "self-raising flour"
+          ],
+          "familyId": "wheat-flour",
+          "form": "self-rising-flour",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "sesame-oil",
+          "name": "Sesame oil",
+          "aliases": [],
+          "familyId": "sesame",
+          "form": "oil",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "sesame-seeds-whole-dried",
+          "name": "Whole dried sesame seeds",
+          "aliases": [],
+          "familyId": "sesame-seeds",
+          "form": "whole-dried",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "smoked-paprika",
+          "name": "Smoked paprika",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "sorghum-flour",
+          "name": "Sorghum flour",
+          "aliases": [],
+          "familyId": "sorghum-flour",
+          "form": "flour",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "sorghum-whole",
+          "name": "Whole-grain sorghum",
+          "aliases": [],
+          "familyId": "sorghum",
+          "form": "whole-grain",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "soy-sauce",
+          "name": "Soy sauce",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.1
+          }
+        },
+        {
+          "id": "spearmint-fresh",
+          "name": "Fresh spearmint",
+          "aliases": [],
+          "familyId": "spearmint",
+          "form": "fresh",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "steel-cut-oats",
+          "name": "Steel-cut oats",
+          "aliases": [
+            "steel cut oats"
+          ],
+          "familyId": "oats",
+          "form": "steel-cut",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "sugar-brown",
+          "name": "Brown sugar",
+          "aliases": [],
+          "familyId": "sugar",
+          "form": "brown",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "sugar-granulated",
+          "name": "Granulated sugar",
+          "aliases": [],
+          "familyId": "sugar",
+          "form": "granulated",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "sweet-potatoes",
+          "name": "Sweet potatoes",
+          "aliases": [],
+          "recipeIngredientId": "sweet-potatoes"
+        },
+        {
+          "id": "tahini",
+          "name": "Tahini",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.25
+          }
+        },
+        {
+          "id": "tapioca-pearls-dry",
+          "name": "Dry tapioca pearls",
+          "aliases": [],
+          "familyId": "tapioca",
+          "form": "pearls",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "tempeh",
+          "name": "Tempeh",
+          "aliases": [],
+          "familyId": "tempeh",
+          "form": "plain",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "thyme-dried",
+          "name": "Dried thyme",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tsp",
+            "usdPerUnit": 0.08
+          }
+        },
+        {
+          "id": "tofu-firm",
+          "name": "Firm tofu",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "oz",
+            "usdPerUnit": 0.15
+          }
+        },
+        {
+          "id": "tofu-soft",
+          "name": "Soft tofu",
+          "aliases": [],
+          "familyId": "tofu",
+          "form": "soft",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "tomato-paste",
+          "name": "Tomato paste",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.15
+          }
+        },
+        {
+          "id": "tuna-light-canned-water",
+          "name": "Canned light tuna in water",
+          "aliases": [],
+          "familyId": "tuna",
+          "form": "canned-in-water",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "turmeric-ground",
+          "name": "Ground turmeric",
+          "aliases": [],
+          "familyId": "turmeric",
+          "form": "ground",
+          "searchVisibility": "primary"
+        },
+        {
+          "id": "vegetable-broth",
+          "name": "Vegetable broth",
+          "aliases": [
+            "vegetable stock"
+          ],
+          "staticPrice": {
+            "unit": "cup",
+            "usdPerUnit": 0.4
+          }
+        },
+        {
+          "id": "walnuts-english-raw",
+          "name": "Raw English walnuts",
+          "aliases": [],
+          "familyId": "walnuts",
+          "form": "raw",
+          "searchVisibility": "primary",
+          "variety": "english"
+        },
+        {
+          "id": "whole-grain-mustard",
+          "name": "Whole grain mustard",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.14
+          }
+        },
+        {
+          "id": "whole-wheat-flour",
+          "name": "Whole wheat flour",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.04
+          },
+          "familyId": "wheat-flour",
+          "form": "whole-wheat-flour"
+        },
+        {
+          "id": "worcestershire-sauce",
+          "name": "Worcestershire sauce",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.18
+          }
+        },
+        {
+          "id": "worcestershire-sauce-gluten-free",
+          "name": "Gluten-free Worcestershire sauce",
+          "aliases": [],
+          "staticPrice": {
+            "unit": "tbsp",
+            "usdPerUnit": 0.18
+          }
+        },
+        {
+          "id": "yogurt-plain-whole-milk",
+          "name": "Plain whole-milk yogurt",
+          "aliases": [
+            "plain yogurt",
+            "plain whole milk yogurt"
+          ],
+          "familyId": "yogurt",
+          "form": "yogurt",
+          "searchVisibility": "specific",
+          "variety": "plain-whole-milk"
+        }
+      ],
+      "compatibility": [
+        {
+          "from": "red-lentils-dried",
+          "to": "lentils-dried"
+        }
+      ]
     }
   ],
   "recipeLinksFormatVersion": 1,
-  "recipeLinksHash": "1b51bcd6775c05f4bf169c047c001d498b2e21cf19431f5b4a0e79fb68fa57ff",
+  "recipeLinksHash": "e4d30591c438490369c1c7fbb4a854f654698f5f650211f7d7a7b60c2d9d2d76",
   "recipeLinks": [
     {
       "marketIngredientId": "yellow-white-onions",
       "pantryIngredientId": "onions-fresh"
+    },
+    {
+      "marketIngredientId": "carrots-whole-baby",
+      "pantryIngredientId": "carrots-fresh"
+    }
+  ],
+  "scopedRecipeUsesHash": "2b719f7f47922e9077ee29faa280c76f5b9494a3d62d83f025be978495b37c9a",
+  "scopedRecipeUses": [
+    {
+      "id": "colorado-pork-green-chile-stew:stew_starch:broccoli-cauliflower",
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "stew_starch",
+      "slotLabel": "Diced Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "colorado-pork-green-chile-stew:tomato_acid:tomatoes-roma-vine",
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "tomato_acid",
+      "slotLabel": "Tomatillos or Roma Tomatoes & Onion",
+      "marketIngredientId": "tomatoes-roma-vine",
+      "marketIngredientName": "Roma or Vine-Ripened Tomatoes (or Tomatillos)",
+      "displayName": "Fresh tomatoes or tomatillos",
+      "pantryIngredientIds": [
+        "tomatoes-fresh"
+      ],
+      "offerFoods": [
+        "tomatoes",
+        "tomatillos"
+      ]
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:broccoli-cauliflower",
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "slotLabel": "Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Broccoli or cauliflower",
+      "pantryIngredientIds": [
+        "broccoli-fresh",
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "broccoli",
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:mushrooms-cremini-white",
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "slotLabel": "Potatoes",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "marketIngredientName": "Cremini (Baby Bella) or White Mushrooms",
+      "displayName": "White or cremini mushrooms",
+      "pantryIngredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "offerFoods": [
+        "white-mushrooms",
+        "cremini-mushrooms"
+      ]
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_veg:carrots-whole-baby",
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_veg",
+      "slotLabel": "Carrots & Onions",
+      "marketIngredientId": "carrots-whole-baby",
+      "marketIngredientName": "Whole or Baby Carrots (2 lb Bag)",
+      "displayName": "Carrots",
+      "pantryIngredientIds": [
+        "carrots-fresh"
+      ],
+      "offerFoods": [
+        "carrots"
+      ]
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:umami_veg:mushrooms-cremini-white",
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "umami_veg",
+      "slotLabel": "Mushrooms or Celery",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "marketIngredientName": "Cremini (Baby Bella) or White Mushrooms",
+      "displayName": "White or cremini mushrooms",
+      "pantryIngredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "offerFoods": [
+        "white-mushrooms",
+        "cremini-mushrooms"
+      ]
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:cruciferous_veg:broccoli-cauliflower",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "cruciferous_veg",
+      "slotLabel": "Broccoli or Cauliflower",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Broccoli or cauliflower",
+      "pantryIngredientIds": [
+        "broccoli-fresh",
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "broccoli",
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:broccoli-cauliflower",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "base_starch",
+      "slotLabel": "Diced Potatoes or Butternut Squash",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Broccoli or cauliflower",
+      "pantryIngredientIds": [
+        "broccoli-fresh",
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "broccoli",
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:starch_base:broccoli-cauliflower",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "starch_base",
+      "slotLabel": "Sliced Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:spinach-kale-greens",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "greens_veg",
+      "slotLabel": "Fresh Spinach or Kale",
+      "marketIngredientId": "spinach-kale-greens",
+      "marketIngredientName": "Fresh Spinach or Cooking Greens",
+      "displayName": "Fresh spinach or kale",
+      "pantryIngredientIds": [
+        "spinach-fresh",
+        "kale-fresh"
+      ],
+      "offerFoods": [
+        "spinach",
+        "kale"
+      ]
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:aromatics:carrots-whole-baby",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "aromatics",
+      "slotLabel": "Onions, Carrots & Celery",
+      "marketIngredientId": "carrots-whole-baby",
+      "marketIngredientName": "Whole or Baby Carrots (2 lb Bag)",
+      "displayName": "Carrots",
+      "pantryIngredientIds": [
+        "carrots-fresh"
+      ],
+      "offerFoods": [
+        "carrots"
+      ]
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:broccoli-cauliflower",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "squash_starch",
+      "slotLabel": "Butternut Squash or Sweet Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:aromatics_tomato:tomatoes-roma-vine",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "aromatics_tomato",
+      "slotLabel": "Onions & Roma Tomatoes / Bell Peppers",
+      "marketIngredientId": "tomatoes-roma-vine",
+      "marketIngredientName": "Roma or Vine-Ripened Tomatoes (or Tomatillos)",
+      "displayName": "Fresh tomatoes",
+      "pantryIngredientIds": [
+        "tomatoes-fresh"
+      ],
+      "offerFoods": [
+        "tomatoes"
+      ]
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:greens_veg:spinach-kale-greens",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "greens_veg",
+      "slotLabel": "Spinach or Cauliflower",
+      "marketIngredientId": "spinach-kale-greens",
+      "marketIngredientName": "Fresh Spinach or Cooking Greens",
+      "displayName": "Fresh spinach",
+      "pantryIngredientIds": [
+        "spinach-fresh"
+      ],
+      "offerFoods": [
+        "spinach"
+      ]
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:greens_veg:broccoli-cauliflower",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "greens_veg",
+      "slotLabel": "Spinach or Cauliflower",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:mushrooms-cremini-white",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "hash_base",
+      "slotLabel": "Potatoes or Sweet Potatoes",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "marketIngredientName": "Cremini (Baby Bella) or White Mushrooms",
+      "displayName": "White or cremini mushrooms",
+      "pantryIngredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "offerFoods": [
+        "white-mushrooms",
+        "cremini-mushrooms"
+      ]
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:spinach-kale-greens",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "hash_base",
+      "slotLabel": "Potatoes or Sweet Potatoes",
+      "marketIngredientId": "spinach-kale-greens",
+      "marketIngredientName": "Fresh Spinach or Cooking Greens",
+      "displayName": "Fresh spinach or kale",
+      "pantryIngredientIds": [
+        "spinach-fresh",
+        "kale-fresh"
+      ],
+      "offerFoods": [
+        "spinach",
+        "kale"
+      ]
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:roast_veg:broccoli-cauliflower",
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "roast_veg",
+      "slotLabel": "Sweet Potatoes or Broccoli/Zucchini",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Broccoli",
+      "pantryIngredientIds": [
+        "broccoli-fresh"
+      ],
+      "offerFoods": [
+        "broccoli"
+      ]
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:low_carb_base:broccoli-cauliflower",
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "low_carb_base",
+      "slotLabel": "Cauliflower Florets for Mash",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ]
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:umami_mushrooms:mushrooms-cremini-white",
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "umami_mushrooms",
+      "slotLabel": "Cremini / Baby Bella Mushrooms",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "marketIngredientName": "Cremini (Baby Bella) or White Mushrooms",
+      "displayName": "Cremini / baby bella mushrooms",
+      "pantryIngredientIds": [],
+      "offerFoods": [
+        "cremini-mushrooms"
+      ]
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:green_veg:broccoli-cauliflower",
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "slotKey": "green_veg",
+      "slotLabel": "Brussels Sprouts, Asparagus or Broccoli",
+      "marketIngredientId": "broccoli-cauliflower",
+      "marketIngredientName": "Broccoli Crowns or Cauliflower",
+      "displayName": "Broccoli",
+      "pantryIngredientIds": [
+        "broccoli-fresh"
+      ],
+      "offerFoods": [
+        "broccoli"
+      ]
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:spinach-kale-greens",
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "slotKey": "side_starch",
+      "slotLabel": "Potatoes or Zucchini/Squash",
+      "marketIngredientId": "spinach-kale-greens",
+      "marketIngredientName": "Fresh Spinach or Cooking Greens",
+      "displayName": "Fresh spinach or kale",
+      "pantryIngredientIds": [
+        "spinach-fresh",
+        "kale-fresh"
+      ],
+      "offerFoods": [
+        "spinach",
+        "kale"
+      ]
+    }
+  ],
+  "scopedRecipeContexts": [
+    {
+      "id": "colorado-pork-green-chile-stew",
+      "title": "Colorado Roasted Poblano & Pork Green Chile Stew",
+      "steps": [
+        "Broil whole poblano/anaheim peppers, tomatillos/tomatoes, and quartered onion on a sheet pan for 10 minutes until charred, then pulse in a blender with garlic, cumin, oregano, and 2 cups broth.",
+        "Cube pork shoulder (or loin) into 1.5-inch chunks, season with salt & pepper, and toss into the slow cooker with cubed potatoes (or cauliflower florets for low-carb).",
+        "Pour the roasted green chile sauce and remaining broth over top. Cook on LOW for 6–7 hours (or HIGH for 4 hours) until pork shreds effortlessly.",
+        "Portion into meal-prep containers and top each with shredded cheese or a dollop of sour cream when reheating."
+      ]
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew",
+      "title": "Hearty Dutch Oven Beef Chuck & Mushroom Bourguignon Stew",
+      "steps": [
+        "Cut chuck roast into 2-inch cubes, pat dry, and sear in batches in a hot Dutch oven until deeply browned.",
+        "Add halved mushrooms, thick-cut carrots, and diced onions to the pot drippings; stir in tomato paste and thickener for 2 minutes.",
+        "Deglaze with beef broth and Worcestershire sauce, add cubed potatoes and herbs, cover, and braise in a 325°F oven (or low stovetop simmer) for 2.5 hours.",
+        "Divide evenly into meal-prep containers with plenty of thick gravy over the meat and vegetables."
+      ]
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole",
+      "title": "Loaded Cheesy Chicken Thigh, Broccoli & Roasted Potato Bake",
+      "steps": [
+        "Preheat oven to 400°F. Toss ½-inch cubed potatoes and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.",
+        "Whisk sour cream (or blended cottage cheese/Greek yogurt) with half the shredded cheese and ½ cup chicken broth.",
+        "Remove dish, stir in the selected fresh broccoli or cauliflower florets and the creamy cheese mixture, and blanket the top with the remaining shredded cheese.",
+        "Bake an additional 20–22 minutes until the selected florets are tender and cheese is bubbling golden brown."
+      ]
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "title": "Creamy Tuscan Italian Sausage, Potato & Spinach Zuppa Stew",
+      "steps": [
+        "Brown Italian sausage in the Instant Pot (or Dutch oven) with diced onion, carrots, and garlic.",
+        "Add halved baby/russet potatoes (or cauliflower florets for keto), white beans, Italian seasoning, and chicken broth. Pressure cook HIGH for 8 minutes (or simmer 22 minutes on stovetop).",
+        "For kale, simmer the chopped leaves in the broth until tender before turning off the heat. For spinach, turn off heat and stir in the leaves until wilted. Finish with sour cream (or coconut milk for dairy-free) for a rich, velvety broth."
+      ]
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise",
+      "title": "Slow-Cooker Golden Chicken Thigh, Butternut Squash & Spinach Curry",
+      "steps": [
+        "Place cubed butternut squash (or sweet potatoes, or cauliflower florets for the low-carb replacement), diced onions, diced tomatoes, and chicken thighs into the slow cooker.",
+        "Whisk broth/coconut milk with curry powder, garam masala, garlic, and ginger; pour over chicken and cook on LOW for 4.5 hours.",
+        "Shred or chunk the chicken in the pot, cook the selected cauliflower florets until tender, or fold in fresh spinach until wilted, then add Greek yogurt (or full-fat coconut milk if dairy-free) until creamy, and portion into meal containers."
+      ]
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "title": "Savory Poblano, Sausage & Sweet Potato High-Protein Egg Bake",
+      "steps": [
+        "Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms/zucchini for keto) and diced peppers/onions in a skillet for 10 minutes until tender. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.",
+        "Whisk eggs with cottage cheese (the secret to ultra-fluffy reheatable eggs that never get rubbery) and half the shredded cheddar.",
+        "Pour egg mixture over the sausage-vegetable hash, top with remaining cheddar, and bake at 375°F for 35–40 minutes until set in the center."
+      ]
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "title": "Sheet-Pan Chipotle-Lime Chicken Thighs, Charred Peppers & Sweet Potato Roast",
+      "steps": [
+        "Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.",
+        "Toss cubed sweet potatoes (or broccoli/zucchini for keto) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.",
+        "Toss sliced chicken thighs, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for 18–20 minutes until charred at the edges.",
+        "Squeeze fresh lime juice over everything and divide into 6 meal-prep containers with sliced avocado."
+      ]
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "title": "Keto Slow-Cooker Beef Chuck, Baby Bella Mushroom & Garlic Cauliflower Braise",
+      "steps": [
+        "Season beef chuck roast generously with salt, black pepper, garlic powder, and rosemary; place in the slow cooker surrounded by whole baby bella mushrooms, diced onion, and celery.",
+        "Pour in beef broth and Worcestershire sauce; cook on LOW for 6–7 hours until fork-tender.",
+        "Steam or microwave cauliflower florets for 6 minutes, then blitz or mash with butter (or olive oil for dairy-free) and roasted garlic.",
+        "Portion the cauliflower mash into 6 containers and ladle the shredded chuck roast, mushrooms, and pan jus over top."
+      ]
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "title": "Sheet-Pan Garlic-Lemon Salmon, Crispy Brussels Sprouts & Asparagus Medley",
+      "steps": [
+        "Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes/zucchini on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.",
+        "Push vegetables to the edges, place portioned salmon fillets and asparagus spears in the center, and brush salmon with olive oil, lemon juice, Dijon mustard, and dill.",
+        "If serving the low-carb spinach or kale side, saute those greens separately until tender. Roast 11–13 minutes more until salmon flakes easily at 135°F internal temp so it stays moist when reheated."
+      ]
     }
   ],
   "rollbackVersion": "baseline-1.5.2",
@@ -3871,8 +5563,8 @@
     "worcestershire-sauce",
     "worcestershire-sauce-gluten-free"
   ],
-  "catalogVersion": "2026-11-06.3",
-  "contentHash": "0bc6948644e30d4e64a5b6719ae13c825d908d56df7c2f4ef7b6dac522a12891",
+  "catalogVersion": "2026-11-06.4",
+  "contentHash": "86758a778e436be394c363d8f6e9efc9bdd47c23c7caf3fac16fc83973149951",
   "ingredients": [
     {
       "id": "all-purpose-flour",
@@ -4042,6 +5734,18 @@
       "searchVisibility": "primary"
     },
     {
+      "id": "broccoli-fresh",
+      "name": "Broccoli",
+      "aliases": [
+        "fresh broccoli",
+        "broccoli florets",
+        "broccoli crowns"
+      ],
+      "familyId": "broccoli",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
       "id": "brown-rice-dry",
       "name": "Dry brown rice",
       "aliases": [],
@@ -4151,6 +5855,29 @@
       ],
       "familyId": "cardamom",
       "form": "pods",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "carrots-fresh",
+      "name": "Carrots",
+      "aliases": [
+        "fresh carrots",
+        "raw carrots",
+        "baby carrots"
+      ],
+      "familyId": "carrots",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cauliflower-fresh",
+      "name": "Cauliflower",
+      "aliases": [
+        "fresh cauliflower",
+        "cauliflower florets"
+      ],
+      "familyId": "cauliflower",
+      "form": "fresh",
       "searchVisibility": "primary"
     },
     {
@@ -4529,6 +6256,16 @@
       "variety": "jasmine"
     },
     {
+      "id": "kale-fresh",
+      "name": "Fresh kale",
+      "aliases": [
+        "raw kale"
+      ],
+      "familyId": "kale",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
       "id": "kidney-beans-canned",
       "name": "Canned kidney beans",
       "aliases": [],
@@ -4639,6 +6376,17 @@
       ],
       "familyId": "miso",
       "form": "paste",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "mushrooms-white-fresh",
+      "name": "Fresh white mushrooms",
+      "aliases": [
+        "white button mushrooms",
+        "fresh white button mushrooms"
+      ],
+      "familyId": "white-mushrooms",
+      "form": "fresh",
       "searchVisibility": "primary"
     },
     {
@@ -4939,6 +6687,17 @@
       "searchVisibility": "primary"
     },
     {
+      "id": "spinach-fresh",
+      "name": "Fresh spinach",
+      "aliases": [
+        "baby spinach",
+        "raw spinach"
+      ],
+      "familyId": "spinach",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
       "id": "steel-cut-oats",
       "name": "Steel-cut oats",
       "aliases": [
@@ -5029,6 +6788,19 @@
         "unit": "tbsp",
         "usdPerUnit": 0.15
       }
+    },
+    {
+      "id": "tomatoes-fresh",
+      "name": "Fresh tomatoes",
+      "aliases": [
+        "fresh red tomatoes",
+        "raw tomatoes",
+        "Roma tomatoes",
+        "vine-ripened tomatoes"
+      ],
+      "familyId": "tomatoes",
+      "form": "fresh",
+      "searchVisibility": "primary"
     },
     {
       "id": "tuna-light-canned-water",

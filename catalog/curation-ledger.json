@@ -2807,6 +2807,226 @@
         "date": "2026-11-06",
         "payloadSha256": "d20574c5537ae39738e42ecd553b4924f9c1d1e3e45cf1e68e31f6a32de2246e"
       }
+    },
+    {
+      "id": "ingredient-carrots-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170393",
+          "fingerprint": "4c738bfd45ca39629e68d44cc3b298b9b01eeb3c6babd5663fe6d6f992db78f9"
+        }
+      ],
+      "rationale": "Fresh cooking identity supported by Carrots, raw. Reviewed cuts/age aliases do not create form or species equivalence. No nutrition, portion conversion, fixed price, general market-group ownership, or cross-vegetable compatibility is inferred. Any recipe-use alternatives require the separately proposed per-slot rules.",
+      "ingredient": {
+        "id": "carrots-fresh",
+        "name": "Carrots",
+        "aliases": [
+          "fresh carrots",
+          "raw carrots",
+          "baby carrots"
+        ],
+        "familyId": "carrots",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit approval of seven identities and 22 scoped recipe-use decisions in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "38301b7ce0b494d236a9440a8a9757d7602ee3f67ccdb702c080fccabf98251e"
+      }
+    },
+    {
+      "id": "ingredient-broccoli-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:747447",
+          "fingerprint": "3edc41696e599c808e167aafbf26f2c6167e09a9b4931c89e6d6ca65ba8382ab"
+        }
+      ],
+      "rationale": "Fresh cooking identity supported by Broccoli, raw. Reviewed cuts/age aliases do not create form or species equivalence. No nutrition, portion conversion, fixed price, general market-group ownership, or cross-vegetable compatibility is inferred. Any recipe-use alternatives require the separately proposed per-slot rules.",
+      "ingredient": {
+        "id": "broccoli-fresh",
+        "name": "Broccoli",
+        "aliases": [
+          "fresh broccoli",
+          "broccoli florets",
+          "broccoli crowns"
+        ],
+        "familyId": "broccoli",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit approval of seven identities and 22 scoped recipe-use decisions in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "e69645518481ef527403a3942f2d19d5aef8a3b941acb92852806f03ab3498d8"
+      }
+    },
+    {
+      "id": "ingredient-cauliflower-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685573",
+          "fingerprint": "685c63203e96a869c7b8e076869b09777b99ac2b255996c83a9556067568b574"
+        }
+      ],
+      "rationale": "Fresh cooking identity supported by Cauliflower, raw. Reviewed cuts/age aliases do not create form or species equivalence. No nutrition, portion conversion, fixed price, general market-group ownership, or cross-vegetable compatibility is inferred. Any recipe-use alternatives require the separately proposed per-slot rules.",
+      "ingredient": {
+        "id": "cauliflower-fresh",
+        "name": "Cauliflower",
+        "aliases": [
+          "fresh cauliflower",
+          "cauliflower florets"
+        ],
+        "familyId": "cauliflower",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit approval of seven identities and 22 scoped recipe-use decisions in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "5189aed916bde9a083c60b953d6a95da7cdc880c403f88d6aaa4102c560cdeaa"
+      }
+    },
+    {
+      "id": "ingredient-spinach-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168462",
+          "fingerprint": "9942f2985601f57f8207491a6cbe2dddc33d7ca0dbd7c9b6228ce2f778309080"
+        }
+      ],
+      "rationale": "Fresh cooking identity supported by Spinach, raw. Reviewed cuts/age aliases do not create form or species equivalence. No nutrition, portion conversion, fixed price, general market-group ownership, or cross-vegetable compatibility is inferred. Any recipe-use alternatives require the separately proposed per-slot rules.",
+      "ingredient": {
+        "id": "spinach-fresh",
+        "name": "Fresh spinach",
+        "aliases": [
+          "baby spinach",
+          "raw spinach"
+        ],
+        "familyId": "spinach",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit approval of seven identities and 22 scoped recipe-use decisions in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "6ea5dd59bcbee720b2e4997db0c1c2a6d5036eead5d83ec79a79f3c5ebecbc69"
+      }
+    },
+    {
+      "id": "ingredient-kale-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:323505",
+          "fingerprint": "9b33d1b8fd00519f942915b0bd4cb37265a9d307555c5ba48b55ae5b8b82f22f"
+        }
+      ],
+      "rationale": "Fresh cooking identity supported by Kale, raw. Reviewed cuts/age aliases do not create form or species equivalence. No nutrition, portion conversion, fixed price, general market-group ownership, or cross-vegetable compatibility is inferred. Any recipe-use alternatives require the separately proposed per-slot rules.",
+      "ingredient": {
+        "id": "kale-fresh",
+        "name": "Fresh kale",
+        "aliases": [
+          "raw kale"
+        ],
+        "familyId": "kale",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit approval of seven identities and 22 scoped recipe-use decisions in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "d0e3d263b351f638de6e0704896d921fd68b16be3c5d29faa50cbfd014c2f667"
+      }
+    },
+    {
+      "id": "ingredient-mushrooms-white-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169251",
+          "fingerprint": "a93b69e17cb32262c6cc9ecc8f3d80b2c74176ba8c6c8497329777a3f7e4dad8"
+        }
+      ],
+      "rationale": "Fresh cooking identity supported by Mushrooms, white, raw. Reviewed cuts/age aliases do not create form or species equivalence. No nutrition, portion conversion, fixed price, general market-group ownership, or cross-vegetable compatibility is inferred. Any recipe-use alternatives require the separately proposed per-slot rules.",
+      "ingredient": {
+        "id": "mushrooms-white-fresh",
+        "name": "Fresh white mushrooms",
+        "aliases": [
+          "white button mushrooms",
+          "fresh white button mushrooms"
+        ],
+        "familyId": "white-mushrooms",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit approval of seven identities and 22 scoped recipe-use decisions in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "5ad7d442cbdc61b21b54ca757b91427865ba4c159572cc5a2c7fab6abbd55f13"
+      }
+    },
+    {
+      "id": "ingredient-tomatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170457",
+          "fingerprint": "99301b0c881c048e438e819f74c973dcd68e161f373795b5a810cd7c8191dd00"
+        }
+      ],
+      "rationale": "Fresh cooking identity supported by Tomatoes, red, ripe, raw, year round average. Reviewed cuts/age aliases do not create form or species equivalence. No nutrition, portion conversion, fixed price, general market-group ownership, or cross-vegetable compatibility is inferred. Any recipe-use alternatives require the separately proposed per-slot rules.",
+      "ingredient": {
+        "id": "tomatoes-fresh",
+        "name": "Fresh tomatoes",
+        "aliases": [
+          "fresh red tomatoes",
+          "raw tomatoes",
+          "Roma tomatoes",
+          "vine-ripened tomatoes"
+        ],
+        "familyId": "tomatoes",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit approval of seven identities and 22 scoped recipe-use decisions in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "e181d80ca0753d9a9798eeb0e1c4f255a800d1b14766df5de7af491ef5f7448f"
+      }
     }
   ]
 }

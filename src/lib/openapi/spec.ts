@@ -1435,7 +1435,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       },
       PantryRequirement: {
         type: 'object', properties: {
-          ingredientId: { type: 'string' }, displayName: { type: 'string' },
+          ingredientId: { type: 'string', description: 'Exact pantry identity or a reviewed recipe-use requirement ID. Recipe-use IDs represent alternatives within a specific recipe slot and cannot be stored as pantry inventory.' }, displayName: { type: 'string' },
           quantity: { type: 'number', minimum: 0 }, unit: { type: 'string' }, optional: { type: 'boolean' },
         }, required: ['ingredientId', 'quantity', 'unit'],
       },

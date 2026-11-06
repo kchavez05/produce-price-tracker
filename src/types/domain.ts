@@ -396,6 +396,7 @@ export interface StoreTripComparison {
     store: StoreChain;
     storeName: string;
     total: number;
+    verifiedItemCount?: number;
     diffFromBest: number;
     isBest: boolean;
   }[];

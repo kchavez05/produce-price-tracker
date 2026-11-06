@@ -31,7 +31,8 @@ describe('pantry recipe and shopping integration', () => {
       const scaled = selectRecipeStaples(blueprint.id, [], 8);
       expect(scaled[0].quantity).toBeCloseTo(requirements[0].quantity * 8 / 6, 3);
     }
-    expect(ranked().every((dish) => dish.additionalCostEstimateComplete)).toBe(true);
+    // Generic mock offer titles do not prove the species/form of grouped vegetables.
+    for (const dish of ranked()) expect(dish.additionalCostEstimateComplete).toBe(dish.missingPriceIngredientIds?.length === 0);
   });
   it('uses boolean availability even for zero quantities or past dates, and does not count custom names', () => {
     const ids = availablePantryIngredientIds([

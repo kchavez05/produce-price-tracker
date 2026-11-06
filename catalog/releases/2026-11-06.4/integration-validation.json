@@ -1,0 +1,61 @@
+{
+  "status": "LOCAL_INTEGRATION_VALIDATED_HOSTED_ROLLOUT_PENDING",
+  "validatedOn": "2026-11-06",
+  "catalogVersion": "2026-11-06.4",
+  "contentHash": "86758a778e436be394c363d8f6e9efc9bdd47c23c7caf3fac16fc83973149951",
+  "parentVersion": "2026-11-06.3",
+  "counts": {
+    "ingredients": 145,
+    "approvedIngredientDecisions": 94,
+    "scopedRecipeUses": 22,
+    "searchFixtures": 170,
+    "identitySourceLinks": 84,
+    "generalReferenceLinks": 4,
+    "sourceLinkedIdentities": 87,
+    "uniqueSourceRecords": 86,
+    "withoutSourceLinks": 58,
+    "marketApplicable": 22,
+    "noMarketCounterpart": 123
+  },
+  "checks": {
+    "allApprovedAndPreviewSearchFixturesPass": true,
+    "unchangedPriorApprovals": true,
+    "exactApprovedPayloadHashesPreserved": true,
+    "deterministicFullSourceReplay": true,
+    "completeSlotAudit": true,
+    "scopedRecipeUsesHash": "2b719f7f47922e9077ee29faa280c76f5b9494a3d62d83f025be978495b37c9a",
+    "retainedCatalogVersions": [
+      "2026-10-30.1",
+      "2026-10-31.1",
+      "2026-11-06.1",
+      "2026-11-06.2",
+      "2026-11-06.3"
+    ],
+    "pantryIdsNeverSynthetic": true,
+    "marketHistoryUnchanged": true,
+    "sourceSnapshotUnchanged": true,
+    "additiveMigrationIdempotent": true,
+    "accountInstallationGuards": true,
+    "independentYesNoAndOwnerIsolation": true,
+    "priceTitleCasesAndCrossStoreAdmission": true,
+    "savedRecipeRepricingAndContextChecks": true
+  },
+  "localChecks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unitTests": 339,
+    "smokeTests": 28,
+    "regressionTests": 37,
+    "productionBuild": "passed",
+    "catalogProjectionAndMarketAudit": "passed",
+    "openapiExports": "updated"
+  },
+  "hostedMigrationsApplied": false,
+  "productionReleased": false,
+  "pendingGates": [
+    "Feature PR CI, Vercel Preview and completed Codex review",
+    "Hosted accepted-ID migrations and isolated environment verification",
+    "Remaining provenance and exception/coverage release audits",
+    "v1.6.1 version, release documentation, release PR and production verification"
+  ]
+}

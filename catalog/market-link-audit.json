@@ -1,25 +1,32 @@
 {
   "formatVersion": 1,
   "auditedOn": "2026-11-06",
-  "catalogHash": "0bc6948644e30d4e64a5b6719ae13c825d908d56df7c2f4ef7b6dac522a12891",
+  "catalogHash": "86758a778e436be394c363d8f6e9efc9bdd47c23c7caf3fac16fc83973149951",
   "marketCatalogHash": "87d3adf646930c3dae99f7aedf571405b267d23f235b413809e687f8083c8815",
-  "recipeLinksHash": "1b51bcd6775c05f4bf169c047c001d498b2e21cf19431f5b4a0e79fb68fa57ff",
+  "recipeLinksHash": "e4d30591c438490369c1c7fbb4a854f654698f5f650211f7d7a7b60c2d9d2d76",
   "linkedIngredientIds": [
     "asparagus-fresh",
     "avocados-hass",
     "bell-peppers",
+    "broccoli-fresh",
     "brussels-sprouts",
     "butter-salted-unsalted",
+    "carrots-fresh",
+    "cauliflower-fresh",
     "celery-stalks",
     "chicken-breast-boneless",
     "chicken-thighs-boneless",
     "green-cabbage",
     "ground-beef-80-20",
     "ground-turkey",
+    "kale-fresh",
     "large-eggs-dozen",
+    "mushrooms-white-fresh",
     "onions-fresh",
     "pork-shoulder-butt",
-    "sweet-potatoes"
+    "spinach-fresh",
+    "sweet-potatoes",
+    "tomatoes-fresh"
   ],
   "noMarketItem": {
     "ingredientIds": [
@@ -148,5 +155,7 @@
       "yogurt-plain-whole-milk"
     ],
     "reason": "The current market catalog has no corresponding item for these cooking identities/forms. Retain fixed recipe-use estimates or explicit missing prices. Fresh/powdered, dry/canned, varieties, and composite products are not interchangeable; do not create links from shared words or families."
-  }
+  },
+  "scopedRecipeUsesHash": "2b719f7f47922e9077ee29faa280c76f5b9494a3d62d83f025be978495b37c9a",
+  "linkMeaning": "Direct or explicitly scoped recipe applicability; never a claim of market-group price identity."
 }

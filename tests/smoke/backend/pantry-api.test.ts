@@ -18,8 +18,9 @@ import { PantryMutation } from '@/types/pantry';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+let clientNumber = 0;
 const req = (body?: unknown, method = 'POST', url = '/api/pantry') => new NextRequest(`http://localhost${url}`, {
-  method, headers: { host: 'localhost', origin: 'http://localhost', 'content-type': 'application/json' },
+  method, headers: { host: 'localhost', origin: 'http://localhost', 'content-type': 'application/json', 'x-forwarded-for': `192.0.2.${clientNumber}` },
   ...(body === undefined ? {} : { body: JSON.stringify(body) }),
 });
 async function read() { return (await (await GET(req(undefined, 'GET'))).json()) as PantryMigrationSnapshot; }
@@ -29,7 +30,7 @@ function signIn(id: string) {
   cookieJar.set(LOCAL_SESSION_COOKIE_NAME, createLocalSession(id));
 }
 describe('private pantry API in keyless mode', () => {
-  beforeEach(() => { vi.stubEnv('PANTRYBOT_SQLITE_PATH', ':memory:'); vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', ''); vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'true'); cookieJar.clear(); resetSqliteTestInstance(); });
+  beforeEach(() => { clientNumber += 1; vi.stubEnv('PANTRYBOT_SQLITE_PATH', ':memory:'); vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', ''); vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'true'); cookieJar.clear(); resetSqliteTestInstance(); });
   afterEach(() => { resetSqliteTestInstance(); vi.unstubAllEnvs(); });
   it('keeps rollout disabled by default and rejects malformed/cross-origin requests', async () => {
     vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'false');
@@ -38,7 +39,11 @@ describe('private pantry API in keyless mode', () => {
     expect((await POST(new NextRequest('http://localhost/api/pantry', { method: 'POST', headers: { host: 'localhost', origin: 'https://elsewhere.test' } }))).status).toBe(403);
     expect((await POST(req([]))).status).toBe(400);
   });
-  it.each([{ ingredientId: 'quinoa-dry', displayName: 'Dry quinoa' }, { ingredientId: 'honey', displayName: 'Honey' }])('persists $ingredientId privately across a keyless guest reload', async ({ ingredientId, displayName }) => {
+  it.each([{ ingredientId: 'quinoa-dry', displayName: 'Dry quinoa' }, { ingredientId: 'honey', displayName: 'Honey' },
+    { ingredientId: 'broccoli-fresh', displayName: 'Broccoli' }, { ingredientId: 'cauliflower-fresh', displayName: 'Cauliflower' },
+    { ingredientId: 'carrots-fresh', displayName: 'Carrots' }, { ingredientId: 'spinach-fresh', displayName: 'Fresh spinach' },
+    { ingredientId: 'kale-fresh', displayName: 'Fresh kale' }, { ingredientId: 'mushrooms-white-fresh', displayName: 'Fresh white mushrooms' },
+    { ingredientId: 'tomatoes-fresh', displayName: 'Fresh tomatoes' }])('persists $ingredientId privately across a keyless guest reload', async ({ ingredientId, displayName }) => {
     const directory = mkdtempSync(join(tmpdir(), 'pantry-expanded-'));
     try {
       vi.stubEnv('PANTRYBOT_SQLITE_PATH', join(directory, 'pantry.sqlite'));
