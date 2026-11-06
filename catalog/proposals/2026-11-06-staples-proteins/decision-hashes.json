@@ -1,0 +1,117 @@
+[
+  {
+    "id": "ingredient-canola-oil",
+    "revision": 1,
+    "payloadSha256": "bef967002dd16be189b5e12355896d496682c333faa625825eee2c7f90186df2"
+  },
+  {
+    "id": "ingredient-sesame-oil",
+    "revision": 1,
+    "payloadSha256": "2d83d022c145ab353f0a20de4c5a2085a75feae7bd3fc187cbef05d7a30f6ef4"
+  },
+  {
+    "id": "ingredient-cinnamon-ground",
+    "revision": 1,
+    "payloadSha256": "f7fac0b28c0c57779095a408a075b0f19c37c3ca53a7eea2ede8c0e883cdd4ee"
+  },
+  {
+    "id": "ingredient-cloves-ground",
+    "revision": 1,
+    "payloadSha256": "95fd1b58053d4ae3039b8a7ada10e7e484a8edcfb4501d9cfe8eefcc4ff714ab"
+  },
+  {
+    "id": "ingredient-turmeric-ground",
+    "revision": 1,
+    "payloadSha256": "d51c3506a19684c87d28490d4ffac66f618f5e6c852376a82147489667e74240"
+  },
+  {
+    "id": "ingredient-ginger-ground",
+    "revision": 1,
+    "payloadSha256": "857179ece150c838e954258cadd8211e2febbb7915239f9eb5e16b3b1efca718"
+  },
+  {
+    "id": "ingredient-red-wine-vinegar",
+    "revision": 1,
+    "payloadSha256": "421a6599e2a4c6419c3679ed6a1418e175e9a0b5546049a67378b9508aaa20e1"
+  },
+  {
+    "id": "ingredient-miso",
+    "revision": 1,
+    "payloadSha256": "7e69c00c74bcc255f759308c4580925264e07c408463dfeeb71266a50ee60e81"
+  },
+  {
+    "id": "ingredient-fish-sauce",
+    "revision": 1,
+    "payloadSha256": "05d0a8a4a8f960d3c7f1973562dc38257b0ed0c7d68d57bf83befd7df8f38e55"
+  },
+  {
+    "id": "ingredient-oyster-sauce",
+    "revision": 1,
+    "payloadSha256": "f262f3b9429f1b3b76955f8210d00fd2000d30269d19aa7fcba938b393ad9a7f"
+  },
+  {
+    "id": "ingredient-sugar-granulated",
+    "revision": 1,
+    "payloadSha256": "e5682c89a67d5a39890e0f7f4c390105bbe75b39a27622bc58b69ac6158b0363"
+  },
+  {
+    "id": "ingredient-sugar-brown",
+    "revision": 1,
+    "payloadSha256": "89effb07316c3775d73fe4ef5d3d9101451a750bbca2a1756f43bf6eb5954f2c"
+  },
+  {
+    "id": "ingredient-honey",
+    "revision": 1,
+    "payloadSha256": "d64c84f136f5fa690d5f3daebe0c41153c8176c590bf94580ae3034d57d569a6"
+  },
+  {
+    "id": "ingredient-tempeh",
+    "revision": 1,
+    "payloadSha256": "3988e886c78bed7eab0fcbf54660a87b359171a5469b2c27b471bd5c970c0dda"
+  },
+  {
+    "id": "ingredient-tofu-soft",
+    "revision": 1,
+    "payloadSha256": "864926ad788d6c84b46c9fbd1d428d2b18e09d2d2d3f7794f2fd64f0cb5f737d"
+  },
+  {
+    "id": "ingredient-milk-whole",
+    "revision": 1,
+    "payloadSha256": "763674158f28756ce97df00850e877b1feb4de1d4f57dfa7e2760cc4e17b437a"
+  },
+  {
+    "id": "ingredient-yogurt-plain-whole-milk",
+    "revision": 1,
+    "payloadSha256": "cfb2eb63ba6416f06ff55e28ad46c0abc885dc8db06ac95d2e78858039a61fc6"
+  },
+  {
+    "id": "ingredient-feta-cheese",
+    "revision": 1,
+    "payloadSha256": "3f5427e970edc07bf8d8ecd37f95beb9c316ba812f918d668ebe1d244d41bfd8"
+  },
+  {
+    "id": "ingredient-parmesan-hard",
+    "revision": 1,
+    "payloadSha256": "31b43a77954bfd2cf8fc206d4cefe990ad35c7d9e722c71e75fff4415b2d099e"
+  },
+  {
+    "id": "ingredient-tuna-light-canned-water",
+    "revision": 1,
+    "payloadSha256": "f0d5418e1cb7e70032a70dbc27da7be268d4a5ebc4c881ec71c3a0dcbc9eca2a"
+  },
+  {
+    "id": "ingredient-almonds-whole-raw",
+    "revision": 1,
+    "payloadSha256": "ee89c44aad1c120defd47e9df99e66514b6b95a46368c8c9cb7f2f40fd1e4536"
+  },
+  {
+    "id": "ingredient-walnuts-english-raw",
+    "revision": 1,
+    "payloadSha256": "50b6853f830dc1c5d6f4b8333272f131e8d3aab499caacec1ae18f289cb00cd5"
+  },
+  {
+    "id": "ingredient-sesame-seeds-whole-dried",
+    "revision": 1,
+    "payloadSha256": "b3d5ab60df26c655a673113044a23ac2e8e604a52d78406cea29ad4adb429e16"
+  }
+]

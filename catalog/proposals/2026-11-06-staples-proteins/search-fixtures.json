@@ -1,0 +1,751 @@
+[
+  {
+    "query": "lentils",
+    "expected": [
+      "lentils-dried",
+      "lentils-canned"
+    ]
+  },
+  {
+    "query": "red lentils",
+    "expected": [
+      "red-lentils-dried"
+    ]
+  },
+  {
+    "query": "rice",
+    "expected": [
+      "basmati-rice-dry",
+      "jasmine-rice-dry",
+      "brown-rice-dry"
+    ]
+  },
+  {
+    "query": "flour",
+    "expected": [
+      "rice-flour",
+      "all-purpose-flour",
+      "whole-wheat-flour",
+      "oat-flour",
+      "rye-flour",
+      "buckwheat-flour",
+      "chickpea-flour",
+      "sorghum-flour",
+      "bread-flour",
+      "self-rising-wheat-flour"
+    ]
+  },
+  {
+    "query": "black beans",
+    "expected": [
+      "black-beans-canned",
+      "black-beans-dried"
+    ]
+  },
+  {
+    "query": "garlic",
+    "expected": [
+      "garlic-fresh",
+      "garlic-powder"
+    ]
+  },
+  {
+    "query": "onions",
+    "expected": [
+      "onions-fresh"
+    ]
+  },
+  {
+    "query": "broth",
+    "expected": [
+      "chicken-broth",
+      "beef-broth",
+      "vegetable-broth"
+    ]
+  },
+  {
+    "query": "cumin",
+    "expected": [
+      "ground-cumin"
+    ]
+  },
+  {
+    "query": "paprika",
+    "expected": [
+      "smoked-paprika"
+    ]
+  },
+  {
+    "query": "tahini",
+    "expected": [
+      "tahini"
+    ]
+  },
+  {
+    "query": "garbanzo",
+    "expected": [
+      "chickpeas-canned",
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "beans",
+    "expected": [
+      "black-beans-canned",
+      "black-beans-dried",
+      "cannellini-beans-canned",
+      "great-northern-beans-canned",
+      "kidney-beans-canned",
+      "chickpeas-canned",
+      "chickpeas-dried",
+      "kidney-beans-dried",
+      "navy-beans-canned",
+      "navy-beans-dried",
+      "pinto-beans-canned",
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "chickpeas",
+    "expected": [
+      "chickpeas-canned",
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "pinto",
+    "expected": [
+      "pinto-beans-canned",
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "navy",
+    "expected": [
+      "navy-beans-canned",
+      "navy-beans-dried"
+    ]
+  },
+  {
+    "query": "kidney",
+    "expected": [
+      "cannellini-beans-canned",
+      "kidney-beans-canned",
+      "kidney-beans-dried"
+    ]
+  },
+  {
+    "query": "mung",
+    "expected": []
+  },
+  {
+    "query": "oats",
+    "expected": [
+      "rolled-oats",
+      "steel-cut-oats"
+    ]
+  },
+  {
+    "query": "barley",
+    "expected": [
+      "barley-pearled",
+      "barley-hulled"
+    ]
+  },
+  {
+    "query": "brown rice flour",
+    "expected": [
+      "brown-rice-flour"
+    ]
+  },
+  {
+    "query": "glutinous rice flour",
+    "expected": [
+      "glutinous-rice-flour"
+    ]
+  },
+  {
+    "query": "besan",
+    "expected": [
+      "chickpea-flour"
+    ]
+  },
+  {
+    "query": "lentil soup",
+    "expected": []
+  },
+  {
+    "query": "mung sprouts",
+    "expected": []
+  },
+  {
+    "query": "Dried chickpeas",
+    "expected": [
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "Canned pinto beans",
+    "expected": [
+      "pinto-beans-canned"
+    ]
+  },
+  {
+    "query": "Dried pinto beans",
+    "expected": [
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "Canned navy beans",
+    "expected": [
+      "navy-beans-canned"
+    ]
+  },
+  {
+    "query": "Dried navy beans",
+    "expected": [
+      "navy-beans-dried"
+    ]
+  },
+  {
+    "query": "Dried kidney beans",
+    "expected": [
+      "kidney-beans-dried"
+    ]
+  },
+  {
+    "query": "Dried green split peas",
+    "expected": [
+      "green-split-peas-dried"
+    ]
+  },
+  {
+    "query": "Rolled oats",
+    "expected": [
+      "rolled-oats"
+    ]
+  },
+  {
+    "query": "Steel-cut oats",
+    "expected": [
+      "steel-cut-oats"
+    ]
+  },
+  {
+    "query": "Dry quinoa",
+    "expected": [
+      "quinoa-dry"
+    ]
+  },
+  {
+    "query": "Dry bulgur",
+    "expected": [
+      "bulgur-dry"
+    ]
+  },
+  {
+    "query": "Pearled barley",
+    "expected": [
+      "barley-pearled"
+    ]
+  },
+  {
+    "query": "Hulled barley",
+    "expected": [
+      "barley-hulled"
+    ]
+  },
+  {
+    "query": "Whole-grain buckwheat",
+    "expected": [
+      "buckwheat-whole"
+    ]
+  },
+  {
+    "query": "Whole-grain millet",
+    "expected": [
+      "millet-whole"
+    ]
+  },
+  {
+    "query": "Dry couscous",
+    "expected": [
+      "couscous-dry"
+    ]
+  },
+  {
+    "query": "Dry pasta",
+    "expected": [
+      "pasta-dry"
+    ]
+  },
+  {
+    "query": "Whole-grain sorghum",
+    "expected": [
+      "sorghum-whole"
+    ]
+  },
+  {
+    "query": "Whole-grain yellow cornmeal",
+    "expected": [
+      "cornmeal-yellow-whole"
+    ]
+  },
+  {
+    "query": "Dry tapioca pearls",
+    "expected": [
+      "tapioca-pearls-dry"
+    ]
+  },
+  {
+    "query": "Whole-grain oat flour",
+    "expected": [
+      "oat-flour"
+    ]
+  },
+  {
+    "query": "Rye flour",
+    "expected": [
+      "rye-flour"
+    ]
+  },
+  {
+    "query": "Buckwheat flour",
+    "expected": [
+      "buckwheat-flour"
+    ]
+  },
+  {
+    "query": "Chickpea flour",
+    "expected": [
+      "chickpea-flour"
+    ]
+  },
+  {
+    "query": "Sorghum flour",
+    "expected": [
+      "sorghum-flour"
+    ]
+  },
+  {
+    "query": "Wheat bread flour",
+    "expected": [
+      "bread-flour"
+    ]
+  },
+  {
+    "query": "Self-rising wheat flour",
+    "expected": [
+      "self-rising-wheat-flour"
+    ]
+  },
+  {
+    "query": "Brown rice flour",
+    "expected": [
+      "brown-rice-flour"
+    ]
+  },
+  {
+    "query": "Glutinous rice flour",
+    "expected": [
+      "glutinous-rice-flour"
+    ]
+  },
+  {
+    "query": "brown rice",
+    "expected": [
+      "brown-rice-dry"
+    ]
+  },
+  {
+    "query": "glutinous rice",
+    "expected": []
+  },
+  {
+    "query": "Leeks",
+    "expected": [
+      "leeks-fresh"
+    ]
+  },
+  {
+    "query": "Beets",
+    "expected": [
+      "beets-fresh"
+    ]
+  },
+  {
+    "query": "Radishes",
+    "expected": [
+      "radishes-fresh"
+    ]
+  },
+  {
+    "query": "Okra",
+    "expected": [
+      "okra-fresh"
+    ]
+  },
+  {
+    "query": "Eggplant",
+    "expected": [
+      "eggplant-fresh"
+    ]
+  },
+  {
+    "query": "Fresh cilantro",
+    "expected": [
+      "cilantro-fresh"
+    ]
+  },
+  {
+    "query": "Fresh parsley",
+    "expected": [
+      "parsley-fresh"
+    ]
+  },
+  {
+    "query": "Fresh basil",
+    "expected": [
+      "basil-fresh"
+    ]
+  },
+  {
+    "query": "Fresh spearmint",
+    "expected": [
+      "spearmint-fresh"
+    ]
+  },
+  {
+    "query": "Cucumber",
+    "expected": [
+      "cucumber-fresh"
+    ]
+  },
+  {
+    "query": "beetroot",
+    "expected": [
+      "beets-fresh"
+    ]
+  },
+  {
+    "query": "aubergine",
+    "expected": [
+      "eggplant-fresh"
+    ]
+  },
+  {
+    "query": "fresh coriander",
+    "expected": [
+      "cilantro-fresh"
+    ]
+  },
+  {
+    "query": "mint",
+    "expected": [
+      "spearmint-fresh"
+    ]
+  },
+  {
+    "query": "dried basil",
+    "expected": []
+  },
+  {
+    "query": "peppermint",
+    "expected": []
+  },
+  {
+    "query": "Canola oil",
+    "expected": [
+      "canola-oil"
+    ]
+  },
+  {
+    "query": "Sesame oil",
+    "expected": [
+      "sesame-oil"
+    ]
+  },
+  {
+    "query": "Ground cinnamon",
+    "expected": [
+      "cinnamon-ground"
+    ]
+  },
+  {
+    "query": "Ground cloves",
+    "expected": [
+      "cloves-ground"
+    ]
+  },
+  {
+    "query": "Ground turmeric",
+    "expected": [
+      "turmeric-ground"
+    ]
+  },
+  {
+    "query": "Ground ginger",
+    "expected": [
+      "ginger-ground"
+    ]
+  },
+  {
+    "query": "Red wine vinegar",
+    "expected": [
+      "red-wine-vinegar"
+    ]
+  },
+  {
+    "query": "Miso",
+    "expected": [
+      "miso"
+    ]
+  },
+  {
+    "query": "Fish sauce",
+    "expected": [
+      "fish-sauce"
+    ]
+  },
+  {
+    "query": "Oyster sauce",
+    "expected": [
+      "oyster-sauce"
+    ]
+  },
+  {
+    "query": "Granulated sugar",
+    "expected": [
+      "sugar-granulated"
+    ]
+  },
+  {
+    "query": "Brown sugar",
+    "expected": [
+      "sugar-brown"
+    ]
+  },
+  {
+    "query": "Honey",
+    "expected": [
+      "honey"
+    ]
+  },
+  {
+    "query": "Tempeh",
+    "expected": [
+      "tempeh"
+    ]
+  },
+  {
+    "query": "Soft tofu",
+    "expected": [
+      "tofu-soft"
+    ]
+  },
+  {
+    "query": "Whole milk (3.25%)",
+    "expected": [
+      "milk-whole"
+    ]
+  },
+  {
+    "query": "Plain whole-milk yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "Feta",
+    "expected": [
+      "feta-cheese"
+    ]
+  },
+  {
+    "query": "Hard Parmesan",
+    "expected": [
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "Canned light tuna in water",
+    "expected": [
+      "tuna-light-canned-water"
+    ]
+  },
+  {
+    "query": "Whole raw almonds",
+    "expected": [
+      "almonds-whole-raw"
+    ]
+  },
+  {
+    "query": "Raw English walnuts",
+    "expected": [
+      "walnuts-english-raw"
+    ]
+  },
+  {
+    "query": "Whole dried sesame seeds",
+    "expected": [
+      "sesame-seeds-whole-dried"
+    ]
+  },
+  {
+    "query": "oil",
+    "expected": [
+      "avocado-oil",
+      "olive-oil",
+      "canola-oil",
+      "sesame-oil"
+    ]
+  },
+  {
+    "query": "ginger",
+    "expected": [
+      "ginger-fresh",
+      "ginger-ground"
+    ]
+  },
+  {
+    "query": "vinegar",
+    "expected": [
+      "apple-cider-vinegar",
+      "red-wine-vinegar"
+    ]
+  },
+  {
+    "query": "sauce",
+    "expected": [
+      "soy-sauce",
+      "worcestershire-sauce",
+      "worcestershire-sauce-gluten-free",
+      "fish-sauce",
+      "oyster-sauce"
+    ]
+  },
+  {
+    "query": "sugar",
+    "expected": [
+      "sugar-brown",
+      "sugar-granulated"
+    ]
+  },
+  {
+    "query": "milk",
+    "expected": [
+      "coconut-milk-canned",
+      "milk-whole"
+    ]
+  },
+  {
+    "query": "yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain whole milk yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "miso paste",
+    "expected": [
+      "miso"
+    ]
+  },
+  {
+    "query": "feta cheese",
+    "expected": [
+      "feta-cheese"
+    ]
+  },
+  {
+    "query": "hard parmesan cheese",
+    "expected": [
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "cheese",
+    "expected": [
+      "feta-cheese",
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "tofu",
+    "expected": [
+      "tofu-firm",
+      "tofu-soft"
+    ]
+  },
+  {
+    "query": "sesame",
+    "expected": [
+      "sesame-oil",
+      "sesame-seeds-whole-dried"
+    ]
+  },
+  {
+    "query": "toasted sesame oil",
+    "expected": []
+  },
+  {
+    "query": "cinnamon sticks",
+    "expected": []
+  },
+  {
+    "query": "fresh turmeric",
+    "expected": []
+  },
+  {
+    "query": "powdered sugar",
+    "expected": []
+  },
+  {
+    "query": "mushroom oyster sauce",
+    "expected": []
+  },
+  {
+    "query": "Greek yogurt",
+    "expected": []
+  },
+  {
+    "query": "vanilla yogurt",
+    "expected": []
+  },
+  {
+    "query": "tuna in oil",
+    "expected": []
+  },
+  {
+    "query": "roasted almonds",
+    "expected": []
+  },
+  {
+    "query": "black walnuts",
+    "expected": []
+  },
+  {
+    "query": "toasted sesame seeds",
+    "expected": []
+  },
+  {
+    "query": "ground coriander",
+    "expected": []
+  },
+  {
+    "query": "cardamom",
+    "expected": []
+  }
+]
