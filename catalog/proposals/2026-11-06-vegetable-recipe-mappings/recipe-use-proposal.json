@@ -1,0 +1,451 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "protectedMarketIngredientIds": [
+    "carrots-whole-baby",
+    "broccoli-cauliflower",
+    "spinach-kale-greens",
+    "mushrooms-cremini-white",
+    "tomatoes-roma-vine"
+  ],
+  "pantryCoverage": "Only known positive fresh pantry IDs may satisfy the listed per-recipe/slot alternative; one logical requirement counts once. An exact No removes that alternative, not another explicitly accepted vegetable. Market-group IDs are never pantry identities.",
+  "prices": "Retain existing market identities/history. Admit a current offer only when its rawTitle identifies at least one allowed fresh food and no disallowed sibling or incompatible form/prepared product. A broad or ambiguous title remains unpriced. Check each store offer independently; never copy a sibling price or silently attach another store price as this store’s verified offer.",
+  "unreviewedRecipes": "Do not broaden custom, edited or unrecognized saved recipes from a grouped market ID alone. Require reviewed slot context; otherwise expose an unpriced requirement and no inferred pantry coverage.",
+  "sourceSeparation": "USDA references support cooking identity only. No nutrition import, portion conversion, fixed price, global group ownership, species substitution, account migration or dietary guarantee is authorized.",
+  "blueprintHash": "712b501acd20d02c36aad1940f50aa7e4dd21a0d83fda1f40d2fd15a41fd8360",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "decisions": [
+    {
+      "id": "colorado-pork-green-chile-stew:stew_starch:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "stew_starch",
+      "slotLabel": "Diced Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ],
+      "rationale": "The low-carb instructions explicitly name cauliflower florets.",
+      "status": "proposed",
+      "payloadSha256": "1897f4090695bd133cef15925c8f13de4bc062fc6b560ad0263c2b6d36606a24"
+    },
+    {
+      "id": "colorado-pork-green-chile-stew:tomato_acid:tomatoes-roma-vine",
+      "revision": 1,
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "tomato_acid",
+      "slotLabel": "Tomatillos or Roma Tomatoes & Onion",
+      "marketIngredientId": "tomatoes-roma-vine",
+      "policyId": "tomatoOrTomatillo",
+      "displayName": "Fresh tomatoes or tomatillos",
+      "pantryIngredientIds": [
+        "tomatoes-fresh"
+      ],
+      "offerFoods": [
+        "tomatoes",
+        "tomatillos"
+      ],
+      "rationale": "Both tomatillos and tomatoes are explicitly accepted. Owning tomatoes satisfies this one alternative, not ownership of tomatillos.",
+      "status": "proposed",
+      "payloadSha256": "d62d7d075f84fbe770c7470a1498ebccf30704d674497a6e2ec2cc7d77208989"
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "slotLabel": "Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "crucifers",
+      "displayName": "Broccoli or cauliflower",
+      "pantryIngredientIds": [
+        "broccoli-fresh",
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "broccoli",
+        "cauliflower"
+      ],
+      "rationale": "The existing low-carb candidate is the broccoli/cauliflower group; either is proposed as a vegetable replacement, without a dietary guarantee.",
+      "status": "proposed",
+      "payloadSha256": "7b8f5fe5c733d8aada3019c23e1bf1317618e41bace5ba0b28c98128d139b24b"
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:mushrooms-cremini-white",
+      "revision": 1,
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "slotLabel": "Potatoes",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "policyId": "mushrooms",
+      "displayName": "White or cremini mushrooms",
+      "pantryIngredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "offerFoods": [
+        "white-mushrooms",
+        "cremini-mushrooms"
+      ],
+      "rationale": "Generic mushroom replacement accepts white or cremini. Only white has a proposed pantry identity.",
+      "status": "proposed",
+      "payloadSha256": "023d67b49223e199737a12d1606db33ec53ba19ec1778f66a0e12b7549cc4f22"
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_veg:carrots-whole-baby",
+      "revision": 1,
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_veg",
+      "slotLabel": "Carrots & Onions",
+      "marketIngredientId": "carrots-whole-baby",
+      "policyId": "carrots",
+      "displayName": "Carrots",
+      "pantryIngredientIds": [
+        "carrots-fresh"
+      ],
+      "offerFoods": [
+        "carrots"
+      ],
+      "rationale": "Fresh whole or baby carrots cover the carrot candidate, not onions. Existing single-candidate slot semantics are retained.",
+      "status": "proposed",
+      "payloadSha256": "af4d9698abf59333a66492be144527f87319522f6d46bd45e9619b5aae6a68c0"
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:umami_veg:mushrooms-cremini-white",
+      "revision": 1,
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "umami_veg",
+      "slotLabel": "Mushrooms or Celery",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "policyId": "mushrooms",
+      "displayName": "White or cremini mushrooms",
+      "pantryIngredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "offerFoods": [
+        "white-mushrooms",
+        "cremini-mushrooms"
+      ],
+      "rationale": "The slot says mushrooms without a species restriction.",
+      "status": "proposed",
+      "payloadSha256": "5f853d1e725968dc722f3850d0c2ea068c2dc6aa764cabaa79f5cfcd927db678"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:cruciferous_veg:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "cruciferous_veg",
+      "slotLabel": "Broccoli or Cauliflower",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "crucifers",
+      "displayName": "Broccoli or cauliflower",
+      "pantryIngredientIds": [
+        "broccoli-fresh",
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "broccoli",
+        "cauliflower"
+      ],
+      "rationale": "The slot explicitly accepts broccoli or cauliflower; directions should name the selected alternative.",
+      "status": "proposed",
+      "payloadSha256": "e614afe4c6d779cd18c26139657fc408d1aec3968877abe4af8b1f40ad1fcf59"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "base_starch",
+      "slotLabel": "Diced Potatoes or Butternut Squash",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "crucifers",
+      "displayName": "Broccoli or cauliflower",
+      "pantryIngredientIds": [
+        "broccoli-fresh",
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "broccoli",
+        "cauliflower"
+      ],
+      "rationale": "Either crucifer is proposed for this existing low-carb replacement candidate.",
+      "status": "proposed",
+      "payloadSha256": "2a1adbd58be68b765fb9d67cae95c1852ed0ad3506c9ddec0d7c378cbf187c2a"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:starch_base:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "starch_base",
+      "slotLabel": "Sliced Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ],
+      "rationale": "The directions explicitly name cauliflower florets for the keto replacement.",
+      "status": "proposed",
+      "payloadSha256": "96e24e5daba8162aba4501f9a64db559dddf33953bb414fb03954a20caced6f8"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:spinach-kale-greens",
+      "revision": 1,
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "greens_veg",
+      "slotLabel": "Fresh Spinach or Kale",
+      "marketIngredientId": "spinach-kale-greens",
+      "policyId": "greens",
+      "displayName": "Fresh spinach or kale",
+      "pantryIngredientIds": [
+        "spinach-fresh",
+        "kale-fresh"
+      ],
+      "offerFoods": [
+        "spinach",
+        "kale"
+      ],
+      "rationale": "The slot explicitly accepts spinach or kale; directions should name and allow sufficient cooking time for the selected green.",
+      "status": "proposed",
+      "payloadSha256": "ce5b90a30e3bdc52c14f9eb61ddb61a2385ee3eed80f9c08790c5f4ef33a099a"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:aromatics:carrots-whole-baby",
+      "revision": 1,
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "aromatics",
+      "slotLabel": "Onions, Carrots & Celery",
+      "marketIngredientId": "carrots-whole-baby",
+      "policyId": "carrots",
+      "displayName": "Carrots",
+      "pantryIngredientIds": [
+        "carrots-fresh"
+      ],
+      "offerFoods": [
+        "carrots"
+      ],
+      "rationale": "Covers the existing carrot candidate only. This does not claim ownership of onions or celery.",
+      "status": "proposed",
+      "payloadSha256": "ea7beb82747f7c028d130bc31054d8f78b4696c1db112feeaaff21cedb63acd4"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "squash_starch",
+      "slotLabel": "Butternut Squash or Sweet Potatoes",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ],
+      "rationale": "Propose cauliflower as the low-carb squash replacement; directions must state this alternative.",
+      "status": "proposed",
+      "payloadSha256": "503ae5d67e03fcad802b992b965b0039953e66f8fa6d2f3f686533781cd8a95b"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:aromatics_tomato:tomatoes-roma-vine",
+      "revision": 1,
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "aromatics_tomato",
+      "slotLabel": "Onions & Roma Tomatoes / Bell Peppers",
+      "marketIngredientId": "tomatoes-roma-vine",
+      "policyId": "tomatoes",
+      "displayName": "Fresh tomatoes",
+      "pantryIngredientIds": [
+        "tomatoes-fresh"
+      ],
+      "offerFoods": [
+        "tomatoes"
+      ],
+      "rationale": "Diced tomatoes are specified, without permission to replace them with tomatillos.",
+      "status": "proposed",
+      "payloadSha256": "73d9e732da13dfee21be9016f67646076738532dedb5a795217749f30186bd2f"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:greens_veg:spinach-kale-greens",
+      "revision": 1,
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "greens_veg",
+      "slotLabel": "Spinach or Cauliflower",
+      "marketIngredientId": "spinach-kale-greens",
+      "policyId": "spinach",
+      "displayName": "Fresh spinach",
+      "pantryIngredientIds": [
+        "spinach-fresh"
+      ],
+      "offerFoods": [
+        "spinach"
+      ],
+      "rationale": "The slot says spinach or cauliflower, not kale.",
+      "status": "proposed",
+      "payloadSha256": "9ff94427f18f9dc565b970290f5ece8cfeba410f7eb32ae8a004e62ad19167a0"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:greens_veg:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "greens_veg",
+      "slotLabel": "Spinach or Cauliflower",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ],
+      "rationale": "The slot says spinach or cauliflower, not broccoli.",
+      "status": "proposed",
+      "payloadSha256": "3241f91922a65f6d93a847c25a140c1221d3d4c9822af833688c26d53b158936"
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:mushrooms-cremini-white",
+      "revision": 1,
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "hash_base",
+      "slotLabel": "Potatoes or Sweet Potatoes",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "policyId": "mushrooms",
+      "displayName": "White or cremini mushrooms",
+      "pantryIngredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "offerFoods": [
+        "white-mushrooms",
+        "cremini-mushrooms"
+      ],
+      "rationale": "The directions explicitly allow mushrooms in the low-carb hash.",
+      "status": "proposed",
+      "payloadSha256": "66d769a0894ee2d097e268545007e713c20a719e75e5c24e6e6df60b84d87ef5"
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:spinach-kale-greens",
+      "revision": 1,
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "hash_base",
+      "slotLabel": "Potatoes or Sweet Potatoes",
+      "marketIngredientId": "spinach-kale-greens",
+      "policyId": "greens",
+      "displayName": "Fresh spinach or kale",
+      "pantryIngredientIds": [
+        "spinach-fresh",
+        "kale-fresh"
+      ],
+      "offerFoods": [
+        "spinach",
+        "kale"
+      ],
+      "rationale": "Propose spinach or kale for the existing low-carb greens candidate; add explicit sauteing instructions before baking.",
+      "status": "proposed",
+      "payloadSha256": "a65fa74727fa0c5b5af051bd1bcd1cf00169936be968be11f394fc65d7df8964"
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:roast_veg:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "roast_veg",
+      "slotLabel": "Sweet Potatoes or Broccoli/Zucchini",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "broccoli",
+      "displayName": "Broccoli",
+      "pantryIngredientIds": [
+        "broccoli-fresh"
+      ],
+      "offerFoods": [
+        "broccoli"
+      ],
+      "rationale": "Both label and directions specifically name broccoli.",
+      "status": "proposed",
+      "payloadSha256": "1e271524ac021596d14e42f768d0193c60968e8e7a6fc5d81a065dfe6279ae90"
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:low_carb_base:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "low_carb_base",
+      "slotLabel": "Cauliflower & Broccoli Florets",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "cauliflower",
+      "displayName": "Cauliflower",
+      "pantryIngredientIds": [
+        "cauliflower-fresh"
+      ],
+      "offerFoods": [
+        "cauliflower"
+      ],
+      "rationale": "The directions make cauliflower mash. Narrow the misleading cauliflower-and-broccoli label to cauliflower; broccoli does not satisfy this mash.",
+      "status": "proposed",
+      "payloadSha256": "98c393cea2e72c2b31d5901c85385cf208a6115d9ab362add657b55feb3c5d84"
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:umami_mushrooms:mushrooms-cremini-white",
+      "revision": 1,
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "umami_mushrooms",
+      "slotLabel": "Cremini / Baby Bella Mushrooms",
+      "marketIngredientId": "mushrooms-cremini-white",
+      "policyId": "cremini",
+      "displayName": "Cremini / baby bella mushrooms",
+      "pantryIngredientIds": [],
+      "offerFoods": [
+        "cremini-mushrooms"
+      ],
+      "rationale": "The label and instructions specifically require cremini/baby bella. White mushrooms cannot cover this requirement.",
+      "status": "proposed",
+      "payloadSha256": "043e678b40ad87f51507e3d200306035d809fa2d7f6b2496eba722bc5f8d850b"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:green_veg:broccoli-cauliflower",
+      "revision": 1,
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "slotKey": "green_veg",
+      "slotLabel": "Brussels Sprouts, Asparagus or Broccoli",
+      "marketIngredientId": "broccoli-cauliflower",
+      "policyId": "broccoli",
+      "displayName": "Broccoli",
+      "pantryIngredientIds": [
+        "broccoli-fresh"
+      ],
+      "offerFoods": [
+        "broccoli"
+      ],
+      "rationale": "Both label and directions specifically name broccoli.",
+      "status": "proposed",
+      "payloadSha256": "550bd6a0bbce61ba0f5c52420669541c4a72af2f1ded8abf25de87b27c7e8006"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:spinach-kale-greens",
+      "revision": 1,
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "slotKey": "side_starch",
+      "slotLabel": "Potatoes or Zucchini/Squash",
+      "marketIngredientId": "spinach-kale-greens",
+      "policyId": "greens",
+      "displayName": "Fresh spinach or kale",
+      "pantryIngredientIds": [
+        "spinach-fresh",
+        "kale-fresh"
+      ],
+      "offerFoods": [
+        "spinach",
+        "kale"
+      ],
+      "rationale": "Propose spinach or kale for the existing low-carb greens candidate; add explicit cooked-greens side instructions.",
+      "status": "proposed",
+      "payloadSha256": "d7f65601b6f34bfe294005109ed60849670f13bc0e7660283b0bb427a1953084"
+    }
+  ]
+}

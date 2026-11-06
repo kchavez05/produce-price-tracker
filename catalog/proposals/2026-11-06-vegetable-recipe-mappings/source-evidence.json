@@ -1,0 +1,98 @@
+{
+  "formatVersion": 1,
+  "rulesVersion": 1,
+  "releaseDate": "2026-10-29",
+  "records": [
+    {
+      "dataType": "sr_legacy_food",
+      "fdcId": "170393",
+      "ndbNumber": "11124",
+      "description": "Carrots, raw",
+      "publicationDate": "2019-04-01",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": null,
+      "key": "sr_legacy_food:170393",
+      "fingerprint": "4c738bfd45ca39629e68d44cc3b298b9b01eeb3c6babd5663fe6d6f992db78f9",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "foundation_food",
+      "fdcId": "747447",
+      "ndbNumber": "11090",
+      "description": "Broccoli, raw",
+      "publicationDate": "2019-12-16",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": "Source number reflects the actual number of samples analyzed for a nutrient. Repeat nutrient analyses may have been done on the same sample with the values shown.",
+      "key": "foundation_food:747447",
+      "fingerprint": "3edc41696e599c808e167aafbf26f2c6167e09a9b4931c89e6d6ca65ba8382ab",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "foundation_food",
+      "fdcId": "2685573",
+      "ndbNumber": "11135",
+      "description": "Cauliflower, raw",
+      "publicationDate": "2024-04-18",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": null,
+      "key": "foundation_food:2685573",
+      "fingerprint": "685c63203e96a869c7b8e076869b09777b99ac2b255996c83a9556067568b574",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "sr_legacy_food",
+      "fdcId": "168462",
+      "ndbNumber": "11457",
+      "description": "Spinach, raw",
+      "publicationDate": "2019-04-01",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": null,
+      "key": "sr_legacy_food:168462",
+      "fingerprint": "9942f2985601f57f8207491a6cbe2dddc33d7ca0dbd7c9b6228ce2f778309080",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "foundation_food",
+      "fdcId": "323505",
+      "ndbNumber": "11233",
+      "description": "Kale, raw",
+      "publicationDate": "2019-04-01",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": null,
+      "key": "foundation_food:323505",
+      "fingerprint": "9b33d1b8fd00519f942915b0bd4cb37265a9d307555c5ba48b55ae5b8b82f22f",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "sr_legacy_food",
+      "fdcId": "169251",
+      "ndbNumber": "11260",
+      "description": "Mushrooms, white, raw",
+      "publicationDate": "2019-04-01",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": null,
+      "key": "sr_legacy_food:169251",
+      "fingerprint": "a93b69e17cb32262c6cc9ecc8f3d80b2c74176ba8c6c8497329777a3f7e4dad8",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "sr_legacy_food",
+      "fdcId": "170457",
+      "ndbNumber": "11529",
+      "description": "Tomatoes, red, ripe, raw, year round average",
+      "publicationDate": "2019-04-01",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": null,
+      "key": "sr_legacy_food:170457",
+      "fingerprint": "99301b0c881c048e438e819f74c973dcd68e161f373795b5a810cd7c8191dd00",
+      "disposition": "candidate"
+    }
+  ]
+}
