@@ -83,6 +83,42 @@ describe('pantry database storage boundaries', () => {
     await db.query('delete from public.users where id=$1', [owner]);
     await db.exec('reset role');
   });
+  it('installs approved staples without acknowledging earlier rejection or altering account boundaries', async () => {
+    const owner = '00000000-0000-4000-8000-000000000005';
+    await db.query('insert into auth.users(id,email) values($1,$2)', [owner, 'staples@example.test']);
+    await asUser(owner);
+    const initial = await rpc<PantryMigrationSnapshot>('read');
+    await rpc('migrate', { source: initial.legacySource, entries: [] });
+    await rpc('mutate', put({ mutationId: 'kept-oil', entryId: 'kept-oil', entry: { ingredientId: 'olive-oil', displayName: 'Olive oil', available: false, quantity: 0, unit: 'tbsp' } }));
+    const existing = (await rpc<PantryMigrationSnapshot>('read')).entries;
+    const ingredients = [
+      { ingredientId: 'sugar-granulated', displayName: 'Granulated sugar' },
+      { ingredientId: 'sugar-brown', displayName: 'Brown sugar' },
+      { ingredientId: 'honey', displayName: 'Honey' },
+      { ingredientId: 'yogurt-plain-whole-milk', displayName: 'Plain whole-milk yogurt' },
+    ];
+    const mutations = ingredients.map((entry) => put({ mutationId: entry.ingredientId, entryId: entry.ingredientId, entry: { ...entry, available: true } }));
+    for (const mutation of mutations) await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
+    await db.exec('reset role');
+    expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(111);
+    const migration = readFileSync('supabase/migrations/20261106161943_pantry_staples_proteins.sql', 'utf8');
+    await db.exec(migration); await db.exec(migration);
+    await asUser(owner);
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(existing);
+    for (const mutation of mutations) {
+      const result = await rpc('mutate', mutation);
+      expect(result).toMatchObject({ status: 'applied', entry: { revision: 1 } });
+      expect(await rpc('mutate', mutation)).toEqual(result);
+    }
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries).toHaveLength(5);
+    await asUser(alice);
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual([]);
+    await asUser(owner);
+    await expect(db.exec("insert into public.pantry_catalog(id) values('not-reviewed')")).rejects.toThrow('permission denied');
+    await db.query('delete from public.users where id=$1', [owner]);
+    await db.exec('reset role');
+    expect((await db.query('select * from public.user_pantry_entries where user_id=$1', [owner])).rows).toEqual([]);
+  });
   it('keeps catalog IDs synchronized and denies anonymous execution', async () => {
     const ids = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows.map((r) => r.id);
     expect(ids).toEqual(cookingIngredients.map((r) => r.id).sort());

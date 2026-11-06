@@ -2023,6 +2023,663 @@
         "date": "2026-11-06",
         "payloadSha256": "98c981000f2778292d0f64671dbb414e040cc97850eec0f805402c22928ee68f"
       }
+    },
+    {
+      "id": "ingredient-canola-oil",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:748278",
+          "fingerprint": "55458f2f822cd8def7e973f3786602f1aa8b5258d0895d14a5edfd547608f3d5"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Oil, canola. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "canola-oil",
+        "name": "Canola oil",
+        "aliases": [],
+        "familyId": "canola",
+        "form": "oil",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "bef967002dd16be189b5e12355896d496682c333faa625825eee2c7f90186df2"
+      }
+    },
+    {
+      "id": "ingredient-sesame-oil",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171016",
+          "fingerprint": "4bd13cfac550003456545a2607e12338ce7556d8307d4d7ac8d8d1704593d7fb"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Oil, sesame, salad or cooking. Unspecified cooking sesame oil; do not claim toasted or untoasted identity from this generic record, and add no toasted-oil coverage. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sesame-oil",
+        "name": "Sesame oil",
+        "aliases": [],
+        "familyId": "sesame",
+        "form": "oil",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "2d83d022c145ab353f0a20de4c5a2085a75feae7bd3fc187cbef05d7a30f6ef4"
+      }
+    },
+    {
+      "id": "ingredient-cinnamon-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171320",
+          "fingerprint": "3d2b4e36ebc255c96264f4759f37c9a378ec57ae8c3559423c3a6a0b8e733f0f"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, cinnamon, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "cinnamon-ground",
+        "name": "Ground cinnamon",
+        "aliases": [],
+        "familyId": "cinnamon",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "f7fac0b28c0c57779095a408a075b0f19c37c3ca53a7eea2ede8c0e883cdd4ee"
+      }
+    },
+    {
+      "id": "ingredient-cloves-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171321",
+          "fingerprint": "a1b249a9b31f1e6985dfaa20e324b0fa6d2390240cf8865d143f5fa32d0fc986"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, cloves, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "cloves-ground",
+        "name": "Ground cloves",
+        "aliases": [],
+        "familyId": "cloves",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "95fd1b58053d4ae3039b8a7ada10e7e484a8edcfb4501d9cfe8eefcc4ff714ab"
+      }
+    },
+    {
+      "id": "ingredient-turmeric-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172231",
+          "fingerprint": "34ac7a4b766cc5deecc1ca0f71a54096edde45236d809f93fe980eb4c8b921ab"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, turmeric, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "turmeric-ground",
+        "name": "Ground turmeric",
+        "aliases": [],
+        "familyId": "turmeric",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "d51c3506a19684c87d28490d4ffac66f618f5e6c852376a82147489667e74240"
+      }
+    },
+    {
+      "id": "ingredient-ginger-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170926",
+          "fingerprint": "19229788eae49dc6af71026bd1879ae88e3a50c494ee577bd70c9e72df202cc1"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, ginger, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "ginger-ground",
+        "name": "Ground ginger",
+        "aliases": [],
+        "familyId": "ginger",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "857179ece150c838e954258cadd8211e2febbb7915239f9eb5e16b3b1efca718"
+      }
+    },
+    {
+      "id": "ingredient-red-wine-vinegar",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172240",
+          "fingerprint": "3703fd9fd1d2c69a60cc646eb899926dae355636a18ae3eeb70916fe15d6858e"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Vinegar, red wine. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "red-wine-vinegar",
+        "name": "Red wine vinegar",
+        "aliases": [],
+        "familyId": "red-wine-vinegar",
+        "form": "vinegar",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "421a6599e2a4c6419c3679ed6a1418e175e9a0b5546049a67378b9508aaa20e1"
+      }
+    },
+    {
+      "id": "ingredient-miso",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172442",
+          "fingerprint": "f91a561f9825af390b2c0cb0ac0f85b166f76e53a9e7c27a0a0c44139137f682"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Miso. Review the ordinary cooking-paste identity; source variety is unspecified. Do not establish soybean/rice ownership or use a dry soup mix as an equivalent. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "miso",
+        "name": "Miso",
+        "aliases": [
+          "miso paste"
+        ],
+        "familyId": "miso",
+        "form": "paste",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "7e69c00c74bcc255f759308c4580925264e07c408463dfeeb71266a50ee60e81"
+      }
+    },
+    {
+      "id": "ingredient-fish-sauce",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174531",
+          "fingerprint": "43b2039590adb96b414fcec02d1f53633e39547ec08417afdc1cd64f6d347b41"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sauce, fish, ready-to-serve. Composite condiment only; not fish stock, fish inventory, or a dietary guarantee. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "fish-sauce",
+        "name": "Fish sauce",
+        "aliases": [],
+        "familyId": "fish-sauce",
+        "form": "sauce",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "05d0a8a4a8f960d3c7f1973562dc38257b0ed0c7d68d57bf83befd7df8f38e55"
+      }
+    },
+    {
+      "id": "ingredient-oyster-sauce",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174529",
+          "fingerprint": "46e5e680a507b6218edb21201b53d0587bf9dd07c0d141ae87c7695587fbadfd"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sauce, oyster, ready-to-serve. Composite oyster sauce only; mushroom-based alternatives are not aliases or compatible inventory. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "oyster-sauce",
+        "name": "Oyster sauce",
+        "aliases": [],
+        "familyId": "oyster-sauce",
+        "form": "sauce",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "f262f3b9429f1b3b76955f8210d00fd2000d30269d19aa7fcba938b393ad9a7f"
+      }
+    },
+    {
+      "id": "ingredient-sugar-granulated",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169655",
+          "fingerprint": "c592e94e7addca3e059216841f4ad3667f478d56befab7f6612cdaa433280382"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sugars, granulated. Explicit proposed inclusion override for this exact excluded source row: granulated sugar is an identifiable ingredient used in home cooking and baking, rather than a finished confection. Keep it distinct from brown and powdered sugars. Retain the original excluded discovery disposition; approval of this exact upsert does not change importer rules, approve other excluded foods, or clear the separate quarantined Foundation hold. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sugar-granulated",
+        "name": "Granulated sugar",
+        "aliases": [],
+        "familyId": "sugar",
+        "form": "granulated",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "e5682c89a67d5a39890e0f7f4c390105bbe75b39a27622bc58b69ac6158b0363"
+      }
+    },
+    {
+      "id": "ingredient-sugar-brown",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168833",
+          "fingerprint": "d85a8ae357f533a330a7847fa0be83a847f1bb8c83a0b8f59e164217513c8223"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sugars, brown. Explicit proposed inclusion override for this exact excluded source row: brown sugar is an identifiable cooking/baking ingredient, rather than a finished sweet dish. Shade is unspecified; no light/dark variety or granulated-sugar substitution is established. Retain the original excluded discovery disposition; approval of this exact upsert does not change importer rules, approve other excluded foods, or clear the separate quarantined Foundation hold. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sugar-brown",
+        "name": "Brown sugar",
+        "aliases": [],
+        "familyId": "sugar",
+        "form": "brown",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "89effb07316c3775d73fe4ef5d3d9101451a750bbca2a1756f43bf6eb5954f2c"
+      }
+    },
+    {
+      "id": "ingredient-honey",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169640",
+          "fingerprint": "5b69a5fb782c2b5cadb4e16309c4972fad2dd7adaa0accf071abbeb087e79a29"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Honey. Explicit proposed inclusion override for this exact excluded source row: honey is an identifiable ingredient used in cooking, sauces and baking, rather than a finished dessert. Crystallization/texture is unspecified and no sugar substitution is established. Retain the original excluded discovery disposition; approval of this exact upsert does not change importer rules, approve other excluded foods, or clear the separate quarantined Foundation hold. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "honey",
+        "name": "Honey",
+        "aliases": [],
+        "familyId": "honey",
+        "form": "unspecified",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "d64c84f136f5fa690d5f3daebe0c41153c8176c590bf94580ae3034d57d569a6"
+      }
+    },
+    {
+      "id": "ingredient-tempeh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174272",
+          "fingerprint": "fd96eda916dd10d468e900cfea4df28c54b5c950f17e1add45cbba02845525dc"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Tempeh. Plain tempeh identity; no flavored product, cooked-dish identity, or named legume/nutrition claim is introduced. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "tempeh",
+        "name": "Tempeh",
+        "aliases": [],
+        "familyId": "tempeh",
+        "form": "plain",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "3988e886c78bed7eab0fcbf54660a87b359171a5469b2c27b471bd5c970c0dda"
+      }
+    },
+    {
+      "id": "ingredient-tofu-soft",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172449",
+          "fingerprint": "13a3c3239ca5010299d79b6e75241dc7669b7ee699daf771077fad6361fb5e92"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Tofu, soft, prepared with calcium sulfate and magnesium chloride (nigari). Retain the soft texture distinction from existing Firm tofu. Source coagulants are identity evidence context, not a generic calcium claim. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "tofu-soft",
+        "name": "Soft tofu",
+        "aliases": [],
+        "familyId": "tofu",
+        "form": "soft",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "864926ad788d6c84b46c9fbd1d428d2b18e09d2d2d3f7794f2fd64f0cb5f737d"
+      }
+    },
+    {
+      "id": "ingredient-milk-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:746782",
+          "fingerprint": "57718b64c7f2eee4fb843dc8380892dd4ae2dbb8719291670bf6455053fec4ac"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Milk, whole, 3.25% milkfat, with added vitamin D. Retain the 3.25% whole-milk description; do not establish skim/reduced-fat, plant milk, or any nutritional/fortification guarantee. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "milk-whole",
+        "name": "Whole milk (3.25%)",
+        "aliases": [
+          "whole milk"
+        ],
+        "familyId": "milk",
+        "form": "whole",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "763674158f28756ce97df00850e877b1feb4de1d4f57dfa7e2760cc4e17b437a"
+      }
+    },
+    {
+      "id": "ingredient-yogurt-plain-whole-milk",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2259793",
+          "fingerprint": "16cd2eee7d5474f1246bc8cab49094c5da11c227490e940ad09d38df5e167bfc"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Yogurt, plain, whole milk. Limit the identity to plain whole-milk yogurt, not every fat level, Greek yogurt, or vanilla yogurt. Require a yogurt-qualified search so a broad milk query does not show yogurt. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "yogurt-plain-whole-milk",
+        "name": "Plain whole-milk yogurt",
+        "aliases": [
+          "plain yogurt",
+          "plain whole milk yogurt"
+        ],
+        "familyId": "yogurt",
+        "form": "yogurt",
+        "searchVisibility": "specific",
+        "variety": "plain-whole-milk"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "cfb2eb63ba6416f06ff55e28ad46c0abc885dc8db06ac95d2e78858039a61fc6"
+      }
+    },
+    {
+      "id": "ingredient-feta-cheese",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173420",
+          "fingerprint": "b5e75294c90ed40489a5ab8399e4852d2125a1acf3e2e85e6ca73d7835231e74"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Cheese, feta. General feta cooking identity; no crumbled-only texture, milk-species inference, brand, or protected-origin claim. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "feta-cheese",
+        "name": "Feta",
+        "aliases": [
+          "feta cheese"
+        ],
+        "familyId": "feta",
+        "form": "cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "3f5427e970edc07bf8d8ecd37f95beb9c316ba812f918d668ebe1d244d41bfd8"
+      }
+    },
+    {
+      "id": "ingredient-parmesan-hard",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170848",
+          "fingerprint": "21ecf4003068f9226f07193cb810b6d1797ac1b996b30bfe62005bb0ff1a35b4"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Cheese, parmesan, hard. Hard Parmesan cooking identity, not unspecified grated products; no protected-origin certification is inferred. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "parmesan-hard",
+        "name": "Hard Parmesan",
+        "aliases": [
+          "hard parmesan cheese"
+        ],
+        "familyId": "parmesan",
+        "form": "hard",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "31b43a77954bfd2cf8fc206d4cefe990ad35c7d9e722c71e75fff4415b2d099e"
+      }
+    },
+    {
+      "id": "ingredient-tuna-light-canned-water",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:334194",
+          "fingerprint": "a8f3f5a2ee615d9a4961aada5f1aff885c28311a5706066ac00340c19d8799ca"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Fish, tuna, light, canned in water, drained solids. Retain light tuna canned in water. Drainage is source context, not a second default choice or portion conversion. Oil-packed tuna remains distinct. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "tuna-light-canned-water",
+        "name": "Canned light tuna in water",
+        "aliases": [],
+        "familyId": "tuna",
+        "form": "canned-in-water",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "f0d5418e1cb7e70032a70dbc27da7be268d4a5ebc4c881ec71c3a0dcbc9eca2a"
+      }
+    },
+    {
+      "id": "ingredient-almonds-whole-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346393",
+          "fingerprint": "15e727d15a87d766d2f982f6c608e841d17d3f0a7aebac3c6b3a53d4abc97550"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Nuts, almonds, whole, raw. Whole raw almond form only; roasted, blanched, almond flour and almond butter are distinct. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "almonds-whole-raw",
+        "name": "Whole raw almonds",
+        "aliases": [],
+        "familyId": "almonds",
+        "form": "whole-raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "ee89c44aad1c120defd47e9df99e66514b6b95a46368c8c9cb7f2f40fd1e4536"
+      }
+    },
+    {
+      "id": "ingredient-walnuts-english-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346394",
+          "fingerprint": "c8e0ab6a463c773b906e81394a7611a63f879e46e5196424881cfe554e6bcd6c"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Nuts, walnuts, English, halves, raw. Raw English walnut identity; halves are source context rather than a required package shape. Black walnuts, roasted or glazed walnuts remain distinct. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "walnuts-english-raw",
+        "name": "Raw English walnuts",
+        "aliases": [],
+        "familyId": "walnuts",
+        "form": "raw",
+        "searchVisibility": "primary",
+        "variety": "english"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "50b6853f830dc1c5d6f4b8333272f131e8d3aab499caacec1ae18f289cb00cd5"
+      }
+    },
+    {
+      "id": "ingredient-sesame-seeds-whole-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170150",
+          "fingerprint": "0448969913ac3517949b5b379cc21cdac334eccaa7016fb501dacf5650c222e0"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Seeds, sesame seeds, whole, dried. Whole dried seed form, separate from hulled/toasted seeds, sesame oil and tahini; no cross-form compatibility. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sesame-seeds-whole-dried",
+        "name": "Whole dried sesame seeds",
+        "aliases": [],
+        "familyId": "sesame-seeds",
+        "form": "whole-dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "b3d5ab60df26c655a673113044a23ac2e8e604a52d78406cea29ad4adb429e16"
+      }
     }
   ]
 }
