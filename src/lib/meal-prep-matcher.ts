@@ -118,6 +118,20 @@ export function rankMealPrepDishes(
         );
       }
 
+      // Pantry evidence does not depend on a market quote. Consider an owned
+      // reviewed alternative before dropping candidates absent from this store pool.
+      const ownedWithoutCommodity = options?.pantryMode ? activeCandidateIds
+        .map((id) => recipeUseForSlot(blueprint.id, slot.label, id))
+        .filter((use) => use && !commodityMap.has(use.marketIngredientId) && onHandSet.has(recipeUseRequirementId(use)))
+        .sort((a, b) => Number(Boolean(b && pinnedSet.has(b.marketIngredientId))) - Number(Boolean(a && pinnedSet.has(a.marketIngredientId))))[0] : undefined;
+      const hasPricedPin = activeCandidateIds.some((id) => commodityMap.has(id) && pinnedSet.has(id));
+      if (ownedWithoutCommodity && (pinnedSet.has(ownedWithoutCommodity.marketIngredientId) || !hasPricedPin)) {
+        missingRequirements.push({ ingredientId: recipeUseRequirementId(ownedWithoutCommodity), displayName: ownedWithoutCommodity.displayName,
+          quantity: Number((slot.quantityRequired * scaleFactor).toFixed(2)), unit: 'lb', ...(slot.optional ? { optional: true } : {}) });
+        if (pinnedSet.has(ownedWithoutCommodity.marketIngredientId)) pinnedHits += 1;
+        continue;
+      }
+
       const usablePrices = new Set<string>();
       const candidateAvailabilityId = (id: string) => {
         const use = options?.pantryMode ? recipeUseForSlot(blueprint.id, slot.label, id) : undefined;

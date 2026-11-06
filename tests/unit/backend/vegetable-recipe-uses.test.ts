@@ -214,6 +214,22 @@ describe('approved vegetable recipe-use integration', () => {
     expect(matchedRecipeRequirement(dish(useFor('broccoli')), slot(useFor('broccoli'))).displayName).toBe('Broccoli');
   });
 
+  it('keeps an owned unquoted vegetable ahead of a priced alternative while preserving an explicit pin', () => {
+    const use = scopedRecipeUses.find((r) => r.recipeId === 'sheet-pan-salmon-asparagus-brussels-potato-roast' && r.slotKey === 'green_veg' && r.marketIngredientId === 'broccoli-cauliflower')!;
+    const brussels = createMockCommodity({ ingredient: CANONICAL_INGREDIENTS.find((r) => r.id === 'brussels-sprouts')!,
+      bestOffer: createMockOffer({ canonicalIngredientId: 'brussels-sprouts', normalizedPricePerUnit: 3 }) });
+    const rank = (priced: boolean, pinned: string[] = []) => rankMealPrepDishes(priced ? [brussels] : [], pinned, ['broccoli-fresh'], 6, { pantryMode: true })
+      .allRankedDishes.find((r) => r.id === use.recipeId)!;
+    const result = rank(true);
+    expect(result.totalBatchCost).toBe(rank(false).totalBatchCost);
+    expect(result.matchedIngredients.some((r) => r.ingredientId === 'brussels-sprouts')).toBe(false);
+    expect(result.pantryRequirements?.find((r) => r.ingredientId === recipeUseRequirementId(use))).toBeDefined();
+    const shopping = buildShoppingListAndStoreComparison([result], [brussels], ['broccoli-fresh'], '80542', ['KING_SOOPERS'], true);
+    expect(shopping.items.some((r) => r.ingredientId === 'brussels-sprouts')).toBe(false);
+    expect(shopping.pantryNeeds.some((r) => r.ingredientId === recipeUseRequirementId(use))).toBe(false);
+    expect(rank(true, ['brussels-sprouts']).matchedIngredients.find((r) => r.ingredientId === 'brussels-sprouts')?.slotCost).toBe(5.25);
+  });
+
   it('binds approval, all 22 slot uses, implemented directions and current market data to hashes', () => {
     const compile = (raw: unknown) => compileScopedRecipeUses(raw, parseArtifact(artifact).ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS);
     expect(compile(approval).uses).toEqual(scopedRecipeUses);
