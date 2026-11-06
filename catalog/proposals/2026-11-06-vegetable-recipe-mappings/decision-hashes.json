@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ingredient-carrots-fresh",
+    "revision": 1,
+    "payloadSha256": "38301b7ce0b494d236a9440a8a9757d7602ee3f67ccdb702c080fccabf98251e"
+  },
+  {
+    "id": "ingredient-broccoli-fresh",
+    "revision": 1,
+    "payloadSha256": "e69645518481ef527403a3942f2d19d5aef8a3b941acb92852806f03ab3498d8"
+  },
+  {
+    "id": "ingredient-cauliflower-fresh",
+    "revision": 1,
+    "payloadSha256": "5189aed916bde9a083c60b953d6a95da7cdc880c403f88d6aaa4102c560cdeaa"
+  },
+  {
+    "id": "ingredient-spinach-fresh",
+    "revision": 1,
+    "payloadSha256": "6ea5dd59bcbee720b2e4997db0c1c2a6d5036eead5d83ec79a79f3c5ebecbc69"
+  },
+  {
+    "id": "ingredient-kale-fresh",
+    "revision": 1,
+    "payloadSha256": "d0e3d263b351f638de6e0704896d921fd68b16be3c5d29faa50cbfd014c2f667"
+  },
+  {
+    "id": "ingredient-mushrooms-white-fresh",
+    "revision": 1,
+    "payloadSha256": "5ad7d442cbdc61b21b54ca757b91427865ba4c159572cc5a2c7fab6abbd55f13"
+  },
+  {
+    "id": "ingredient-tomatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "e181d80ca0753d9a9798eeb0e1c4f255a800d1b14766df5de7af491ef5f7448f"
+  }
+]
