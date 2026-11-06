@@ -1,6 +1,6 @@
 # Cooking catalog integration
 
-The app now compiles reviewed catalog `2026-11-06.1`: 111 accepted identities, including the first 29-addition legumes/grains/flours batch and the second ten-addition vegetables/aromatics batch, with eleven provenance updates across both. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
+The app now compiles reviewed catalog `2026-11-06.2`: 134 accepted identities across the initial catalog, the 29-addition legumes/grains/flours batch, ten-addition vegetables/aromatics batch, and 23-addition staples/proteins batch. Eleven existing identities received provenance updates. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
 
 ## Runtime behavior
 
@@ -62,6 +62,16 @@ The maintainer approved the [15 exact payloads](research/v1.6.1-vegetables-aroma
 
 Install `20261106155015_pantry_vegetables_aromatics.sql` after `20261031143749_pantry_legumes_grains_flours.sql`. It only inserts the ten new accepted IDs with idempotent conflict handling. It changes no grants, policies, user inventory, or authentication. Clients must continue checking installed acceptance before queueing a new account reference; local guests use the bundled registry. No hosted database is changed by preparing the migration.
 
-The default runtime view is `2026-11-06.1`. Build the same compatibility-capable code with `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-31.1` for the exact 101-identity view, or `2026-10-30.1` for the exact 72-identity view. The original baseline remains supported. Retain all 111 accepted IDs and owned inventory during either rollback, including pending edits and exports.
+For the second-batch build, the default runtime view was `2026-11-06.1`; the current default is described below. Build the same compatibility-capable code with `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-31.1` for the exact 101-identity view, or `2026-10-30.1` for the exact 72-identity view. The original baseline remains supported. Retain all 111 accepted IDs and owned inventory during either rollback, including pending edits and exports.
 
 Verify pre-migration rejection and post-migration acceptance, preserved existing inventory/details, idempotent reapply/retry, fresh-herb search/readiness, owner isolation, exports/deletion, and both retained views before hosted rollout. Source evidence and search aliases do not create recipe compatibility: cilantro leaves cannot establish coriander seed, and spearmint cannot establish peppermint. Missing prices remain explicit. Complete CI, Preview, Codex review, environment verification, and the release workflow before production activation.
+
+## v1.6.1 staples/proteins batch
+
+The maintainer explicitly approved all [23 exact payloads](research/v1.6.1-staples-proteins-review.md), including the source-specific granulated-sugar/brown-sugar/honey overrides and yogurt-qualified search, on November 6, 2026. Reviewed catalog `2026-11-06.2` contains 134 ingredients, 77 source links across 76 identities, unchanged prices/compatibility, and a full market audit of 15 links plus 119 no-current-counterpart dispositions. Discovery exclusions and the separate Foundation quarantine hold are preserved; these three approved upserts are not a global filter override.
+
+Install `20261106161943_pantry_staples_proteins.sql` after the existing pantry migrations and both earlier expansion migrations. It inserts only the 23 new accepted IDs with idempotent conflict handling, changing no grants, policies, account rows, or inventory. Existing readiness checks refuse to queue account references before acceptance. Private keyless guests use the bundled registry.
+
+The default runtime view is now `2026-11-06.2`. The exact `2026-11-06.1` (111), `2026-10-31.1` (101), `2026-10-30.1` (72), and original baseline views remain supported through `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION`. Retain all 134 server IDs, owned inventory, pending edits, and export/recovery data on presentation rollback. Never delete accepted rows or restore old inventory snapshots as a UI rollback.
+
+Verify pre-migration rejection and same-ID post-migration retry for all three sweeteners and yogurt, repeated migration, preserved inventory/details, owner isolation, anonymous/direct-write denial, export/deletion, keyless disk persistence, yogurt discovery/readiness, exact milk/yogurt and ground/fresh-ginger coverage, and all retained views. Missing prices remain explicit, while marked-available requirements have zero additional grocery cost. Complete local checks, CI, Preview, Codex review and hosted release verification before activation. No hosted migration or production activation is performed by this implementation.

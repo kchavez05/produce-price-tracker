@@ -1,3 +1,4 @@
+import vegetableCatalog from '../../../catalog/releases/2026-11-06.1/catalog.json';
 import firstExpandedCatalog from '../../../catalog/releases/2026-10-31.1/catalog.json';
 import previousCatalog from '../../../catalog/releases/2026-10-30.1/catalog.json';
 import baseline from '../../../catalog/baseline-1.5.2.json';
@@ -99,6 +100,28 @@ describe('pantry recipe and shopping integration', () => {
     expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([herb]))).toEqual([]);
     expect(pantryShoppingNeeds(requirements, [])).toMatchObject([{ priceBasis: 'UNPRICED', estimatedCost: null }]);
     expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([{ ...herb, available: false }]))).toHaveLength(1);
+  });
+  it('retains the 111-identity view and keeps milk/yogurt and ground/fresh ginger ownership distinct', () => {
+    const rollback = cookingCatalogView('2026-11-06.1');
+    expect(rollback.ingredients).toEqual(vegetableCatalog.ingredients);
+    expect(rollback.compatibility).toEqual(vegetableCatalog.compatibility);
+    expect(searchCookingCatalog(rollback.ingredients, 'plain yogurt')).toEqual([]);
+    const milk: PantryEntry = { id: 'milk', ingredientId: 'milk-whole', displayName: 'Whole milk (3.25%)', available: true, quantity: 0, revision: 1, updatedAtIso: '' };
+    const yogurt: PantryEntry = { ...milk, id: 'yogurt', ingredientId: 'yogurt-plain-whole-milk', displayName: 'Plain whole-milk yogurt' };
+    expect(canSavePantryIngredient(yogurt, yogurt, [])).toBe(true);
+    const requirements = [{ ingredientId: milk.ingredientId!, quantity: 1, unit: 'cup' }, { ingredientId: yogurt.ingredientId!, quantity: 1, unit: 'cup' }];
+    const dish = createMockDish({ pantryStaples: [], pantryRequirements: requirements });
+    const before = JSON.stringify([milk, yogurt, dish]);
+    const partial = applyPantryToRecipe(dish, availablePantryIngredientIds([milk]), []);
+    expect(partial.pantryCoverage).toMatchObject({ requiredCount: 2, availableRequiredCount: 1 });
+    expect(partial.additionalCostEstimateComplete).toBe(false);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([milk]))).toMatchObject([{ ingredientId: yogurt.ingredientId, priceBasis: 'UNPRICED', estimatedCost: null }]);
+    const complete = applyPantryToRecipe(dish, availablePantryIngredientIds([milk, yogurt]), []);
+    expect(complete.pantryCoverage?.availableRequiredCount).toBe(2);
+    expect(complete.totalBatchCost).toBe(0);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([milk, yogurt]))).toEqual([]);
+    expect(availablePantryIngredientIds([{ ...milk, ingredientId: 'ginger-ground' }])).toEqual(['ginger-ground']);
+    expect(JSON.stringify([milk, yogurt, dish])).toBe(before);
   });
   it('covers market onion cards, zeroes costs, and omits shopping needs using fresh pantry onions', () => {
     const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;

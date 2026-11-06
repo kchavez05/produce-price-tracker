@@ -9,6 +9,12 @@ import ledgerData from '../../../catalog/curation-ledger.json';
 import fixtures from '../../../catalog/core-search-fixtures.json';
 import initialFixtures from '../../../catalog/releases/2026-10-30.1/search-fixtures.json';
 import firstExpansionFixtures from '../../../catalog/releases/2026-10-31.1/search-fixtures.json';
+import vegetableFixtures from '../../../catalog/releases/2026-11-06.1/search-fixtures.json';
+import staplesData from '../../../catalog/releases/2026-11-06.2/catalog.json';
+import staplesManifest from '../../../catalog/releases/2026-11-06.2/manifest.json';
+import staplesAudit from '../../../catalog/releases/2026-11-06.2/audit.json';
+import staplesHashes from '../../../catalog/proposals/2026-11-06-staples-proteins/decision-hashes.json';
+import staplesEvidence from '../../../catalog/proposals/2026-11-06-staples-proteins/source-evidence.json';
 import vegetableData from '../../../catalog/releases/2026-11-06.1/catalog.json';
 import vegetableManifest from '../../../catalog/releases/2026-11-06.1/manifest.json';
 import vegetableAudit from '../../../catalog/releases/2026-11-06.1/audit.json';
@@ -86,7 +92,8 @@ describe('curation and recurring approval gates', () => {
     for (const query of ['beans', 'flour', 'rice', 'lentils']) expect(searchCookingCatalog(expanded.ingredients, query, 1000).length).toBeLessThanOrEqual(12);
   });
   it('retains the exact approved vegetable payloads, evidence, prior fields and existing coverage rules', () => {
-    const catalog = parseArtifact(vegetableData), previous = parseArtifact(expansionData), ledger = parseLedger(ledgerData);
+    const catalog = parseArtifact(vegetableData), previous = parseArtifact(expansionData), fullLedger = parseLedger(ledgerData);
+    const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)) };
     expect(catalog.ingredients).toHaveLength(111);
     expect(catalog.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
     expect(vegetableManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, status: 'APPROVED_FOR_INTEGRATION', published: false });
@@ -103,7 +110,33 @@ describe('curation and recurring approval gates', () => {
     expect(additions).toHaveLength(10);
     expect(additions.every((r) => !r.staticPrice && !r.recipeIngredientId && r.form === 'fresh')).toBe(true);
     expect(catalog.compatibility).toEqual(previous.compatibility);
+    for (const fixture of vegetableFixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+  });
+  it('retains all 23 approved staples payloads and source-specific overrides without changing earlier identities', () => {
+    const catalog = parseArtifact(staplesData), previous = parseArtifact(vegetableData), ledger = parseLedger(ledgerData);
+    expect(catalog.ingredients).toHaveLength(134);
+    expect(catalog.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(staplesManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, status: 'APPROVED_FOR_INTEGRATION', published: false });
+    expect(staplesAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: previous.catalogVersion, outcome: 'staged' });
+    const evidence = parseSources(staplesEvidence);
+    expect(evidence.records.filter((r) => r.disposition === 'excluded').map((r) => r.key).sort()).toEqual(['sr_legacy_food:168833', 'sr_legacy_food:169640', 'sr_legacy_food:169655']);
+    for (const reviewed of staplesHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id && d.revision === reviewed.revision)!;
+      expect(decision.status).toBe('approved');
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      for (const ref of decision.sourceRefs) {
+        const row = evidence.records.find((r) => r.key === ref.key)!;
+        expect(row.fingerprint).toBe(ref.fingerprint);
+        if (row.disposition === 'excluded') expect(decision.rationale).toContain('Explicit proposed inclusion override');
+      }
+    }
+    for (const before of previous.ingredients) expect(catalog.ingredients.find((r) => r.id === before.id)).toEqual(before);
+    const additions = catalog.ingredients.filter((r) => !previous.ingredients.some((old) => old.id === r.id));
+    expect(additions).toHaveLength(23);
+    expect(additions.every((r) => !r.staticPrice && !r.recipeIngredientId)).toBe(true);
+    expect(catalog.compatibility).toEqual(previous.compatibility);
     for (const fixture of fixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+    for (const query of ['beans', 'flour', 'rice', 'lentils', 'oil', 'sauce', 'milk', 'yogurt', 'sugar']) expect(searchCookingCatalog(catalog.ingredients, query, 1000).length).toBeLessThanOrEqual(12);
   });
   it('keeps proposals in the unapproved preview and replays only approvals with unchanged fingerprints', () => {
     const proposal = decision({ ingredient: { ...general, name: 'Dry lentils' } });

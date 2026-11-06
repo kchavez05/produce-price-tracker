@@ -453,5 +453,299 @@
   {
     "query": "peppermint",
     "expected": []
+  },
+  {
+    "query": "Canola oil",
+    "expected": [
+      "canola-oil"
+    ]
+  },
+  {
+    "query": "Sesame oil",
+    "expected": [
+      "sesame-oil"
+    ]
+  },
+  {
+    "query": "Ground cinnamon",
+    "expected": [
+      "cinnamon-ground"
+    ]
+  },
+  {
+    "query": "Ground cloves",
+    "expected": [
+      "cloves-ground"
+    ]
+  },
+  {
+    "query": "Ground turmeric",
+    "expected": [
+      "turmeric-ground"
+    ]
+  },
+  {
+    "query": "Ground ginger",
+    "expected": [
+      "ginger-ground"
+    ]
+  },
+  {
+    "query": "Red wine vinegar",
+    "expected": [
+      "red-wine-vinegar"
+    ]
+  },
+  {
+    "query": "Miso",
+    "expected": [
+      "miso"
+    ]
+  },
+  {
+    "query": "Fish sauce",
+    "expected": [
+      "fish-sauce"
+    ]
+  },
+  {
+    "query": "Oyster sauce",
+    "expected": [
+      "oyster-sauce"
+    ]
+  },
+  {
+    "query": "Granulated sugar",
+    "expected": [
+      "sugar-granulated"
+    ]
+  },
+  {
+    "query": "Brown sugar",
+    "expected": [
+      "sugar-brown"
+    ]
+  },
+  {
+    "query": "Honey",
+    "expected": [
+      "honey"
+    ]
+  },
+  {
+    "query": "Tempeh",
+    "expected": [
+      "tempeh"
+    ]
+  },
+  {
+    "query": "Soft tofu",
+    "expected": [
+      "tofu-soft"
+    ]
+  },
+  {
+    "query": "Whole milk (3.25%)",
+    "expected": [
+      "milk-whole"
+    ]
+  },
+  {
+    "query": "Plain whole-milk yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "Feta",
+    "expected": [
+      "feta-cheese"
+    ]
+  },
+  {
+    "query": "Hard Parmesan",
+    "expected": [
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "Canned light tuna in water",
+    "expected": [
+      "tuna-light-canned-water"
+    ]
+  },
+  {
+    "query": "Whole raw almonds",
+    "expected": [
+      "almonds-whole-raw"
+    ]
+  },
+  {
+    "query": "Raw English walnuts",
+    "expected": [
+      "walnuts-english-raw"
+    ]
+  },
+  {
+    "query": "Whole dried sesame seeds",
+    "expected": [
+      "sesame-seeds-whole-dried"
+    ]
+  },
+  {
+    "query": "oil",
+    "expected": [
+      "avocado-oil",
+      "olive-oil",
+      "canola-oil",
+      "sesame-oil"
+    ]
+  },
+  {
+    "query": "ginger",
+    "expected": [
+      "ginger-fresh",
+      "ginger-ground"
+    ]
+  },
+  {
+    "query": "vinegar",
+    "expected": [
+      "apple-cider-vinegar",
+      "red-wine-vinegar"
+    ]
+  },
+  {
+    "query": "sauce",
+    "expected": [
+      "soy-sauce",
+      "worcestershire-sauce",
+      "worcestershire-sauce-gluten-free",
+      "fish-sauce",
+      "oyster-sauce"
+    ]
+  },
+  {
+    "query": "sugar",
+    "expected": [
+      "sugar-brown",
+      "sugar-granulated"
+    ]
+  },
+  {
+    "query": "milk",
+    "expected": [
+      "coconut-milk-canned",
+      "milk-whole"
+    ]
+  },
+  {
+    "query": "yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain whole milk yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "miso paste",
+    "expected": [
+      "miso"
+    ]
+  },
+  {
+    "query": "feta cheese",
+    "expected": [
+      "feta-cheese"
+    ]
+  },
+  {
+    "query": "hard parmesan cheese",
+    "expected": [
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "cheese",
+    "expected": [
+      "feta-cheese",
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "tofu",
+    "expected": [
+      "tofu-firm",
+      "tofu-soft"
+    ]
+  },
+  {
+    "query": "sesame",
+    "expected": [
+      "sesame-oil",
+      "sesame-seeds-whole-dried"
+    ]
+  },
+  {
+    "query": "toasted sesame oil",
+    "expected": []
+  },
+  {
+    "query": "cinnamon sticks",
+    "expected": []
+  },
+  {
+    "query": "fresh turmeric",
+    "expected": []
+  },
+  {
+    "query": "powdered sugar",
+    "expected": []
+  },
+  {
+    "query": "mushroom oyster sauce",
+    "expected": []
+  },
+  {
+    "query": "Greek yogurt",
+    "expected": []
+  },
+  {
+    "query": "vanilla yogurt",
+    "expected": []
+  },
+  {
+    "query": "tuna in oil",
+    "expected": []
+  },
+  {
+    "query": "roasted almonds",
+    "expected": []
+  },
+  {
+    "query": "black walnuts",
+    "expected": []
+  },
+  {
+    "query": "toasted sesame seeds",
+    "expected": []
+  },
+  {
+    "query": "ground coriander",
+    "expected": []
+  },
+  {
+    "query": "cardamom",
+    "expected": []
   }
 ]

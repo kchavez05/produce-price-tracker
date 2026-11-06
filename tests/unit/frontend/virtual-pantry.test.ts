@@ -112,6 +112,18 @@ describe('Virtual Pantry accessible controls', () => {
     await search('peppermint');
     expect(container.textContent).not.toContain('Add Fresh spearmint');
   });
+  it('keeps yogurt out of milk search and waits for acceptance before a quantity-free add', async () => {
+    await render([], ['milk-whole']); await search('milk');
+    expect(button('Add Whole milk (3.25%)')).toBeTruthy();
+    expect(container.textContent).not.toContain('Add Plain whole-milk yogurt');
+    await search('plain yogurt');
+    expect(button('Add Plain whole-milk yogurt').disabled).toBe(true);
+    await render();
+    await run(() => button('Add Plain whole-milk yogurt').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'yogurt-plain-whole-milk', displayName: 'Plain whole-milk yogurt', available: true }, undefined);
+    await search('Greek yogurt');
+    expect(container.textContent).not.toContain('Add Plain whole-milk yogurt');
+  });
   it('prevents adding an ID before server acceptance and explains explicit No coverage', async () => {
     await render([], ['red-lentils-dried']); await search('lentils');
     expect(button('Add Dried lentils').disabled).toBe(true);

@@ -1,0 +1,32 @@
+{
+  "status": "LOCAL_INTEGRATION_VERIFIED_HOSTED_ROLLOUT_PENDING",
+  "date": "2026-11-06",
+  "catalogVersion": "2026-11-06.2",
+  "catalogIdentities": 134,
+  "newIdentities": 23,
+  "sourceSpecificInclusionOverrides": [
+    "sr_legacy_food:169655",
+    "sr_legacy_food:168833",
+    "sr_legacy_food:169640"
+  ],
+  "sourceLinks": 77,
+  "sourceLinkedIdentities": 76,
+  "marketLinks": 15,
+  "noMarketCounterpart": 119,
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unit": 291,
+    "smoke": 21,
+    "regression": 37,
+    "build": "passed",
+    "runtimeProjectionAndMarketAudit": "passed",
+    "approvedAndPreviewSearchFixtures": 123,
+    "deterministicFullSourceReplay": true
+  },
+  "databaseVerification": "Isolated PGlite: all three sweeteners and yogurt rejected before migration; same mutation IDs accepted afterward and acknowledged once; migration replay, preserved inventory/details, owner isolation, direct-write denial, and deletion verified. SQLite: honey and earlier expanded-ID disk reopen/retry and private-session isolation pass.",
+  "compatibilityVerification": "Exact 111-/101-/72-identity views and original baseline retained; milk/yogurt and ground/fresh ginger remain separate, missing prices explicit, and owned requirements have zero additional cost. Yogurt-qualified discovery and installed-ID readiness pass.",
+  "hostedMigrationsApplied": false,
+  "productionActivated": false,
+  "releasePublished": false
+}
