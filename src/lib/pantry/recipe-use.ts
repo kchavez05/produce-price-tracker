@@ -78,8 +78,10 @@ export function scopedRecipeCommodity(use: ScopedRecipeUse, commodity: ScoredCom
   for (const offer of offers) if (!storeOffers[offer.store]) storeOffers[offer.store] = offer;
   // Keep admissible comparison offers, but choose card/ranking prices only from
   // the selected pool. A rejected selected-store offer does not authorize another store.
-  const pool = Object.values(storeOffers).filter((offer): offer is StoreOffer => Boolean(offer &&
-    (!commodity.recipeStorePool || commodity.recipeStorePool.includes(offer.store)))).sort(compare);
+  // Older cached payloads do not expose the chosen pool; preserve their chosen
+  // store instead of interpreting missing metadata as permission to expand it.
+  const eligibleStores = commodity.recipeStorePool ?? [commodity.bestOffer.store];
+  const pool = Object.values(storeOffers).filter((offer): offer is StoreOffer => Boolean(offer && eligibleStores.includes(offer.store))).sort(compare);
   if (!pool.length) return;
   return { ...commodity, ...calculateValueScore(commodity.ingredient, pool[0].normalizedPricePerUnit, pool[0].regularPricePerUnit),
     bestOffer: pool[0], runnerUpOffer: pool[1], storeOffers,

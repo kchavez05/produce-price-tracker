@@ -36,7 +36,8 @@ function market(use: ScopedRecipeUse, titles: [string, number, StoreChain][]) {
   const offers = titles.map(([rawTitle, price, store]) => createMockOffer({ canonicalIngredientId: use.marketIngredientId,
     rawTitle, store, normalizedPricePerUnit: price, regularPricePerUnit: price + 1, source: 'FLIPP_LIVE' }));
   return createMockCommodity({ ingredient: CANONICAL_INGREDIENTS.find((r) => r.id === use.marketIngredientId)!,
-    bestOffer: offers[0], storeOffers: Object.fromEntries(offers.map((offer) => [offer.store, offer])) });
+    bestOffer: offers[0], storeOffers: Object.fromEntries(offers.map((offer) => [offer.store, offer])),
+    recipeOffers: offers, recipeStorePool: [...new Set(offers.map((offer) => offer.store))] });
 }
 
 describe('approved vegetable recipe-use integration', () => {
@@ -118,6 +119,10 @@ describe('approved vegetable recipe-use integration', () => {
       const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
       expect(shopping.items).toEqual([]);
       expect(shopping.pantryNeeds).toHaveLength(1);
+      // Old cached commodities retain their selected best-offer store, even if
+      // the newly added selection metadata is absent.
+      delete commodities[0].recipeStorePool;
+      expect(applyPantryToRecipe(dish(use), [], commodities).additionalCostEstimateComplete).toBe(false);
     }
   });
 
