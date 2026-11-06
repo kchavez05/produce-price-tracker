@@ -2680,6 +2680,133 @@
         "date": "2026-11-06",
         "payloadSha256": "b3d5ab60df26c655a673113044a23ac2e8e604a52d78406cea29ad4adb429e16"
       }
+    },
+    {
+      "id": "ingredient-coriander-seeds-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170922",
+          "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, coriander seed. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "coriander-seeds-whole",
+        "name": "Whole coriander seeds",
+        "aliases": [
+          "coriander seed",
+          "coriander seeds",
+          "whole coriander"
+        ],
+        "familyId": "coriander-seed",
+        "form": "whole-seeds",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (whole/ground and shared-USDA-reference directives in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "be16939e1e892ca6d9ca93feb89c078c24b6495e9202b1a4bfaa8689e7d90a16"
+      }
+    },
+    {
+      "id": "ingredient-coriander-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170922",
+          "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, coriander seed. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "coriander-ground",
+        "name": "Ground coriander",
+        "aliases": [
+          "coriander powder"
+        ],
+        "familyId": "coriander-seed",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (whole/ground and shared-USDA-reference directives in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "99eb041a99e06b99268801564a50301cc87871e0cf69b255f00f541a8773d4c9"
+      }
+    },
+    {
+      "id": "ingredient-cardamom-pods",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170919",
+          "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, cardamom. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "cardamom-pods",
+        "name": "Whole cardamom pods",
+        "aliases": [
+          "cardamom pods",
+          "whole cardamom"
+        ],
+        "familyId": "cardamom",
+        "form": "pods",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (whole/ground and shared-USDA-reference directives in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "56ed29acbefb3d1d5ff7b540e98c65618ee3038d25c241a29b160cc631b1d279"
+      }
+    },
+    {
+      "id": "ingredient-cardamom-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170919",
+          "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, cardamom. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "cardamom-ground",
+        "name": "Ground cardamom",
+        "aliases": [
+          "cardamom powder"
+        ],
+        "familyId": "cardamom",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (whole/ground and shared-USDA-reference directives in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "d20574c5537ae39738e42ecd553b4924f9c1d1e3e45cf1e68e31f6a32de2246e"
+      }
     }
   ]
 }

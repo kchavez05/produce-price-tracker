@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "auditedOn": "2026-11-06",
-  "catalogHash": "4a92eb4beacdf6d079024f7825b5004ade0130d1a21b5839e288da7dd5cb40c2",
+  "catalogHash": "0bc6948644e30d4e64a5b6719ae13c825d908d56df7c2f4ef7b6dac522a12891",
   "marketCatalogHash": "87d3adf646930c3dae99f7aedf571405b267d23f235b413809e687f8083c8815",
   "recipeLinksHash": "1b51bcd6775c05f4bf169c047c001d498b2e21cf19431f5b4a0e79fb68fa57ff",
   "linkedIngredientIds": [
@@ -46,6 +46,8 @@
       "cannellini-beans-canned",
       "canola-oil",
       "caraway-seeds",
+      "cardamom-ground",
+      "cardamom-pods",
       "chicken-broth",
       "chickpea-flour",
       "chickpeas-canned",
@@ -56,6 +58,8 @@
       "cloves-ground",
       "coconut-aminos",
       "coconut-milk-canned",
+      "coriander-ground",
+      "coriander-seeds-whole",
       "cornmeal-yellow-whole",
       "cornstarch",
       "couscous-dry",

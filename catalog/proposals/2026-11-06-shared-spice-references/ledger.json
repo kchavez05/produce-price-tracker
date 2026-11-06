@@ -1,0 +1,2792 @@
+{
+  "formatVersion": 1,
+  "decisions": [
+    {
+      "id": "ingredient-lentils-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2644283",
+          "fingerprint": "2b500e1305c8e0097fc3773ad4fbb5f1cdb6b1837d7871e1b3644743ff8b7fd9"
+        }
+      ],
+      "rationale": "Unspecified dried lentils provides the broad cooking choice without claiming a variety. Link only to the general dry source record; fixed cost remains unpriced until reviewed.",
+      "ingredient": {
+        "id": "lentils-dried",
+        "aliases": [],
+        "name": "Dried lentils",
+        "familyId": "lentils",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "42c87d02554a05dc1001028eea83f3b79885a2bbf3d70df056b49c636ef8178e"
+      }
+    },
+    {
+      "id": "ingredient-lentils-canned",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Maintainer-curated proposal for the canned form. No suitable generic canned-lentil record was found in the Foundation/SR subset. Do not invent a USDA link or infer price.",
+      "ingredient": {
+        "id": "lentils-canned",
+        "aliases": [],
+        "name": "Canned lentils",
+        "familyId": "lentils",
+        "form": "canned",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "ef3dc1d31e0ec4a62db44fa5e9f9471f4059fce036597b11781922cadc1d61e7"
+      }
+    },
+    {
+      "id": "ingredient-red-lentils-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174284",
+          "fingerprint": "1837b6ae4b1c1dd067fbda3053594f28abd2c5e98a8aedf069c156cde5e60d23"
+        }
+      ],
+      "rationale": "Preserve the existing red-lentil ID and estimate while placing it under the optional variety choices. Review the raw pink/red source description against the dried culinary form before approving the identity evidence.",
+      "ingredient": {
+        "id": "red-lentils-dried",
+        "name": "Dried red lentils",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.8
+        },
+        "familyId": "lentils",
+        "form": "dried",
+        "searchVisibility": "variant",
+        "variety": "red",
+        "parentIngredientId": "lentils-dried"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "0bf18b1e9e0d7cc3f60785d53bd811161cb73cd0010ad97ef35307069d56cc80"
+      }
+    },
+    {
+      "id": "ingredient-onions-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170000",
+          "fingerprint": "4741d9a03f916612258b37fe01a2f338f48d40bb8a6c0cc0cf8e07d4fbc0b47a"
+        }
+      ],
+      "rationale": "Generic fresh onions is a cooking choice missing from the small initial catalog. This does not imply a specific onion variety or match grouped market offers. No price is inferred.",
+      "ingredient": {
+        "id": "onions-fresh",
+        "aliases": [],
+        "name": "Onions",
+        "familyId": "onions",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "3fb85db5f728e07fbb5a4528d0a94537002843311b6136385f1deea6ff75b172"
+      }
+    },
+    {
+      "id": "ingredient-basmati-rice-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "ingredient": {
+        "id": "basmati-rice-dry",
+        "name": "Dry basmati rice",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.65
+        },
+        "familyId": "rice",
+        "form": "dry",
+        "searchVisibility": "primary",
+        "variety": "basmati"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "1ae9aa27ce049728dfc2d0a76ee5bba15136a47aaa283598457d7efeeee33dfa"
+      }
+    },
+    {
+      "id": "ingredient-jasmine-rice-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "ingredient": {
+        "id": "jasmine-rice-dry",
+        "name": "Dry jasmine rice",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.6
+        },
+        "familyId": "rice",
+        "form": "dry",
+        "searchVisibility": "primary",
+        "variety": "jasmine"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "3a38c487f161ede48213fb9841aa2d1594b60c8b11e56a73436be578f034b26a"
+      }
+    },
+    {
+      "id": "ingredient-brown-rice-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "ingredient": {
+        "id": "brown-rice-dry",
+        "name": "Dry brown rice",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "cup",
+          "usdPerUnit": 0.5
+        },
+        "familyId": "rice",
+        "form": "dry",
+        "searchVisibility": "primary",
+        "variety": "brown"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "8a0761873db235e4955b822f14092035cb4004d7fc01ce8ce73cd6cc4d510f58"
+      }
+    },
+    {
+      "id": "ingredient-rice-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Preserve the existing rice-flour ID/price and require a flour-qualified query, so a broad rice query does not mix flour with cooking rice. It remains reachable by flour and rice flour.",
+      "ingredient": {
+        "id": "rice-flour",
+        "name": "Rice flour",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "tbsp",
+          "usdPerUnit": 0.06
+        },
+        "familyId": "rice-flour",
+        "form": "flour",
+        "searchVisibility": "specific"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "7687082ae71f71148819ac155b2f58a5471f3ca05f9fc0ce1ec6f04b8284f6dc"
+      }
+    },
+    {
+      "id": "red-lentils-cover-general-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Propose only the directional red dried -> unspecified dried rule. Broad lentils must not satisfy red lentils; explicit No for the required identity overrides derived coverage. This edge does not activate recipe matching.",
+      "compatibility": {
+        "from": "red-lentils-dried",
+        "to": "lentils-dried"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "ec4f67de76f022a388fce48bcc621faff520e5a42373e6659a9eb1d1e93b08f4"
+      }
+    },
+    {
+      "id": "hold-foundation-orphans-2026-10-29",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "defer",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1105430",
+          "fingerprint": "a18204306abf3ffbe92a0c13d05b805c0c1af4ad7cdc0b2d5275749b3cee6773"
+        },
+        {
+          "key": "foundation_food:1105547",
+          "fingerprint": "42359a7c5e9de8affafb277ae9c6d1e65bcf5f8da158921b113e6a473029b95d"
+        },
+        {
+          "key": "foundation_food:1105664",
+          "fingerprint": "fad29a57afd296a3a3d1da0b2f0bd77b7bff912d4b32092cbc60b2b816b68458"
+        },
+        {
+          "key": "foundation_food:1105781",
+          "fingerprint": "d1a7b492bbea8046d4f2715e7d3f1e3afa22260eecc5d2ce4460173018b1daad"
+        },
+        {
+          "key": "foundation_food:1105897",
+          "fingerprint": "a87d21f607e9643c3327150cf1def8c29a20cca514e9d64a6fe625a37b2b7a66"
+        },
+        {
+          "key": "foundation_food:1750337",
+          "fingerprint": "e1dfa055ad5268dae41eaf21563da1f22cae5cc8a5f8d1fb2f7b491e11c28886"
+        },
+        {
+          "key": "foundation_food:1750338",
+          "fingerprint": "c90935dba5b1b80ad5e3a83b4d06ca2a752ed9e5dab4aa18c87d182d1471f704"
+        },
+        {
+          "key": "foundation_food:1750344",
+          "fingerprint": "8c693a536e76ac76c8f6c7f6d5ccf1a645a81bc786cbefd3e7a8ffe7fc91ffe8"
+        },
+        {
+          "key": "foundation_food:1750345",
+          "fingerprint": "80f4d2e4ef63fddd2555bad10b6cfb041bc3befbce22a824a4ef797d75672372"
+        },
+        {
+          "key": "foundation_food:1750346",
+          "fingerprint": "42fd1ca2b95ead58af259e226214000027cede4ad1d58a3ab2b1c5f1018c924a"
+        },
+        {
+          "key": "foundation_food:1750347",
+          "fingerprint": "1071df4c3b196eb734c43bc5d9e2990589716607d252384663508f6612d394cc"
+        },
+        {
+          "key": "foundation_food:1750352",
+          "fingerprint": "2d7b05f9ff4e63d88402c160586d8da03a85f3bd05b2903395c143dea3991a77"
+        },
+        {
+          "key": "foundation_food:1750353",
+          "fingerprint": "66887e97e479152e5da85fa29b5430d8f318fee42fea1404c4f48bff320ea5c1"
+        },
+        {
+          "key": "foundation_food:1750354",
+          "fingerprint": "366b1a3f038d9cb93d8f4c3785d0fec064d3fc7118c5c77d76f9deb724d6347a"
+        },
+        {
+          "key": "foundation_food:2263887",
+          "fingerprint": "1c845d58aabc26f5fff0b222dcf77b8693b882152c3fc0a1b7bfa636bd1fd1b6"
+        },
+        {
+          "key": "foundation_food:2263888",
+          "fingerprint": "2e0a0a7892edd9b6237753943a9f39aebeb2881ea7d8e18b8ca06354a1ceedc3"
+        },
+        {
+          "key": "foundation_food:2263889",
+          "fingerprint": "092a3865116027a823030cf364e8ca94a5a2fe211898e181282e66315a0fc441"
+        },
+        {
+          "key": "foundation_food:2263890",
+          "fingerprint": "0f4951a91f183120863c323f3d1bbfe82c11c1c7005bbcd4c6aa47d95a29aa29"
+        },
+        {
+          "key": "foundation_food:2263891",
+          "fingerprint": "534414428b79f3c65113a9dc54aea7d98e08ece1706f8e10cf8a85fe18422a47"
+        },
+        {
+          "key": "foundation_food:2263892",
+          "fingerprint": "f0a668ceb8c4baddcb55eda605432bd35b68f21d54db9b695b426880dafd8592"
+        },
+        {
+          "key": "foundation_food:2758999",
+          "fingerprint": "5f505c40bb2d7fd6d72675c8f8fb9a80af494a5862334c3881166b84ca23fad7"
+        },
+        {
+          "key": "foundation_food:321359",
+          "fingerprint": "7393ea646ba5b4da1c05dc9fde828d360a41e18e38a7a03d0dce5f8bfb05934a"
+        },
+        {
+          "key": "foundation_food:321505",
+          "fingerprint": "24cdc4bd8f05b6858a08c1fd698ad9548a1dff52b7373bbfb99fbfc8a2a66cce"
+        },
+        {
+          "key": "foundation_food:321900",
+          "fingerprint": "eb559f1e4fcdfcbd89cc532a3613ada566178256408e3ff02692512a3d8e01da"
+        },
+        {
+          "key": "foundation_food:322228",
+          "fingerprint": "9f2aa38f3319012c109736ce3ca902cbe607880db702a63d8b4f05eed8854f80"
+        },
+        {
+          "key": "foundation_food:322559",
+          "fingerprint": "fdf4637a3a377ade1a35123799e17b4af6f205b1d4b3f3a90090dd9fc7efa73e"
+        },
+        {
+          "key": "foundation_food:322892",
+          "fingerprint": "7d87e0f7a81ae1a88f357e44f71ba4145731357f36cdd603d5847ea61a831da9"
+        },
+        {
+          "key": "foundation_food:323444",
+          "fingerprint": "5898c67e950574e58fbddee99121cffdb8022d59b6501595b6573ccdb2294cc9"
+        },
+        {
+          "key": "foundation_food:324038",
+          "fingerprint": "0ce3f3667e92eb44d8513d614b3363a811c41b93810f334edf882b01ef2badf6"
+        },
+        {
+          "key": "foundation_food:324157",
+          "fingerprint": "9eca1e423f7183170504645b4aaa55ceb8ff166ea86ccebebed22fa0dd6b113c"
+        },
+        {
+          "key": "foundation_food:324860",
+          "fingerprint": "0240caaf3b40c12097460000c96281ef5b64c8710216161991740bded9fd7679"
+        },
+        {
+          "key": "foundation_food:325658",
+          "fingerprint": "f569486ec9e79aa2146982f2d6ae93902b3c9c67746c5a9bf1c144ce42e7ed6b"
+        },
+        {
+          "key": "foundation_food:325871",
+          "fingerprint": "745cbdd80b5f7c5769e7e7d41bcb91dd4147c8c3d492c1f4a3bc970804e2b68a"
+        },
+        {
+          "key": "foundation_food:325992",
+          "fingerprint": "a1faf396faa0dae85b8837b7022cf1bfb4460b2be3fedecd18ccb2a06a1728f1"
+        },
+        {
+          "key": "foundation_food:326135",
+          "fingerprint": "6ac2fc45a7795158c7d1063bace582421394677e1b2d03490aa086eb71f44ad1"
+        },
+        {
+          "key": "foundation_food:326458",
+          "fingerprint": "fcdc6bd728baf8bc1f26aa98ee498f7972742379934b2f067328d7c16c5c4166"
+        },
+        {
+          "key": "foundation_food:326905",
+          "fingerprint": "24f0a1a31531d040d80e2f05e13d65932651b7f8aac0e3aba77c6dd894d9e888"
+        },
+        {
+          "key": "foundation_food:327198",
+          "fingerprint": "18fc7f91a679e773418c5749b357c94ea17873ce472c0997bfe9ef870790124e"
+        },
+        {
+          "key": "foundation_food:327501",
+          "fingerprint": "ff6f86a34ff25527651781c89293ac8f72b2a4782dad84ab1f90860098bc4025"
+        },
+        {
+          "key": "foundation_food:327699",
+          "fingerprint": "e6092eac249e13c9ad94b1f748123c4c36ef984497b374bf24672150ecb86a4e"
+        },
+        {
+          "key": "foundation_food:327923",
+          "fingerprint": "af17a4f7d12055788235056192fe11c6e5d4840b77fc46d0d56f24d48f376c59"
+        },
+        {
+          "key": "foundation_food:329830",
+          "fingerprint": "b8a35fd20b54c31492ceca1af5bdbd7165ca49390c2460cd8ff2727e2a7b5e83"
+        },
+        {
+          "key": "foundation_food:330869",
+          "fingerprint": "ee0dd5a988b4886bab5a3e77074b68790f6b16863e24e20294702ababc02b2c7"
+        },
+        {
+          "key": "foundation_food:332597",
+          "fingerprint": "db6245c090de3a30c3e63795c662d90b8175541cd22fc6134e831c9b8dd10b6b"
+        },
+        {
+          "key": "foundation_food:332864",
+          "fingerprint": "8051a05f188343bfb0b7162296a14fbb7dc6301193278669daf414951c0ef23c"
+        },
+        {
+          "key": "foundation_food:334247",
+          "fingerprint": "6cb49aa910070216573383020f5e83a5ee2866251cce5887acdddd79355a5b0b"
+        },
+        {
+          "key": "foundation_food:334462",
+          "fingerprint": "d64d5062ee1caaa5802042245beacb429dba9b07042074599412cd7f92bb5909"
+        },
+        {
+          "key": "foundation_food:334849",
+          "fingerprint": "32c61d2e3d226202ff3b9e7caef9830f1564f4f31767584b1bfb9f032a384a89"
+        },
+        {
+          "key": "foundation_food:334897",
+          "fingerprint": "6dc6a1c83af015205834604b6e08e95b069cac9863782baeb3b119d6a67eb002"
+        },
+        {
+          "key": "foundation_food:334898",
+          "fingerprint": "4681b1d05edad884c9a70d319e2485f7e079fc8b02504f25de01d9eed332d2df"
+        },
+        {
+          "key": "foundation_food:334963",
+          "fingerprint": "54ded8f0f41f41e855ffa544368ac8ffaa53fac7fcbe61424b8e03d5eb1368c5"
+        },
+        {
+          "key": "foundation_food:335061",
+          "fingerprint": "05ccdcdddd1559af87c5c7b105caeb36472b701ed5689f951ed703aeb5f39fb2"
+        },
+        {
+          "key": "foundation_food:335109",
+          "fingerprint": "646c1a0b704263b28fa27b4c5b15e18994d64e3ed218c26feeff74b07bd12fcf"
+        },
+        {
+          "key": "foundation_food:335240",
+          "fingerprint": "aa6c84fea7bbded350e1e9d3898074c0e5b1534d2dbb8d222e35b1499e416e8f"
+        },
+        {
+          "key": "foundation_food:335245",
+          "fingerprint": "300f96b6dd6c0fcb140c9723c2f564d926afa5150926a831d010955cb76309b0"
+        },
+        {
+          "key": "foundation_food:335306",
+          "fingerprint": "8dcf3ff27308fe844c089a7d4690401ae592a54a5f49caacd50a6fbbcce7309a"
+        },
+        {
+          "key": "foundation_food:335419",
+          "fingerprint": "ae087d87f5c93680f05155b0c00fe09e5486e7505a1c3f6359aae8ef941a1157"
+        },
+        {
+          "key": "foundation_food:335422",
+          "fingerprint": "9cae9c2ff02ef63b68340d8a35c7bf6618285d7707d36d15ef9d131b8e1ca184"
+        },
+        {
+          "key": "foundation_food:335425",
+          "fingerprint": "cf4d5b333f499a417d93f51c8137137282d10ffc61c5a8f54945ab748f139a76"
+        },
+        {
+          "key": "foundation_food:335428",
+          "fingerprint": "ec048816a56b252fc6044c2e2d3a5b25dd652dca966cd063e6749566ce445a81"
+        },
+        {
+          "key": "foundation_food:335433",
+          "fingerprint": "350f499b0193fb38c07c600327dd4c70aed5b0778ae31891671493aecc4075ca"
+        },
+        {
+          "key": "foundation_food:335442",
+          "fingerprint": "1c0a639c574cd4ec6214c6cd61747fbce479876c395651fe16d883299e81e0e1"
+        },
+        {
+          "key": "foundation_food:335695",
+          "fingerprint": "d07d94754e546ef6d39fbc67b397b5fa885f3aca2f44ceb1c630fb9a9eadb0ec"
+        },
+        {
+          "key": "foundation_food:335774",
+          "fingerprint": "3235da648b147e420253ba27a161ebde38eb75b7305faa03a69f14529a722b87"
+        },
+        {
+          "key": "foundation_food:335777",
+          "fingerprint": "172ddf75d7b0cc59b32121fe7bd5b5d7e2bb2987ea5a827d611e6edc9df9cc86"
+        },
+        {
+          "key": "foundation_food:335782",
+          "fingerprint": "de7fb02f1bfd5c9eed8bd6e6e1f3bced31509103da76486a9546404a08522beb"
+        },
+        {
+          "key": "foundation_food:335785",
+          "fingerprint": "6de5e4b130ebc213a03428308edcbe7274213af35ad88cd2c3fd71f7e3be70ce"
+        },
+        {
+          "key": "foundation_food:335912",
+          "fingerprint": "855e6052387d1735f3280fe4164816bb879f947fa062315b4a563bf30b430b07"
+        },
+        {
+          "key": "foundation_food:335927",
+          "fingerprint": "2a3d2d849d1ce40b29152238afbed874cd59e04971f805c02936b1acf5bee241"
+        },
+        {
+          "key": "foundation_food:335930",
+          "fingerprint": "79d31671a40d59804802a5fda87dbe7646ef25b0f1e1498ffce92d91dd8b3101"
+        },
+        {
+          "key": "foundation_food:336067",
+          "fingerprint": "34a7c661846e02d52975151bfd902d7d19a624587d3d1a0c81776ca45cdc4ed9"
+        },
+        {
+          "key": "foundation_food:747448",
+          "fingerprint": "e80e783918512ddf086fd7e0f39b5178d0036131e9a2792f0316ace676c19d31"
+        },
+        {
+          "key": "foundation_food:790774",
+          "fingerprint": "e510ce709257562fdca6c543cd55a02ec3022868d9bbfaae70ca6f96f5727306"
+        },
+        {
+          "key": "foundation_food:790991",
+          "fingerprint": "04565e845ba4e506827c6f49f1d9191289b816bcc0aa88cb97eaa7b6c2d4162a"
+        }
+      ],
+      "rationale": "Proposed release-scoped hold for the 74 Foundation parent-only records. Of these, 68 share descriptions with subtype-backed records and six do not; none are established replacements or active source links. Keep all out of the approved catalog while investigating, with an owned review deadline. Approval must be renewed for the next source release.",
+      "exception": {
+        "sourceReleaseDate": "2026-10-29",
+        "owner": "Catalog maintainer",
+        "reviewBy": "2027-04-30"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat)",
+        "date": "2026-10-30",
+        "payloadSha256": "31e6948ae12725760fe963cc06ec4398cc6abf486854c21d09e34c2c01908631"
+      }
+    },
+    {
+      "id": "ingredient-chickpeas-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2644282",
+          "fingerprint": "3c79ab70bbf5fbf1d4f6e9b7064110cf21467ab301a1c5d7b62349e39cf1515f"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Chickpeas, (garbanzo beans, bengal gram), dry. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "chickpeas-dried",
+        "name": "Dried chickpeas",
+        "aliases": [
+          "dried garbanzo beans"
+        ],
+        "familyId": "chickpeas",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "dd234eab1744165a3acfc3aa2fd82811cc4b74c9bb484f7d5017071adfeb7cba"
+      }
+    },
+    {
+      "id": "ingredient-pinto-beans-canned",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2644292",
+          "fingerprint": "1046498f4206d075380e339d2036d8f56b5770489c447662d5abb775cbf402f1"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, pinto, canned, sodium added, drained and rinsed. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "pinto-beans-canned",
+        "name": "Canned pinto beans",
+        "aliases": [],
+        "familyId": "pinto-beans",
+        "form": "canned",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "419bf81de92e2fac8237b2f08734e720ded7c0f045302da7bd92b6e3f8fbe134"
+      }
+    },
+    {
+      "id": "ingredient-pinto-beans-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:175199",
+          "fingerprint": "4f68c11a4187882a0b29c0be7f107cbdbb273d39fce341b5c69eb158a34f3e15"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, pinto, mature seeds, raw (Includes foods for USDA's Food Distribution Program). Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "pinto-beans-dried",
+        "name": "Dried pinto beans",
+        "aliases": [],
+        "familyId": "pinto-beans",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "15c300f7aae68a59c390a86f023c55e674b4bf974eeb68b6ed8583495037ddf5"
+      }
+    },
+    {
+      "id": "ingredient-navy-beans-canned",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2644286",
+          "fingerprint": "aa750439a2e98caaa9f05c22ae2f57fcd2c390d86bacfa257c1cf2d50f3a7c94"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, navy, canned, sodium added, drained and rinsed. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "navy-beans-canned",
+        "name": "Canned navy beans",
+        "aliases": [],
+        "familyId": "navy-beans",
+        "form": "canned",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "a2a27a33ad9fc17013edd8b5c88e36c8e00cf23e9272b929418f8991d63fded4"
+      }
+    },
+    {
+      "id": "ingredient-navy-beans-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173745",
+          "fingerprint": "c771d795050c8a4b17497fd4b569b269239c6c9ba85df12bbc30573da7c56516"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, navy, mature seeds, raw. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "navy-beans-dried",
+        "name": "Dried navy beans",
+        "aliases": [],
+        "familyId": "navy-beans",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "068b694cf32444156de52f046b761cd5097d899fd9af13c64b8abeb8e3441604"
+      }
+    },
+    {
+      "id": "ingredient-kidney-beans-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:175193",
+          "fingerprint": "767a65b31b3582c549bfe8acb74867c98f67ee4384a7cf915e4411922d1e4443"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, kidney, all types, mature seeds, raw. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "kidney-beans-dried",
+        "name": "Dried kidney beans",
+        "aliases": [],
+        "familyId": "kidney-beans",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "662feca44f727df4d9c648698681ecd24b82872592b592feb08ca0d2e532ad85"
+      }
+    },
+    {
+      "id": "ingredient-green-split-peas-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172428",
+          "fingerprint": "e37d720dd02b87530e3a5efa7931228bb391352038afc985f0de2a968f64fd3e"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Peas, green, split, mature seeds, raw. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "green-split-peas-dried",
+        "name": "Dried green split peas",
+        "aliases": [],
+        "familyId": "split-peas",
+        "form": "dried",
+        "searchVisibility": "primary",
+        "variety": "green"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "2ac17d814236d69f5a29ad20335437e1a14246e10a947b1acbc03739beb2514b"
+      }
+    },
+    {
+      "id": "ingredient-rolled-oats",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346396",
+          "fingerprint": "f538c76f2fbec4480109c7c81027af39ac5f5bb0865d91bc101ce16dc1de21c7"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Oats, whole grain, rolled, old fashioned. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "rolled-oats",
+        "name": "Rolled oats",
+        "aliases": [
+          "old-fashioned oats",
+          "old fashioned oats"
+        ],
+        "familyId": "oats",
+        "form": "rolled",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "96ae055ae7b8b96e546ffed0dc8f24d6a43579233dcd185f88589daf216ec0cc"
+      }
+    },
+    {
+      "id": "ingredient-steel-cut-oats",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346397",
+          "fingerprint": "deda55699165d5707402ae78d766776e27d29ea2c08fc2cf6186bd44c8f539b7"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Oats, whole grain, steel cut. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "steel-cut-oats",
+        "name": "Steel-cut oats",
+        "aliases": [
+          "steel cut oats"
+        ],
+        "familyId": "oats",
+        "form": "steel-cut",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "c57eaf92579bf19f547826f6998e9b2feadb5e1d5550c3ab3bbe173289efd964"
+      }
+    },
+    {
+      "id": "ingredient-quinoa-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168874",
+          "fingerprint": "d4107cefe33d239200d0a3d75cf9a50713127c7da8e9548e4a0c32856ec7f885"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Quinoa, uncooked. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "quinoa-dry",
+        "name": "Dry quinoa",
+        "aliases": [],
+        "familyId": "quinoa",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "e128e593be3946059c9da7ac17c70eb354176e709b7c58c2cf7f14980d1b6de0"
+      }
+    },
+    {
+      "id": "ingredient-bulgur-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2710820",
+          "fingerprint": "6e40b8d2d92608b503fa58db760a1d4dd764de9ece8eba67747a6137d790eb73"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Bulgur, dry, raw. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "bulgur-dry",
+        "name": "Dry bulgur",
+        "aliases": [
+          "bulgur wheat"
+        ],
+        "familyId": "bulgur",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "cb6c8447db270f236b63426dfa8ec1c106d901a9ab5d995220bef2db81e09b06"
+      }
+    },
+    {
+      "id": "ingredient-barley-pearled",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170284",
+          "fingerprint": "e11a8f54f2fe9bdc9a7396605a419905fb824fc06c3fac67875b5e9c8d0154dd"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Barley, pearled, raw. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "barley-pearled",
+        "name": "Pearled barley",
+        "aliases": [
+          "pearl barley"
+        ],
+        "familyId": "barley",
+        "form": "pearled",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "a7ee1b557970ce6af1e2ef13fe7ab60043959d57b61b5c83a23c6fdc1f67dc4f"
+      }
+    },
+    {
+      "id": "ingredient-barley-hulled",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170283",
+          "fingerprint": "ae1a460c98c5f3e169b3a2559abaccdafe1c5b1674252d5ab5f913471245f8b4"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Barley, hulled. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "barley-hulled",
+        "name": "Hulled barley",
+        "aliases": [],
+        "familyId": "barley",
+        "form": "hulled",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "bf88e02bf9071669741fbfbf1698e4ada25ec72b9040285b4da80e8e749f0d84"
+      }
+    },
+    {
+      "id": "ingredient-buckwheat-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2512378",
+          "fingerprint": "3f543e1ca90a7efb5c5725ec023897f84aec9b2357f27aa7e2437f397ef34d02"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Buckwheat, whole grain. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "buckwheat-whole",
+        "name": "Whole-grain buckwheat",
+        "aliases": [],
+        "familyId": "buckwheat",
+        "form": "whole-grain",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "9fa5fa771b27ac8aa58ba3014cc6c5cd93fe8ebd16e1d4fd17bbf39e88d633ef"
+      }
+    },
+    {
+      "id": "ingredient-millet-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2512379",
+          "fingerprint": "f782575621792cf3794715466b440850467a2784ec7cdc8bda2dc5d46633447b"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Millet, whole grain. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "millet-whole",
+        "name": "Whole-grain millet",
+        "aliases": [],
+        "familyId": "millet",
+        "form": "whole-grain",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "df4a0f1f30eacc78e37f236c687ccfe644655a160aab76e09c92e687be18ca0e"
+      }
+    },
+    {
+      "id": "ingredient-couscous-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169699",
+          "fingerprint": "cc290824fb887adf47941b8dfda9d2f43ec63c59c3a672ab481458cd56442c61"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Couscous, dry. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "couscous-dry",
+        "name": "Dry couscous",
+        "aliases": [],
+        "familyId": "couscous",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "aeb3774fcf8c8834f40409de6c41f56f3491ecde0625986702237d0e9651db0f"
+      }
+    },
+    {
+      "id": "ingredient-pasta-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169736",
+          "fingerprint": "04fc5016104fc49da04014fc3b501724315c928598fe34871b68534574a7ca40"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Pasta, dry, enriched. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "pasta-dry",
+        "name": "Dry pasta",
+        "aliases": [],
+        "familyId": "pasta",
+        "form": "dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "c9e96578e160b8036b647bd93f6f04ea2d0fe3f50ab1a96721b76b27d4568c95"
+      }
+    },
+    {
+      "id": "ingredient-sorghum-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2710842",
+          "fingerprint": "9c0b120a56ae129082936b145a2f5179ac98bd9f77e6e71ac4a6068eacc4a0fc"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sorghum, whole grain, white, dry, raw. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "sorghum-whole",
+        "name": "Whole-grain sorghum",
+        "aliases": [],
+        "familyId": "sorghum",
+        "form": "whole-grain",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "5c1a6b849ab1501314ef6599a145de1bbb92cdeafb4f78303605d5700a2727b5"
+      }
+    },
+    {
+      "id": "ingredient-cornmeal-yellow-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169697",
+          "fingerprint": "0789dcb55750fe85b902fc9080eca57b62ab61aad3091564237e75a79d4eea81"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Cornmeal, whole-grain, yellow. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "cornmeal-yellow-whole",
+        "name": "Whole-grain yellow cornmeal",
+        "aliases": [],
+        "familyId": "cornmeal",
+        "form": "whole-grain",
+        "searchVisibility": "primary",
+        "variety": "yellow"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "a83e2304d6709367b86786d75f6801ff92fcf934905568e87490061352176ebf"
+      }
+    },
+    {
+      "id": "ingredient-tapioca-pearls-dry",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169717",
+          "fingerprint": "2bec3b7a20862a2b185fe514fa2d323d4381e138dd45b114492b4419d49d2c2f"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Tapioca, pearl, dry. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "tapioca-pearls-dry",
+        "name": "Dry tapioca pearls",
+        "aliases": [],
+        "familyId": "tapioca",
+        "form": "pearls",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "35c86eaddd860875bace6e55460e5993bc49a10d814fca97a6679b8e59feae80"
+      }
+    },
+    {
+      "id": "ingredient-oat-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2261421",
+          "fingerprint": "57676c9f50efea0c0965065418e2576988731beed28b3374a1aaca17fc567553"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Flour, oat, whole grain. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "oat-flour",
+        "name": "Whole-grain oat flour",
+        "aliases": [],
+        "familyId": "oat-flour",
+        "form": "flour",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "c263941aeb7dd0def366fe752a24d428021d26897c319770e8216b9bd534b28a"
+      }
+    },
+    {
+      "id": "ingredient-rye-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2512375",
+          "fingerprint": "a22e520d8953649f267dabf63c363d7de4c63ff67cff6261733f12819ea702cc"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Flour, rye. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "rye-flour",
+        "name": "Rye flour",
+        "aliases": [],
+        "familyId": "rye-flour",
+        "form": "flour",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "c4e4be5760e8fc3dff9d1767e9e9353369a3d0334038d8c9d34066c29c5b44a6"
+      }
+    },
+    {
+      "id": "ingredient-buckwheat-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2512374",
+          "fingerprint": "1f758e261245530d894dfdcf868a70c0f1d5f12c2aa9ca5b6bf3dbb6215558c9"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Flour, buckwheat. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "buckwheat-flour",
+        "name": "Buckwheat flour",
+        "aliases": [],
+        "familyId": "buckwheat-flour",
+        "form": "flour",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "f794c644538d60f8c0b2876f73d515f39ecaa35233248bebfa57c442788ff2c8"
+      }
+    },
+    {
+      "id": "ingredient-chickpea-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174288",
+          "fingerprint": "8c38c11ba6da2cccdd32679f2c78445caab5db047b7e7c2637d54aaef6c1d5f7"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Chickpea flour (besan). Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "chickpea-flour",
+        "name": "Chickpea flour",
+        "aliases": [
+          "besan",
+          "gram flour"
+        ],
+        "familyId": "chickpea-flour",
+        "form": "flour",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "c0950286f2c96243a55c737e8b5a22f2246f445470bef919761faca8a0885c67"
+      }
+    },
+    {
+      "id": "ingredient-sorghum-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2512373",
+          "fingerprint": "bbeda74cc55fdb648eb8597cb18db2b551525c4d09be78e03b924dd2a3054d26"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Flour, sorghum. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "sorghum-flour",
+        "name": "Sorghum flour",
+        "aliases": [],
+        "familyId": "sorghum-flour",
+        "form": "flour",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "2db3ca0b1498221db21bbc8fee2a2063e1365e010b156b14d5f66354f2944649"
+      }
+    },
+    {
+      "id": "ingredient-bread-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168896",
+          "fingerprint": "15066bbe340f9b5e8e4d368a7e20b888f2f082fd5076298ad8748481e9d97e75"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Wheat flour, white, bread, enriched. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "bread-flour",
+        "name": "Wheat bread flour",
+        "aliases": [],
+        "familyId": "wheat-flour",
+        "form": "bread-flour",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "305d72baece9e5f2d48a932b746e5f40b6940996ddf1252bf1fb6ffa085dac25"
+      }
+    },
+    {
+      "id": "ingredient-self-rising-wheat-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168895",
+          "fingerprint": "7d74786cb4da91d3261c113f735468f8f231d003b4325955ce12459a2ec4e409"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Wheat flour, white, all-purpose, self-rising, enriched. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution.",
+      "ingredient": {
+        "id": "self-rising-wheat-flour",
+        "name": "Self-rising wheat flour",
+        "aliases": [
+          "self raising flour",
+          "self-raising flour"
+        ],
+        "familyId": "wheat-flour",
+        "form": "self-rising-flour",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "f563f0afb952b48d1cbe9c72c693d8ec833b948e65164c3bc5a57d70fca49833"
+      }
+    },
+    {
+      "id": "ingredient-brown-rice-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1104812",
+          "fingerprint": "5198f6f97376e2275f0515ee5f5d348f478d596d47da76385ed54b78789432bc"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Flour, rice, brown. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Optional variety only: parent-to-child and child-to-parent recipe coverage are NOT proposed.",
+      "ingredient": {
+        "id": "brown-rice-flour",
+        "name": "Brown rice flour",
+        "aliases": [],
+        "familyId": "rice-flour",
+        "form": "flour",
+        "searchVisibility": "variant",
+        "variety": "brown",
+        "parentIngredientId": "rice-flour"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "07aa0faf9bb1dc6915f1baf3bee32eee10deace3f68bc5dd12f996b46383d38c"
+      }
+    },
+    {
+      "id": "ingredient-glutinous-rice-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1104867",
+          "fingerprint": "8ae1d3fa2fe365831b5a1eddaa0d0b31c038dfda7fa1426c8b866e9696684703"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Flour, rice, glutinous. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Optional variety only: parent-to-child and child-to-parent recipe coverage are NOT proposed.",
+      "ingredient": {
+        "id": "glutinous-rice-flour",
+        "name": "Glutinous rice flour",
+        "aliases": [],
+        "familyId": "rice-flour",
+        "form": "flour",
+        "searchVisibility": "variant",
+        "variety": "glutinous",
+        "parentIngredientId": "rice-flour"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "65a73bfb203448cd142ee029a4cc4b651b1feda6bf01e8550530fa9f3002f1f5"
+      }
+    },
+    {
+      "id": "ingredient-black-beans-canned",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2644285",
+          "fingerprint": "e9d95a8b7dd9107b2c9240928adee0db4a69fa58d9fd105c4cc5e74e604a8a6a"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, black, canned, sodium added, drained and rinsed. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Preserve the existing ID, label, aliases, recipe links and fixed estimate; add reviewed provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "black-beans-canned",
+        "name": "Canned black beans",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "oz",
+          "usdPerUnit": 0.06
+        },
+        "familyId": "black-beans",
+        "form": "canned"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "b12e8ab8030b22b7f45a92c10622200e03d7c4bfeb4daa3a340a12786823c411"
+      }
+    },
+    {
+      "id": "ingredient-black-beans-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173734",
+          "fingerprint": "cd69514940a144eba406b77ce23762e96aba18d947d77819579a4541026de5e5"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, black, mature seeds, raw. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Preserve the existing ID, label, aliases, recipe links and fixed estimate; add reviewed provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "black-beans-dried",
+        "name": "Dried black beans",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "oz",
+          "usdPerUnit": 0.1
+        },
+        "familyId": "black-beans",
+        "form": "dried"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "7abceb6bb1361a49235e25812ab766dcbd27809d5cd9c6cb539e1ee504fb7e81"
+      }
+    },
+    {
+      "id": "ingredient-chickpeas-canned",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2644288",
+          "fingerprint": "17eb16da8bac3fb8e7b0a3495573ecc82685ede4edabc1a19bf10b7a70473e1f"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Chickpeas (garbanzo beans, bengal gram), canned, sodium added, drained and rinsed. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Preserve the existing ID, label, aliases, recipe links and fixed estimate; add reviewed provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "chickpeas-canned",
+        "name": "Canned chickpeas",
+        "aliases": [
+          "canned garbanzo beans"
+        ],
+        "staticPrice": {
+          "unit": "oz",
+          "usdPerUnit": 0.06
+        },
+        "familyId": "chickpeas",
+        "form": "canned"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "ab321eba7db6190fdff4cc882950f0e0115d2a9d3f668991f43f649f3a1f3587"
+      }
+    },
+    {
+      "id": "ingredient-kidney-beans-canned",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173741",
+          "fingerprint": "2f4bcc8c12bbdd93bd4038556eb7955c02c80351457a3bfe1563839d7ca72d72"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Beans, kidney, all types, mature seeds, canned. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Preserve the existing ID, label, aliases, recipe links and fixed estimate; add reviewed provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "kidney-beans-canned",
+        "name": "Canned kidney beans",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "oz",
+          "usdPerUnit": 0.06
+        },
+        "familyId": "kidney-beans",
+        "form": "canned"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "40ca746f2b242ad71edb47fd14d419fdb8030a42e9dd3d47f6eb778bf6e78be4"
+      }
+    },
+    {
+      "id": "ingredient-all-purpose-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168894",
+          "fingerprint": "cb88c159de6f8771c629fbaba11e4f1911ffcdf37716c0bc16da84d9d737b66d"
+        },
+        {
+          "key": "sr_legacy_food:168936",
+          "fingerprint": "be90e795d5ad75bc5c0fe400c6e19c67991dddd76663058380f2214eacd3d097"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Wheat flour, white, all-purpose, enriched, bleached, Wheat flour, white, all-purpose, enriched, unbleached. Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Preserve the existing ID, label, aliases, recipe links and fixed estimate; add reviewed provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "all-purpose-flour",
+        "name": "All-purpose wheat flour",
+        "aliases": [
+          "all purpose flour"
+        ],
+        "staticPrice": {
+          "unit": "tbsp",
+          "usdPerUnit": 0.03
+        },
+        "familyId": "wheat-flour",
+        "form": "all-purpose-flour"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "c8c2792273105fce0546a50d7ceac445e4d6ece51457eaf10ab82c5ca6cbc793"
+      }
+    },
+    {
+      "id": "ingredient-whole-wheat-flour",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168893",
+          "fingerprint": "7ac6a113aaca6eb9a140be8e9b1be0958fcfa64295d002b1035aba0327d11fe4"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Wheat flour, whole-grain (Includes foods for USDA's Food Distribution Program). Material form remains explicit. Source preparation/salt treatment is evidence context, not an additional search choice, dietary guarantee, price, nutrition import, or recipe substitution. Preserve the existing ID, label, aliases, recipe links and fixed estimate; add reviewed provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "whole-wheat-flour",
+        "name": "Whole wheat flour",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "tbsp",
+          "usdPerUnit": 0.04
+        },
+        "familyId": "wheat-flour",
+        "form": "whole-wheat-flour"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-10-31",
+        "payloadSha256": "7d6e241743c8f128b26854b529f0c45fb35c076e6bea3c1977aa6529b1802dae"
+      }
+    },
+    {
+      "id": "ingredient-leeks-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2727584",
+          "fingerprint": "3d1a0054d784e05052c73774e736d9200f91821bd5a11d2d3bae56e8055a942a"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Leeks, bulb and greens, root removed, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Review the bulb-and-greens source scope as a whole leek identity, without asserting edible-part weights or interchangeability with onions.",
+      "ingredient": {
+        "id": "leeks-fresh",
+        "name": "Leeks",
+        "aliases": [],
+        "familyId": "leeks",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "1e42361f3621e99a8cd48f66af6a642c34993122ee3d8573065ed028250eab12"
+      }
+    },
+    {
+      "id": "ingredient-beets-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685576",
+          "fingerprint": "6ae2ec5908a903b5ce813f984e475826b441c90f07c30798e763f28b805cee6f"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Beets, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "beets-fresh",
+        "name": "Beets",
+        "aliases": [
+          "beetroot"
+        ],
+        "familyId": "beets",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "8124e13d9271f751b33eac1a71391858433cb32e79fec4efc74500465ba30119"
+      }
+    },
+    {
+      "id": "ingredient-radishes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169276",
+          "fingerprint": "9505635edd93d105697d13c384de1899d04df5204e19d565167158f7929ea9ae"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Radishes, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "radishes-fresh",
+        "name": "Radishes",
+        "aliases": [],
+        "familyId": "radishes",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "498f46aa54d94de275e311023d19c6f70ac388f31f33cb518ce79bf0c3b882ff"
+      }
+    },
+    {
+      "id": "ingredient-okra-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169260",
+          "fingerprint": "a53a88a30de118fa7192cbbc4356180fa96914b1d722b8aa598718edac60f53d"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Okra, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "okra-fresh",
+        "name": "Okra",
+        "aliases": [],
+        "familyId": "okra",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "99ef9dbeadb7f40d55e7e293af41d8cc5e5699bc426cb6aa191e9482839beddb"
+      }
+    },
+    {
+      "id": "ingredient-eggplant-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685577",
+          "fingerprint": "a21afbc643014f2af285102f2d9cf1096ac080863b92aad470a0950ee3d0fea4"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Eggplant, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "eggplant-fresh",
+        "name": "Eggplant",
+        "aliases": [
+          "aubergine"
+        ],
+        "familyId": "eggplant",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "9515347c38d07f36d4c9df3dd945ce6041e1b987301571958217314a5a640b69"
+      }
+    },
+    {
+      "id": "ingredient-cilantro-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169997",
+          "fingerprint": "842315f341911e2384ad696851105b06a479f3ee707a3446c644395e19e572cd"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Coriander (cilantro) leaves, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Fresh coriander refers to leaves only, never coriander seed or dried leaf.",
+      "ingredient": {
+        "id": "cilantro-fresh",
+        "name": "Fresh cilantro",
+        "aliases": [
+          "fresh coriander"
+        ],
+        "familyId": "coriander-leaf",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "51be2228e1cee6f2eec73dfd31544dfa2cdbe9d919d29bc7a5aba9ddb3d1ace2"
+      }
+    },
+    {
+      "id": "ingredient-parsley-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170416",
+          "fingerprint": "ccaee9b4b7ff655387da61c37a2df2ad774a6a7e92de2f10eb94cef9c1007ba8"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Parsley, fresh. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "parsley-fresh",
+        "name": "Fresh parsley",
+        "aliases": [],
+        "familyId": "parsley",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "b8d45025b2f6b4dfe6f5d8618de4e7a14bfd47592ca3755477d1da0beacb3cce"
+      }
+    },
+    {
+      "id": "ingredient-basil-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172232",
+          "fingerprint": "694b955b720ecf8122299d15b0409ec0b23c07aed1a71b5264e5da1a762c03ae"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Basil, fresh. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "basil-fresh",
+        "name": "Fresh basil",
+        "aliases": [],
+        "familyId": "basil",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "5f186acf3371c6d8a06c3b2134bb0ee0e5531a5a68b4b8537b4f0cc3aa7c75be"
+      }
+    },
+    {
+      "id": "ingredient-spearmint-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173475",
+          "fingerprint": "0fe6c223359550361da9a87840cc1959806767f57c8a912383097b3d80bf3a7a"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Spearmint, fresh. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Named spearmint only; peppermint ownership or generic mint coverage is not inferred.",
+      "ingredient": {
+        "id": "spearmint-fresh",
+        "name": "Fresh spearmint",
+        "aliases": [],
+        "familyId": "spearmint",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "633b74494abb252bb7ee99b93576bfb7df6af5738543ce2c081af66b0c739431"
+      }
+    },
+    {
+      "id": "ingredient-cucumber-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346406",
+          "fingerprint": "061ca8667f318907179dc8a69b8eeb35fab1a7fe2c30a349b861d7c92659e0b3"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Cucumber, with peel, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Peel treatment is source context, not a second inventory choice or a food-portion conversion.",
+      "ingredient": {
+        "id": "cucumber-fresh",
+        "name": "Cucumber",
+        "aliases": [],
+        "familyId": "cucumber",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "168c4e0518a7f836f4bc98981a4250db06b77bd22aead1bd1a5a965d461b1fd0"
+      }
+    },
+    {
+      "id": "ingredient-garlic-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1104647",
+          "fingerprint": "2ec3ffb54b247f7a359a00b735ccee20976c54005c42200acd85497d4fb648e4"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Garlic, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "garlic-fresh",
+        "name": "Garlic",
+        "aliases": [
+          "garlic cloves"
+        ],
+        "staticPrice": {
+          "unit": "clove",
+          "usdPerUnit": 0.08
+        },
+        "familyId": "garlic",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "782c31ebd4edd9a66a4e5a89f536aa4c84c9fc1ba465be820a541e26538c50da"
+      }
+    },
+    {
+      "id": "ingredient-ginger-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169231",
+          "fingerprint": "602ecab05ddc9e26f9ca2c36bdc3a71247e2698b410ea8238036a19c4a1f75cb"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Ginger root, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "ginger-fresh",
+        "name": "Ginger",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "tbsp",
+          "usdPerUnit": 0.15
+        },
+        "familyId": "ginger",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "faed43600a78a1a56b232d39d474087d4f042ffb3f3b1435347e2f7c1d73976a"
+      }
+    },
+    {
+      "id": "ingredient-celery-stalks",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346405",
+          "fingerprint": "76592690aecb52bb68e7b180c544cbf34cfd5eadc6d693b519187dc540d9637d"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Celery, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "celery-stalks",
+        "name": "Celery",
+        "aliases": [],
+        "recipeIngredientId": "celery-stalks",
+        "familyId": "celery",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "5a004e6b5793bac6c700c3016e591963b1dbee12015777f3c957eb8e4829a868"
+      }
+    },
+    {
+      "id": "ingredient-asparagus-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168389",
+          "fingerprint": "ca79e72ae878e450ec5692375c079a3c9303fcca2bb11f43229232083a87de01"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Asparagus, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "asparagus-fresh",
+        "name": "Asparagus",
+        "aliases": [],
+        "recipeIngredientId": "asparagus-fresh",
+        "familyId": "asparagus",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "537655d45650f238507b507d71824692168ce7377596975dc6cf50003f9533b7"
+      }
+    },
+    {
+      "id": "ingredient-brussels-sprouts",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685575",
+          "fingerprint": "bd9644028bf4b04e0753159743bbc0c615ff5f39a78dc22be257dd0282105c7b"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Brussels sprouts, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "brussels-sprouts",
+        "name": "Brussels sprouts",
+        "aliases": [],
+        "recipeIngredientId": "brussels-sprouts",
+        "familyId": "brussels-sprouts",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "98c981000f2778292d0f64671dbb414e040cc97850eec0f805402c22928ee68f"
+      }
+    },
+    {
+      "id": "ingredient-canola-oil",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:748278",
+          "fingerprint": "55458f2f822cd8def7e973f3786602f1aa8b5258d0895d14a5edfd547608f3d5"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Oil, canola. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "canola-oil",
+        "name": "Canola oil",
+        "aliases": [],
+        "familyId": "canola",
+        "form": "oil",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "bef967002dd16be189b5e12355896d496682c333faa625825eee2c7f90186df2"
+      }
+    },
+    {
+      "id": "ingredient-sesame-oil",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171016",
+          "fingerprint": "4bd13cfac550003456545a2607e12338ce7556d8307d4d7ac8d8d1704593d7fb"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Oil, sesame, salad or cooking. Unspecified cooking sesame oil; do not claim toasted or untoasted identity from this generic record, and add no toasted-oil coverage. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sesame-oil",
+        "name": "Sesame oil",
+        "aliases": [],
+        "familyId": "sesame",
+        "form": "oil",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "2d83d022c145ab353f0a20de4c5a2085a75feae7bd3fc187cbef05d7a30f6ef4"
+      }
+    },
+    {
+      "id": "ingredient-cinnamon-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171320",
+          "fingerprint": "3d2b4e36ebc255c96264f4759f37c9a378ec57ae8c3559423c3a6a0b8e733f0f"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, cinnamon, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "cinnamon-ground",
+        "name": "Ground cinnamon",
+        "aliases": [],
+        "familyId": "cinnamon",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "f7fac0b28c0c57779095a408a075b0f19c37c3ca53a7eea2ede8c0e883cdd4ee"
+      }
+    },
+    {
+      "id": "ingredient-cloves-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171321",
+          "fingerprint": "a1b249a9b31f1e6985dfaa20e324b0fa6d2390240cf8865d143f5fa32d0fc986"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, cloves, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "cloves-ground",
+        "name": "Ground cloves",
+        "aliases": [],
+        "familyId": "cloves",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "95fd1b58053d4ae3039b8a7ada10e7e484a8edcfb4501d9cfe8eefcc4ff714ab"
+      }
+    },
+    {
+      "id": "ingredient-turmeric-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172231",
+          "fingerprint": "34ac7a4b766cc5deecc1ca0f71a54096edde45236d809f93fe980eb4c8b921ab"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, turmeric, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "turmeric-ground",
+        "name": "Ground turmeric",
+        "aliases": [],
+        "familyId": "turmeric",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "d51c3506a19684c87d28490d4ffac66f618f5e6c852376a82147489667e74240"
+      }
+    },
+    {
+      "id": "ingredient-ginger-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170926",
+          "fingerprint": "19229788eae49dc6af71026bd1879ae88e3a50c494ee577bd70c9e72df202cc1"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Spices, ginger, ground. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "ginger-ground",
+        "name": "Ground ginger",
+        "aliases": [],
+        "familyId": "ginger",
+        "form": "ground",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "857179ece150c838e954258cadd8211e2febbb7915239f9eb5e16b3b1efca718"
+      }
+    },
+    {
+      "id": "ingredient-red-wine-vinegar",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172240",
+          "fingerprint": "3703fd9fd1d2c69a60cc646eb899926dae355636a18ae3eeb70916fe15d6858e"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Vinegar, red wine. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "red-wine-vinegar",
+        "name": "Red wine vinegar",
+        "aliases": [],
+        "familyId": "red-wine-vinegar",
+        "form": "vinegar",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "421a6599e2a4c6419c3679ed6a1418e175e9a0b5546049a67378b9508aaa20e1"
+      }
+    },
+    {
+      "id": "ingredient-miso",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172442",
+          "fingerprint": "f91a561f9825af390b2c0cb0ac0f85b166f76e53a9e7c27a0a0c44139137f682"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Miso. Review the ordinary cooking-paste identity; source variety is unspecified. Do not establish soybean/rice ownership or use a dry soup mix as an equivalent. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "miso",
+        "name": "Miso",
+        "aliases": [
+          "miso paste"
+        ],
+        "familyId": "miso",
+        "form": "paste",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "7e69c00c74bcc255f759308c4580925264e07c408463dfeeb71266a50ee60e81"
+      }
+    },
+    {
+      "id": "ingredient-fish-sauce",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174531",
+          "fingerprint": "43b2039590adb96b414fcec02d1f53633e39547ec08417afdc1cd64f6d347b41"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sauce, fish, ready-to-serve. Composite condiment only; not fish stock, fish inventory, or a dietary guarantee. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "fish-sauce",
+        "name": "Fish sauce",
+        "aliases": [],
+        "familyId": "fish-sauce",
+        "form": "sauce",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "05d0a8a4a8f960d3c7f1973562dc38257b0ed0c7d68d57bf83befd7df8f38e55"
+      }
+    },
+    {
+      "id": "ingredient-oyster-sauce",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174529",
+          "fingerprint": "46e5e680a507b6218edb21201b53d0587bf9dd07c0d141ae87c7695587fbadfd"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sauce, oyster, ready-to-serve. Composite oyster sauce only; mushroom-based alternatives are not aliases or compatible inventory. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "oyster-sauce",
+        "name": "Oyster sauce",
+        "aliases": [],
+        "familyId": "oyster-sauce",
+        "form": "sauce",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "f262f3b9429f1b3b76955f8210d00fd2000d30269d19aa7fcba938b393ad9a7f"
+      }
+    },
+    {
+      "id": "ingredient-sugar-granulated",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169655",
+          "fingerprint": "c592e94e7addca3e059216841f4ad3667f478d56befab7f6612cdaa433280382"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sugars, granulated. Explicit proposed inclusion override for this exact excluded source row: granulated sugar is an identifiable ingredient used in home cooking and baking, rather than a finished confection. Keep it distinct from brown and powdered sugars. Retain the original excluded discovery disposition; approval of this exact upsert does not change importer rules, approve other excluded foods, or clear the separate quarantined Foundation hold. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sugar-granulated",
+        "name": "Granulated sugar",
+        "aliases": [],
+        "familyId": "sugar",
+        "form": "granulated",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "e5682c89a67d5a39890e0f7f4c390105bbe75b39a27622bc58b69ac6158b0363"
+      }
+    },
+    {
+      "id": "ingredient-sugar-brown",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168833",
+          "fingerprint": "d85a8ae357f533a330a7847fa0be83a847f1bb8c83a0b8f59e164217513c8223"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Sugars, brown. Explicit proposed inclusion override for this exact excluded source row: brown sugar is an identifiable cooking/baking ingredient, rather than a finished sweet dish. Shade is unspecified; no light/dark variety or granulated-sugar substitution is established. Retain the original excluded discovery disposition; approval of this exact upsert does not change importer rules, approve other excluded foods, or clear the separate quarantined Foundation hold. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sugar-brown",
+        "name": "Brown sugar",
+        "aliases": [],
+        "familyId": "sugar",
+        "form": "brown",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "89effb07316c3775d73fe4ef5d3d9101451a750bbca2a1756f43bf6eb5954f2c"
+      }
+    },
+    {
+      "id": "ingredient-honey",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169640",
+          "fingerprint": "5b69a5fb782c2b5cadb4e16309c4972fad2dd7adaa0accf071abbeb087e79a29"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Honey. Explicit proposed inclusion override for this exact excluded source row: honey is an identifiable ingredient used in cooking, sauces and baking, rather than a finished dessert. Crystallization/texture is unspecified and no sugar substitution is established. Retain the original excluded discovery disposition; approval of this exact upsert does not change importer rules, approve other excluded foods, or clear the separate quarantined Foundation hold. Keep the named cooking form distinct; ground spices do not establish whole spices or fresh roots, and one oil/vinegar does not establish another. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "honey",
+        "name": "Honey",
+        "aliases": [],
+        "familyId": "honey",
+        "form": "unspecified",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "d64c84f136f5fa690d5f3daebe0c41153c8176c590bf94580ae3034d57d569a6"
+      }
+    },
+    {
+      "id": "ingredient-tempeh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:174272",
+          "fingerprint": "fd96eda916dd10d468e900cfea4df28c54b5c950f17e1add45cbba02845525dc"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Tempeh. Plain tempeh identity; no flavored product, cooked-dish identity, or named legume/nutrition claim is introduced. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "tempeh",
+        "name": "Tempeh",
+        "aliases": [],
+        "familyId": "tempeh",
+        "form": "plain",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "3988e886c78bed7eab0fcbf54660a87b359171a5469b2c27b471bd5c970c0dda"
+      }
+    },
+    {
+      "id": "ingredient-tofu-soft",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172449",
+          "fingerprint": "13a3c3239ca5010299d79b6e75241dc7669b7ee699daf771077fad6361fb5e92"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Tofu, soft, prepared with calcium sulfate and magnesium chloride (nigari). Retain the soft texture distinction from existing Firm tofu. Source coagulants are identity evidence context, not a generic calcium claim. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "tofu-soft",
+        "name": "Soft tofu",
+        "aliases": [],
+        "familyId": "tofu",
+        "form": "soft",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "864926ad788d6c84b46c9fbd1d428d2b18e09d2d2d3f7794f2fd64f0cb5f737d"
+      }
+    },
+    {
+      "id": "ingredient-milk-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:746782",
+          "fingerprint": "57718b64c7f2eee4fb843dc8380892dd4ae2dbb8719291670bf6455053fec4ac"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Milk, whole, 3.25% milkfat, with added vitamin D. Retain the 3.25% whole-milk description; do not establish skim/reduced-fat, plant milk, or any nutritional/fortification guarantee. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "milk-whole",
+        "name": "Whole milk (3.25%)",
+        "aliases": [
+          "whole milk"
+        ],
+        "familyId": "milk",
+        "form": "whole",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "763674158f28756ce97df00850e877b1feb4de1d4f57dfa7e2760cc4e17b437a"
+      }
+    },
+    {
+      "id": "ingredient-yogurt-plain-whole-milk",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2259793",
+          "fingerprint": "16cd2eee7d5474f1246bc8cab49094c5da11c227490e940ad09d38df5e167bfc"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Yogurt, plain, whole milk. Limit the identity to plain whole-milk yogurt, not every fat level, Greek yogurt, or vanilla yogurt. Require a yogurt-qualified search so a broad milk query does not show yogurt. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "yogurt-plain-whole-milk",
+        "name": "Plain whole-milk yogurt",
+        "aliases": [
+          "plain yogurt",
+          "plain whole milk yogurt"
+        ],
+        "familyId": "yogurt",
+        "form": "yogurt",
+        "searchVisibility": "specific",
+        "variety": "plain-whole-milk"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "cfb2eb63ba6416f06ff55e28ad46c0abc885dc8db06ac95d2e78858039a61fc6"
+      }
+    },
+    {
+      "id": "ingredient-feta-cheese",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173420",
+          "fingerprint": "b5e75294c90ed40489a5ab8399e4852d2125a1acf3e2e85e6ca73d7835231e74"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Cheese, feta. General feta cooking identity; no crumbled-only texture, milk-species inference, brand, or protected-origin claim. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "feta-cheese",
+        "name": "Feta",
+        "aliases": [
+          "feta cheese"
+        ],
+        "familyId": "feta",
+        "form": "cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "3f5427e970edc07bf8d8ecd37f95beb9c316ba812f918d668ebe1d244d41bfd8"
+      }
+    },
+    {
+      "id": "ingredient-parmesan-hard",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170848",
+          "fingerprint": "21ecf4003068f9226f07193cb810b6d1797ac1b996b30bfe62005bb0ff1a35b4"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Cheese, parmesan, hard. Hard Parmesan cooking identity, not unspecified grated products; no protected-origin certification is inferred. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "parmesan-hard",
+        "name": "Hard Parmesan",
+        "aliases": [
+          "hard parmesan cheese"
+        ],
+        "familyId": "parmesan",
+        "form": "hard",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "31b43a77954bfd2cf8fc206d4cefe990ad35c7d9e722c71e75fff4415b2d099e"
+      }
+    },
+    {
+      "id": "ingredient-tuna-light-canned-water",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:334194",
+          "fingerprint": "a8f3f5a2ee615d9a4961aada5f1aff885c28311a5706066ac00340c19d8799ca"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Fish, tuna, light, canned in water, drained solids. Retain light tuna canned in water. Drainage is source context, not a second default choice or portion conversion. Oil-packed tuna remains distinct. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "tuna-light-canned-water",
+        "name": "Canned light tuna in water",
+        "aliases": [],
+        "familyId": "tuna",
+        "form": "canned-in-water",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "f0d5418e1cb7e70032a70dbc27da7be268d4a5ebc4c881ec71c3a0dcbc9eca2a"
+      }
+    },
+    {
+      "id": "ingredient-almonds-whole-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346393",
+          "fingerprint": "15e727d15a87d766d2f982f6c608e841d17d3f0a7aebac3c6b3a53d4abc97550"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Nuts, almonds, whole, raw. Whole raw almond form only; roasted, blanched, almond flour and almond butter are distinct. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "almonds-whole-raw",
+        "name": "Whole raw almonds",
+        "aliases": [],
+        "familyId": "almonds",
+        "form": "whole-raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "ee89c44aad1c120defd47e9df99e66514b6b95a46368c8c9cb7f2f40fd1e4536"
+      }
+    },
+    {
+      "id": "ingredient-walnuts-english-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346394",
+          "fingerprint": "c8e0ab6a463c773b906e81394a7611a63f879e46e5196424881cfe554e6bcd6c"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Nuts, walnuts, English, halves, raw. Raw English walnut identity; halves are source context rather than a required package shape. Black walnuts, roasted or glazed walnuts remain distinct. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "walnuts-english-raw",
+        "name": "Raw English walnuts",
+        "aliases": [],
+        "familyId": "walnuts",
+        "form": "raw",
+        "searchVisibility": "primary",
+        "variety": "english"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "50b6853f830dc1c5d6f4b8333272f131e8d3aab499caacec1ae18f289cb00cd5"
+      }
+    },
+    {
+      "id": "ingredient-sesame-seeds-whole-dried",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170150",
+          "fingerprint": "0448969913ac3517949b5b379cc21cdac334eccaa7016fb501dacf5650c222e0"
+        }
+      ],
+      "rationale": "Proposed cooking identity evidence: Seeds, sesame seeds, whole, dried. Whole dried seed form, separate from hulled/toasted seeds, sesame oil and tahini; no cross-form compatibility. Source links provide identity evidence only. No nutrition import, price, recipe requirement, dietary guarantee, compatibility edge, or automatic inventory change is proposed.",
+      "ingredient": {
+        "id": "sesame-seeds-whole-dried",
+        "name": "Whole dried sesame seeds",
+        "aliases": [],
+        "familyId": "sesame-seeds",
+        "form": "whole-dried",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit exact-batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "b3d5ab60df26c655a673113044a23ac2e8e604a52d78406cea29ad4adb429e16"
+      }
+    },
+    {
+      "id": "ingredient-coriander-seeds-whole",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "proposed",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170922",
+          "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, coriander seed. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "coriander-seeds-whole",
+        "name": "Whole coriander seeds",
+        "aliases": [
+          "coriander seed",
+          "coriander seeds",
+          "whole coriander"
+        ],
+        "familyId": "coriander-seed",
+        "form": "whole-seeds",
+        "searchVisibility": "primary"
+      }
+    },
+    {
+      "id": "ingredient-coriander-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "proposed",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170922",
+          "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, coriander seed. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "coriander-ground",
+        "name": "Ground coriander",
+        "aliases": [
+          "coriander powder"
+        ],
+        "familyId": "coriander-seed",
+        "form": "ground",
+        "searchVisibility": "primary"
+      }
+    },
+    {
+      "id": "ingredient-cardamom-pods",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "proposed",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170919",
+          "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, cardamom. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "cardamom-pods",
+        "name": "Whole cardamom pods",
+        "aliases": [
+          "cardamom pods",
+          "whole cardamom"
+        ],
+        "familyId": "cardamom",
+        "form": "pods",
+        "searchVisibility": "primary"
+      }
+    },
+    {
+      "id": "ingredient-cardamom-ground",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "proposed",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourcePurpose": "general-reference",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170919",
+          "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549"
+        }
+      ],
+      "rationale": "Maintainer-authorized shared USDA reference: Spices, cardamom. USDA does not specify this cooking form; the reference establishes the ingredient family only. Whole and ground retain distinct pantry identities and availability. Varieties are unspecified. This reference does not establish matching nutrition, portion conversion, recipe compatibility, price, or a substitute for fresh cilantro or a different spice.",
+      "ingredient": {
+        "id": "cardamom-ground",
+        "name": "Ground cardamom",
+        "aliases": [
+          "cardamom powder"
+        ],
+        "familyId": "cardamom",
+        "form": "ground",
+        "searchVisibility": "primary"
+      }
+    }
+  ]
+}

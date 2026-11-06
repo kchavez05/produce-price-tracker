@@ -1,6 +1,6 @@
 # Cooking catalog integration
 
-The app now compiles reviewed catalog `2026-11-06.2`: 134 accepted identities across the initial catalog, the 29-addition legumes/grains/flours batch, ten-addition vegetables/aromatics batch, and 23-addition staples/proteins batch. Eleven existing identities received provenance updates. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
+The app now compiles reviewed catalog `2026-11-06.3`: 138 accepted identities across the initial catalog, the 29-addition legumes/grains/flours batch, ten-addition vegetables/aromatics batch, 23-addition staples/proteins batch, and four distinct spice forms with shared general USDA references. Eleven existing identities received provenance updates. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
 
 ## Runtime behavior
 
@@ -75,3 +75,11 @@ Install `20261106161943_pantry_staples_proteins.sql` after the existing pantry m
 The default runtime view is now `2026-11-06.2`. The exact `2026-11-06.1` (111), `2026-10-31.1` (101), `2026-10-30.1` (72), and original baseline views remain supported through `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION`. Retain all 134 server IDs, owned inventory, pending edits, and export/recovery data on presentation rollback. Never delete accepted rows or restore old inventory snapshots as a UI rollback.
 
 Verify pre-migration rejection and same-ID post-migration retry for all three sweeteners and yogurt, repeated migration, preserved inventory/details, owner isolation, anonymous/direct-write denial, export/deletion, keyless disk persistence, yogurt discovery/readiness, exact milk/yogurt and ground/fresh-ginger coverage, and all retained views. Missing prices remain explicit, while marked-available requirements have zero additional grocery cost. Complete local checks, CI, Preview, Codex review and hosted release verification before activation. No hosted migration or production activation is performed by this implementation.
+
+## v1.6.1 shared USDA spice references
+
+The maintainer authorized whole/ground coriander and cardamom to use available generic USDA records when form is unspecified. See the [recorded directive](research/v1.6.1-shared-spice-references.md) and ingestion-standard clarification. Catalog `2026-11-06.3` has 138 identities, 77 exclusive identity links and four explicit family-scoped general references to two additional USDA rows. General references do not establish form, nutrition, price or recipe coverage; all previous identities and compatibility remain intact.
+
+Install `20261106170650_pantry_spice_forms.sql` after prior migrations. It only inserts the four new accepted IDs. Account readiness, owner isolation, idempotency and explicit guest import remain unchanged. The current default is `2026-11-06.3`; exact 134-/111-/101-/72-identity views and the baseline remain available through `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION`. Retain all 138 IDs, inventory and pending data on rollback.
+
+Use updated curation tooling for artifacts containing `general-reference`; older tooling fails closed. A shared source change requires coordinated approvals for all linked forms. No hosted migration or production activation is performed by this implementation. Complete environment verification and the release workflow separately.

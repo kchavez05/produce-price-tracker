@@ -742,10 +742,103 @@
   },
   {
     "query": "ground coriander",
-    "expected": []
+    "expected": [
+      "coriander-ground"
+    ]
   },
   {
     "query": "cardamom",
+    "expected": [
+      "cardamom-ground",
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "Whole coriander seeds",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "Ground coriander",
+    "expected": [
+      "coriander-ground"
+    ]
+  },
+  {
+    "query": "Whole cardamom pods",
+    "expected": [
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "Ground cardamom",
+    "expected": [
+      "cardamom-ground"
+    ]
+  },
+  {
+    "query": "coriander",
+    "expected": [
+      "cilantro-fresh",
+      "coriander-ground",
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "coriander seed",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "coriander seeds",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "whole coriander",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "coriander powder",
+    "expected": [
+      "coriander-ground"
+    ]
+  },
+  {
+    "query": "cardamom pods",
+    "expected": [
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "whole cardamom",
+    "expected": [
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "cardamom powder",
+    "expected": [
+      "cardamom-ground"
+    ]
+  },
+  {
+    "query": "fresh coriander",
+    "expected": [
+      "cilantro-fresh"
+    ]
+  },
+  {
+    "query": "green cardamom",
+    "expected": []
+  },
+  {
+    "query": "black cardamom",
     "expected": []
   }
 ]
