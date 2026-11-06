@@ -12,7 +12,7 @@ A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) pr
 
 ## Next: v1.6.1 — Pantry Catalog Expansion
 
-The next release prioritizes the remaining ingredient batches before speech entry. The [plan](docs/specs/v1.6.1-pantry-catalog-expansion.md), [first approved batch](docs/research/v1.6.1-legumes-grains-flours-review.md), and [coverage audit](docs/research/v1.6.1-catalog-coverage-audit.md) track review and integration. The first approved batch compiles to 101 identities with additive migration and compatibility support; hosted activation remains a release step. The 42 follow-up research choices remain unapproved.
+The next release prioritizes the remaining ingredient batches before speech entry. The [plan](docs/specs/v1.6.1-pantry-catalog-expansion.md), [first approved batch](docs/research/v1.6.1-legumes-grains-flours-review.md), and [coverage audit](docs/research/v1.6.1-catalog-coverage-audit.md) track review and integration. The two approved batches compile to 111 identities with additive migrations and retained rollback views; hosted activation remains a release step. See the [vegetable and aromatic batch](docs/research/v1.6.1-vegetables-aromatics-review.md). The remaining 32 follow-up research choices remain unapproved.
 
 ## Key Features (`v1.6.0`)
 

@@ -1,6 +1,6 @@
 # Cooking catalog integration
 
-The app now compiles reviewed catalog `2026-10-31.1`: 101 accepted identities, including the approved 29-addition legumes/grains/flours batch and six provenance updates. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
+The app now compiles reviewed catalog `2026-11-06.1`: 111 accepted identities, including the first 29-addition legumes/grains/flours batch and the second ten-addition vegetables/aromatics batch, with eleven provenance updates across both. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
 
 ## Runtime behavior
 
@@ -55,3 +55,13 @@ Before rollout, verify migration/reapply, a new-ID write and idempotent retry, g
 Use `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-31.1` (default) to present the expansion. Build the same compatibility-capable code with `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-30.1` to restore the exact previous 72 ingredients and compatibility edges. The original `baseline-1.5.2` view remains available. Both rollback paths retain all 101 accepted IDs for existing entries, queues, edits, and exports; never delete registry IDs or restore old inventory data as presentation rollback.
 
 This implementation does not apply hosted migrations, enable a feature flag, publish v1.6.1, approve the 42 follow-up research choices, or schedule ingestion. Complete the required release and environment verification before hosted activation.
+
+## v1.6.1 vegetable and aromatic batch
+
+The maintainer approved the [15 exact payloads](research/v1.6.1-vegetables-aromatics-review.md) on November 6, 2026. Catalog `2026-11-06.1` has 111 ingredients, 54 USDA identity source links across 53 identities, unchanged prices and recipe compatibility, and a full market audit of 15 linked identities plus 96 with no current counterpart.
+
+Install `20261106155015_pantry_vegetables_aromatics.sql` after `20261031143749_pantry_legumes_grains_flours.sql`. It only inserts the ten new accepted IDs with idempotent conflict handling. It changes no grants, policies, user inventory, or authentication. Clients must continue checking installed acceptance before queueing a new account reference; local guests use the bundled registry. No hosted database is changed by preparing the migration.
+
+The default runtime view is `2026-11-06.1`. Build the same compatibility-capable code with `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-31.1` for the exact 101-identity view, or `2026-10-30.1` for the exact 72-identity view. The original baseline remains supported. Retain all 111 accepted IDs and owned inventory during either rollback, including pending edits and exports.
+
+Verify pre-migration rejection and post-migration acceptance, preserved existing inventory/details, idempotent reapply/retry, fresh-herb search/readiness, owner isolation, exports/deletion, and both retained views before hosted rollout. Source evidence and search aliases do not create recipe compatibility: cilantro leaves cannot establish coriander seed, and spearmint cannot establish peppermint. Missing prices remain explicit. Complete CI, Preview, Codex review, environment verification, and the release workflow before production activation.
