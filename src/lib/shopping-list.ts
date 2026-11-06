@@ -161,6 +161,7 @@ export function buildShoppingListAndStoreComparison(
           : Number((slotIng.quantityUsed * unitCost).toFixed(2));
 
         storePricing[chain] = {
+          ...(pantryMode && slotIng.ingredientId.startsWith('recipe-use:') ? { ingredientName: (offer ?? scored?.bestOffer)?.rawTitle } : {}),
           unitCost,
           totalCost,
           rawDealText: isOnHand

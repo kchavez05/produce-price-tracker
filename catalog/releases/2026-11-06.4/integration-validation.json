@@ -38,12 +38,15 @@
     "accountInstallationGuards": true,
     "independentYesNoAndOwnerIsolation": true,
     "priceTitleCasesAndCrossStoreAdmission": true,
-    "savedRecipeRepricingAndContextChecks": true
+    "savedRecipeRepricingAndContextChecks": true,
+    "selectedRecipeStorePoolPreserved": true,
+    "uncollapsedSameStoreOffersFilteredBeforeSelection": true,
+    "storeSpecificOfferTitlesAndPickupQueries": true
   },
   "localChecks": {
     "typecheck": "passed",
     "lint": "passed",
-    "unitTests": 339,
+    "unitTests": 344,
     "smokeTests": 28,
     "regressionTests": 37,
     "productionBuild": "passed",

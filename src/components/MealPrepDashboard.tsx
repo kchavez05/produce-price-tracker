@@ -1106,6 +1106,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
       return {
         ...item,
+        ingredientName: sp?.ingredientName ?? item.ingredientName,
         activeStore: store,
         activeUnitCost: unitCost,
         activeTotalCost: totalCost,

@@ -1573,6 +1573,8 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             required: ['id', 'name', 'category', 'standardUnit'],
           },
           bestOffer: { $ref: '#/components/schemas/StoreOffer' },
+          recipeOffers: { type: 'array', items: { $ref: '#/components/schemas/StoreOffer' }, description: 'Uncollapsed offers for reviewed recipe-specific price admission; market-board identities and prices remain grouped.' },
+          recipeStorePool: { type: 'array', items: { $ref: '#/components/schemas/StoreChain' }, description: 'Selected stores eligible for recipe-card and ranking prices. Admission must not expand this pool.' },
           valueScore: { type: 'number', example: 92 },
           affordabilityScore: { type: 'number', example: 85 },
           discountDepthScore: { type: 'number', example: 98 },

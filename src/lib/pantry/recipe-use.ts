@@ -3,6 +3,7 @@ import { ScopedRecipeUse } from '@/types/catalog';
 import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity, StoreChain, StoreOffer } from '@/types/domain';
 import { PantryRequirement } from '@/types/pantry';
 import { recipePantryIngredientId, recipeUseRequirementId, scopedRecipeUses } from './recipe-identity';
+import { calculateValueScore } from '@/lib/value-score';
 
 const protectedIds = new Set(scopedRecipeUses.map((use) => use.marketIngredientId));
 const contexts = new Map(cookingData.scopedRecipeContexts.map((context) => [context.id, context]));
@@ -68,12 +69,19 @@ export function recipeCommodity(dish: RecommendedDish, ingredient: MatchedSlotIn
 
 export function scopedRecipeCommodity(use: ScopedRecipeUse, commodity: ScoredCommodity): ScoredCommodity | undefined {
   const compare = (a: StoreOffer, b: StoreOffer) => Number(a.source === 'CURATED_FALLBACK') - Number(b.source === 'CURATED_FALLBACK') || a.normalizedPricePerUnit - b.normalizedPricePerUnit;
-  const offers = [commodity.bestOffer, commodity.runnerUpOffer, commodity.kingSoopersOffer, commodity.safewayOffer, ...Object.values(commodity.storeOffers ?? {})]
+  // Production scoring collapses the market board per store; admission must see the
+  // original offers first, so a cheap sibling cannot discard this recipe's food.
+  const offers = (commodity.recipeOffers ?? [commodity.bestOffer, commodity.runnerUpOffer, commodity.kingSoopersOffer, commodity.safewayOffer, ...Object.values(commodity.storeOffers ?? {})])
     .filter((offer): offer is StoreOffer => Boolean(offer && offer.canonicalIngredientId === use.marketIngredientId &&
       Number.isFinite(offer.normalizedPricePerUnit) && offer.normalizedPricePerUnit >= 0 && recipeOfferAllowed(use, offer.rawTitle))).sort(compare);
   const storeOffers: Partial<Record<StoreChain, StoreOffer>> = {};
   for (const offer of offers) if (!storeOffers[offer.store]) storeOffers[offer.store] = offer;
-  if (!offers.length) return;
-  return { ...commodity, bestOffer: offers[0], runnerUpOffer: undefined, storeOffers,
+  // Keep admissible comparison offers, but choose card/ranking prices only from
+  // the selected pool. A rejected selected-store offer does not authorize another store.
+  const pool = Object.values(storeOffers).filter((offer): offer is StoreOffer => Boolean(offer &&
+    (!commodity.recipeStorePool || commodity.recipeStorePool.includes(offer.store)))).sort(compare);
+  if (!pool.length) return;
+  return { ...commodity, ...calculateValueScore(commodity.ingredient, pool[0].normalizedPricePerUnit, pool[0].regularPricePerUnit),
+    bestOffer: pool[0], runnerUpOffer: pool[1], storeOffers,
     kingSoopersOffer: storeOffers.KING_SOOPERS, safewayOffer: storeOffers.SAFEWAY };
 }

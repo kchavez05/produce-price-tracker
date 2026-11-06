@@ -16,7 +16,9 @@ import { recipeAvailableIngredientIds, recipeUseRequirementId, scopedRecipeUses 
 import { matchedRecipeRequirement, recipeOfferAllowed } from '@/lib/pantry/recipe-use';
 import { applyPantryToRecipe } from '@/lib/pantry/recipe';
 import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
+import { scoreAllCommodities } from '@/lib/scoring-and-matcher';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
+import { buildStoreSearchUrl } from '@/lib/cart-exporter';
 import { createMockCommodity, createMockDish, createMockOffer } from 'tests/test-utils';
 
 const useFor = (policy: string) => scopedRecipeUses.find((use) => use.id === proposal.decisions.find((row) => row.policyId === policy)!.id)!;
@@ -85,6 +87,40 @@ describe('approved vegetable recipe-use integration', () => {
     expect(shopping.tripComparison.additionalCostEstimateComplete).toBe(false);
   });
 
+  it.each<['ALL' | StoreChain, StoreChain[], StoreChain, number]>([
+    ['KING_SOOPERS', ['KING_SOOPERS', 'SAFEWAY'], 'KING_SOOPERS', 4],
+    ['ALL', ['KING_SOOPERS'], 'KING_SOOPERS', 4],
+    ['ALL', ['SAFEWAY'], 'SAFEWAY', 2],
+    ['ALL', ['KING_SOOPERS', 'SAFEWAY'], 'SAFEWAY', 2],
+  ])('preserves the production store pool %s / %j while recovering a same-store offer', (filter, stores, expectedStore, expectedPrice) => {
+    const use = useFor('spinach');
+    const offers = [createMockOffer({ canonicalIngredientId: use.marketIngredientId, store: 'KING_SOOPERS', rawTitle: 'Fresh kale', normalizedPricePerUnit: 1, source: 'FLIPP_LIVE' }),
+      createMockOffer({ canonicalIngredientId: use.marketIngredientId, store: 'KING_SOOPERS', rawTitle: 'Fresh spinach', normalizedPricePerUnit: 4, source: 'FLIPP_LIVE' }),
+      createMockOffer({ canonicalIngredientId: use.marketIngredientId, store: 'SAFEWAY', rawTitle: 'Fresh spinach', normalizedPricePerUnit: 2, source: 'FLIPP_LIVE' })];
+    const commodities = scoreAllCommodities(offers, filter, {}, stores, {});
+    expect(commodities[0].recipeOffers).toHaveLength(3);
+    expect(commodities[0].storeOffers?.KING_SOOPERS?.rawTitle).toBe('Fresh kale');
+    const result = applyPantryToRecipe(dish(use), [], commodities);
+    expect(result.matchedIngredients[0]).toMatchObject({ store: expectedStore, unitCost: expectedPrice, slotCost: 2 * expectedPrice });
+    const ranked = rankMealPrepDishes(commodities, [], [], 6, { pantryMode: true }).allRankedDishes.find((r) => r.id === use.recipeId)!;
+    expect(ranked.matchedIngredients.find((r) => r.ingredientId === use.marketIngredientId)?.store).toBe(expectedStore);
+  });
+
+  it('keeps a selected-store recipe unpriced when only an excluded store has the required food', () => {
+    const use = useFor('spinach');
+    const offers = [createMockOffer({ canonicalIngredientId: use.marketIngredientId, store: 'KING_SOOPERS', rawTitle: 'Fresh kale', source: 'FLIPP_LIVE' }),
+      createMockOffer({ canonicalIngredientId: use.marketIngredientId, store: 'SAFEWAY', rawTitle: 'Fresh spinach', source: 'FLIPP_LIVE' })];
+    for (const filter of ['ALL', 'KING_SOOPERS'] as const) {
+      const commodities = scoreAllCommodities(offers, filter, {}, ['KING_SOOPERS'], {});
+      const result = applyPantryToRecipe(dish(use), [], commodities);
+      expect(result.matchedIngredients).toEqual([]);
+      expect(result.additionalCostEstimateComplete).toBe(false);
+      const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
+      expect(shopping.items).toEqual([]);
+      expect(shopping.pantryNeeds).toHaveLength(1);
+    }
+  });
+
   it('does not aggregate broad and exact uses of the same market group or copy tomato/tomatillo prices', () => {
     const either = useFor('greens'), exact = useFor('spinach');
     const commodity = market(either, [['Fresh kale', 1, 'KING_SOOPERS'], ['Fresh spinach', 3, 'SAFEWAY']]);
@@ -92,6 +128,11 @@ describe('approved vegetable recipe-use integration', () => {
     expect(shopping.items).toHaveLength(2);
     expect(new Set(shopping.items.map((r) => r.ingredientId)).size).toBe(2);
     expect(shopping.tripComparison.optimalSplitTotal).toBe(8);
+    const eitherItem = shopping.items.find((r) => r.ingredientId === recipeUseRequirementId(either))!;
+    expect(eitherItem.storePricing?.KING_SOOPERS?.ingredientName).toBe('Fresh kale');
+    expect(eitherItem.storePricing?.SAFEWAY?.ingredientName).toBe('Fresh spinach');
+    const kaleLink = buildStoreSearchUrl('KING_SOOPERS', eitherItem.storePricing!.KING_SOOPERS!.ingredientName!);
+    expect(new URL(kaleLink.url).searchParams.get('query')).toBe('Fresh kale');
     const tomatoes = useFor('tomatoes'), tomatoOrTomatillo = useFor('tomatoOrTomatillo');
     const ad = market(tomatoes, [['Fresh Roma Tomatoes or Husks Tomatillos', 1, 'KING_SOOPERS']]);
     expect(applyPantryToRecipe(dish(tomatoes), [], [ad]).additionalCostEstimateComplete).toBe(false);

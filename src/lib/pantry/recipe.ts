@@ -1,5 +1,5 @@
 import { recipeAvailableIngredientIds, recipePantryIngredientId, recipeUseRequirementName } from './recipe-identity';
-import { matchedRecipeRequirement, recipeCommodity, recipeUseForRequirement } from './recipe-use';
+import { matchedRecipeRequirement, recipeCommodity, recipeUseForRequirement, resolveRecipeUse } from './recipe-use';
 import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity } from '@/types/domain';
 import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { normalizePantryName, pantryCatalog } from './model';
@@ -108,7 +108,7 @@ export function applyPantryToRecipe(
     const regularSlotCost = isOnHand || ingredient.optional ? 0 : Number((ingredient.quantityUsed * regularUnit).toFixed(2));
     storeCost += slotCost; regularStoreCost += regularSlotCost;
     matched.push({ ...ingredient, ingredientName: requirement.displayName ?? ingredient.ingredientName, isOnHand, fromVirtualFreezer: false, store: commodity.bestOffer.store,
-      rawDealText: isOnHand ? 'Already have' : commodity.bestOffer.rawPriceText,
+      rawDealText: isOnHand ? 'Already have' : resolveRecipeUse(dish, ingredient) ? `${commodity.bestOffer.rawTitle} — ${commodity.bestOffer.rawPriceText}` : commodity.bestOffer.rawPriceText,
       dealType: commodity.bestOffer.dealType, dealConditions: commodity.bestOffer.dealConditions,
       unitCost: commodity.bestOffer.normalizedPricePerUnit, slotCost, regularSlotCost });
   }
