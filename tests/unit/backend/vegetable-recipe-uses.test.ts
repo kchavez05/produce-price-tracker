@@ -19,7 +19,7 @@ import { applyPantryToRecipe } from '@/lib/pantry/recipe';
 import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 import { scoreAllCommodities } from '@/lib/scoring-and-matcher';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
-import { buildStoreSearchUrl } from '@/lib/cart-exporter';
+import { buildStoreSearchUrl, getItemCurbsideLinks } from '@/lib/cart-exporter';
 import { createMockCommodity, createMockDish, createMockOffer } from 'tests/test-utils';
 
 const useFor = (policy: string) => scopedRecipeUses.find((use) => use.id === proposal.decisions.find((row) => row.policyId === policy)!.id)!;
@@ -223,6 +223,20 @@ describe('approved vegetable recipe-use integration', () => {
     expect(recipeOfferAllowed(useFor('carrots'), 'Good & Gather Whole or Baby Carrots')).toBe(true);
     expect(recipeOfferAllowed(useFor('tomatoes'), 'Good & Gather Roma or Vine-Ripened Tomatoes')).toBe(true);
     expect(recipeOfferAllowed(useFor('spinach'), 'Good & Gather Fresh spinach/arugula')).toBe(false);
+  });
+
+  it('preserves a concrete food in pickup queries derived from shared-noun offer titles', () => {
+    const use = useFor('mushrooms');
+    const commodities = scoreAllCommodities(ALL_WEEKLY_BASELINE_OFFERS, 'KING_SOOPERS', {}, ['KING_SOOPERS'], {});
+    const result = applyPantryToRecipe(dish(use), [], commodities);
+    const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
+    const title = shopping.items[0].storePricing!.KING_SOOPERS!.ingredientName!;
+    expect(title).toContain('Kroger Whole or Sliced Baby Bella / White Mushrooms');
+    const links = getItemCurbsideLinks('KING_SOOPERS', title, '80542');
+    expect(new URL(links.primaryLink.url).searchParams.get('query')).toBe('baby bella mushrooms');
+    for (const link of links.bridgeLinks) expect(decodeURIComponent(link.url)).toContain('mushrooms');
+    const carrot = getItemCurbsideLinks('KING_SOOPERS', 'Kroger Whole or Peeled Baby Carrots (2 lb Bag)', '80542');
+    expect(new URL(carrot.primaryLink.url).searchParams.get('query')).toBe('carrots');
   });
 
   it('applies exact availability during ranking, including when no market commodity exists', () => {

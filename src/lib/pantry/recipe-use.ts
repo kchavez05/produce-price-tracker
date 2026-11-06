@@ -4,6 +4,7 @@ import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity, StoreChain, St
 import { PantryRequirement } from '@/types/pantry';
 import { recipePantryIngredientId, recipeUseRequirementId, scopedRecipeUses } from './recipe-identity';
 import { calculateValueScore } from '@/lib/value-score';
+import { OFFER_FOOD_TERMS as foodTerms } from './offer-food';
 
 const protectedIds = new Set(scopedRecipeUses.map((use) => use.marketIngredientId));
 const contexts = new Map(cookingData.scopedRecipeContexts.map((context) => [context.id, context]));
@@ -44,12 +45,6 @@ export function matchedRecipeRequirement(dish: RecommendedDish, ingredient: Matc
 }
 
 // Complete food terms and incompatible forms are checked against the original title only.
-const foodTerms: Readonly<Record<string, RegExp>> = {
-  carrots: /\bcarrots?\b/i, broccoli: /\bbroccoli\b/i, cauliflower: /\bcauliflower\b/i,
-  spinach: /\bspinach\b/i, kale: /\bkale\b/i, 'white-mushrooms': /\bwhite(?:\s+button)?\s+mushrooms?\b/i,
-  'cremini-mushrooms': /\b(?:cremini|crimini|baby\s+bella)(?:\s+mushrooms?)?\b/i,
-  tomatoes: /\btomato(?:es)?\b/i, tomatillos: /\btomatillos?\b/i,
-};
 const incompatible = /\b(?:frozen|canned|tinned|dried|dehydrated|powder(?:ed)?|juice[ds]?|soups?|dips?|sauces?|paste|ketchup|crusts?|tots?|riced|rice|slaw|salads?|cooked|roasted|grilled|pickled|cream(?:ed)?|pasta|ravioli|tortellini|gnocchi|lasagna|pizza|smoothies?|chips?|puree|pureed|salsa|stir[ -]?fry|medley|mix(?:ed)?|blend|cakes?|breads?|muffins?|cookies?|bagels?|wraps?|tortillas?|quiche|casserole|hummus|glaz(?:e|ed)|caramelized|saut[eé](?:ed)?|steamable|New Zealand|collard|chard)\b/i;
 const foodDescriptors: Readonly<Record<string, readonly string[]>> = {
   carrots: ['whole', 'peeled', 'unpeeled', 'baby', 'sliced', 'chopped', 'diced'],
