@@ -1,3 +1,4 @@
+import firstExpandedCatalog from '../../../catalog/releases/2026-10-31.1/catalog.json';
 import previousCatalog from '../../../catalog/releases/2026-10-30.1/catalog.json';
 import baseline from '../../../catalog/baseline-1.5.2.json';
 import { searchCookingCatalog } from '@/lib/pantry/catalog-search';
@@ -85,6 +86,19 @@ describe('pantry recipe and shopping integration', () => {
     expect(availablePantryIngredientIds([flour])).toEqual(['brown-rice-flour']);
     const requirements = [{ ingredientId: 'rice-flour', quantity: 1, unit: 'tbsp' }];
     expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([flour]))).toHaveLength(1);
+  });
+  it('retains the 101-ingredient rollback view while preserving exact new herb ownership', () => {
+    const rollback = cookingCatalogView('2026-10-31.1');
+    expect(rollback.ingredients).toEqual(firstExpandedCatalog.ingredients);
+    expect(rollback.compatibility).toEqual(firstExpandedCatalog.compatibility);
+    expect(searchCookingCatalog(rollback.ingredients, 'cilantro')).toEqual([]);
+    const herb: PantryEntry = { id: 'herb', ingredientId: 'cilantro-fresh', displayName: 'Fresh cilantro', available: true, revision: 1, updatedAtIso: '' };
+    expect(canSavePantryIngredient(herb, herb, [])).toBe(true);
+    expect(availablePantryIngredientIds([herb])).toEqual(['cilantro-fresh']);
+    const requirements = [{ ingredientId: 'cilantro-fresh', quantity: 1, unit: 'bunch' }];
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([herb]))).toEqual([]);
+    expect(pantryShoppingNeeds(requirements, [])).toMatchObject([{ priceBasis: 'UNPRICED', estimatedCost: null }]);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([{ ...herb, available: false }]))).toHaveLength(1);
   });
   it('covers market onion cards, zeroes costs, and omits shopping needs using fresh pantry onions', () => {
     const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;

@@ -1589,6 +1589,440 @@
         "date": "2026-10-31",
         "payloadSha256": "7d6e241743c8f128b26854b529f0c45fb35c076e6bea3c1977aa6529b1802dae"
       }
+    },
+    {
+      "id": "ingredient-leeks-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2727584",
+          "fingerprint": "3d1a0054d784e05052c73774e736d9200f91821bd5a11d2d3bae56e8055a942a"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Leeks, bulb and greens, root removed, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Review the bulb-and-greens source scope as a whole leek identity, without asserting edible-part weights or interchangeability with onions.",
+      "ingredient": {
+        "id": "leeks-fresh",
+        "name": "Leeks",
+        "aliases": [],
+        "familyId": "leeks",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "1e42361f3621e99a8cd48f66af6a642c34993122ee3d8573065ed028250eab12"
+      }
+    },
+    {
+      "id": "ingredient-beets-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685576",
+          "fingerprint": "6ae2ec5908a903b5ce813f984e475826b441c90f07c30798e763f28b805cee6f"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Beets, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "beets-fresh",
+        "name": "Beets",
+        "aliases": [
+          "beetroot"
+        ],
+        "familyId": "beets",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "8124e13d9271f751b33eac1a71391858433cb32e79fec4efc74500465ba30119"
+      }
+    },
+    {
+      "id": "ingredient-radishes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169276",
+          "fingerprint": "9505635edd93d105697d13c384de1899d04df5204e19d565167158f7929ea9ae"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Radishes, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "radishes-fresh",
+        "name": "Radishes",
+        "aliases": [],
+        "familyId": "radishes",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "498f46aa54d94de275e311023d19c6f70ac388f31f33cb518ce79bf0c3b882ff"
+      }
+    },
+    {
+      "id": "ingredient-okra-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169260",
+          "fingerprint": "a53a88a30de118fa7192cbbc4356180fa96914b1d722b8aa598718edac60f53d"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Okra, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "okra-fresh",
+        "name": "Okra",
+        "aliases": [],
+        "familyId": "okra",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "99ef9dbeadb7f40d55e7e293af41d8cc5e5699bc426cb6aa191e9482839beddb"
+      }
+    },
+    {
+      "id": "ingredient-eggplant-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685577",
+          "fingerprint": "a21afbc643014f2af285102f2d9cf1096ac080863b92aad470a0950ee3d0fea4"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Eggplant, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "eggplant-fresh",
+        "name": "Eggplant",
+        "aliases": [
+          "aubergine"
+        ],
+        "familyId": "eggplant",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "9515347c38d07f36d4c9df3dd945ce6041e1b987301571958217314a5a640b69"
+      }
+    },
+    {
+      "id": "ingredient-cilantro-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169997",
+          "fingerprint": "842315f341911e2384ad696851105b06a479f3ee707a3446c644395e19e572cd"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Coriander (cilantro) leaves, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Fresh coriander refers to leaves only, never coriander seed or dried leaf.",
+      "ingredient": {
+        "id": "cilantro-fresh",
+        "name": "Fresh cilantro",
+        "aliases": [
+          "fresh coriander"
+        ],
+        "familyId": "coriander-leaf",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "51be2228e1cee6f2eec73dfd31544dfa2cdbe9d919d29bc7a5aba9ddb3d1ace2"
+      }
+    },
+    {
+      "id": "ingredient-parsley-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170416",
+          "fingerprint": "ccaee9b4b7ff655387da61c37a2df2ad774a6a7e92de2f10eb94cef9c1007ba8"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Parsley, fresh. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "parsley-fresh",
+        "name": "Fresh parsley",
+        "aliases": [],
+        "familyId": "parsley",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "b8d45025b2f6b4dfe6f5d8618de4e7a14bfd47592ca3755477d1da0beacb3cce"
+      }
+    },
+    {
+      "id": "ingredient-basil-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172232",
+          "fingerprint": "694b955b720ecf8122299d15b0409ec0b23c07aed1a71b5264e5da1a762c03ae"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Basil, fresh. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced.",
+      "ingredient": {
+        "id": "basil-fresh",
+        "name": "Fresh basil",
+        "aliases": [],
+        "familyId": "basil",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "5f186acf3371c6d8a06c3b2134bb0ee0e5531a5a68b4b8537b4f0cc3aa7c75be"
+      }
+    },
+    {
+      "id": "ingredient-spearmint-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173475",
+          "fingerprint": "0fe6c223359550361da9a87840cc1959806767f57c8a912383097b3d80bf3a7a"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Spearmint, fresh. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Named spearmint only; peppermint ownership or generic mint coverage is not inferred.",
+      "ingredient": {
+        "id": "spearmint-fresh",
+        "name": "Fresh spearmint",
+        "aliases": [],
+        "familyId": "spearmint",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "633b74494abb252bb7ee99b93576bfb7df6af5738543ce2c081af66b0c739431"
+      }
+    },
+    {
+      "id": "ingredient-cucumber-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346406",
+          "fingerprint": "061ca8667f318907179dc8a69b8eeb35fab1a7fe2c30a349b861d7c92659e0b3"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Cucumber, with peel, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Peel treatment is source context, not a second inventory choice or a food-portion conversion.",
+      "ingredient": {
+        "id": "cucumber-fresh",
+        "name": "Cucumber",
+        "aliases": [],
+        "familyId": "cucumber",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "168c4e0518a7f836f4bc98981a4250db06b77bd22aead1bd1a5a965d461b1fd0"
+      }
+    },
+    {
+      "id": "ingredient-garlic-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1104647",
+          "fingerprint": "2ec3ffb54b247f7a359a00b735ccee20976c54005c42200acd85497d4fb648e4"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Garlic, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "garlic-fresh",
+        "name": "Garlic",
+        "aliases": [
+          "garlic cloves"
+        ],
+        "staticPrice": {
+          "unit": "clove",
+          "usdPerUnit": 0.08
+        },
+        "familyId": "garlic",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "782c31ebd4edd9a66a4e5a89f536aa4c84c9fc1ba465be820a541e26538c50da"
+      }
+    },
+    {
+      "id": "ingredient-ginger-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169231",
+          "fingerprint": "602ecab05ddc9e26f9ca2c36bdc3a71247e2698b410ea8238036a19c4a1f75cb"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Ginger root, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "ginger-fresh",
+        "name": "Ginger",
+        "aliases": [],
+        "staticPrice": {
+          "unit": "tbsp",
+          "usdPerUnit": 0.15
+        },
+        "familyId": "ginger",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "faed43600a78a1a56b232d39d474087d4f042ffb3f3b1435347e2f7c1d73976a"
+      }
+    },
+    {
+      "id": "ingredient-celery-stalks",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346405",
+          "fingerprint": "76592690aecb52bb68e7b180c544cbf34cfd5eadc6d693b519187dc540d9637d"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Celery, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "celery-stalks",
+        "name": "Celery",
+        "aliases": [],
+        "recipeIngredientId": "celery-stalks",
+        "familyId": "celery",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "5a004e6b5793bac6c700c3016e591963b1dbee12015777f3c957eb8e4829a868"
+      }
+    },
+    {
+      "id": "ingredient-asparagus-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168389",
+          "fingerprint": "ca79e72ae878e450ec5692375c079a3c9303fcca2bb11f43229232083a87de01"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Asparagus, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "asparagus-fresh",
+        "name": "Asparagus",
+        "aliases": [],
+        "recipeIngredientId": "asparagus-fresh",
+        "familyId": "asparagus",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "537655d45650f238507b507d71824692168ce7377596975dc6cf50003f9533b7"
+      }
+    },
+    {
+      "id": "ingredient-brussels-sprouts",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685575",
+          "fingerprint": "bd9644028bf4b04e0753159743bbc0c615ff5f39a78dc22be257dd0282105c7b"
+        }
+      ],
+      "rationale": "Proposed fresh cooking identity evidence: Brussels sprouts, raw. Keep fresh forms separate from dried, powdered, frozen, and canned forms. No nutrition, portion conversion, dietary guarantee, price, or recipe substitution is introduced. Preserve the existing ID, label, aliases, fixed estimate, and recipe mappings; add identity provenance and family/form metadata only.",
+      "ingredient": {
+        "id": "brussels-sprouts",
+        "name": "Brussels sprouts",
+        "aliases": [],
+        "recipeIngredientId": "brussels-sprouts",
+        "familyId": "brussels-sprouts",
+        "form": "fresh"
+      },
+      "review": {
+        "by": "kchavez05 (explicit batch approval in Codex chat)",
+        "date": "2026-11-06",
+        "payloadSha256": "98c981000f2778292d0f64671dbb414e040cc97850eec0f805402c22928ee68f"
+      }
     }
   ]
 }

@@ -103,6 +103,15 @@ describe('Virtual Pantry accessible controls', () => {
     await search('brown rice');
     expect(container.textContent).not.toContain('Add Brown rice flour');
   });
+  it('waits for vegetable catalog acceptance and saves a fresh herb without optional fields', async () => {
+    await render([], ['garlic-fresh']); await search('fresh coriander');
+    expect(button('Add Fresh cilantro').disabled).toBe(true);
+    await render();
+    await run(() => button('Add Fresh cilantro').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'cilantro-fresh', displayName: 'Fresh cilantro', available: true }, undefined);
+    await search('peppermint');
+    expect(container.textContent).not.toContain('Add Fresh spearmint');
+  });
   it('prevents adding an ID before server acceptance and explains explicit No coverage', async () => {
     await render([], ['red-lentils-dried']); await search('lentils');
     expect(button('Add Dried lentils').disabled).toBe(true);

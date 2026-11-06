@@ -361,5 +361,97 @@
   {
     "query": "glutinous rice",
     "expected": []
+  },
+  {
+    "query": "Leeks",
+    "expected": [
+      "leeks-fresh"
+    ]
+  },
+  {
+    "query": "Beets",
+    "expected": [
+      "beets-fresh"
+    ]
+  },
+  {
+    "query": "Radishes",
+    "expected": [
+      "radishes-fresh"
+    ]
+  },
+  {
+    "query": "Okra",
+    "expected": [
+      "okra-fresh"
+    ]
+  },
+  {
+    "query": "Eggplant",
+    "expected": [
+      "eggplant-fresh"
+    ]
+  },
+  {
+    "query": "Fresh cilantro",
+    "expected": [
+      "cilantro-fresh"
+    ]
+  },
+  {
+    "query": "Fresh parsley",
+    "expected": [
+      "parsley-fresh"
+    ]
+  },
+  {
+    "query": "Fresh basil",
+    "expected": [
+      "basil-fresh"
+    ]
+  },
+  {
+    "query": "Fresh spearmint",
+    "expected": [
+      "spearmint-fresh"
+    ]
+  },
+  {
+    "query": "Cucumber",
+    "expected": [
+      "cucumber-fresh"
+    ]
+  },
+  {
+    "query": "beetroot",
+    "expected": [
+      "beets-fresh"
+    ]
+  },
+  {
+    "query": "aubergine",
+    "expected": [
+      "eggplant-fresh"
+    ]
+  },
+  {
+    "query": "fresh coriander",
+    "expected": [
+      "cilantro-fresh"
+    ]
+  },
+  {
+    "query": "mint",
+    "expected": [
+      "spearmint-fresh"
+    ]
+  },
+  {
+    "query": "dried basil",
+    "expected": []
+  },
+  {
+    "query": "peppermint",
+    "expected": []
   }
 ]
