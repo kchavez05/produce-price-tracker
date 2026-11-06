@@ -186,7 +186,8 @@ describe('approved vegetable recipe-use integration', () => {
   it('rejects ambiguous alternatives, hidden preparations and substring names', () => {
     for (const title of ['White or Baby Bella Mushrooms', 'Baby bella mushrooms or assorted vegetables', 'Babybella mushroom powder', 'White mushrooms / sliced mushrooms'])
       expect(recipeOfferAllowed(useFor('cremini'), title), title).toBe(false);
-    for (const title of ['Spinach or cooking greens', 'Spinachland greens', 'Spinach sauce', 'Spinach and cheese', 'Spinach / assorted greens'])
+    for (const title of ['Spinach or cooking greens', 'Spinachland greens', 'Spinach sauce', 'Spinach and cheese', 'Spinach / assorted greens',
+      'Fresh spinach/arugula', 'Fresh spinach /arugula', 'Fresh spinach/ arugula', 'Fresh spinach / arugula', 'Fresh spinach/kale'])
       expect(recipeOfferAllowed(useFor('spinach'), title), title).toBe(false);
     for (const [policy, title] of [['carrots', 'Carrot cake'], ['broccoli', 'Fresh broccoli slaw'], ['spinach', 'Spinach tortellini'], ['carrots', 'Honey glazed carrots']])
       expect(recipeOfferAllowed(useFor(policy), title), title).toBe(false);
@@ -194,6 +195,10 @@ describe('approved vegetable recipe-use integration', () => {
       expect(recipeOfferAllowed(useFor('carrots'), title), title).toBe(false);
     expect(recipeOfferAllowed(useFor('mushrooms'), 'Whole or Sliced White Mushrooms')).toBe(true);
     expect(recipeOfferAllowed(useFor('broccoli'), 'Fresh Broccoli Crowns or Florets')).toBe(true);
+    expect(recipeOfferAllowed(useFor('greens'), 'Fresh spinach/kale')).toBe(true);
+    expect(recipeOfferAllowed(useFor('crucifers'), 'Broccoli/Cauliflower')).toBe(true);
+    expect(recipeOfferAllowed(useFor('carrots'), 'Whole/Peeled Baby Carrots')).toBe(true);
+    expect(recipeOfferAllowed(useFor('mushrooms'), 'Fresh white mushrooms/sliced mushrooms')).toBe(false);
   });
 
   it('retains the real keyless whole-or-peeled carrot offer through scoring, recipe pricing and shopping', () => {
@@ -206,6 +211,18 @@ describe('approved vegetable recipe-use integration', () => {
     const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
     expect(shopping.items[0]).toMatchObject({ optimalStore: 'KING_SOOPERS', optimalUnitCost: 0.75, optimalTotalCost: 1.5 });
     expect(shopping.pantryNeeds).toEqual([]);
+  });
+
+  it('admits every six-store fallback title whose named foods fit the reviewed alternatives', () => {
+    for (const policy of ['carrots', 'crucifers', 'mushrooms', 'tomatoOrTomatillo']) {
+      const use = useFor(policy);
+      const offers = ALL_WEEKLY_BASELINE_OFFERS.filter((offer) => offer.canonicalIngredientId === use.marketIngredientId);
+      expect(offers).toHaveLength(6);
+      for (const offer of offers) expect(recipeOfferAllowed(use, offer.rawTitle), `${policy}: ${offer.rawTitle}`).toBe(true);
+    }
+    expect(recipeOfferAllowed(useFor('carrots'), 'Good & Gather Whole or Baby Carrots')).toBe(true);
+    expect(recipeOfferAllowed(useFor('tomatoes'), 'Good & Gather Roma or Vine-Ripened Tomatoes')).toBe(true);
+    expect(recipeOfferAllowed(useFor('spinach'), 'Good & Gather Fresh spinach/arugula')).toBe(false);
   });
 
   it('applies exact availability during ranking, including when no market commodity exists', () => {
