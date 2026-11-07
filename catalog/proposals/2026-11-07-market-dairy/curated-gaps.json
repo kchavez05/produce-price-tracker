@@ -1,0 +1,266 @@
+[
+  {
+    "ingredientId": "mozzarella-cheese-unspecified",
+    "rationale": "Curated fallback for a package whose mozzarella moisture is unknown. Neither whole-milk nor shredded wording proves fresh or low-moisture; this identity has no current recipe permission or moisture conversion. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170845",
+        "ndbNumber": "1026",
+        "description": "Cheese, mozzarella, whole milk",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170845",
+        "fingerprint": "7b897a1d5623043a5e786a5de88f504111d7238f644970bc78827fd46079f68a",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170847",
+        "ndbNumber": "1028",
+        "description": "Cheese, mozzarella, part skim milk",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170847",
+        "fingerprint": "eeab4cb55982d47653c53aa95b18ae19a0434565d4f793cbfa74c7e475b941be",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "mozzarella-low-moisture",
+    "rationale": "Curated low-moisture mozzarella with milkfat unspecified. The selected whole-milk and part-skim evidence belongs only to its optional variants; do not assign one fat-specific record to the generic identity. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "foundation_food",
+        "fdcId": "329370",
+        "ndbNumber": "1029",
+        "description": "Cheese, mozzarella, low moisture, part-skim",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "foundation_food:329370",
+        "fingerprint": "e4ee19f5f59470742bfd95e8359be765f12e50cb94fee1891dfda2eb69c39155",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170846",
+        "ndbNumber": "1027",
+        "description": "Cheese, mozzarella, whole milk, low moisture",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170846",
+        "fingerprint": "f6e226e37b0f72f0eb0e288d29d2056dff9cf255ed5c09cb8d7eebaf83ea81c3",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "mozzarella-fresh",
+    "rationale": "Curated fresh high-moisture mozzarella, distinct from low-moisture shredding cheese. The retained whole-milk mozzarella row does not explicitly establish fresh moisture/packing. No current recipe permission. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170845",
+        "ndbNumber": "1026",
+        "description": "Cheese, mozzarella, whole milk",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170845",
+        "fingerprint": "7b897a1d5623043a5e786a5de88f504111d7238f644970bc78827fd46079f68a",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "melting-cheese-blend",
+    "rationale": "Curated natural dairy shredding/melting blend with composition unspecified. A generic cheese blend or brand alone does not prove this use. It establishes none of its component cheeses and has no current recipe permission. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "171288",
+        "ndbNumber": "1251",
+        "description": "Cheese, Mexican blend",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:171288",
+        "fingerprint": "b820d7320dfe9cf89cda475327d4fbabb9edf6cb6327f9c36a8cfa1eec9d8ab1",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "cottage-cheese-plain",
+    "rationale": "Curated plain wet/creamy cottage cheese with milkfat unspecified. Keep dry-curd, fruit, vegetables and flavored preparations separate. Fat-specific sources are reserved for variants; blending is a recipe preparation, not a new inventory food. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "172179",
+        "ndbNumber": "1012",
+        "description": "Cheese, cottage, creamed, large or small curd",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:172179",
+        "fingerprint": "e094e4e51f68e4ccec40e7f33a987614a56ff84b0e31077183ae88a4517187b3",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "foundation_food",
+        "fdcId": "328841",
+        "ndbNumber": "1015",
+        "description": "Cheese, cottage, lowfat, 2% milkfat",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "foundation_food:328841",
+        "fingerprint": "2e058ec0ab2be46373f2302ce5bbaed723f71d7c07c3e162009a94af9cd25cb5",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "173417",
+        "ndbNumber": "1016",
+        "description": "Cheese, cottage, lowfat, 1% milkfat",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:173417",
+        "fingerprint": "9c5c71cc1c073e78b982c3f1e644488f4610495ac1fc9c779706a6f5584918ed",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "sour-cream-plain",
+    "rationale": "Curated dairy sour cream with fat level unspecified; separate from cottage cheese, crema and sour-cream dips. Full-fat and reduced-fat evidence is linked only to optional variants. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "foundation_food",
+        "fdcId": "2346387",
+        "ndbNumber": "1056",
+        "description": "Cream, sour, full fat",
+        "publicationDate": "2022-10-28",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "foundation_food:2346387",
+        "fingerprint": "65f2bf3298ee5b0dcfea5471c81b02ff7f1c3ca0f7621faea14f831620cd5f09",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "171256",
+        "ndbNumber": "1055",
+        "description": "Cream, sour, reduced fat, cultured",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:171256",
+        "fingerprint": "66eb748d1878d2feab03b4da3a2a1bb4eaa6e61d962021dad66332040ca1556c",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "greek-yogurt-plain",
+    "rationale": "Curated plain Greek dairy yogurt with milkfat unspecified; ordinary yogurt is not an alias. Whole/low/nonfat sources belong to optional variants. Hot recipe scopes separately require the whole-milk identity. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "foundation_food",
+        "fdcId": "2259794",
+        "ndbNumber": "1293",
+        "description": "Yogurt, Greek, plain, whole milk",
+        "publicationDate": "2022-04-28",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "foundation_food:2259794",
+        "fingerprint": "9c0d31303e099c2552fc76009212a51bcb962b5857ff24ef4cd0d82770234efe",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170903",
+        "ndbNumber": "1287",
+        "description": "Yogurt, Greek, plain, lowfat",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170903",
+        "fingerprint": "3aedab2d99e509828c7f4caefd368d6aa7b42b758b598344825b00884dc2ea0f",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "foundation_food",
+        "fdcId": "330137",
+        "ndbNumber": "1256",
+        "description": "Yogurt, Greek, plain, nonfat",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "foundation_food:330137",
+        "fingerprint": "b690195b8cde6d46af8ac1d715b3f74f4db6e91e5f4caa6be91377dbb4c8b61a",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "greek-yogurt-vanilla",
+    "rationale": "Curated vanilla Greek dairy yogurt with milkfat unspecified; remains distinct from plain even when unsweetened. No savory recipe permission. Fat-specific evidence belongs only to optional variants. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170902",
+        "ndbNumber": "1286",
+        "description": "Yogurt, Greek, vanilla, nonfat",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170902",
+        "fingerprint": "8569a97c988211a1fa6f50ea3badf36e960a9ff662585b9829c3000b67d85b4c",
+        "disposition": "candidate"
+      },
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "170907",
+        "ndbNumber": "1297",
+        "description": "Yogurt, Greek, vanilla, lowfat",
+        "publicationDate": "2019-04-01",
+        "categoryId": "1",
+        "categoryName": "Dairy and Egg Products",
+        "footnote": null,
+        "key": "sr_legacy_food:170907",
+        "fingerprint": "ec4affe4411b95da91f63da63c363d29ea7ae99fd72ffbb841948fd31cdc0094",
+        "disposition": "candidate"
+      }
+    ]
+  }
+]

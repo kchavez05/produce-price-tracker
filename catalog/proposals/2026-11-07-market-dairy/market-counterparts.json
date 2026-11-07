@@ -1,0 +1,275 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "baseCatalogVersion": "2026-11-07.2",
+  "baseCatalogHash": "88f6128ff3f0b835ec72c8d44113415a05d03c4be21121501d9b39f0f3b86987",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "protectedMarketIngredientIds": [
+    "shredded-block-cheese",
+    "cottage-cheese-sour-cream",
+    "greek-yogurt-tub"
+  ],
+  "defaults": {
+    "evidence": "Use the original observed offer title or traceable product-label evidence, not the selected pantry name or market group. A brand, package size or missing flavor/fat wording proves no qualification. Plain must be explicit for cottage cheese/Greek yogurt. Named sour cream without dip/flavor modifiers establishes plain sour cream only; regular/full-fat/light qualification is separate.",
+    "cheese": "Only natural dairy cheese. Block/shredded are one identity after shredding in the recipe; no quantity/yield conversion. Low-moisture needs explicit evidence; shredded/part-skim/whole-milk alone is insufficient. Fresh mozzarella is separate. Plain Monterey Jack excludes Pepper/Colby Jack. Regular cheddar/Jack excludes explicit reduced-fat/fat-free or processed cheese food.",
+    "blends": "Mexican-style means an explicitly named natural dairy blend, not queso dip or every Mexican cheese. A blend establishes none of its individual components. Generic melting blend requires shredding/melting evidence; unknown blend composition has no current recipe permission.",
+    "reject": "Reject brand-only/generic cheese, unresolved alternatives, plant-based products, processed cheese food/spreads/slices, sauces/dips/soups/meals, breaded sticks, flavored cottage cheese, dry curds, frozen yogurt desserts, yogurt drinks, non-Greek yogurt as Greek, contradictory fat/flavor/moisture and uncertain qualifications.",
+    "storage": "Refrigerated natural dairy forms only for offer admission. Frozen dairy/yogurt desserts and thawed dairy offers are not reviewed by this packet. Pantry availability remains a user boolean independent of storage/date/quantity.",
+    "prices": "No new fixed prices. Keep observed history/retail units. Filter each original offer for the specific recipe before cheapest-per-store selection and preserve the selected store pool. No group-average or cheap sibling relabeling."
+  },
+  "decisions": [
+    {
+      "id": "counterpart:shredded-block-cheese:cheddar-cheese",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "cheddar-cheese",
+      "foodName": "Cheddar cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "fd337e797cc35c10f29294b8dfbe02bf1e4fb11ad28b1293656ade06d0ad3f3a"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:monterey-jack-cheese",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "monterey-jack-cheese",
+      "foodName": "Monterey Jack cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "e9d5469ddb7755c9945d444f3bc6ec33ea07c1141d3919564799bb81c81fdce1"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:mozzarella-cheese-unspecified",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "mozzarella-cheese-unspecified",
+      "foodName": "Mozzarella cheese, moisture unspecified",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "9a7d1e0e45586b95c86d13e685952b23a6a3f5e66c924fc373e21a8f2b37dd7b"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:mozzarella-low-moisture",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "mozzarella-low-moisture",
+      "foodName": "Low-moisture mozzarella cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "60b3b4ecd15794c09250481748cfdce46e6268c6be571839d5852c22137816bf"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:mozzarella-low-moisture-whole-milk",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "mozzarella-low-moisture-whole-milk",
+      "foodName": "Whole-milk low-moisture mozzarella cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "be455450a7201178773b737acc42373af4d6e7e700be24d1fc9ec07a398344b1"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:mozzarella-low-moisture-part-skim",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "mozzarella-low-moisture-part-skim",
+      "foodName": "Part-skim low-moisture mozzarella cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "9bc16725482afff50df270045f26ea053d1710daeebce83e74bb74b8cb546970"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:mozzarella-fresh",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "mozzarella-fresh",
+      "foodName": "Fresh mozzarella cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "7e7307a8609af8ce2676e1f72439b256d39e098dc090caf4e09b51414566e406"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:melting-cheese-blend",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "melting-cheese-blend",
+      "foodName": "Melting cheese blend, type unspecified",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "a302c4c89de716cb24e4b05be3bb423520750d2724871387a5414b9a2e91307c"
+    },
+    {
+      "id": "counterpart:shredded-block-cheese:mexican-style-cheese-blend",
+      "revision": 1,
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientId": "mexican-style-cheese-blend",
+      "foodName": "Mexican-style cheese blend",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "c89f7f082e946aefba9214a868ee0ca18227d487b3fdde7f1ea7fbef8da7ca8a"
+    },
+    {
+      "id": "counterpart:cottage-cheese-sour-cream:cottage-cheese-plain",
+      "revision": 1,
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientId": "cottage-cheese-plain",
+      "foodName": "Plain cottage cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "db0d83f649ee78dd7bd84c29e61592c03f0a1ad5321227cced2b000fb14c0ff7"
+    },
+    {
+      "id": "counterpart:cottage-cheese-sour-cream:cottage-cheese-creamed",
+      "revision": 1,
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientId": "cottage-cheese-creamed",
+      "foodName": "Plain creamed cottage cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "5173104a57415ef8f7e6319b37eded905c0b73ffc6a219b0b89b337e4052cf74"
+    },
+    {
+      "id": "counterpart:cottage-cheese-sour-cream:cottage-cheese-plain-2-percent",
+      "revision": 1,
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientId": "cottage-cheese-plain-2-percent",
+      "foodName": "Plain 2% cottage cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "9113d764a1113f9f8bdc1e4bf63073d1568f6300d4ee51354d6316dcf11c53bb"
+    },
+    {
+      "id": "counterpart:cottage-cheese-sour-cream:cottage-cheese-plain-1-percent",
+      "revision": 1,
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientId": "cottage-cheese-plain-1-percent",
+      "foodName": "Plain 1% cottage cheese",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "a55cf1cdd805c3a9ddcbb0ef6e4c560419531fd7be3cd8f51f5941bd3022345c"
+    },
+    {
+      "id": "counterpart:cottage-cheese-sour-cream:sour-cream-plain",
+      "revision": 1,
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientId": "sour-cream-plain",
+      "foodName": "Plain sour cream",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "624e2018330b94fb8e0bb52452a40f7f5270e9853d9d05e0b5086dbf0b259252"
+    },
+    {
+      "id": "counterpart:cottage-cheese-sour-cream:sour-cream-full-fat",
+      "revision": 1,
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientId": "sour-cream-full-fat",
+      "foodName": "Plain full-fat sour cream",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "ae38eb423e13ee28e9edf22bdbf2718bea589025ce131e4ece03c3e7316bcec0"
+    },
+    {
+      "id": "counterpart:cottage-cheese-sour-cream:sour-cream-reduced-fat",
+      "revision": 1,
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientId": "sour-cream-reduced-fat",
+      "foodName": "Plain reduced-fat sour cream",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "ecc1b702fe54afb08811fd7e64897180a3107e3fb4b0db955e8d28f6e6eabfb2"
+    },
+    {
+      "id": "counterpart:greek-yogurt-tub:greek-yogurt-plain",
+      "revision": 1,
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientId": "greek-yogurt-plain",
+      "foodName": "Plain Greek yogurt",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "d8673685320cdb90f55f00988e15ba204e84212829efbff8bc4720be9d4094f1"
+    },
+    {
+      "id": "counterpart:greek-yogurt-tub:greek-yogurt-plain-whole-milk",
+      "revision": 1,
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientId": "greek-yogurt-plain-whole-milk",
+      "foodName": "Plain whole-milk Greek yogurt",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "7ca5146d7eb7f8995f567af456f439f28138707d86766abf33f01038c8549c67"
+    },
+    {
+      "id": "counterpart:greek-yogurt-tub:greek-yogurt-plain-lowfat",
+      "revision": 1,
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientId": "greek-yogurt-plain-lowfat",
+      "foodName": "Plain lowfat Greek yogurt",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "34eb03fedeeb78dca83a207d488df64f6f5dc9c57e685932b269e79dcfd0e066"
+    },
+    {
+      "id": "counterpart:greek-yogurt-tub:greek-yogurt-plain-nonfat",
+      "revision": 1,
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientId": "greek-yogurt-plain-nonfat",
+      "foodName": "Plain nonfat Greek yogurt",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "ad7310f3af1b7ea657faa55215456e18034188b585797f30934a18d11a341a2b"
+    },
+    {
+      "id": "counterpart:greek-yogurt-tub:greek-yogurt-vanilla",
+      "revision": 1,
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientId": "greek-yogurt-vanilla",
+      "foodName": "Vanilla Greek yogurt",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "6d776b007c146fce9a539f5e8017ed104ff8ef82e28427c8c85cf55970c75d25"
+    },
+    {
+      "id": "counterpart:greek-yogurt-tub:greek-yogurt-vanilla-lowfat",
+      "revision": 1,
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientId": "greek-yogurt-vanilla-lowfat",
+      "foodName": "Vanilla lowfat Greek yogurt",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "23f065c67a4e23c5d058cd25754e18a63385fbc5ecc8cbfa81bd8d507d6240dc"
+    },
+    {
+      "id": "counterpart:greek-yogurt-tub:greek-yogurt-vanilla-nonfat",
+      "revision": 1,
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientId": "greek-yogurt-vanilla-nonfat",
+      "foodName": "Vanilla nonfat Greek yogurt",
+      "titlePolicy": "require-exact-reviewed-dairy-type-moisture-flavor-and-fat",
+      "rationale": "Association only, not ownership or recipe permission. Require exact natural dairy food and any requested flavor, moisture and fat evidence from the original title or traceable product label. Generic/brand wording does not prove a subtype.",
+      "status": "proposed",
+      "payloadSha256": "b14ab6ba66bcfc6d54cc7dad1d5e2d96373a27365c00e798ef5a627d412cac4f"
+    }
+  ]
+}
