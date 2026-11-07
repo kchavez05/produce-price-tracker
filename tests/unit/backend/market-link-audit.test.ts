@@ -1,16 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import audit from '../../../catalog/market-link-audit.json';
-import release from '../../../catalog/releases/2026-11-06.5/catalog.json';
+import release from '../../../catalog/releases/2026-11-07.1/catalog.json';
 import runtime from '@/data/cooking-catalog.json';
 import { parseArtifact } from '../../../scripts/lib/catalog-curation';
 import { validateMarketLinkAudit } from '../../../scripts/lib/market-link-audit';
 
 const catalog = parseArtifact(release);
-const check = (value: unknown) => validateMarketLinkAudit(value, catalog, runtime.recipeLinks, CANONICAL_INGREDIENTS, runtime.scopedRecipeUses);
+const check = (value: unknown) => validateMarketLinkAudit(value, catalog, runtime.recipeLinks, CANONICAL_INGREDIENTS, runtime.scopedRecipeUses, runtime.marketCounterparts);
 describe('complete pantry-to-market applicability audit', () => {
   it('accounts for all identities and keeps fresh/powdered onions in separate dispositions', () => {
-    expect(check(audit)).toEqual({ linked: 22, noMarketItem: 123 });
+    expect(check(audit)).toEqual({ linked: 48, noMarketItem: 123 });
     expect(audit.linkedIngredientIds).toContain('onions-fresh');
     expect(audit.noMarketItem.ingredientIds).toContain('onion-powder');
   });

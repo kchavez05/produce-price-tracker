@@ -4,7 +4,7 @@ import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity, StoreChain, St
 import { PantryRequirement } from '@/types/pantry';
 import { recipePantryIngredientId, recipeUseRequirementId, scopedRecipeUses } from './recipe-identity';
 import { calculateValueScore } from '@/lib/value-score';
-import { OFFER_FOOD_TERMS as foodTerms } from './offer-food';
+import { OFFER_FOOD_TERMS as foodTerms, INCOMPATIBLE_PRODUCE as incompatible, stripProduceOfferBrand as stripOfferBrand, hasUnresolvedProduceAlternatives, hasMultipleProduceFoods } from './offer-food';
 
 const protectedIds = new Set(scopedRecipeUses.map((use) => use.marketIngredientId));
 const contexts = new Map(cookingData.scopedRecipeContexts.map((context) => [context.id, context]));
@@ -45,7 +45,6 @@ export function matchedRecipeRequirement(dish: RecommendedDish, ingredient: Matc
 }
 
 // Complete food terms and incompatible forms are checked against the original title only.
-const incompatible = /\b(?:frozen|canned|tinned|dried|dehydrated|powder(?:ed)?|juice[ds]?|soups?|dips?|sauces?|paste|ketchup|crusts?|tots?|riced|rice|slaw|salads?|cooked|roasted|grilled|pickled|cream(?:ed)?|pasta|ravioli|tortellini|gnocchi|lasagna|pizza|smoothies?|chips?|puree|pureed|salsa|stir[ -]?fry|medley|mix(?:ed)?|blend|cakes?|breads?|muffins?|cookies?|bagels?|wraps?|tortillas?|quiche|casserole|hummus|glaz(?:e|ed)|caramelized|saut[eé](?:ed)?|steamable|New Zealand|collard|chard)\b/i;
 const foodDescriptors: Readonly<Record<string, readonly string[]>> = {
   carrots: ['whole', 'peeled', 'unpeeled', 'baby', 'sliced', 'chopped', 'diced'],
   broccoli: ['whole', 'crowns', 'florets', 'chopped'], cauliflower: ['whole', 'florets', 'chopped'],
@@ -53,9 +52,6 @@ const foodDescriptors: Readonly<Record<string, readonly string[]>> = {
   'white-mushrooms': ['whole', 'sliced', 'chopped'], 'cremini-mushrooms': ['whole', 'sliced', 'chopped'],
   tomatoes: ['whole', 'sliced', 'diced', 'roma', 'vine-ripened'], tomatillos: ['whole'],
 };
-function stripOfferBrand(title: string): string {
-  return title.replace(/[®™]/g, '').trim().replace(/^(?:kroger|signature(?:\s+farms)?|simple\s+truth|aldi(?:\s+fresh)?|great\s+value|sprouts(?:\s+farm\s+fresh)?|good\s*&\s*gather)\b\s*/i, '');
-}
 function sharedFoodDescriptor(part: string, namedFoods: string[]): boolean {
   let words = stripOfferBrand(part).toLowerCase().trim();
   const prefix = /^(?:fresh|organic)\s+/;
@@ -66,9 +62,10 @@ function sharedFoodDescriptor(part: string, namedFoods: string[]): boolean {
 }
 export function recipeOfferAllowed(use: ScopedRecipeUse, rawTitle: string): boolean {
   if (typeof rawTitle !== 'string' || incompatible.test(rawTitle)) return false;
+  if (['potatoes-russet-gold', 'poblano-anaheim-peppers', 'butternut-acorn-squash', 'zucchini-yellow-squash', 'apples-honeycrisp-gala'].includes(use.marketIngredientId) && (hasUnresolvedProduceAlternatives(rawTitle) || hasMultipleProduceFoods(rawTitle))) return false;
   const found = Object.entries(foodTerms).filter(([, terms]) => terms.test(rawTitle)).map(([food]) => food);
   // Strip only known leading brands before interpreting punctuation as food alternatives.
-  const alternatives = stripOfferBrand(rawTitle).split(/\bor\b|\band\b|&|\//i);
+  const alternatives = stripOfferBrand(rawTitle).replace(/\b\d+\s*\/\s*\d+\b/g, '').split(/\bor\b|\band\b|&|\//i);
   return found.length > 0 && found.every((food) => use.offerFoods.includes(food)) &&
     alternatives.every((part) => Object.entries(foodTerms).some(([food, term]) => use.offerFoods.includes(food) && term.test(part)) || sharedFoodDescriptor(part, found));
 }

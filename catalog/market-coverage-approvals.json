@@ -1,0 +1,1624 @@
+{
+  "formatVersion": 1,
+  "approvals": [
+    {
+      "envelope": {
+        "formatVersion": 1,
+        "status": "PROPOSED_NOT_APPROVED_NOT_ACTIVE",
+        "preparedOn": "2026-11-07",
+        "parentVersion": "2026-11-06.5",
+        "parentContentHash": "863270d2579e48b3c6b171edc43fcc07a0f19921b9cdda10590f1e0a77aed764",
+        "sourceRelease": "2026-10-29",
+        "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+        "blueprintHash": "94e232e02035c4b321700343e728a4f610ce6048a9375c6c5fe6e6d22453fc74",
+        "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+        "counts": {
+          "newIngredients": 26,
+          "existingAliasUpdates": 2,
+          "directionalEdges": 10,
+          "curationDecisions": 38,
+          "marketCounterparts": 30,
+          "recipeSlotDecisions": 38,
+          "allowedSlotDecisions": 29,
+          "rejectedCandidates": 9,
+          "instructionAndTitlePatches": 7,
+          "previewIngredients": 171,
+          "searchFixtures": 260
+        },
+        "fileHashes": {
+          "ledger.json": "52af344eb36f0b721d224647c4f79962f931d7d18ec73d39e7f33e0add585002",
+          "decision-hashes.json": "f40c9d990bb29e6e142548467c07041d22bff48b9cb86dc5b2d7fcec38f86586",
+          "source-evidence.json": "0cb4e2b242c45d7a92a598cbbbe8a3e3fd60f8778821d3e332d2bc96a5e34080",
+          "curated-gaps.json": "3a935c2743901b9a1517ec54d7d8e32c357095ad4ab3dff0cc8174ce2e834042",
+          "market-counterparts.json": "202adddff40faea6da0164b1bd43a231b15ed8cf2d278b44404c3273545c7f8c",
+          "recipe-use-proposal.json": "48f58fa5b16af3c06e2fb9c4394369aa5cd5b0aae38d39ece01a6788a6ad4fd2",
+          "search-fixtures.json": "4757676ba83b2829e0890fe53248fb1e5c72c5c74023e1b132518e2b6a073f96",
+          "behavior-cases.json": "de0ce887105213b77c571ebc78570aaf7ed331f1135f7e385ef7fa5cb67a8f98"
+        }
+      },
+      "counterparts": {
+        "formatVersion": 1,
+        "status": "proposed",
+        "baseCatalogVersion": "2026-11-06.5",
+        "baseCatalogHash": "863270d2579e48b3c6b171edc43fcc07a0f19921b9cdda10590f1e0a77aed764",
+        "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+        "protectedMarketIngredientIds": [
+          "potatoes-russet-gold",
+          "poblano-anaheim-peppers",
+          "butternut-acorn-squash",
+          "zucchini-yellow-squash",
+          "apples-honeycrisp-gala",
+          "mushrooms-cremini-white",
+          "tomatoes-roma-vine",
+          "spinach-kale-greens"
+        ],
+        "defaults": {
+          "identityEvidence": "Require the named food and all named variety/origin qualifiers for a specific identity. A generic identity may accept a named same-form member, without assigning that member to the user.",
+          "forms": "Unprepared raw produce only. Reject cooked, canned, frozen, dried, pickled, sauced, stuffed, chips, juice, soup, salsa, blends and other prepared products; bare group labels/brand-only/ambiguous food titles remain unverified.",
+          "mixedOffers": "Reject composite food products and unresolved either/or or multi-food titles for a precise identity. Do not transfer a mixed group quote to a single member. Brand cleaning must retain the food noun.",
+          "prices": "No new fixed prices. Do not infer edible yield from bag weight, dehusking, peeling, seeding or USDA portions. Preserve observed price unit and uncertainty; per-store titles and costs stay attached to the actual offer.",
+          "history": "Retain market IDs and historical prices unchanged. Counterpart records are distinct from recipe-use records."
+        },
+        "ambiguousTerms": [
+          {
+            "term": "gold/yellow potatoes",
+            "decision": "Accept only generic potatoes unless Yukon Gold is explicitly stated. Do not alias gold to the cultivar."
+          },
+          {
+            "term": "pasilla",
+            "decision": "Do not alias to poblano. Fresh/dried identity is unresolved by this keyword; reject for these fresh counterparts without explicit reviewed food evidence. Dried pasilla is outside this fresh market association."
+          },
+          {
+            "term": "Hatch",
+            "decision": "Require an explicitly named fresh Hatch green chile food, not a brand alone; do not infer mild heat or substitute into bulk poblano slots."
+          }
+        ],
+        "decisions": [
+          {
+            "id": "counterpart:potatoes-russet-gold:potatoes-fresh",
+            "revision": 1,
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientId": "potatoes-fresh",
+            "titlePolicy": "named-unprepared-potatoes-unspecified-or-variety",
+            "foodName": "Fresh potatoes",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "67447aa1f103f23e6780ce92fb34d2aa8c139cbc550ad8bcfb74f37db99add30"
+          },
+          {
+            "id": "counterpart:potatoes-russet-gold:russet-potatoes-fresh",
+            "revision": 1,
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientId": "russet-potatoes-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Russet potatoes",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "698fee4c75d0e82cbe9d2eab1c7ad87321d7bc4f1a67f66bb5d4889c3ffbc9c4"
+          },
+          {
+            "id": "counterpart:potatoes-russet-gold:yukon-gold-potatoes-fresh",
+            "revision": 1,
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientId": "yukon-gold-potatoes-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Yukon Gold potatoes",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "0f5bf4de25c7e249fc1db638cac1b2d0a1c07faf205409beb9fc5089c09db114"
+          },
+          {
+            "id": "counterpart:potatoes-russet-gold:red-potatoes-fresh",
+            "revision": 1,
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientId": "red-potatoes-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh red potatoes",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "25270c6d3c4cde7da79da136851e53ce93b82879b727288858c24e66fd322530"
+          },
+          {
+            "id": "counterpart:poblano-anaheim-peppers:poblano-peppers-fresh",
+            "revision": 1,
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientId": "poblano-peppers-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh poblano peppers",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "8330d5b764e20b8e6ae6bf4ed4fd349938b5241206c2747cd7a84d8cb71dd5db"
+          },
+          {
+            "id": "counterpart:poblano-anaheim-peppers:anaheim-peppers-fresh",
+            "revision": 1,
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientId": "anaheim-peppers-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Anaheim peppers",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "8a8167971d98f144312091b0b703904ee9f41e74a35475607df1d3caab642be7"
+          },
+          {
+            "id": "counterpart:poblano-anaheim-peppers:jalapeno-peppers-fresh",
+            "revision": 1,
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientId": "jalapeno-peppers-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh jalapeño peppers",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "1293ba28d51b540da3e68cdf78280b483dbce4984e522b5bc05060c09803f378"
+          },
+          {
+            "id": "counterpart:poblano-anaheim-peppers:serrano-peppers-fresh",
+            "revision": 1,
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientId": "serrano-peppers-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh serrano peppers",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "1972a0df68754aca9192f45c60dd1b7932626ac4f1f875026f94551808519168"
+          },
+          {
+            "id": "counterpart:poblano-anaheim-peppers:hatch-green-chiles-fresh",
+            "revision": 1,
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientId": "hatch-green-chiles-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Hatch green chiles",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "3e2ecea020a95f93101e0bcfcb7f0145c1ff547025ef1dfe937fa0fa6c3ad9d3"
+          },
+          {
+            "id": "counterpart:butternut-acorn-squash:butternut-squash-fresh",
+            "revision": 1,
+            "marketIngredientId": "butternut-acorn-squash",
+            "pantryIngredientId": "butternut-squash-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh butternut squash",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "bceb91ee0a4e1a2ff0f57eb7ead204d4a2d6975960241fe9d1e725c835d2a9c6"
+          },
+          {
+            "id": "counterpart:butternut-acorn-squash:acorn-squash-fresh",
+            "revision": 1,
+            "marketIngredientId": "butternut-acorn-squash",
+            "pantryIngredientId": "acorn-squash-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh acorn squash",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "662a506bc5061314de9f932057411041ce672df0e53896850d5f137a97bd127b"
+          },
+          {
+            "id": "counterpart:butternut-acorn-squash:spaghetti-squash-fresh",
+            "revision": 1,
+            "marketIngredientId": "butternut-acorn-squash",
+            "pantryIngredientId": "spaghetti-squash-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh spaghetti squash",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "1bd1357ea5a6441f3cff258d27d8c52ca43541f1dbd89fe1640fd6bb0b2b4e9f"
+          },
+          {
+            "id": "counterpart:butternut-acorn-squash:kabocha-squash-fresh",
+            "revision": 1,
+            "marketIngredientId": "butternut-acorn-squash",
+            "pantryIngredientId": "kabocha-squash-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh kabocha squash",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "934c5df8e9d66c2301075db4e41d92979b72081affcb3983f3806c9a9721fdfa"
+          },
+          {
+            "id": "counterpart:zucchini-yellow-squash:summer-squash-fresh",
+            "revision": 1,
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientId": "summer-squash-fresh",
+            "titlePolicy": "named-unprepared-summer-squash-unspecified-or-variety",
+            "foodName": "Fresh summer squash",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "4b59b5677f129c196359e88ba48d0328df5404a997fe870fbbc1920fc12ffb13"
+          },
+          {
+            "id": "counterpart:zucchini-yellow-squash:zucchini-fresh",
+            "revision": 1,
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientId": "zucchini-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh zucchini",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "20ed13676e69ed262426a38cb181b07f82c3d7727e80b653c30f9c3a8cfa2bdc"
+          },
+          {
+            "id": "counterpart:zucchini-yellow-squash:yellow-summer-squash-fresh",
+            "revision": 1,
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientId": "yellow-summer-squash-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh yellow summer squash",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "20866d658c68e23c44250471d52a4f2abb62cbd51f4e4c14e237b0aa597c96a3"
+          },
+          {
+            "id": "counterpart:apples-honeycrisp-gala:apples-fresh",
+            "revision": 1,
+            "marketIngredientId": "apples-honeycrisp-gala",
+            "pantryIngredientId": "apples-fresh",
+            "titlePolicy": "named-unprepared-apples-unspecified-or-variety",
+            "foodName": "Fresh apples",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "4a7bc2a5e480c357e5b9ed5256a229e7a544942d471ddebdc5429c0a77935541"
+          },
+          {
+            "id": "counterpart:apples-honeycrisp-gala:honeycrisp-apples-fresh",
+            "revision": 1,
+            "marketIngredientId": "apples-honeycrisp-gala",
+            "pantryIngredientId": "honeycrisp-apples-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Honeycrisp apples",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "d3a413a9ba21aefbffeabebdc4b7e7569e06f496046678051c6dbf2d10462aa6"
+          },
+          {
+            "id": "counterpart:apples-honeycrisp-gala:gala-apples-fresh",
+            "revision": 1,
+            "marketIngredientId": "apples-honeycrisp-gala",
+            "pantryIngredientId": "gala-apples-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Gala apples",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "052e1cbb74ec78838ccde997db56706cb3cfdb2ac01106934643a12ced277adc"
+          },
+          {
+            "id": "counterpart:apples-honeycrisp-gala:fuji-apples-fresh",
+            "revision": 1,
+            "marketIngredientId": "apples-honeycrisp-gala",
+            "pantryIngredientId": "fuji-apples-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Fuji apples",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "9210cf2c613e0e550e3521f12b1ba8ac79a6252f087fff7c156169c7c05f3481"
+          },
+          {
+            "id": "counterpart:apples-honeycrisp-gala:granny-smith-apples-fresh",
+            "revision": 1,
+            "marketIngredientId": "apples-honeycrisp-gala",
+            "pantryIngredientId": "granny-smith-apples-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Granny Smith apples",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "85735a0f9085f2afa36ba6bef11e3eed87074df2a938914c5fef9c62d4829865"
+          },
+          {
+            "id": "counterpart:apples-honeycrisp-gala:cosmic-crisp-apples-fresh",
+            "revision": 1,
+            "marketIngredientId": "apples-honeycrisp-gala",
+            "pantryIngredientId": "cosmic-crisp-apples-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Cosmic Crisp apples",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "933d10cbd6065e31fb3bf849c59eda08361182e655f38335605e70e6609439fc"
+          },
+          {
+            "id": "counterpart:mushrooms-cremini-white:mushrooms-white-fresh",
+            "revision": 1,
+            "marketIngredientId": "mushrooms-cremini-white",
+            "pantryIngredientId": "mushrooms-white-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh white mushrooms",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "95fff24b8ed62acd17a7d8b521a9a5817daf7ba4469b45f4e59a7842aa698195"
+          },
+          {
+            "id": "counterpart:mushrooms-cremini-white:mushrooms-cremini-fresh",
+            "revision": 1,
+            "marketIngredientId": "mushrooms-cremini-white",
+            "pantryIngredientId": "mushrooms-cremini-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh cremini mushrooms",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "5ee40b973897cb43e0e2255469ff1a33748b9087ac0ed45ba649c0c8e0218df7"
+          },
+          {
+            "id": "counterpart:tomatoes-roma-vine:tomatoes-fresh",
+            "revision": 1,
+            "marketIngredientId": "tomatoes-roma-vine",
+            "pantryIngredientId": "tomatoes-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh tomatoes",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "161fa92cb901fadd6738254a3b9fa542a2604cb9c22def99a00d0578f46ffd8c"
+          },
+          {
+            "id": "counterpart:tomatoes-roma-vine:tomatillos-fresh",
+            "revision": 1,
+            "marketIngredientId": "tomatoes-roma-vine",
+            "pantryIngredientId": "tomatillos-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh tomatillos",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "4c79a745222592e59ea6937f4f67af52032ca33cd8fe6c494dcf10eef22a2390"
+          },
+          {
+            "id": "counterpart:spinach-kale-greens:spinach-fresh",
+            "revision": 1,
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientId": "spinach-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh spinach",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "bbb8f88a283122003581464c520ad5e80cb19c539653a3ab55d1e2dc9af2c593"
+          },
+          {
+            "id": "counterpart:spinach-kale-greens:kale-fresh",
+            "revision": 1,
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientId": "kale-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh kale",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "6e5adbc56291475edcc27c9e45fbbc81c8ba1227fa690cc28b6c1ec74b05acd4"
+          },
+          {
+            "id": "counterpart:spinach-kale-greens:collard-greens-fresh",
+            "revision": 1,
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientId": "collard-greens-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh collard greens",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "33fbf971188f9cc6377ad10465602f239b0d6335e108312498faa31999d923fc"
+          },
+          {
+            "id": "counterpart:spinach-kale-greens:swiss-chard-fresh",
+            "revision": 1,
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientId": "swiss-chard-fresh",
+            "titlePolicy": "require-exact-reviewed-food-and-qualification",
+            "foodName": "Fresh Swiss chard",
+            "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+            "status": "proposed",
+            "payloadSha256": "753aa126ae913dd7d291a95ad144e4f00fb74a5c71f593a6d2a6c62db2ec8b28"
+          }
+        ]
+      },
+      "recipeUses": {
+        "formatVersion": 1,
+        "status": "proposed",
+        "blueprintHash": "94e232e02035c4b321700343e728a4f610ce6048a9375c6c5fe6e6d22453fc74",
+        "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+        "protectedMarketIngredientIds": [
+          "potatoes-russet-gold",
+          "poblano-anaheim-peppers",
+          "butternut-acorn-squash",
+          "zucchini-yellow-squash",
+          "apples-honeycrisp-gala",
+          "mushrooms-cremini-white",
+          "tomatoes-roma-vine",
+          "spinach-kale-greens"
+        ],
+        "previousScopedApprovalHash": "fab260de4573c579c0500b6d6da8932bfb225db9134761f14b7b6cb8f494918c",
+        "availabilityPolicy": "A general potato/apple/summer-squash requirement names only its generic pantry ID. Specific variants resolve through the ten reviewed one-hop edges before scoped matching. An exact No for that generic requirement blocks derived variant coverage. Other scopes explicitly list independently accepted food alternatives; an exact No removes only that food. Custom text and market group IDs never confer ownership.",
+        "integrationRequirement": "Versioned append-only scoped approvals must preserve the original approved proposal and bind each superseding row to its old hash. Apply rejected-candidate removals before complete-slot compilation, and record the exact implemented blueprint/market hashes. Extend food/form admission and market-counterpart compilation before activating this proposal. No runtime or compiler support is claimed by this research packet.",
+        "decisions": [
+          {
+            "id": "colorado-pork-green-chile-stew:stew_starch:potatoes-russet-gold",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "colorado-pork-green-chile-stew",
+            "slotKey": "stew_starch",
+            "slotLabel": "Diced Potatoes",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [
+              "potatoes-fresh"
+            ],
+            "offerFoods": [
+              "potatoes"
+            ],
+            "rationale": "The recipe explicitly prepares potatoes. Named fresh variants may meet only the generic requirement via the separately reviewed directional rules; generic No takes precedence.",
+            "status": "proposed",
+            "payloadSha256": "e390df6c502218777b5004a589b2808b6aa890f8e2c0ea8a89fa715c63c510b8"
+          },
+          {
+            "id": "colorado-pork-green-chile-stew:stew_starch:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "colorado-pork-green-chile-stew",
+            "slotKey": "stew_starch",
+            "slotLabel": "Diced Potatoes",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Legacy summer-squash candidate is not supported by the current named requirement or directions. Remove it, including the cremini-only mushroom slot; do not infer an alternative from group membership.",
+            "status": "proposed",
+            "payloadSha256": "3fcd75ef23aaa388e747a3d8be0845117f113be26098ee18200e69c26d4c12e4"
+          },
+          {
+            "id": "colorado-pork-green-chile-stew:chile_base:poblano-anaheim-peppers",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "colorado-pork-green-chile-stew",
+            "slotKey": "chile_base",
+            "slotLabel": "Roasting Chiles & Aromatics",
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientIds": [
+              "poblano-peppers-fresh",
+              "anaheim-peppers-fresh"
+            ],
+            "offerFoods": [
+              "poblano",
+              "anaheim"
+            ],
+            "rationale": "Follow the named roasting/sliced pepper preparation. Jalapeno, serrano and heat-unspecified Hatch are not bulk-volume alternatives.",
+            "status": "proposed",
+            "payloadSha256": "5fac04453f8c84f0198eadf0b9b026c8e14fd2921206ad6c94e6a203dea5d2ad"
+          },
+          {
+            "id": "colorado-pork-green-chile-stew:tomato_acid:tomatoes-roma-vine",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "colorado-pork-green-chile-stew",
+            "slotKey": "tomato_acid",
+            "slotLabel": "Tomatillos or Roma Tomatoes & Onion",
+            "marketIngredientId": "tomatoes-roma-vine",
+            "pantryIngredientIds": [
+              "tomatoes-fresh",
+              "tomatillos-fresh"
+            ],
+            "offerFoods": [
+              "tomatoes",
+              "tomatillos"
+            ],
+            "rationale": "The approved tomato-or-tomatillo requirement can now use exact tomatillo inventory. Tomato-only curry remains exact.",
+            "supersedesPayloadSha256": "d62d7d075f84fbe770c7470a1498ebccf30704d674497a6e2ec2cc7d77208989",
+            "status": "proposed",
+            "payloadSha256": "e9750b59155a7072abd40398d9a05eaf168b85f1aaaa1506fe1591739989ccf7"
+          },
+          {
+            "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:potatoes-russet-gold",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+            "slotKey": "root_starch",
+            "slotLabel": "Potatoes",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [
+              "potatoes-fresh"
+            ],
+            "offerFoods": [
+              "potatoes"
+            ],
+            "rationale": "The recipe explicitly prepares potatoes. Named fresh variants may meet only the generic requirement via the separately reviewed directional rules; generic No takes precedence.",
+            "status": "proposed",
+            "payloadSha256": "9f4f3c105567610d97c8df21444f7105df8c7fdea7dbf0732c440c2d5d4cfe4f"
+          },
+          {
+            "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:mushrooms-cremini-white",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+            "slotKey": "root_starch",
+            "slotLabel": "Potatoes",
+            "marketIngredientId": "mushrooms-cremini-white",
+            "pantryIngredientIds": [
+              "mushrooms-white-fresh",
+              "mushrooms-cremini-fresh"
+            ],
+            "offerFoods": [
+              "white-mushrooms",
+              "cremini-mushrooms"
+            ],
+            "rationale": "Add actual cremini availability to the existing approved cremini price scope; preserve all accepted white-mushroom alternatives. The cremini-only braise remains cremini-only.",
+            "supersedesPayloadSha256": "023d67b49223e199737a12d1606db33ec53ba19ec1778f66a0e12b7549cc4f22",
+            "status": "proposed",
+            "payloadSha256": "bbd8f815dc3e5cfa9afaa968a609b85d34f3c4d0642108e8e35efa758e502331"
+          },
+          {
+            "id": "dutch-oven-beef-chuck-pot-roast-stew:umami_veg:mushrooms-cremini-white",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+            "slotKey": "umami_veg",
+            "slotLabel": "Mushrooms or Celery",
+            "marketIngredientId": "mushrooms-cremini-white",
+            "pantryIngredientIds": [
+              "mushrooms-white-fresh",
+              "mushrooms-cremini-fresh"
+            ],
+            "offerFoods": [
+              "white-mushrooms",
+              "cremini-mushrooms"
+            ],
+            "rationale": "Add actual cremini availability to the existing approved cremini price scope; preserve all accepted white-mushroom alternatives. The cremini-only braise remains cremini-only.",
+            "supersedesPayloadSha256": "5f853d1e725968dc722f3850d0c2ea068c2dc6aa764cabaa79f5cfcd927db678",
+            "status": "proposed",
+            "payloadSha256": "16272fc8e4b7f37a3ddcbf616d43c26b78b5724d7528df89b8355f10f6eff387"
+          },
+          {
+            "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:potatoes-russet-gold",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+            "slotKey": "base_starch",
+            "slotLabel": "Diced Potatoes or Butternut Squash",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [
+              "potatoes-fresh"
+            ],
+            "offerFoods": [
+              "potatoes"
+            ],
+            "rationale": "The recipe explicitly prepares potatoes. Named fresh variants may meet only the generic requirement via the separately reviewed directional rules; generic No takes precedence.",
+            "status": "proposed",
+            "payloadSha256": "2f04189f1c58e6b5cd48c4d45be61d0126a5f720f8c2edc4fc65793812d2dc63"
+          },
+          {
+            "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:butternut-acorn-squash",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+            "slotKey": "base_starch",
+            "slotLabel": "Diced Potatoes or Butternut Squash",
+            "marketIngredientId": "butternut-acorn-squash",
+            "pantryIngredientIds": [
+              "butternut-squash-fresh"
+            ],
+            "offerFoods": [
+              "butternut"
+            ],
+            "rationale": "Only butternut is named in this cubed squash requirement. Acorn, spaghetti and kabocha remain market counterparts without recipe permission.",
+            "status": "proposed",
+            "payloadSha256": "89673d1a3acb10b2a022b3ef56cf0fa209cc28a2c2f3beb9640903c3b482a7e6"
+          },
+          {
+            "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+            "slotKey": "base_starch",
+            "slotLabel": "Diced Potatoes or Butternut Squash",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Legacy summer-squash candidate is not supported by the current named requirement or directions. Remove it, including the cremini-only mushroom slot; do not infer an alternative from group membership.",
+            "status": "proposed",
+            "payloadSha256": "de76657097803981be15f98b7410fc2cc305da09e410fc6922221648fe66c607"
+          },
+          {
+            "id": "southwest-sweet-potato-ground-beef-chili-bake:starch_veg:butternut-acorn-squash",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "slotKey": "starch_veg",
+            "slotLabel": "Sweet Potatoes or Butternut Squash",
+            "marketIngredientId": "butternut-acorn-squash",
+            "pantryIngredientIds": [
+              "butternut-squash-fresh"
+            ],
+            "offerFoods": [
+              "butternut"
+            ],
+            "rationale": "Only butternut is named in this cubed squash requirement. Acorn, spaghetti and kabocha remain market counterparts without recipe permission.",
+            "status": "proposed",
+            "payloadSha256": "f8bcd01dc89285a7537819468eec3b103593494d60779baf62992919b6582e72"
+          },
+          {
+            "id": "southwest-sweet-potato-ground-beef-chili-bake:starch_veg:potatoes-russet-gold",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "slotKey": "starch_veg",
+            "slotLabel": "Sweet Potatoes or Butternut Squash",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Potatoes are a legacy candidate but this slot and its directions specify sweet potatoes/butternut. Remove the candidate rather than infer an unreviewed replacement.",
+            "status": "proposed",
+            "payloadSha256": "d3a37cf25bbb0530c70eee69ab85ba30d531a87dc88096a2e86ade56496a9c7f"
+          },
+          {
+            "id": "southwest-sweet-potato-ground-beef-chili-bake:starch_veg:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "slotKey": "starch_veg",
+            "slotLabel": "Sweet Potatoes or Butternut Squash",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Legacy summer-squash candidate is not supported by the current named requirement or directions. Remove it, including the cremini-only mushroom slot; do not infer an alternative from group membership.",
+            "status": "proposed",
+            "payloadSha256": "e3c13eeac437e960209842ff0d31fb75e778e91e5cf460561b64d84af4fcc877"
+          },
+          {
+            "id": "southwest-sweet-potato-ground-beef-chili-bake:peppers_onions:poblano-anaheim-peppers",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "slotKey": "peppers_onions",
+            "slotLabel": "Peppers & Onions",
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientIds": [
+              "poblano-peppers-fresh"
+            ],
+            "offerFoods": [
+              "poblano"
+            ],
+            "rationale": "Follow the named roasting/sliced pepper preparation. Jalapeno, serrano and heat-unspecified Hatch are not bulk-volume alternatives.",
+            "status": "proposed",
+            "payloadSha256": "df2d68852ddfef0d730365da1fe51f17d1db1abead09828a945cb5e15fc9fb3b"
+          },
+          {
+            "id": "kielbasa-cabbage-apple-potato-braise:potato_base:potatoes-russet-gold",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "slotKey": "potato_base",
+            "slotLabel": "Potatoes",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [
+              "potatoes-fresh"
+            ],
+            "offerFoods": [
+              "potatoes"
+            ],
+            "rationale": "The recipe explicitly prepares potatoes. Named fresh variants may meet only the generic requirement via the separately reviewed directional rules; generic No takes precedence.",
+            "status": "proposed",
+            "payloadSha256": "a8fc6e173017967201fc147ba41f21fbb4909c7883f35597f6affb53613e868b"
+          },
+          {
+            "id": "kielbasa-cabbage-apple-potato-braise:fruit_aromatic:apples-honeycrisp-gala",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "slotKey": "fruit_aromatic",
+            "slotLabel": "Apples & Onions",
+            "marketIngredientId": "apples-honeycrisp-gala",
+            "pantryIngredientIds": [
+              "apples-fresh"
+            ],
+            "offerFoods": [
+              "apples"
+            ],
+            "rationale": "Use fresh apples for the sliced fruit aromatic. Generic and named apples share this explicitly reviewed general requirement; remove the misleading Honeycrisp-only title claim.",
+            "status": "proposed",
+            "payloadSha256": "beec6f84d77f79229e9e41f2c17ae19a5a2814dd79ff831132ae63dc3ec19d54"
+          },
+          {
+            "id": "tuscan-sausage-white-bean-spinach-potato-stew:starch_base:potatoes-russet-gold",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+            "slotKey": "starch_base",
+            "slotLabel": "Sliced Potatoes",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [
+              "potatoes-fresh"
+            ],
+            "offerFoods": [
+              "potatoes"
+            ],
+            "rationale": "The recipe explicitly prepares potatoes. Named fresh variants may meet only the generic requirement via the separately reviewed directional rules; generic No takes precedence.",
+            "status": "proposed",
+            "payloadSha256": "17d2cbb27d2af881363c72072c295a3a5cf62cfb204067b8fd4e4666dc158122"
+          },
+          {
+            "id": "tuscan-sausage-white-bean-spinach-potato-stew:starch_base:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+            "slotKey": "starch_base",
+            "slotLabel": "Sliced Potatoes",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Legacy summer-squash candidate is not supported by the current named requirement or directions. Remove it, including the cremini-only mushroom slot; do not infer an alternative from group membership.",
+            "status": "proposed",
+            "payloadSha256": "7b5f105ca5b8a72499afdba178c8aafe50eeea32408855602a76a30722b7f580"
+          },
+          {
+            "id": "tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:spinach-kale-greens",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+            "slotKey": "greens_veg",
+            "slotLabel": "Fresh Spinach or Kale",
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientIds": [
+              "spinach-fresh",
+              "kale-fresh"
+            ],
+            "offerFoods": [
+              "spinach",
+              "kale"
+            ],
+            "rationale": "Preserve the previously approved scope.",
+            "supersedesPayloadSha256": "ce5b90a30e3bdc52c14f9eb61ddb61a2385ee3eed80f9c08790c5f4ef33a099a",
+            "status": "proposed",
+            "payloadSha256": "42a542d9859085b76d1c8a159feeffc40b3cdd23f3581551b174e17f688136be"
+          },
+          {
+            "id": "tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+            "slotKey": "greens_veg",
+            "slotLabel": "Fresh Spinach or Kale",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Legacy summer-squash candidate is not supported by the current named requirement or directions. Remove it, including the cremini-only mushroom slot; do not infer an alternative from group membership.",
+            "status": "proposed",
+            "payloadSha256": "d368c0276df0c175f0c2a681c22e7f05179421c1b74b084a25e2e49c2263f340"
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:butternut-acorn-squash",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "slotKey": "squash_starch",
+            "slotLabel": "Butternut Squash or Sweet Potatoes",
+            "marketIngredientId": "butternut-acorn-squash",
+            "pantryIngredientIds": [
+              "butternut-squash-fresh"
+            ],
+            "offerFoods": [
+              "butternut"
+            ],
+            "rationale": "Only butternut is named in this cubed squash requirement. Acorn, spaghetti and kabocha remain market counterparts without recipe permission.",
+            "status": "proposed",
+            "payloadSha256": "4347a38fb31d4940634eaec7d02f7e394856b57a1226c886ed1058a3ac4dab4f"
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:potatoes-russet-gold",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "slotKey": "squash_starch",
+            "slotLabel": "Butternut Squash or Sweet Potatoes",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Potatoes are a legacy candidate but this slot and its directions specify sweet potatoes/butternut. Remove the candidate rather than infer an unreviewed replacement.",
+            "status": "proposed",
+            "payloadSha256": "3be76545e605b1df1b951bddb34fd8d870ddb0ab597c09c6abdea74827d72142"
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "slotKey": "squash_starch",
+            "slotLabel": "Butternut Squash or Sweet Potatoes",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Legacy summer-squash candidate is not supported by the current named requirement or directions. Remove it, including the cremini-only mushroom slot; do not infer an alternative from group membership.",
+            "status": "proposed",
+            "payloadSha256": "c6bc03f1426fa0ec5d4178bad9faa424ef5951a5cb9f1494500cc4cdec56b01c"
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:aromatics_tomato:tomatoes-roma-vine",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "slotKey": "aromatics_tomato",
+            "slotLabel": "Onions & Roma Tomatoes / Bell Peppers",
+            "marketIngredientId": "tomatoes-roma-vine",
+            "pantryIngredientIds": [
+              "tomatoes-fresh"
+            ],
+            "offerFoods": [
+              "tomatoes"
+            ],
+            "rationale": "Preserve the previously approved scope.",
+            "supersedesPayloadSha256": "73d9e732da13dfee21be9016f67646076738532dedb5a795217749f30186bd2f",
+            "status": "proposed",
+            "payloadSha256": "a27e7cae1b0c95dfcb1c0e131cc93ac68d041f58b324a4510fa5d6d03dfb8409"
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:greens_veg:spinach-kale-greens",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "slotKey": "greens_veg",
+            "slotLabel": "Spinach or Cauliflower",
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientIds": [
+              "spinach-fresh"
+            ],
+            "offerFoods": [
+              "spinach"
+            ],
+            "rationale": "Preserve the previously approved scope.",
+            "supersedesPayloadSha256": "9ff94427f18f9dc565b970290f5ece8cfeba410f7eb32ae8a004e62ad19167a0",
+            "status": "proposed",
+            "payloadSha256": "4e997eddc4ca8ac3c7d9b540fe62b4482ca9add677bc1ffd55fab9ce076c95bc"
+          },
+          {
+            "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:potatoes-russet-gold",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "slotKey": "hash_base",
+            "slotLabel": "Potatoes or Sweet Potatoes",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [
+              "potatoes-fresh"
+            ],
+            "offerFoods": [
+              "potatoes"
+            ],
+            "rationale": "The recipe explicitly prepares potatoes. Named fresh variants may meet only the generic requirement via the separately reviewed directional rules; generic No takes precedence.",
+            "status": "proposed",
+            "payloadSha256": "2732587b993554e9adde025ac63852101b9401be261baea2a89bec9c51c877bc"
+          },
+          {
+            "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:mushrooms-cremini-white",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "slotKey": "hash_base",
+            "slotLabel": "Potatoes or Sweet Potatoes",
+            "marketIngredientId": "mushrooms-cremini-white",
+            "pantryIngredientIds": [
+              "mushrooms-white-fresh",
+              "mushrooms-cremini-fresh"
+            ],
+            "offerFoods": [
+              "white-mushrooms",
+              "cremini-mushrooms"
+            ],
+            "rationale": "Add actual cremini availability to the existing approved cremini price scope; preserve all accepted white-mushroom alternatives. The cremini-only braise remains cremini-only.",
+            "supersedesPayloadSha256": "66d769a0894ee2d097e268545007e713c20a719e75e5c24e6e6df60b84d87ef5",
+            "status": "proposed",
+            "payloadSha256": "8ea262e1f94650b76d5e5ddba55a9667088aae6ee8cb8784636082459558978d"
+          },
+          {
+            "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "slotKey": "hash_base",
+            "slotLabel": "Potatoes or Sweet Potatoes",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [
+              "summer-squash-fresh"
+            ],
+            "offerFoods": [
+              "summer-squash",
+              "zucchini",
+              "yellow-summer-squash"
+            ],
+            "rationale": "Explicitly review the generic same-form summer-squash alternative with diced/sliced preparation in the exact instruction patch; varieties cover only the generic requirement via reviewed edges.",
+            "status": "proposed",
+            "payloadSha256": "715fdfcc5df3559f212d7a46e8aeb9bcd960226a68bc00ae16ca552c014e0594"
+          },
+          {
+            "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:spinach-kale-greens",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "slotKey": "hash_base",
+            "slotLabel": "Potatoes or Sweet Potatoes",
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientIds": [
+              "spinach-fresh",
+              "kale-fresh"
+            ],
+            "offerFoods": [
+              "spinach",
+              "kale"
+            ],
+            "rationale": "Preserve the previously approved scope.",
+            "supersedesPayloadSha256": "a65fa74727fa0c5b5af051bd1bcd1cf00169936be968be11f394fc65d7df8964",
+            "status": "proposed",
+            "payloadSha256": "f2c158d1e7f5ff7be9f2a58f22287a9206371b88ee7c825bb14ea3eb20c2f8b8"
+          },
+          {
+            "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:pepper_veg:poblano-anaheim-peppers",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "slotKey": "pepper_veg",
+            "slotLabel": "Poblanos, Bell Peppers & Onions",
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientIds": [
+              "poblano-peppers-fresh"
+            ],
+            "offerFoods": [
+              "poblano"
+            ],
+            "rationale": "Follow the named roasting/sliced pepper preparation. Jalapeno, serrano and heat-unspecified Hatch are not bulk-volume alternatives.",
+            "status": "proposed",
+            "payloadSha256": "806c30ce5a4021618cc7688b1774648cb8ac37a15bfba11f765f340eed06006f"
+          },
+          {
+            "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:peppers_aromatics:poblano-anaheim-peppers",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+            "slotKey": "peppers_aromatics",
+            "slotLabel": "Bell Peppers, Poblanos & Onions",
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientIds": [
+              "poblano-peppers-fresh"
+            ],
+            "offerFoods": [
+              "poblano"
+            ],
+            "rationale": "Follow the named roasting/sliced pepper preparation. Jalapeno, serrano and heat-unspecified Hatch are not bulk-volume alternatives.",
+            "status": "proposed",
+            "payloadSha256": "943a9a1040fef893af844349480dbb358034e420ec8814d5fdac19deae4f8746"
+          },
+          {
+            "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:roast_veg:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+            "slotKey": "roast_veg",
+            "slotLabel": "Sweet Potatoes or Broccoli/Zucchini",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [
+              "summer-squash-fresh"
+            ],
+            "offerFoods": [
+              "summer-squash",
+              "zucchini",
+              "yellow-summer-squash"
+            ],
+            "rationale": "Explicitly review the generic same-form summer-squash alternative with diced/sliced preparation in the exact instruction patch; varieties cover only the generic requirement via reviewed edges.",
+            "status": "proposed",
+            "payloadSha256": "9bd45bd0b92d28d8ec66466220da1cea61710f9db3ba6fba7c80801a1b7fbade"
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:umami_mushrooms:mushrooms-cremini-white",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "slotKey": "umami_mushrooms",
+            "slotLabel": "Cremini / Baby Bella Mushrooms",
+            "marketIngredientId": "mushrooms-cremini-white",
+            "pantryIngredientIds": [
+              "mushrooms-cremini-fresh"
+            ],
+            "offerFoods": [
+              "cremini-mushrooms"
+            ],
+            "rationale": "Add actual cremini availability to the existing approved cremini price scope; preserve all accepted white-mushroom alternatives. The cremini-only braise remains cremini-only.",
+            "supersedesPayloadSha256": "043e678b40ad87f51507e3d200306035d809fa2d7f6b2496eba722bc5f8d850b",
+            "status": "proposed",
+            "payloadSha256": "37498b6e01c2f3497fa16e3a37887f9972d82525a8e86b711b146ee0c55de37c"
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:umami_mushrooms:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "slotKey": "umami_mushrooms",
+            "slotLabel": "Cremini / Baby Bella Mushrooms",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "Legacy summer-squash candidate is not supported by the current named requirement or directions. Remove it, including the cremini-only mushroom slot; do not infer an alternative from group membership.",
+            "status": "proposed",
+            "payloadSha256": "6b6352b84b393ef0480c4686c4c412327f5c62ca6fd38eba222dd22930c99f44"
+          },
+          {
+            "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:potatoes-russet-gold",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+            "slotKey": "side_starch",
+            "slotLabel": "Potatoes or Zucchini/Squash",
+            "marketIngredientId": "potatoes-russet-gold",
+            "pantryIngredientIds": [
+              "potatoes-fresh"
+            ],
+            "offerFoods": [
+              "potatoes"
+            ],
+            "rationale": "The recipe explicitly prepares potatoes. Named fresh variants may meet only the generic requirement via the separately reviewed directional rules; generic No takes precedence.",
+            "status": "proposed",
+            "payloadSha256": "0afe1b8b47fd573276c1f92e8cc9b16f5da084444e2559c36a351e3632008dd5"
+          },
+          {
+            "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:zucchini-yellow-squash",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+            "slotKey": "side_starch",
+            "slotLabel": "Potatoes or Zucchini/Squash",
+            "marketIngredientId": "zucchini-yellow-squash",
+            "pantryIngredientIds": [
+              "summer-squash-fresh"
+            ],
+            "offerFoods": [
+              "summer-squash",
+              "zucchini",
+              "yellow-summer-squash"
+            ],
+            "rationale": "Explicitly review the generic same-form summer-squash alternative with diced/sliced preparation in the exact instruction patch; varieties cover only the generic requirement via reviewed edges.",
+            "status": "proposed",
+            "payloadSha256": "14f1e1cec653c9e8bce3d81e83fbab659060df1949ef6bfa80c8cef6dc6429b9"
+          },
+          {
+            "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:spinach-kale-greens",
+            "revision": 2,
+            "action": "allow",
+            "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+            "slotKey": "side_starch",
+            "slotLabel": "Potatoes or Zucchini/Squash",
+            "marketIngredientId": "spinach-kale-greens",
+            "pantryIngredientIds": [
+              "spinach-fresh",
+              "kale-fresh"
+            ],
+            "offerFoods": [
+              "spinach",
+              "kale"
+            ],
+            "rationale": "Preserve the previously approved scope.",
+            "supersedesPayloadSha256": "d7f65601b6f34bfe294005109ed60849670f13bc0e7660283b0bb427a1953084",
+            "status": "proposed",
+            "payloadSha256": "a04080b8ad3102716dc25a7014c9df2eb0536ec07ee7962709d0146d870d9b84"
+          },
+          {
+            "id": "instant-pot-pork-carnitas-cabbage-peppers-skillet:peppers_onions:poblano-anaheim-peppers",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+            "slotKey": "peppers_onions",
+            "slotLabel": "Poblanos, Bell Peppers & Onions",
+            "marketIngredientId": "poblano-anaheim-peppers",
+            "pantryIngredientIds": [
+              "poblano-peppers-fresh"
+            ],
+            "offerFoods": [
+              "poblano"
+            ],
+            "rationale": "Follow the named roasting/sliced pepper preparation. Jalapeno, serrano and heat-unspecified Hatch are not bulk-volume alternatives.",
+            "status": "proposed",
+            "payloadSha256": "5cda13d3301a7e5d00af0609f09a227197a684cdfcb8ce0b797e7d5a7602862b"
+          }
+        ],
+        "instructionAndTitlePatches": [
+          {
+            "id": "instruction:cheesy-chicken-broccoli-potato-casserole:0",
+            "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Preheat oven to 400°F. Toss ½-inch cubed potatoes and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.",
+            "after": "Preheat oven to 400°F. Toss ½-inch cubed potatoes (or butternut squash) and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.",
+            "status": "proposed",
+            "payloadSha256": "02ae7d944cffa745e3a1619624cf5507dd5607df94f51d6f2599ba4bca62245b"
+          },
+          {
+            "id": "instruction:southwest-sweet-potato-ground-beef-chili-bake:1",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "field": "steps",
+            "stepIndex": 1,
+            "before": "Add peeled ½-inch cubed sweet potatoes, canned crushed tomatoes, black beans, spices, and 1.5 cups water or broth.",
+            "after": "Add peeled ½-inch cubed sweet potatoes (or butternut squash), canned crushed tomatoes, black beans, spices, and 1.5 cups water or broth.",
+            "status": "proposed",
+            "payloadSha256": "23f1f1c48891559213f78020c7adf24aabc6aca8296229c5692fc107c9ff42cd"
+          },
+          {
+            "id": "instruction:southwest-sweet-potato-ground-beef-chili-bake:2",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "field": "steps",
+            "stepIndex": 2,
+            "before": "Simmer covered for 25–30 minutes until sweet potatoes are fork-tender and chili is thick and rich.",
+            "after": "Simmer covered for 25–30 minutes until the selected sweet potatoes or butternut squash are fork-tender and chili is thick and rich.",
+            "status": "proposed",
+            "payloadSha256": "cbe5e8e081c826f98a8b3205f3dac1f3b0da3f151fc5265483ca032eb0d98f82"
+          },
+          {
+            "id": "instruction:high-protein-sausage-egg-sweet-potato-breakfast-casserole:0",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms/zucchini for keto) and diced peppers/onions in a skillet for 10 minutes until tender. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.",
+            "after": "Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable base) and diced peppers/onions in a skillet for 10 minutes until tender. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.",
+            "status": "proposed",
+            "payloadSha256": "856e0c9f3009c05b178746bf291b0fa7da7bd2355792bab7ae06131120ef4fa7"
+          },
+          {
+            "id": "instruction:sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:1",
+            "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+            "field": "steps",
+            "stepIndex": 1,
+            "before": "Toss cubed sweet potatoes (or broccoli/zucchini for keto) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.",
+            "after": "Toss cubed sweet potatoes (or broccoli or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable replacement) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.",
+            "status": "proposed",
+            "payloadSha256": "a46f6cbf31804ebec5aaf2aed486672b50309556f387f981421a94bae16abac4"
+          },
+          {
+            "id": "instruction:sheet-pan-salmon-asparagus-brussels-potato-roast:0",
+            "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes/zucchini on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.",
+            "after": "Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.",
+            "status": "proposed",
+            "payloadSha256": "33882f4bc1eef8dab9475df0cda0c18568a0330fb74eabd8b2192e3f44f67fd9"
+          },
+          {
+            "id": "title:kielbasa-cabbage-apple-potato-braise",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "field": "title",
+            "before": "Bavarian Smoked Kielbasa, Braised Cabbage, Honeycrisp Apple & Potato Skillet",
+            "after": "Bavarian Smoked Kielbasa, Braised Cabbage, Apple & Potato Skillet",
+            "status": "proposed",
+            "payloadSha256": "5b1d8486287b4d807d6fa001370da807db97d92e979cc345be59faa703b88050"
+          }
+        ],
+        "candidateRemovals": [
+          {
+            "id": "colorado-pork-green-chile-stew:stew_starch:zucchini-yellow-squash",
+            "before": {
+              "candidateIngredientIds": [
+                "potatoes-russet-gold"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower",
+                "zucchini-yellow-squash",
+                "green-cabbage"
+              ]
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "potatoes-russet-gold"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower",
+                "green-cabbage"
+              ]
+            }
+          },
+          {
+            "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:zucchini-yellow-squash",
+            "before": {
+              "candidateIngredientIds": [
+                "potatoes-russet-gold",
+                "sweet-potatoes",
+                "butternut-acorn-squash"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower",
+                "zucchini-yellow-squash"
+              ]
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "potatoes-russet-gold",
+                "sweet-potatoes",
+                "butternut-acorn-squash"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower"
+              ]
+            }
+          },
+          {
+            "id": "southwest-sweet-potato-ground-beef-chili-bake:starch_veg:potatoes-russet-gold",
+            "before": {
+              "candidateIngredientIds": [
+                "sweet-potatoes",
+                "butternut-acorn-squash",
+                "potatoes-russet-gold"
+              ],
+              "lowCarbCandidateIds": [
+                "zucchini-yellow-squash",
+                "bell-peppers"
+              ]
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "sweet-potatoes",
+                "butternut-acorn-squash"
+              ],
+              "lowCarbCandidateIds": [
+                "zucchini-yellow-squash",
+                "bell-peppers"
+              ]
+            }
+          },
+          {
+            "id": "southwest-sweet-potato-ground-beef-chili-bake:starch_veg:zucchini-yellow-squash",
+            "before": {
+              "candidateIngredientIds": [
+                "sweet-potatoes",
+                "butternut-acorn-squash"
+              ],
+              "lowCarbCandidateIds": [
+                "zucchini-yellow-squash",
+                "bell-peppers"
+              ]
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "sweet-potatoes",
+                "butternut-acorn-squash"
+              ],
+              "lowCarbCandidateIds": [
+                "bell-peppers"
+              ]
+            }
+          },
+          {
+            "id": "tuscan-sausage-white-bean-spinach-potato-stew:starch_base:zucchini-yellow-squash",
+            "before": {
+              "candidateIngredientIds": [
+                "potatoes-russet-gold"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower",
+                "zucchini-yellow-squash"
+              ]
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "potatoes-russet-gold"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower"
+              ]
+            }
+          },
+          {
+            "id": "tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:zucchini-yellow-squash",
+            "before": {
+              "candidateIngredientIds": [
+                "spinach-kale-greens",
+                "zucchini-yellow-squash"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "spinach-kale-greens"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:potatoes-russet-gold",
+            "before": {
+              "candidateIngredientIds": [
+                "butternut-acorn-squash",
+                "sweet-potatoes",
+                "potatoes-russet-gold"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower",
+                "zucchini-yellow-squash"
+              ]
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "butternut-acorn-squash",
+                "sweet-potatoes"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower",
+                "zucchini-yellow-squash"
+              ]
+            }
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:zucchini-yellow-squash",
+            "before": {
+              "candidateIngredientIds": [
+                "butternut-acorn-squash",
+                "sweet-potatoes"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower",
+                "zucchini-yellow-squash"
+              ]
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "butternut-acorn-squash",
+                "sweet-potatoes"
+              ],
+              "lowCarbCandidateIds": [
+                "broccoli-cauliflower"
+              ]
+            }
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:umami_mushrooms:zucchini-yellow-squash",
+            "before": {
+              "candidateIngredientIds": [
+                "mushrooms-cremini-white",
+                "zucchini-yellow-squash"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "mushrooms-cremini-white"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          }
+        ],
+        "proposedImplementedBlueprintHash": "c1d1cacc29d2116dbda0d10e7a84a30c995b9fa7a4203855cffbd317cd34bf7f"
+      },
+      "offerCases": {
+        "availabilityCases": [
+          {
+            "kind": "coverage",
+            "positives": [
+              "russet-potatoes-fresh"
+            ],
+            "negatives": [],
+            "requiredId": "potatoes-fresh",
+            "expected": true
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "potatoes-fresh"
+            ],
+            "negatives": [],
+            "requiredId": "russet-potatoes-fresh",
+            "expected": false
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "russet-potatoes-fresh"
+            ],
+            "negatives": [
+              "potatoes-fresh"
+            ],
+            "requiredId": "potatoes-fresh",
+            "expected": false
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "gala-apples-fresh"
+            ],
+            "negatives": [],
+            "requiredId": "apples-fresh",
+            "expected": true
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "apples-fresh"
+            ],
+            "negatives": [
+              "gala-apples-fresh"
+            ],
+            "requiredId": "apples-fresh",
+            "expected": true
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "spaghetti-squash-fresh"
+            ],
+            "negatives": [],
+            "requiredId": "butternut-squash-fresh",
+            "expected": false
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "jalapeno-peppers-fresh"
+            ],
+            "negatives": [],
+            "requiredId": "poblano-peppers-fresh",
+            "expected": false
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "collard-greens-fresh"
+            ],
+            "negatives": [],
+            "requiredId": "spinach-fresh",
+            "expected": false
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "yellow-summer-squash-fresh"
+            ],
+            "negatives": [],
+            "requiredId": "summer-squash-fresh",
+            "expected": true
+          },
+          {
+            "kind": "coverage",
+            "positives": [
+              "yellow-summer-squash-fresh"
+            ],
+            "negatives": [
+              "summer-squash-fresh"
+            ],
+            "requiredId": "summer-squash-fresh",
+            "expected": false
+          }
+        ],
+        "offerCases": [
+          {
+            "title": "Russet potatoes 5 lb bag",
+            "counterpartIds": [
+              "potatoes-fresh",
+              "russet-potatoes-fresh"
+            ],
+            "recipeFood": "potatoes",
+            "admit": true
+          },
+          {
+            "title": "Gold potatoes 5 lb bag",
+            "counterpartIds": [
+              "potatoes-fresh"
+            ],
+            "excludedIds": [
+              "yukon-gold-potatoes-fresh"
+            ],
+            "recipeFood": "potatoes",
+            "admit": true
+          },
+          {
+            "title": "Yukon Gold potatoes 5 lb bag",
+            "counterpartIds": [
+              "potatoes-fresh",
+              "yukon-gold-potatoes-fresh"
+            ],
+            "recipeFood": "potatoes",
+            "admit": true
+          },
+          {
+            "title": "Frozen diced potatoes",
+            "counterpartIds": [],
+            "recipeFood": "potatoes",
+            "admit": false
+          },
+          {
+            "title": "Gala apples",
+            "counterpartIds": [
+              "apples-fresh",
+              "gala-apples-fresh"
+            ],
+            "recipeFood": "apples",
+            "admit": true
+          },
+          {
+            "title": "Gala apple juice",
+            "counterpartIds": [],
+            "recipeFood": "apples",
+            "admit": false
+          },
+          {
+            "title": "Baby bella mushrooms",
+            "counterpartIds": [
+              "mushrooms-cremini-fresh"
+            ],
+            "recipeFood": "cremini-mushrooms",
+            "admit": true
+          },
+          {
+            "title": "White mushrooms",
+            "counterpartIds": [
+              "mushrooms-white-fresh"
+            ],
+            "recipeFood": "cremini-mushrooms",
+            "admit": false
+          },
+          {
+            "title": "Tomatillos",
+            "counterpartIds": [
+              "tomatillos-fresh"
+            ],
+            "recipeFood": "tomatillos",
+            "admit": true
+          },
+          {
+            "title": "Tomatillo salsa verde",
+            "counterpartIds": [],
+            "recipeFood": "tomatillos",
+            "admit": false
+          },
+          {
+            "title": "Fresh jalapeno peppers",
+            "counterpartIds": [
+              "jalapeno-peppers-fresh"
+            ],
+            "recipeFood": "poblano",
+            "admit": false
+          },
+          {
+            "title": "Fresh mild Hatch green chiles",
+            "counterpartIds": [
+              "hatch-green-chiles-fresh"
+            ],
+            "recipeFood": "poblano",
+            "admit": false
+          },
+          {
+            "title": "Pasilla peppers",
+            "counterpartIds": [],
+            "recipeFood": "poblano",
+            "admit": false
+          },
+          {
+            "title": "Spaghetti squash",
+            "counterpartIds": [
+              "spaghetti-squash-fresh"
+            ],
+            "recipeFood": "butternut",
+            "admit": false
+          },
+          {
+            "title": "Fresh collard greens",
+            "counterpartIds": [
+              "collard-greens-fresh"
+            ],
+            "recipeFood": "spinach",
+            "admit": false
+          },
+          {
+            "title": "Zucchini and yellow summer squash choice",
+            "counterpartIds": [],
+            "recipeFood": "summer-squash",
+            "admit": false
+          },
+          {
+            "title": "Yellow summer squash",
+            "counterpartIds": [
+              "summer-squash-fresh",
+              "yellow-summer-squash-fresh"
+            ],
+            "recipeFood": "summer-squash",
+            "admit": true
+          }
+        ],
+        "offerCasesStatus": "EXACT_REVIEW_EXPECTATIONS_IMPLEMENTATION_NOT_PRESENT",
+        "crossStoreRequirements": [
+          "Filter each original offer before selecting cheapest per store.",
+          "A rejected cheaper sibling must not hide a valid higher-priced same-store offer.",
+          "Preserve selected store pool and label cross-store estimates unverified.",
+          "Pickup search must retain the selected food noun.",
+          "Test every supported store fallback and shared food-noun titles."
+        ]
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "065a646fd34c1e434e273fb83777cede321d525fb6b27e6465699fdf89be05ed"
+      }
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "status": "LOCAL_INTEGRATION_VALIDATED_HOSTED_ROLLOUT_PENDING",
+  "validatedOn": "2026-11-07",
+  "catalogVersion": "2026-11-07.1",
+  "contentHash": "b4fc3fd02dcb7bb5aee95199a6f9c959c385dcc13a21f7980554a90df232b62b",
+  "parentVersion": "2026-11-06.5",
+  "counts": {
+    "ingredients": 171,
+    "approvedIngredientDecisions": 185,
+    "newIdentities": 26,
+    "identitySourceLinks": 144,
+    "generalReferenceLinks": 5,
+    "sourceLinkedIdentities": 143,
+    "withoutSourceLinks": 28,
+    "marketCounterparts": 30,
+    "scopedRecipeUses": 41,
+    "searchFixtures": 260,
+    "retainedViews": 8,
+    "marketGroupsWithCounterparts": 25,
+    "marketGroupsRemaining": 10
+  },
+  "checks": {
+    "exactUnchangedApprovedPayloads": true,
+    "priorApprovalsAndAcceptedIdsPreserved": true,
+    "noNewFixedPricesOrGlobalRecipeLinks": true,
+    "deterministicFullSourceReplay": true,
+    "sourceSnapshotUnchanged": true,
+    "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+    "approvedHoldStillValid": true,
+    "noQuarantinedSourceAssigned": true,
+    "allNamesAliasesAndOptionalChoicesReachable": true,
+    "broadQueriesDoNotTruncate": {
+      "beans": 12,
+      "flour": 11,
+      "potatoes": 2,
+      "apples": 1,
+      "squash": 5,
+      "chiles": 5,
+      "peppers": 6,
+      "mushrooms": 2,
+      "greens": 4
+    },
+    "allEightRetainedViewsExact": true,
+    "exactNineCandidateRemovalsAndSevenTextEdits": true,
+    "implementedBlueprintHash": "c1d1cacc29d2116dbda0d10e7a84a30c995b9fa7a4203855cffbd317cd34bf7f",
+    "marketCounterpartsHash": "b5beddc4537c66303bee57fd0081de79e67d1de0abaceaf45af2b7b28ef5cf46",
+    "scopedRecipeUsesHash": "2aa51682e488d438f581015cd1c4fb177aca39e9d602b83afb39b8390ba6cc6c",
+    "offerCasesExecuted": 17,
+    "all29AllowedScopesExecuted": true,
+    "allNineRejectedCandidatesRemoved": true,
+    "genericNoPrecedenceAndCustomBoundaries": true,
+    "savedRecipeRepricingAndContextChecks": true,
+    "sixSupportedStoresAndOriginalOfferRecovery": true,
+    "selectedStorePoolAndPickupNounsPreserved": true,
+    "newDatabaseMigration": "20261107144458_pantry_market_produce.sql",
+    "additiveMigrationIdempotentAndOwnerIsolated": true
+  },
+  "localChecks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unitTests": 430,
+    "smokeTests": 28,
+    "regressionTests": 37,
+    "catalogProjectionAndMarketAudit": "passed",
+    "productionBuild": "passed"
+  },
+  "remainingMarketGroups": [
+    {
+      "id": "chicken-thighs-bone-in",
+      "name": "Bone-In Chicken Thighs / Drumsticks"
+    },
+    {
+      "id": "pork-loin-roast-chops",
+      "name": "Boneless Pork Loin / Center Cut Chops"
+    },
+    {
+      "id": "beef-chuck-roast",
+      "name": "Beef Chuck Roast / Pot Roast / Stew Meat"
+    },
+    {
+      "id": "italian-pork-sausage",
+      "name": "Italian Sausage / Ground Pork / Chorizo"
+    },
+    {
+      "id": "smoked-sausage-kielbasa",
+      "name": "Smoked Sausage / Andouille / Kielbasa"
+    },
+    {
+      "id": "sirloin-strip-steak",
+      "name": "Beef New York Strip / Top Sirloin Steak"
+    },
+    {
+      "id": "salmon-fillets",
+      "name": "Atlantic or Wild Sockeye Salmon Fillets"
+    },
+    {
+      "id": "shredded-block-cheese",
+      "name": "Shredded or Block Cheese (Cheddar, Jack, Mozzarella)"
+    },
+    {
+      "id": "cottage-cheese-sour-cream",
+      "name": "Cottage Cheese or Sour Cream (16–24 oz Tub)"
+    },
+    {
+      "id": "greek-yogurt-tub",
+      "name": "Plain or Vanilla Greek Yogurt (32 oz Tub)"
+    }
+  ],
+  "hostedMigrationsApplied": false,
+  "productionReleased": false,
+  "pendingGates": [
+    "Feature PR CI, Preview and completed Codex review",
+    "Hosted accepted-ID migration and account readiness verification",
+    "Remaining protein/dairy batches and qualification findings",
+    "Final v1.6.1 scope/audit/release workflow",
+    "Five non-market scope choices remain proposed; they do not defer required market coverage"
+  ]
+}

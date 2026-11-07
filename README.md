@@ -12,7 +12,7 @@ A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) pr
 
 ## Next: v1.6.1 — Pantry Catalog Expansion
 
-The next release prioritizes pantry catalog expansion before speech entry. The approved batches compile to 145 identities, including seven fresh vegetables and 22 scoped recipe uses. The [final catalog audit](docs/research/v1.6.1-final-catalog-audit.md) closes the original research shortlist and records 53 approved provenance/curation decisions, integrated as catalog `2026-11-06.5` with 122 source-linked identities. The maintainer requires coverage gaps in 15 unmatched and three partially covered market groups to be closed before release; the final ingredient count remains open. The [plan](docs/specs/v1.6.1-pantry-catalog-expansion.md) tracks exact review, integration, hosted activation and release work still required.
+The next release prioritizes pantry catalog expansion before speech entry. The approved batches compile to 171 identities in catalog `2026-11-07.1`, with 143 source-linked identities, 30 independent market counterpart associations and 41 scoped recipe uses. The [produce review](docs/research/v1.6.1-market-produce-review.md) closes five unmatched and three partial produce groups. The [market completion plan](docs/specs/v1.6.1-market-coverage.md) tracks the seven protein and three dairy groups still required before release, plus existing offer-qualification findings. Hosted registry rollout, final release audit and release preparation remain pending.
 
 ## Key Features (`v1.6.0`)
 
