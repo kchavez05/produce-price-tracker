@@ -133,9 +133,11 @@ describe('approved market produce integration', () => {
     const market = commodity(use, [['Sweet potatoes', 1, 'KING_SOOPERS'], ['Russet potatoes', 2, 'SAFEWAY']]);
     expect(scopedRecipeCommodity(use, market)).toBeUndefined();
     expect(scopedRecipeCommodity(use, { ...market, recipeStorePool: ['SAFEWAY'] })!.bestOffer.store).toBe('SAFEWAY');
-    for (const title of ['Frozen potatoes', 'Mashed potatoes', 'Potato flakes', 'Potato chips', 'Potato plant seeds', 'Russet or red potatoes']) expect(recipeOfferAllowed(use, title)).toBe(false);
+    for (const title of ['Frozen potatoes', 'Mashed potatoes', 'Potato flakes', 'Potato chips', 'Potato plant seeds', 'Potato hash browns', 'Potato French fries', 'Russet or red potatoes']) expect(recipeOfferAllowed(use, title)).toBe(false);
     expect(recipeOfferAllowed(use, 'Russet potatoes 1/2 lb')).toBe(true);
     expect(marketCounterpartIds('poblano-anaheim-peppers', 'Serrano ham')).toEqual([]);
+    expect(marketCounterpartIds('apples-honeycrisp-gala', 'Caramel apples')).toEqual([]);
+    expect(marketCounterpartIds('tomatoes-roma-vine', 'Tomatillo relish')).toEqual([]);
     expect(marketCounterpartIds('zucchini-yellow-squash', 'Zucchini yellow summer squash')).toEqual([]);
     expect(marketCounterpartIds('spinach-kale-greens', 'Spinach kale')).toEqual([]);
     expect(marketCounterpartIds('poblano-anaheim-peppers', 'Hatch Farms')).toEqual([]);

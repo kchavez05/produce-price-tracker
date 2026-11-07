@@ -42,7 +42,7 @@ export function offerFoodSearchTerm(title: string): string | undefined {
 }
 
 /** Reject incompatible produce forms before identifying a precise food or recipe quote. */
-export const INCOMPATIBLE_PRODUCE = /\b(?:frozen|canned|tinned|dried|dehydrated|powder(?:ed)?|juice[ds]?|cider|soups?|dips?|sauces?|paste|ketchup|crusts?|tots?|riced|rice|slaw|salads?|cooked|roasted|grilled|pickled|cream(?:ed)?|pasta|ravioli|tortellini|gnocchi|lasagna|pizza|smoothies?|chips?|puree|pureed|salsa|stir[ -]?fry|medley|mix(?:ed)?|blend|cakes?|breads?|muffins?|cookies?|bagels?|wraps?|tortillas?|quiche|casserole|hummus|glaz(?:e|ed)|caramelized|saut[eé](?:ed)?|steamable|stuffed|mashed|flakes?|butter|candied|chocolate|pies?|burgers?|patties|seeds?|plants?|New Zealand)\b/i;
+export const INCOMPATIBLE_PRODUCE = /\b(?:frozen|canned|tinned|dried|dehydrated|powder(?:ed)?|juice[ds]?|cider|soups?|dips?|sauces?|paste|ketchup|crusts?|tots?|riced|rice|slaw|salads?|cooked|roasted|grilled|pickled|cream(?:ed)?|pasta|ravioli|tortellini|gnocchi|lasagna|pizza|smoothies?|chips?|puree|pureed|salsa|stir[ -]?fry|medley|mix(?:ed)?|blend|cakes?|breads?|muffins?|cookies?|bagels?|wraps?|tortillas?|quiche|casserole|hummus|glaz(?:e|ed)|caramelized|saut[eé](?:ed)?|steamable|stuffed|mashed|flakes?|butter|cand(?:y|ied)|caramel(?:ized)?|chocolate|pies?|burgers?|patties|fries|hash[ -]?browns?|latkes?|poppers?|relish|chutney|jams?|jell(?:y|ies)|preserves?|seasoning|extract|concentrate|seeds?|plants?|New Zealand)\b/i;
 export function stripProduceOfferBrand(title: string): string {
   return title.replace(/[®™]/g, '').trim().replace(/^(?:kroger|signature(?:\s+farms)?|simple\s+truth|aldi(?:\s+fresh)?|great\s+value|sprouts(?:\s+farm\s+fresh)?|good\s*&\s*gather)\b\s*/i, '');
 }
