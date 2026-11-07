@@ -1,0 +1,472 @@
+{
+  "availabilityCases": [
+    {
+      "positives": [
+        "atlantic-salmon-fillets-raw"
+      ],
+      "negatives": [],
+      "requiredId": "salmon-fillets-raw",
+      "expected": true
+    },
+    {
+      "positives": [
+        "salmon-fillets-raw"
+      ],
+      "negatives": [],
+      "requiredId": "sockeye-salmon-fillets-raw",
+      "expected": false
+    },
+    {
+      "positives": [
+        "coho-salmon-fillets-raw"
+      ],
+      "negatives": [
+        "salmon-fillets-raw"
+      ],
+      "requiredId": "salmon-fillets-raw",
+      "expected": false
+    },
+    {
+      "positives": [
+        "salmon-fillets-raw"
+      ],
+      "negatives": [
+        "coho-salmon-fillets-raw"
+      ],
+      "requiredId": "salmon-fillets-raw",
+      "expected": true
+    },
+    {
+      "positives": [
+        "chicken-thighs-bone-in-raw"
+      ],
+      "negatives": [],
+      "requiredId": "chicken-thighs-boneless",
+      "expected": false
+    },
+    {
+      "positives": [
+        "pork-tenderloin-raw"
+      ],
+      "negatives": [],
+      "requiredId": "pork-loin-roast-boneless-raw",
+      "expected": false
+    },
+    {
+      "positives": [
+        "beef-stew-meat-raw"
+      ],
+      "negatives": [],
+      "requiredId": "beef-chuck-roast-boneless-raw",
+      "expected": false
+    },
+    {
+      "positives": [
+        "kielbasa-raw"
+      ],
+      "negatives": [],
+      "requiredId": "kielbasa-fully-cooked",
+      "expected": false
+    },
+    {
+      "positives": [
+        "pork-chorizo-raw"
+      ],
+      "negatives": [],
+      "requiredId": "ground-pork-raw",
+      "expected": false
+    },
+    {
+      "positives": [
+        "beef-top-sirloin-steak-raw"
+      ],
+      "negatives": [],
+      "requiredId": "beef-chuck-roast-boneless-raw",
+      "expected": false
+    }
+  ],
+  "offerCases": [
+    {
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "title": "Raw bone-in chicken thighs",
+      "counterpartIds": [
+        "chicken-thighs-bone-in-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "title": "Value pack chicken thighs",
+      "counterpartIds": [],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "title": "Raw chicken drumsticks",
+      "counterpartIds": [
+        "chicken-drumsticks-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "title": "Raw chicken leg quarters",
+      "counterpartIds": [
+        "chicken-leg-quarters-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "pork-loin-roast-chops",
+      "title": "Raw boneless pork loin roast",
+      "counterpartIds": [
+        "pork-loin-roast-boneless-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "pork-loin-roast-chops",
+      "title": "Pork chops",
+      "counterpartIds": [],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "pork-loin-roast-chops",
+      "title": "Raw pork tenderloin",
+      "counterpartIds": [
+        "pork-tenderloin-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "beef-chuck-roast",
+      "title": "Raw boneless beef chuck roast",
+      "counterpartIds": [
+        "beef-chuck-roast-boneless-raw",
+        "beef-pot-roast-cut-raw"
+      ],
+      "recipeFood": "boneless-beef-chuck-roast-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "beef-chuck-roast",
+      "title": "Raw beef chuck roast",
+      "counterpartIds": [
+        "beef-pot-roast-cut-raw"
+      ],
+      "recipeFood": "boneless-beef-chuck-roast-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "beef-chuck-roast",
+      "title": "Cooked beef pot roast",
+      "counterpartIds": [],
+      "recipeFood": "boneless-beef-chuck-roast-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "beef-chuck-roast",
+      "title": "Raw beef stew meat",
+      "counterpartIds": [
+        "beef-stew-meat-raw"
+      ],
+      "recipeFood": "boneless-beef-chuck-roast-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "beef-chuck-roast",
+      "title": "Raw beef arm pot roast",
+      "counterpartIds": [
+        "beef-arm-pot-roast-raw",
+        "beef-pot-roast-cut-raw"
+      ],
+      "recipeFood": "boneless-beef-chuck-roast-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Raw Italian pork sausage",
+      "counterpartIds": [
+        "italian-pork-sausage-raw"
+      ],
+      "recipeFood": "italian-pork-sausage-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Raw ground pork",
+      "counterpartIds": [
+        "ground-pork-raw"
+      ],
+      "recipeFood": "ground-pork-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Raw pork chorizo",
+      "counterpartIds": [
+        "pork-chorizo-raw"
+      ],
+      "recipeFood": "pork-chorizo-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Dry cured pork chorizo",
+      "counterpartIds": [],
+      "recipeFood": "pork-chorizo-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Fully cooked Italian pork sausage",
+      "counterpartIds": [],
+      "recipeFood": "italian-pork-sausage-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Raw Italian chicken sausage",
+      "counterpartIds": [],
+      "recipeFood": "italian-pork-sausage-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Johnsonville sausage",
+      "counterpartIds": [],
+      "recipeFood": "italian-pork-sausage-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "title": "Raw pork sausage",
+      "counterpartIds": [
+        "pork-sausage-raw"
+      ],
+      "recipeFood": "pork-sausage-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Fully cooked kielbasa",
+      "counterpartIds": [
+        "kielbasa-fully-cooked"
+      ],
+      "recipeFood": "kielbasa-fully-cooked",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Smoked sausage",
+      "counterpartIds": [],
+      "recipeFood": "smoked-sausage-fully-cooked",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Hillshire Farm",
+      "counterpartIds": [],
+      "recipeFood": "smoked-sausage-fully-cooked",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Raw smoked sausage",
+      "counterpartIds": [
+        "smoked-sausage-raw"
+      ],
+      "recipeFood": "smoked-sausage-fully-cooked",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Raw kielbasa",
+      "counterpartIds": [
+        "kielbasa-raw"
+      ],
+      "recipeFood": "kielbasa-fully-cooked",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Raw andouille sausage",
+      "counterpartIds": [
+        "andouille-raw"
+      ],
+      "recipeFood": "andouille-fully-cooked",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Ready-to-eat andouille sausage",
+      "counterpartIds": [
+        "andouille-fully-cooked"
+      ],
+      "recipeFood": "andouille-fully-cooked",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "title": "Fully cooked smoked sausage",
+      "counterpartIds": [
+        "smoked-sausage-fully-cooked"
+      ],
+      "recipeFood": "smoked-sausage-fully-cooked",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "sirloin-strip-steak",
+      "title": "Raw beef top sirloin steak",
+      "counterpartIds": [
+        "beef-top-sirloin-steak-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "sirloin-strip-steak",
+      "title": "Raw beef ribeye steak",
+      "counterpartIds": [
+        "beef-ribeye-steak-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "sirloin-strip-steak",
+      "title": "Raw beef T-bone steak",
+      "counterpartIds": [
+        "beef-t-bone-steak-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "sirloin-strip-steak",
+      "title": "Raw beef New York strip steak",
+      "counterpartIds": [
+        "beef-new-york-strip-steak-raw"
+      ],
+      "recipeFood": null,
+      "admit": false
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Frozen raw sockeye salmon fillets",
+      "counterpartIds": [
+        "salmon-fillets-raw",
+        "sockeye-salmon-fillets-raw"
+      ],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Raw Atlantic salmon fillets",
+      "counterpartIds": [
+        "salmon-fillets-raw",
+        "atlantic-salmon-fillets-raw"
+      ],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Raw coho salmon filets",
+      "counterpartIds": [
+        "salmon-fillets-raw",
+        "coho-salmon-fillets-raw"
+      ],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": true
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Smoked sockeye salmon fillets",
+      "counterpartIds": [],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Canned salmon",
+      "counterpartIds": [],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Raw whole Atlantic salmon",
+      "counterpartIds": [],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Breaded raw salmon fillets",
+      "counterpartIds": [],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": false
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "title": "Raw Atlantic or sockeye salmon fillets",
+      "counterpartIds": [],
+      "recipeFood": "salmon-fillets-raw",
+      "admit": false
+    }
+  ],
+  "rejectedScopeContexts": [
+    {
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "pork-loin-roast-chops",
+      "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+    },
+    {
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "italian-pork-sausage",
+      "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+    },
+    {
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "pork-loin-roast-chops",
+      "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+    },
+    {
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+    },
+    {
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "sirloin-strip-steak",
+      "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+    },
+    {
+      "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "pork-loin-roast-chops",
+      "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+    }
+  ],
+  "offerCasesStatus": "EXACT_REVIEW_EXPECTATIONS_IMPLEMENTATION_NOT_PRESENT",
+  "crossStoreRequirements": [
+    "Use only the actual qualified original offer at each store, before cheapest-per-store selection.",
+    "Do not reuse bone-in/whole-fish retail weight or a raw-unknown sausage quote for a boneless/fillet/fully-cooked requirement.",
+    "Recover a higher-priced qualifying same-store offer after rejecting a cheap incompatible cut/state.",
+    "Keep selected store pools, unverified cross-store estimates and actual pickup food/cut nouns."
+  ]
+}

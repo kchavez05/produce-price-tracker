@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "reviewedOn": "2026-11-07",
+  "purpose": "Authoritative food-handling evidence for exact proposed recipe/cooking-state decisions, not USDA identity assignments or product approval",
+  "sources": [
+    {
+      "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+      "supports": [
+        "Ground beef/pork and pork sausage: 160°F thermometer endpoint.",
+        "Poultry and meat/poultry casseroles: 165°F thermometer endpoint.",
+        "Fish including salmon: 145°F thermometer endpoint."
+      ],
+      "access": "Full FoodSafety.gov chart read November 7, 2026."
+    },
+    {
+      "url": "https://ask.fsis.usda.gov/article/What-are-some-different-types-of-sausages",
+      "supports": [
+        "Uncooked sausages may be fresh or smoked. Smoking alone cannot establish fully cooked state."
+      ],
+      "access": "Official USDA indexed text read November 7, 2026; direct page timed out."
+    },
+    {
+      "url": "https://ask.fsis.usda.gov/article/How-do-you-thaw-food-safely",
+      "supports": [
+        "Refrigerator thawing is a safe thawing method."
+      ],
+      "access": "Official USDA indexed text read November 7, 2026."
+    },
+    {
+      "url": "https://ask.fsis.usda.gov/article/Is-it-safe-to-cook-frozen-foods-in-a-slow-cooker-or-crock-pot",
+      "supports": [
+        "Thaw meat/poultry before using the slow-cooker preparation."
+      ],
+      "access": "Official USDA indexed text read November 7, 2026."
+    }
+  ],
+  "limits": "Endpoint temperatures are not timers, shelf-life guarantees, macro calculations, origin certification or proof that a quoted product is raw/fully cooked. Follow product labels for fully cooked products."
+}
