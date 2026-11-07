@@ -32,7 +32,8 @@
       "chickpea-flour",
       "sorghum-flour",
       "bread-flour",
-      "self-rising-wheat-flour"
+      "self-rising-wheat-flour",
+      "masa-harina"
     ]
   },
   {
@@ -1016,5 +1017,11 @@
   {
     "query": "Swiss chard",
     "expected": []
+  },
+  {
+    "query": "corn masa flour",
+    "expected": [
+      "masa-harina"
+    ]
   }
 ]

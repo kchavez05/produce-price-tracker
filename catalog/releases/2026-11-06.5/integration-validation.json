@@ -1,0 +1,61 @@
+{
+  "status": "LOCAL_INTEGRATION_VALIDATED_HOSTED_ROLLOUT_PENDING",
+  "validatedOn": "2026-11-06",
+  "catalogVersion": "2026-11-06.5",
+  "contentHash": "863270d2579e48b3c6b171edc43fcc07a0f19921b9cdda10590f1e0a77aed764",
+  "parentVersion": "2026-11-06.4",
+  "productApproval": {
+    "by": "kchavez05",
+    "date": "2026-11-06",
+    "evidence": "Approve the 53 decisions",
+    "scope": "Only the 53 exact existing-ingredient payloads; no approval of market expansion or five non-market deferrals"
+  },
+  "counts": {
+    "ingredients": 145,
+    "approvedIngredientDecisions": 147,
+    "newlyApprovedDecisions": 53,
+    "identitySourceLinks": 123,
+    "generalReferenceLinks": 5,
+    "sourceLinkedIdentities": 122,
+    "curatedWithoutSourceLinks": 23,
+    "scopedRecipeUses": 22,
+    "searchFixtures": 171,
+    "aliases": 52,
+    "retainedViews": 7
+  },
+  "checks": {
+    "exactApprovedPayloadsAndPriorHistory": "passed in catalog-provenance unit tests",
+    "noNewIdsEstimatesOrRecipeRules": "passed in catalog-provenance unit tests",
+    "deterministicFullSourceReplay": true,
+    "currentCatalogMatchesReplay": true,
+    "sourceSnapshotUnchanged": true,
+    "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+    "approvedHoldStillValid": true,
+    "noStalePublishedLinks": true,
+    "noUnapprovedQuarantines": true,
+    "allNamesAndAliasesReachable": true,
+    "broadQueriesDoNotTruncate": true,
+    "all171FixturesPass": true,
+    "allSevenRetainedViewsExact": true,
+    "scopedRecipeUsesHash": "2b719f7f47922e9077ee29faa280c76f5b9494a3d62d83f025be978495b37c9a",
+    "newDatabaseMigrationRequired": false
+  },
+  "localChecks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unitTests": 352,
+    "smokeTests": 28,
+    "regressionTests": 37,
+    "catalogProjectionAndMarketAudit": "passed",
+    "productionBuild": "passed"
+  },
+  "hostedMigrationsApplied": false,
+  "productionReleased": false,
+  "pendingGates": [
+    "Feature PR CI, Vercel Preview and completed Codex review",
+    "Exact review and integration of required coverage for 15 unmatched and three partial market groups",
+    "Five non-market category scope decisions remain proposed",
+    "Hosted accepted-ID migrations from prior expansion batches and isolated environment verification",
+    "Final artifact audit, v1.6.1 version/docs, release PR and production verification"
+  ]
+}

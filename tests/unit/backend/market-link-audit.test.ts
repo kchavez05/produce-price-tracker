@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import audit from '../../../catalog/market-link-audit.json';
-import release from '../../../catalog/releases/2026-11-06.4/catalog.json';
+import release from '../../../catalog/releases/2026-11-06.5/catalog.json';
 import runtime from '@/data/cooking-catalog.json';
 import { parseArtifact } from '../../../scripts/lib/catalog-curation';
 import { validateMarketLinkAudit } from '../../../scripts/lib/market-link-audit';
