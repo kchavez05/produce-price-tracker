@@ -12,7 +12,7 @@ A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) pr
 
 ## Next: v1.6.1 — Pantry Catalog Expansion
 
-The next release prioritizes pantry catalog expansion before speech entry. The approved batches compile to 171 identities in catalog `2026-11-07.1`, with 143 source-linked identities, 30 independent market counterpart associations and 41 scoped recipe uses. The [produce review](docs/research/v1.6.1-market-produce-review.md) closes five unmatched and three partial produce groups. The [market completion plan](docs/specs/v1.6.1-market-coverage.md) tracks the seven protein and three dairy groups still required before release, plus existing offer-qualification findings. Hosted registry rollout, final release audit and release preparation remain pending.
+The next release prioritizes pantry catalog expansion before speech entry. The approved batches compile to 199 identities in catalog `2026-11-07.2`, with 160 source-linked identities, 58 independent market counterpart associations and 49 scoped recipe uses. The [produce](docs/research/v1.6.1-market-produce-review.md) and [protein](docs/research/v1.6.1-market-protein-review.md) batches close 15 of the 18 reviewed coverage gaps. The [market completion plan](docs/specs/v1.6.1-market-coverage.md) tracks the three dairy groups still required before release, plus four earlier offer-qualification findings. Hosted registry rollout, final release audit and release preparation remain pending.
 
 ## Key Features (`v1.6.0`)
 

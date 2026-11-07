@@ -1,3 +1,4 @@
+import { proteinRecipeOfferAllowed } from './protein-offer';
 import cookingData from '@/data/cooking-catalog.json';
 import { ScopedRecipeUse } from '@/types/catalog';
 import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity, StoreChain, StoreOffer } from '@/types/domain';
@@ -6,7 +7,7 @@ import { recipePantryIngredientId, recipeUseRequirementId, scopedRecipeUses } fr
 import { calculateValueScore } from '@/lib/value-score';
 import { OFFER_FOOD_TERMS as foodTerms, INCOMPATIBLE_PRODUCE as incompatible, stripProduceOfferBrand as stripOfferBrand, hasUnresolvedProduceAlternatives, hasMultipleProduceFoods } from './offer-food';
 
-const protectedIds = new Set(scopedRecipeUses.map((use) => use.marketIngredientId));
+const protectedIds = new Set<string>(cookingData.protectedRecipeMarketIds);
 const contexts = new Map(cookingData.scopedRecipeContexts.map((context) => [context.id, context]));
 const byRequirement = new Map(scopedRecipeUses.map((use) => [recipeUseRequirementId(use), use]));
 export const isProtectedMarketIngredient = (id: string): boolean => protectedIds.has(id);
@@ -61,6 +62,8 @@ function sharedFoodDescriptor(part: string, namedFoods: string[]): boolean {
   return Boolean(words) && namedFoods.some((food) => words.split(/\s+/).every((word) => foodDescriptors[food]?.includes(word)));
 }
 export function recipeOfferAllowed(use: ScopedRecipeUse, rawTitle: string): boolean {
+  const protein = proteinRecipeOfferAllowed(use.marketIngredientId, use.offerFoods, rawTitle);
+  if (protein !== undefined) return protein;
   if (typeof rawTitle !== 'string' || incompatible.test(rawTitle)) return false;
   if (['potatoes-russet-gold', 'poblano-anaheim-peppers', 'butternut-acorn-squash', 'zucchini-yellow-squash', 'apples-honeycrisp-gala'].includes(use.marketIngredientId) && (hasUnresolvedProduceAlternatives(rawTitle) || hasMultipleProduceFoods(rawTitle))) return false;
   const found = Object.entries(foodTerms).filter(([, terms]) => terms.test(rawTitle)).map(([food]) => food);

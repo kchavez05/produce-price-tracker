@@ -203,6 +203,32 @@ describe('pantry database storage boundaries', () => {
     await db.query('delete from public.users where id=$1', [owner]);
     await db.exec('reset role');
   });
+  it('installs protein IDs once and keeps raw/cooked availability private and independent', async () => {
+    const owner = '00000000-0000-4000-8000-000000000028';
+    await db.query('insert into auth.users(id,email) values($1,$2)', [owner, 'proteins@example.test']);
+    await asUser(owner);
+    const original = await rpc<PantryMigrationSnapshot>('read');
+    await rpc('migrate', { source: original.legacySource, entries: [] });
+    const raw = { ingredientId: 'kielbasa-raw', displayName: 'Raw kielbasa', available: false };
+    const mutation = put({ mutationId: 'protein-raw', entryId: 'raw-kielbasa', entry: raw });
+    await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
+    await db.exec('reset role');
+    const before = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
+    const migration = readFileSync('supabase/migrations/20261107172039_pantry_market_proteins.sql', 'utf8');
+    await db.exec(migration); await db.exec(migration);
+    const after = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
+    expect(after).toEqual(expect.arrayContaining(before)); expect(after).toHaveLength(before.length + 28);
+    await asUser(owner);
+    const saved = await rpc('mutate', mutation); expect(await rpc('mutate', mutation)).toEqual(saved);
+    const cooked = { ingredientId: 'kielbasa-fully-cooked', displayName: 'Fully cooked kielbasa', available: true, quantity: 0 };
+    expect(await rpc('mutate', put({ mutationId: 'protein-cooked', entryId: 'cooked-kielbasa', entry: cooked }))).toMatchObject({ status: 'applied' });
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(expect.arrayContaining([expect.objectContaining({ ingredientId: 'kielbasa-raw', available: false }), expect.objectContaining({ ingredientId: 'kielbasa-fully-cooked', available: true, quantity: 0 })]));
+    await asUser(bob); expect((await rpc<PantryMigrationSnapshot>('read')).entries.some((r) => r.ingredientId === cooked.ingredientId)).toBe(false);
+    await db.exec('reset role'); await db.exec(readFileSync('supabase/migrations/20261107144458_pantry_market_produce.sql', 'utf8'));
+    await asUser(owner);
+    expect(await rpc('mutate', put({ mutationId: 'protein-after-rollback', entryId: 'raw-kielbasa', expectedRevision: 1, entry: { ...raw, available: true } }))).toMatchObject({ status: 'applied', entry: { revision: 2, ingredientId: 'kielbasa-raw' } });
+    await db.query('delete from public.users where id=$1', [owner]); await db.exec('reset role');
+  });
   it('keeps catalog IDs synchronized and denies anonymous execution', async () => {
     const ids = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows.map((r) => r.id);
     expect(ids).toEqual(cookingIngredients.map((r) => r.id).sort());

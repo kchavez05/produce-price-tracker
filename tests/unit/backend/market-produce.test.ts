@@ -1,3 +1,4 @@
+import activeArtifact from '../../../catalog/releases/2026-11-07.2/catalog.json';
 import { describe, expect, it } from 'vitest';
 import cases from '../../../catalog/proposals/2026-11-07-market-produce/behavior-cases.json';
 import proposal from '../../../catalog/proposals/2026-11-07-market-produce/recipe-use-proposal.json';
@@ -24,7 +25,7 @@ import { applyPantryToRecipe } from '@/lib/pantry/recipe';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import { cleanSearchQueryForIngredient } from '@/lib/cart-exporter';
 import { createMockCommodity, createMockDish, createMockOffer } from 'tests/test-utils';
-const current = parseArtifact(artifact);
+const current = parseArtifact(activeArtifact);
 const groups: Record<string, string> = { potatoes: 'potatoes-russet-gold', apples: 'apples-honeycrisp-gala', 'cremini-mushrooms': 'mushrooms-cremini-white', tomatillos: 'tomatoes-roma-vine', poblano: 'poblano-anaheim-peppers', butternut: 'butternut-acorn-squash', spinach: 'spinach-kale-greens', 'summer-squash': 'zucchini-yellow-squash' };
 const titles: Record<string, string> = { potatoes: 'Russet potatoes 5 lb bag', apples: 'Gala apples', poblano: 'Fresh poblano peppers', anaheim: 'Fresh Anaheim peppers', butternut: 'Butternut squash', 'summer-squash': 'Fresh summer squash', zucchini: 'Zucchini', 'yellow-summer-squash': 'Yellow summer squash', 'white-mushrooms': 'White mushrooms', 'cremini-mushrooms': 'Baby bella mushrooms', tomatoes: 'Roma tomatoes', tomatillos: 'Tomatillos', spinach: 'Fresh spinach', kale: 'Fresh kale' };
 const entry = (ingredientId: string, available = true): PantryEntry => ({ id: `${available}:${ingredientId}`, ingredientId, displayName: ingredientId, available, revision: 1, updatedAtIso: '' });
@@ -148,9 +149,9 @@ describe('approved market produce integration', () => {
   });
   it('binds independent counterpart approval and append-only scoped revisions to exact package hashes', () => {
     const compiled = () => compileScopedRecipeUses(originalScoped, current.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, approval);
-    expect(compiled().uses).toEqual(scopedRecipeUses); expect(scopedRecipeUses).toHaveLength(41);
+    expect(compiled().uses).toEqual(scopedRecipeUses); expect(scopedRecipeUses).toHaveLength(49);
     expect(compileMarketCounterparts(approval, current.ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts);
-    expect(runtime.marketCounterparts).toHaveLength(30);
+    expect(runtime.marketCounterparts).toHaveLength(58);
     const changed = structuredClone(approval); changed.approvals[0].recipeUses.decisions[0].pantryIngredientIds = ['collard-greens-fresh'];
     expect(() => compileScopedRecipeUses(originalScoped, current.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, changed)).toThrow('stale');
     const bad = structuredClone(approval); bad.approvals[0].review.payloadSha256 = 'bad';

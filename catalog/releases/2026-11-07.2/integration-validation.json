@@ -1,0 +1,97 @@
+{
+  "status": "LOCAL_INTEGRATION_VALIDATED_HOSTED_ROLLOUT_PENDING",
+  "validatedOn": "2026-11-07",
+  "catalogVersion": "2026-11-07.2",
+  "contentHash": "88f6128ff3f0b835ec72c8d44113415a05d03c4be21121501d9b39f0f3b86987",
+  "parentVersion": "2026-11-07.1",
+  "counts": {
+    "ingredients": 199,
+    "approvedIngredientDecisions": 216,
+    "newIdentities": 28,
+    "directionalRulesAdded": 3,
+    "identitySourceLinks": 163,
+    "generalReferenceLinks": 5,
+    "sourceLinkedIdentities": 160,
+    "withoutSourceLinks": 39,
+    "marketCounterparts": 58,
+    "activeScopedUses": 49,
+    "protectedMixedGroups": 17,
+    "searchFixtures": 372,
+    "retainedViews": 9,
+    "marketGroupsWithCounterparts": 32,
+    "marketGroupsRemaining": 3
+  },
+  "checks": {
+    "exactApprovedPayloadHashes": true,
+    "allPriorApprovalsIdentitiesFieldsEstimatesAndGlobalLinksPreserved": true,
+    "approvalBatchChainBound": true,
+    "priorProduceUsesHashPreserved": true,
+    "deterministicFullSourceReplay": true,
+    "sourceSnapshotUnchanged": true,
+    "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+    "approvedHoldStillValid": true,
+    "noHeldSourceAssigned": true,
+    "allNamesAliasesAndOptionalChoicesReachable": true,
+    "unboundedBroadQueryCounts": {
+      "beans": 12,
+      "flour": 11,
+      "beef": 10,
+      "pork": 8,
+      "chicken": 7,
+      "sausage": 9,
+      "salmon": 1,
+      "steak": 4,
+      "kielbasa": 2,
+      "andouille": 2
+    },
+    "allNineHistoricalViewsExact": true,
+    "implementedBlueprintHash": "bd192c267e3f42590a388dd49278ad5c059c5797c4f44c4db9a89f36bedda52a",
+    "exactSixScopedAndTwoAuxiliaryRemovalsAndNineteenTextEdits": true,
+    "protectedZeroUseGroupsFailClosed": true,
+    "rawCookedBoneCutSpeciesAndContradictionChecks": true,
+    "reviewedOfferCasesExecuted": 40,
+    "reviewedAvailabilityCasesExecuted": 10,
+    "allowedPantryScopeCombinationsExecuted": 18,
+    "rejectedSavedCustomContextsExecuted": 6,
+    "selectedStorePoolsAndOriginalOfferRecovery": true,
+    "sixStoresAndPickupNounsPreserved": true,
+    "salmonGenericNoPrecedence": true,
+    "noNewFixedPricesNutritionOrYieldConversion": true,
+    "newDatabaseMigration": "20261107172039_pantry_market_proteins.sql",
+    "additiveMigrationIdempotentAccountIsolation": true,
+    "twoGuestSessionsAndRestartRetryPersistence": true,
+    "marketCounterpartsHash": "0773d4ef5885530cace2b85514c3e2712345e9d46d7151f92cb0d54e495917f8",
+    "scopedRecipeUsesHash": "d619f0f38cef09ddd632117df8dcb102558c6b67ed61043a77ad56f2c8423cc6"
+  },
+  "localChecks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unitTests": 519,
+    "smokeTests": 28,
+    "regressionTests": 37,
+    "catalogProjectionAndMarketAudit": "passed",
+    "productionBuild": "passed"
+  },
+  "remainingMarketGroups": [
+    {
+      "id": "shredded-block-cheese",
+      "name": "Shredded or Block Cheese (Cheddar, Jack, Mozzarella)"
+    },
+    {
+      "id": "cottage-cheese-sour-cream",
+      "name": "Cottage Cheese or Sour Cream (16–24 oz Tub)"
+    },
+    {
+      "id": "greek-yogurt-tub",
+      "name": "Plain or Vanilla Greek Yogurt (32 oz Tub)"
+    }
+  ],
+  "hostedMigrationsApplied": false,
+  "productionReleased": false,
+  "pendingGates": [
+    "Feature PR CI, Preview and completed Codex review",
+    "Hosted 28-ID accepted-registry migration and account readiness verification",
+    "Dairy batch, four existing qualification findings and pending category scope choices",
+    "Final artifact audit and v1.6.1 release workflow"
+  ]
+}

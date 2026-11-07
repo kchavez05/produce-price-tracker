@@ -1619,6 +1619,1500 @@
         "date": "2026-11-07",
         "payloadSha256": "065a646fd34c1e434e273fb83777cede321d525fb6b27e6465699fdf89be05ed"
       }
+    },
+    {
+      "envelope": {
+        "formatVersion": 1,
+        "status": "PROPOSED_NOT_APPROVED_NOT_ACTIVE",
+        "preparedOn": "2026-11-07",
+        "parentVersion": "2026-11-07.1",
+        "parentContentHash": "b4fc3fd02dcb7bb5aee95199a6f9c959c385dcc13a21f7980554a90df232b62b",
+        "sourceRelease": "2026-10-29",
+        "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+        "blueprintHash": "c1d1cacc29d2116dbda0d10e7a84a30c995b9fa7a4203855cffbd317cd34bf7f",
+        "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+        "previousCoverageApprovalHash": "9f698d200b0141dfbfed5de6bc4a237ce21173992809ab93898389ef1ac91aae",
+        "counts": {
+          "newIngredients": 28,
+          "curatedNewIngredients": 11,
+          "directionalEdges": 3,
+          "curationDecisions": 31,
+          "marketCounterparts": 28,
+          "recipeSlotDecisions": 14,
+          "allowedSlotDecisions": 8,
+          "rejectedScopedCandidates": 6,
+          "auxiliaryCandidateRemovals": 2,
+          "totalCandidateRemovals": 8,
+          "textPatches": 19,
+          "previewIngredients": 199,
+          "searchFixtures": 372,
+          "offerCases": 40,
+          "availabilityCases": 10
+        },
+        "fileHashes": {
+          "ledger.json": "ffc4429d329e2deab602768ab9835fb91300853243416fe77a2fa02dcd7a654f",
+          "decision-hashes.json": "2df018adbb544d9dd21f061605d1b5649c78692cecfc83a966aca5c957e9ede4",
+          "source-evidence.json": "b9211e06494c90f3dad70fcd9a449b204aa6d7f5f78cbc596f4079ac6edf9f0d",
+          "curated-gaps.json": "64adc8074cabdc9391a2071b009cc9da2cc9f61641398a8d8bf02ac773ca8dee",
+          "market-counterparts.json": "e730ddf9599fca3a4ee3a10468d32311753f1766e611da5340c99b67d3fb0e59",
+          "recipe-use-proposal.json": "acf70e3043c0a1d436d330e28a5b76fb1407dbc164e7fec6078c8a7fb9530813",
+          "behavior-cases.json": "11e3dd842a35f4f34684faf20bb2745b918cca09a6c067315b22fa982e8ca65b",
+          "search-fixtures.json": "30cce607691d151d13c7fbdd19d0ec29c63aac4dd702203fe01f2f47097ad390",
+          "preparation-evidence.json": "6b6bcbcfb1d978f2532abb4682629eec885789b0210113cacf8a34b1be792dd8"
+        }
+      },
+      "counterparts": {
+        "formatVersion": 1,
+        "status": "proposed",
+        "baseCatalogVersion": "2026-11-07.1",
+        "baseCatalogHash": "b4fc3fd02dcb7bb5aee95199a6f9c959c385dcc13a21f7980554a90df232b62b",
+        "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+        "protectedMarketIngredientIds": [
+          "chicken-thighs-bone-in",
+          "pork-loin-roast-chops",
+          "beef-chuck-roast",
+          "italian-pork-sausage",
+          "smoked-sausage-kielbasa",
+          "sirloin-strip-steak",
+          "salmon-fillets"
+        ],
+        "defaults": {
+          "rawState": "Raw identities include chilled or frozen unprepared products of the named cut/species. Freezing is storage context for these protein identities only, not a change to the approved fresh-produce policy. Thaw frozen raw protein safely before these recipes; availability never depends on temperature, quantity or date.",
+          "cookedState": "Fully cooked/ready-to-eat sausage identities are distinct from raw. Smoked, cured, a brand, kielbasa or andouille wording alone never establishes fully cooked state. Raw and fully cooked forms have no compatibility edge.",
+          "evidence": "Require named animal/food and cooking state from original observed title or traceable product-label evidence, plus explicit boneless/bone-in qualifiers when the identity requires them. Fresh, value pack, or a store/sausage brand alone is insufficient. A reviewer-confirmed pantry choice does not qualify a quote automatically.",
+          "reject": "Reject unresolved alternatives/mixed foods, prepared meals, cooked meat offered as raw, raw sausage offered as fully cooked, breaded/battered/marinated/sauced/seasoned products except the explicitly named sausage preparations, dry/cured chorizo, canned/smoked/cured salmon, whole salmon or salmon steaks offered as fillets, and contradictory cooking-state/animal/cut labels.",
+          "prices": "No source portions, bone/skin/trim yield conversions or fixed estimates. Retain observed retail units and history. Apply exact per-recipe offer admission before cheapest-per-store selection; do not price a boneless requirement from a bone-in pack. Broad/ambiguous quotes remain unpriced.",
+          "species": "Pork-qualified raw sausages require pork evidence; do not treat chicken/turkey, meat-free or mixed-species sausages as pork. Generic smoked/kielbasa/andouille entries intentionally leave species unspecified and confer no dietary guarantees."
+        },
+        "ambiguousTerms": [
+          {
+            "term": "chicken thighs / value pack thighs",
+            "decision": "Do not infer bone-in or boneless/skinless. Require traceable cut/bone evidence before an exact counterpart or price."
+          },
+          {
+            "term": "pork chops / center cut",
+            "decision": "Do not infer boneless loin. Reject unknown cut/bone state for the named boneless loin-chop identity."
+          },
+          {
+            "term": "pot roast / arm roast / stew meat",
+            "decision": "Require raw beef evidence. The cooked pot-roast dish is excluded; unspecified raw stew/pot-roast cuts stay separate from boneless chuck and have no current recipe permission."
+          },
+          {
+            "term": "smoked sausage / kielbasa / andouille / brand-only",
+            "decision": "Cooking state remains unverified without raw/uncooked or fully cooked/ready-to-eat product evidence. Named styles and brands are not cooked-state proof."
+          },
+          {
+            "term": "salmon",
+            "decision": "Require raw fillet/filet evidence for fillet counterparts. Generic raw fillets do not establish species; do not infer farming method, bonelessness or edible yield."
+          }
+        ],
+        "decisions": [
+          {
+            "id": "counterpart:chicken-thighs-bone-in:chicken-thighs-bone-in-raw",
+            "revision": 1,
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "pantryIngredientId": "chicken-thighs-bone-in-raw",
+            "foodName": "Raw bone-in chicken thighs",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "00b0c3dfa3e7346b8a9f44e8051e9ceeef3740e74e488bc72b9b54d95c6de282"
+          },
+          {
+            "id": "counterpart:chicken-thighs-bone-in:chicken-drumsticks-raw",
+            "revision": 1,
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "pantryIngredientId": "chicken-drumsticks-raw",
+            "foodName": "Raw chicken drumsticks",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "e4efa7b5ea1e835e8186ff405572d7ece58ec6635cc240196f8ce210251dfb7d"
+          },
+          {
+            "id": "counterpart:chicken-thighs-bone-in:chicken-leg-quarters-raw",
+            "revision": 1,
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "pantryIngredientId": "chicken-leg-quarters-raw",
+            "foodName": "Raw chicken leg quarters",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "a70f68c05e214bd79da1a1f2ba75218c508b9232b945e9cdf714a63e25127041"
+          },
+          {
+            "id": "counterpart:pork-loin-roast-chops:pork-loin-roast-boneless-raw",
+            "revision": 1,
+            "marketIngredientId": "pork-loin-roast-chops",
+            "pantryIngredientId": "pork-loin-roast-boneless-raw",
+            "foodName": "Raw boneless pork loin roast",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "cf0f7c37e7bef898543f02cdaa5260deaf5cf4ad85033c2ed8b788c5bcd6f15b"
+          },
+          {
+            "id": "counterpart:pork-loin-roast-chops:pork-loin-chops-boneless-raw",
+            "revision": 1,
+            "marketIngredientId": "pork-loin-roast-chops",
+            "pantryIngredientId": "pork-loin-chops-boneless-raw",
+            "foodName": "Raw boneless pork loin chops",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "430b9bc8a9d02d5a4c754d2cb1261f7af7cf3cba3780f2cdb5535057243a79ed"
+          },
+          {
+            "id": "counterpart:pork-loin-roast-chops:pork-tenderloin-raw",
+            "revision": 1,
+            "marketIngredientId": "pork-loin-roast-chops",
+            "pantryIngredientId": "pork-tenderloin-raw",
+            "foodName": "Raw pork tenderloin",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "20dc4e3117786df4c3ad5deede0d7857f497598b763290c0d04405db5912d071"
+          },
+          {
+            "id": "counterpart:beef-chuck-roast:beef-chuck-roast-boneless-raw",
+            "revision": 1,
+            "marketIngredientId": "beef-chuck-roast",
+            "pantryIngredientId": "beef-chuck-roast-boneless-raw",
+            "foodName": "Raw boneless beef chuck roast",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "763b7acaef77e46b94ed45dd2ecf33d299eef6279bb2d3be8b05f58ed548e858"
+          },
+          {
+            "id": "counterpart:beef-chuck-roast:beef-arm-pot-roast-raw",
+            "revision": 1,
+            "marketIngredientId": "beef-chuck-roast",
+            "pantryIngredientId": "beef-arm-pot-roast-raw",
+            "foodName": "Raw beef arm pot roast",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "cb014cafd14e0b8c4b65bc472715757bb34a2049a97fbba28c19aac5a8717993"
+          },
+          {
+            "id": "counterpart:beef-chuck-roast:beef-stew-meat-raw",
+            "revision": 1,
+            "marketIngredientId": "beef-chuck-roast",
+            "pantryIngredientId": "beef-stew-meat-raw",
+            "foodName": "Raw beef stew meat",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "938d2ba7f983d4a21b3760d66406bd5e42f965309991cd6aa2e8962458e444d4"
+          },
+          {
+            "id": "counterpart:beef-chuck-roast:beef-pot-roast-cut-raw",
+            "revision": 1,
+            "marketIngredientId": "beef-chuck-roast",
+            "pantryIngredientId": "beef-pot-roast-cut-raw",
+            "foodName": "Raw beef pot-roast cut, unspecified",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "929bbfdb28619db0c007fc6bce7f1f30245f56a6dbe9ce2d8f1b31f37d851fdf"
+          },
+          {
+            "id": "counterpart:italian-pork-sausage:italian-pork-sausage-raw",
+            "revision": 1,
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientId": "italian-pork-sausage-raw",
+            "foodName": "Raw Italian pork sausage",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "0dcd1af326c0a5eb07eeca0d996850d036dd0916da3b0258fe4448f45a2989d0"
+          },
+          {
+            "id": "counterpart:italian-pork-sausage:ground-pork-raw",
+            "revision": 1,
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientId": "ground-pork-raw",
+            "foodName": "Raw ground pork",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "2175f602dac32771961702f1c102839dee150b7d13cdd7fb13b1f4f3a167a158"
+          },
+          {
+            "id": "counterpart:italian-pork-sausage:pork-chorizo-raw",
+            "revision": 1,
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientId": "pork-chorizo-raw",
+            "foodName": "Raw pork chorizo",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "73d01af2a6164616803ad15eb923c97ed0ad7bb6c1bd253cf85c1a2103dcd3d0"
+          },
+          {
+            "id": "counterpart:italian-pork-sausage:pork-sausage-raw",
+            "revision": 1,
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientId": "pork-sausage-raw",
+            "foodName": "Raw pork sausage",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "1e188cd03efc8fa2b25c05ab5d8baff21bf5bb46fb95f5be19ac0ec85dadd6e7"
+          },
+          {
+            "id": "counterpart:smoked-sausage-kielbasa:smoked-sausage-fully-cooked",
+            "revision": 1,
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientId": "smoked-sausage-fully-cooked",
+            "foodName": "Fully cooked smoked sausage",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "2774931c716ceeae5d52d6dea0b61ecfadea1aaf8914f1ba0925c56ddd2d68e4"
+          },
+          {
+            "id": "counterpart:smoked-sausage-kielbasa:kielbasa-fully-cooked",
+            "revision": 1,
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientId": "kielbasa-fully-cooked",
+            "foodName": "Fully cooked kielbasa",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "bfb651c91623366f518e57689060c51a48c2d7d99c1313e89225b29c32c8fe85"
+          },
+          {
+            "id": "counterpart:smoked-sausage-kielbasa:andouille-fully-cooked",
+            "revision": 1,
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientId": "andouille-fully-cooked",
+            "foodName": "Fully cooked andouille sausage",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "41655ae68455de3e7d2b8f1b225a5006c2b4ee087f0802f0141e57e106ec393c"
+          },
+          {
+            "id": "counterpart:smoked-sausage-kielbasa:smoked-sausage-raw",
+            "revision": 1,
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientId": "smoked-sausage-raw",
+            "foodName": "Raw smoked sausage",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "8f78c44b554125a29749003a17ad8ed0190ded73dc4e9b71d5a68a4023717bf3"
+          },
+          {
+            "id": "counterpart:smoked-sausage-kielbasa:kielbasa-raw",
+            "revision": 1,
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientId": "kielbasa-raw",
+            "foodName": "Raw kielbasa",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "3e37cf145cb16b59564216e20f75e9fae146b07738dac488936f36ece780be3e"
+          },
+          {
+            "id": "counterpart:smoked-sausage-kielbasa:andouille-raw",
+            "revision": 1,
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientId": "andouille-raw",
+            "foodName": "Raw andouille sausage",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "9e1c7e7a04746f2b2fc5d102683e4f605dcc5827342dfe18b2f6fcf91a0263e1"
+          },
+          {
+            "id": "counterpart:sirloin-strip-steak:beef-new-york-strip-steak-raw",
+            "revision": 1,
+            "marketIngredientId": "sirloin-strip-steak",
+            "pantryIngredientId": "beef-new-york-strip-steak-raw",
+            "foodName": "Raw beef New York strip steak",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "5e9e6f7bb3a69c512fdcd498bd430daf78bae9dc2a1ce9988b3b90e361194048"
+          },
+          {
+            "id": "counterpart:sirloin-strip-steak:beef-top-sirloin-steak-raw",
+            "revision": 1,
+            "marketIngredientId": "sirloin-strip-steak",
+            "pantryIngredientId": "beef-top-sirloin-steak-raw",
+            "foodName": "Raw beef top sirloin steak",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "d025cb71e119434dac9a259d18901cd56b77b14119c74364bd359c4a2342f3ec"
+          },
+          {
+            "id": "counterpart:sirloin-strip-steak:beef-ribeye-steak-raw",
+            "revision": 1,
+            "marketIngredientId": "sirloin-strip-steak",
+            "pantryIngredientId": "beef-ribeye-steak-raw",
+            "foodName": "Raw beef ribeye steak",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "79af5d8b4078e6d1ec73e3f46879a4ff58fb1269a905e2cfaff6e2a385f05d5f"
+          },
+          {
+            "id": "counterpart:sirloin-strip-steak:beef-t-bone-steak-raw",
+            "revision": 1,
+            "marketIngredientId": "sirloin-strip-steak",
+            "pantryIngredientId": "beef-t-bone-steak-raw",
+            "foodName": "Raw beef T-bone steak",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "77ab4d47b2239e30ad5f042f1815e1e03e6935e9c760da4d22ea075736332854"
+          },
+          {
+            "id": "counterpart:salmon-fillets:salmon-fillets-raw",
+            "revision": 1,
+            "marketIngredientId": "salmon-fillets",
+            "pantryIngredientId": "salmon-fillets-raw",
+            "foodName": "Raw salmon fillets",
+            "titlePolicy": "require-raw-salmon-fillet-unspecified-or-species",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "960dfc815a0005d3d2a28157ae9004575c08095644b8a8b982c054d84f22bc0d"
+          },
+          {
+            "id": "counterpart:salmon-fillets:atlantic-salmon-fillets-raw",
+            "revision": 1,
+            "marketIngredientId": "salmon-fillets",
+            "pantryIngredientId": "atlantic-salmon-fillets-raw",
+            "foodName": "Raw Atlantic salmon fillets",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "971eda2290858f8a2c2859088f1e225ad829d7a5df492ae40235e14fe5cef4a4"
+          },
+          {
+            "id": "counterpart:salmon-fillets:sockeye-salmon-fillets-raw",
+            "revision": 1,
+            "marketIngredientId": "salmon-fillets",
+            "pantryIngredientId": "sockeye-salmon-fillets-raw",
+            "foodName": "Raw sockeye salmon fillets",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "a4f314086e8046aa8f1245712e24684241d8e1dd2d27daeb6d5261ef4bcefcca"
+          },
+          {
+            "id": "counterpart:salmon-fillets:coho-salmon-fillets-raw",
+            "revision": 1,
+            "marketIngredientId": "salmon-fillets",
+            "pantryIngredientId": "coho-salmon-fillets-raw",
+            "foodName": "Raw coho salmon fillets",
+            "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+            "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+            "status": "proposed",
+            "payloadSha256": "f660d384c4705e94d2142448c7f25b5db72cfd4133a4516156574e749fc1547f"
+          }
+        ]
+      },
+      "recipeUses": {
+        "formatVersion": 1,
+        "status": "proposed",
+        "blueprintHash": "c1d1cacc29d2116dbda0d10e7a84a30c995b9fa7a4203855cffbd317cd34bf7f",
+        "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+        "previousScopedApprovalHash": "fab260de4573c579c0500b6d6da8932bfb225db9134761f14b7b6cb8f494918c",
+        "previousCoverageApprovalHash": "9f698d200b0141dfbfed5de6bc4a237ce21173992809ab93898389ef1ac91aae",
+        "protectedMarketIngredientIds": [
+          "chicken-thighs-bone-in",
+          "pork-loin-roast-chops",
+          "beef-chuck-roast",
+          "italian-pork-sausage",
+          "smoked-sausage-kielbasa",
+          "sirloin-strip-steak",
+          "salmon-fillets"
+        ],
+        "availabilityPolicy": "Only exact positive IDs, plus the three separately reviewed one-hop species-to-generic raw salmon edges, satisfy these scopes. Generic salmon No overrides derived species coverage. Raw and fully cooked sausages, bone-in and boneless cuts, and different cuts create no reverse/sibling or raw-to-cooked ownership. An exact No on an explicitly listed independent sausage alternative removes that food only.",
+        "integrationRequirement": "Append the exact approval to the existing market coverage ledger without editing prior batches. Extend raw/cooked protein admission and per-ingredient title policies; keep species/bone/cut evidence separate from USDA analytical yield. Apply six scoped and two auxiliary candidate removals plus all exact text patches. Preserve prior produce permissions and bind the implemented blueprints to the proposed hash. All seven reviewed mixed market groups must remain protected even when a group has zero allowed scopes, so stale/custom grouped candidates fail closed. Auxiliary ground-beef removals must not introduce global protection or change unrelated exact ground-beef ownership/pricing.",
+        "decisions": [
+          {
+            "id": "colorado-pork-green-chile-stew:primary_protein:pork-loin-roast-chops",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "colorado-pork-green-chile-stew",
+            "slotKey": "primary_protein",
+            "slotLabel": "Braising Pork Cut",
+            "marketIngredientId": "pork-loin-roast-chops",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "The current long-braise/carnitas or sausage-coin directions do not provide a reviewed lean loin/chop/tenderloin method. Remove the candidate rather than reuse shoulder/sausage timing or invent a cut/yield conversion.",
+            "status": "proposed",
+            "payloadSha256": "a09c8a0850d20f065e69290cabd159d6929cff7232d8ee9b069e5ca413782c5e"
+          },
+          {
+            "id": "dutch-oven-beef-chuck-pot-roast-stew:primary_protein:beef-chuck-roast",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+            "slotKey": "primary_protein",
+            "slotLabel": "Braising Beef Cut",
+            "marketIngredientId": "beef-chuck-roast",
+            "pantryIngredientIds": [
+              "beef-chuck-roast-boneless-raw"
+            ],
+            "offerFoods": [
+              "boneless-beef-chuck-roast-raw"
+            ],
+            "rationale": "The existing method is a chuck-roast braise. Require the exact boneless raw chuck choice; generic stew/pot-roast or bone-unspecified arm cuts do not establish it.",
+            "status": "proposed",
+            "payloadSha256": "ee6e4f48489d011268379ebbfba428f77024bd722dad2ba01862aecdc8f4525b"
+          },
+          {
+            "id": "southwest-sweet-potato-ground-beef-chili-bake:primary_protein:italian-pork-sausage",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "slotKey": "primary_protein",
+            "slotLabel": "Ground Meat Base",
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientIds": [
+              "italian-pork-sausage-raw",
+              "ground-pork-raw",
+              "pork-chorizo-raw",
+              "pork-sausage-raw"
+            ],
+            "offerFoods": [
+              "italian-pork-sausage-raw",
+              "ground-pork-raw",
+              "pork-chorizo-raw",
+              "pork-sausage-raw"
+            ],
+            "rationale": "Use only explicitly raw pork-qualified meat. Crumble sausage/remove link casings and use the reviewed thermometer endpoint in the exact instruction patch. The Tuscan recipe stays Italian-sausage-specific.",
+            "status": "proposed",
+            "payloadSha256": "929ba8029778d84c4a00050e0840cfde5852a0b8e4d368c2e13ab9b1b408e723"
+          },
+          {
+            "id": "kielbasa-cabbage-apple-potato-braise:primary_protein:smoked-sausage-kielbasa",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "slotKey": "primary_protein",
+            "slotLabel": "Smoked Sausage or Pork Loin",
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientIds": [
+              "smoked-sausage-fully-cooked",
+              "kielbasa-fully-cooked",
+              "andouille-fully-cooked"
+            ],
+            "offerFoods": [
+              "smoked-sausage-fully-cooked",
+              "kielbasa-fully-cooked",
+              "andouille-fully-cooked"
+            ],
+            "rationale": "Only explicitly fully cooked sausages meet this slice/reheat alternative. Raw smoked sausage, raw kielbasa/andouille and unqualified cooking-state titles remain excluded.",
+            "status": "proposed",
+            "payloadSha256": "559fd990add07748d9868806a7ad1b2b2d15bb6e8f7833d6af579888f6043f56"
+          },
+          {
+            "id": "kielbasa-cabbage-apple-potato-braise:primary_protein:italian-pork-sausage",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "slotKey": "primary_protein",
+            "slotLabel": "Smoked Sausage or Pork Loin",
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "The skillet slices and reheats fully cooked sausage coins. Raw pork sausage/chorizo/ground pork cannot inherit a cooked-sausage method.",
+            "status": "proposed",
+            "payloadSha256": "d7a077f75dbe77f3d270ac8b2b66f627d3fd43a677fe064e2de12fea44f561e0"
+          },
+          {
+            "id": "kielbasa-cabbage-apple-potato-braise:primary_protein:pork-loin-roast-chops",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "slotKey": "primary_protein",
+            "slotLabel": "Smoked Sausage or Pork Loin",
+            "marketIngredientId": "pork-loin-roast-chops",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "The current long-braise/carnitas or sausage-coin directions do not provide a reviewed lean loin/chop/tenderloin method. Remove the candidate rather than reuse shoulder/sausage timing or invent a cut/yield conversion.",
+            "status": "proposed",
+            "payloadSha256": "9222dd3914e75441c75b5248bb1733df541122508c49b5e282d484541992fbf1"
+          },
+          {
+            "id": "tuscan-sausage-white-bean-spinach-potato-stew:primary_protein:italian-pork-sausage",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+            "slotKey": "primary_protein",
+            "slotLabel": "Italian Sausage or Chicken Thighs",
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientIds": [
+              "italian-pork-sausage-raw"
+            ],
+            "offerFoods": [
+              "italian-pork-sausage-raw"
+            ],
+            "rationale": "Use only explicitly raw pork-qualified meat. Crumble sausage/remove link casings and use the reviewed thermometer endpoint in the exact instruction patch. The Tuscan recipe stays Italian-sausage-specific.",
+            "status": "proposed",
+            "payloadSha256": "2ba5a46440d2f1f001c168e33f1fb93940d48f5cdf6d834d7d71ba067bd17672"
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:primary_protein:chicken-thighs-bone-in",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "slotKey": "primary_protein",
+            "slotLabel": "Chicken Thighs or Breast",
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "The curry uses a boneless measured chicken quantity and provides no reviewed bone-removal, whole-pack yield or separate bone-in preparation. Catalog bone-in cuts without silently substituting their retail weight.",
+            "status": "proposed",
+            "payloadSha256": "7922aade7e3aa7284ba1b38e0482bf1ec17dcdf08835e693db7148cf02e10675"
+          },
+          {
+            "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:meat_protein:italian-pork-sausage",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "slotKey": "meat_protein",
+            "slotLabel": "Sausage or Ground Turkey/Beef",
+            "marketIngredientId": "italian-pork-sausage",
+            "pantryIngredientIds": [
+              "italian-pork-sausage-raw",
+              "ground-pork-raw",
+              "pork-chorizo-raw",
+              "pork-sausage-raw"
+            ],
+            "offerFoods": [
+              "italian-pork-sausage-raw",
+              "ground-pork-raw",
+              "pork-chorizo-raw",
+              "pork-sausage-raw"
+            ],
+            "rationale": "Use only explicitly raw pork-qualified meat. Crumble sausage/remove link casings and use the reviewed thermometer endpoint in the exact instruction patch. The Tuscan recipe stays Italian-sausage-specific.",
+            "status": "proposed",
+            "payloadSha256": "0a8889cd4578162741d01466d6f7fe07565c8ffb9598efe164497c43ac84affb"
+          },
+          {
+            "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:meat_protein:smoked-sausage-kielbasa",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "slotKey": "meat_protein",
+            "slotLabel": "Sausage or Ground Turkey/Beef",
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "pantryIngredientIds": [
+              "smoked-sausage-fully-cooked",
+              "kielbasa-fully-cooked",
+              "andouille-fully-cooked"
+            ],
+            "offerFoods": [
+              "smoked-sausage-fully-cooked",
+              "kielbasa-fully-cooked",
+              "andouille-fully-cooked"
+            ],
+            "rationale": "Only explicitly fully cooked sausages meet this slice/reheat alternative. Raw smoked sausage, raw kielbasa/andouille and unqualified cooking-state titles remain excluded.",
+            "status": "proposed",
+            "payloadSha256": "b08958a57d8a81336da303651089c46456ae2f532fc7275ccbb6b6a8684731e6"
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:primary_protein:beef-chuck-roast",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "slotKey": "primary_protein",
+            "slotLabel": "Chuck Roast or Sirloin/Ground Beef",
+            "marketIngredientId": "beef-chuck-roast",
+            "pantryIngredientIds": [
+              "beef-chuck-roast-boneless-raw"
+            ],
+            "offerFoods": [
+              "boneless-beef-chuck-roast-raw"
+            ],
+            "rationale": "The existing method is a chuck-roast braise. Require the exact boneless raw chuck choice; generic stew/pot-roast or bone-unspecified arm cuts do not establish it.",
+            "status": "proposed",
+            "payloadSha256": "97fc7e01542d19197b62b5f05ca7e591c55dd7d0b0e7dfaa344120bda6b7b7b5"
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:primary_protein:sirloin-strip-steak",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "slotKey": "primary_protein",
+            "slotLabel": "Chuck Roast or Sirloin/Ground Beef",
+            "marketIngredientId": "sirloin-strip-steak",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "The six-to-seven-hour chuck-roast method is not a reviewed strip/sirloin/ribeye/T-bone method. The prior audit prose omitted this actual slot; remove it explicitly instead of claiming no recipe use.",
+            "status": "proposed",
+            "payloadSha256": "02f9b7fadbfa5b80be133ae0da41817c5ca93b3071d3bb189227fc40430b836a"
+          },
+          {
+            "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:primary_protein:salmon-fillets",
+            "revision": 1,
+            "action": "allow",
+            "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+            "slotKey": "primary_protein",
+            "slotLabel": "Salmon Fillets",
+            "marketIngredientId": "salmon-fillets",
+            "pantryIngredientIds": [
+              "salmon-fillets-raw"
+            ],
+            "offerFoods": [
+              "salmon-fillets-raw"
+            ],
+            "rationale": "Use generic raw salmon fillets, with named species covering only the generic requirement via three reviewed edges. Thaw before this preparation and cook to the reviewed 145°F thermometer endpoint; reject smoked/canned/breaded/whole-fish products.",
+            "status": "proposed",
+            "payloadSha256": "79c1d01fa0235171b0727dff0fc3f1678e221b141948b2b2a66ac11128be3dc9"
+          },
+          {
+            "id": "instant-pot-pork-carnitas-cabbage-peppers-skillet:primary_protein:pork-loin-roast-chops",
+            "revision": 1,
+            "action": "reject",
+            "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+            "slotKey": "primary_protein",
+            "slotLabel": "Pork Shoulder or Pork Loin",
+            "marketIngredientId": "pork-loin-roast-chops",
+            "pantryIngredientIds": [],
+            "offerFoods": [],
+            "rationale": "The current long-braise/carnitas or sausage-coin directions do not provide a reviewed lean loin/chop/tenderloin method. Remove the candidate rather than reuse shoulder/sausage timing or invent a cut/yield conversion.",
+            "status": "proposed",
+            "payloadSha256": "1932971c26b99ecd2f90bb385b16d08caae0779df648fbbb6b62f43fa972222f"
+          }
+        ],
+        "auxiliaryCandidateDecisions": [
+          {
+            "id": "dutch-oven-beef-chuck-pot-roast-stew:primary_protein:ground-beef-80-20",
+            "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "ground-beef-80-20",
+            "action": "reject",
+            "rationale": "Ground beef does not inherit the chuck-roast cube/shred braise method. Remove this extra legacy candidate without protecting or changing its unrelated chili use or existing global pantry identity.",
+            "status": "proposed",
+            "payloadSha256": "ff7ea84f08448b515ba1f85e431f55a15fb2ba8c850983bf496b3e99fb7d203f"
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:primary_protein:ground-beef-80-20",
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "ground-beef-80-20",
+            "action": "reject",
+            "rationale": "Ground beef does not inherit the chuck-roast cube/shred braise method. Remove this extra legacy candidate without protecting or changing its unrelated chili use or existing global pantry identity.",
+            "status": "proposed",
+            "payloadSha256": "f2daacdea8ddffae5c5f53ce97441d0db11574e1f802e081bdc60b5ec3af9409"
+          }
+        ],
+        "candidateRemovals": [
+          {
+            "id": "colorado-pork-green-chile-stew:primary_protein:pork-loin-roast-chops",
+            "before": {
+              "candidateIngredientIds": [
+                "pork-shoulder-butt",
+                "pork-loin-roast-chops"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "pork-shoulder-butt"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "kielbasa-cabbage-apple-potato-braise:primary_protein:italian-pork-sausage",
+            "before": {
+              "candidateIngredientIds": [
+                "smoked-sausage-kielbasa",
+                "italian-pork-sausage",
+                "pork-loin-roast-chops"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "smoked-sausage-kielbasa",
+                "pork-loin-roast-chops"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "kielbasa-cabbage-apple-potato-braise:primary_protein:pork-loin-roast-chops",
+            "before": {
+              "candidateIngredientIds": [
+                "smoked-sausage-kielbasa",
+                "pork-loin-roast-chops"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "smoked-sausage-kielbasa"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "golden-chicken-butternut-squash-curry-braise:primary_protein:chicken-thighs-bone-in",
+            "before": {
+              "candidateIngredientIds": [
+                "chicken-thighs-boneless",
+                "chicken-thighs-bone-in",
+                "chicken-breast-boneless"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "chicken-thighs-boneless",
+                "chicken-breast-boneless"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:primary_protein:sirloin-strip-steak",
+            "before": {
+              "candidateIngredientIds": [
+                "beef-chuck-roast",
+                "ground-beef-80-20",
+                "sirloin-strip-steak"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "beef-chuck-roast",
+                "ground-beef-80-20"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "instant-pot-pork-carnitas-cabbage-peppers-skillet:primary_protein:pork-loin-roast-chops",
+            "before": {
+              "candidateIngredientIds": [
+                "pork-shoulder-butt",
+                "pork-loin-roast-chops"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "pork-shoulder-butt"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "dutch-oven-beef-chuck-pot-roast-stew:primary_protein:ground-beef-80-20",
+            "before": {
+              "candidateIngredientIds": [
+                "beef-chuck-roast",
+                "ground-beef-80-20"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "beef-chuck-roast"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          },
+          {
+            "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:primary_protein:ground-beef-80-20",
+            "before": {
+              "candidateIngredientIds": [
+                "beef-chuck-roast",
+                "ground-beef-80-20"
+              ],
+              "lowCarbCandidateIds": []
+            },
+            "after": {
+              "candidateIngredientIds": [
+                "beef-chuck-roast"
+              ],
+              "lowCarbCandidateIds": []
+            }
+          }
+        ],
+        "instructionTitleAndLabelPatches": [
+          {
+            "id": "text:colorado-pork-green-chile-stew:slotLabel:primary_protein",
+            "recipeId": "colorado-pork-green-chile-stew",
+            "field": "slotLabel",
+            "slotKey": "primary_protein",
+            "before": "Braising Pork Cut",
+            "after": "Pork Shoulder",
+            "status": "proposed",
+            "payloadSha256": "5d23867e586464937c71564a96c6590cc2392b562d5be5861255e1ff33d87fb8"
+          },
+          {
+            "id": "text:colorado-pork-green-chile-stew:steps:1",
+            "recipeId": "colorado-pork-green-chile-stew",
+            "field": "steps",
+            "stepIndex": 1,
+            "before": "Cube pork shoulder (or loin) into 1.5-inch chunks, season with salt & pepper, and toss into the slow cooker with cubed potatoes (or cauliflower florets for low-carb).",
+            "after": "Thaw frozen raw pork in the refrigerator before starting. Cube pork shoulder into 1.5-inch chunks, season with salt & pepper, and toss into the slow cooker with cubed potatoes (or cauliflower florets for low-carb).",
+            "status": "proposed",
+            "payloadSha256": "fce78f3b9450cb72fbdf2b6891d416c2e28c38412a8abd331f677ab957ceef31"
+          },
+          {
+            "id": "text:dutch-oven-beef-chuck-pot-roast-stew:slotLabel:primary_protein",
+            "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+            "field": "slotLabel",
+            "slotKey": "primary_protein",
+            "before": "Braising Beef Cut",
+            "after": "Boneless Beef Chuck Roast",
+            "status": "proposed",
+            "payloadSha256": "9fff8b36c4150c36d16b93c207f70e8320e14897e7ebb2581a82657ddbae6883"
+          },
+          {
+            "id": "text:dutch-oven-beef-chuck-pot-roast-stew:steps:0",
+            "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Cut chuck roast into 2-inch cubes, pat dry, and sear in batches in a hot Dutch oven until deeply browned.",
+            "after": "Thaw frozen raw beef in the refrigerator before starting. Cut boneless beef chuck roast into 2-inch cubes, pat dry, and sear in batches in a hot Dutch oven until deeply browned.",
+            "status": "proposed",
+            "payloadSha256": "f5c47a4ff2b51f8c796347401c5aa02a4a1e2032edf319521f9b816a28204fee"
+          },
+          {
+            "id": "text:southwest-sweet-potato-ground-beef-chili-bake:steps:0",
+            "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Brown ground beef (or turkey/sausage) with diced onions and bell/poblano peppers in a large pot or Dutch oven; drain excess fat.",
+            "after": "Thaw frozen raw meat in the refrigerator before starting. Remove casings from raw sausage links and crumble the sausage or ground meat. Brown ground beef, ground turkey, raw ground pork or crumbled raw pork sausage/chorizo with diced onions and bell/poblano peppers; drain excess fat. Use a food thermometer: cook ground beef/pork and pork sausage to at least 160°F, or ground turkey to at least 165°F.",
+            "status": "proposed",
+            "payloadSha256": "ee543c48400d8980a707203b295fc2ef7ba29144804e44c23bdb456ae4c57045"
+          },
+          {
+            "id": "text:kielbasa-cabbage-apple-potato-braise:title:",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "field": "title",
+            "before": "Bavarian Smoked Kielbasa, Braised Cabbage, Apple & Potato Skillet",
+            "after": "Bavarian Sausage, Braised Cabbage, Apple & Potato Skillet",
+            "status": "proposed",
+            "payloadSha256": "54d7622e63134869e7573b26d8290d88f794d091c8f510cdd5b27b94cf047413"
+          },
+          {
+            "id": "text:kielbasa-cabbage-apple-potato-braise:slotLabel:primary_protein",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "field": "slotLabel",
+            "slotKey": "primary_protein",
+            "before": "Smoked Sausage or Pork Loin",
+            "after": "Fully Cooked Sausage",
+            "status": "proposed",
+            "payloadSha256": "d8097d5ab2516c6932e4c524e36340ea72202c57ea65dfff0ed6f79b2d80df1d"
+          },
+          {
+            "id": "text:kielbasa-cabbage-apple-potato-braise:steps:0",
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Slice smoked sausage into coins and sear in a deep Dutch oven or heavy skillet until browned; transfer to a plate.",
+            "after": "Use only sausage labeled fully cooked or ready-to-eat: smoked sausage, kielbasa or andouille. If frozen, thaw in the refrigerator before slicing. Slice into coins and sear in a deep Dutch oven or heavy skillet until browned; follow the product label for heating, then transfer to a plate.",
+            "status": "proposed",
+            "payloadSha256": "426cffd22ffe7ac23ac435f1dd66d6f961d89dd4284b85fa805724c82bebfa51"
+          },
+          {
+            "id": "text:tuscan-sausage-white-bean-spinach-potato-stew:steps:0",
+            "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Brown Italian sausage in the Instant Pot (or Dutch oven) with diced onion, carrots, and garlic.",
+            "after": "Thaw frozen raw protein in the refrigerator before starting. Remove casings from raw Italian pork sausage links and crumble the sausage, or cut boneless chicken thighs into bite-sized pieces. Brown the selected sausage, chicken or ground turkey with diced onion, carrots and garlic. Use a food thermometer: cook pork sausage to at least 160°F, or chicken/ground turkey to at least 165°F.",
+            "status": "proposed",
+            "payloadSha256": "5b11610e72f4852af18395324d4bcd0ced7f89d7ccdc5b04890d26a06141252b"
+          },
+          {
+            "id": "text:golden-chicken-butternut-squash-curry-braise:steps:0",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Place cubed butternut squash (or sweet potatoes, or cauliflower florets for the low-carb replacement), diced onions, diced tomatoes, and chicken thighs into the slow cooker.",
+            "after": "Thaw frozen raw chicken in the refrigerator before starting. Place cubed butternut squash (or sweet potatoes, or cauliflower florets for the low-carb replacement), diced onions, diced tomatoes, and boneless skinless chicken thighs or breast into the slow cooker.",
+            "status": "proposed",
+            "payloadSha256": "d9895b18ef56e5d4985ab6b104a6bcf9533ba30f5b544893baa29afc6c465b52"
+          },
+          {
+            "id": "text:golden-chicken-butternut-squash-curry-braise:steps:1",
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "field": "steps",
+            "stepIndex": 1,
+            "before": "Whisk broth/coconut milk with curry powder, garam masala, garlic, and ginger; pour over chicken and cook on LOW for 4.5 hours.",
+            "after": "Whisk broth/coconut milk with curry powder, garam masala, garlic, and ginger; pour over chicken and cook on LOW for about 4.5 hours, until the chicken reaches at least 165°F on a food thermometer.",
+            "status": "proposed",
+            "payloadSha256": "c6b8807f9a549d4ab7c33be21bc4fa7a8a6e9a0977c2a9ba266192227ed5444a"
+          },
+          {
+            "id": "text:high-protein-sausage-egg-sweet-potato-breakfast-casserole:slotLabel:meat_protein",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "field": "slotLabel",
+            "slotKey": "meat_protein",
+            "before": "Sausage or Ground Turkey/Beef",
+            "after": "Raw Pork Sausage, Fully Cooked Sausage or Ground Turkey",
+            "status": "proposed",
+            "payloadSha256": "8dddc971c59e1461c0723f0d3db2c409ee2929fdd69056dd464135bc81b93535"
+          },
+          {
+            "id": "text:high-protein-sausage-egg-sweet-potato-breakfast-casserole:steps:0",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable base) and diced peppers/onions in a skillet for 10 minutes until tender. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.",
+            "after": "Thaw frozen protein in the refrigerator before starting. For raw pork sausage links, remove casings and crumble; for fully cooked sausage, slice or dice. Brown the selected meat with finely diced potatoes/sweet potatoes (or mushrooms or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable base) and diced peppers/onions until tender. Cook raw pork/sausage to at least 160°F or raw ground turkey to at least 165°F on a food thermometer; heat fully cooked sausage according to its label. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.",
+            "status": "proposed",
+            "payloadSha256": "8a884bd0b1ab5ac869d12eb28ca0b3408a16b1ad8586d49b4f91920566a09421"
+          },
+          {
+            "id": "text:high-protein-sausage-egg-sweet-potato-breakfast-casserole:steps:2",
+            "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+            "field": "steps",
+            "stepIndex": 2,
+            "before": "Pour egg mixture over the sausage-vegetable hash, top with remaining cheddar, and bake at 375°F for 35–40 minutes until set in the center.",
+            "after": "Pour egg mixture over the sausage-vegetable hash, top with remaining cheddar, and bake at 375°F for about 35–40 minutes until the casserole reaches at least 165°F in the center on a food thermometer.",
+            "status": "proposed",
+            "payloadSha256": "3a1deef04c9b08308bc29d7ead2f4387ca2437fad12a770e48bdce6df6fc5652"
+          },
+          {
+            "id": "text:keto-caveman-beef-chuck-mushroom-cauliflower-braise:slotLabel:primary_protein",
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "field": "slotLabel",
+            "slotKey": "primary_protein",
+            "before": "Chuck Roast or Sirloin/Ground Beef",
+            "after": "Boneless Beef Chuck Roast",
+            "status": "proposed",
+            "payloadSha256": "e7697952a2da6c4038063d9a308473afae07e9af4e0193d0f2a6ddf1dbc5b1f9"
+          },
+          {
+            "id": "text:keto-caveman-beef-chuck-mushroom-cauliflower-braise:steps:0",
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Season beef chuck roast generously with salt, black pepper, garlic powder, and rosemary; place in the slow cooker surrounded by whole baby bella mushrooms, diced onion, and celery.",
+            "after": "Thaw frozen raw beef in the refrigerator before starting. Season boneless beef chuck roast generously with salt, black pepper, garlic powder, and rosemary; place in the slow cooker surrounded by whole baby bella mushrooms, diced onion, and celery.",
+            "status": "proposed",
+            "payloadSha256": "afb6289ae71c9c0f310220094bbaaa665f056c5d918fa7e6ca8f52d8e8cc6579"
+          },
+          {
+            "id": "text:sheet-pan-salmon-asparagus-brussels-potato-roast:steps:0",
+            "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+            "field": "steps",
+            "stepIndex": 0,
+            "before": "Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.",
+            "after": "Thaw frozen raw salmon fillets in the refrigerator before starting. Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.",
+            "status": "proposed",
+            "payloadSha256": "cf30f7e1dc7dd1233c1d8ae104686c351957dad040110a950ae35afcc3b04725"
+          },
+          {
+            "id": "text:sheet-pan-salmon-asparagus-brussels-potato-roast:steps:2",
+            "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+            "field": "steps",
+            "stepIndex": 2,
+            "before": "If serving the low-carb spinach or kale side, saute those greens separately until tender. Roast 11–13 minutes more until salmon flakes easily at 135°F internal temp so it stays moist when reheated.",
+            "after": "If serving the low-carb spinach or kale side, saute those greens separately until tender. Roast until the salmon reaches at least 145°F on a food thermometer; check after about 11–13 minutes and continue cooking as needed.",
+            "status": "proposed",
+            "payloadSha256": "a0276eb5cda95c6a9d842df2298c30420d8917245f1f1d828c1063cafc50fb43"
+          },
+          {
+            "id": "text:instant-pot-pork-carnitas-cabbage-peppers-skillet:slotLabel:primary_protein",
+            "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+            "field": "slotLabel",
+            "slotKey": "primary_protein",
+            "before": "Pork Shoulder or Pork Loin",
+            "after": "Pork Shoulder",
+            "status": "proposed",
+            "payloadSha256": "79608a1479ed3822c0b1f44b042919f146f380d86f5385a6d03aee74d45436d9"
+          }
+        ],
+        "proposedImplementedBlueprintHash": "bd192c267e3f42590a388dd49278ad5c059c5797c4f44c4db9a89f36bedda52a"
+      },
+      "offerCases": {
+        "availabilityCases": [
+          {
+            "positives": [
+              "atlantic-salmon-fillets-raw"
+            ],
+            "negatives": [],
+            "requiredId": "salmon-fillets-raw",
+            "expected": true
+          },
+          {
+            "positives": [
+              "salmon-fillets-raw"
+            ],
+            "negatives": [],
+            "requiredId": "sockeye-salmon-fillets-raw",
+            "expected": false
+          },
+          {
+            "positives": [
+              "coho-salmon-fillets-raw"
+            ],
+            "negatives": [
+              "salmon-fillets-raw"
+            ],
+            "requiredId": "salmon-fillets-raw",
+            "expected": false
+          },
+          {
+            "positives": [
+              "salmon-fillets-raw"
+            ],
+            "negatives": [
+              "coho-salmon-fillets-raw"
+            ],
+            "requiredId": "salmon-fillets-raw",
+            "expected": true
+          },
+          {
+            "positives": [
+              "chicken-thighs-bone-in-raw"
+            ],
+            "negatives": [],
+            "requiredId": "chicken-thighs-boneless",
+            "expected": false
+          },
+          {
+            "positives": [
+              "pork-tenderloin-raw"
+            ],
+            "negatives": [],
+            "requiredId": "pork-loin-roast-boneless-raw",
+            "expected": false
+          },
+          {
+            "positives": [
+              "beef-stew-meat-raw"
+            ],
+            "negatives": [],
+            "requiredId": "beef-chuck-roast-boneless-raw",
+            "expected": false
+          },
+          {
+            "positives": [
+              "kielbasa-raw"
+            ],
+            "negatives": [],
+            "requiredId": "kielbasa-fully-cooked",
+            "expected": false
+          },
+          {
+            "positives": [
+              "pork-chorizo-raw"
+            ],
+            "negatives": [],
+            "requiredId": "ground-pork-raw",
+            "expected": false
+          },
+          {
+            "positives": [
+              "beef-top-sirloin-steak-raw"
+            ],
+            "negatives": [],
+            "requiredId": "beef-chuck-roast-boneless-raw",
+            "expected": false
+          }
+        ],
+        "offerCases": [
+          {
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "title": "Raw bone-in chicken thighs",
+            "counterpartIds": [
+              "chicken-thighs-bone-in-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "title": "Value pack chicken thighs",
+            "counterpartIds": [],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "title": "Raw chicken drumsticks",
+            "counterpartIds": [
+              "chicken-drumsticks-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "title": "Raw chicken leg quarters",
+            "counterpartIds": [
+              "chicken-leg-quarters-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "pork-loin-roast-chops",
+            "title": "Raw boneless pork loin roast",
+            "counterpartIds": [
+              "pork-loin-roast-boneless-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "pork-loin-roast-chops",
+            "title": "Pork chops",
+            "counterpartIds": [],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "pork-loin-roast-chops",
+            "title": "Raw pork tenderloin",
+            "counterpartIds": [
+              "pork-tenderloin-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "beef-chuck-roast",
+            "title": "Raw boneless beef chuck roast",
+            "counterpartIds": [
+              "beef-chuck-roast-boneless-raw",
+              "beef-pot-roast-cut-raw"
+            ],
+            "recipeFood": "boneless-beef-chuck-roast-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "beef-chuck-roast",
+            "title": "Raw beef chuck roast",
+            "counterpartIds": [
+              "beef-pot-roast-cut-raw"
+            ],
+            "recipeFood": "boneless-beef-chuck-roast-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "beef-chuck-roast",
+            "title": "Cooked beef pot roast",
+            "counterpartIds": [],
+            "recipeFood": "boneless-beef-chuck-roast-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "beef-chuck-roast",
+            "title": "Raw beef stew meat",
+            "counterpartIds": [
+              "beef-stew-meat-raw"
+            ],
+            "recipeFood": "boneless-beef-chuck-roast-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "beef-chuck-roast",
+            "title": "Raw beef arm pot roast",
+            "counterpartIds": [
+              "beef-arm-pot-roast-raw",
+              "beef-pot-roast-cut-raw"
+            ],
+            "recipeFood": "boneless-beef-chuck-roast-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Raw Italian pork sausage",
+            "counterpartIds": [
+              "italian-pork-sausage-raw"
+            ],
+            "recipeFood": "italian-pork-sausage-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Raw ground pork",
+            "counterpartIds": [
+              "ground-pork-raw"
+            ],
+            "recipeFood": "ground-pork-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Raw pork chorizo",
+            "counterpartIds": [
+              "pork-chorizo-raw"
+            ],
+            "recipeFood": "pork-chorizo-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Dry cured pork chorizo",
+            "counterpartIds": [],
+            "recipeFood": "pork-chorizo-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Fully cooked Italian pork sausage",
+            "counterpartIds": [],
+            "recipeFood": "italian-pork-sausage-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Raw Italian chicken sausage",
+            "counterpartIds": [],
+            "recipeFood": "italian-pork-sausage-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Johnsonville sausage",
+            "counterpartIds": [],
+            "recipeFood": "italian-pork-sausage-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "italian-pork-sausage",
+            "title": "Raw pork sausage",
+            "counterpartIds": [
+              "pork-sausage-raw"
+            ],
+            "recipeFood": "pork-sausage-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Fully cooked kielbasa",
+            "counterpartIds": [
+              "kielbasa-fully-cooked"
+            ],
+            "recipeFood": "kielbasa-fully-cooked",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Smoked sausage",
+            "counterpartIds": [],
+            "recipeFood": "smoked-sausage-fully-cooked",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Hillshire Farm",
+            "counterpartIds": [],
+            "recipeFood": "smoked-sausage-fully-cooked",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Raw smoked sausage",
+            "counterpartIds": [
+              "smoked-sausage-raw"
+            ],
+            "recipeFood": "smoked-sausage-fully-cooked",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Raw kielbasa",
+            "counterpartIds": [
+              "kielbasa-raw"
+            ],
+            "recipeFood": "kielbasa-fully-cooked",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Raw andouille sausage",
+            "counterpartIds": [
+              "andouille-raw"
+            ],
+            "recipeFood": "andouille-fully-cooked",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Ready-to-eat andouille sausage",
+            "counterpartIds": [
+              "andouille-fully-cooked"
+            ],
+            "recipeFood": "andouille-fully-cooked",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "smoked-sausage-kielbasa",
+            "title": "Fully cooked smoked sausage",
+            "counterpartIds": [
+              "smoked-sausage-fully-cooked"
+            ],
+            "recipeFood": "smoked-sausage-fully-cooked",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "sirloin-strip-steak",
+            "title": "Raw beef top sirloin steak",
+            "counterpartIds": [
+              "beef-top-sirloin-steak-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "sirloin-strip-steak",
+            "title": "Raw beef ribeye steak",
+            "counterpartIds": [
+              "beef-ribeye-steak-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "sirloin-strip-steak",
+            "title": "Raw beef T-bone steak",
+            "counterpartIds": [
+              "beef-t-bone-steak-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "sirloin-strip-steak",
+            "title": "Raw beef New York strip steak",
+            "counterpartIds": [
+              "beef-new-york-strip-steak-raw"
+            ],
+            "recipeFood": null,
+            "admit": false
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Frozen raw sockeye salmon fillets",
+            "counterpartIds": [
+              "salmon-fillets-raw",
+              "sockeye-salmon-fillets-raw"
+            ],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Raw Atlantic salmon fillets",
+            "counterpartIds": [
+              "salmon-fillets-raw",
+              "atlantic-salmon-fillets-raw"
+            ],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Raw coho salmon filets",
+            "counterpartIds": [
+              "salmon-fillets-raw",
+              "coho-salmon-fillets-raw"
+            ],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": true
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Smoked sockeye salmon fillets",
+            "counterpartIds": [],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Canned salmon",
+            "counterpartIds": [],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Raw whole Atlantic salmon",
+            "counterpartIds": [],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Breaded raw salmon fillets",
+            "counterpartIds": [],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": false
+          },
+          {
+            "marketIngredientId": "salmon-fillets",
+            "title": "Raw Atlantic or sockeye salmon fillets",
+            "counterpartIds": [],
+            "recipeFood": "salmon-fillets-raw",
+            "admit": false
+          }
+        ],
+        "rejectedScopeContexts": [
+          {
+            "recipeId": "colorado-pork-green-chile-stew",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "pork-loin-roast-chops",
+            "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+          },
+          {
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "italian-pork-sausage",
+            "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+          },
+          {
+            "recipeId": "kielbasa-cabbage-apple-potato-braise",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "pork-loin-roast-chops",
+            "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+          },
+          {
+            "recipeId": "golden-chicken-butternut-squash-curry-braise",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "chicken-thighs-bone-in",
+            "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+          },
+          {
+            "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "sirloin-strip-steak",
+            "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+          },
+          {
+            "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+            "slotKey": "primary_protein",
+            "marketIngredientId": "pork-loin-roast-chops",
+            "expected": "No active scoped use or inferred ownership/qualified price for this removed grouped candidate, even in a stale or manually reconstructed saved recipe."
+          }
+        ],
+        "offerCasesStatus": "EXACT_REVIEW_EXPECTATIONS_IMPLEMENTATION_NOT_PRESENT",
+        "crossStoreRequirements": [
+          "Use only the actual qualified original offer at each store, before cheapest-per-store selection.",
+          "Do not reuse bone-in/whole-fish retail weight or a raw-unknown sausage quote for a boneless/fillet/fully-cooked requirement.",
+          "Recover a higher-priced qualifying same-store offer after rejecting a cheap incompatible cut/state.",
+          "Keep selected store pools, unverified cross-store estimates and actual pickup food/cut nouns."
+        ]
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "1d059cb417ad3baa130f733e6e3627b5be73d29085b439819b358f07a4462533"
+      }
     }
   ]
 }

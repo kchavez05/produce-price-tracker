@@ -1,3 +1,4 @@
+import { PROTEIN_RECIPE_FOODS } from '../../src/lib/pantry/protein-offer';
 import { CookingIngredient, ScopedRecipeUse } from '../../src/types/catalog';
 import { MealPrepBlueprint } from '../../src/types/domain';
 import { sha256 } from './catalog-curation';
@@ -36,6 +37,20 @@ export function compileScopedRecipeUses(raw: unknown, ingredients: readonly Cook
       revised.add(row.id);
       rows.set(row.id, row);
     }
+    if (revision.auxiliaryCandidateDecisions !== undefined) {
+      if (!Array.isArray(revision.auxiliaryCandidateDecisions)) throw new Error('Invalid auxiliary candidate removals');
+      const auxiliaryIds = new Set<string>();
+      for (const row of revision.auxiliaryCandidateDecisions) {
+        if (!object(row)) throw new Error('Invalid auxiliary candidate removal');
+        const { status, payloadSha256, ...payload } = row;
+        const recipe = blueprints.find((b) => b.id === row.recipeId);
+        const slot = recipe?.slots.find((s) => s.slotKey === row.slotKey);
+        if (status !== 'proposed' || payloadSha256 !== sha256(payload) || row.action !== 'reject' || !recipe || !slot || typeof row.marketIngredientId !== 'string' ||
+          row.id !== `${recipe.id}:${slot.slotKey}:${row.marketIngredientId}` || auxiliaryIds.has(String(row.id)) || protectedIds.has(row.marketIngredientId) ||
+          [...slot.candidateIngredientIds, ...slot.lowCarbCandidateIds ?? []].includes(row.marketIngredientId)) throw new Error('Auxiliary rejected candidate remains active or changes protected scope');
+        auxiliaryIds.add(String(row.id));
+      }
+    }
     blueprintHash = revision.proposedImplementedBlueprintHash;
   }
   if (blueprintHash !== sha256(blueprints)) throw new Error('Scoped recipe approval or integration fingerprint is stale');
@@ -53,7 +68,7 @@ export function compileScopedRecipeUses(raw: unknown, ingredients: readonly Cook
       continue;
     }
     if (!isCandidate || new Set(row.pantryIngredientIds).size !== row.pantryIngredientIds.length || row.pantryIngredientIds.some((id) => !known.has(id)) ||
-      !row.offerFoods.length || row.offerFoods.some((food) => !Object.hasOwn(OFFER_FOOD_TERMS, food))) throw new Error('Invalid or incomplete scoped recipe decision');
+      !row.offerFoods.length || row.offerFoods.some((food) => !Object.hasOwn(OFFER_FOOD_TERMS, food) && !Object.hasOwn(PROTEIN_RECIPE_FOODS, food))) throw new Error('Invalid or incomplete scoped recipe decision');
     const original = proposal.decisions.find((r: { id?: string }) => r.id === row.id);
     const displayName = typeof row.displayName === 'string' ? row.displayName : original?.displayName ?? row.pantryIngredientIds.map((id) => known.get(id)!.name).join(' or ');
     if (typeof displayName !== 'string' || !displayName.trim()) throw new Error('Scoped recipe display name is required');
@@ -63,5 +78,5 @@ export function compileScopedRecipeUses(raw: unknown, ingredients: readonly Cook
   const expected = blueprints.flatMap((b) => b.slots.flatMap((s) => [...new Set([...s.candidateIngredientIds, ...s.lowCarbCandidateIds ?? []])].filter((id) => protectedIds.has(id)).map((id) => `${b.id}:${s.slotKey}:${id}`)));
   if (expected.length !== seen.size || expected.some((id) => !seen.has(id))) throw new Error('Every protected recipe candidate must be reviewed');
   const recipeIds = new Set(uses.map((u) => u.recipeId));
-  return { uses, contexts: blueprints.filter((b) => recipeIds.has(b.id)).map(({ id, title, steps }) => ({ id, title, steps })) };
+  return { uses, protectedMarketIds: [...protectedIds].sort(), contexts: blueprints.filter((b) => recipeIds.has(b.id)).map(({ id, title, steps }) => ({ id, title, steps })) };
 }
