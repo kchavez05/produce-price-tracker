@@ -1,0 +1,469 @@
+{
+  "originalTriageHash": "326ca265507d0040bf5a8774aad4e77e8e5e98e1cdabbd7ed2a108ced8e850da",
+  "choices": [
+    {
+      "choice": "Carrots",
+      "sourceKey": "sr_legacy_food:170393",
+      "ingredientIds": [
+        "carrots-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Broccoli",
+      "sourceKey": "foundation_food:747447",
+      "ingredientIds": [
+        "broccoli-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cauliflower",
+      "sourceKey": "foundation_food:2685573",
+      "ingredientIds": [
+        "cauliflower-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Spinach",
+      "sourceKey": "sr_legacy_food:168462",
+      "ingredientIds": [
+        "spinach-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Kale",
+      "sourceKey": "foundation_food:323505",
+      "ingredientIds": [
+        "kale-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Leeks",
+      "sourceKey": "foundation_food:2727584",
+      "ingredientIds": [
+        "leeks-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Beets",
+      "sourceKey": "foundation_food:2685576",
+      "ingredientIds": [
+        "beets-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Radishes",
+      "sourceKey": "sr_legacy_food:169276",
+      "ingredientIds": [
+        "radishes-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Okra",
+      "sourceKey": "sr_legacy_food:169260",
+      "ingredientIds": [
+        "okra-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Eggplant",
+      "sourceKey": "foundation_food:2685577",
+      "ingredientIds": [
+        "eggplant-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cilantro",
+      "sourceKey": "sr_legacy_food:169997",
+      "ingredientIds": [
+        "cilantro-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Parsley",
+      "sourceKey": "sr_legacy_food:170416",
+      "ingredientIds": [
+        "parsley-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Basil",
+      "sourceKey": "sr_legacy_food:172232",
+      "ingredientIds": [
+        "basil-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Spearmint",
+      "sourceKey": "sr_legacy_food:173475",
+      "ingredientIds": [
+        "spearmint-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "White mushrooms",
+      "sourceKey": "sr_legacy_food:169251",
+      "ingredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cucumber",
+      "sourceKey": "foundation_food:2346406",
+      "ingredientIds": [
+        "cucumber-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Fresh tomatoes",
+      "sourceKey": "sr_legacy_food:170457",
+      "ingredientIds": [
+        "tomatoes-fresh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Canola oil",
+      "sourceKey": "foundation_food:748278",
+      "ingredientIds": [
+        "canola-oil"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Sesame oil",
+      "sourceKey": "sr_legacy_food:171016",
+      "ingredientIds": [
+        "sesame-oil"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground cinnamon",
+      "sourceKey": "sr_legacy_food:171320",
+      "ingredientIds": [
+        "cinnamon-ground"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground cloves",
+      "sourceKey": "sr_legacy_food:171321",
+      "ingredientIds": [
+        "cloves-ground"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground turmeric",
+      "sourceKey": "sr_legacy_food:172231",
+      "ingredientIds": [
+        "turmeric-ground"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Coriander seed",
+      "sourceKey": "sr_legacy_food:170922",
+      "ingredientIds": [
+        "coriander-ground",
+        "coriander-seeds-whole"
+      ],
+      "purposes": [
+        "general-reference"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground ginger",
+      "sourceKey": "sr_legacy_food:170926",
+      "ingredientIds": [
+        "ginger-ground"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cardamom",
+      "sourceKey": "sr_legacy_food:170919",
+      "ingredientIds": [
+        "cardamom-ground",
+        "cardamom-pods"
+      ],
+      "purposes": [
+        "general-reference"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Red wine vinegar",
+      "sourceKey": "sr_legacy_food:172240",
+      "ingredientIds": [
+        "red-wine-vinegar"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Miso",
+      "sourceKey": "sr_legacy_food:172442",
+      "ingredientIds": [
+        "miso"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Fish sauce",
+      "sourceKey": "sr_legacy_food:174531",
+      "ingredientIds": [
+        "fish-sauce"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Oyster sauce",
+      "sourceKey": "sr_legacy_food:174529",
+      "ingredientIds": [
+        "oyster-sauce"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Granulated sugar",
+      "sourceKey": "sr_legacy_food:169655",
+      "ingredientIds": [
+        "sugar-granulated"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Brown sugar",
+      "sourceKey": "sr_legacy_food:168833",
+      "ingredientIds": [
+        "sugar-brown"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Honey",
+      "sourceKey": "sr_legacy_food:169640",
+      "ingredientIds": [
+        "honey"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Tempeh",
+      "sourceKey": "sr_legacy_food:174272",
+      "ingredientIds": [
+        "tempeh"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Soft tofu",
+      "sourceKey": "sr_legacy_food:172449",
+      "ingredientIds": [
+        "tofu-soft"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Whole milk",
+      "sourceKey": "foundation_food:746782",
+      "ingredientIds": [
+        "milk-whole"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Plain yogurt",
+      "sourceKey": "foundation_food:2259793",
+      "ingredientIds": [
+        "yogurt-plain-whole-milk"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Feta",
+      "sourceKey": "sr_legacy_food:173420",
+      "ingredientIds": [
+        "feta-cheese"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Hard Parmesan",
+      "sourceKey": "sr_legacy_food:170848",
+      "ingredientIds": [
+        "parmesan-hard"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Canned light tuna in water",
+      "sourceKey": "foundation_food:334194",
+      "ingredientIds": [
+        "tuna-light-canned-water"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Raw almonds",
+      "sourceKey": "foundation_food:2346393",
+      "ingredientIds": [
+        "almonds-whole-raw"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "English walnuts",
+      "sourceKey": "foundation_food:2346394",
+      "ingredientIds": [
+        "walnuts-english-raw"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Dried whole sesame seeds",
+      "sourceKey": "sr_legacy_food:170150",
+      "ingredientIds": [
+        "sesame-seeds-whole-dried"
+      ],
+      "purposes": [
+        "identity"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    }
+  ]
+}

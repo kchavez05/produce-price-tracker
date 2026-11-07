@@ -1,0 +1,1689 @@
+{
+  "formatVersion": 1,
+  "status": "REQUIRED_BEFORE_V1_6_1_EXACT_CHOICES_NOT_APPROVED",
+  "baseCatalogVersion": "2026-11-06.4",
+  "baseCatalogHash": "86758a778e436be394c363d8f6e9efc9bdd47c23c7caf3fac16fc83973149951",
+  "sourceRelease": "2026-10-29",
+  "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+  "marketCatalogHash": "87d3adf646930c3dae99f7aedf571405b267d23f235b413809e687f8083c8815",
+  "direction": {
+    "by": "kchavez05",
+    "date": "2026-11-06",
+    "evidence": "Close the coverage gaps before release (Recommended)",
+    "authority": "Product direction only; exact identities, sources, aliases, forms and recipe-use payloads still require review."
+  },
+  "completionCriteria": [
+    "Every current market group has explicit pantry counterpart association for its supported food kinds, or unsupported/ambiguous offers are explicitly rejected rather than misidentified.",
+    "Counterpart associations remain separate from recipe-use compatibility and observed price identity; a market group never confers ownership of every member.",
+    "Generic defaults and optional precision follow the approved cooking-choice model, with exact No precedence and no inferred nutrition, portions, dietary guarantees or prices.",
+    "Review each existing blueprint scope before accepting a newly cataloged member. Specific requirements remain exact; a counterpart without a valid recipe use does not force a compatibility edge.",
+    "Retain current IDs and market history; new identity registry migrations and source assignments are additive and go through the existing review/rollout workflow."
+  ],
+  "groups": [
+    {
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "marketName": "Bone-In Chicken Thighs / Drumsticks",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "bone-in chicken thighs",
+        "chicken drumsticks",
+        "chicken leg quarters",
+        "value pack chicken thighs",
+        "chicken drumsticks or thighs"
+      ],
+      "memberChoicesUnderReview": [
+        "Bone-in chicken thighs",
+        "Chicken drumsticks",
+        "Chicken leg quarters"
+      ],
+      "boundary": "Keep these separate from existing boneless skinless thighs. Meat-and-skin analytical records do not establish retail bone/skin state or whole-pack yield; review precise labels or a curated qualification. Thighs, drumsticks and quarters need preparation/portion review.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2727567",
+          "ndbNumber": "100373",
+          "description": "Chicken, thigh, meat and skin, raw",
+          "publicationDate": "2025-04-24",
+          "categoryId": "5",
+          "categoryName": "Poultry Products",
+          "footnote": null,
+          "key": "foundation_food:2727567",
+          "fingerprint": "d18f841740d1ccdb92f52f5c6844406e3dd9045212e71c365d0f3bb1e72097fa",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2727566",
+          "ndbNumber": "100372",
+          "description": "Chicken, drumstick, meat and skin, raw",
+          "publicationDate": "2025-04-24",
+          "categoryId": "5",
+          "categoryName": "Poultry Products",
+          "footnote": null,
+          "key": "foundation_food:2727566",
+          "fingerprint": "d6ab9eb8362605df2a3a63d7b5b1f18895cfc50b6a117858f38b84bd9e3adb89",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172378",
+          "ndbNumber": "5075",
+          "description": "Chicken, broilers or fryers, leg, meat and skin, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "5",
+          "categoryName": "Poultry Products",
+          "footnote": null,
+          "key": "sr_legacy_food:172378",
+          "fingerprint": "eaa7ec1816635d9d1f79cdd42067d5db29f561ac6697adcd48227a1f02c75da8",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "primary_protein",
+          "slotLabel": "Chicken Thighs or Breast"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "pork-loin-roast-chops",
+      "marketName": "Boneless Pork Loin / Center Cut Chops",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "pork tenderloin",
+        "boneless pork loin",
+        "pork half loin",
+        "pork chops",
+        "center cut pork"
+      ],
+      "memberChoicesUnderReview": [
+        "Boneless pork loin roast",
+        "Boneless pork loin chops",
+        "Pork tenderloin (keyword-only member)"
+      ],
+      "boundary": "Tenderloin is not an alias for every loin cut. Decide generic default versus cut-specific choices and optional precision; roast/chop/tenderloin uses must follow recipe preparation, not the shared market ID. Retain source trim/lean qualifiers as context, not yield or nutrition conversions.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168314",
+          "ndbNumber": "10224",
+          "description": "Pork, fresh, loin, top loin (roasts), boneless, separable lean and fat, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "10",
+          "categoryName": "Pork Products",
+          "footnote": null,
+          "key": "sr_legacy_food:168314",
+          "fingerprint": "a5cd7aa27ed9e743891cc07795196873602f79abb0b04da61fcdeffd2419c92a",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "167839",
+          "ndbNumber": "10062",
+          "description": "Pork, fresh, loin, top loin (chops), boneless, separable lean and fat, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "10",
+          "categoryName": "Pork Products",
+          "footnote": null,
+          "key": "sr_legacy_food:167839",
+          "fingerprint": "733c201624687520b5da17ccf9fa8650d36aee913284a9e71f538533b593fecb",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168312",
+          "ndbNumber": "10218",
+          "description": "Pork, fresh, loin, tenderloin, separable lean and fat, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "10",
+          "categoryName": "Pork Products",
+          "footnote": null,
+          "key": "sr_legacy_food:168312",
+          "fingerprint": "00ff73c04a433dd443256f3c29e8e1c17df6d6926f25293a48f002a7f2d4a6e4",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "colorado-pork-green-chile-stew",
+          "slotKey": "primary_protein",
+          "slotLabel": "Braising Pork Cut"
+        },
+        {
+          "recipeId": "kielbasa-cabbage-apple-potato-braise",
+          "slotKey": "primary_protein",
+          "slotLabel": "Smoked Sausage or Pork Loin"
+        },
+        {
+          "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slotKey": "primary_protein",
+          "slotLabel": "Pork Shoulder or Pork Loin"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "beef-chuck-roast",
+      "marketName": "Beef Chuck Roast / Pot Roast / Stew Meat",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "chuck roast",
+        "beef chuck",
+        "pot roast",
+        "beef for stew",
+        "stew meat",
+        "arm roast"
+      ],
+      "memberChoicesUnderReview": [
+        "Beef chuck roast",
+        "Raw beef stew meat",
+        "Pot-roast cut (raw, otherwise unspecified)"
+      ],
+      "boundary": "A chuck-for-stew record cannot establish every package of unspecified stew beef. Distinguish raw buying cuts from cooked pot roast; decide whether generic braising beef is a curated default and which specific cuts may satisfy each recipe.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2646174",
+          "ndbNumber": "100308",
+          "description": "Beef, chuck, roast, boneless, choice, raw",
+          "publicationDate": "2023-10-26",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:2646174",
+          "fingerprint": "07c858d84f6cb387a4d25aa8ebe0567ca0f17cd3570c86c8f8cef5b80fe92ec8",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171206",
+          "ndbNumber": "23093",
+          "description": "Beef, chuck for stew, separable lean and fat, all grades, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "sr_legacy_food:171206",
+          "fingerprint": "0b4963f74b7ec3deb9768e95c7aebc8304dde54c956b4929993969b34fef765f",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slotKey": "primary_protein",
+          "slotLabel": "Braising Beef Cut"
+        },
+        {
+          "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slotKey": "primary_protein",
+          "slotLabel": "Chuck Roast or Sirloin/Ground Beef"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "italian-pork-sausage",
+      "marketName": "Italian Sausage / Ground Pork / Chorizo",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "italian sausage",
+        "pork sausage",
+        "ground pork",
+        "chorizo",
+        "johnsonville",
+        "kroger sausage"
+      ],
+      "memberChoicesUnderReview": [
+        "Raw Italian pork sausage",
+        "Raw ground pork",
+        "Raw pork chorizo",
+        "Raw pork sausage (style unspecified)"
+      ],
+      "boundary": "These are distinct foods, not aliases. Preserve raw versus cooked/cured chorizo and sausage forms, style and species qualifications. A sausage brand or the word pork sausage does not establish Italian style or universal recipe interchangeability.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171631",
+          "ndbNumber": "7036",
+          "description": "Sausage, Italian, pork, mild, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "sr_legacy_food:171631",
+          "fingerprint": "2c9510f5a576b5cc01ce19873f88a84e0eca3b4daf6a4449a1d5f57f2beb63e9",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "167902",
+          "ndbNumber": "10219",
+          "description": "Pork, fresh, ground, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "10",
+          "categoryName": "Pork Products",
+          "footnote": null,
+          "key": "sr_legacy_food:167902",
+          "fingerprint": "2587e10f51d3b8847566323121900536a14f677077d34325b1d33866dce0c860",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "173859",
+          "ndbNumber": "7019",
+          "description": "Sausage, pork, chorizo, link or ground, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "sr_legacy_food:173859",
+          "fingerprint": "9904e6966cf94bc361e2095fbd6da75a3a7a5bf07c8f6763eb5028091c96eb8c",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172934",
+          "ndbNumber": "7063",
+          "description": "Pork sausage, link/patty, unprepared",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "sr_legacy_food:172934",
+          "fingerprint": "0593400093ca718a7052a9c32f047cf1f5eb0f65b7ad3dee4ab43756c8896231",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slotKey": "primary_protein",
+          "slotLabel": "Ground Meat Base"
+        },
+        {
+          "recipeId": "kielbasa-cabbage-apple-potato-braise",
+          "slotKey": "primary_protein",
+          "slotLabel": "Smoked Sausage or Pork Loin"
+        },
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "primary_protein",
+          "slotLabel": "Italian Sausage or Chicken Thighs"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "meat_protein",
+          "slotLabel": "Sausage or Ground Turkey/Beef"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "marketName": "Smoked Sausage / Andouille / Kielbasa",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "smoked sausage",
+        "kielbasa",
+        "andouille",
+        "hillshire farm",
+        "eckrich"
+      ],
+      "memberChoicesUnderReview": [
+        "Smoked sausage",
+        "Andouille",
+        "Kielbasa"
+      ],
+      "boundary": "Define heating/cooking state and named style. No exact Andouille description occurs in this retained snapshot; generic smoked-sausage records are only hints for that style. Brand-only matches do not prove a food or fully-cooked state.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "174584",
+          "ndbNumber": "7074",
+          "description": "Sausage, smoked link sausage, pork",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "sr_legacy_food:174584",
+          "fingerprint": "df19639d35e0d8335fe59c91ce2ba5da731f223334817245bcf4c377cb534884",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "173879",
+          "ndbNumber": "7970",
+          "description": "Kielbasa, fully cooked, unheated",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "sr_legacy_food:173879",
+          "fingerprint": "3a62027cd5ce38e4a3203aa370ac84ac85fbec56f4ed89da0acd8af33ccf39ca",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172954",
+          "ndbNumber": "7916",
+          "description": "Sausage, Polish, pork and beef, smoked",
+          "publicationDate": "2019-04-01",
+          "categoryId": "7",
+          "categoryName": "Sausages and Luncheon Meats",
+          "footnote": null,
+          "key": "sr_legacy_food:172954",
+          "fingerprint": "4d442c4caefe06fd665ea262a3b1323ecd0d7a3586a913e8b5a37c4420589355",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "kielbasa-cabbage-apple-potato-braise",
+          "slotKey": "primary_protein",
+          "slotLabel": "Smoked Sausage or Pork Loin"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "meat_protein",
+          "slotLabel": "Sausage or Ground Turkey/Beef"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "sirloin-strip-steak",
+      "marketName": "Beef New York Strip / Top Sirloin Steak",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "new york strip",
+        "top sirloin",
+        "ribeye steak",
+        "t-bone steak",
+        "strip steak"
+      ],
+      "memberChoicesUnderReview": [
+        "New York strip steak",
+        "Top sirloin steak",
+        "Ribeye steak (keyword-only member)",
+        "T-bone steak (keyword-only member)"
+      ],
+      "boundary": "Named cuts must not become equivalent because one market group contains them. Decide optional cut precision and explicit recipe use. Preserve bone, grade and trim qualifiers without source-derived portions or macros. This group currently has no deterministic blueprint slot, so counterpart association must not invent a recipe link.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2727572",
+          "ndbNumber": "100377",
+          "description": "Beef, short loin (NY strip steak), raw",
+          "publicationDate": "2025-04-24",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:2727572",
+          "fingerprint": "5fbed9a41be75debf9c2c6f78afe28a38ba1f3f283f1a2d7e56008748e5b127b",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2727574",
+          "ndbNumber": "100379",
+          "description": "Beef, top sirloin steak, raw",
+          "publicationDate": "2025-04-24",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:2727574",
+          "fingerprint": "605154c4c183f5ffd6b906cdba397cf54a1998edd7a2ebd39d0f70676b6d6b29",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2646172",
+          "ndbNumber": "100306",
+          "description": "Beef, ribeye, steak, boneless, choice, raw",
+          "publicationDate": "2023-10-26",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "foundation_food:2646172",
+          "fingerprint": "cbeffa86cee89f8b1eb0e407e79689442fcf031f3dd88132207fdd752d89b0ee",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168717",
+          "ndbNumber": "13907",
+          "description": "Beef, short loin, t-bone steak, separable lean and fat, trimmed to 1/8\" fat, choice, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "sr_legacy_food:168717",
+          "fingerprint": "3c59b2c0dc77dd75b6d0e251ae9e47bf62b086f54eea1d37208f4f46897f9b6f",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slotKey": "primary_protein",
+          "slotLabel": "Chuck Roast or Sirloin/Ground Beef"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "salmon-fillets",
+      "marketName": "Atlantic or Wild Sockeye Salmon Fillets",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "salmon fillet",
+        "sockeye salmon",
+        "atlantic salmon",
+        "coho salmon"
+      ],
+      "memberChoicesUnderReview": [
+        "Raw salmon fillets, species unspecified (possible default)",
+        "Atlantic salmon",
+        "Sockeye salmon",
+        "Coho salmon (keyword-only member)"
+      ],
+      "boundary": "Recommend an unspecified default with optional named precision where reviewed. Species/farmed/wild records do not establish every salmon product or nutrition; smoked, cured and canned products are distinct. Generic ownership must not imply a specific species.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "173686",
+          "ndbNumber": "15076",
+          "description": "Fish, salmon, Atlantic, wild, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "15",
+          "categoryName": "Finfish and Shellfish Products",
+          "footnote": null,
+          "key": "sr_legacy_food:173686",
+          "fingerprint": "05fb5af8cbd1212bcad98a12f83218a229b9ec159f8ffd7c90a8a72761e8a238",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "175167",
+          "ndbNumber": "15236",
+          "description": "Fish, salmon, Atlantic, farmed, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "15",
+          "categoryName": "Finfish and Shellfish Products",
+          "footnote": null,
+          "key": "sr_legacy_food:175167",
+          "fingerprint": "7bfd75c85e52c04409755499ff2e105f78e25253498735f59fc2ab04134d20f0",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2684440",
+          "ndbNumber": "100324",
+          "description": "Fish, salmon, sockeye, wild caught, raw",
+          "publicationDate": "2024-04-18",
+          "categoryId": "15",
+          "categoryName": "Finfish and Shellfish Products",
+          "footnote": null,
+          "key": "foundation_food:2684440",
+          "fingerprint": "166ab56b915e288903342603f00bbe261fa1bd135b3f3283a99015e2d8ac005c",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "175136",
+          "ndbNumber": "15081",
+          "description": "Fish, salmon, coho, wild, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "15",
+          "categoryName": "Finfish and Shellfish Products",
+          "footnote": null,
+          "key": "sr_legacy_food:175136",
+          "fingerprint": "7c108c0a34baec225f2b1f872c39e96bbbbe659d1914e35cb09576b5a4b18764",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slotKey": "primary_protein",
+          "slotLabel": "Salmon Fillets"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "potatoes-russet-gold",
+      "marketName": "Russet or Yukon Gold Potatoes (5 lb Bag)",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "russet potatoes",
+        "gold potatoes",
+        "yukon gold",
+        "red potatoes",
+        "5 lb potatoes",
+        "potatoes 5 lb"
+      ],
+      "memberChoicesUnderReview": [
+        "Raw potatoes, type unspecified (possible default)",
+        "Russet potatoes",
+        "Yukon Gold potatoes",
+        "Red potatoes (keyword-only member)"
+      ],
+      "boundary": "Use an unspecified default without forcing variety selection; review optional varieties and directional coverage with exact No precedence. The retained gold-potato description does not explicitly establish the Yukon Gold cultivar. Peeled/skin treatment must not create a source-based yield conversion.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170026",
+          "ndbNumber": "11352",
+          "description": "Potatoes, flesh and skin, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170026",
+          "fingerprint": "e6a588568e175bf35f50e072522eb8308217e98a50e15df285249b015b52eeb3",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2346401",
+          "ndbNumber": "100283",
+          "description": "Potatoes, russet, without skin, raw",
+          "publicationDate": "2022-10-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": "Vitamin K (phylloquinone) median value corrected on 4/18/2024",
+          "key": "foundation_food:2346401",
+          "fingerprint": "1b782407ea1d643b8345e5e052faa1fbfea0610ad6dcfc1bb325288b4ed44acb",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2346403",
+          "ndbNumber": "100285",
+          "description": "Potatoes, gold, without skin, raw",
+          "publicationDate": "2022-10-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": "Vitamin K (phylloquinone) median value corrected on 4/18/2024",
+          "key": "foundation_food:2346403",
+          "fingerprint": "ef9f5da06cdabb97456779f76a4434eb966190810bd4aed6846aa80175e27a89",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2346402",
+          "ndbNumber": "100284",
+          "description": "Potatoes, red, without skin, raw",
+          "publicationDate": "2022-10-28",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": "Vitamin K (phylloquinone) median value corrected on 4/18/2024",
+          "key": "foundation_food:2346402",
+          "fingerprint": "ca56d6a1edca3a55f533ecfb7d9bffb4861c40ad74f26f48dbed67368b90dd89",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "colorado-pork-green-chile-stew",
+          "slotKey": "stew_starch",
+          "slotLabel": "Diced Potatoes"
+        },
+        {
+          "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slotKey": "root_starch",
+          "slotLabel": "Potatoes"
+        },
+        {
+          "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+          "slotKey": "base_starch",
+          "slotLabel": "Diced Potatoes or Butternut Squash"
+        },
+        {
+          "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slotKey": "starch_veg",
+          "slotLabel": "Sweet Potatoes or Butternut Squash"
+        },
+        {
+          "recipeId": "kielbasa-cabbage-apple-potato-braise",
+          "slotKey": "potato_base",
+          "slotLabel": "Potatoes"
+        },
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "starch_base",
+          "slotLabel": "Sliced Potatoes"
+        },
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "squash_starch",
+          "slotLabel": "Butternut Squash or Sweet Potatoes"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "hash_base",
+          "slotLabel": "Potatoes or Sweet Potatoes"
+        },
+        {
+          "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slotKey": "side_starch",
+          "slotLabel": "Potatoes or Zucchini/Squash"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "poblano-anaheim-peppers",
+      "marketName": "Poblano, Anaheim, or Jalapeño Peppers",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "poblano",
+        "pasilla",
+        "anaheim peppers",
+        "jalapeno",
+        "jalapeño",
+        "hatch chiles",
+        "serrano"
+      ],
+      "memberChoicesUnderReview": [
+        "Fresh poblano",
+        "Fresh Anaheim",
+        "Fresh jalapeño",
+        "Fresh serrano (keyword-only member)",
+        "Hatch chile (qualification needed)",
+        "Pasilla retail term (fresh/dried ambiguity)"
+      ],
+      "boundary": "Review heat, quantity and fresh/dried distinctions per recipe. No exact Anaheim or Hatch description occurs in this snapshot. Generic green-chili evidence cannot establish those named choices; the pasilla record is dried and cannot establish a fresh poblano identity. A jalapeño must not silently replace a bulk poblano/anaheim requirement.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2747662",
+          "ndbNumber": "100398",
+          "description": "Peppers, poblano, seeded, raw",
+          "publicationDate": "2025-12-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2747662",
+          "fingerprint": "b5f9e1e5e5caea2d5af651e45ebd0bf8bffa11b89e76f9af62f46b1bd0e6dc46",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2747661",
+          "ndbNumber": "100397",
+          "description": "Peppers, jalapeno, seeded, raw",
+          "publicationDate": "2025-12-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2747661",
+          "fingerprint": "1290f7d44da5438e11cea75f48fd6912fcc7b4d96db40bba839cb4672831e5df",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2747663",
+          "ndbNumber": "100399",
+          "description": "Peppers, serrano, seeded, raw",
+          "publicationDate": "2025-12-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2747663",
+          "fingerprint": "962e75e159248cca73dc9322dd4d52bccbebc4c530ba81ea0245ffa971a0d2e1",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170497",
+          "ndbNumber": "11670",
+          "description": "Peppers, hot chili, green, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170497",
+          "fingerprint": "ffacc588f3e7307e0556a2a3866e55f1403616f721961f78df03ec995ba19fcd",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168579",
+          "ndbNumber": "11982",
+          "description": "Peppers, pasilla, dried",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:168579",
+          "fingerprint": "4d45d1a88281b32fd0bef6e7e66867cba397670c58d046eb576493c223799289",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "colorado-pork-green-chile-stew",
+          "slotKey": "chile_base",
+          "slotLabel": "Roasting Chiles & Aromatics"
+        },
+        {
+          "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slotKey": "peppers_onions",
+          "slotLabel": "Peppers & Onions"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "pepper_veg",
+          "slotLabel": "Poblanos, Bell Peppers & Onions"
+        },
+        {
+          "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slotKey": "peppers_aromatics",
+          "slotLabel": "Bell Peppers, Poblanos & Onions"
+        },
+        {
+          "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slotKey": "peppers_onions",
+          "slotLabel": "Poblanos, Bell Peppers & Onions"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "butternut-acorn-squash",
+      "marketName": "Butternut, Acorn, or Spaghetti Squash",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "butternut squash",
+        "acorn squash",
+        "spaghetti squash",
+        "hard squash",
+        "kabocha"
+      ],
+      "memberChoicesUnderReview": [
+        "Butternut squash",
+        "Acorn squash",
+        "Spaghetti squash",
+        "Kabocha (keyword-only member)"
+      ],
+      "boundary": "Keep materially different cooking choices visible. Spaghetti squash must not automatically cover a cubed butternut requirement. No exact kabocha description occurs in this snapshot; all-varieties winter-squash evidence does not establish that named variety.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2685570",
+          "ndbNumber": "11485",
+          "description": "Squash, winter, butternut, raw",
+          "publicationDate": "2024-04-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2685570",
+          "fingerprint": "f5d4a1a306204c94908002e3c5ebc0ca002abdc6fba6e1eca711fc006fbcb4ea",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2685571",
+          "ndbNumber": "11482",
+          "description": "Squash, winter, acorn, raw",
+          "publicationDate": "2024-04-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2685571",
+          "fingerprint": "7ccf64c4c4dbb86c220a1ae8c1afbb7ad7f097e40f76445c45252c8a6748581e",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "169298",
+          "ndbNumber": "11492",
+          "description": "Squash, winter, spaghetti, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:169298",
+          "fingerprint": "a667352c873c82e43ad3e8eb92ec6293e5e4f17219c0888f73dbbbb180279445",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170489",
+          "ndbNumber": "11643",
+          "description": "Squash, winter, all varieties, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170489",
+          "fingerprint": "07dc8fec54b37af414c894262c4aee38468375bb44582ac19c6134deea549d0d",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+          "slotKey": "base_starch",
+          "slotLabel": "Diced Potatoes or Butternut Squash"
+        },
+        {
+          "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slotKey": "starch_veg",
+          "slotLabel": "Sweet Potatoes or Butternut Squash"
+        },
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "squash_starch",
+          "slotLabel": "Butternut Squash or Sweet Potatoes"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "zucchini-yellow-squash",
+      "marketName": "Zucchini or Yellow Summer Squash",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "zucchini",
+        "yellow squash",
+        "italian squash"
+      ],
+      "memberChoicesUnderReview": [
+        "Fresh summer squash, type unspecified (possible default)",
+        "Zucchini",
+        "Yellow summer squash"
+      ],
+      "boundary": "Consider an unspecified default with optional reviewed variety precision rather than requiring a choice on add. Named forms stay reachable; do not turn a generic record into exact variety evidence or automatically create cross-form ownership.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170487",
+          "ndbNumber": "11641",
+          "description": "Squash, summer, all varieties, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170487",
+          "fingerprint": "0e1f5ef927c2e0632b76fbc46a317ca443ee7039ce46850be2cad8d687a67409",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2685568",
+          "ndbNumber": "100331",
+          "description": "Squash, summer, green, zucchini, includes skin, raw",
+          "publicationDate": "2024-04-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2685568",
+          "fingerprint": "cade7a1f0a4590fc6eccfd66c50d2535adfa068d27379f52341b690f8d4cc20b",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2685569",
+          "ndbNumber": "100332",
+          "description": "Squash, summer, yellow, includes skin, raw",
+          "publicationDate": "2024-04-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2685569",
+          "fingerprint": "a2e660fbf4429d6ab82e94f8ff7075ac9d610e9f902160c34e2b7b78399b65b2",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "colorado-pork-green-chile-stew",
+          "slotKey": "stew_starch",
+          "slotLabel": "Diced Potatoes"
+        },
+        {
+          "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+          "slotKey": "base_starch",
+          "slotLabel": "Diced Potatoes or Butternut Squash"
+        },
+        {
+          "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slotKey": "starch_veg",
+          "slotLabel": "Sweet Potatoes or Butternut Squash"
+        },
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "starch_base",
+          "slotLabel": "Sliced Potatoes"
+        },
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "greens_veg",
+          "slotLabel": "Fresh Spinach or Kale"
+        },
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "squash_starch",
+          "slotLabel": "Butternut Squash or Sweet Potatoes"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "hash_base",
+          "slotLabel": "Potatoes or Sweet Potatoes"
+        },
+        {
+          "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slotKey": "roast_veg",
+          "slotLabel": "Sweet Potatoes or Broccoli/Zucchini"
+        },
+        {
+          "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slotKey": "umami_mushrooms",
+          "slotLabel": "Cremini / Baby Bella Mushrooms"
+        },
+        {
+          "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slotKey": "side_starch",
+          "slotLabel": "Potatoes or Zucchini/Squash"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "apples-honeycrisp-gala",
+      "marketName": "Honeycrisp, Gala, or Fuji Apples",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "honeycrisp apples",
+        "gala apples",
+        "fuji apples",
+        "cosmic crisp",
+        "granny smith"
+      ],
+      "memberChoicesUnderReview": [
+        "Fresh apples, variety unspecified (possible default)",
+        "Honeycrisp",
+        "Gala",
+        "Fuji",
+        "Cosmic Crisp (keyword-only member)",
+        "Granny Smith (keyword-only member)"
+      ],
+      "boundary": "Recommend an unspecified default with optional named choices. No exact Cosmic Crisp description occurs in this snapshot. Use subtype-backed candidates where reviewed; the quarantined parent-only apple rows remain held. No single cultivar or generic source supplies all varieties’ nutrition or exact identity.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171688",
+          "ndbNumber": "9003",
+          "description": "Apples, raw, with skin (Includes foods for USDA's Food Distribution Program)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "sr_legacy_food:171688",
+          "fingerprint": "e567b32d8134760226c4c83a0b3d8ccffb2363ac98663dcb688898efccc86e44",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "1750343",
+          "ndbNumber": "9501",
+          "description": "Apples, honeycrisp, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1750343",
+          "fingerprint": "b89906f36932e20e9cee8daa4e309a5d6cfacabdbb246f428f839329293e20fd",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "1750341",
+          "ndbNumber": "9503",
+          "description": "Apples, gala, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1750341",
+          "fingerprint": "73993b2d4e7c7faa5fdd3399f4eb33e6bbf15dd51840726dc152965025f36bea",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "1750340",
+          "ndbNumber": "9504",
+          "description": "Apples, fuji, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1750340",
+          "fingerprint": "99fa5e49fc1373ccde5ca9a7a77b95294fa37ad35434c5f963abc5e56c7f7634",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "1750342",
+          "ndbNumber": "9502",
+          "description": "Apples, granny smith, with skin, raw",
+          "publicationDate": "2020-10-30",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:1750342",
+          "fingerprint": "14085c931d3bf58c88a476f195c8a5335d37e2e944ef1e3fd29ec5e614e42e90",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "kielbasa-cabbage-apple-potato-braise",
+          "slotKey": "fruit_aromatic",
+          "slotLabel": "Apples & Onions"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "shredded-block-cheese",
+      "marketName": "Shredded or Block Cheese (Cheddar, Jack, Mozzarella)",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "shredded cheese",
+        "block cheese",
+        "cheddar cheese",
+        "mozzarella cheese",
+        "mexican style blend",
+        "lucerne cheese",
+        "kroger cheese"
+      ],
+      "memberChoicesUnderReview": [
+        "Cheddar",
+        "Monterey Jack",
+        "Mozzarella",
+        "Shredding/melting cheese blend, type unspecified",
+        "Mexican-style blend (keyword-only member)"
+      ],
+      "boundary": "Review cheese type, fresh/low-moisture mozzarella and fat/texture specificity. A blend is its own ingredient and cannot establish ownership of its components. Brand-only or generic cheese matches do not prove cheddar, jack or mozzarella. Existing Feta/Parmesan must not be guessed into this group.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "328637",
+          "ndbNumber": "1009",
+          "description": "Cheese, cheddar",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:328637",
+          "fingerprint": "5aceccd08d212757278c09730db840b0bee164a1679d8965487777aec1f72e1c",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2647438",
+          "ndbNumber": "100296",
+          "description": "Cheese, monterey jack, solid",
+          "publicationDate": "2023-10-26",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:2647438",
+          "fingerprint": "b8db39baa853ffc3dbeb473d80e5ce62def4bcbcf1c6218c562b2b27092cceac",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "329370",
+          "ndbNumber": "1029",
+          "description": "Cheese, mozzarella, low moisture, part-skim",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:329370",
+          "fingerprint": "e4ee19f5f59470742bfd95e8359be765f12e50cb94fee1891dfda2eb69c39155",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170845",
+          "ndbNumber": "1026",
+          "description": "Cheese, mozzarella, whole milk",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170845",
+          "fingerprint": "7b897a1d5623043a5e786a5de88f504111d7238f644970bc78827fd46079f68a",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171288",
+          "ndbNumber": "1251",
+          "description": "Cheese, Mexican blend",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:171288",
+          "fingerprint": "b820d7320dfe9cf89cda475327d4fbabb9edf6cb6327f9c36a8cfa1eec9d8ab1",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "colorado-pork-green-chile-stew",
+          "slotKey": "dairy_topper",
+          "slotLabel": "Cheese or Sour Cream Finish"
+        },
+        {
+          "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+          "slotKey": "cheese_top",
+          "slotLabel": "Shredded Cheese"
+        },
+        {
+          "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slotKey": "topper_cheese",
+          "slotLabel": "Shredded Cheese or Sour Cream"
+        },
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "creamy_finish",
+          "slotLabel": "Sour Cream / Greek Yogurt / Cheese"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "dairy_protein",
+          "slotLabel": "Cottage Cheese & Shredded Cheddar"
+        },
+        {
+          "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slotKey": "butter_enricher",
+          "slotLabel": "Grass-Fed Butter or Cheese Mash"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "marketName": "Cottage Cheese or Sour Cream (16–24 oz Tub)",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "cottage cheese",
+        "sour cream",
+        "daisy sour cream",
+        "knudsen",
+        "kroger sour cream"
+      ],
+      "memberChoicesUnderReview": [
+        "Plain cottage cheese",
+        "Sour cream"
+      ],
+      "boundary": "Separate the foods and decide unspecified versus fat-specific choices. Recipe substitutions need explicit permission and preparation such as blending; one food does not establish ownership of the other or universal macro/diet properties.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172179",
+          "ndbNumber": "1012",
+          "description": "Cheese, cottage, creamed, large or small curd",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:172179",
+          "fingerprint": "e094e4e51f68e4ccec40e7f33a987614a56ff84b0e31077183ae88a4517187b3",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "328841",
+          "ndbNumber": "1015",
+          "description": "Cheese, cottage, lowfat, 2% milkfat",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:328841",
+          "fingerprint": "2e058ec0ab2be46373f2302ce5bbaed723f71d7c07c3e162009a94af9cd25cb5",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171257",
+          "ndbNumber": "1056",
+          "description": "Cream, sour, cultured",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:171257",
+          "fingerprint": "bfd568f01ef0c6bef09b9f4a5b73fa493253607b60227c468905f8f3f5a7fd09",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2346387",
+          "ndbNumber": "1056",
+          "description": "Cream, sour, full fat",
+          "publicationDate": "2022-10-28",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:2346387",
+          "fingerprint": "65f2bf3298ee5b0dcfea5471c81b02ff7f1c3ca0f7621faea14f831620cd5f09",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "colorado-pork-green-chile-stew",
+          "slotKey": "dairy_topper",
+          "slotLabel": "Cheese or Sour Cream Finish"
+        },
+        {
+          "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+          "slotKey": "creamy_binder",
+          "slotLabel": "Sour Cream / Cottage Cheese / Greek Yogurt"
+        },
+        {
+          "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slotKey": "topper_cheese",
+          "slotLabel": "Shredded Cheese or Sour Cream"
+        },
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "creamy_finish",
+          "slotLabel": "Sour Cream / Greek Yogurt / Cheese"
+        },
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "yogurt_swirl",
+          "slotLabel": "Greek Yogurt or Sour Cream"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "dairy_protein",
+          "slotLabel": "Cottage Cheese & Shredded Cheddar"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "greek-yogurt-tub",
+      "marketName": "Plain or Vanilla Greek Yogurt (32 oz Tub)",
+      "coverage": "NO_CANONICAL_PANTRY_COUNTERPART",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "greek yogurt",
+        "chobani",
+        "fage",
+        "oikos",
+        "kroger greek yogurt"
+      ],
+      "memberChoicesUnderReview": [
+        "Plain Greek yogurt",
+        "Vanilla Greek yogurt"
+      ],
+      "boundary": "Separate plain/vanilla and review fat-level granularity. The existing ordinary plain whole-milk yogurt is not Greek yogurt. Vanilla must not cover a savory plain-yogurt requirement. Use yogurt-qualified discovery so milk searches stay useful; fat-qualified sources do not establish all fat levels.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2259794",
+          "ndbNumber": "1293",
+          "description": "Yogurt, Greek, plain, whole milk",
+          "publicationDate": "2022-04-28",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:2259794",
+          "fingerprint": "9c0d31303e099c2552fc76009212a51bcb962b5857ff24ef4cd0d82770234efe",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "330137",
+          "ndbNumber": "1256",
+          "description": "Yogurt, Greek, plain, nonfat",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:330137",
+          "fingerprint": "b690195b8cde6d46af8ac1d715b3f74f4db6e91e5f4caa6be91377dbb4c8b61a",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170903",
+          "ndbNumber": "1287",
+          "description": "Yogurt, Greek, plain, lowfat",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170903",
+          "fingerprint": "3aedab2d99e509828c7f4caefd368d6aa7b42b758b598344825b00884dc2ea0f",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170902",
+          "ndbNumber": "1286",
+          "description": "Yogurt, Greek, vanilla, nonfat",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170902",
+          "fingerprint": "8569a97c988211a1fa6f50ea3badf36e960a9ff662585b9829c3000b67d85b4c",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170907",
+          "ndbNumber": "1297",
+          "description": "Yogurt, Greek, vanilla, lowfat",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:170907",
+          "fingerprint": "ec4affe4411b95da91f63da63c363d29ea7ae99fd72ffbb841948fd31cdc0094",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+          "slotKey": "creamy_binder",
+          "slotLabel": "Sour Cream / Cottage Cheese / Greek Yogurt"
+        },
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "creamy_finish",
+          "slotLabel": "Sour Cream / Greek Yogurt / Cheese"
+        },
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "yogurt_swirl",
+          "slotLabel": "Greek Yogurt or Sour Cream"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "mushrooms-cremini-white",
+      "marketName": "Cremini (Baby Bella) or White Mushrooms",
+      "coverage": "PARTIAL_NAMED_MEMBER_COVERAGE",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "baby bella",
+        "cremini mushrooms",
+        "white mushrooms",
+        "sliced mushrooms",
+        "whole mushrooms"
+      ],
+      "memberChoicesUnderReview": [
+        "Fresh cremini / baby bella mushrooms"
+      ],
+      "boundary": "Add a separate named choice if approved. White mushrooms remain distinct; only generic mushroom or explicitly cremini recipe scopes may cover the new identity. The existing UV-treated sibling record is not silently used as universal evidence.",
+      "evidenceCandidates": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168434",
+          "ndbNumber": "11266",
+          "description": "Mushrooms, brown, italian, or crimini, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:168434",
+          "fingerprint": "81054c140c0f3fbcf08987cb87add0f325514dfffceaa7bfc6711469392c8e96",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slotKey": "root_starch",
+          "slotLabel": "Potatoes"
+        },
+        {
+          "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slotKey": "umami_veg",
+          "slotLabel": "Mushrooms or Celery"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "hash_base",
+          "slotLabel": "Potatoes or Sweet Potatoes"
+        },
+        {
+          "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slotKey": "umami_mushrooms",
+          "slotLabel": "Cremini / Baby Bella Mushrooms"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "tomatoes-roma-vine",
+      "marketName": "Roma or Vine-Ripened Tomatoes (or Tomatillos)",
+      "coverage": "PARTIAL_NAMED_MEMBER_COVERAGE",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "roma tomatoes",
+        "on the vine tomatoes",
+        "tomatillos",
+        "beefsteak tomatoes"
+      ],
+      "memberChoicesUnderReview": [
+        "Fresh tomatillos"
+      ],
+      "boundary": "Keep tomatillos separate from tomatoes. Only explicitly reviewed either scopes, such as green chile stew, may accept either. Tomato-only curry remains exact; dehusking is source context, not a yield conversion.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2727582",
+          "ndbNumber": "100388",
+          "description": "Tomatillos, dehusked, raw",
+          "publicationDate": "2025-04-24",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2727582",
+          "fingerprint": "649f2acdf167afcbd3af1750fb1f54a6ef1d3c4b102542972ad68a41ebfba892",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168566",
+          "ndbNumber": "11954",
+          "description": "Tomatillos, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:168566",
+          "fingerprint": "1de176a72c55b5049667371b870ee2dc03f028c029abf325247f92c8505baca7",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "colorado-pork-green-chile-stew",
+          "slotKey": "tomato_acid",
+          "slotLabel": "Tomatillos or Roma Tomatoes & Onion"
+        },
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "aromatics_tomato",
+          "slotLabel": "Onions & Roma Tomatoes / Bell Peppers"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "spinach-kale-greens",
+      "marketName": "Fresh Spinach or Cooking Greens",
+      "coverage": "PARTIAL_NAMED_MEMBER_COVERAGE",
+      "status": "REQUIRED_RESEARCH_AND_EXACT_REVIEW",
+      "matchKeywords": [
+        "baby spinach",
+        "fresh spinach",
+        "kale",
+        "collard greens",
+        "swiss chard"
+      ],
+      "memberChoicesUnderReview": [
+        "Fresh collard greens",
+        "Fresh Swiss chard"
+      ],
+      "boundary": "These are distinct from existing spinach and kale. Market association alone must not expand the already approved spinach/kale-only recipe scopes. Any new recipe acceptance needs explicit cooking/preparation review.",
+      "evidenceCandidates": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2685574",
+          "ndbNumber": "11161",
+          "description": "Collards, raw",
+          "publicationDate": "2024-04-18",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "foundation_food:2685574",
+          "fingerprint": "54f6af1a090892c05c35191da9fde5918e027dd31f82d9742e6bc85b70726a79",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "169991",
+          "ndbNumber": "11147",
+          "description": "Chard, swiss, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "11",
+          "categoryName": "Vegetables and Vegetable Products",
+          "footnote": null,
+          "key": "sr_legacy_food:169991",
+          "fingerprint": "f4a05bcfe9677fc5032e7425ed2cd1113e434750cb8c164e69d9a7018ebbbc73",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_AN_APPROVED_SOURCE_ASSIGNMENT"
+        }
+      ],
+      "blueprintUses": [
+        {
+          "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slotKey": "greens_veg",
+          "slotLabel": "Fresh Spinach or Kale"
+        },
+        {
+          "recipeId": "golden-chicken-butternut-squash-curry-braise",
+          "slotKey": "greens_veg",
+          "slotLabel": "Spinach or Cauliflower"
+        },
+        {
+          "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slotKey": "hash_base",
+          "slotLabel": "Potatoes or Sweet Potatoes"
+        },
+        {
+          "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slotKey": "side_starch",
+          "slotLabel": "Potatoes or Zucchini/Squash"
+        }
+      ]
+    }
+  ],
+  "keywordQualificationFindings": [
+    {
+      "marketIngredientId": "avocados-hass",
+      "finding": "Generic large/medium avocado or avocado-bag keywords do not prove Hass variety. Do not turn triage into a precise variety claim."
+    },
+    {
+      "marketIngredientId": "chicken-breast-boneless",
+      "finding": "Fresh chicken breast wording alone does not prove boneless/skinless retail form. Admit price/recipe use only with suitable form evidence."
+    },
+    {
+      "marketIngredientId": "green-cabbage",
+      "finding": "Head/fresh cabbage keywords alone do not prove green variety; avoid automatically admitting red or other cabbage identities."
+    },
+    {
+      "marketIngredientId": "sweet-potatoes",
+      "finding": "The retained dataset names raw sweet potato and raw yam separately. Resolve intended retail yam terminology or require explicit evidence; the market keyword must not automatically establish botanical or cooking equivalence."
+    }
+  ],
+  "implementationNeeds": [
+    "Explicit many-to-many market counterpart metadata independent of recipe-use aliases, including foods not used by a current deterministic blueprint.",
+    "A reviewed identity/variety/form package for the unsupported and partial groups, including curated gaps where named subtype evidence is absent.",
+    "Per-recipe food/offer admission, actual store-pool preservation and full underlying offers before per-store selection; no cross-food price relabeling.",
+    "Tests for each named member, generic/variant No behavior, wrong form/style/flavor rejection, saved recipes, shopping aggregation and store-specific search links."
+  ],
+  "activation": "No new cooking identity, source assignment or recipe compatibility is approved or activated by this research plan."
+}
