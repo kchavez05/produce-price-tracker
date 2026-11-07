@@ -1,0 +1,267 @@
+[
+  {
+    "id": "ingredient-apple-cider-vinegar",
+    "revision": 1,
+    "payloadSha256": "f5e40641dd2f1556c0ef27cb60230389443a65baead31ca9b5a55d6d3618dab8"
+  },
+  {
+    "id": "ingredient-avocado-oil",
+    "revision": 1,
+    "payloadSha256": "6d9afac098e1352ff6e77cb11ddf7b5443862ef7faf589538fc63d4e5d8fbfef"
+  },
+  {
+    "id": "ingredient-avocados-hass",
+    "revision": 1,
+    "payloadSha256": "d39ae5c192e8b1cee3b570af9f83d10d1fe9e670589ef157aea93bbc178725b8"
+  },
+  {
+    "id": "ingredient-bay-leaf",
+    "revision": 1,
+    "payloadSha256": "90e6c0b603df70a6a97765d29b05c49e9b8591b0eec0811e6d38797e91313e65"
+  },
+  {
+    "id": "ingredient-beef-broth",
+    "revision": 1,
+    "payloadSha256": "8a962a53af0530971726643f9e33825cd49160f1f6f1727301cb0f73ba7052b1"
+  },
+  {
+    "id": "ingredient-bell-peppers",
+    "revision": 1,
+    "payloadSha256": "40f2fef78411a2cd45605b773c9bb506bb8c0e6a86dfed0b552b470f555669fa"
+  },
+  {
+    "id": "ingredient-black-pepper",
+    "revision": 1,
+    "payloadSha256": "47239c3c7552a3fdf568d842332d7c5dc48f84bcdf8aa4c8150945c10279aa61"
+  },
+  {
+    "id": "ingredient-butter-salted-unsalted",
+    "revision": 1,
+    "payloadSha256": "f6b2d83e410e84c64bda170994d26bce9939d4fa264d2e201617cf2ba99b589f"
+  },
+  {
+    "id": "ingredient-cannellini-beans-canned",
+    "revision": 1,
+    "payloadSha256": "b3b46c98bcde6436c08458d7355a82ae0b4eeb59e582297a23c1e4b24c7e59ea"
+  },
+  {
+    "id": "ingredient-caraway-seeds",
+    "revision": 1,
+    "payloadSha256": "527942d7e80cb38b1b5565a08e63423cf25545661e6d4dfcf7149d1250c58491"
+  },
+  {
+    "id": "ingredient-chicken-breast-boneless",
+    "revision": 1,
+    "payloadSha256": "2ac105d01def464afc01591ed77a615e47fbf06299f1238c4e2afea0caacde94"
+  },
+  {
+    "id": "ingredient-chicken-broth",
+    "revision": 1,
+    "payloadSha256": "3c7324c6ce9ec8113974fcc84be7fac766b21101f2a5da42fd7dd89b50cf6e6f"
+  },
+  {
+    "id": "ingredient-chicken-thighs-boneless",
+    "revision": 1,
+    "payloadSha256": "7270eb6979d77e2b6fcc3f32c3c8efa9f498cdf63fbba220bfe0b6e11d7bf467"
+  },
+  {
+    "id": "ingredient-chili-powder",
+    "revision": 1,
+    "payloadSha256": "42c44b551b5028b713fbc58603fae7a391716d63578159da0bb65f120a0bd6b5"
+  },
+  {
+    "id": "ingredient-coconut-aminos",
+    "revision": 1,
+    "payloadSha256": "1c72ea944b10252ffa180d38e01fcc262346c28e7582b0605877388a2f00e27c"
+  },
+  {
+    "id": "ingredient-coconut-milk-canned",
+    "revision": 1,
+    "payloadSha256": "08edd16596ee206bb991c7415b47fced964d7955a7ed7534734a93899ce46117"
+  },
+  {
+    "id": "ingredient-cornstarch",
+    "revision": 1,
+    "payloadSha256": "8987506a6a73c3f7a771ba83fc27a7e6ad5b82c3826ce8acc60bbe41f6d85737"
+  },
+  {
+    "id": "ingredient-crushed-tomatoes-canned",
+    "revision": 1,
+    "payloadSha256": "5d7895b777c0186f3aad98e7745ccce277899f33c1292f146b1d6666f662a843"
+  },
+  {
+    "id": "ingredient-curry-powder",
+    "revision": 1,
+    "payloadSha256": "e0a2fdac59cbd537ea6d4ea5ac95c39cfd6bdc36d19b10e6245c05d5821c51cd"
+  },
+  {
+    "id": "ingredient-dijon-mustard",
+    "revision": 1,
+    "payloadSha256": "eaa6b6abc8713c11b80993620191d143560e78042ca6eeda60baf05d9fcce0c2"
+  },
+  {
+    "id": "ingredient-dill-dried",
+    "revision": 1,
+    "payloadSha256": "69fbf8e09e3b5cb5203395e76fc519783f38faf5db3875aca25454fb747dad7f"
+  },
+  {
+    "id": "ingredient-garam-masala",
+    "revision": 1,
+    "payloadSha256": "22d56493a9fcfe5155e830f50d394043cc0b4791a4edf51d0e2ad0b1b259b08a"
+  },
+  {
+    "id": "ingredient-garlic-powder",
+    "revision": 1,
+    "payloadSha256": "eed7d58b89c2ba0e37f865e132a2de340f752c29ae177537ae8c624f5508cc21"
+  },
+  {
+    "id": "ingredient-great-northern-beans-canned",
+    "revision": 1,
+    "payloadSha256": "916e1db95e174d324fc7e8345353c0fe518518522505403ae282ec80b2dc06fc"
+  },
+  {
+    "id": "ingredient-green-cabbage",
+    "revision": 1,
+    "payloadSha256": "24333ae6fb1e103cf694350aa46a25df3bbabb628df3ee2540cce94686871998"
+  },
+  {
+    "id": "ingredient-ground-beef-80-20",
+    "revision": 1,
+    "payloadSha256": "d48f6dce6fb039f7f98d92f3b6770720bece79c816a610007a09e48fabfbba31"
+  },
+  {
+    "id": "ingredient-ground-cumin",
+    "revision": 1,
+    "payloadSha256": "a9b01a2df043348b6835aa5e13dc8560fce510b7dbb4071196b4e6391e88a65a"
+  },
+  {
+    "id": "ingredient-ground-turkey",
+    "revision": 1,
+    "payloadSha256": "d350eeb3d7eea8604b45843b994db8cfc869747e899612adabb3905ab32237b4"
+  },
+  {
+    "id": "ingredient-italian-seasoning",
+    "revision": 1,
+    "payloadSha256": "43734816851618adcbe66f7464fe4ad07277e436733269a8ed7d7c681ae32909"
+  },
+  {
+    "id": "ingredient-large-eggs-dozen",
+    "revision": 1,
+    "payloadSha256": "409385804f7d265c7e4613d7e87fb5ccf63e2c5cf014ba9f0bf2d9c151abe870"
+  },
+  {
+    "id": "ingredient-lemon-fresh",
+    "revision": 1,
+    "payloadSha256": "f2259503b97e55c7c5acf345c3565d9ba531a64f8bfdb2eee109da7751c47fe7"
+  },
+  {
+    "id": "ingredient-lime-juice",
+    "revision": 1,
+    "payloadSha256": "0a0464e51e283d9571225988ab56c698d4da2e0497a418ced7cc2d5b543f0707"
+  },
+  {
+    "id": "ingredient-masa-harina",
+    "revision": 1,
+    "payloadSha256": "11a0954448e87260e86732a085c94779d0d1bc210c2d9376d710f43040e5ac97"
+  },
+  {
+    "id": "ingredient-mexican-oregano-dried",
+    "revision": 1,
+    "payloadSha256": "77f4c34ce4b7d77a3eebdda9bb03c5108ea178674b95e9a14b5481d7c4a802ff"
+  },
+  {
+    "id": "ingredient-olive-oil",
+    "revision": 1,
+    "payloadSha256": "5801abf1f8d22b97dd8299b937f817433537ce80570db85ff0bb443da0a28c64"
+  },
+  {
+    "id": "ingredient-onion-powder",
+    "revision": 1,
+    "payloadSha256": "03cd9334c572bf9d864338f9179a20d9a3a11fc3001c883447ca0100da9e9b8e"
+  },
+  {
+    "id": "ingredient-orange-juice",
+    "revision": 1,
+    "payloadSha256": "ed544063449e175c85d86bae2505a7d235baafe01aff1a4d074ac4212c1feec8"
+  },
+  {
+    "id": "ingredient-oregano-dried",
+    "revision": 1,
+    "payloadSha256": "05caceb98989bd5b69cba899665b5491a4d5c035a5a1293daec590f859ce3e39"
+  },
+  {
+    "id": "ingredient-pork-shoulder-butt",
+    "revision": 1,
+    "payloadSha256": "dab8a49f2d0a25c591ca39d9f9e7f8579a251f3e3a328b488f7154690a4d6bb3"
+  },
+  {
+    "id": "ingredient-red-pepper-flakes",
+    "revision": 1,
+    "payloadSha256": "7b2f65f02ee5379fa82fd9d9de03378413750e4d5489ce28068b48bde0d4d71d"
+  },
+  {
+    "id": "ingredient-rosemary-dried",
+    "revision": 1,
+    "payloadSha256": "587970efad5338fdbc754cb5a275c75383caf7afc1e92a02ed656f6d9d19823f"
+  },
+  {
+    "id": "ingredient-salt",
+    "revision": 1,
+    "payloadSha256": "57ae9f98401ba39f89bf21cfb46b8bf48cb12d9fcbeafc2494c834b93b3adf1d"
+  },
+  {
+    "id": "ingredient-smoked-paprika",
+    "revision": 1,
+    "payloadSha256": "634e19cc82d2cda45a43840808c977850ab59cc55360564bf475067c0a2b1c5b"
+  },
+  {
+    "id": "ingredient-soy-sauce",
+    "revision": 1,
+    "payloadSha256": "71b0968441b5bf360e2a121b7eadac98d35ed9158e426497164b462e36332153"
+  },
+  {
+    "id": "ingredient-sweet-potatoes",
+    "revision": 1,
+    "payloadSha256": "a6f766ac807c1e211922749a213f953464d1f335652c81a9dd71d18603b4436d"
+  },
+  {
+    "id": "ingredient-tahini",
+    "revision": 1,
+    "payloadSha256": "3375d0cf3cfd0aadb9a63ff11083f4bda5c33bd002b3c5a46adf321e673d2aa6"
+  },
+  {
+    "id": "ingredient-thyme-dried",
+    "revision": 1,
+    "payloadSha256": "9b763294475b758dbb436229cb46f84c2ea64bd3a10d2fd91e2ff3aa49c7f2f2"
+  },
+  {
+    "id": "ingredient-tofu-firm",
+    "revision": 1,
+    "payloadSha256": "958fad99648bc87897884a692cfda1848238fa9f9ddefc19dc7d3fb64acaac85"
+  },
+  {
+    "id": "ingredient-tomato-paste",
+    "revision": 1,
+    "payloadSha256": "c9248bd178a79e97b143d441c19590f655728d34cc963190cf1e6548e27e2bb2"
+  },
+  {
+    "id": "ingredient-vegetable-broth",
+    "revision": 1,
+    "payloadSha256": "a5964592e73dfd265ffc7ba3fbf798486c3f350ad596928b13fa6c68ae0605bd"
+  },
+  {
+    "id": "ingredient-whole-grain-mustard",
+    "revision": 1,
+    "payloadSha256": "6e5ec375174f73d04eccffcc1944e0cd7a6938137a8e3943d8522f9fe8b34ad6"
+  },
+  {
+    "id": "ingredient-worcestershire-sauce",
+    "revision": 1,
+    "payloadSha256": "05797ce4abfde6f0c59f08ebc72c91c2d481b4bea3bf1c637dfbb9b7d873a550"
+  },
+  {
+    "id": "ingredient-worcestershire-sauce-gluten-free",
+    "revision": 1,
+    "payloadSha256": "d42062837c19bc1de273d71ca53a81de6a299d159315e99cc4f42a3d03d5d9d2"
+  }
+]

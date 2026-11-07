@@ -12,7 +12,7 @@ A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) pr
 
 ## Next: v1.6.1 — Pantry Catalog Expansion
 
-The next release prioritizes the remaining ingredient batches before speech entry. The [plan](docs/specs/v1.6.1-pantry-catalog-expansion.md), [first approved batch](docs/research/v1.6.1-legumes-grains-flours-review.md), and [coverage audit](docs/research/v1.6.1-catalog-coverage-audit.md) track review and integration. The expansion batches compile to 138 identities with additive migrations and retained rollback views; hosted activation remains a release step. See the [vegetable and aromatic batch](docs/research/v1.6.1-vegetables-aromatics-review.md). The [staples/proteins batch](docs/research/v1.6.1-staples-proteins-review.md) includes explicit source-specific sweetener overrides; the [whole/ground spice batch](docs/research/v1.6.1-shared-spice-references.md) shares generic USDA references while keeping cooking forms distinct. Seven vegetable-mapping choices remain.
+The next release prioritizes pantry catalog expansion before speech entry. The approved batches compile to 145 identities, including seven fresh vegetables and 22 scoped recipe uses. The [final catalog audit](docs/research/v1.6.1-final-catalog-audit.md) closes the original research shortlist and proposes 53 provenance/curation decisions. The maintainer requires coverage gaps in 15 unmatched and three partially covered market groups to be closed before release; the final ingredient count remains open. The [plan](docs/specs/v1.6.1-pantry-catalog-expansion.md) tracks exact review, integration, hosted activation and release work still required.
 
 ## Key Features (`v1.6.0`)
 
