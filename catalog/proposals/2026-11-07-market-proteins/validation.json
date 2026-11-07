@@ -1,0 +1,65 @@
+{
+  "status": "PROPOSAL_VALIDATED_NOT_APPROVED_NOT_ACTIVE",
+  "preparedOn": "2026-11-07",
+  "parentVersion": "2026-11-07.1",
+  "parentContentHash": "b4fc3fd02dcb7bb5aee95199a6f9c959c385dcc13a21f7980554a90df232b62b",
+  "packageHash": "1d059cb417ad3baa130f733e6e3627b5be73d29085b439819b358f07a4462533",
+  "validatorFileSha256": "9d906bd783da23f21357adc2ae35b1838e8a5a8f365d9fca2084bb696ef67425",
+  "counts": {
+    "newIngredients": 28,
+    "curatedNewIngredients": 11,
+    "directionalEdges": 3,
+    "curationDecisions": 31,
+    "marketCounterparts": 28,
+    "recipeSlotDecisions": 14,
+    "allowedSlotDecisions": 8,
+    "rejectedScopedCandidates": 6,
+    "auxiliaryCandidateRemovals": 2,
+    "totalCandidateRemovals": 8,
+    "textPatches": 19,
+    "previewIngredients": 199,
+    "searchFixtures": 372,
+    "offerCases": 40,
+    "availabilityCases": 10
+  },
+  "checks": {
+    "priorApprovalsAndRuntimeUnchanged": true,
+    "unapprovedChoicesNeverAffectApprovedContents": true,
+    "sourceEvidenceAndResearchHintsMatchFullSnapshot": true,
+    "noHeldOrPreviouslyAssignedSourceReused": true,
+    "deterministicInMemoryApprovalSimulationOnly": true,
+    "allExistingIngredientsPricesAndGlobalRecipeLinksUnchanged": true,
+    "all372PreviewSearchFixturesPass": true,
+    "allNamesAliasesAndOptionalChoicesReachable": true,
+    "unboundedBroadQueryCounts": {
+      "beans": 12,
+      "flour": 11,
+      "beef": 10,
+      "pork": 8,
+      "chicken": 7,
+      "sausage": 9,
+      "salmon": 1,
+      "steak": 4,
+      "kielbasa": 2,
+      "andouille": 2
+    },
+    "tenAvailabilityExamplesPass": true,
+    "existingProduceCounterpartsAndScopedUsesUnchanged": true,
+    "all28CounterpartAnd14SlotPayloadsBound": true,
+    "sixScopedAndTwoAuxiliaryCandidateRemovalsReplayExactly": true,
+    "nineteenTextPatchesReplayExactly": true,
+    "noOtherRecipeFieldsChanged": true,
+    "salmonEndpointCorrectionIncluded": true
+  },
+  "offerCases": {
+    "count": 40,
+    "implementation": "PENDING: exact review expectations only; no new protein title admission or recipe runtime is claimed implemented/tested"
+  },
+  "pendingGates": [
+    "Maintainer approval of the exact ingredient/coverage, counterpart, recipe/removal/text, frozen-raw storage policy and offer payloads",
+    "Append-only protein compiler/runtime support while preserving the approved produce batch and exact ground-beef ownership elsewhere",
+    "Execute cooking-state/cut/bone/species, offer, price/store/shopping, saved-context and private ownership cases against implementation",
+    "Additive 28-ID registry migration, rollback/readiness tests and hosted verification",
+    "Dairy batch, four earlier qualification findings, remaining category scope decisions, final audit and v1.6.1 release"
+  ]
+}

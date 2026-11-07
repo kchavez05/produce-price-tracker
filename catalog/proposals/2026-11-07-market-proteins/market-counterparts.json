@@ -1,0 +1,356 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "baseCatalogVersion": "2026-11-07.1",
+  "baseCatalogHash": "b4fc3fd02dcb7bb5aee95199a6f9c959c385dcc13a21f7980554a90df232b62b",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "protectedMarketIngredientIds": [
+    "chicken-thighs-bone-in",
+    "pork-loin-roast-chops",
+    "beef-chuck-roast",
+    "italian-pork-sausage",
+    "smoked-sausage-kielbasa",
+    "sirloin-strip-steak",
+    "salmon-fillets"
+  ],
+  "defaults": {
+    "rawState": "Raw identities include chilled or frozen unprepared products of the named cut/species. Freezing is storage context for these protein identities only, not a change to the approved fresh-produce policy. Thaw frozen raw protein safely before these recipes; availability never depends on temperature, quantity or date.",
+    "cookedState": "Fully cooked/ready-to-eat sausage identities are distinct from raw. Smoked, cured, a brand, kielbasa or andouille wording alone never establishes fully cooked state. Raw and fully cooked forms have no compatibility edge.",
+    "evidence": "Require named animal/food and cooking state from original observed title or traceable product-label evidence, plus explicit boneless/bone-in qualifiers when the identity requires them. Fresh, value pack, or a store/sausage brand alone is insufficient. A reviewer-confirmed pantry choice does not qualify a quote automatically.",
+    "reject": "Reject unresolved alternatives/mixed foods, prepared meals, cooked meat offered as raw, raw sausage offered as fully cooked, breaded/battered/marinated/sauced/seasoned products except the explicitly named sausage preparations, dry/cured chorizo, canned/smoked/cured salmon, whole salmon or salmon steaks offered as fillets, and contradictory cooking-state/animal/cut labels.",
+    "prices": "No source portions, bone/skin/trim yield conversions or fixed estimates. Retain observed retail units and history. Apply exact per-recipe offer admission before cheapest-per-store selection; do not price a boneless requirement from a bone-in pack. Broad/ambiguous quotes remain unpriced.",
+    "species": "Pork-qualified raw sausages require pork evidence; do not treat chicken/turkey, meat-free or mixed-species sausages as pork. Generic smoked/kielbasa/andouille entries intentionally leave species unspecified and confer no dietary guarantees."
+  },
+  "ambiguousTerms": [
+    {
+      "term": "chicken thighs / value pack thighs",
+      "decision": "Do not infer bone-in or boneless/skinless. Require traceable cut/bone evidence before an exact counterpart or price."
+    },
+    {
+      "term": "pork chops / center cut",
+      "decision": "Do not infer boneless loin. Reject unknown cut/bone state for the named boneless loin-chop identity."
+    },
+    {
+      "term": "pot roast / arm roast / stew meat",
+      "decision": "Require raw beef evidence. The cooked pot-roast dish is excluded; unspecified raw stew/pot-roast cuts stay separate from boneless chuck and have no current recipe permission."
+    },
+    {
+      "term": "smoked sausage / kielbasa / andouille / brand-only",
+      "decision": "Cooking state remains unverified without raw/uncooked or fully cooked/ready-to-eat product evidence. Named styles and brands are not cooked-state proof."
+    },
+    {
+      "term": "salmon",
+      "decision": "Require raw fillet/filet evidence for fillet counterparts. Generic raw fillets do not establish species; do not infer farming method, bonelessness or edible yield."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "counterpart:chicken-thighs-bone-in:chicken-thighs-bone-in-raw",
+      "revision": 1,
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "pantryIngredientId": "chicken-thighs-bone-in-raw",
+      "foodName": "Raw bone-in chicken thighs",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "00b0c3dfa3e7346b8a9f44e8051e9ceeef3740e74e488bc72b9b54d95c6de282"
+    },
+    {
+      "id": "counterpart:chicken-thighs-bone-in:chicken-drumsticks-raw",
+      "revision": 1,
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "pantryIngredientId": "chicken-drumsticks-raw",
+      "foodName": "Raw chicken drumsticks",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "e4efa7b5ea1e835e8186ff405572d7ece58ec6635cc240196f8ce210251dfb7d"
+    },
+    {
+      "id": "counterpart:chicken-thighs-bone-in:chicken-leg-quarters-raw",
+      "revision": 1,
+      "marketIngredientId": "chicken-thighs-bone-in",
+      "pantryIngredientId": "chicken-leg-quarters-raw",
+      "foodName": "Raw chicken leg quarters",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "a70f68c05e214bd79da1a1f2ba75218c508b9232b945e9cdf714a63e25127041"
+    },
+    {
+      "id": "counterpart:pork-loin-roast-chops:pork-loin-roast-boneless-raw",
+      "revision": 1,
+      "marketIngredientId": "pork-loin-roast-chops",
+      "pantryIngredientId": "pork-loin-roast-boneless-raw",
+      "foodName": "Raw boneless pork loin roast",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "cf0f7c37e7bef898543f02cdaa5260deaf5cf4ad85033c2ed8b788c5bcd6f15b"
+    },
+    {
+      "id": "counterpart:pork-loin-roast-chops:pork-loin-chops-boneless-raw",
+      "revision": 1,
+      "marketIngredientId": "pork-loin-roast-chops",
+      "pantryIngredientId": "pork-loin-chops-boneless-raw",
+      "foodName": "Raw boneless pork loin chops",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "430b9bc8a9d02d5a4c754d2cb1261f7af7cf3cba3780f2cdb5535057243a79ed"
+    },
+    {
+      "id": "counterpart:pork-loin-roast-chops:pork-tenderloin-raw",
+      "revision": 1,
+      "marketIngredientId": "pork-loin-roast-chops",
+      "pantryIngredientId": "pork-tenderloin-raw",
+      "foodName": "Raw pork tenderloin",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "20dc4e3117786df4c3ad5deede0d7857f497598b763290c0d04405db5912d071"
+    },
+    {
+      "id": "counterpart:beef-chuck-roast:beef-chuck-roast-boneless-raw",
+      "revision": 1,
+      "marketIngredientId": "beef-chuck-roast",
+      "pantryIngredientId": "beef-chuck-roast-boneless-raw",
+      "foodName": "Raw boneless beef chuck roast",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "763b7acaef77e46b94ed45dd2ecf33d299eef6279bb2d3be8b05f58ed548e858"
+    },
+    {
+      "id": "counterpart:beef-chuck-roast:beef-arm-pot-roast-raw",
+      "revision": 1,
+      "marketIngredientId": "beef-chuck-roast",
+      "pantryIngredientId": "beef-arm-pot-roast-raw",
+      "foodName": "Raw beef arm pot roast",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "cb014cafd14e0b8c4b65bc472715757bb34a2049a97fbba28c19aac5a8717993"
+    },
+    {
+      "id": "counterpart:beef-chuck-roast:beef-stew-meat-raw",
+      "revision": 1,
+      "marketIngredientId": "beef-chuck-roast",
+      "pantryIngredientId": "beef-stew-meat-raw",
+      "foodName": "Raw beef stew meat",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "938d2ba7f983d4a21b3760d66406bd5e42f965309991cd6aa2e8962458e444d4"
+    },
+    {
+      "id": "counterpart:beef-chuck-roast:beef-pot-roast-cut-raw",
+      "revision": 1,
+      "marketIngredientId": "beef-chuck-roast",
+      "pantryIngredientId": "beef-pot-roast-cut-raw",
+      "foodName": "Raw beef pot-roast cut, unspecified",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "929bbfdb28619db0c007fc6bce7f1f30245f56a6dbe9ce2d8f1b31f37d851fdf"
+    },
+    {
+      "id": "counterpart:italian-pork-sausage:italian-pork-sausage-raw",
+      "revision": 1,
+      "marketIngredientId": "italian-pork-sausage",
+      "pantryIngredientId": "italian-pork-sausage-raw",
+      "foodName": "Raw Italian pork sausage",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "0dcd1af326c0a5eb07eeca0d996850d036dd0916da3b0258fe4448f45a2989d0"
+    },
+    {
+      "id": "counterpart:italian-pork-sausage:ground-pork-raw",
+      "revision": 1,
+      "marketIngredientId": "italian-pork-sausage",
+      "pantryIngredientId": "ground-pork-raw",
+      "foodName": "Raw ground pork",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "2175f602dac32771961702f1c102839dee150b7d13cdd7fb13b1f4f3a167a158"
+    },
+    {
+      "id": "counterpart:italian-pork-sausage:pork-chorizo-raw",
+      "revision": 1,
+      "marketIngredientId": "italian-pork-sausage",
+      "pantryIngredientId": "pork-chorizo-raw",
+      "foodName": "Raw pork chorizo",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "73d01af2a6164616803ad15eb923c97ed0ad7bb6c1bd253cf85c1a2103dcd3d0"
+    },
+    {
+      "id": "counterpart:italian-pork-sausage:pork-sausage-raw",
+      "revision": 1,
+      "marketIngredientId": "italian-pork-sausage",
+      "pantryIngredientId": "pork-sausage-raw",
+      "foodName": "Raw pork sausage",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "1e188cd03efc8fa2b25c05ab5d8baff21bf5bb46fb95f5be19ac0ec85dadd6e7"
+    },
+    {
+      "id": "counterpart:smoked-sausage-kielbasa:smoked-sausage-fully-cooked",
+      "revision": 1,
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "pantryIngredientId": "smoked-sausage-fully-cooked",
+      "foodName": "Fully cooked smoked sausage",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "2774931c716ceeae5d52d6dea0b61ecfadea1aaf8914f1ba0925c56ddd2d68e4"
+    },
+    {
+      "id": "counterpart:smoked-sausage-kielbasa:kielbasa-fully-cooked",
+      "revision": 1,
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "pantryIngredientId": "kielbasa-fully-cooked",
+      "foodName": "Fully cooked kielbasa",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "bfb651c91623366f518e57689060c51a48c2d7d99c1313e89225b29c32c8fe85"
+    },
+    {
+      "id": "counterpart:smoked-sausage-kielbasa:andouille-fully-cooked",
+      "revision": 1,
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "pantryIngredientId": "andouille-fully-cooked",
+      "foodName": "Fully cooked andouille sausage",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "41655ae68455de3e7d2b8f1b225a5006c2b4ee087f0802f0141e57e106ec393c"
+    },
+    {
+      "id": "counterpart:smoked-sausage-kielbasa:smoked-sausage-raw",
+      "revision": 1,
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "pantryIngredientId": "smoked-sausage-raw",
+      "foodName": "Raw smoked sausage",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "8f78c44b554125a29749003a17ad8ed0190ded73dc4e9b71d5a68a4023717bf3"
+    },
+    {
+      "id": "counterpart:smoked-sausage-kielbasa:kielbasa-raw",
+      "revision": 1,
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "pantryIngredientId": "kielbasa-raw",
+      "foodName": "Raw kielbasa",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "3e37cf145cb16b59564216e20f75e9fae146b07738dac488936f36ece780be3e"
+    },
+    {
+      "id": "counterpart:smoked-sausage-kielbasa:andouille-raw",
+      "revision": 1,
+      "marketIngredientId": "smoked-sausage-kielbasa",
+      "pantryIngredientId": "andouille-raw",
+      "foodName": "Raw andouille sausage",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "9e1c7e7a04746f2b2fc5d102683e4f605dcc5827342dfe18b2f6fcf91a0263e1"
+    },
+    {
+      "id": "counterpart:sirloin-strip-steak:beef-new-york-strip-steak-raw",
+      "revision": 1,
+      "marketIngredientId": "sirloin-strip-steak",
+      "pantryIngredientId": "beef-new-york-strip-steak-raw",
+      "foodName": "Raw beef New York strip steak",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "5e9e6f7bb3a69c512fdcd498bd430daf78bae9dc2a1ce9988b3b90e361194048"
+    },
+    {
+      "id": "counterpart:sirloin-strip-steak:beef-top-sirloin-steak-raw",
+      "revision": 1,
+      "marketIngredientId": "sirloin-strip-steak",
+      "pantryIngredientId": "beef-top-sirloin-steak-raw",
+      "foodName": "Raw beef top sirloin steak",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "d025cb71e119434dac9a259d18901cd56b77b14119c74364bd359c4a2342f3ec"
+    },
+    {
+      "id": "counterpart:sirloin-strip-steak:beef-ribeye-steak-raw",
+      "revision": 1,
+      "marketIngredientId": "sirloin-strip-steak",
+      "pantryIngredientId": "beef-ribeye-steak-raw",
+      "foodName": "Raw beef ribeye steak",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "79af5d8b4078e6d1ec73e3f46879a4ff58fb1269a905e2cfaff6e2a385f05d5f"
+    },
+    {
+      "id": "counterpart:sirloin-strip-steak:beef-t-bone-steak-raw",
+      "revision": 1,
+      "marketIngredientId": "sirloin-strip-steak",
+      "pantryIngredientId": "beef-t-bone-steak-raw",
+      "foodName": "Raw beef T-bone steak",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "77ab4d47b2239e30ad5f042f1815e1e03e6935e9c760da4d22ea075736332854"
+    },
+    {
+      "id": "counterpart:salmon-fillets:salmon-fillets-raw",
+      "revision": 1,
+      "marketIngredientId": "salmon-fillets",
+      "pantryIngredientId": "salmon-fillets-raw",
+      "foodName": "Raw salmon fillets",
+      "titlePolicy": "require-raw-salmon-fillet-unspecified-or-species",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "960dfc815a0005d3d2a28157ae9004575c08095644b8a8b982c054d84f22bc0d"
+    },
+    {
+      "id": "counterpart:salmon-fillets:atlantic-salmon-fillets-raw",
+      "revision": 1,
+      "marketIngredientId": "salmon-fillets",
+      "pantryIngredientId": "atlantic-salmon-fillets-raw",
+      "foodName": "Raw Atlantic salmon fillets",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "971eda2290858f8a2c2859088f1e225ad829d7a5df492ae40235e14fe5cef4a4"
+    },
+    {
+      "id": "counterpart:salmon-fillets:sockeye-salmon-fillets-raw",
+      "revision": 1,
+      "marketIngredientId": "salmon-fillets",
+      "pantryIngredientId": "sockeye-salmon-fillets-raw",
+      "foodName": "Raw sockeye salmon fillets",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "a4f314086e8046aa8f1245712e24684241d8e1dd2d27daeb6d5261ef4bcefcca"
+    },
+    {
+      "id": "counterpart:salmon-fillets:coho-salmon-fillets-raw",
+      "revision": 1,
+      "marketIngredientId": "salmon-fillets",
+      "pantryIngredientId": "coho-salmon-fillets-raw",
+      "foodName": "Raw coho salmon fillets",
+      "titlePolicy": "require-exact-reviewed-protein-cut-species-and-cooking-state",
+      "rationale": "An association identifies a possible food in the existing market group, not ownership, recipe permission or a verified price. Require actual food, material cut/bone qualifiers and cooking-state evidence; preserve original titles/units/store provenance.",
+      "status": "proposed",
+      "payloadSha256": "f660d384c4705e94d2142448c7f25b5db72cfd4133a4516156574e749fc1547f"
+    }
+  ]
+}

@@ -1,0 +1,2285 @@
+[
+  {
+    "query": "lentils",
+    "expected": [
+      "lentils-canned",
+      "lentils-dried"
+    ]
+  },
+  {
+    "query": "red lentils",
+    "expected": [
+      "red-lentils-dried"
+    ]
+  },
+  {
+    "query": "rice",
+    "expected": [
+      "basmati-rice-dry",
+      "brown-rice-dry",
+      "jasmine-rice-dry"
+    ]
+  },
+  {
+    "query": "flour",
+    "expected": [
+      "all-purpose-flour",
+      "bread-flour",
+      "buckwheat-flour",
+      "chickpea-flour",
+      "masa-harina",
+      "oat-flour",
+      "rice-flour",
+      "rye-flour",
+      "self-rising-wheat-flour",
+      "sorghum-flour",
+      "whole-wheat-flour"
+    ]
+  },
+  {
+    "query": "black beans",
+    "expected": [
+      "black-beans-canned",
+      "black-beans-dried"
+    ]
+  },
+  {
+    "query": "garlic",
+    "expected": [
+      "garlic-fresh",
+      "garlic-powder"
+    ]
+  },
+  {
+    "query": "onions",
+    "expected": [
+      "onions-fresh"
+    ]
+  },
+  {
+    "query": "broth",
+    "expected": [
+      "beef-broth",
+      "chicken-broth",
+      "vegetable-broth"
+    ]
+  },
+  {
+    "query": "cumin",
+    "expected": [
+      "ground-cumin"
+    ]
+  },
+  {
+    "query": "paprika",
+    "expected": [
+      "smoked-paprika"
+    ]
+  },
+  {
+    "query": "tahini",
+    "expected": [
+      "tahini"
+    ]
+  },
+  {
+    "query": "garbanzo",
+    "expected": [
+      "chickpeas-canned",
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "beans",
+    "expected": [
+      "black-beans-canned",
+      "black-beans-dried",
+      "cannellini-beans-canned",
+      "chickpeas-canned",
+      "chickpeas-dried",
+      "great-northern-beans-canned",
+      "kidney-beans-canned",
+      "kidney-beans-dried",
+      "navy-beans-canned",
+      "navy-beans-dried",
+      "pinto-beans-canned",
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "chickpeas",
+    "expected": [
+      "chickpeas-canned",
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "pinto",
+    "expected": [
+      "pinto-beans-canned",
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "navy",
+    "expected": [
+      "navy-beans-canned",
+      "navy-beans-dried"
+    ]
+  },
+  {
+    "query": "kidney",
+    "expected": [
+      "cannellini-beans-canned",
+      "kidney-beans-canned",
+      "kidney-beans-dried"
+    ]
+  },
+  {
+    "query": "mung",
+    "expected": []
+  },
+  {
+    "query": "oats",
+    "expected": [
+      "rolled-oats",
+      "steel-cut-oats"
+    ]
+  },
+  {
+    "query": "barley",
+    "expected": [
+      "barley-hulled",
+      "barley-pearled"
+    ]
+  },
+  {
+    "query": "brown rice flour",
+    "expected": [
+      "brown-rice-flour"
+    ]
+  },
+  {
+    "query": "glutinous rice flour",
+    "expected": [
+      "glutinous-rice-flour"
+    ]
+  },
+  {
+    "query": "besan",
+    "expected": [
+      "chickpea-flour"
+    ]
+  },
+  {
+    "query": "lentil soup",
+    "expected": []
+  },
+  {
+    "query": "mung sprouts",
+    "expected": []
+  },
+  {
+    "query": "Dried chickpeas",
+    "expected": [
+      "chickpeas-dried"
+    ]
+  },
+  {
+    "query": "Canned pinto beans",
+    "expected": [
+      "pinto-beans-canned"
+    ]
+  },
+  {
+    "query": "Dried pinto beans",
+    "expected": [
+      "pinto-beans-dried"
+    ]
+  },
+  {
+    "query": "Canned navy beans",
+    "expected": [
+      "navy-beans-canned"
+    ]
+  },
+  {
+    "query": "Dried navy beans",
+    "expected": [
+      "navy-beans-dried"
+    ]
+  },
+  {
+    "query": "Dried kidney beans",
+    "expected": [
+      "kidney-beans-dried"
+    ]
+  },
+  {
+    "query": "Dried green split peas",
+    "expected": [
+      "green-split-peas-dried"
+    ]
+  },
+  {
+    "query": "Rolled oats",
+    "expected": [
+      "rolled-oats"
+    ]
+  },
+  {
+    "query": "Steel-cut oats",
+    "expected": [
+      "steel-cut-oats"
+    ]
+  },
+  {
+    "query": "Dry quinoa",
+    "expected": [
+      "quinoa-dry"
+    ]
+  },
+  {
+    "query": "Dry bulgur",
+    "expected": [
+      "bulgur-dry"
+    ]
+  },
+  {
+    "query": "Pearled barley",
+    "expected": [
+      "barley-pearled"
+    ]
+  },
+  {
+    "query": "Hulled barley",
+    "expected": [
+      "barley-hulled"
+    ]
+  },
+  {
+    "query": "Whole-grain buckwheat",
+    "expected": [
+      "buckwheat-whole"
+    ]
+  },
+  {
+    "query": "Whole-grain millet",
+    "expected": [
+      "millet-whole"
+    ]
+  },
+  {
+    "query": "Dry couscous",
+    "expected": [
+      "couscous-dry"
+    ]
+  },
+  {
+    "query": "Dry pasta",
+    "expected": [
+      "pasta-dry"
+    ]
+  },
+  {
+    "query": "Whole-grain sorghum",
+    "expected": [
+      "sorghum-whole"
+    ]
+  },
+  {
+    "query": "Whole-grain yellow cornmeal",
+    "expected": [
+      "cornmeal-yellow-whole"
+    ]
+  },
+  {
+    "query": "Dry tapioca pearls",
+    "expected": [
+      "tapioca-pearls-dry"
+    ]
+  },
+  {
+    "query": "Whole-grain oat flour",
+    "expected": [
+      "oat-flour"
+    ]
+  },
+  {
+    "query": "Rye flour",
+    "expected": [
+      "rye-flour"
+    ]
+  },
+  {
+    "query": "Buckwheat flour",
+    "expected": [
+      "buckwheat-flour"
+    ]
+  },
+  {
+    "query": "Chickpea flour",
+    "expected": [
+      "chickpea-flour"
+    ]
+  },
+  {
+    "query": "Sorghum flour",
+    "expected": [
+      "sorghum-flour"
+    ]
+  },
+  {
+    "query": "Wheat bread flour",
+    "expected": [
+      "bread-flour"
+    ]
+  },
+  {
+    "query": "Self-rising wheat flour",
+    "expected": [
+      "self-rising-wheat-flour"
+    ]
+  },
+  {
+    "query": "Brown rice flour",
+    "expected": [
+      "brown-rice-flour"
+    ]
+  },
+  {
+    "query": "Glutinous rice flour",
+    "expected": [
+      "glutinous-rice-flour"
+    ]
+  },
+  {
+    "query": "brown rice",
+    "expected": [
+      "brown-rice-dry"
+    ]
+  },
+  {
+    "query": "glutinous rice",
+    "expected": []
+  },
+  {
+    "query": "Leeks",
+    "expected": [
+      "leeks-fresh"
+    ]
+  },
+  {
+    "query": "Beets",
+    "expected": [
+      "beets-fresh"
+    ]
+  },
+  {
+    "query": "Radishes",
+    "expected": [
+      "radishes-fresh"
+    ]
+  },
+  {
+    "query": "Okra",
+    "expected": [
+      "okra-fresh"
+    ]
+  },
+  {
+    "query": "Eggplant",
+    "expected": [
+      "eggplant-fresh"
+    ]
+  },
+  {
+    "query": "Fresh cilantro",
+    "expected": [
+      "cilantro-fresh"
+    ]
+  },
+  {
+    "query": "Fresh parsley",
+    "expected": [
+      "parsley-fresh"
+    ]
+  },
+  {
+    "query": "Fresh basil",
+    "expected": [
+      "basil-fresh"
+    ]
+  },
+  {
+    "query": "Fresh spearmint",
+    "expected": [
+      "spearmint-fresh"
+    ]
+  },
+  {
+    "query": "Cucumber",
+    "expected": [
+      "cucumber-fresh"
+    ]
+  },
+  {
+    "query": "beetroot",
+    "expected": [
+      "beets-fresh"
+    ]
+  },
+  {
+    "query": "aubergine",
+    "expected": [
+      "eggplant-fresh"
+    ]
+  },
+  {
+    "query": "fresh coriander",
+    "expected": [
+      "cilantro-fresh"
+    ]
+  },
+  {
+    "query": "mint",
+    "expected": [
+      "spearmint-fresh"
+    ]
+  },
+  {
+    "query": "dried basil",
+    "expected": []
+  },
+  {
+    "query": "peppermint",
+    "expected": []
+  },
+  {
+    "query": "Canola oil",
+    "expected": [
+      "canola-oil"
+    ]
+  },
+  {
+    "query": "Sesame oil",
+    "expected": [
+      "sesame-oil"
+    ]
+  },
+  {
+    "query": "Ground cinnamon",
+    "expected": [
+      "cinnamon-ground"
+    ]
+  },
+  {
+    "query": "Ground cloves",
+    "expected": [
+      "cloves-ground"
+    ]
+  },
+  {
+    "query": "Ground turmeric",
+    "expected": [
+      "turmeric-ground"
+    ]
+  },
+  {
+    "query": "Ground ginger",
+    "expected": [
+      "ginger-ground"
+    ]
+  },
+  {
+    "query": "Red wine vinegar",
+    "expected": [
+      "red-wine-vinegar"
+    ]
+  },
+  {
+    "query": "Miso",
+    "expected": [
+      "miso"
+    ]
+  },
+  {
+    "query": "Fish sauce",
+    "expected": [
+      "fish-sauce"
+    ]
+  },
+  {
+    "query": "Oyster sauce",
+    "expected": [
+      "oyster-sauce"
+    ]
+  },
+  {
+    "query": "Granulated sugar",
+    "expected": [
+      "sugar-granulated"
+    ]
+  },
+  {
+    "query": "Brown sugar",
+    "expected": [
+      "sugar-brown"
+    ]
+  },
+  {
+    "query": "Honey",
+    "expected": [
+      "honey",
+      "honeycrisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "Tempeh",
+    "expected": [
+      "tempeh"
+    ]
+  },
+  {
+    "query": "Soft tofu",
+    "expected": [
+      "tofu-soft"
+    ]
+  },
+  {
+    "query": "Whole milk (3.25%)",
+    "expected": [
+      "milk-whole"
+    ]
+  },
+  {
+    "query": "Plain whole-milk yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "Feta",
+    "expected": [
+      "feta-cheese"
+    ]
+  },
+  {
+    "query": "Hard Parmesan",
+    "expected": [
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "Canned light tuna in water",
+    "expected": [
+      "tuna-light-canned-water"
+    ]
+  },
+  {
+    "query": "Whole raw almonds",
+    "expected": [
+      "almonds-whole-raw"
+    ]
+  },
+  {
+    "query": "Raw English walnuts",
+    "expected": [
+      "walnuts-english-raw"
+    ]
+  },
+  {
+    "query": "Whole dried sesame seeds",
+    "expected": [
+      "sesame-seeds-whole-dried"
+    ]
+  },
+  {
+    "query": "oil",
+    "expected": [
+      "avocado-oil",
+      "canola-oil",
+      "olive-oil",
+      "sesame-oil"
+    ]
+  },
+  {
+    "query": "ginger",
+    "expected": [
+      "ginger-fresh",
+      "ginger-ground"
+    ]
+  },
+  {
+    "query": "vinegar",
+    "expected": [
+      "apple-cider-vinegar",
+      "red-wine-vinegar"
+    ]
+  },
+  {
+    "query": "sauce",
+    "expected": [
+      "fish-sauce",
+      "oyster-sauce",
+      "soy-sauce",
+      "worcestershire-sauce",
+      "worcestershire-sauce-gluten-free"
+    ]
+  },
+  {
+    "query": "sugar",
+    "expected": [
+      "sugar-brown",
+      "sugar-granulated"
+    ]
+  },
+  {
+    "query": "milk",
+    "expected": [
+      "coconut-milk-canned",
+      "milk-whole"
+    ]
+  },
+  {
+    "query": "yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain whole milk yogurt",
+    "expected": [
+      "yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "miso paste",
+    "expected": [
+      "miso"
+    ]
+  },
+  {
+    "query": "feta cheese",
+    "expected": [
+      "feta-cheese"
+    ]
+  },
+  {
+    "query": "hard parmesan cheese",
+    "expected": [
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "cheese",
+    "expected": [
+      "feta-cheese",
+      "parmesan-hard"
+    ]
+  },
+  {
+    "query": "tofu",
+    "expected": [
+      "tofu-firm",
+      "tofu-soft"
+    ]
+  },
+  {
+    "query": "sesame",
+    "expected": [
+      "sesame-oil",
+      "sesame-seeds-whole-dried"
+    ]
+  },
+  {
+    "query": "toasted sesame oil",
+    "expected": []
+  },
+  {
+    "query": "cinnamon sticks",
+    "expected": []
+  },
+  {
+    "query": "fresh turmeric",
+    "expected": []
+  },
+  {
+    "query": "powdered sugar",
+    "expected": []
+  },
+  {
+    "query": "mushroom oyster sauce",
+    "expected": []
+  },
+  {
+    "query": "Greek yogurt",
+    "expected": []
+  },
+  {
+    "query": "vanilla yogurt",
+    "expected": []
+  },
+  {
+    "query": "tuna in oil",
+    "expected": []
+  },
+  {
+    "query": "roasted almonds",
+    "expected": []
+  },
+  {
+    "query": "black walnuts",
+    "expected": []
+  },
+  {
+    "query": "toasted sesame seeds",
+    "expected": []
+  },
+  {
+    "query": "ground coriander",
+    "expected": [
+      "coriander-ground"
+    ]
+  },
+  {
+    "query": "cardamom",
+    "expected": [
+      "cardamom-ground",
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "Whole coriander seeds",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "Ground coriander",
+    "expected": [
+      "coriander-ground"
+    ]
+  },
+  {
+    "query": "Whole cardamom pods",
+    "expected": [
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "Ground cardamom",
+    "expected": [
+      "cardamom-ground"
+    ]
+  },
+  {
+    "query": "coriander",
+    "expected": [
+      "cilantro-fresh",
+      "coriander-ground",
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "coriander seed",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "coriander seeds",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "whole coriander",
+    "expected": [
+      "coriander-seeds-whole"
+    ]
+  },
+  {
+    "query": "coriander powder",
+    "expected": [
+      "coriander-ground"
+    ]
+  },
+  {
+    "query": "cardamom pods",
+    "expected": [
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "whole cardamom",
+    "expected": [
+      "cardamom-pods"
+    ]
+  },
+  {
+    "query": "cardamom powder",
+    "expected": [
+      "cardamom-ground"
+    ]
+  },
+  {
+    "query": "green cardamom",
+    "expected": []
+  },
+  {
+    "query": "black cardamom",
+    "expected": []
+  },
+  {
+    "query": "Carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "fresh carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "raw carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "baby carrots",
+    "expected": [
+      "carrots-fresh"
+    ]
+  },
+  {
+    "query": "Broccoli",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "fresh broccoli",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "broccoli florets",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "broccoli crowns",
+    "expected": [
+      "broccoli-fresh"
+    ]
+  },
+  {
+    "query": "Cauliflower",
+    "expected": [
+      "cauliflower-fresh"
+    ]
+  },
+  {
+    "query": "fresh cauliflower",
+    "expected": [
+      "cauliflower-fresh"
+    ]
+  },
+  {
+    "query": "cauliflower florets",
+    "expected": [
+      "cauliflower-fresh"
+    ]
+  },
+  {
+    "query": "Fresh spinach",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "baby spinach",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "raw spinach",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "Fresh kale",
+    "expected": [
+      "kale-fresh"
+    ]
+  },
+  {
+    "query": "raw kale",
+    "expected": [
+      "kale-fresh"
+    ]
+  },
+  {
+    "query": "Fresh white mushrooms",
+    "expected": [
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "white button mushrooms",
+    "expected": [
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "fresh white button mushrooms",
+    "expected": [
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "Fresh tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "fresh red tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "Roma tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "vine-ripened tomatoes",
+    "expected": [
+      "tomatoes-fresh"
+    ]
+  },
+  {
+    "query": "cremini",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "baby bella",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "tomatillos",
+    "expected": [
+      "tomatillos-fresh"
+    ]
+  },
+  {
+    "query": "New Zealand spinach",
+    "expected": []
+  },
+  {
+    "query": "frozen broccoli",
+    "expected": []
+  },
+  {
+    "query": "canned tomatoes",
+    "expected": []
+  },
+  {
+    "query": "collard greens",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "Swiss chard",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "corn masa flour",
+    "expected": [
+      "masa-harina"
+    ]
+  },
+  {
+    "query": "Fresh potatoes",
+    "expected": [
+      "potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw potatoes",
+    "expected": [
+      "potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Russet potatoes",
+    "expected": [
+      "russet-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw Russet potatoes",
+    "expected": [
+      "russet-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Yukon Gold potatoes",
+    "expected": [
+      "yukon-gold-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw Yukon Gold potatoes",
+    "expected": [
+      "yukon-gold-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh red potatoes",
+    "expected": [
+      "red-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw red potatoes",
+    "expected": [
+      "red-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh apples",
+    "expected": [
+      "apples-fresh"
+    ]
+  },
+  {
+    "query": "raw apples",
+    "expected": [
+      "apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Honeycrisp apples",
+    "expected": [
+      "honeycrisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Honeycrisp apples",
+    "expected": [
+      "honeycrisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Gala apples",
+    "expected": [
+      "gala-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Gala apples",
+    "expected": [
+      "gala-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Fuji apples",
+    "expected": [
+      "fuji-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Fuji apples",
+    "expected": [
+      "fuji-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Granny Smith apples",
+    "expected": [
+      "granny-smith-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Granny Smith apples",
+    "expected": [
+      "granny-smith-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Cosmic Crisp apples",
+    "expected": [
+      "cosmic-crisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Cosmic Crisp apples",
+    "expected": [
+      "cosmic-crisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh summer squash",
+    "expected": [
+      "summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw summer squash",
+    "expected": [
+      "summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh zucchini",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "raw zucchini",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "fresh courgette",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "courgette",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "Fresh yellow summer squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw yellow summer squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "fresh yellow squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "yellow squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh butternut squash",
+    "expected": [
+      "butternut-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw butternut squash",
+    "expected": [
+      "butternut-squash-fresh"
+    ]
+  },
+  {
+    "query": "butternut winter squash",
+    "expected": [
+      "butternut-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh acorn squash",
+    "expected": [
+      "acorn-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw acorn squash",
+    "expected": [
+      "acorn-squash-fresh"
+    ]
+  },
+  {
+    "query": "acorn winter squash",
+    "expected": [
+      "acorn-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh spaghetti squash",
+    "expected": [
+      "spaghetti-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw spaghetti squash",
+    "expected": [
+      "spaghetti-squash-fresh"
+    ]
+  },
+  {
+    "query": "spaghetti winter squash",
+    "expected": [
+      "spaghetti-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh kabocha squash",
+    "expected": [
+      "kabocha-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw kabocha squash",
+    "expected": [
+      "kabocha-squash-fresh"
+    ]
+  },
+  {
+    "query": "kabocha winter squash",
+    "expected": [
+      "kabocha-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh poblano peppers",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "poblano chiles",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "raw poblano peppers",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "poblanos",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Anaheim peppers",
+    "expected": [
+      "anaheim-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Anaheim chiles",
+    "expected": [
+      "anaheim-peppers-fresh"
+    ]
+  },
+  {
+    "query": "raw Anaheim peppers",
+    "expected": [
+      "anaheim-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh jalapeño peppers",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "fresh jalapeno peppers",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapeno chiles",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapeño chiles",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapenos",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapeños",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh serrano peppers",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "serrano chiles",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "raw serrano peppers",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "serranos",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Hatch green chiles",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "fresh Hatch chile peppers",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "raw Hatch green chiles",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "fresh Hatch chiles",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "Fresh cremini mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "fresh crimini mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "baby bella mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "raw cremini mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "Fresh tomatillos",
+    "expected": [
+      "tomatillos-fresh"
+    ]
+  },
+  {
+    "query": "raw tomatillos",
+    "expected": [
+      "tomatillos-fresh"
+    ]
+  },
+  {
+    "query": "Fresh collard greens",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "raw collard greens",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "fresh collards",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Swiss chard",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "raw Swiss chard",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "Swiss chard greens",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "fresh spinach greens",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "fresh kale greens",
+    "expected": [
+      "kale-fresh"
+    ]
+  },
+  {
+    "query": "potatoes",
+    "expected": [
+      "potatoes-fresh",
+      "sweet-potatoes"
+    ]
+  },
+  {
+    "query": "apples",
+    "expected": [
+      "apples-fresh"
+    ]
+  },
+  {
+    "query": "squash",
+    "expected": [
+      "acorn-squash-fresh",
+      "butternut-squash-fresh",
+      "kabocha-squash-fresh",
+      "spaghetti-squash-fresh",
+      "summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "chiles",
+    "expected": [
+      "anaheim-peppers-fresh",
+      "hatch-green-chiles-fresh",
+      "jalapeno-peppers-fresh",
+      "poblano-peppers-fresh",
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "peppers",
+    "expected": [
+      "anaheim-peppers-fresh",
+      "bell-peppers",
+      "hatch-green-chiles-fresh",
+      "jalapeno-peppers-fresh",
+      "poblano-peppers-fresh",
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh",
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "greens",
+    "expected": [
+      "collard-greens-fresh",
+      "kale-fresh",
+      "spinach-fresh",
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "collards",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "chard",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "pasilla",
+    "expected": []
+  },
+  {
+    "query": "frozen potatoes",
+    "expected": []
+  },
+  {
+    "query": "canned tomatillos",
+    "expected": []
+  },
+  {
+    "query": "dried chiles",
+    "expected": []
+  },
+  {
+    "query": "Raw bone-in chicken thighs",
+    "expected": [
+      "chicken-thighs-bone-in-raw"
+    ]
+  },
+  {
+    "query": "bone-in chicken thighs",
+    "expected": [
+      "chicken-thighs-bone-in-raw"
+    ]
+  },
+  {
+    "query": "frozen raw bone-in chicken thighs",
+    "expected": [
+      "chicken-thighs-bone-in-raw"
+    ]
+  },
+  {
+    "query": "Raw chicken drumsticks",
+    "expected": [
+      "chicken-drumsticks-raw"
+    ]
+  },
+  {
+    "query": "chicken drumsticks",
+    "expected": [
+      "chicken-drumsticks-raw"
+    ]
+  },
+  {
+    "query": "frozen raw chicken drumsticks",
+    "expected": [
+      "chicken-drumsticks-raw"
+    ]
+  },
+  {
+    "query": "Raw chicken leg quarters",
+    "expected": [
+      "chicken-leg-quarters-raw"
+    ]
+  },
+  {
+    "query": "chicken leg quarters",
+    "expected": [
+      "chicken-leg-quarters-raw"
+    ]
+  },
+  {
+    "query": "frozen raw chicken leg quarters",
+    "expected": [
+      "chicken-leg-quarters-raw"
+    ]
+  },
+  {
+    "query": "Raw boneless pork loin roast",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless pork loin roast",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless pork half loin",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "frozen raw boneless pork loin roast",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "Raw boneless pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless center-cut pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "frozen raw boneless pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "Raw pork tenderloin",
+    "expected": [
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "pork tenderloin",
+    "expected": [
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "frozen raw pork tenderloin",
+    "expected": [
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "Raw boneless beef chuck roast",
+    "expected": [
+      "beef-chuck-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless beef chuck roast",
+    "expected": [
+      "beef-chuck-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "frozen raw boneless beef chuck roast",
+    "expected": [
+      "beef-chuck-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "Raw beef arm pot roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "raw beef arm roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "beef arm pot roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef arm pot roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "Raw beef stew meat",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "raw beef for stew",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "raw beef stewing meat",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef stew meat",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "Raw beef pot-roast cut, unspecified",
+    "expected": [
+      "beef-pot-roast-cut-raw"
+    ]
+  },
+  {
+    "query": "raw beef pot roast",
+    "expected": [
+      "beef-pot-roast-cut-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef pot-roast cut",
+    "expected": [
+      "beef-pot-roast-cut-raw"
+    ]
+  },
+  {
+    "query": "Raw Italian pork sausage",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "raw Italian pork sausage links",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "uncooked Italian pork sausage",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "frozen raw Italian pork sausage",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "Raw ground pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "raw minced pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "uncooked ground pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "frozen raw ground pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "Raw pork chorizo",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "raw pork chorizo sausage",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "uncooked pork chorizo",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "frozen raw pork chorizo",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "Raw pork sausage",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "raw pork sausage links",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "uncooked pork sausage",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "frozen raw pork sausage",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "Fully cooked smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked"
+    ]
+  },
+  {
+    "query": "ready-to-eat smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked"
+    ]
+  },
+  {
+    "query": "frozen fully cooked smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked"
+    ]
+  },
+  {
+    "query": "Fully cooked kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "fully cooked kielbasa sausage",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "ready-to-eat kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "frozen fully cooked kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "Fully cooked andouille sausage",
+    "expected": [
+      "andouille-fully-cooked"
+    ]
+  },
+  {
+    "query": "ready-to-eat andouille sausage",
+    "expected": [
+      "andouille-fully-cooked"
+    ]
+  },
+  {
+    "query": "frozen fully cooked andouille sausage",
+    "expected": [
+      "andouille-fully-cooked"
+    ]
+  },
+  {
+    "query": "Raw smoked sausage",
+    "expected": [
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "uncooked smoked sausage",
+    "expected": [
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "frozen raw smoked sausage",
+    "expected": [
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "Raw kielbasa",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "raw kielbasa sausage",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "uncooked kielbasa",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "frozen raw kielbasa",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "Raw andouille sausage",
+    "expected": [
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "uncooked andouille sausage",
+    "expected": [
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "frozen raw andouille sausage",
+    "expected": [
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "Raw beef New York strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef NY strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef New York strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw beef top sirloin steak",
+    "expected": [
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "raw top sirloin beef steak",
+    "expected": [
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef top sirloin steak",
+    "expected": [
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw beef ribeye steak",
+    "expected": [
+      "beef-ribeye-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef rib-eye steak",
+    "expected": [
+      "beef-ribeye-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef ribeye steak",
+    "expected": [
+      "beef-ribeye-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw beef T-bone steak",
+    "expected": [
+      "beef-t-bone-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef T bone steak",
+    "expected": [
+      "beef-t-bone-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef T-bone steak",
+    "expected": [
+      "beef-t-bone-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw salmon fillets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw salmon filets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh salmon fillets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw salmon fillets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "Raw Atlantic salmon fillets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw Atlantic salmon filets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh Atlantic salmon fillets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw Atlantic salmon fillets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "Raw sockeye salmon fillets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw sockeye salmon filets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh sockeye salmon fillets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw sockeye salmon fillets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "Raw coho salmon fillets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw coho salmon filets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh coho salmon fillets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw coho salmon fillets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "beef",
+    "expected": [
+      "beef-arm-pot-roast-raw",
+      "beef-broth",
+      "beef-chuck-roast-boneless-raw",
+      "beef-new-york-strip-steak-raw",
+      "beef-pot-roast-cut-raw",
+      "beef-ribeye-steak-raw",
+      "beef-stew-meat-raw",
+      "beef-t-bone-steak-raw",
+      "beef-top-sirloin-steak-raw",
+      "ground-beef-80-20"
+    ]
+  },
+  {
+    "query": "pork",
+    "expected": [
+      "ground-pork-raw",
+      "italian-pork-sausage-raw",
+      "pork-chorizo-raw",
+      "pork-loin-chops-boneless-raw",
+      "pork-loin-roast-boneless-raw",
+      "pork-sausage-raw",
+      "pork-shoulder-butt",
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "chicken",
+    "expected": [
+      "chicken-breast-boneless",
+      "chicken-broth",
+      "chicken-drumsticks-raw",
+      "chicken-leg-quarters-raw",
+      "chicken-thighs-bone-in-raw",
+      "chicken-thighs-boneless",
+      "large-eggs-dozen"
+    ]
+  },
+  {
+    "query": "sausage",
+    "expected": [
+      "andouille-fully-cooked",
+      "andouille-raw",
+      "italian-pork-sausage-raw",
+      "kielbasa-fully-cooked",
+      "kielbasa-raw",
+      "pork-chorizo-raw",
+      "pork-sausage-raw",
+      "smoked-sausage-fully-cooked",
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "salmon",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw",
+      "beef-ribeye-steak-raw",
+      "beef-t-bone-steak-raw",
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked",
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "andouille",
+    "expected": [
+      "andouille-fully-cooked",
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked",
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "canned salmon",
+    "expected": []
+  },
+  {
+    "query": "smoked salmon",
+    "expected": []
+  },
+  {
+    "query": "cooked pork chops",
+    "expected": []
+  },
+  {
+    "query": "boneless pork loin",
+    "expected": [
+      "pork-loin-chops-boneless-raw",
+      "pork-loin-roast-boneless-raw"
+    ]
+  }
+]
