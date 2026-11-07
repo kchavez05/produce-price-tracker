@@ -1,0 +1,243 @@
+{
+  "availabilityCases": [
+    {
+      "kind": "coverage",
+      "positives": [
+        "russet-potatoes-fresh"
+      ],
+      "negatives": [],
+      "requiredId": "potatoes-fresh",
+      "expected": true
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "potatoes-fresh"
+      ],
+      "negatives": [],
+      "requiredId": "russet-potatoes-fresh",
+      "expected": false
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "russet-potatoes-fresh"
+      ],
+      "negatives": [
+        "potatoes-fresh"
+      ],
+      "requiredId": "potatoes-fresh",
+      "expected": false
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "gala-apples-fresh"
+      ],
+      "negatives": [],
+      "requiredId": "apples-fresh",
+      "expected": true
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "apples-fresh"
+      ],
+      "negatives": [
+        "gala-apples-fresh"
+      ],
+      "requiredId": "apples-fresh",
+      "expected": true
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "spaghetti-squash-fresh"
+      ],
+      "negatives": [],
+      "requiredId": "butternut-squash-fresh",
+      "expected": false
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "jalapeno-peppers-fresh"
+      ],
+      "negatives": [],
+      "requiredId": "poblano-peppers-fresh",
+      "expected": false
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "collard-greens-fresh"
+      ],
+      "negatives": [],
+      "requiredId": "spinach-fresh",
+      "expected": false
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "yellow-summer-squash-fresh"
+      ],
+      "negatives": [],
+      "requiredId": "summer-squash-fresh",
+      "expected": true
+    },
+    {
+      "kind": "coverage",
+      "positives": [
+        "yellow-summer-squash-fresh"
+      ],
+      "negatives": [
+        "summer-squash-fresh"
+      ],
+      "requiredId": "summer-squash-fresh",
+      "expected": false
+    }
+  ],
+  "offerCases": [
+    {
+      "title": "Russet potatoes 5 lb bag",
+      "counterpartIds": [
+        "potatoes-fresh",
+        "russet-potatoes-fresh"
+      ],
+      "recipeFood": "potatoes",
+      "admit": true
+    },
+    {
+      "title": "Gold potatoes 5 lb bag",
+      "counterpartIds": [
+        "potatoes-fresh"
+      ],
+      "excludedIds": [
+        "yukon-gold-potatoes-fresh"
+      ],
+      "recipeFood": "potatoes",
+      "admit": true
+    },
+    {
+      "title": "Yukon Gold potatoes 5 lb bag",
+      "counterpartIds": [
+        "potatoes-fresh",
+        "yukon-gold-potatoes-fresh"
+      ],
+      "recipeFood": "potatoes",
+      "admit": true
+    },
+    {
+      "title": "Frozen diced potatoes",
+      "counterpartIds": [],
+      "recipeFood": "potatoes",
+      "admit": false
+    },
+    {
+      "title": "Gala apples",
+      "counterpartIds": [
+        "apples-fresh",
+        "gala-apples-fresh"
+      ],
+      "recipeFood": "apples",
+      "admit": true
+    },
+    {
+      "title": "Gala apple juice",
+      "counterpartIds": [],
+      "recipeFood": "apples",
+      "admit": false
+    },
+    {
+      "title": "Baby bella mushrooms",
+      "counterpartIds": [
+        "mushrooms-cremini-fresh"
+      ],
+      "recipeFood": "cremini-mushrooms",
+      "admit": true
+    },
+    {
+      "title": "White mushrooms",
+      "counterpartIds": [
+        "mushrooms-white-fresh"
+      ],
+      "recipeFood": "cremini-mushrooms",
+      "admit": false
+    },
+    {
+      "title": "Tomatillos",
+      "counterpartIds": [
+        "tomatillos-fresh"
+      ],
+      "recipeFood": "tomatillos",
+      "admit": true
+    },
+    {
+      "title": "Tomatillo salsa verde",
+      "counterpartIds": [],
+      "recipeFood": "tomatillos",
+      "admit": false
+    },
+    {
+      "title": "Fresh jalapeno peppers",
+      "counterpartIds": [
+        "jalapeno-peppers-fresh"
+      ],
+      "recipeFood": "poblano",
+      "admit": false
+    },
+    {
+      "title": "Fresh mild Hatch green chiles",
+      "counterpartIds": [
+        "hatch-green-chiles-fresh"
+      ],
+      "recipeFood": "poblano",
+      "admit": false
+    },
+    {
+      "title": "Pasilla peppers",
+      "counterpartIds": [],
+      "recipeFood": "poblano",
+      "admit": false
+    },
+    {
+      "title": "Spaghetti squash",
+      "counterpartIds": [
+        "spaghetti-squash-fresh"
+      ],
+      "recipeFood": "butternut",
+      "admit": false
+    },
+    {
+      "title": "Fresh collard greens",
+      "counterpartIds": [
+        "collard-greens-fresh"
+      ],
+      "recipeFood": "spinach",
+      "admit": false
+    },
+    {
+      "title": "Zucchini and yellow summer squash choice",
+      "counterpartIds": [],
+      "recipeFood": "summer-squash",
+      "admit": false
+    },
+    {
+      "title": "Yellow summer squash",
+      "counterpartIds": [
+        "summer-squash-fresh",
+        "yellow-summer-squash-fresh"
+      ],
+      "recipeFood": "summer-squash",
+      "admit": true
+    }
+  ],
+  "offerCasesStatus": "EXACT_REVIEW_EXPECTATIONS_IMPLEMENTATION_NOT_PRESENT",
+  "crossStoreRequirements": [
+    "Filter each original offer before selecting cheapest per store.",
+    "A rejected cheaper sibling must not hide a valid higher-priced same-store offer.",
+    "Preserve selected store pool and label cross-store estimates unverified.",
+    "Pickup search must retain the selected food noun.",
+    "Test every supported store fallback and shared food-noun titles."
+  ]
+}
