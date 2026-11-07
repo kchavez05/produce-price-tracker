@@ -1,0 +1,58 @@
+{
+  "status": "PROPOSAL_VALIDATED_NOT_APPROVED_NOT_ACTIVE",
+  "preparedOn": "2026-11-07",
+  "parentVersion": "2026-11-06.5",
+  "parentContentHash": "863270d2579e48b3c6b171edc43fcc07a0f19921b9cdda10590f1e0a77aed764",
+  "packageHash": "065a646fd34c1e434e273fb83777cede321d525fb6b27e6465699fdf89be05ed",
+  "validatorFileSha256": "b951de9957277c88aaa5cd0ae2fd48550511ffde784fc5c5d3db0a7700bcaf6c",
+  "counts": {
+    "newIngredients": 26,
+    "existingAliasUpdates": 2,
+    "directionalEdges": 10,
+    "curationDecisions": 38,
+    "marketCounterparts": 30,
+    "recipeSlotDecisions": 38,
+    "allowedSlotDecisions": 29,
+    "rejectedCandidates": 9,
+    "instructionAndTitlePatches": 7,
+    "previewIngredients": 171,
+    "searchFixtures": 260
+  },
+  "checks": {
+    "priorApprovalsUnchanged": true,
+    "currentRuntimeUnchanged": true,
+    "unapprovedProposalDoesNotAffectApprovedContents": true,
+    "sourceEvidenceMatchesFullSnapshot": true,
+    "noHeldSourceAssigned": true,
+    "inMemorySourceAssignmentValidationOnly": true,
+    "deterministicSimulation": true,
+    "noNewFixedPricesOrGlobalRecipeLinks": true,
+    "allPreviewFixturesPass": true,
+    "allNamesAliasesAndOptionalChoicesReachable": true,
+    "broadQueriesDoNotTruncate": {
+      "beans": 12,
+      "flour": 11,
+      "potatoes": 2,
+      "apples": 1,
+      "squash": 5,
+      "chiles": 5,
+      "peppers": 6,
+      "mushrooms": 2,
+      "greens": 4
+    },
+    "tenAvailabilityCasesPass": true,
+    "thirtyCounterpartPayloadHashesValid": true,
+    "all38AffectedSlotsReviewed": true,
+    "priorScopedPayloadsBoundByHash": true,
+    "nineCandidateRemovalsAndSevenTextPatchesReplayExactly": true
+  },
+  "offerCaseCount": 17,
+  "offerCaseImplementation": "PENDING: review expectations only; no new title admission is implemented or claimed tested",
+  "pendingGates": [
+    "Maintainer exact review of all ingredient/coverage, counterpart, recipe and offer payloads",
+    "Compiler/runtime support for counterpart records, versioned scoped approvals, new food/form terms and rejected-candidate removal",
+    "Execute offer/store/cost/shopping and saved-recipe context examples against the implementation",
+    "Additive accepted-ID migration, rollback and owner/account readiness checks",
+    "Required proteins/dairy market batches, qualification findings, final audit and hosted v1.6.1 release"
+  ]
+}

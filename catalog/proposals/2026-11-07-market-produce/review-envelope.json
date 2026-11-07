@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "status": "PROPOSED_NOT_APPROVED_NOT_ACTIVE",
+  "preparedOn": "2026-11-07",
+  "parentVersion": "2026-11-06.5",
+  "parentContentHash": "863270d2579e48b3c6b171edc43fcc07a0f19921b9cdda10590f1e0a77aed764",
+  "sourceRelease": "2026-10-29",
+  "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+  "blueprintHash": "94e232e02035c4b321700343e728a4f610ce6048a9375c6c5fe6e6d22453fc74",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "counts": {
+    "newIngredients": 26,
+    "existingAliasUpdates": 2,
+    "directionalEdges": 10,
+    "curationDecisions": 38,
+    "marketCounterparts": 30,
+    "recipeSlotDecisions": 38,
+    "allowedSlotDecisions": 29,
+    "rejectedCandidates": 9,
+    "instructionAndTitlePatches": 7,
+    "previewIngredients": 171,
+    "searchFixtures": 260
+  },
+  "fileHashes": {
+    "ledger.json": "52af344eb36f0b721d224647c4f79962f931d7d18ec73d39e7f33e0add585002",
+    "decision-hashes.json": "f40c9d990bb29e6e142548467c07041d22bff48b9cb86dc5b2d7fcec38f86586",
+    "source-evidence.json": "0cb4e2b242c45d7a92a598cbbbe8a3e3fd60f8778821d3e332d2bc96a5e34080",
+    "curated-gaps.json": "3a935c2743901b9a1517ec54d7d8e32c357095ad4ab3dff0cc8174ce2e834042",
+    "market-counterparts.json": "202adddff40faea6da0164b1bd43a231b15ed8cf2d278b44404c3273545c7f8c",
+    "recipe-use-proposal.json": "48f58fa5b16af3c06e2fb9c4394369aa5cd5b0aae38d39ece01a6788a6ad4fd2",
+    "search-fixtures.json": "4757676ba83b2829e0890fe53248fb1e5c72c5c74023e1b132518e2b6a073f96",
+    "behavior-cases.json": "de0ce887105213b77c571ebc78570aaf7ed331f1135f7e385ef7fa5cb67a8f98"
+  }
+}

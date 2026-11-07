@@ -1,0 +1,46 @@
+[
+  {
+    "ingredientId": "yukon-gold-potatoes-fresh",
+    "rationale": "Retain the named Yukon Gold cultivar as a curated optional choice. The retained gold-potato record does not prove this named cultivar; generic gold or yellow potatoes do not establish Yukon Gold. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+    "candidateHints": [
+      {
+        "dataType": "foundation_food",
+        "fdcId": "2346403",
+        "ndbNumber": "100285",
+        "description": "Potatoes, gold, without skin, raw",
+        "publicationDate": "2022-10-28",
+        "categoryId": "11",
+        "categoryName": "Vegetables and Vegetable Products",
+        "footnote": "Vitamin K (phylloquinone) median value corrected on 4/18/2024",
+        "key": "foundation_food:2346403",
+        "fingerprint": "ef9f5da06cdabb97456779f76a4434eb966190810bd4aed6846aa80175e27a89",
+        "disposition": "candidate"
+      }
+    ],
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT"
+  },
+  {
+    "ingredientId": "cosmic-crisp-apples-fresh",
+    "rationale": "Curated named apple choice: no exact Cosmic Crisp record exists in the retained snapshot. Do not substitute a held parent or another cultivar as exact evidence. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+    "candidateHints": [],
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT"
+  },
+  {
+    "ingredientId": "kabocha-squash-fresh",
+    "rationale": "Curated named squash choice: no exact kabocha record exists in the retained snapshot. All-varieties squash evidence is not exact named-variety evidence. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+    "candidateHints": [],
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT"
+  },
+  {
+    "ingredientId": "anaheim-peppers-fresh",
+    "rationale": "Curated fresh Anaheim choice: no exact retained source names Anaheim. Generic green hot chile evidence is not an exact cultivar link. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+    "candidateHints": [],
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT"
+  },
+  {
+    "ingredientId": "hatch-green-chiles-fresh",
+    "rationale": "Curated explicitly labeled fresh Hatch green-chile choice. Hatch is a retail/origin qualification, not a botanical species, universal heat level or origin certification. No exact retained record exists. Generic green chiles do not establish this qualification. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+    "candidateHints": [],
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT"
+  }
+]
