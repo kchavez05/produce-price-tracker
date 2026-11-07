@@ -57,6 +57,18 @@ function run() {
   assert.equal(additions.length, 26);
   assert.equal(additions.filter((r) => r.sourceKind === 'CURATED').length, 5);
   assert(additions.every((r) => !r.ingredient!.staticPrice && !r.ingredient!.recipeIngredientId));
+  const gaps = read(`${packagePath}/curated-gaps.json`) as { ingredientId: string; rationale: string; hintPurpose: string; candidateHints: unknown[] }[];
+  same(gaps.map((r) => r.ingredientId).sort(), additions.filter((r) => r.sourceKind === 'CURATED').map((r) => r.ingredient!.id).sort());
+  assert.equal(new Set(gaps.map((r) => r.ingredientId)).size, gaps.length);
+  for (const gap of gaps) {
+    assert.equal(gap.rationale, additions.find((r) => r.ingredient!.id === gap.ingredientId)?.rationale);
+    assert.equal(gap.hintPurpose, 'INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT');
+    for (const hint of gap.candidateHints) {
+      const candidate = parseSources({ formatVersion: 1, rulesVersion: sources.rulesVersion, records: [hint] }).records[0];
+      assert.equal(candidate.disposition, 'candidate');
+      same(candidate, sources.records.find((r) => r.key === candidate.key));
+    }
+  }
   for (const before of parent.ingredients) {
     const expected = structuredClone(before);
     if (before.id === 'spinach-fresh') expected.aliases = [...expected.aliases, 'fresh spinach greens'];

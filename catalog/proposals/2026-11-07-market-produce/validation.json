@@ -4,7 +4,7 @@
   "parentVersion": "2026-11-06.5",
   "parentContentHash": "863270d2579e48b3c6b171edc43fcc07a0f19921b9cdda10590f1e0a77aed764",
   "packageHash": "065a646fd34c1e434e273fb83777cede321d525fb6b27e6465699fdf89be05ed",
-  "validatorFileSha256": "b951de9957277c88aaa5cd0ae2fd48550511ffde784fc5c5d3db0a7700bcaf6c",
+  "validatorFileSha256": "e7a6b36c4d257d1d99d7cf82b7e77d9883b58048a6bb35910072cf1c75b118da",
   "counts": {
     "newIngredients": 26,
     "existingAliasUpdates": 2,
