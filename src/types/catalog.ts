@@ -67,3 +67,6 @@ export interface ScopedRecipeUse {
   pantryIngredientIds: string[];
   offerFoods: string[];
 }
+
+/** A possible food in a market group; never an ownership or recipe-compatibility edge. */
+export interface MarketCounterpart { marketIngredientId: string; pantryIngredientId: string }

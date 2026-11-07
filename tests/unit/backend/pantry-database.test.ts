@@ -171,6 +171,38 @@ describe('pantry database storage boundaries', () => {
     await db.query('delete from public.users where id=$1', [owner]);
     await db.exec('reset role');
   });
+  it('installs all approved produce IDs additively with account isolation and idempotent replay', async () => {
+    const owner = '00000000-0000-4000-8000-000000000026';
+    await db.query('insert into auth.users(id,email) values($1,$2)', [owner, 'produce@example.test']);
+    await asUser(owner);
+    const original = await rpc<PantryMigrationSnapshot>('read');
+    await rpc('migrate', { source: original.legacySource, entries: [] });
+    const entry = { ingredientId: 'russet-potatoes-fresh', displayName: 'Fresh Russet potatoes', available: true };
+    const mutation = put({ mutationId: 'produce-first', entryId: 'potatoes', entry });
+    await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
+    await db.exec('reset role');
+    const before = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
+    const migration = readFileSync('supabase/migrations/20261107144458_pantry_market_produce.sql', 'utf8');
+    await db.exec(migration);
+    await db.exec(migration);
+    const after = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
+    expect(after).toEqual(expect.arrayContaining(before));
+    expect(after).toHaveLength(before.length + 26);
+    await asUser(owner);
+    const applied = await rpc('mutate', mutation);
+    expect(await rpc('mutate', mutation)).toEqual(applied);
+    expect(applied).toMatchObject({ status: 'applied', entry: { ingredientId: 'russet-potatoes-fresh', revision: 1 } });
+    await asUser(bob);
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries.some((r) => r.ingredientId === 'russet-potatoes-fresh')).toBe(false);
+    await asUser(owner);
+    expect(await rpc('mutate', put({ mutationId: 'produce-no', entryId: 'potatoes', expectedRevision: 1, entry: { ...entry, available: false } }))).toMatchObject({ status: 'applied', entry: { revision: 2, available: false } });
+    await db.exec('reset role');
+    await db.exec(readFileSync('supabase/migrations/20261106175108_pantry_remaining_vegetables.sql', 'utf8'));
+    await asUser(owner);
+    expect((await rpc<PantryMigrationSnapshot>('read')).entries).toMatchObject([{ ingredientId: 'russet-potatoes-fresh', available: false, revision: 2 }]);
+    await db.query('delete from public.users where id=$1', [owner]);
+    await db.exec('reset role');
+  });
   it('keeps catalog IDs synchronized and denies anonymous execution', async () => {
     const ids = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows.map((r) => r.id);
     expect(ids).toEqual(cookingIngredients.map((r) => r.id).sort());

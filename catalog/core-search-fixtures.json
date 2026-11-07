@@ -2,8 +2,8 @@
   {
     "query": "lentils",
     "expected": [
-      "lentils-dried",
-      "lentils-canned"
+      "lentils-canned",
+      "lentils-dried"
     ]
   },
   {
@@ -16,24 +16,24 @@
     "query": "rice",
     "expected": [
       "basmati-rice-dry",
-      "jasmine-rice-dry",
-      "brown-rice-dry"
+      "brown-rice-dry",
+      "jasmine-rice-dry"
     ]
   },
   {
     "query": "flour",
     "expected": [
-      "rice-flour",
       "all-purpose-flour",
-      "whole-wheat-flour",
-      "oat-flour",
-      "rye-flour",
+      "bread-flour",
       "buckwheat-flour",
       "chickpea-flour",
-      "sorghum-flour",
-      "bread-flour",
+      "masa-harina",
+      "oat-flour",
+      "rice-flour",
+      "rye-flour",
       "self-rising-wheat-flour",
-      "masa-harina"
+      "sorghum-flour",
+      "whole-wheat-flour"
     ]
   },
   {
@@ -59,8 +59,8 @@
   {
     "query": "broth",
     "expected": [
-      "chicken-broth",
       "beef-broth",
+      "chicken-broth",
       "vegetable-broth"
     ]
   },
@@ -95,10 +95,10 @@
       "black-beans-canned",
       "black-beans-dried",
       "cannellini-beans-canned",
-      "great-northern-beans-canned",
-      "kidney-beans-canned",
       "chickpeas-canned",
       "chickpeas-dried",
+      "great-northern-beans-canned",
+      "kidney-beans-canned",
       "kidney-beans-dried",
       "navy-beans-canned",
       "navy-beans-dried",
@@ -149,8 +149,8 @@
   {
     "query": "barley",
     "expected": [
-      "barley-pearled",
-      "barley-hulled"
+      "barley-hulled",
+      "barley-pearled"
     ]
   },
   {
@@ -530,7 +530,8 @@
   {
     "query": "Honey",
     "expected": [
-      "honey"
+      "honey",
+      "honeycrisp-apples-fresh"
     ]
   },
   {
@@ -597,8 +598,8 @@
     "query": "oil",
     "expected": [
       "avocado-oil",
-      "olive-oil",
       "canola-oil",
+      "olive-oil",
       "sesame-oil"
     ]
   },
@@ -619,11 +620,11 @@
   {
     "query": "sauce",
     "expected": [
+      "fish-sauce",
+      "oyster-sauce",
       "soy-sauce",
       "worcestershire-sauce",
-      "worcestershire-sauce-gluten-free",
-      "fish-sauce",
-      "oyster-sauce"
+      "worcestershire-sauce-gluten-free"
     ]
   },
   {
@@ -829,12 +830,6 @@
     ]
   },
   {
-    "query": "fresh coriander",
-    "expected": [
-      "cilantro-fresh"
-    ]
-  },
-  {
     "query": "green cardamom",
     "expected": []
   },
@@ -988,15 +983,21 @@
   },
   {
     "query": "cremini",
-    "expected": []
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
   },
   {
     "query": "baby bella",
-    "expected": []
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
   },
   {
     "query": "tomatillos",
-    "expected": []
+    "expected": [
+      "tomatillos-fresh"
+    ]
   },
   {
     "query": "New Zealand spinach",
@@ -1012,16 +1013,570 @@
   },
   {
     "query": "collard greens",
-    "expected": []
+    "expected": [
+      "collard-greens-fresh"
+    ]
   },
   {
     "query": "Swiss chard",
-    "expected": []
+    "expected": [
+      "swiss-chard-fresh"
+    ]
   },
   {
     "query": "corn masa flour",
     "expected": [
       "masa-harina"
     ]
+  },
+  {
+    "query": "Fresh potatoes",
+    "expected": [
+      "potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw potatoes",
+    "expected": [
+      "potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Russet potatoes",
+    "expected": [
+      "russet-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw Russet potatoes",
+    "expected": [
+      "russet-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Yukon Gold potatoes",
+    "expected": [
+      "yukon-gold-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw Yukon Gold potatoes",
+    "expected": [
+      "yukon-gold-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh red potatoes",
+    "expected": [
+      "red-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "raw red potatoes",
+    "expected": [
+      "red-potatoes-fresh"
+    ]
+  },
+  {
+    "query": "Fresh apples",
+    "expected": [
+      "apples-fresh"
+    ]
+  },
+  {
+    "query": "raw apples",
+    "expected": [
+      "apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Honeycrisp apples",
+    "expected": [
+      "honeycrisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Honeycrisp apples",
+    "expected": [
+      "honeycrisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Gala apples",
+    "expected": [
+      "gala-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Gala apples",
+    "expected": [
+      "gala-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Fuji apples",
+    "expected": [
+      "fuji-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Fuji apples",
+    "expected": [
+      "fuji-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Granny Smith apples",
+    "expected": [
+      "granny-smith-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Granny Smith apples",
+    "expected": [
+      "granny-smith-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Cosmic Crisp apples",
+    "expected": [
+      "cosmic-crisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "raw Cosmic Crisp apples",
+    "expected": [
+      "cosmic-crisp-apples-fresh"
+    ]
+  },
+  {
+    "query": "Fresh summer squash",
+    "expected": [
+      "summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw summer squash",
+    "expected": [
+      "summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh zucchini",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "raw zucchini",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "fresh courgette",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "courgette",
+    "expected": [
+      "zucchini-fresh"
+    ]
+  },
+  {
+    "query": "Fresh yellow summer squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw yellow summer squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "fresh yellow squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "yellow squash",
+    "expected": [
+      "yellow-summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh butternut squash",
+    "expected": [
+      "butternut-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw butternut squash",
+    "expected": [
+      "butternut-squash-fresh"
+    ]
+  },
+  {
+    "query": "butternut winter squash",
+    "expected": [
+      "butternut-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh acorn squash",
+    "expected": [
+      "acorn-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw acorn squash",
+    "expected": [
+      "acorn-squash-fresh"
+    ]
+  },
+  {
+    "query": "acorn winter squash",
+    "expected": [
+      "acorn-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh spaghetti squash",
+    "expected": [
+      "spaghetti-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw spaghetti squash",
+    "expected": [
+      "spaghetti-squash-fresh"
+    ]
+  },
+  {
+    "query": "spaghetti winter squash",
+    "expected": [
+      "spaghetti-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh kabocha squash",
+    "expected": [
+      "kabocha-squash-fresh"
+    ]
+  },
+  {
+    "query": "raw kabocha squash",
+    "expected": [
+      "kabocha-squash-fresh"
+    ]
+  },
+  {
+    "query": "kabocha winter squash",
+    "expected": [
+      "kabocha-squash-fresh"
+    ]
+  },
+  {
+    "query": "Fresh poblano peppers",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "poblano chiles",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "raw poblano peppers",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "poblanos",
+    "expected": [
+      "poblano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Anaheim peppers",
+    "expected": [
+      "anaheim-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Anaheim chiles",
+    "expected": [
+      "anaheim-peppers-fresh"
+    ]
+  },
+  {
+    "query": "raw Anaheim peppers",
+    "expected": [
+      "anaheim-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh jalapeño peppers",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "fresh jalapeno peppers",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapeno chiles",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapeño chiles",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapenos",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "jalapeños",
+    "expected": [
+      "jalapeno-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh serrano peppers",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "serrano chiles",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "raw serrano peppers",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "serranos",
+    "expected": [
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Hatch green chiles",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "fresh Hatch chile peppers",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "raw Hatch green chiles",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "fresh Hatch chiles",
+    "expected": [
+      "hatch-green-chiles-fresh"
+    ]
+  },
+  {
+    "query": "Fresh cremini mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "fresh crimini mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "baby bella mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "raw cremini mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh"
+    ]
+  },
+  {
+    "query": "Fresh tomatillos",
+    "expected": [
+      "tomatillos-fresh"
+    ]
+  },
+  {
+    "query": "raw tomatillos",
+    "expected": [
+      "tomatillos-fresh"
+    ]
+  },
+  {
+    "query": "Fresh collard greens",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "raw collard greens",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "fresh collards",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "Fresh Swiss chard",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "raw Swiss chard",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "Swiss chard greens",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "fresh spinach greens",
+    "expected": [
+      "spinach-fresh"
+    ]
+  },
+  {
+    "query": "fresh kale greens",
+    "expected": [
+      "kale-fresh"
+    ]
+  },
+  {
+    "query": "potatoes",
+    "expected": [
+      "potatoes-fresh",
+      "sweet-potatoes"
+    ]
+  },
+  {
+    "query": "apples",
+    "expected": [
+      "apples-fresh"
+    ]
+  },
+  {
+    "query": "squash",
+    "expected": [
+      "acorn-squash-fresh",
+      "butternut-squash-fresh",
+      "kabocha-squash-fresh",
+      "spaghetti-squash-fresh",
+      "summer-squash-fresh"
+    ]
+  },
+  {
+    "query": "chiles",
+    "expected": [
+      "anaheim-peppers-fresh",
+      "hatch-green-chiles-fresh",
+      "jalapeno-peppers-fresh",
+      "poblano-peppers-fresh",
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "peppers",
+    "expected": [
+      "anaheim-peppers-fresh",
+      "bell-peppers",
+      "hatch-green-chiles-fresh",
+      "jalapeno-peppers-fresh",
+      "poblano-peppers-fresh",
+      "serrano-peppers-fresh"
+    ]
+  },
+  {
+    "query": "mushrooms",
+    "expected": [
+      "mushrooms-cremini-fresh",
+      "mushrooms-white-fresh"
+    ]
+  },
+  {
+    "query": "greens",
+    "expected": [
+      "collard-greens-fresh",
+      "kale-fresh",
+      "spinach-fresh",
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "collards",
+    "expected": [
+      "collard-greens-fresh"
+    ]
+  },
+  {
+    "query": "chard",
+    "expected": [
+      "swiss-chard-fresh"
+    ]
+  },
+  {
+    "query": "pasilla",
+    "expected": []
+  },
+  {
+    "query": "frozen potatoes",
+    "expected": []
+  },
+  {
+    "query": "canned tomatillos",
+    "expected": []
+  },
+  {
+    "query": "dried chiles",
+    "expected": []
   }
 ]

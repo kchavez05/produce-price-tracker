@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import cases from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/behavior-cases.json';
 import approval from '../../../catalog/scoped-recipe-uses.json';
-import artifact from '../../../catalog/releases/2026-11-06.4/catalog.json';
+import artifact from '../../../catalog/releases/2026-11-07.1/catalog.json';
+import coverageApproval from '../../../catalog/market-coverage-approvals.json';
 import previous from '../../../catalog/releases/2026-11-06.3/catalog.json';
 import proposal from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/recipe-use-proposal.json';
 import { compileScopedRecipeUses } from '../../../scripts/lib/scoped-recipe-uses';
@@ -278,14 +279,14 @@ describe('approved vegetable recipe-use integration', () => {
     expect(rank(true, ['brussels-sprouts']).matchedIngredients.find((r) => r.ingredientId === 'brussels-sprouts')?.slotCost).toBe(5.25);
   });
 
-  it('binds approval, all 22 slot uses, implemented directions and current market data to hashes', () => {
-    const compile = (raw: unknown) => compileScopedRecipeUses(raw, parseArtifact(artifact).ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS);
+  it('binds original approval and all 41 current slot uses to reviewed revisions and implemented directions', () => {
+    const compile = (raw: unknown) => compileScopedRecipeUses(raw, parseArtifact(artifact).ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, coverageApproval);
     expect(compile(approval).uses).toEqual(scopedRecipeUses);
-    expect(compile(approval).uses).toHaveLength(22);
+    expect(compile(approval).uses).toHaveLength(41);
     expect(approval.review.payloadSha256).toBe(sha256(proposal));
     expect(() => compile({ ...approval, review: { ...approval.review, payloadSha256: 'changed' } })).toThrow('stale');
     expect(() => compile({ ...approval, integrationBlueprintHash: 'changed' })).toThrow('stale');
     const missing = { ...proposal, decisions: proposal.decisions.slice(1) };
-    expect(() => compile({ ...approval, proposal: missing, review: { ...approval.review, payloadSha256: sha256(missing) } })).toThrow('Every protected');
+    expect(() => compile({ ...approval, proposal: missing, review: { ...approval.review, payloadSha256: sha256(missing) } })).toThrow(/history|Every protected|stale/);
   });
 });

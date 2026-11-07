@@ -4476,6 +4476,1057 @@
         "date": "2026-11-06",
         "payloadSha256": "d42062837c19bc1de273d71ca53a81de6a299d159315e99cc4f42a3d03d5d9d2"
       }
+    },
+    {
+      "id": "ingredient-potatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170026",
+          "fingerprint": "e6a588568e175bf35f50e072522eb8308217e98a50e15df285249b015b52eeb3"
+        }
+      ],
+      "rationale": "Unspecified fresh raw potatoes are the default cooking choice. Sweet potatoes and true yams are separate. Flesh/skin evidence is not retail yield. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "potatoes-fresh",
+        "name": "Fresh potatoes",
+        "aliases": [
+          "raw potatoes"
+        ],
+        "familyId": "potatoes",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "547257c49729799b62bffd184d5b5ad4647842796aba2f004241eefbc653d4a8"
+      }
+    },
+    {
+      "id": "ingredient-russet-potatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346401",
+          "fingerprint": "1b782407ea1d643b8345e5e052faa1fbfea0610ad6dcfc1bb325288b4ed44acb"
+        }
+      ],
+      "rationale": "The record explicitly names raw Russet potatoes. Without-skin preparation remains analytical context. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "russet-potatoes-fresh",
+        "name": "Fresh Russet potatoes",
+        "aliases": [
+          "raw Russet potatoes"
+        ],
+        "familyId": "potatoes",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "potatoes-fresh",
+        "variety": "russet"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "5c2cbacc95b76432e94f2498b558521fc5712e4fa2c107381d18a7baebe90d95"
+      }
+    },
+    {
+      "id": "ingredient-yukon-gold-potatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Retain the named Yukon Gold cultivar as a curated optional choice. The retained gold-potato record does not prove this named cultivar; generic gold or yellow potatoes do not establish Yukon Gold. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "yukon-gold-potatoes-fresh",
+        "name": "Fresh Yukon Gold potatoes",
+        "aliases": [
+          "raw Yukon Gold potatoes"
+        ],
+        "familyId": "potatoes",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "potatoes-fresh",
+        "variety": "yukon-gold"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "f49c04191f048df4bbd405dbe08344c492613d49e257d54d46654909727003d0"
+      }
+    },
+    {
+      "id": "ingredient-red-potatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346402",
+          "fingerprint": "ca56d6a1edca3a55f533ecfb7d9bffb4861c40ad74f26f48dbed67368b90dd89"
+        }
+      ],
+      "rationale": "The record explicitly names raw red potatoes; source peeling is not a yield conversion. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "red-potatoes-fresh",
+        "name": "Fresh red potatoes",
+        "aliases": [
+          "raw red potatoes"
+        ],
+        "familyId": "potatoes",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "potatoes-fresh",
+        "variety": "red"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "5ae09bb751edab8bcf642e1bc3241448f37d5362dcf5a5370e10d6a9bc44ca7a"
+      }
+    },
+    {
+      "id": "ingredient-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171688",
+          "fingerprint": "e567b32d8134760226c4c83a0b3d8ccffb2363ac98663dcb688898efccc86e44"
+        }
+      ],
+      "rationale": "Unspecified fresh apples are the default. Fresh fruit is distinct from sauce, juice, dried or cooked apples. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "apples-fresh",
+        "name": "Fresh apples",
+        "aliases": [
+          "raw apples"
+        ],
+        "familyId": "apples",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "3802e4810e7e66f6c8c97fd66c1975d750d85f49d6b371b2d7b6e1f4661caad5"
+      }
+    },
+    {
+      "id": "ingredient-honeycrisp-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1750343",
+          "fingerprint": "b89906f36932e20e9cee8daa4e309a5d6cfacabdbb246f428f839329293e20fd"
+        }
+      ],
+      "rationale": "The retained subtype explicitly identifies this named raw apple; no cross-variety nutrition or ownership is established. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "honeycrisp-apples-fresh",
+        "name": "Fresh Honeycrisp apples",
+        "aliases": [
+          "raw Honeycrisp apples"
+        ],
+        "familyId": "apples",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "apples-fresh",
+        "variety": "honeycrisp"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "ceef916f946eb4b0c4b4df6b7b0141cbf6d5bd52ea01331b39679184fab79acf"
+      }
+    },
+    {
+      "id": "ingredient-gala-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1750341",
+          "fingerprint": "73993b2d4e7c7faa5fdd3399f4eb33e6bbf15dd51840726dc152965025f36bea"
+        }
+      ],
+      "rationale": "The retained subtype explicitly identifies this named raw apple; no cross-variety nutrition or ownership is established. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "gala-apples-fresh",
+        "name": "Fresh Gala apples",
+        "aliases": [
+          "raw Gala apples"
+        ],
+        "familyId": "apples",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "apples-fresh",
+        "variety": "gala"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "c61d97dc35edc7a7ee604fddc6738373c4c60e1dc0cc4e54b1e4326542723c2f"
+      }
+    },
+    {
+      "id": "ingredient-fuji-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1750340",
+          "fingerprint": "99fa5e49fc1373ccde5ca9a7a77b95294fa37ad35434c5f963abc5e56c7f7634"
+        }
+      ],
+      "rationale": "The retained subtype explicitly identifies this named raw apple; no cross-variety nutrition or ownership is established. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "fuji-apples-fresh",
+        "name": "Fresh Fuji apples",
+        "aliases": [
+          "raw Fuji apples"
+        ],
+        "familyId": "apples",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "apples-fresh",
+        "variety": "fuji"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "e567dbacff79d8bee1027d26c9b6da78fe3956b0f9b5314752a6c29e100b6003"
+      }
+    },
+    {
+      "id": "ingredient-granny-smith-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:1750342",
+          "fingerprint": "14085c931d3bf58c88a476f195c8a5335d37e2e944ef1e3fd29ec5e614e42e90"
+        }
+      ],
+      "rationale": "The retained subtype explicitly identifies this named raw apple; no cross-variety nutrition or ownership is established. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "granny-smith-apples-fresh",
+        "name": "Fresh Granny Smith apples",
+        "aliases": [
+          "raw Granny Smith apples"
+        ],
+        "familyId": "apples",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "apples-fresh",
+        "variety": "granny-smith"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "36af77913c1a434edd88408cb7cfbd3ffa0eda92d126f4b2e8380d3a08b7c79e"
+      }
+    },
+    {
+      "id": "ingredient-cosmic-crisp-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated named apple choice: no exact Cosmic Crisp record exists in the retained snapshot. Do not substitute a held parent or another cultivar as exact evidence. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "cosmic-crisp-apples-fresh",
+        "name": "Fresh Cosmic Crisp apples",
+        "aliases": [
+          "raw Cosmic Crisp apples"
+        ],
+        "familyId": "apples",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "apples-fresh",
+        "variety": "cosmic-crisp"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "534e8eef1fafa137e03244b67f7e1527297dd64c0c08f0112ef966c38461a166"
+      }
+    },
+    {
+      "id": "ingredient-summer-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170487",
+          "fingerprint": "0e1f5ef927c2e0632b76fbc46a317ca443ee7039ce46850be2cad8d687a67409"
+        }
+      ],
+      "rationale": "Unspecified fresh summer squash is a compact default. Winter squash remains separate. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "summer-squash-fresh",
+        "name": "Fresh summer squash",
+        "aliases": [
+          "raw summer squash"
+        ],
+        "familyId": "summer-squash",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "acd8519333b97f0e87a920e648baa8427a4295912e2e68735141cce91d469520"
+      }
+    },
+    {
+      "id": "ingredient-zucchini-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685568",
+          "fingerprint": "cade7a1f0a4590fc6eccfd66c50d2535adfa068d27379f52341b690f8d4cc20b"
+        }
+      ],
+      "rationale": "The record explicitly names raw green zucchini. Keep a named optional choice, not winter squash. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "zucchini-fresh",
+        "name": "Fresh zucchini",
+        "aliases": [
+          "raw zucchini",
+          "fresh courgette",
+          "courgette"
+        ],
+        "familyId": "summer-squash",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "summer-squash-fresh",
+        "variety": "zucchini"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "68c1ad44d1919949a36b7734ea6673714cdb91fb8c8aff672907ba9eea091efa"
+      }
+    },
+    {
+      "id": "ingredient-yellow-summer-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685569",
+          "fingerprint": "a2e660fbf4429d6ab82e94f8ff7075ac9d610e9f902160c34e2b7b78399b65b2"
+        }
+      ],
+      "rationale": "The record explicitly names raw yellow summer squash. Yellow winter squash and named cultivars are not inferred. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "yellow-summer-squash-fresh",
+        "name": "Fresh yellow summer squash",
+        "aliases": [
+          "raw yellow summer squash",
+          "fresh yellow squash",
+          "yellow squash"
+        ],
+        "familyId": "summer-squash",
+        "form": "fresh",
+        "searchVisibility": "variant",
+        "parentIngredientId": "summer-squash-fresh",
+        "variety": "yellow"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "331ba5d75c7911aaed18483c4c75c7074923e199fa8060d54ff4f1fe261643c2"
+      }
+    },
+    {
+      "id": "ingredient-butternut-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685570",
+          "fingerprint": "f5d4a1a306204c94908002e3c5ebc0ca002abdc6fba6e1eca711fc006fbcb4ea"
+        }
+      ],
+      "rationale": "Keep raw butternut as its own cooking choice; shared winter-squash family creates no substitution. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "butternut-squash-fresh",
+        "name": "Fresh butternut squash",
+        "aliases": [
+          "raw butternut squash",
+          "butternut winter squash"
+        ],
+        "familyId": "winter-squash",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "9c6dd0880e88a77fceca9ce7719c348b25b5249c54f53998566d67fb60283cb5"
+      }
+    },
+    {
+      "id": "ingredient-acorn-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685571",
+          "fingerprint": "7ccf64c4c4dbb86c220a1ae8c1afbb7ad7f097e40f76445c45252c8a6748581e"
+        }
+      ],
+      "rationale": "Keep raw acorn as a separate cooking choice. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "acorn-squash-fresh",
+        "name": "Fresh acorn squash",
+        "aliases": [
+          "raw acorn squash",
+          "acorn winter squash"
+        ],
+        "familyId": "winter-squash",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "b0515288de0afd036d62f087d24edf8acdefede9f0d3f8ee04bbeab04d918e06"
+      }
+    },
+    {
+      "id": "ingredient-spaghetti-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169298",
+          "fingerprint": "a667352c873c82e43ad3e8eb92ec6293e5e4f17219c0888f73dbbbb180279445"
+        }
+      ],
+      "rationale": "Keep spaghetti squash separate: its cooked strands do not automatically satisfy a cubed-butternut requirement. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "spaghetti-squash-fresh",
+        "name": "Fresh spaghetti squash",
+        "aliases": [
+          "raw spaghetti squash",
+          "spaghetti winter squash"
+        ],
+        "familyId": "winter-squash",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "e848710d2f78457be79408cc3467a06acc3951bfbb2e712ba1a28965a4f521e2"
+      }
+    },
+    {
+      "id": "ingredient-kabocha-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated named squash choice: no exact kabocha record exists in the retained snapshot. All-varieties squash evidence is not exact named-variety evidence. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "kabocha-squash-fresh",
+        "name": "Fresh kabocha squash",
+        "aliases": [
+          "raw kabocha squash",
+          "kabocha winter squash"
+        ],
+        "familyId": "winter-squash",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "0df852964538f55b0a107d3e77ee99b852495cdd740dc3967941d50848a1cb3c"
+      }
+    },
+    {
+      "id": "ingredient-poblano-peppers-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2747662",
+          "fingerprint": "b5f9e1e5e5caea2d5af651e45ebd0bf8bffa11b89e76f9af62f46b1bd0e6dc46"
+        }
+      ],
+      "rationale": "The source explicitly identifies raw poblano. Seed removal is source context, not retail yield; pasilla is not an alias. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "poblano-peppers-fresh",
+        "name": "Fresh poblano peppers",
+        "aliases": [
+          "poblano chiles",
+          "raw poblano peppers",
+          "poblanos"
+        ],
+        "familyId": "chiles",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "deae4cd0ea0c56a8eb6a9c9979de95976f0656520c34d00c2597e7520a568e37"
+      }
+    },
+    {
+      "id": "ingredient-anaheim-peppers-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated fresh Anaheim choice: no exact retained source names Anaheim. Generic green hot chile evidence is not an exact cultivar link. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "anaheim-peppers-fresh",
+        "name": "Fresh Anaheim peppers",
+        "aliases": [
+          "Anaheim chiles",
+          "raw Anaheim peppers"
+        ],
+        "familyId": "chiles",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "993984ee74ba39ce39961ee7dc5cb11adf93555428ae7966e92a2d883127dedf"
+      }
+    },
+    {
+      "id": "ingredient-jalapeno-peppers-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2747661",
+          "fingerprint": "1290f7d44da5438e11cea75f48fd6912fcc7b4d96db40bba839cb4672831e5df"
+        }
+      ],
+      "rationale": "The record explicitly names raw jalapeno. Keep distinct from bulk mild roasting peppers and preserved jalapenos. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "jalapeno-peppers-fresh",
+        "name": "Fresh jalapeño peppers",
+        "aliases": [
+          "fresh jalapeno peppers",
+          "jalapeno chiles",
+          "jalapeño chiles",
+          "jalapenos",
+          "jalapeños"
+        ],
+        "familyId": "chiles",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "63cd1e6d5da14322cb6c7bf8fdeb2430f691dfafd0feefe237ab926db9d2fe98"
+      }
+    },
+    {
+      "id": "ingredient-serrano-peppers-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2747663",
+          "fingerprint": "962e75e159248cca73dc9322dd4d52bccbebc4c530ba81ea0245ffa971a0d2e1"
+        }
+      ],
+      "rationale": "The record explicitly names raw serrano. Keep independent heat/preparation scope; not a bulk poblano substitute. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "serrano-peppers-fresh",
+        "name": "Fresh serrano peppers",
+        "aliases": [
+          "serrano chiles",
+          "raw serrano peppers",
+          "serranos"
+        ],
+        "familyId": "chiles",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "d673bbc03f85b1279600d08c61ee8425616348125b96f486fb2132b495fb2d3b"
+      }
+    },
+    {
+      "id": "ingredient-hatch-green-chiles-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated explicitly labeled fresh Hatch green-chile choice. Hatch is a retail/origin qualification, not a botanical species, universal heat level or origin certification. No exact retained record exists. Generic green chiles do not establish this qualification. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "hatch-green-chiles-fresh",
+        "name": "Fresh Hatch green chiles",
+        "aliases": [
+          "fresh Hatch chile peppers",
+          "raw Hatch green chiles",
+          "fresh Hatch chiles"
+        ],
+        "familyId": "chiles",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "5dda9b4a82af00a52b644c95639e13c0733b91dd907e8cf42b56c5251340101d"
+      }
+    },
+    {
+      "id": "ingredient-mushrooms-cremini-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168434",
+          "fingerprint": "81054c140c0f3fbcf08987cb87add0f325514dfffceaa7bfc6711469392c8e96"
+        }
+      ],
+      "rationale": "The record explicitly identifies raw brown/Italian/crimini mushrooms. Baby bella/crimini aliases identify this same cooking choice; white mushrooms remain separate. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "mushrooms-cremini-fresh",
+        "name": "Fresh cremini mushrooms",
+        "aliases": [
+          "fresh crimini mushrooms",
+          "baby bella mushrooms",
+          "raw cremini mushrooms"
+        ],
+        "familyId": "mushrooms",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "39845a5c69f2d00953ee633b637796cea0b89252554e375396709ed28451475f"
+      }
+    },
+    {
+      "id": "ingredient-tomatillos-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2727582",
+          "fingerprint": "649f2acdf167afcbd3af1750fb1f54a6ef1d3c4b102542972ad68a41ebfba892"
+        }
+      ],
+      "rationale": "The Foundation record explicitly identifies raw dehusked tomatillos. Dehusking is analytical context; fresh tomatoes remain separate. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "tomatillos-fresh",
+        "name": "Fresh tomatillos",
+        "aliases": [
+          "raw tomatillos"
+        ],
+        "familyId": "tomatillos",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "dfb51bf2607718ce9fd4e05c5ac044d1c794b45abf6395dcf943fa0a4160f1ef"
+      }
+    },
+    {
+      "id": "ingredient-collard-greens-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2685574",
+          "fingerprint": "54f6af1a090892c05c35191da9fde5918e027dd31f82d9742e6bc85b70726a79"
+        }
+      ],
+      "rationale": "The record explicitly names raw collards. Separate from spinach/kale; no new recipe compatibility is proposed. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "collard-greens-fresh",
+        "name": "Fresh collard greens",
+        "aliases": [
+          "raw collard greens",
+          "fresh collards"
+        ],
+        "familyId": "collards",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "dd28635a30e1e26879557773e528d3d771688eba2f9de64d674892526cbb9100"
+      }
+    },
+    {
+      "id": "ingredient-swiss-chard-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169991",
+          "fingerprint": "f4a05bcfe9677fc5032e7425ed2cd1113e434750cb8c164e69d9a7018ebbbc73"
+        }
+      ],
+      "rationale": "The record explicitly names raw Swiss chard. Separate from spinach/kale and from beet greens; no automatic recipe compatibility. No new fixed estimate, nutrition, portion/yield conversion, dietary guarantee or market/recipe equivalence is inferred. Market associations and recipe decisions require their own exact review.",
+      "ingredient": {
+        "id": "swiss-chard-fresh",
+        "name": "Fresh Swiss chard",
+        "aliases": [
+          "raw Swiss chard",
+          "Swiss chard greens"
+        ],
+        "familyId": "swiss-chard",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "f68ac7ac192839ee82949615eee678d1eba50e2fcde409857d1f3b89ac078e80"
+      }
+    },
+    {
+      "id": "ingredient-spinach-fresh",
+      "revision": 2,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168462",
+          "fingerprint": "9942f2985601f57f8207491a6cbe2dddc33d7ca0dbd7c9b6228ce2f778309080"
+        }
+      ],
+      "rationale": "Add only the precise leafy-greens search alias so the broad greens query finds all four reviewed foods. Preserve all existing source links, IDs, estimates and recipe relationships.",
+      "ingredient": {
+        "id": "spinach-fresh",
+        "name": "Fresh spinach",
+        "aliases": [
+          "baby spinach",
+          "raw spinach",
+          "fresh spinach greens"
+        ],
+        "familyId": "spinach",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "9f656d68c979da9074a3d19d15e2082deeaddf27ed531c0beda919b8f65ba7b4"
+      }
+    },
+    {
+      "id": "ingredient-kale-fresh",
+      "revision": 2,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:323505",
+          "fingerprint": "9b33d1b8fd00519f942915b0bd4cb37265a9d307555c5ba48b55ae5b8b82f22f"
+        }
+      ],
+      "rationale": "Add only the precise leafy-greens search alias so the broad greens query finds all four reviewed foods. Preserve all existing source links, IDs, estimates and recipe relationships.",
+      "ingredient": {
+        "id": "kale-fresh",
+        "name": "Fresh kale",
+        "aliases": [
+          "raw kale",
+          "fresh kale greens"
+        ],
+        "familyId": "kale",
+        "form": "fresh",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "189b22846402abd1e6d42f2f42f4bd8fb51a4fe4c3860c8c9acaa07ef07d8608"
+      }
+    },
+    {
+      "id": "coverage-russet-potatoes-fresh-to-potatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "russet-potatoes-fresh",
+        "to": "potatoes-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "7a1269b26a439cd1cccdd65a7e09991b05adb68d996ef0d2a56ba14007ba1f8f"
+      }
+    },
+    {
+      "id": "coverage-yukon-gold-potatoes-fresh-to-potatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "yukon-gold-potatoes-fresh",
+        "to": "potatoes-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "b9bbbb3215ed819b7309db342d8d905535c44c034744bad048134c65dc40473e"
+      }
+    },
+    {
+      "id": "coverage-red-potatoes-fresh-to-potatoes-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "red-potatoes-fresh",
+        "to": "potatoes-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "8693954df83b831f7869095800521654a3b61ae505814ea5b9d18cf07f578d69"
+      }
+    },
+    {
+      "id": "coverage-honeycrisp-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "honeycrisp-apples-fresh",
+        "to": "apples-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "a6fcdd5823dd3ee1a2965c9afdb38c8740614e355578af60f69c1ac957d7843c"
+      }
+    },
+    {
+      "id": "coverage-gala-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "gala-apples-fresh",
+        "to": "apples-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "000794d7363fe2334310ac7d8a7cf4e6af232df395f65f55284e3df910e232dd"
+      }
+    },
+    {
+      "id": "coverage-fuji-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "fuji-apples-fresh",
+        "to": "apples-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "ffae86027e487ab05829c5bd38d7f9b1fe79a400ff6aeac9707907fea2381841"
+      }
+    },
+    {
+      "id": "coverage-granny-smith-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "granny-smith-apples-fresh",
+        "to": "apples-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "be35f7d6436305069ca6137339d4e4ffc57dd0a4d2a1e42b35a646e9d9148734"
+      }
+    },
+    {
+      "id": "coverage-cosmic-crisp-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "cosmic-crisp-apples-fresh",
+        "to": "apples-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "e5f8ede39b2b71ce373ecd80b49305c9c95c6e742a8e8582f05a919db0ba9330"
+      }
+    },
+    {
+      "id": "coverage-zucchini-fresh-to-summer-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "zucchini-fresh",
+        "to": "summer-squash-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "c167dff9fecd3d76cb4a08e8a267e63096891e620fa345dcdfc6095378f64b6c"
+      }
+    },
+    {
+      "id": "coverage-yellow-summer-squash-fresh-to-summer-squash-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named variant to unspecified family requirement only. Generic ownership never establishes a named variety; explicit No for the required generic identity overrides derived coverage. This creates no sibling ownership, transitive inference, source nutrition or price equivalence.",
+      "compatibility": {
+        "from": "yellow-summer-squash-fresh",
+        "to": "summer-squash-fresh"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the produce packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "37f49579475578900c435beac8d2890c0d85fdd632268f0c600f03b93a928fec"
+      }
     }
   ]
 }

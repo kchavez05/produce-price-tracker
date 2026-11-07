@@ -35,7 +35,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
         slotKey: 'stew_starch',
         label: 'Diced Potatoes',
         candidateIngredientIds: ['potatoes-russet-gold'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash', 'green-cabbage'],
+        lowCarbCandidateIds: ['broccoli-cauliflower', 'green-cabbage'],
         quantityRequired: 2.0,
       },
       {
@@ -168,7 +168,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
         slotKey: 'base_starch',
         label: 'Diced Potatoes or Butternut Squash',
         candidateIngredientIds: ['potatoes-russet-gold', 'sweet-potatoes', 'butternut-acorn-squash'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.0,
       },
       {
@@ -189,7 +189,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Garlic powder, onion powder, smoked paprika', 'Chicken bouillon or splash of broth', 'Olive oil (2 tbsp)'],
     estimatedPantryCost: 1.25,
     steps: [
-      'Preheat oven to 400°F. Toss ½-inch cubed potatoes and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.',
+      'Preheat oven to 400°F. Toss ½-inch cubed potatoes (or butternut squash) and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.',
       'Whisk sour cream (or blended cottage cheese/Greek yogurt) with half the shredded cheese and ½ cup chicken broth.',
       'Remove dish, stir in the selected fresh broccoli or cauliflower florets and the creamy cheese mixture, and blanket the top with the remaining shredded cheese.',
       'Bake an additional 20–22 minutes until the selected florets are tender and cheese is bubbling golden brown.',
@@ -229,8 +229,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       {
         slotKey: 'starch_veg',
         label: 'Sweet Potatoes or Butternut Squash',
-        candidateIngredientIds: ['sweet-potatoes', 'butternut-acorn-squash', 'potatoes-russet-gold'],
-        lowCarbCandidateIds: ['zucchini-yellow-squash', 'bell-peppers'],
+        candidateIngredientIds: ['sweet-potatoes', 'butternut-acorn-squash'],
+        lowCarbCandidateIds: ['bell-peppers'],
         quantityRequired: 2.0,
       },
       {
@@ -258,15 +258,15 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     estimatedPantryCost: 3.2,
     steps: [
       'Brown ground beef (or turkey/sausage) with diced onions and bell/poblano peppers in a large pot or Dutch oven; drain excess fat.',
-      'Add peeled ½-inch cubed sweet potatoes, canned crushed tomatoes, black beans, spices, and 1.5 cups water or broth.',
-      'Simmer covered for 25–30 minutes until sweet potatoes are fork-tender and chili is thick and rich.',
+      'Add peeled ½-inch cubed sweet potatoes (or butternut squash), canned crushed tomatoes, black beans, spices, and 1.5 cups water or broth.',
+      'Simmer covered for 25–30 minutes until the selected sweet potatoes or butternut squash are fork-tender and chili is thick and rich.',
       'Stir in half the shredded cheese (or omit for dairy-free) and pack with fresh avocado slices for serving.',
     ],
     reheatTip: 'Keep diced avocado in a small side cup to toss on top after heating the chili.',
   },
   {
     id: 'kielbasa-cabbage-apple-potato-braise',
-    title: 'Bavarian Smoked Kielbasa, Braised Cabbage, Honeycrisp Apple & Potato Skillet',
+    title: 'Bavarian Smoked Kielbasa, Braised Cabbage, Apple & Potato Skillet',
     subtitle: 'Rustic one-pot autumn braise with seared sausage, caramelized cabbage, sweet apples, and gold potatoes',
     style: 'STEW_BRAISE',
     appliance: 'Deep Skillet',
@@ -365,13 +365,13 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
         slotKey: 'starch_base',
         label: 'Sliced Potatoes',
         candidateIngredientIds: ['potatoes-russet-gold'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.25,
       },
       {
         slotKey: 'greens_veg',
         label: 'Fresh Spinach or Kale',
-        candidateIngredientIds: ['spinach-kale-greens', 'zucchini-yellow-squash'],
+        candidateIngredientIds: ['spinach-kale-greens'],
         quantityRequired: 0.65,
       },
       {
@@ -430,8 +430,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       {
         slotKey: 'squash_starch',
         label: 'Butternut Squash or Sweet Potatoes',
-        candidateIngredientIds: ['butternut-acorn-squash', 'sweet-potatoes', 'potatoes-russet-gold'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash'],
+        candidateIngredientIds: ['butternut-acorn-squash', 'sweet-potatoes'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.25,
       },
       {
@@ -523,7 +523,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Salt, black pepper, smoked paprika, garlic powder', 'Cooking spray or 1 tbsp olive oil'],
     estimatedPantryCost: 0.75,
     steps: [
-      'Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms/zucchini for keto) and diced peppers/onions in a skillet for 10 minutes until tender. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.',
+      'Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable base) and diced peppers/onions in a skillet for 10 minutes until tender. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.',
       'Whisk eggs with cottage cheese (the secret to ultra-fluffy reheatable eggs that never get rubbery) and half the shredded cheddar.',
       'Pour egg mixture over the sausage-vegetable hash, top with remaining cheddar, and bake at 375°F for 35–40 minutes until set in the center.',
     ],
@@ -587,7 +587,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     estimatedPantryCost: 1.35,
     steps: [
       'Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.',
-      'Toss cubed sweet potatoes (or broccoli/zucchini for keto) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.',
+      'Toss cubed sweet potatoes (or broccoli or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable replacement) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.',
       'Toss sliced chicken thighs, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for 18–20 minutes until charred at the edges.',
       'Squeeze fresh lime juice over everything and divide into 6 meal-prep containers with sliced avocado.',
     ],
@@ -632,7 +632,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       {
         slotKey: 'umami_mushrooms',
         label: 'Cremini / Baby Bella Mushrooms',
-        candidateIngredientIds: ['mushrooms-cremini-white', 'zucchini-yellow-squash'],
+        candidateIngredientIds: ['mushrooms-cremini-white'],
         quantityRequired: 1.0,
       },
       {
@@ -707,7 +707,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Extra-virgin olive oil (3 tbsp)', 'Lemon juice & zest', 'Dijon mustard (1 tbsp)', 'Garlic powder & dried dill'],
     estimatedPantryCost: 1.6,
     steps: [
-      'Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes/zucchini on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.',
+      'Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.',
       'Push vegetables to the edges, place portioned salmon fillets and asparagus spears in the center, and brush salmon with olive oil, lemon juice, Dijon mustard, and dill.',
       'If serving the low-carb spinach or kale side, saute those greens separately until tender. Roast 11–13 minutes more until salmon flakes easily at 135°F internal temp so it stays moist when reheated.',
     ],
