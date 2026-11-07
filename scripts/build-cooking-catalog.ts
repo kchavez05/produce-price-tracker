@@ -6,17 +6,18 @@ import { compileScopedRecipeUses } from './lib/scoped-recipe-uses';
 import { MEAL_PREP_BLUEPRINTS } from '../src/data/meal-prep-blueprints';
 
 // Only the reviewed release can generate browser data; raw sources stay server-side.
-const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-06.4/catalog.json', 'utf8')));
+const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-06.5/catalog.json', 'utf8')));
 const ledger = parseLedger(JSON.parse(readFileSync('catalog/curation-ledger.json', 'utf8')));
 for (const history of artifact.decisions) {
   const decision = ledger.decisions.find((d) => d.id === history.id && d.revision === history.revision);
   if (!decision || decision.status !== 'approved' || decisionHash(decision) !== history.payloadSha256) throw new Error('Catalog approval history does not match ledger');
 }
-const retainedCatalogs = ['2026-10-30.1', '2026-10-31.1', '2026-11-06.1', '2026-11-06.2', '2026-11-06.3'].map((version) => {
-  const retained = parseArtifact(JSON.parse(readFileSync(`catalog/releases/${version}/catalog.json`, 'utf8')));
-  return { version: retained.catalogVersion, ingredients: retained.ingredients, compatibility: retained.compatibility };
-});
 const baseline = parseArtifact(JSON.parse(readFileSync('catalog/baseline-1.5.2.json', 'utf8')));
+const retainedArtifacts = [baseline, ...['2026-10-30.1', '2026-10-31.1', '2026-11-06.1', '2026-11-06.2', '2026-11-06.3', '2026-11-06.4'].map((version) => {
+  const retained = parseArtifact(JSON.parse(readFileSync(`catalog/releases/${version}/catalog.json`, 'utf8')));
+  return retained;
+})];
+const retainedCatalogs = retainedArtifacts.map((retained) => ({ version: retained.catalogVersion, ingredients: retained.ingredients, compatibility: retained.compatibility }));
 const recipeLedger: unknown = JSON.parse(readFileSync('catalog/recipe-use-links.json', 'utf8'));
 if (!recipeLedger || typeof recipeLedger !== 'object' || !('formatVersion' in recipeLedger) || recipeLedger.formatVersion !== 1 || !('decisions' in recipeLedger) || !Array.isArray(recipeLedger.decisions)) throw new Error('Invalid recipe-use ledger');
 const recipeLinks: { marketIngredientId: string; pantryIngredientId: string }[] = [];

@@ -12,6 +12,7 @@ import firstExpansionFixtures from '../../../catalog/releases/2026-10-31.1/searc
 import vegetableFixtures from '../../../catalog/releases/2026-11-06.1/search-fixtures.json';
 import staplesFixtures from '../../../catalog/releases/2026-11-06.2/search-fixtures.json';
 import spiceFixtures from '../../../catalog/proposals/2026-11-06-shared-spice-references/search-fixtures.json';
+import vegetableMappingFixtures from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/search-fixtures.json';
 import currentData from '../../../catalog/releases/2026-11-06.4/catalog.json';
 import vegetableMappingHashes from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/decision-hashes.json';
 import vegetableMappingEvidence from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/source-evidence.json';
@@ -184,7 +185,7 @@ describe('curation and recurring approval gates', () => {
     expect(catalog.sourceLinks).toEqual(expect.arrayContaining(previous.sourceLinks));
     expect(catalog.sourceLinks).toHaveLength(88);
     expect(catalog.compatibility).toEqual(previous.compatibility);
-    for (const fixture of fixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+    for (const fixture of vegetableMappingFixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
   });
   it('keeps proposals in the unapproved preview and replays only approvals with unchanged fingerprints', () => {
     const proposal = decision({ ingredient: { ...general, name: 'Dry lentils' } });
