@@ -1,3 +1,4 @@
+import { qualifiedProteinIds } from './protein-offer';
 import cookingData from '@/data/cooking-catalog.json';
 import { hasUnresolvedProduceAlternatives, hasMultipleProduceFoods, INCOMPATIBLE_PRODUCE, produceOfferFoods, OFFER_FOOD_TERMS } from './offer-food';
 
@@ -29,6 +30,8 @@ const identityTerms: Readonly<Record<string, RegExp>> = {
 
 /** Qualify possible observed foods only. Never convert this result into pantry ownership. */
 export function marketCounterpartIds(marketId: string, rawTitle: string): string[] {
+  const protein = qualifiedProteinIds(marketId, rawTitle);
+  if (protein !== undefined) return protein.filter((id) => cookingData.marketCounterparts.some((r) => r.marketIngredientId === marketId && r.pantryIngredientId === id)).sort();
   if (typeof rawTitle !== 'string' || INCOMPATIBLE_PRODUCE.test(rawTitle) || hasUnresolvedProduceAlternatives(rawTitle) || hasMultipleProduceFoods(rawTitle)) return [];
   const allowed = foodKeys[marketId];
   const found = produceOfferFoods(rawTitle);

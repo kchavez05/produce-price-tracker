@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import cases from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/behavior-cases.json';
 import approval from '../../../catalog/scoped-recipe-uses.json';
-import artifact from '../../../catalog/releases/2026-11-07.1/catalog.json';
+import artifact from '../../../catalog/releases/2026-11-07.2/catalog.json';
 import coverageApproval from '../../../catalog/market-coverage-approvals.json';
 import previous from '../../../catalog/releases/2026-11-06.3/catalog.json';
 import proposal from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/recipe-use-proposal.json';
@@ -279,10 +279,10 @@ describe('approved vegetable recipe-use integration', () => {
     expect(rank(true, ['brussels-sprouts']).matchedIngredients.find((r) => r.ingredientId === 'brussels-sprouts')?.slotCost).toBe(5.25);
   });
 
-  it('binds original approval and all 41 current slot uses to reviewed revisions and implemented directions', () => {
+  it('binds original approval and all 49 current slot uses to reviewed revisions and implemented directions', () => {
     const compile = (raw: unknown) => compileScopedRecipeUses(raw, parseArtifact(artifact).ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, coverageApproval);
     expect(compile(approval).uses).toEqual(scopedRecipeUses);
-    expect(compile(approval).uses).toHaveLength(41);
+    expect(compile(approval).uses).toHaveLength(49);
     expect(approval.review.payloadSha256).toBe(sha256(proposal));
     expect(() => compile({ ...approval, review: { ...approval.review, payloadSha256: 'changed' } })).toThrow('stale');
     expect(() => compile({ ...approval, integrationBlueprintHash: 'changed' })).toThrow('stale');

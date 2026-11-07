@@ -5527,6 +5527,905 @@
         "date": "2026-11-07",
         "payloadSha256": "37f49579475578900c435beac8d2890c0d85fdd632268f0c600f03b93a928fec"
       }
+    },
+    {
+      "id": "ingredient-chicken-thighs-bone-in-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated retail bone-in thigh choice, skin state unspecified. Meat-and-skin analytical records do not establish retail bone state or whole-pack edible yield. Do not alias the existing boneless skinless thigh identity. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "chicken-thighs-bone-in-raw",
+        "name": "Raw bone-in chicken thighs",
+        "aliases": [
+          "bone-in chicken thighs",
+          "frozen raw bone-in chicken thighs"
+        ],
+        "familyId": "chicken",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "9da1973a29163107ce38b76a6eb253c4a18e5d24e33818bea970f271ddb7436c"
+      }
+    },
+    {
+      "id": "ingredient-chicken-drumsticks-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated bone-in drumstick cut, skin state unspecified. The retained meat-and-skin reference is an investigation hint rather than evidence for whole retail bone-in mass. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "chicken-drumsticks-raw",
+        "name": "Raw chicken drumsticks",
+        "aliases": [
+          "chicken drumsticks",
+          "frozen raw chicken drumsticks"
+        ],
+        "familyId": "chicken",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "cc78228ec16617e44d2774dea8d17a52d173851dda037c9611d14c7a864eeede"
+      }
+    },
+    {
+      "id": "ingredient-chicken-leg-quarters-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated bone-in thigh-and-drumstick leg-quarter retail cut. The generic analytical leg record does not define the whole retail quarter or its bone/skin yield. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "chicken-leg-quarters-raw",
+        "name": "Raw chicken leg quarters",
+        "aliases": [
+          "chicken leg quarters",
+          "frozen raw chicken leg quarters"
+        ],
+        "familyId": "chicken",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "2c3bb96c40ab41ff3d8591ff24bb946b2dbbf824c05707ad3a3aa90dcb86d34a"
+      }
+    },
+    {
+      "id": "ingredient-pork-loin-roast-boneless-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168314",
+          "fingerprint": "a5cd7aa27ed9e743891cc07795196873602f79abb0b04da61fcdeffd2419c92a"
+        }
+      ],
+      "rationale": "The record explicitly identifies raw boneless top-loin roast. Keep tenderloin and chops distinct; separable fat/trim describes source evidence, not a universal retail composition. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "pork-loin-roast-boneless-raw",
+        "name": "Raw boneless pork loin roast",
+        "aliases": [
+          "boneless pork loin roast",
+          "boneless pork half loin",
+          "frozen raw boneless pork loin roast"
+        ],
+        "familyId": "pork-loin",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "1a204561905e8a3999b2cf6c363ae273fb636b54ecfbceaa898e457a4c58639b"
+      }
+    },
+    {
+      "id": "ingredient-pork-loin-chops-boneless-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:167839",
+          "fingerprint": "733c201624687520b5da17ccf9fa8650d36aee913284a9e71f538533b593fecb"
+        }
+      ],
+      "rationale": "The record explicitly identifies raw boneless top-loin chops. Generic pork chops or center-cut wording alone do not prove loin cut and boneless retail form. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "pork-loin-chops-boneless-raw",
+        "name": "Raw boneless pork loin chops",
+        "aliases": [
+          "boneless pork loin chops",
+          "boneless center-cut pork loin chops",
+          "frozen raw boneless pork loin chops"
+        ],
+        "familyId": "pork-loin",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "49f4c99cac507d1b4d565d0147ef18f07e509abb39db74f4258746ac54888ea3"
+      }
+    },
+    {
+      "id": "ingredient-pork-tenderloin-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168312",
+          "fingerprint": "00ff73c04a433dd443256f3c29e8e1c17df6d6926f25293a48f002a7f2d4a6e4"
+        }
+      ],
+      "rationale": "Raw pork tenderloin is its own named cut, not an alias for a loin roast/chop or shoulder. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "pork-tenderloin-raw",
+        "name": "Raw pork tenderloin",
+        "aliases": [
+          "pork tenderloin",
+          "frozen raw pork tenderloin"
+        ],
+        "familyId": "pork-tenderloin",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "8a5d6cb2906fca54a0378fe34b6c9baeb085099f1d109eafb8f42078fc1242e6"
+      }
+    },
+    {
+      "id": "ingredient-beef-chuck-roast-boneless-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2646174",
+          "fingerprint": "07c858d84f6cb387a4d25aa8ebe0567ca0f17cd3570c86c8f8cef5b80fe92ec8"
+        }
+      ],
+      "rationale": "The Foundation record explicitly identifies raw boneless chuck roast. Choice grade is source context; the cooking choice does not promise every retail roast has that grade or composition. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-chuck-roast-boneless-raw",
+        "name": "Raw boneless beef chuck roast",
+        "aliases": [
+          "boneless beef chuck roast",
+          "frozen raw boneless beef chuck roast"
+        ],
+        "familyId": "beef-chuck",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "36860065a22eb26efaebcc40b48b6a47e6e7b47bcb618f2f2359da7acd4dbcb0"
+      }
+    },
+    {
+      "id": "ingredient-beef-arm-pot-roast-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:169491",
+          "fingerprint": "85cce6adddd28e8386115e0eb924a9b6a9f87b5fa1a269ea66474d411898a10a"
+        }
+      ],
+      "rationale": "The all-grades record explicitly identifies raw beef chuck arm pot roast. Bone state remains unspecified; do not infer that a package matches a boneless measured recipe cut. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-arm-pot-roast-raw",
+        "name": "Raw beef arm pot roast",
+        "aliases": [
+          "raw beef arm roast",
+          "beef arm pot roast",
+          "frozen raw beef arm pot roast"
+        ],
+        "familyId": "beef-arm",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "e2157c034968f1f7c755b88fc26be8328f6d4df912db1bb127669de0c968c622"
+      }
+    },
+    {
+      "id": "ingredient-beef-stew-meat-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated raw cubed stew beef with cut unspecified. Chuck-for-stew evidence cannot prove every stew-meat package is chuck or establish a common yield/tenderness. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-stew-meat-raw",
+        "name": "Raw beef stew meat",
+        "aliases": [
+          "raw beef for stew",
+          "raw beef stewing meat",
+          "frozen raw beef stew meat"
+        ],
+        "familyId": "beef-stew-meat",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "c7279f295a574fff2c778aaa05b9ea6f5d44009e1a1ea5411d918161474d1ce9"
+      }
+    },
+    {
+      "id": "ingredient-beef-pot-roast-cut-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated raw buying cut explicitly sold as beef for pot roast, cut and bone state unspecified. This is not the cooked dish, a synonym for chuck, or an automatic long-braise recipe permission. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-pot-roast-cut-raw",
+        "name": "Raw beef pot-roast cut, unspecified",
+        "aliases": [
+          "raw beef pot roast",
+          "frozen raw beef pot-roast cut"
+        ],
+        "familyId": "beef-pot-roast",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "aee2d63301ecb29be4d29427b1ce798acb253cdcf68ddbcd9d30840634f285e2"
+      }
+    },
+    {
+      "id": "ingredient-italian-pork-sausage-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171631",
+          "fingerprint": "2c9510f5a576b5cc01ce19873f88a84e0eca3b4daf6a4449a1d5f57f2beb63e9"
+        }
+      ],
+      "rationale": "The source identifies raw Italian pork sausage; mild describes its source sample, not a universal heat qualification. Pork species and raw state are explicit in the cooking identity. Links need casing removal before a crumble recipe. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "italian-pork-sausage-raw",
+        "name": "Raw Italian pork sausage",
+        "aliases": [
+          "raw Italian pork sausage links",
+          "uncooked Italian pork sausage",
+          "frozen raw Italian pork sausage"
+        ],
+        "familyId": "italian-pork-sausage",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "71e00c8e50c209546ee3bde50917d870efe0529bcb0acf1b9b2ff7a1dc1cca8d"
+      }
+    },
+    {
+      "id": "ingredient-ground-pork-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:167902",
+          "fingerprint": "2587e10f51d3b8847566323121900536a14f677077d34325b1d33866dce0c860"
+        }
+      ],
+      "rationale": "The record explicitly identifies raw ground pork. It is unseasoned ground meat, not ownership of sausage or sausage seasonings. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "ground-pork-raw",
+        "name": "Raw ground pork",
+        "aliases": [
+          "raw minced pork",
+          "uncooked ground pork",
+          "frozen raw ground pork"
+        ],
+        "familyId": "ground-pork",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "55668c46953bda038a8c861da3a4bfb383acdd57111eb726506487f1f087696f"
+      }
+    },
+    {
+      "id": "ingredient-pork-chorizo-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173859",
+          "fingerprint": "9904e6966cf94bc361e2095fbd6da75a3a7a5bf07c8f6763eb5028091c96eb8c"
+        }
+      ],
+      "rationale": "The record explicitly identifies raw pork chorizo, link or ground. Keep cured/dry Spanish-style and fully cooked chorizo separate. Links require casing removal for crumbling. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "pork-chorizo-raw",
+        "name": "Raw pork chorizo",
+        "aliases": [
+          "raw pork chorizo sausage",
+          "uncooked pork chorizo",
+          "frozen raw pork chorizo"
+        ],
+        "familyId": "pork-chorizo",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "32f8dcc165f4c233d50da55f28261d0a9b12f80a9e9abdef9c82c30d89a42d90"
+      }
+    },
+    {
+      "id": "ingredient-pork-sausage-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172934",
+          "fingerprint": "0593400093ca718a7052a9c32f047cf1f5eb0f65b7ad3dee4ab43756c8896231"
+        }
+      ],
+      "rationale": "The record explicitly identifies unprepared pork sausage link/patty. Style is unspecified; it does not establish Italian, chorizo, or ownership of those named preparations. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "pork-sausage-raw",
+        "name": "Raw pork sausage",
+        "aliases": [
+          "raw pork sausage links",
+          "uncooked pork sausage",
+          "frozen raw pork sausage"
+        ],
+        "familyId": "pork-sausage",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "2c2f77c1c20456cd293828d7f012460b8b3b1d53e647108457da335def6c552f"
+      }
+    },
+    {
+      "id": "ingredient-smoked-sausage-fully-cooked",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated explicitly fully cooked smoked sausage with species/style unspecified. The retained smoked pork sausage record does not explicitly establish fully cooked retail state for every product. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "smoked-sausage-fully-cooked",
+        "name": "Fully cooked smoked sausage",
+        "aliases": [
+          "ready-to-eat smoked sausage",
+          "frozen fully cooked smoked sausage"
+        ],
+        "familyId": "smoked-sausage",
+        "form": "fully-cooked",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "7d25d0bac282ea0b38c6d10e45865f3e69e663c4dc3eb181ce8b83e6f4211b2c"
+      }
+    },
+    {
+      "id": "ingredient-kielbasa-fully-cooked",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173879",
+          "fingerprint": "3a62027cd5ce38e4a3203aa370ac84ac85fbec56f4ed89da0acd8af33ccf39ca"
+        }
+      ],
+      "rationale": "The record explicitly identifies fully cooked unheated kielbasa. Do not assume all kielbasa is fully cooked or smoked, or promise a particular meat species. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "kielbasa-fully-cooked",
+        "name": "Fully cooked kielbasa",
+        "aliases": [
+          "fully cooked kielbasa sausage",
+          "ready-to-eat kielbasa",
+          "frozen fully cooked kielbasa"
+        ],
+        "familyId": "kielbasa",
+        "form": "fully-cooked",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "dc5c18381d6d7e8ff84d60c50a94943efba0afcc010515c765ee1263ed763ef9"
+      }
+    },
+    {
+      "id": "ingredient-andouille-fully-cooked",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated explicitly fully cooked andouille; no exact retained andouille source exists. Do not infer cooking state or species from the style name or a generic smoked-sausage source. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "andouille-fully-cooked",
+        "name": "Fully cooked andouille sausage",
+        "aliases": [
+          "ready-to-eat andouille sausage",
+          "frozen fully cooked andouille sausage"
+        ],
+        "familyId": "andouille",
+        "form": "fully-cooked",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "5565d384a70796492f5dc24371fd42b6232e45a58aa044e41e080c3855e68a09"
+      }
+    },
+    {
+      "id": "ingredient-smoked-sausage-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated raw smoked sausage, species unspecified. Smoking alone does not establish fully cooked state. No current recipe accepts this unknown-species raw sausage. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "smoked-sausage-raw",
+        "name": "Raw smoked sausage",
+        "aliases": [
+          "uncooked smoked sausage",
+          "frozen raw smoked sausage"
+        ],
+        "familyId": "smoked-sausage",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "c583a998aa0dc5a2a750349048016e227b1d536e7e20d59fc72c243c16537007"
+      }
+    },
+    {
+      "id": "ingredient-kielbasa-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated raw kielbasa, smoking/species unspecified. Fully cooked kielbasa evidence is not evidence for the raw form. No raw-to-cooked compatibility edge is proposed. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "kielbasa-raw",
+        "name": "Raw kielbasa",
+        "aliases": [
+          "raw kielbasa sausage",
+          "uncooked kielbasa",
+          "frozen raw kielbasa"
+        ],
+        "familyId": "kielbasa",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "c28d7ec68a219fbc6037abd59f68e1371eb9c662645c1910e8763f010996e9dd"
+      }
+    },
+    {
+      "id": "ingredient-andouille-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated raw andouille, species unspecified; no exact retained source exists. Keep separate from the explicitly fully cooked identity and from raw pork sausage. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "andouille-raw",
+        "name": "Raw andouille sausage",
+        "aliases": [
+          "uncooked andouille sausage",
+          "frozen raw andouille sausage"
+        ],
+        "familyId": "andouille",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "7024ad745bdbde6cbe67a847017752d688cf0f84aa7edc74feba9d3044dc1925"
+      }
+    },
+    {
+      "id": "ingredient-beef-new-york-strip-steak-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2727572",
+          "fingerprint": "5fbed9a41be75debf9c2c6f78afe28a38ba1f3f283f1a2d7e56008748e5b127b"
+        }
+      ],
+      "rationale": "The Foundation record explicitly identifies raw beef NY strip steak. Bone/trim is not promised; it is not a chuck-roast substitute in a six-hour braise. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-new-york-strip-steak-raw",
+        "name": "Raw beef New York strip steak",
+        "aliases": [
+          "raw beef NY strip steak",
+          "raw beef strip steak",
+          "frozen raw beef New York strip steak"
+        ],
+        "familyId": "beef-strip-steak",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "407560d538d87bb990dfcf0f0891d96ad73832af3fc335093c38e3e398a05830"
+      }
+    },
+    {
+      "id": "ingredient-beef-top-sirloin-steak-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2727574",
+          "fingerprint": "605154c4c183f5ffd6b906cdba397cf54a1998edd7a2ebd39d0f70676b6d6b29"
+        }
+      ],
+      "rationale": "The Foundation record explicitly identifies raw top sirloin. Generic sirloin or strip wording does not establish this exact cut. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-top-sirloin-steak-raw",
+        "name": "Raw beef top sirloin steak",
+        "aliases": [
+          "raw top sirloin beef steak",
+          "frozen raw beef top sirloin steak"
+        ],
+        "familyId": "beef-top-sirloin",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "1787a108114df3058f8cc35519bb80e6f8903ae9cbaf6f0256b7ad2e894d6201"
+      }
+    },
+    {
+      "id": "ingredient-beef-ribeye-steak-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2646172",
+          "fingerprint": "cbeffa86cee89f8b1eb0e407e79689442fcf031f3dd88132207fdd752d89b0ee"
+        }
+      ],
+      "rationale": "The Foundation record identifies raw ribeye edible meat. Boneless and choice grade remain source sample context; this bone-unspecified cooking identity promises no retail bone/trim state and has no measured boneless recipe permission. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-ribeye-steak-raw",
+        "name": "Raw beef ribeye steak",
+        "aliases": [
+          "raw beef rib-eye steak",
+          "frozen raw beef ribeye steak"
+        ],
+        "familyId": "beef-ribeye",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "fa9ba3d9b576f6e9a8406d0672e04497978aabf1b6dc6f01646c9afcb784e1e5"
+      }
+    },
+    {
+      "id": "ingredient-beef-t-bone-steak-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:168717",
+          "fingerprint": "3c59b2c0dc77dd75b6d0e251ae9e47bf62b086f54eea1d37208f4f46897f9b6f"
+        }
+      ],
+      "rationale": "The record explicitly identifies raw T-bone steak. Bone is inherent to this cut; do not convert retail weight to edible meat or establish a boneless recipe cut. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "beef-t-bone-steak-raw",
+        "name": "Raw beef T-bone steak",
+        "aliases": [
+          "raw beef T bone steak",
+          "frozen raw beef T-bone steak"
+        ],
+        "familyId": "beef-t-bone",
+        "form": "raw",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "04b35f94f9a39abb84a0e6e9b2cc892a9984c8754bb934cecc1dd49f18785c15"
+      }
+    },
+    {
+      "id": "ingredient-salmon-fillets-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated species-unspecified raw salmon fillet default. The retained raw salmon records name species; none establishes every species or retail fillet trim/skin/bone condition. Whole fish, steaks, smoked, cured and canned salmon remain outside this fillet identity. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "salmon-fillets-raw",
+        "name": "Raw salmon fillets",
+        "aliases": [
+          "raw salmon filets",
+          "fresh salmon fillets",
+          "frozen raw salmon fillets"
+        ],
+        "familyId": "salmon",
+        "form": "raw-fillets",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "a2f191e4d927697a335252fc4b377b1406f15587f4e7b84dc9c3faa9ab692884"
+      }
+    },
+    {
+      "id": "ingredient-atlantic-salmon-fillets-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2684441",
+          "fingerprint": "3fb67f2ec97e863d5bf5f5ecb4b72938164404c58f260d9ad185ab2b43bb1675"
+        },
+        {
+          "key": "sr_legacy_food:173686",
+          "fingerprint": "05fb5af8cbd1212bcad98a12f83218a229b9ec159f8ffd7c90a8a72761e8a238"
+        }
+      ],
+      "rationale": "Foundation farm-raised and SR wild Atlantic references identify the same raw species. Fillet is the reviewed edible-fish cooking choice; analytical flesh does not prove retail skin/bone trim, package yield, farming method or equal nutrition. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "atlantic-salmon-fillets-raw",
+        "name": "Raw Atlantic salmon fillets",
+        "aliases": [
+          "raw Atlantic salmon filets",
+          "fresh Atlantic salmon fillets",
+          "frozen raw Atlantic salmon fillets"
+        ],
+        "familyId": "salmon",
+        "form": "raw-fillets",
+        "searchVisibility": "variant",
+        "parentIngredientId": "salmon-fillets-raw",
+        "variety": "atlantic"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "ee387eada304739c1f170dea45529dc875961cc117c038d31e775023df637684"
+      }
+    },
+    {
+      "id": "ingredient-sockeye-salmon-fillets-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2684440",
+          "fingerprint": "166ab56b915e288903342603f00bbe261fa1bd135b3f3283a99015e2d8ac005c"
+        }
+      ],
+      "rationale": "The Foundation reference identifies raw sockeye; wild-caught is source context rather than a universal product guarantee. Fillet is the reviewed edible-fish cooking choice, not a source-derived retail trim/yield claim. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "sockeye-salmon-fillets-raw",
+        "name": "Raw sockeye salmon fillets",
+        "aliases": [
+          "raw sockeye salmon filets",
+          "fresh sockeye salmon fillets",
+          "frozen raw sockeye salmon fillets"
+        ],
+        "familyId": "salmon",
+        "form": "raw-fillets",
+        "searchVisibility": "variant",
+        "parentIngredientId": "salmon-fillets-raw",
+        "variety": "sockeye"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "d438ab74691a28f177098c145c89f6a138e5e9d79fc62ba72b80bdbe9dccb177"
+      }
+    },
+    {
+      "id": "ingredient-coho-salmon-fillets-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:175136",
+          "fingerprint": "7c108c0a34baec225f2b1f872c39e96bbbbe659d1914e35cb09576b5a4b18764"
+        },
+        {
+          "key": "sr_legacy_food:173715",
+          "fingerprint": "664ce38873076172c49df72a61ad8755d4d610dd3dfa3ce3978324bf0ae5bcc4"
+        }
+      ],
+      "rationale": "Wild and farmed SR references identify raw coho. Fillet is the reviewed edible-fish cooking choice; no wild/farmed, retail trim/yield or nutrient equivalence is inferred. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+      "ingredient": {
+        "id": "coho-salmon-fillets-raw",
+        "name": "Raw coho salmon fillets",
+        "aliases": [
+          "raw coho salmon filets",
+          "fresh coho salmon fillets",
+          "frozen raw coho salmon fillets"
+        ],
+        "familyId": "salmon",
+        "form": "raw-fillets",
+        "searchVisibility": "variant",
+        "parentIngredientId": "salmon-fillets-raw",
+        "variety": "coho"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "9cd7a9a6d6e29d4ed636d7567c77dd6b3c1ac27091b34c290d8e856955846c85"
+      }
+    },
+    {
+      "id": "coverage-atlantic-salmon-fillets-raw-to-salmon-fillets-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named species to the generic raw salmon fillet requirement only. Generic No overrides derived coverage. No reverse/sibling coverage, farm/wild guarantee, whole-fish yield, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "atlantic-salmon-fillets-raw",
+        "to": "salmon-fillets-raw"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "31638e782aaab48d0131975d48f172be9ba558ac2114332efcd4fdfc03b925be"
+      }
+    },
+    {
+      "id": "coverage-sockeye-salmon-fillets-raw-to-salmon-fillets-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named species to the generic raw salmon fillet requirement only. Generic No overrides derived coverage. No reverse/sibling coverage, farm/wild guarantee, whole-fish yield, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "sockeye-salmon-fillets-raw",
+        "to": "salmon-fillets-raw"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "a981291b95d2a369a251dece00fc620030e5fb49a5e2048669270879b050bee9"
+      }
+    },
+    {
+      "id": "coverage-coho-salmon-fillets-raw-to-salmon-fillets-raw",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form named species to the generic raw salmon fillet requirement only. Generic No overrides derived coverage. No reverse/sibling coverage, farm/wild guarantee, whole-fish yield, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "coho-salmon-fillets-raw",
+        "to": "salmon-fillets-raw"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the protein packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "dd67938fcbe7f27be8334e0dcfe78ad0550fcd7c8503ac9782170fba75347620"
+      }
     }
   ]
 }

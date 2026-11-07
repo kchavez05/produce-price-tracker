@@ -1578,5 +1578,708 @@
   {
     "query": "dried chiles",
     "expected": []
+  },
+  {
+    "query": "Raw bone-in chicken thighs",
+    "expected": [
+      "chicken-thighs-bone-in-raw"
+    ]
+  },
+  {
+    "query": "bone-in chicken thighs",
+    "expected": [
+      "chicken-thighs-bone-in-raw"
+    ]
+  },
+  {
+    "query": "frozen raw bone-in chicken thighs",
+    "expected": [
+      "chicken-thighs-bone-in-raw"
+    ]
+  },
+  {
+    "query": "Raw chicken drumsticks",
+    "expected": [
+      "chicken-drumsticks-raw"
+    ]
+  },
+  {
+    "query": "chicken drumsticks",
+    "expected": [
+      "chicken-drumsticks-raw"
+    ]
+  },
+  {
+    "query": "frozen raw chicken drumsticks",
+    "expected": [
+      "chicken-drumsticks-raw"
+    ]
+  },
+  {
+    "query": "Raw chicken leg quarters",
+    "expected": [
+      "chicken-leg-quarters-raw"
+    ]
+  },
+  {
+    "query": "chicken leg quarters",
+    "expected": [
+      "chicken-leg-quarters-raw"
+    ]
+  },
+  {
+    "query": "frozen raw chicken leg quarters",
+    "expected": [
+      "chicken-leg-quarters-raw"
+    ]
+  },
+  {
+    "query": "Raw boneless pork loin roast",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless pork loin roast",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless pork half loin",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "frozen raw boneless pork loin roast",
+    "expected": [
+      "pork-loin-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "Raw boneless pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless center-cut pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "frozen raw boneless pork loin chops",
+    "expected": [
+      "pork-loin-chops-boneless-raw"
+    ]
+  },
+  {
+    "query": "Raw pork tenderloin",
+    "expected": [
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "pork tenderloin",
+    "expected": [
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "frozen raw pork tenderloin",
+    "expected": [
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "Raw boneless beef chuck roast",
+    "expected": [
+      "beef-chuck-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "boneless beef chuck roast",
+    "expected": [
+      "beef-chuck-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "frozen raw boneless beef chuck roast",
+    "expected": [
+      "beef-chuck-roast-boneless-raw"
+    ]
+  },
+  {
+    "query": "Raw beef arm pot roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "raw beef arm roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "beef arm pot roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef arm pot roast",
+    "expected": [
+      "beef-arm-pot-roast-raw"
+    ]
+  },
+  {
+    "query": "Raw beef stew meat",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "raw beef for stew",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "raw beef stewing meat",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef stew meat",
+    "expected": [
+      "beef-stew-meat-raw"
+    ]
+  },
+  {
+    "query": "Raw beef pot-roast cut, unspecified",
+    "expected": [
+      "beef-pot-roast-cut-raw"
+    ]
+  },
+  {
+    "query": "raw beef pot roast",
+    "expected": [
+      "beef-pot-roast-cut-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef pot-roast cut",
+    "expected": [
+      "beef-pot-roast-cut-raw"
+    ]
+  },
+  {
+    "query": "Raw Italian pork sausage",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "raw Italian pork sausage links",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "uncooked Italian pork sausage",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "frozen raw Italian pork sausage",
+    "expected": [
+      "italian-pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "Raw ground pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "raw minced pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "uncooked ground pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "frozen raw ground pork",
+    "expected": [
+      "ground-pork-raw"
+    ]
+  },
+  {
+    "query": "Raw pork chorizo",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "raw pork chorizo sausage",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "uncooked pork chorizo",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "frozen raw pork chorizo",
+    "expected": [
+      "pork-chorizo-raw"
+    ]
+  },
+  {
+    "query": "Raw pork sausage",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "raw pork sausage links",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "uncooked pork sausage",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "frozen raw pork sausage",
+    "expected": [
+      "pork-sausage-raw"
+    ]
+  },
+  {
+    "query": "Fully cooked smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked"
+    ]
+  },
+  {
+    "query": "ready-to-eat smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked"
+    ]
+  },
+  {
+    "query": "frozen fully cooked smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked"
+    ]
+  },
+  {
+    "query": "Fully cooked kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "fully cooked kielbasa sausage",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "ready-to-eat kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "frozen fully cooked kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked"
+    ]
+  },
+  {
+    "query": "Fully cooked andouille sausage",
+    "expected": [
+      "andouille-fully-cooked"
+    ]
+  },
+  {
+    "query": "ready-to-eat andouille sausage",
+    "expected": [
+      "andouille-fully-cooked"
+    ]
+  },
+  {
+    "query": "frozen fully cooked andouille sausage",
+    "expected": [
+      "andouille-fully-cooked"
+    ]
+  },
+  {
+    "query": "Raw smoked sausage",
+    "expected": [
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "uncooked smoked sausage",
+    "expected": [
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "frozen raw smoked sausage",
+    "expected": [
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "Raw kielbasa",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "raw kielbasa sausage",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "uncooked kielbasa",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "frozen raw kielbasa",
+    "expected": [
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "Raw andouille sausage",
+    "expected": [
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "uncooked andouille sausage",
+    "expected": [
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "frozen raw andouille sausage",
+    "expected": [
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "Raw beef New York strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef NY strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef New York strip steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw beef top sirloin steak",
+    "expected": [
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "raw top sirloin beef steak",
+    "expected": [
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef top sirloin steak",
+    "expected": [
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw beef ribeye steak",
+    "expected": [
+      "beef-ribeye-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef rib-eye steak",
+    "expected": [
+      "beef-ribeye-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef ribeye steak",
+    "expected": [
+      "beef-ribeye-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw beef T-bone steak",
+    "expected": [
+      "beef-t-bone-steak-raw"
+    ]
+  },
+  {
+    "query": "raw beef T bone steak",
+    "expected": [
+      "beef-t-bone-steak-raw"
+    ]
+  },
+  {
+    "query": "frozen raw beef T-bone steak",
+    "expected": [
+      "beef-t-bone-steak-raw"
+    ]
+  },
+  {
+    "query": "Raw salmon fillets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw salmon filets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh salmon fillets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw salmon fillets",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "Raw Atlantic salmon fillets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw Atlantic salmon filets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh Atlantic salmon fillets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw Atlantic salmon fillets",
+    "expected": [
+      "atlantic-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "Raw sockeye salmon fillets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw sockeye salmon filets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh sockeye salmon fillets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw sockeye salmon fillets",
+    "expected": [
+      "sockeye-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "Raw coho salmon fillets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "raw coho salmon filets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "fresh coho salmon fillets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "frozen raw coho salmon fillets",
+    "expected": [
+      "coho-salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "beef",
+    "expected": [
+      "beef-arm-pot-roast-raw",
+      "beef-broth",
+      "beef-chuck-roast-boneless-raw",
+      "beef-new-york-strip-steak-raw",
+      "beef-pot-roast-cut-raw",
+      "beef-ribeye-steak-raw",
+      "beef-stew-meat-raw",
+      "beef-t-bone-steak-raw",
+      "beef-top-sirloin-steak-raw",
+      "ground-beef-80-20"
+    ]
+  },
+  {
+    "query": "pork",
+    "expected": [
+      "ground-pork-raw",
+      "italian-pork-sausage-raw",
+      "pork-chorizo-raw",
+      "pork-loin-chops-boneless-raw",
+      "pork-loin-roast-boneless-raw",
+      "pork-sausage-raw",
+      "pork-shoulder-butt",
+      "pork-tenderloin-raw"
+    ]
+  },
+  {
+    "query": "chicken",
+    "expected": [
+      "chicken-breast-boneless",
+      "chicken-broth",
+      "chicken-drumsticks-raw",
+      "chicken-leg-quarters-raw",
+      "chicken-thighs-bone-in-raw",
+      "chicken-thighs-boneless",
+      "large-eggs-dozen"
+    ]
+  },
+  {
+    "query": "sausage",
+    "expected": [
+      "andouille-fully-cooked",
+      "andouille-raw",
+      "italian-pork-sausage-raw",
+      "kielbasa-fully-cooked",
+      "kielbasa-raw",
+      "pork-chorizo-raw",
+      "pork-sausage-raw",
+      "smoked-sausage-fully-cooked",
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "salmon",
+    "expected": [
+      "salmon-fillets-raw"
+    ]
+  },
+  {
+    "query": "steak",
+    "expected": [
+      "beef-new-york-strip-steak-raw",
+      "beef-ribeye-steak-raw",
+      "beef-t-bone-steak-raw",
+      "beef-top-sirloin-steak-raw"
+    ]
+  },
+  {
+    "query": "kielbasa",
+    "expected": [
+      "kielbasa-fully-cooked",
+      "kielbasa-raw"
+    ]
+  },
+  {
+    "query": "andouille",
+    "expected": [
+      "andouille-fully-cooked",
+      "andouille-raw"
+    ]
+  },
+  {
+    "query": "smoked sausage",
+    "expected": [
+      "smoked-sausage-fully-cooked",
+      "smoked-sausage-raw"
+    ]
+  },
+  {
+    "query": "canned salmon",
+    "expected": []
+  },
+  {
+    "query": "smoked salmon",
+    "expected": []
+  },
+  {
+    "query": "cooked pork chops",
+    "expected": []
+  },
+  {
+    "query": "boneless pork loin",
+    "expected": [
+      "pork-loin-chops-boneless-raw",
+      "pork-loin-roast-boneless-raw"
+    ]
   }
 ]

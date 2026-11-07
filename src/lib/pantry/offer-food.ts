@@ -1,3 +1,5 @@
+import { proteinOfferSearchTerm } from './protein-offer';
+import { stripKnownOfferBrand, hasOfferAlternatives } from './offer-title';
 /** Complete food terms shared by price admission and pickup-query normalization. */
 export const OFFER_FOOD_TERMS: Readonly<Record<string, RegExp>> = {
   carrots: /\bcarrots?\b/i, broccoli: /\bbroccoli\b/i, cauliflower: /\bcauliflower\b/i,
@@ -29,7 +31,7 @@ export function offerFoodSearchTerm(title: string): string | undefined {
     return match ? [{ id, index: match.index, text: match[0] }] : [];
   }).sort((a, b) => a.index - b.index);
   const first = matches[0];
-  if (!first) return;
+  if (!first) return proteinOfferSearchTerm(title);
   if (first.id === 'potatoes') {
     const variety = /\b(russet|yukon\s+gold|red)(?=\s+or\b|(?:\s+(?:fresh|organic|baking|baker))*\s+potato(?:es)?\b)/i.exec(title);
     if (variety) return `${variety[1]} potatoes`;
@@ -43,12 +45,8 @@ export function offerFoodSearchTerm(title: string): string | undefined {
 
 /** Reject incompatible produce forms before identifying a precise food or recipe quote. */
 export const INCOMPATIBLE_PRODUCE = /\b(?:frozen|canned|tinned|dried|dehydrated|powder(?:ed)?|juice[ds]?|cider|soups?|dips?|sauces?|paste|ketchup|crusts?|tots?|riced|rice|slaw|salads?|cooked|roasted|grilled|pickled|cream(?:ed)?|pasta|ravioli|tortellini|gnocchi|lasagna|pizza|smoothies?|chips?|puree|pureed|salsa|stir[ -]?fry|medley|mix(?:ed)?|blend|cakes?|breads?|muffins?|cookies?|bagels?|wraps?|tortillas?|quiche|casserole|hummus|glaz(?:e|ed)|caramelized|saut[eé](?:ed)?|steamable|stuffed|mashed|flakes?|butter|cand(?:y|ied)|caramel(?:ized)?|chocolate|pies?|burgers?|patties|fries|hash[ -]?browns?|latkes?|poppers?|relish|chutney|jams?|jell(?:y|ies)|preserves?|seasoning|extract|concentrate|seeds?|plants?|New Zealand)\b/i;
-export function stripProduceOfferBrand(title: string): string {
-  return title.replace(/[®™]/g, '').trim().replace(/^(?:kroger|signature(?:\s+farms)?|simple\s+truth|aldi(?:\s+fresh)?|great\s+value|sprouts(?:\s+farm\s+fresh)?|good\s*&\s*gather)\b\s*/i, '');
-}
-export function hasUnresolvedProduceAlternatives(title: string): boolean {
-  return /\bor\b|\band\b|&|\//i.test(stripProduceOfferBrand(title).replace(/\b\d+\s*\/\s*\d+\b/g, ''));
-}
+export const stripProduceOfferBrand = stripKnownOfferBrand;
+export const hasUnresolvedProduceAlternatives = hasOfferAlternatives;
 export const produceOfferFoods = (title: string): string[] => Object.entries(OFFER_FOOD_TERMS).filter(([, pattern]) => pattern.test(title)).map(([food]) => food);
 
 /** Specific summer-squash terms overlap their generic noun; other food pairs are unresolved. */

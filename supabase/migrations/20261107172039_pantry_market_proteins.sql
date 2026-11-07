@@ -1,0 +1,32 @@
+-- Approved protein identities only; all prior IDs and private inventory remain intact.
+-- Cooking-state/cut/species associations never become inventory or source-derived yields.
+insert into public.pantry_catalog(id) values
+ ('andouille-fully-cooked'),
+ ('andouille-raw'),
+ ('atlantic-salmon-fillets-raw'),
+ ('beef-arm-pot-roast-raw'),
+ ('beef-chuck-roast-boneless-raw'),
+ ('beef-new-york-strip-steak-raw'),
+ ('beef-pot-roast-cut-raw'),
+ ('beef-ribeye-steak-raw'),
+ ('beef-stew-meat-raw'),
+ ('beef-t-bone-steak-raw'),
+ ('beef-top-sirloin-steak-raw'),
+ ('chicken-drumsticks-raw'),
+ ('chicken-leg-quarters-raw'),
+ ('chicken-thighs-bone-in-raw'),
+ ('coho-salmon-fillets-raw'),
+ ('ground-pork-raw'),
+ ('italian-pork-sausage-raw'),
+ ('kielbasa-fully-cooked'),
+ ('kielbasa-raw'),
+ ('pork-chorizo-raw'),
+ ('pork-loin-chops-boneless-raw'),
+ ('pork-loin-roast-boneless-raw'),
+ ('pork-sausage-raw'),
+ ('pork-tenderloin-raw'),
+ ('salmon-fillets-raw'),
+ ('smoked-sausage-fully-cooked'),
+ ('smoked-sausage-raw'),
+ ('sockeye-salmon-fillets-raw')
+on conflict do nothing;

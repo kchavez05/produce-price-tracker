@@ -4,10 +4,15 @@ export const record = (value: unknown): value is Record<string, unknown> => Bool
 export function approvedMarketCoverageBatches(raw: unknown) {
   if (raw === undefined) return [];
   if (!record(raw) || raw.formatVersion !== 1 || !Array.isArray(raw.approvals) || !raw.approvals.length) throw new Error('Invalid market coverage approval ledger');
-  return raw.approvals.map((batch: unknown) => {
+  const approvals = raw.approvals;
+  return approvals.map((batch: unknown, index: number) => {
     if (!record(batch) || !record(batch.review) || !record(batch.envelope) || !record(batch.envelope.fileHashes) || !record(batch.recipeUses) || !record(batch.counterparts) || !record(batch.offerCases) ||
       typeof batch.review.by !== 'string' || !batch.review.by.trim() || typeof batch.review.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(batch.review.date) || batch.review.payloadSha256 !== sha256(batch.envelope) ||
       batch.envelope.fileHashes['recipe-use-proposal.json'] !== sha256(batch.recipeUses) || batch.envelope.fileHashes['market-counterparts.json'] !== sha256(batch.counterparts) || batch.envelope.fileHashes['behavior-cases.json'] !== sha256(batch.offerCases)) throw new Error('Market coverage approval or exact package hash is stale');
+    if (index > 0) {
+      const previousHash = sha256({ formatVersion: 1, approvals: approvals.slice(0, index) });
+      if (batch.envelope.previousCoverageApprovalHash !== previousHash || batch.recipeUses.previousCoverageApprovalHash !== previousHash) throw new Error('Market coverage approval chain is stale');
+    }
     return { envelope: batch.envelope, recipeUses: batch.recipeUses, counterparts: batch.counterparts };
   });
 }
@@ -23,7 +28,7 @@ export function compileMarketCounterparts(raw: unknown, ingredients: readonly Co
       if (status !== 'proposed' || payloadSha256 !== sha256(payload) || value.revision !== 1 || !ingredient || value.foodName !== ingredient.name ||
         !market.some((r) => r.id === value.marketIngredientId) || typeof value.marketIngredientId !== 'string' || typeof value.pantryIngredientId !== 'string' ||
         value.id !== `counterpart:${value.marketIngredientId}:${value.pantryIngredientId}` || seen.has(String(value.id)) ||
-        !['named-unprepared-potatoes-unspecified-or-variety', 'named-unprepared-apples-unspecified-or-variety', 'named-unprepared-summer-squash-unspecified-or-variety', 'require-exact-reviewed-food-and-qualification'].includes(String(value.titlePolicy))) throw new Error('Invalid or conflicting market counterpart');
+        !['named-unprepared-potatoes-unspecified-or-variety', 'named-unprepared-apples-unspecified-or-variety', 'named-unprepared-summer-squash-unspecified-or-variety', 'require-exact-reviewed-food-and-qualification', 'require-raw-salmon-fillet-unspecified-or-species', 'require-exact-reviewed-protein-cut-species-and-cooking-state'].includes(String(value.titlePolicy))) throw new Error('Invalid or conflicting market counterpart');
       seen.add(String(value.id));
       result.push({ marketIngredientId: value.marketIngredientId, pantryIngredientId: value.pantryIngredientId });
     }
