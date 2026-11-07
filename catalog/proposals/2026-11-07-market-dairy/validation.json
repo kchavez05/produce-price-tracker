@@ -1,0 +1,67 @@
+{
+  "status": "PROPOSAL_VALIDATED_NOT_APPROVED_NOT_ACTIVE",
+  "preparedOn": "2026-11-07",
+  "parentVersion": "2026-11-07.2",
+  "parentContentHash": "88f6128ff3f0b835ec72c8d44113415a05d03c4be21121501d9b39f0f3b86987",
+  "packageHash": "bf85fd750df53cc6f3bc0fbf986ae76a7f1ff37e8a914d357d4440beb357b50a",
+  "validatorFileSha256": "7e192ce456537ebae39fdd59f1c4fd288f4b7c85c9494395f02e3336cef98e7e",
+  "counts": {
+    "newIngredients": 23,
+    "curatedNewIngredients": 8,
+    "directionalEdges": 13,
+    "curationDecisions": 36,
+    "marketCounterparts": 23,
+    "recipeSlotDecisions": 16,
+    "allowedSlotDecisions": 14,
+    "rejectedScopedCandidates": 2,
+    "ordinaryCandidateRemovals": 1,
+    "combinedSlotSplits": 1,
+    "textPatches": 13,
+    "previewIngredients": 222,
+    "searchFixtures": 457,
+    "offerCases": 57,
+    "availabilityCases": 16
+  },
+  "checks": {
+    "activeCatalogAnd216PriorDecisionsUnchanged": true,
+    "exact36ProposedHashesNoApprovalClaims": true,
+    "fullSnapshot15SelectedSourcesAndEightCuratedGapsVerified": true,
+    "noHeldSourceAssigned": true,
+    "deterministicInMemoryApprovalSimulationOnly": true,
+    "all199PriorIngredientsPricesAndGlobalLinksPreserved": true,
+    "all457PreviewSearchFixturesPass": true,
+    "allNamesAliasesAndOptionalChoicesReachable": true,
+    "yogurtQualifiedDiscovery": true,
+    "unboundedBroadQueryCounts": {
+      "cheese": 9,
+      "mozzarella": 3,
+      "Greek yogurt": 2,
+      "yogurt": 3,
+      "milk": 3,
+      "cream": 2,
+      "cottage cheese": 1,
+      "sour cream": 1,
+      "vanilla": 0
+    },
+    "all13EdgesSameFormSpecificToGeneric": true,
+    "sixteenAvailabilityCasesPass": true,
+    "breakfastFourConjunctionCasesPass": true,
+    "current58Counterparts49ScopedUsesAnd17ProtectedGroupsUnchanged": true,
+    "all23CounterpartAnd16ScopePayloadsBound": true,
+    "ordinaryRemovalAndRequiredSlotSplitReplayExactly": true,
+    "thirteenTextPatchesReplayExactly": true,
+    "inverseReplayRestoresEveryBlueprintField": true,
+    "breakfastCombinedQuantityExplicitlyReallocated": true,
+    "proposedMarketGroupsCovered": 35
+  },
+  "offerCases": {
+    "count": 57,
+    "implementation": "PENDING: hashed review expectations only, not executed dairy offer admission or recipe runtime"
+  },
+  "pendingGates": [
+    "Maintainer approval of the exact ingredient/source/alias/edge, counterpart, recipe/quantity/slot split, text and offer choices",
+    "Append-only dairy compiler and runtime admission support; execute all offer, saved-recipe, cost, shopping, store-pool and two-required-slot cases",
+    "Additive 23-ID accepted registry migration, private-account restart/retry and rollback/readiness verification before hosted rollout",
+    "Four prior qualification findings, pending non-market scope decisions, final release audit and v1.6.1 release workflow"
+  ]
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "ingredient-cheddar-cheese",
+    "revision": 1,
+    "payloadSha256": "9f23bcefe9ac9978a1976c45b8459e9b7e0ba0b472accac727007c3bcd5a1d06"
+  },
+  {
+    "id": "ingredient-monterey-jack-cheese",
+    "revision": 1,
+    "payloadSha256": "427d659dd6117c5cff4bec195177956fbfe17b2277bf9c025ce1e0a7fb0811f3"
+  },
+  {
+    "id": "ingredient-mozzarella-cheese-unspecified",
+    "revision": 1,
+    "payloadSha256": "5994497081a30fc26e57a8f6fb6a7e3a32128b7aa130a0f60761ac6eed6be5c0"
+  },
+  {
+    "id": "ingredient-mozzarella-low-moisture",
+    "revision": 1,
+    "payloadSha256": "04468562fac46dd09c100d24a2e1e67560691cf67a38910846e70f304a2b9907"
+  },
+  {
+    "id": "ingredient-mozzarella-low-moisture-whole-milk",
+    "revision": 1,
+    "payloadSha256": "722cd39f5f03589c2827a86ef48a32945d0f76be3fa160efc81fa76e98d15e26"
+  },
+  {
+    "id": "ingredient-mozzarella-low-moisture-part-skim",
+    "revision": 1,
+    "payloadSha256": "0231d6fb574fc9ccaf27f7112c604cdee1be9db40a8be89ef44c190605e23700"
+  },
+  {
+    "id": "ingredient-mozzarella-fresh",
+    "revision": 1,
+    "payloadSha256": "e22d74bee411ecb9379ee143f492e369c3e3835a2850d3a0e05091aa0412e149"
+  },
+  {
+    "id": "ingredient-melting-cheese-blend",
+    "revision": 1,
+    "payloadSha256": "1013cf70114c4ff193fe46afdc4718c0e71e78df6cfa7cb1258c25854b15d8e5"
+  },
+  {
+    "id": "ingredient-mexican-style-cheese-blend",
+    "revision": 1,
+    "payloadSha256": "ba7f86591e52cbee9292fac45cb36176f126ef20b7ac67331530b33dc24d4642"
+  },
+  {
+    "id": "ingredient-cottage-cheese-plain",
+    "revision": 1,
+    "payloadSha256": "36ea918cd3fef3ccb98a31aebf9cebc4f3f1017a16a29d257615dbadbf372999"
+  },
+  {
+    "id": "ingredient-cottage-cheese-creamed",
+    "revision": 1,
+    "payloadSha256": "1079d028865152577d179badace7fd8e27517d602e621071a795040dd9dc1552"
+  },
+  {
+    "id": "ingredient-cottage-cheese-plain-2-percent",
+    "revision": 1,
+    "payloadSha256": "afe0dd1a6a6757a0a8c4349e28be6fc2a1437269182608af5043c74ee884ead8"
+  },
+  {
+    "id": "ingredient-cottage-cheese-plain-1-percent",
+    "revision": 1,
+    "payloadSha256": "dd913ae2155135bba37b450967397fdf5efbc41783b256acf4df661a59620266"
+  },
+  {
+    "id": "ingredient-sour-cream-plain",
+    "revision": 1,
+    "payloadSha256": "bcbb25838ed01e889842387ebdc015d69289ff4780ccf6aea7f7f2a4f809e4e0"
+  },
+  {
+    "id": "ingredient-sour-cream-full-fat",
+    "revision": 1,
+    "payloadSha256": "c8af861d5e6ad65b18f5c267e4ba0787088e6861cf69997bf4f47f897659b056"
+  },
+  {
+    "id": "ingredient-sour-cream-reduced-fat",
+    "revision": 1,
+    "payloadSha256": "f4e91ab26e5f2a143a78454a34660e47bad717f289b6000f148967e86df9f116"
+  },
+  {
+    "id": "ingredient-greek-yogurt-plain",
+    "revision": 1,
+    "payloadSha256": "9e25a9ec1572c9029713dd1fcf19e0dc97a83e66053d27a6c0947683c25447f8"
+  },
+  {
+    "id": "ingredient-greek-yogurt-plain-whole-milk",
+    "revision": 1,
+    "payloadSha256": "ce41120a8d1cc11aab57903156aa62db3f9184d2481650d7bee7b7d027145444"
+  },
+  {
+    "id": "ingredient-greek-yogurt-plain-lowfat",
+    "revision": 1,
+    "payloadSha256": "336f4628877eb1832a19e313f54a8549aa6e0c8f1c46d0b2577940754af6bc35"
+  },
+  {
+    "id": "ingredient-greek-yogurt-plain-nonfat",
+    "revision": 1,
+    "payloadSha256": "6fe590e61e9e87fc88a7e8a180a964dfe0155e889d73f50a46ba6ba40ba2a6fb"
+  },
+  {
+    "id": "ingredient-greek-yogurt-vanilla",
+    "revision": 1,
+    "payloadSha256": "6c7aad17bf0132322b7fbbfa7d31f6c510d18fda17d5234c70f1f684d38ec059"
+  },
+  {
+    "id": "ingredient-greek-yogurt-vanilla-lowfat",
+    "revision": 1,
+    "payloadSha256": "1f7d0e7306ccf2823c99e764f54a6fa2c9950c899ad204c78aaaef1a9ac45e86"
+  },
+  {
+    "id": "ingredient-greek-yogurt-vanilla-nonfat",
+    "revision": 1,
+    "payloadSha256": "76043f6ac9e4221ee5898fd82a1b631a5b12710f8ccf2b17c6711018ef639afa"
+  },
+  {
+    "id": "coverage-mozzarella-low-moisture-whole-milk-to-mozzarella-low-moisture",
+    "revision": 1,
+    "payloadSha256": "4300af700b4412ef18edfcbd616faa88a803daf286f4539d92f704ce654c885d"
+  },
+  {
+    "id": "coverage-mozzarella-low-moisture-part-skim-to-mozzarella-low-moisture",
+    "revision": 1,
+    "payloadSha256": "8c35d0eb856d8718bceeb530b055fb4be69d4b63c43887f278b2f7260f1b88c0"
+  },
+  {
+    "id": "coverage-mexican-style-cheese-blend-to-melting-cheese-blend",
+    "revision": 1,
+    "payloadSha256": "7d247ff24dca17e8e07114ccb15c66c42811228988cce3fdb17c1058c87abd77"
+  },
+  {
+    "id": "coverage-cottage-cheese-creamed-to-cottage-cheese-plain",
+    "revision": 1,
+    "payloadSha256": "ce68a9b464825b8b501960d04e454a4ed6d2e721331f712fc58ddcb582e7be7c"
+  },
+  {
+    "id": "coverage-cottage-cheese-plain-2-percent-to-cottage-cheese-plain",
+    "revision": 1,
+    "payloadSha256": "40e77cbb23993189d17dddc065c9fb7d663f730d9b299c0fd28cc37276bd9677"
+  },
+  {
+    "id": "coverage-cottage-cheese-plain-1-percent-to-cottage-cheese-plain",
+    "revision": 1,
+    "payloadSha256": "da71621b29388e9d197472544c873bcac4e129283151478302a93c28983ebf0c"
+  },
+  {
+    "id": "coverage-sour-cream-full-fat-to-sour-cream-plain",
+    "revision": 1,
+    "payloadSha256": "452d12dc6e7cb44b6e463020b6403cc69bef7976e1d6c9b3c72ac773b74fdba8"
+  },
+  {
+    "id": "coverage-sour-cream-reduced-fat-to-sour-cream-plain",
+    "revision": 1,
+    "payloadSha256": "ca96a3407f745ae72d8f043f619fe89f8db092ae6b6d617dd0818259eafc1ba4"
+  },
+  {
+    "id": "coverage-greek-yogurt-plain-whole-milk-to-greek-yogurt-plain",
+    "revision": 1,
+    "payloadSha256": "aca7711d4689f7e51a0e7438c91900cbc65a4c348288d1bc01e39cd73c5826d3"
+  },
+  {
+    "id": "coverage-greek-yogurt-plain-lowfat-to-greek-yogurt-plain",
+    "revision": 1,
+    "payloadSha256": "f55e5f315399eb367c20e568dc52db320c3572a69aad868a24397d2565d59f32"
+  },
+  {
+    "id": "coverage-greek-yogurt-plain-nonfat-to-greek-yogurt-plain",
+    "revision": 1,
+    "payloadSha256": "7cba02dba0cc7b829049d5d246befce77b5131affde6d2aaecb4c78cf4bc5124"
+  },
+  {
+    "id": "coverage-greek-yogurt-vanilla-lowfat-to-greek-yogurt-vanilla",
+    "revision": 1,
+    "payloadSha256": "15d41fb0b31b57066ecc14d7d17593711523801a11dca6f86ff6ef73258b18d3"
+  },
+  {
+    "id": "coverage-greek-yogurt-vanilla-nonfat-to-greek-yogurt-vanilla",
+    "revision": 1,
+    "payloadSha256": "73dab97a948f7bfdc1e15be2c494a8e96ff58731252e4256377a9b53cd92c55e"
+  }
+]
