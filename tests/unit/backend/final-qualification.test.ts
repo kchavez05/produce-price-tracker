@@ -17,6 +17,7 @@ import { availablePantryIngredientIds, cookingCatalogView } from '@/lib/pantry/m
 import { isProtectedMarketIngredient } from '@/lib/pantry/recipe-use';
 import { applyPantryToRecipe } from '@/lib/pantry/recipe';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
+import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 import { scoreAllCommodities } from '@/lib/scoring-and-matcher';
 import { calculateValueScore } from '@/lib/value-score';
 import { compileExactQualifications, compileMarketCounterparts } from '../../../scripts/lib/market-coverage-approvals';
@@ -60,6 +61,17 @@ describe('approved final qualification and release scope integration', () => {
     const input=dish(r.pantryIngredientId,r.recipeId,r.slotLabel), literal={...input,matchedIngredients:[],pantryRequirements:[{ingredientId:r.pantryIngredientId,displayName:ingredient(r.pantryIngredientId).name,quantity:2,unit:'lb'}]};
     for(const stale of [input,literal,{...input,aiGenerated:true},{...literal,steps:['Edited custom instructions']}]) { const out=applyPantryToRecipe(stale,owned(r.pantryIngredientId),[q]);expect(out.pantryCoverage!.availableRequiredCount).toBe(0);expect(out.additionalCostEstimateComplete).toBe(false);expect(out.matchedIngredients).toHaveLength(0);const shopping=buildShoppingListAndStoreComparison([out],[q],owned(r.pantryIngredientId),'80542',['KING_SOOPERS'],true);expect(shopping.pantryNeeds.some((n) => n.estimatedCost===null)).toBe(true); }
     expect(applyPantryToRecipe({...input,id:'separate-private-recipe'},owned(r.pantryIngredientId),[q]).pantryCoverage!.availableRequiredCount).toBe(1);
+  });
+  it.each(proposal.recipeCandidateDecisions.filter((r) => r.action === 'retain-exact'))('preserves quote-independent exact ownership for $recipeId / $slotKey', (r) => {
+    const blueprint = MEAL_PREP_BLUEPRINTS.find((b) => b.id === r.recipeId)!, slot = blueprint.slots.find((s) => s.slotKey === r.slotKey)!;
+    const macroGoal = !slot.candidateIngredientIds.includes(r.marketIngredientId) ? 'LOW_CARB_KETO' as const : 'ANY' as const;
+    const yes = rankMealPrepDishes([], [r.marketIngredientId], owned(r.marketIngredientId), 6, { pantryMode: true, macroGoal }).allRankedDishes.find((d) => d.id === r.recipeId)!;
+    expect(yes.pantryRequirements!.some((need) => need.ingredientId === r.marketIngredientId)).toBe(true);
+    expect(yes.pantryCoverage![r.optional ? 'availableOptionalCount' : 'availableRequiredCount']).toBeGreaterThan(0);
+    expect(yes.pantryRequirements!.some((need) => need.ingredientId === `unmapped:${r.recipeId}:${r.slotKey}`)).toBe(false);
+    const no = rankMealPrepDishes([], [r.marketIngredientId], owned(r.marketIngredientId, true), 6, { pantryMode: true, macroGoal }).allRankedDishes.find((d) => d.id === r.recipeId)!;
+    expect(no.pantryCoverage![r.optional ? 'availableOptionalCount' : 'availableRequiredCount']).toBe(0);
+    expect(buildShoppingListAndStoreComparison([yes], [], owned(r.marketIngredientId), '80542', ['KING_SOOPERS'], true).pantryNeeds.some((need) => need.ingredientId === r.marketIngredientId)).toBe(false);
   });
   it('keeps selected stores and cached direct prices from manufacturing a quote', () => {
     for(const id of EXACT_OFFER_IDS) {
