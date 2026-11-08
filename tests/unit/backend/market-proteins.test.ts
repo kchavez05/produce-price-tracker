@@ -24,6 +24,7 @@ import { decisionHash, parseArtifact, parseLedger, parseSources, sha256 } from '
 import { compileScopedRecipeUses } from '../../../scripts/lib/scoped-recipe-uses';
 import { compileMarketCounterparts } from '../../../scripts/lib/market-coverage-approvals';
 import { cookingCatalogView, availablePantryIngredientIds, canSavePantryIngredient } from '@/lib/pantry/model';
+import { qualifiedProteinIds } from '@/lib/pantry/protein-offer';
 import { marketCounterpartIds } from '@/lib/pantry/market-counterparts';
 import { isProtectedMarketIngredient, recipeOfferAllowed, recipeUseForSlot, scopedRecipeCommodity } from '@/lib/pantry/recipe-use';
 import { recipeAvailableIngredientIds, recipeUseRequirementId, scopedRecipeUses } from '@/lib/pantry/recipe-identity';
@@ -123,6 +124,46 @@ describe('approved protein market integration', () => {
     expect(marketCounterpartIds('smoked-sausage-kielbasa', 'Fully cooked pork and beef smoked sausage')).toEqual(['smoked-sausage-fully-cooked']);
     expect(cleanSearchQueryForIngredient('Raw Atlantic or sockeye salmon fillets')).toBe('Atlantic salmon fillets');
     expect(cleanSearchQueryForIngredient('Raw New York strip or top sirloin steak')).toBe('New York strip steak');
+  });
+  it.each([
+    'Fully Cooked Plant-Based Smoked Sausage', 'Fully Cooked Plant Based Smoked Sausage',
+    'Fully Cooked Plant‑Based Smoked Sausage', 'Fully Cooked Plantbased Smoked Sausage',
+    'Fully Cooked Vegan Kielbasa', 'Ready-to-eat Vegetarian Andouille Sausage',
+    'Fully Cooked Meatless Smoked Sausage', 'Fully Cooked Imitation Smoked Sausage',
+    'Fully Cooked Mock Kielbasa', 'Fully Cooked Faux Andouille Sausage',
+    'Fully Cooked Meat-Free Smoked Sausage', 'Fully Cooked Meatfree Smoked Sausage',
+    'Raw Plant-Based Kielbasa',
+  ])('rejects meat-substitute evidence before admitting "%s"', (title) => {
+    const use = scopedRecipeUses.find((r) => r.recipeId === 'kielbasa-cabbage-apple-potato-braise' && r.marketIngredientId === 'smoked-sausage-kielbasa')!;
+    expect(qualifiedProteinIds(use.marketIngredientId, title)).toEqual([]);
+    expect(marketCounterpartIds(use.marketIngredientId, title)).toEqual([]);
+    expect(recipeOfferAllowed(use, title)).toBe(false);
+    expect(scopedRecipeCommodity(use, market(use, [[title, 1, 'KING_SOOPERS']]))).toBeUndefined();
+  });
+  it.each([
+    ['chicken-thighs-bone-in', 'Raw Plant-Based Bone-In Chicken Thighs'],
+    ['pork-loin-roast-chops', 'Raw Imitation Boneless Pork Loin Roast'],
+    ['beef-chuck-roast', 'Raw Vegan Boneless Beef Chuck Roast'],
+    ['italian-pork-sausage', 'Raw Imitation Italian Pork Sausage'],
+    ['sirloin-strip-steak', 'Raw Vegetarian Beef Top Sirloin Steak'],
+    ['salmon-fillets', 'Raw Plant Based Salmon Fillets'],
+  ])('does not infer reviewed %s animal-food identities from substitutes', (id, title) => {
+    expect(qualifiedProteinIds(id, title)).toEqual([]);
+    expect(marketCounterpartIds(id, title)).toEqual([]);
+  });
+  it.each([
+    ['Fully Cooked Plant-Based Smoked Sausage', 'Fully Cooked Smoked Sausage'],
+    ['Fully Cooked Vegan Kielbasa', 'Fully Cooked Pork and Beef Kielbasa'],
+  ])('recovers actual meat prices instead of cheaper "%s"', (substitute, meat) => {
+    const use = scopedRecipeUses.find((r) => r.recipeId === 'kielbasa-cabbage-apple-potato-braise' && r.marketIngredientId === 'smoked-sausage-kielbasa')!;
+    const quote = market(use, [[substitute, 1, 'KING_SOOPERS'], [meat, 3, 'KING_SOOPERS']]);
+    const original = JSON.stringify(quote), selected = scopedRecipeCommodity(use, quote)!;
+    expect(selected.bestOffer.rawTitle).toBe(meat); expect(selected.bestOffer.normalizedPricePerUnit).toBe(3);
+    const recipe = applyPantryToRecipe(dish(use), [], [quote]); expect(recipe.totalBatchCost).toBe(6);
+    expect(recipe.matchedIngredients[0].rawDealText).toContain(meat);
+    const shopping = buildShoppingListAndStoreComparison([recipe], [quote], [], '80542', ['KING_SOOPERS'], true);
+    expect(shopping.items[0].storePricing?.KING_SOOPERS?.ingredientName).toBe(meat);
+    expect(shopping.items[0].optimalTotalCost).toBe(6); expect(JSON.stringify(quote)).toBe(original);
   });
   it('binds 63 current scopes, 85 counterparts and all 20 protected mixed groups to the append-only approvals', () => {
     const compile = (raw: unknown = approval) => compileScopedRecipeUses(originalScoped, parseArtifact(activeArtifact).ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, raw);
