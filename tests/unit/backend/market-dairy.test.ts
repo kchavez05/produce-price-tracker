@@ -1,3 +1,4 @@
+import { beforeFinalQualificationBlueprints } from '../../helpers/final-qualification-blueprints';
 import { describe, expect, it } from 'vitest';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -170,9 +171,9 @@ describe('approved dairy market integration', () => {
   it('binds the append-only approval, exact required quantities and all previous scope payloads', () => {
     const compile = (raw: unknown = approval) => compileScopedRecipeUses(originalScoped, artifact.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, raw);
     expect(compile().uses).toEqual(scopedRecipeUses); expect(scopedRecipeUses).toHaveLength(63); expect(dairyUses).toHaveLength(14); expect(compile().protectedMarketIds).toEqual(runtime.protectedRecipeMarketIds); expect(runtime.protectedRecipeMarketIds).toHaveLength(20);
-    expect(compileMarketCounterparts(approval, artifact.ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts); expect(runtime.marketCounterparts).toHaveLength(81);
-    expect(sha256(beforeDairyBlueprints())).toBe(proposal.blueprintHash); expect(sha256(MEAL_PREP_BLUEPRINTS)).toBe(proposal.proposedImplementedBlueprintHash);
-    expect(sha256(scopedRecipeUses.slice(0,49))).toBe('d619f0f38cef09ddd632117df8dcb102558c6b67ed61043a77ad56f2c8423cc6');
+    expect(compileMarketCounterparts(approval, artifact.ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts); expect(runtime.marketCounterparts).toHaveLength(85);
+    expect(sha256(beforeDairyBlueprints())).toBe(proposal.blueprintHash); expect(sha256(beforeFinalQualificationBlueprints())).toBe(proposal.proposedImplementedBlueprintHash);
+    expect(sha256(scopedRecipeUses.slice(0,49).map((u) => ({ ...u, slotLabel: beforeFinalQualificationBlueprints().find((b) => b.id === u.recipeId)!.slots.find((s) => s.slotKey === u.slotKey)!.label })))).toBe('d619f0f38cef09ddd632117df8dcb102558c6b67ed61043a77ad56f2c8423cc6');
     expect(approval.approvals[2].recipeUses.previousCoverageApprovalHash).toBe(sha256({ formatVersion: 1, approvals: approval.approvals.slice(0,2) }));
     const altered = structuredClone(approval); altered.approvals[2].recipeUses.slotStructurePatches![0].after[0].quantityRequired = 1; expect(() => compile(altered)).toThrow('stale');
     const changed = structuredClone(MEAL_PREP_BLUEPRINTS); changed.find((b) => b.id === breakfast)!.slots.find((s) => s.slotKey === 'cheddar_top')!.optional = true; expect(() => compileScopedRecipeUses(originalScoped, artifact.ingredients, CANONICAL_INGREDIENTS, changed, approval)).toThrow('split');

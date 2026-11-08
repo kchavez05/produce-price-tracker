@@ -2366,13 +2366,12 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
                         <div className="text-right text-[11px] text-slate-500">
                           <div>
-                            Reg: ${bestOffer.regularPricePerUnit.toFixed(2)}/
-                            {ingredient.standardUnit}
+                            {item.comparisonEvidence && !bestOffer.regularPriceEvidence ? 'Regular comparison unavailable' : <>Reg: ${bestOffer.regularPricePerUnit.toFixed(2)}/{ingredient.standardUnit}</>}
                           </div>
                           <div>
-                            {item.usdaBenchmark?.region === 'NATIONAL' ? 'USDA national retail' : item.usdaBenchmark?.region === 'MOUNTAIN' ? 'USDA Mountain retail' : 'Estimated baseline'}: ${ingredient.mountainBaselinePerUnit.toFixed(2)}/
+                            {item.comparisonEvidence ? 'Comparison unavailable: history does not verify this food.' : <>{item.usdaBenchmark?.region === 'NATIONAL' ? 'USDA national retail' : item.usdaBenchmark?.region === 'MOUNTAIN' ? 'USDA Mountain retail' : 'Estimated baseline'}: ${ingredient.mountainBaselinePerUnit.toFixed(2)}/
                             {ingredient.standardUnit}
-                            {item.usdaBenchmark?.periodEnd && <div>Week ending {item.usdaBenchmark.periodEnd} • {item.usdaBenchmark.status}<br />Checked {item.usdaBenchmark.checkedAt?.slice(0,10)}</div>}
+                            {item.usdaBenchmark?.periodEnd && <div>Week ending {item.usdaBenchmark.periodEnd} • {item.usdaBenchmark.status}<br />Checked {item.usdaBenchmark.checkedAt?.slice(0,10)}</div>}</>}
                           </div>
                         </div>
                       </div>
@@ -2512,7 +2511,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                       </div>
 
                       {/* v0.2 + v1.2 SQLite 6-Week Price History Mini-Chart */}
-                      {item.priceHistory && verifiedLocalWeekCount(item.priceHistory) > 0 && (
+                      {!item.comparisonEvidence && item.priceHistory && verifiedLocalWeekCount(item.priceHistory) > 0 && (
                         <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50/80 p-2">
                           <div className="flex items-center justify-between text-[10px] text-slate-500">
                             <span className="font-semibold text-slate-700">
@@ -3881,8 +3880,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                             ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
                             {item.ingredient.standardUnit}
                           </strong>{' '}
-                          • 6-Wk Median: $
-                          {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)}
+                          {item.comparisonEvidence ? ' • Historical comparison unavailable' : <> • 6-Wk Median: $
+                          {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)}</>}
                         </div>
                         {item.cycleSignal?.substitutionSuggestion && (
                           <div className="mt-1.5 flex items-center justify-between gap-2 rounded-lg bg-rose-50 p-2 text-[11px] text-rose-950">

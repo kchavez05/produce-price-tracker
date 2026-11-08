@@ -1,4 +1,5 @@
 'use client';
+import { requiresExactOffer } from '@/lib/pantry/exact-offer';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -897,12 +898,12 @@ function ScoreCalculator({ inputs }: { inputs: ScoreResult['inputs'] }) {
   const regularNumber = Number(regular);
   const validPrice = Number.isFinite(priceNumber) && priceNumber > 0;
   const validRegular = regular === '' || (Number.isFinite(regularNumber) && regularNumber > 0);
-  const trace = validPrice && validRegular ? calculateValueScore(ingredient, priceNumber, regularNumber) : null;
+  const trace = validPrice && validRegular ? calculateValueScore(ingredient, priceNumber, regularNumber, true) : null;
   return <section className="ex-card" aria-label="Hypothetical score calculator">
     <span className="ex-eyebrow">What would this score?</span>
     <h3>{ingredient.name}</h3>
     <p>Hypothetical calculation only. Enter prices per {ingredient.standardUnit}; this does not save an offer or create price history.</p>
-    <p>Comparison baseline: {money(ingredient.mountainBaselinePerUnit)}/{ingredient.standardUnit} · {benchmark && benchmark.status !== 'fallback' ? `${benchmark.region} USDA advertised retail · ${benchmark.periodEnd} · ${benchmark.status}` : 'Static catalog estimate; no usable USDA benchmark'}.</p>
+    <p>{requiresExactOffer(ingredient.id) ? 'Comparison baseline unavailable: group history does not verify this food.' : <>Comparison baseline: {money(ingredient.mountainBaselinePerUnit)}/{ingredient.standardUnit} · {benchmark && benchmark.status !== 'fallback' ? `${benchmark.region} USDA advertised retail · ${benchmark.periodEnd} · ${benchmark.status}` : 'Static catalog estimate; no usable USDA benchmark'}.</>}</p>
     <p>Value score = affordability × 55% + discount depth × 35% + neutral market signal (60) × 10%. Discounts are rounded to whole percentages before scoring.</p>
     <p className="ex-note">Affordability follows the {ingredient.category.toLowerCase().replaceAll('_', ' ')} price curve. Discount depth uses max(baseline discount, regular-price discount × 0.9): 10 points at zero or below, rising linearly to 100 at 50%. Final weighted score rounds to a whole number.</p>
     <label>Price per {ingredient.standardUnit}<input type="number" min="0.01" step="0.01" value={price} onChange={(event) => setPrice(event.target.value)} /></label>{' '}
@@ -995,16 +996,14 @@ function ScorePanel({
             <div className="ex-definition">
               <dt>
                 Comparison baseline:{' '}
-                {money(c.ingredient.mountainBaselinePerUnit)}/
-                {c.ingredient.standardUnit}
+                {c.comparisonEvidence ? 'Unavailable' : <>{money(c.ingredient.mountainBaselinePerUnit)}/{c.ingredient.standardUnit}</>}
               </dt>
               <dd>
-                {c.usdaBenchmark?.status === 'fallback'
+                {c.comparisonEvidence ? 'Group history does not verify this food; no baseline savings asserted.' : c.usdaBenchmark?.status === 'fallback'
                   ? 'Static estimate; source origin not documented.'
                   : `${c.usdaBenchmark?.region} USDA advertised retail benchmark · ${c.usdaBenchmark?.periodEnd} · ${c.usdaBenchmark?.status}`}
                 <br />
-                Regular-price input: {money(c.bestOffer.regularPricePerUnit)}/
-                {c.ingredient.standardUnit}
+                Regular-price input: {c.comparisonEvidence && !c.bestOffer.regularPriceEvidence ? 'Unavailable' : <>{money(c.bestOffer.regularPricePerUnit)}/{c.ingredient.standardUnit}</>}
               </dd>
             </div>
             <div className="ex-definition">

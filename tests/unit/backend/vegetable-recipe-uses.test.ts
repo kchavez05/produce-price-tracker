@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import cases from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/behavior-cases.json';
 import approval from '../../../catalog/scoped-recipe-uses.json';
-import artifact from '../../../catalog/releases/2026-11-07.3/catalog.json';
+import artifact from '../../../catalog/releases/2026-11-07.4/catalog.json';
 import coverageApproval from '../../../catalog/market-coverage-approvals.json';
 import previous from '../../../catalog/releases/2026-11-06.3/catalog.json';
 import proposal from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/recipe-use-proposal.json';

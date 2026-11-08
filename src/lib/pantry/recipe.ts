@@ -1,5 +1,6 @@
+import { requiresExactOffer } from './exact-offer';
 import { recipeAvailableIngredientIds, recipePantryIngredientId, recipeUseRequirementName } from './recipe-identity';
-import { matchedRecipeRequirement, recipeCommodity, recipeUseForRequirement, resolveRecipeUse } from './recipe-use';
+import { matchedRecipeRequirement, recipeCommodity, recipeUseForRequirement, resolveRecipeUse, recipeIngredientExcluded } from './recipe-use';
 import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity } from '@/types/domain';
 import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { normalizePantryName, pantryCatalog } from './model';
@@ -66,10 +67,12 @@ export function applyPantryToRecipe(
   for (const requirement of sourceRequirements) {
     if (!requirement || typeof requirement.ingredientId !== 'string') continue;
     const use = recipeUseForRequirement(dish, requirement.ingredientId);
-    if (!use || !['lb', 'doz'].includes(requirement.unit) || !finiteNonnegative(requirement.quantity)) continue;
+    const exact = requiresExactOffer(requirement.ingredientId) && !recipeIngredientExcluded(dish.id, requirement.ingredientId);
+    if ((!use && !exact) || !['lb', 'doz'].includes(requirement.unit) || !finiteNonnegative(requirement.quantity)) continue;
+    const marketId = use?.marketIngredientId ?? requirement.ingredientId;
     if (!represented.has(requirement.ingredientId)) {
-      const offer = prices.get(use.marketIngredientId)?.bestOffer;
-      sourceMatched.push({ ingredientId: use.marketIngredientId, ingredientName: use.marketIngredientName, slotLabel: use.slotLabel,
+      const offer = prices.get(marketId)?.bestOffer;
+      sourceMatched.push({ ingredientId: marketId, ingredientName: use?.marketIngredientName ?? requirement.displayName ?? marketId, slotLabel: use?.slotLabel ?? requirement.displayName ?? marketId,
         quantityUsed: requirement.quantity, unit: requirement.unit as 'lb' | 'doz', store: offer?.store ?? 'KING_SOOPERS',
         rawDealText: '', dealType: offer?.dealType ?? 'SHELF_OR_MEMBER', unitCost: 0, slotCost: 0, regularSlotCost: 0,
         isUserPinned: false, ...(requirement.optional ? { optional: true } : {}) });
@@ -78,7 +81,7 @@ export function applyPantryToRecipe(
   }
   const requirements = sourceRequirements.filter((r) => !restored.has(r)).map((requirement, index): PantryRequirement => {
     if (!requirement || typeof requirement.ingredientId !== 'string') return unpricedRecipeText(`Unmapped ingredient ${index + 1}`);
-    const ingredientId = requirement.ingredientId.startsWith('recipe-use:') && !recipeUseForRequirement(dish, requirement.ingredientId)
+    const ingredientId = recipeIngredientExcluded(dish.id, requirement.ingredientId) ? `unmapped:recipe:${dish.id}:${requirement.ingredientId}` : requirement.ingredientId.startsWith('recipe-use:') && !recipeUseForRequirement(dish, requirement.ingredientId)
       ? `unmapped:${requirement.ingredientId}` : recipePantryIngredientId(requirement.ingredientId);
     const price = pantryCatalog.get(ingredientId)?.staticPrice;
     const usable = finiteNonnegative(requirement.quantity) && typeof requirement.unit === 'string' &&
@@ -108,7 +111,7 @@ export function applyPantryToRecipe(
     const regularSlotCost = isOnHand || ingredient.optional ? 0 : Number((ingredient.quantityUsed * regularUnit).toFixed(2));
     storeCost += slotCost; regularStoreCost += regularSlotCost;
     matched.push({ ...ingredient, ingredientName: requirement.displayName ?? ingredient.ingredientName, isOnHand, fromVirtualFreezer: false, store: commodity.bestOffer.store,
-      rawDealText: isOnHand ? 'Already have' : resolveRecipeUse(dish, ingredient) ? `${commodity.bestOffer.rawTitle} — ${commodity.bestOffer.rawPriceText}` : commodity.bestOffer.rawPriceText,
+      rawDealText: isOnHand ? 'Already have' : (resolveRecipeUse(dish, ingredient) || requiresExactOffer(ingredient.ingredientId)) ? `${commodity.bestOffer.rawTitle} — ${commodity.bestOffer.rawPriceText}` : commodity.bestOffer.rawPriceText,
       dealType: commodity.bestOffer.dealType, dealConditions: commodity.bestOffer.dealConditions,
       unitCost: commodity.bestOffer.normalizedPricePerUnit, slotCost, regularSlotCost });
   }

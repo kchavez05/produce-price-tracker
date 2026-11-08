@@ -1,3 +1,4 @@
+import { exactOfferAllowed } from './exact-offer';
 import { qualifiedProteinIds } from './protein-offer';
 import { qualifiedDairyIds } from './dairy-offer';
 import cookingData from '@/data/cooking-catalog.json';
@@ -31,6 +32,8 @@ const identityTerms: Readonly<Record<string, RegExp>> = {
 
 /** Qualify possible observed foods only. Never convert this result into pantry ownership. */
 export function marketCounterpartIds(marketId: string, rawTitle: string): string[] {
+  const exact = exactOfferAllowed(marketId, rawTitle);
+  if (exact !== undefined) return exact && cookingData.marketCounterparts.some((r) => r.marketIngredientId === marketId && r.pantryIngredientId === marketId) ? [marketId] : [];
   const dairy = qualifiedDairyIds(marketId, rawTitle);
   if (dairy !== undefined) return dairy.filter((id) => cookingData.marketCounterparts.some((r) => r.marketIngredientId === marketId && r.pantryIngredientId === id)).sort();
   const protein = qualifiedProteinIds(marketId, rawTitle);
