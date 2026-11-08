@@ -9,6 +9,9 @@ export const PROTEIN_RECIPE_FOODS: Readonly<Record<string, readonly string[]>> =
   'andouille-fully-cooked': ['andouille-fully-cooked'], 'salmon-fillets-raw': ['salmon-fillets-raw'],
 };
 const markets = new Set<string>(PROTEIN_MARKET_IDS);
+// These reviewed identities describe animal foods. Substitute marketing cannot
+// establish that identity even when it also names a cut, species or cooking state.
+const meatSubstitute = /\b(?:plant[\s\u2010-\u2015-]*based|vegan|vegetarian|meatless|meat[\s\u2010-\u2015-]*free|imitation|mock|faux)\b/i;
 const prepared = /\b(?:breaded|battered|marinated|sauced|stuffed|canned|tinned|dried|dry|cured|jerky|salami|pepperoni|meatballs?|burgers?|sandwich(?:es)?|pizza|pasta|ravioli|tortellini|gnocchi|lasagna|soup|broth|salad|meal|dinner|kit|bowl|dip|spread|nuggets?|sticks?|glazed|teriyaki|seasoned|seasoning|salsa|partially[ -]cooked|par[ -]?cooked|half[ -]?cooked)\b/i;
 const raw = /\b(?:raw|uncooked|unprepared)\b(?!\s+(?:farms?|brand|company|co\b))|\bcook before (?:eating|consuming)\b/i;
 const fullyCooked = /\b(?:fully[ -]cooked|ready[ -]to[ -]eat)\b(?!\s+(?:farms?|brand|company|co\b))/i;
@@ -24,6 +27,7 @@ export function qualifiedProteinIds(marketId: string, rawTitle: string): string[
   if (!markets.has(marketId)) return undefined;
   if (typeof rawTitle !== 'string') return [];
   const title = stripKnownOfferBrand(rawTitle);
+  if (meatSubstitute.test(title)) return [];
   // A single fully cooked sausage can contain several named meats. This is not
   // permission for unresolved alternatives between products or for pork-only raw identities.
   const alternatives = title.replace(/\b(?:pork|beef|chicken|turkey)(?:\s+(?:and|&|\+)\s+(?:pork|beef|chicken|turkey))+\b/gi, 'meat');
