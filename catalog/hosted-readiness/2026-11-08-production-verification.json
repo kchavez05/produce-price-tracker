@@ -1,0 +1,116 @@
+{
+  "formatVersion": 1,
+  "observedAtUtc": "2026-11-08T19:20:23.532Z",
+  "deployment": "dpl_DYzxbZJM4ZQAdE4ayPtEie6mRXix",
+  "sourceCommit": "d9982b30160eb9f273795eedf12bab6679524d28",
+  "url": "https://www.pantrybot.dev",
+  "environment": "PRODUCTION_MAIN",
+  "projectRef": "vrzhkekeywgrohqgfhds",
+  "catalogVersion": "2026-11-07.4",
+  "catalogContentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "boundary": "INDEPENDENT_AUTHENTICATED_COOKIE_CLIENTS_TO_DEPLOYED_NEXT_API_TO_HOSTED_SUPABASE",
+  "access": "PUBLIC_PRODUCTION_API_WITH_ISOLATED_TEST_ACCOUNT_COOKIES",
+  "shareLinksCreated": false,
+  "deploymentProtectionChanged": false,
+  "temporaryAccountsCreated": 2,
+  "checks": [
+    {
+      "name": "production pantry API is enabled and serves the exact 222-ID catalog",
+      "passed": true
+    },
+    {
+      "name": "deployed API derives three fresh cloud-backed sessions from real independent SSR auth cookies",
+      "passed": true
+    },
+    {
+      "name": "fresh account migration and private no-store reads succeed through deployed routes",
+      "passed": true
+    },
+    {
+      "name": "quantity-free deployed saves spanning all eight batches reload in the second independent client",
+      "passed": true
+    },
+    {
+      "name": "deployed authenticated readiness matches every reviewed catalog ID",
+      "passed": true
+    },
+    {
+      "name": "cross-client retry of an acknowledged mutation remains idempotent",
+      "passed": true
+    },
+    {
+      "name": "duplicate identity is a deployed HTTP 409 conflict",
+      "passed": true
+    },
+    {
+      "name": "account switch cannot replay another account owner or expose its pantry",
+      "passed": true
+    },
+    {
+      "name": "deployed pantry mutation rejects a foreign Origin",
+      "passed": true
+    },
+    {
+      "name": "stale deployed writes preserve the newer explicit No and optional metadata",
+      "passed": true
+    },
+    {
+      "name": "custom ingredients remain unlinked and persist through deployed reads",
+      "passed": true
+    },
+    {
+      "name": "deployed account export includes only the signed-in pantry and current explicit availability",
+      "passed": true
+    },
+    {
+      "name": "deployed tombstones and stale retries cannot resurrect deleted entries",
+      "passed": true
+    },
+    {
+      "name": "deployed sign-out removes account context and reveals a private empty guest context",
+      "passed": true
+    },
+    {
+      "name": "deployed account deletion purges only the disposable account profile and pantry children",
+      "passed": true
+    }
+  ],
+  "cleanup": {
+    "completed": true,
+    "temporaryAccountsDeleted": 2,
+    "scopedRowsAbsent": true,
+    "failures": []
+  },
+  "productionAppReleased": true,
+  "status": "PRODUCTION_AUTHENTICATED_API_CHECKS_PASSED",
+  "browserVerification": {
+    "checks": [
+      "fresh private guest pantry starts empty",
+      "whole and ground cardamom discovered separately",
+      "whole cardamom pods saved without quantity",
+      "guest entry survives reload",
+      "test entry deleted and pantry returns empty",
+      "no console warnings or errors"
+    ],
+    "passed": true,
+    "testEntryRemoved": true,
+    "screenshot": "docs/research/assets/v1.6.1-pantry-production-verified.jpg",
+    "limits": [
+      "Google/Apple OAuth UI roundtrip not repeated",
+      "physical offline browser switching not available; queues covered by local tests"
+    ]
+  },
+  "deploymentInspection": {
+    "deploymentId": "dpl_DYzxbZJM4ZQAdE4ayPtEie6mRXix",
+    "url": "produce-price-tracker-gfrh85i3m-kchavez05-4094.vercel.app",
+    "readyState": "READY",
+    "target": "production",
+    "aliases": [
+      "www.pantrybot.dev",
+      "produce-price-tracker.vercel.app",
+      "pantrybot.dev",
+      "produce-price-tracker-kchavez05-4094.vercel.app",
+      "produce-price-tracker-git-main-kchavez05-4094.vercel.app"
+    ]
+  }
+}

@@ -5,7 +5,7 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.1] - Unreleased
+## [1.6.1] - 2026-11-08
 
 ### Added
 - 150 reviewed pantry identities across legumes, grains, flours, vegetables, aromatics, spices, proteins and dairy; 222 identities total.
@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refresh USDA provenance and curated dispositions while retaining explicit prices, private inventory and directional No precedence.
 
 ### Rollout
-- Prepared as a release candidate. The eight additive hosted migrations were approved and applied November 8, with all 222 accepted IDs verified. Hosted independent-session/API and guest-browser verification pass. The release workflow remains open; see [release notes](docs/releases/v1.6.1.md).
+- Released to production November 8. The eight additive hosted migrations were approved and applied November 8, with all 222 accepted IDs verified. Production independent-session/API and guest-browser verification pass, and disposable test accounts/entries are removed; see [release notes](docs/releases/v1.6.1.md).
 
 ## [1.6.0] - 2026-10-30
 

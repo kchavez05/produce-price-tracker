@@ -1,4 +1,4 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.1` release candidate)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.1`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
@@ -6,15 +6,15 @@ A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot
 
 Virtual Pantry records explicit Yes/No availability with optional quantity, location, unit, and date. It supports custom ingredients, private guest use, explicit account import, and revision-checked account sync. Recipes and shopping needs use boolean availability; quantity and dates never deduct or limit coverage. Buying or cooking does not change inventory. Staples have fixed USD recipe-use estimates; missing prices remain explicit.
 
-Hosted activation requires the three additive pantry migrations, isolated staging verification, and `PANTRYBOT_PANTRY_ENABLED=true`. The default remains off for unmigrated installations. Local manual/guest pantry use needs no account or API key. See the [release notes](docs/releases/v1.6.0.md), [rollout guide](docs/usda-catalog-integration.md), and [Virtual Pantry guide](docs/wiki/Virtual-Pantry.md).
+Hosted activation requires the three base pantry migrations and eight v1.6.1 accepted-ID migrations, isolated staging verification, and `PANTRYBOT_PANTRY_ENABLED=true`. The default remains off for unmigrated installations. Local manual/guest pantry use needs no account or API key. See the [release notes](docs/releases/v1.6.0.md), [rollout guide](docs/usda-catalog-integration.md), and [Virtual Pantry guide](docs/wiki/Virtual-Pantry.md).
 
 A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) prepares Foundation/SR Legacy ingredients and a coverage report for review. It does not activate catalog changes. The [curation ledger and staging command](catalog/README.md) prepare compact review choices without activating unapproved data. The approved [ingestion standards](docs/specs/usda-catalog-ingestion.md) define cooking relevance, compact search results, recurring refreshes, and publication gates.
 
-## Next: v1.6.1 — Pantry Catalog Expansion
+## v1.6.1 — Pantry Catalog Expansion
 
-The v1.6.1 release candidate expands the pantry catalog before speech entry. The approved batches compile to 222 identities in catalog `2026-11-07.4`, with 175 source-linked identities, 85 independent market counterpart associations and 63 scoped recipe uses. The [produce](docs/research/v1.6.1-market-produce-review.md), [protein](docs/research/v1.6.1-market-protein-review.md) and [dairy](docs/research/v1.6.1-market-dairy-review.md) batches close the 18 reviewed coverage gaps locally. All 35 market groups have counterpart paths; the [market completion plan](docs/specs/v1.6.1-market-coverage.md) records the four implemented offer-qualification rules and five explicitly approved release scope boundaries. The [final local audit](docs/research/v1.6.1-release-audit.md) passes. All eight hosted migrations are installed and all 222 accepted IDs are verified. Authenticated API and guest-browser verification pass; the release workflow remains. See the [v1.6.1 release checklist](docs/releases/v1.6.1.md).
+Released November 8, 2026, v1.6.1 expands the pantry catalog before speech entry. The approved batches compile to 222 identities in catalog `2026-11-07.4`, with 175 source-linked identities, 85 independent market counterpart associations and 63 scoped recipe uses. The [produce](docs/research/v1.6.1-market-produce-review.md), [protein](docs/research/v1.6.1-market-protein-review.md) and [dairy](docs/research/v1.6.1-market-dairy-review.md) batches close the 18 reviewed coverage gaps. All 35 market groups have counterpart paths; the [market completion plan](docs/specs/v1.6.1-market-coverage.md) records the four implemented offer-qualification rules and five explicitly approved release scope boundaries. The [final local audit](docs/research/v1.6.1-release-audit.md) passes. All eight hosted migrations are installed and all 222 accepted IDs are verified. Production authenticated API and guest-browser verification pass, with disposable test data cleaned up. See the [v1.6.1 release notes](docs/releases/v1.6.1.md).
 
-## Key Features (`v1.6.0`)
+## Key Features (`v1.6.1`)
 
 * **Public Data Explorer & Score Transparency:** Explore stored USDA and store price history, inspect score arithmetic and ingredient groupings, and download raw source JSON or filtered CSV. Available through **Explore the data** in the footer; see the [explorer guide](docs/data-explorer.md).
 
@@ -56,7 +56,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
-  * [v1.6.1 — Pantry Catalog Expansion (release candidate)](./docs/releases/v1.6.1.md)
+  * [v1.6.1 — Pantry Catalog Expansion](./docs/releases/v1.6.1.md)
   * [v1.6.0 — Virtual Pantry](./docs/releases/v1.6.0.md)
   * [v1.5.2 — Data Clarity & Active Markets](./docs/releases/v1.5.2.md)
   * [v1.5.1 — Data Explorer & Score Transparency](./docs/releases/v1.5.1.md)
