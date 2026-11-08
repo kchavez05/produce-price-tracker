@@ -82,6 +82,16 @@ describe('approved dairy market integration', () => {
     expect(marketCounterpartIds('greek-yogurt-tub', 'Plain Whole Milk Greek-style Yogurt')).toEqual([]);
     expect(cleanSearchQueryForIngredient('Greek Plain or Vanilla Yogurt')).toContain('Greek yogurt');
   });
+  it('accepts supported milkfat wording while keeping whole-milk and full-fat proof scoped to the food', () => {
+    for (const percent of [1,2]) for (const milkfat of ['milkfat', 'milk fat', 'milk-fat']) {
+      const title = `Plain ${percent}% ${milkfat} Cottage Cheese`;
+      expect(marketCounterpartIds('cottage-cheese-sour-cream', title)).toEqual(['cottage-cheese-plain', `cottage-cheese-plain-${percent}-percent`]);
+      for (const use of dairyUses.filter((u) => u.pantryIngredientIds.includes('cottage-cheese-plain'))) expect(recipeOfferAllowed(use, title)).toBe(true);
+    }
+    expect(marketCounterpartIds('cottage-cheese-sour-cream', 'Plain Whole Milk Sour Cream')).toEqual(['sour-cream-plain']);
+    expect(marketCounterpartIds('shredded-block-cheese', 'Full Fat Low-Moisture Mozzarella Cheese')).toEqual(['mozzarella-low-moisture']);
+    expect(marketCounterpartIds('greek-yogurt-tub', 'Plain Full-Fat Greek Yogurt')).toEqual(['greek-yogurt-plain', 'greek-yogurt-plain-whole-milk']);
+  });
   it.each(accepted)('covers/prices $pantryId only in $row.id', ({ row, pantryId }) => {
     const use = dairyUses.find((u) => u.id === row.id)!;
     const example = cases.offerCases.find((c) => c.marketIngredientId === row.marketIngredientId && c.allowedRecipeFoodIds.includes(pantryId))!; expect(example).toBeDefined();
@@ -131,9 +141,9 @@ describe('approved dairy market integration', () => {
   });
   it('rejects mixed dairy foods, prepared snacks and conflicting retail qualifiers', () => {
     for (const [group, titles] of [
-      ['shredded-block-cheese', ['Cheddar Cheese, Sour Cream', 'Natural Cheddar Cream Cheese', 'Natural Cheddar Cheese 2% Milk', 'Natural Cheddar Cheese 50% Less Fat', 'Cheddar Gouda Cheese', 'Natural Cheddar Cheese, Plain Greek Yogurt', 'Smoked Cheddar Cheese', 'Habanero Cheddar Cheese']],
-      ['cottage-cheese-sour-cream', ['Plain Cottage Cheese, Greek Yogurt', 'Plain Cottage Cheese 2% 4%', 'Regular Light Sour Cream', 'Plain Cottage Cheese, Monterey Jack', 'Plain Nonfat Cottage Cheese 4%', 'Plain Cottage Cheese with Basil']],
-      ['greek-yogurt-tub', ['Plain Whole Milk Greek Yogurt Bars', 'Plain Whole Milk Greek Yogurt Covered Pretzels', 'Plain Whole Milk Greek Yogurt Granola Parfait', 'Plain Whole Milk Greek Yogurt, Sour Cream', 'Plain Whole Milk Greek Yogurt 2%', 'Plain Whole Milk Greek Yogurt with Honey', 'Plain Banana Whole Milk Greek Yogurt', 'Plain Whole Milk Greek Yogurt Cheesecake', 'No Full Fat Plain Greek Yogurt']],
+      ['shredded-block-cheese', ['Cheddar Cheese, Sour Cream', 'Natural Cheddar Cream Cheese', 'Natural Cheddar Cheese 2% Milk', 'Natural Cheddar Cheese 50% Less Fat', 'Cheddar Gouda Cheese', 'Natural Cheddar Cheese, Plain Greek Yogurt', 'Smoked Cheddar Cheese', 'Habanero Cheddar Cheese', 'Vanilla Cheddar Cheese']],
+      ['cottage-cheese-sour-cream', ['Plain Cottage Cheese, Greek Yogurt', 'Plain Cottage Cheese 2% 4%', 'Regular Light Sour Cream', 'Plain Cottage Cheese, Monterey Jack', 'Plain Nonfat Cottage Cheese 4%', 'Plain Cottage Cheese with Basil', 'Plain Vanilla Cottage Cheese', 'Vanilla Regular Sour Cream', 'Plain Shredded Cottage Cheese']],
+      ['greek-yogurt-tub', ['Plain Whole Milk Greek Yogurt Bars', 'Plain Whole Milk Greek Yogurt Covered Pretzels', 'Plain Whole Milk Greek Yogurt Granola Parfait', 'Plain Whole Milk Greek Yogurt, Sour Cream', 'Plain Whole Milk Greek Yogurt 2%', 'Plain Whole Milk Greek Yogurt with Honey', 'Plain Banana Whole Milk Greek Yogurt', 'Plain Whole Milk Greek Yogurt Cheesecake', 'No Full Fat Plain Greek Yogurt', 'Plain Whole Milk Greek Cheddar Yogurt', 'Plain Whole Milk Greek Cottage Yogurt']],
     ] as [string, string[]][]) for (const title of titles) expect(marketCounterpartIds(group, title), title).toEqual([]);
   });
   it.each(cases.rejectedScopeContexts)('blocks removed $marketIngredientId in $recipeId across current/custom/old contexts', (r) => {

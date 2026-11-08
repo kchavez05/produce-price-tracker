@@ -8,7 +8,12 @@ const whole = /\b(?:whole[ -]milk|full[ -]fat)\b(?!\s+(?:farms?|brand|company)\b
 const low = /\b(?:low[ -]?fat|reduced[ -]fat|less\s+fat|light)\b(?!\s+(?:farms?|brand|company)\b)/i;
 const nonfat = /\b(?:non[ -]?fat|fat[ -]?free)\b|\b0\s*%/i;
 const percent = (title: string, n: number) => new RegExp(`\\b${n}\\s*(?:%|percent\\b)`, 'i').test(title);
-const titleWords = new Set(('plain whole milk full fat free regular light low lowfat reduced less nonfat non fatfree part skim creamed wet curd large small percent block shredded shredding melting fresh moisture unspecified natural cheddar cheese monterey jack mozzarella mexican style blend greek yogurt vanilla cottage sour cream mild sharp extra organic dairy solid balls package tub bag lb lbs oz ounce ounces pound pounds g kg gram grams pack ct count value family size grade a probiotic live active cultures unsweetened no added sugar zero protein total filtered strained cultured traditional').split(' '));
+const commonTitleWords = new Set(('plain whole milk milkfat full fat free regular light low lowfat reduced less nonfat non fatfree large small percent natural organic dairy package tub bag lb lbs oz ounce ounces pound pounds g kg gram grams pack ct count value family size grade a probiotic live active cultures unsweetened no added sugar zero protein total filtered strained cultured traditional').split(' '));
+const foodTitleWords: Readonly<Record<string, ReadonlySet<string>>> = {
+  'shredded-block-cheese': new Set('part skim block shredded shredding melting fresh moisture unspecified cheddar cheese monterey jack mozzarella mexican style blend solid balls mild sharp extra'.split(' ')),
+  'cottage-cheese-sour-cream': new Set('cottage cheese sour cream wet curd creamed'.split(' ')),
+  'greek-yogurt-tub': new Set(['greek', 'yogurt', 'vanilla']),
+};
 
 /** Original title evidence only. These possible foods never create pantry ownership. */
 export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] | undefined {
@@ -18,7 +23,7 @@ export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] 
   if (incompatible.test(title) || hasOfferAlternatives(title)) return [];
   // Unknown food/flavor words are uncertain evidence, even beside the word "plain".
   // Keep such offers unpriced instead of trying to enumerate every flavored product.
-  if ((title.toLowerCase().match(/\p{L}+/gu) ?? []).some((word) => !titleWords.has(word)) || /\bno\s+(?:whole|full|low|nonfat|plain|vanilla)\b/i.test(title)) return [];
+  if ((title.toLowerCase().match(/\p{L}+/gu) ?? []).some((word) => !commonTitleWords.has(word) && !foodTitleWords[marketId].has(word)) || /\bno\s+(?:whole|full|low|nonfat|plain|vanilla)\b/i.test(title)) return [];
   if (/\b(?:bars?|coated|covered|pretzels?|cookies?|cakes?|frosting|granola|parfait|custard|pudding|ricotta|cream\s+cheese|feta|parmesan|swiss|brie|gouda)\b/i.test(title)) return [];
   // A title naming a second dairy food cannot lend its fat/flavor evidence to the first.
   if (marketId === 'shredded-block-cheese' && /\byogurt\b|\bcottage\s+cheese\b|\bsour\s+cream\b/i.test(title)) return [];
@@ -36,11 +41,11 @@ export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] 
       if (/\bmexican[ -]?(?:style)?\b/i.test(title)) return ['melting-cheese-blend', 'mexican-style-cheese-blend'];
       return /\b(?:melting|shredding)\b/i.test(title) ? ['melting-cheese-blend'] : [];
     }
-    const fresh = /\bfresh\b/i.test(title), lowMoisture = /\blow[ -]moisture\b/i.test(title), skim = /\bpart[ -]skim\b/i.test(title);
+    const fresh = /\bfresh\b/i.test(title), lowMoisture = /\blow[ -]moisture\b/i.test(title), skim = /\bpart[ -]skim\b/i.test(title), wholeMilk = /\bwhole[ -]milk\b/i.test(title);
     if ((fresh && lowMoisture) || (full && skim) || reduced || zero) return [];
     if (fresh) return ['mozzarella-fresh'];
     if (!lowMoisture) return ['mozzarella-cheese-unspecified'];
-    return ['mozzarella-low-moisture', ...(full ? ['mozzarella-low-moisture-whole-milk'] : skim ? ['mozzarella-low-moisture-part-skim'] : [])];
+    return ['mozzarella-low-moisture', ...(wholeMilk ? ['mozzarella-low-moisture-whole-milk'] : skim ? ['mozzarella-low-moisture-part-skim'] : [])];
   }
   if (marketId === 'cottage-cheese-sour-cream') {
     const cottage = /\bcottage\s+cheese\b/i.test(title), sour = /\bsour\s+cream\b/i.test(title);
@@ -48,7 +53,7 @@ export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] 
     if (sour) {
       const regular = /\bregular\b/i.test(title);
       if (regular && (reduced || zero)) return [];
-      return ['sour-cream-plain', ...(full || regular ? ['sour-cream-full-fat'] : reduced ? ['sour-cream-reduced-fat'] : [])];
+      return ['sour-cream-plain', ...(/\bfull[ -]fat\b/i.test(title) || regular ? ['sour-cream-full-fat'] : reduced ? ['sour-cream-reduced-fat'] : [])];
     }
     if (!/\bplain\b/i.test(title)) return [];
     const percentages = new Set([...title.matchAll(/\b(\d+(?:\.\d+)?)\s*(?:%|percent\b)/gi)].map((m) => Number(m[1])));
