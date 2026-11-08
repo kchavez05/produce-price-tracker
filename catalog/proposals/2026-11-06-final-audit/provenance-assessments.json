@@ -1,0 +1,1009 @@
+{
+  "formatVersion": 1,
+  "status": "AUDIT_PRODUCT_REVIEW_PENDING",
+  "parentVersion": "2026-11-06.4",
+  "parentContentHash": "86758a778e436be394c363d8f6e9efc9bdd47c23c7caf3fac16fc83973149951",
+  "rows": [
+    {
+      "ingredientId": "apple-cider-vinegar",
+      "name": "Apple cider vinegar",
+      "currentIngredientSha256": "a053850d61156af9f3888bd7a0d1b0fc827ffadb2bf0c90014e917ff721b31a1",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-apple-cider-vinegar",
+      "payloadSha256": "f5e40641dd2f1556c0ef27cb60230389443a65baead31ca9b5a55d6d3618dab8",
+      "rationale": "Cider vinegar is the existing apple-cider-vinegar cooking choice; keep its label and tablespoon estimate. This does not establish a particular acidity percentage, brand, or interchangeability with another vinegar. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "avocado-oil",
+      "name": "Avocado oil",
+      "currentIngredientSha256": "2a1062f3612729ef0e118c07d1cdd1f06abbcabde9ebc09a5860585ecd3277f8",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-avocado-oil",
+      "payloadSha256": "6d9afac098e1352ff6e77cb11ddf7b5443862ef7faf589538fc63d4e5d8fbfef",
+      "rationale": "The record explicitly identifies avocado oil. Preserve the existing cooking oil identity without inferring refinement, smoke point, nutrition, brand, or dietary guarantees. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "avocados-hass",
+      "name": "Hass avocado",
+      "currentIngredientSha256": "31a2950c63cc6f5a3749e6a43317f89440eab9ea5417c39315179002481c71ea",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-avocados-hass",
+      "payloadSha256": "d39ae5c192e8b1cee3b570af9f83d10d1fe9e670589ef157aea93bbc178725b8",
+      "rationale": "The candidate explicitly names Hass avocado, peeled and raw. Peeling is source evidence context, not a yield conversion for whole retail avocados; retain the existing Hass identity and market relationship. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "basmati-rice-dry",
+      "name": "Dry basmati rice",
+      "currentIngredientSha256": "afbbc90934842f9afc32f29f6cd3d0016b9093ffe15bafa1b023d1aaf8afbd32",
+      "status": "APPROVED_CURATED_RETAINED",
+      "decisionId": "ingredient-basmati-rice-dry",
+      "payloadSha256": "1ae9aa27ce049728dfc2d0a76ee5bba15136a47aaa283598457d7efeeee33dfa",
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "bay-leaf",
+      "name": "Bay leaf",
+      "currentIngredientSha256": "62835762eafa226b87a3aabae9416e09f627aebffe1a834408009d8acdf25129",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-bay-leaf",
+      "payloadSha256": "90e6c0b603df70a6a97765d29b05c49e9b8591b0eec0811e6d38797e91313e65",
+      "rationale": "The record names the same generic bay-leaf spice. Preserve the inherited unspecified-form label; the reference does not establish a new whole/ground or fresh/dried distinction, portion conversion, or compatibility edge. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "beef-broth",
+      "name": "Beef broth",
+      "currentIngredientSha256": "7ff1facd9045d28c7def3f40e6b4213e1612c6b87e4f7855eb8a16d2c3996935",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-beef-broth",
+      "payloadSha256": "8a962a53af0530971726643f9e33825cd49160f1f6f1727301cb0f73ba7052b1",
+      "rationale": "Retain the inherited ready-to-use beef broth/stock cooking choice and beef-stock alias as maintainer-curated. The retained records distinguish broth/bouillon, canned/concentrated, sodium levels and homemade stock; no one is a complete exact attribution for this intentionally generic broth/stock scope. No dry/concentrate conversion or nutrition equivalence is inferred. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171538",
+          "ndbNumber": "6008",
+          "description": "Soup, beef broth or bouillon canned, ready-to-serve",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "sr_legacy_food:171538",
+          "fingerprint": "e437a70f7d023d157c29197e040e1d5784eac0d8a5e6b7634aa19790f79fe412",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172883",
+          "ndbNumber": "6170",
+          "description": "Soup, stock, beef, home-prepared",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "sr_legacy_food:172883",
+          "fingerprint": "7625a8ee66e890c498c9c35da452ac2630632a7f44bad7dc201f41ef9190ba8d",
+          "disposition": "excluded",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "bell-peppers",
+      "name": "Bell peppers",
+      "currentIngredientSha256": "6df90b3176203206e669e0eb50637636245032bbd5d7390acfbb1572f5e0713e",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-bell-peppers",
+      "payloadSha256": "40f2fef78411a2cd45605b773c9bb506bb8c0e6a86dfed0b552b470f555669fa",
+      "rationale": "Four separate raw bell-pepper records identify green, yellow, red, and orange peppers within the existing generic Bell peppers choice. Retain each evidence row separately; do not average nutrition, create color-specific inventory, or claim every color is interchangeable in a specific recipe. Existing generic recipe/market behavior is unchanged. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "black-pepper",
+      "name": "Black pepper",
+      "currentIngredientSha256": "012261678154d6ace470a42390584b44f6e42b22a25244e7cdfa9476dc340784",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-black-pepper",
+      "payloadSha256": "47239c3c7552a3fdf568d842332d7c5dc48f84bcdf8aa4c8150945c10279aa61",
+      "rationale": "The record explicitly names black pepper, matching the existing generic kitchen-spice identity. Its unspecified form does not establish separate peppercorn/ground choices, nutrition, or automatic coverage of a future form-specific requirement. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "brown-rice-dry",
+      "name": "Dry brown rice",
+      "currentIngredientSha256": "764dc5d4a725027c13680d1987e5831e324f853bbd63eee18171a883c2b38e1e",
+      "status": "APPROVED_CURATED_RETAINED",
+      "decisionId": "ingredient-brown-rice-dry",
+      "payloadSha256": "8a0761873db235e4955b822f14092035cb4004d7fc01ce8ce73cd6cc4d510f58",
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "butter-salted-unsalted",
+      "name": "Butter",
+      "currentIngredientSha256": "141a1e37d17a8aa263492626244e46ff6314c464170f8e6199ce631aeb90ae7f",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-butter-salted-unsalted",
+      "payloadSha256": "f6b2d83e410e84c64bda170994d26bce9939d4fa264d2e201617cf2ba99b589f",
+      "rationale": "Unsalted and salted stick-butter records separately support the already accepted generic Butter choice and existing salted/unsalted market group. Preserve their distinct evidence; no sodium equivalence, plant-based-butter coverage, source nutrition average, or new form compatibility is asserted. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "cannellini-beans-canned",
+      "name": "Canned cannellini beans",
+      "currentIngredientSha256": "086997f30f379fdc64b4127fd85cfcc27d108c8f01ab122665759b6a68db5465",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-cannellini-beans-canned",
+      "payloadSha256": "b3b46c98bcde6436c08458d7355a82ae0b4eeb59e582297a23c1e4b24c7e59ea",
+      "rationale": "The record explicitly identifies canned cannellini beans. Sodium-added, drained-and-rinsed qualifiers remain evidence context, not claims about every can or drainage/yield/weight conversions. Preserve the existing canned white-kidney-bean alias, price and exact availability. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "caraway-seeds",
+      "name": "Caraway seeds",
+      "currentIngredientSha256": "7c11fb86b6f0e945c5a22c30b5d121b55f4d52c91ccf25b3daeb2065b8d1c3f1",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-caraway-seeds",
+      "payloadSha256": "527942d7e80cb38b1b5565a08e63423cf25545661e6d4dfcf7149d1250c58491",
+      "rationale": "The record explicitly names caraway seed. It supports the existing seed-spice identity, without establishing ground-caraway ownership, a grinding conversion, nutrition, or another seed substitution. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "chicken-breast-boneless",
+      "name": "Boneless skinless chicken breast",
+      "currentIngredientSha256": "22174d691374123d10b1fdac84e914beda2132495a35f96aa4daecaf367d5caa",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-chicken-breast-boneless",
+      "payloadSha256": "2ac105d01def464afc01591ed77a615e47fbf06299f1238c4e2afea0caacde94",
+      "rationale": "The candidate explicitly identifies raw boneless skinless chicken breast, matching the existing cut and preparation. Retain all market fields; source evidence adds no raw/cooked, skin-on, bone-in, yield or nutrient conversion. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "chicken-broth",
+      "name": "Chicken broth",
+      "currentIngredientSha256": "66dfd08d255b15719421e4c64c1a4f47162cde537cd14f559556b9194aeb3395",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-chicken-broth",
+      "payloadSha256": "3c7324c6ce9ec8113974fcc84be7fac766b21101f2a5da42fd7dd89b50cf6e6f",
+      "rationale": "Retain the existing ready-to-use chicken broth/stock cooking choice and chicken-stock alias as curated. Candidate ready-to-serve broth and excluded homemade-stock records are research hints, not a universal attribution for the broad existing choice. Dry bouillon and concentrates do not become interchangeable through this rationale. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "174536",
+          "ndbNumber": "6194",
+          "description": "Soup, chicken broth, ready-to-serve",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "sr_legacy_food:174536",
+          "fingerprint": "ba1e55acf94adac8f9d4f77fd0749d67fdb6054090ce54c8837d557c1a2d7a95",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172884",
+          "ndbNumber": "6172",
+          "description": "Soup, stock, chicken, home-prepared",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "sr_legacy_food:172884",
+          "fingerprint": "61b814c43e1392e01139cccc2b611eb8af82538e41569e0868fd44d5c2c14c7f",
+          "disposition": "excluded",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "chicken-thighs-boneless",
+      "name": "Boneless skinless chicken thighs",
+      "currentIngredientSha256": "6d5f40c8f74caad893782ddc4b448e90f22c675898b97b28dee5f55859d82e8a",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-chicken-thighs-boneless",
+      "payloadSha256": "7270eb6979d77e2b6fcc3f32c3c8efa9f498cdf63fbba220bfe0b6e11d7bf467",
+      "rationale": "The candidate explicitly identifies raw boneless skinless chicken thigh. Preserve this cut and form; bone-in/skin-on/cooked products and their yields are not made equivalent by this source link. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "chili-powder",
+      "name": "Chili powder",
+      "currentIngredientSha256": "192487b201394d255229522c4642ff3aeade53c05e95c83ed764ce155da36a03",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-chili-powder",
+      "payloadSha256": "42c44b551b5028b713fbc58603fae7a391716d63578159da0bb65f120a0bd6b5",
+      "rationale": "The record names chili powder, matching the existing generic spice choice. Preserve its inherited scope; do not infer a fixed blend composition, heat level, allergen/dietary property, or ownership of whole/fresh peppers. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "coconut-aminos",
+      "name": "Coconut aminos",
+      "currentIngredientSha256": "9149c37ca14f965435cdf8ed314b28640641bbbb90d51e0aa7a5835a0f17b357",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-coconut-aminos",
+      "payloadSha256": "1c72ea944b10252ffa180d38e01fcc262346c28e7582b0605877388a2f00e27c",
+      "rationale": "Retain coconut aminos as an existing named purchased cooking condiment. No matching named record was found in the retained Foundation/SR snapshot. Soy-sauce evidence must not be substituted, and the curated identity establishes no brand composition, allergen or dietary guarantee. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "coconut-milk-canned",
+      "name": "Canned coconut milk",
+      "currentIngredientSha256": "01b41de75711a27a86a82b43259e21997830296d2671fb23cd8d4c62b0cd0c24",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-coconut-milk-canned",
+      "payloadSha256": "08edd16596ee206bb991c7415b47fced964d7955a7ed7534734a93899ce46117",
+      "rationale": "The record explicitly identifies canned coconut milk rather than a fortified coconut beverage, raw expressed milk, or frozen form. Preserve the canned cooking ingredient without importing nutrient or dilution claims. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "cornstarch",
+      "name": "Cornstarch",
+      "currentIngredientSha256": "9b7e106339d7ac8f8f3752cefec96602ed3c7f1d387830e4b8f867914cb8ff5a",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-cornstarch",
+      "payloadSha256": "8987506a6a73c3f7a771ba83fc27a7e6ad5b82c3826ce8acc60bbe41f6d85737",
+      "rationale": "The record explicitly names cornstarch, matching the existing starch and corn-starch alias. Cornmeal, ordinary corn flour and masa harina remain separate cooking choices; no thickening or portion conversion is introduced. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "crushed-tomatoes-canned",
+      "name": "Canned crushed tomatoes",
+      "currentIngredientSha256": "071192f9fb264fcdaf0f02bc98b39e3c6dd88a12fb7c4035d87ce342c268174d",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-crushed-tomatoes-canned",
+      "payloadSha256": "5d7895b777c0186f3aad98e7745ccce277899f33c1292f146b1d6666f662a843",
+      "rationale": "The record explicitly identifies canned crushed tomatoes. Preserve the processed form, estimate and exact identity; it is not fresh tomato, paste, sauce, or a changed package/yield calculation. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "curry-powder",
+      "name": "Curry powder",
+      "currentIngredientSha256": "a0b2a78455ae598bf8e47eea742aeb5998c99f639a78ef806e97fa3efa6fe172",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-curry-powder",
+      "payloadSha256": "e0a2fdac59cbd537ea6d4ea5ac95c39cfd6bdc36d19b10e6245c05d5821c51cd",
+      "rationale": "The record names curry powder, matching the existing named purchased spice-blend choice. It does not prove a universal recipe, brand composition, heat level, or dietary property, and does not establish ownership of blend components. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "dijon-mustard",
+      "name": "Dijon mustard",
+      "currentIngredientSha256": "f03738e7e08e0e4b2ae6012a292eac5affcb173988beb55e476acb70be567e4d",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-dijon-mustard",
+      "payloadSha256": "eaa6b6abc8713c11b80993620191d143560e78042ca6eeda60baf05d9fcce0c2",
+      "rationale": "Retain Dijon mustard as its own purchased condiment. The retained prepared-yellow-mustard records do not establish Dijon preparation; do not attach them or collapse this identity into generic yellow mustard or whole-grain mustard. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "326698",
+          "ndbNumber": "2046",
+          "description": "Mustard, prepared, yellow",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "foundation_food:326698",
+          "fingerprint": "02fbb3ff254f068b4bd36dd5ae1bbc1ac7807a3b309e41afa097b61bc318be53",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172234",
+          "ndbNumber": "2046",
+          "description": "Mustard, prepared, yellow",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "sr_legacy_food:172234",
+          "fingerprint": "afe8d3e8137d414ea061009b6252f60373c0a744b1d20820d7bcfca5265fda8b",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "dill-dried",
+      "name": "Dried dill",
+      "currentIngredientSha256": "f697e1553f5801b14efe1e280519ce233e86cdbb3a3375dd2b7c3dd777c8048c",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-dill-dried",
+      "payloadSha256": "69fbf8e09e3b5cb5203395e76fc519783f38faf5db3875aca25454fb747dad7f",
+      "rationale": "Dried dill weed explicitly matches the existing dried-leaf herb. Dill seed and fresh dill remain distinct; no new coverage or volume/weight conversion is added. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "garam-masala",
+      "name": "Garam masala",
+      "currentIngredientSha256": "074ffd8c5384573253849d36e1ee6f872708ac69013290f5d9001b169c4240d0",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-garam-masala",
+      "payloadSha256": "22d56493a9fcfe5155e830f50d394043cc0b4791a4edf51d0e2ad0b1b259b08a",
+      "rationale": "Retain this existing named purchased cooking spice blend. No matching named blend record was found in the retained Foundation/SR snapshot. Recipes and brands vary; the curated identity does not claim fixed ingredients, heat, nutrient/dietary properties or ownership of component spices. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "garlic-powder",
+      "name": "Garlic powder",
+      "currentIngredientSha256": "94a2aa3de6f381c74046cea51655a4978e0a51f9a1713ceb5103bfa37382cc3a",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-garlic-powder",
+      "payloadSha256": "eed7d58b89c2ba0e37f865e132a2de340f752c29ae177537ae8c624f5508cc21",
+      "rationale": "The record explicitly names garlic powder. Preserve separation from fresh cloves and garlic salt; the source adds no fresh-to-powder conversion or recipe compatibility. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "great-northern-beans-canned",
+      "name": "Canned Great Northern beans",
+      "currentIngredientSha256": "6c015c38a8b9e060b870b2029a0321adf0d1934ce9060cad25685f7a8a7ae198",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-great-northern-beans-canned",
+      "payloadSha256": "916e1db95e174d324fc7e8345353c0fe518518522505403ae282ec80b2dc06fc",
+      "rationale": "The record explicitly identifies canned mature Great Northern beans. Preserve the named bean and canned form without substituting generic white beans, dried beans, or a nutrient/drainage conversion. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "green-cabbage",
+      "name": "Green cabbage",
+      "currentIngredientSha256": "6fc448bbb0054877eec67de1bd785349971730ea717c68309407aee5c4e6b101",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-green-cabbage",
+      "payloadSha256": "24333ae6fb1e103cf694350aa46a25df3bbabb628df3ee2540cce94686871998",
+      "rationale": "The candidate explicitly names raw green cabbage. Red cabbage, napa, bok choy, prepared slaw and fermented products are not established as this identity. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "ground-beef-80-20",
+      "name": "Ground beef",
+      "currentIngredientSha256": "a5a77e6b4322b67c9ea0e1b7d1fefe35f207b3fd94ccfecbaba07c2df501569d",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-ground-beef-80-20",
+      "payloadSha256": "d48f6dce6fb039f7f98d92f3b6770720bece79c816a610007a09e48fabfbba31",
+      "rationale": "Retain the existing generic Ground beef cooking identity and historical ID/market group. Its market catalog explicitly spans several lean/fat proportions. A single 80/20, 85/15 or 70/30 record cannot establish that broad scope as one exact composition; no new leanness, nutrition, yield or dietary claim is attached. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2514744",
+          "ndbNumber": "23572",
+          "description": "Beef, ground, 80% lean meat / 20% fat, raw",
+          "publicationDate": "2023-04-20",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": "Fatty acids, total trans and total saturated and total monounsaturated and total polyunsaturated median values corrected on 4/18/2024.",
+          "key": "foundation_food:2514744",
+          "fingerprint": "3b43f5db8031f168790bed94499758c2d6961fc378beb1471d9452915b098423",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171796",
+          "ndbNumber": "23567",
+          "description": "Beef, ground, 85% lean meat / 15% fat, raw (Includes foods for USDA's Food Distribution Program)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "sr_legacy_food:171796",
+          "fingerprint": "07aad014226e1330107b8982cf3bd1e93abd3f3ad4d36acd0f6433fefe5c4d1c",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168652",
+          "ndbNumber": "13498",
+          "description": "Beef, ground, 70% lean meat / 30% fat, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "13",
+          "categoryName": "Beef Products",
+          "footnote": null,
+          "key": "sr_legacy_food:168652",
+          "fingerprint": "05091812142a319dc8446df4bb6048986a6af01643d7bba0a52f75bde3b1fba4",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "ground-cumin",
+      "name": "Ground cumin",
+      "currentIngredientSha256": "cc9048c83126c261d9cd85d15b83c4f1111fc91d77fff84702760cf92a7e3b68",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-ground-cumin",
+      "payloadSha256": "a9b01a2df043348b6835aa5e13dc8560fce510b7dbb4071196b4e6391e88a65a",
+      "rationale": "Use the available Spices, cumin seed record only as an explicit family-level general reference for the already named Ground cumin choice, following the approved whole/ground reference policy. Add cumin family and ground-form metadata; the source does not establish grinding form, identical nutrition, a conversion, or ownership of whole cumin. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "ground-turkey",
+      "name": "Ground turkey",
+      "currentIngredientSha256": "b5ec69294e038fb608a11586fcddfaf512b08db2689ab2a3555ccdc3e790934e",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-ground-turkey",
+      "payloadSha256": "d350eeb3d7eea8604b45843b994db8cfc869747e899612adabb3905ab32237b4",
+      "rationale": "The generic raw ground-turkey record matches the existing fat-unspecified Ground turkey choice. Do not attach a 93/7 or fat-free record as though all ground turkey had that composition, and do not import nutrition or new dietary guarantees. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "italian-seasoning",
+      "name": "Italian seasoning",
+      "currentIngredientSha256": "3a7394f079d8a625ac2eb12525344c31b65bf2ae13f055717e381ee493577680",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-italian-seasoning",
+      "payloadSha256": "43734816851618adcbe66f7464fe4ad07277e436733269a8ed7d7c681ae32909",
+      "rationale": "Retain this existing named purchased herb/spice blend. No matching named record was found in the retained Foundation/SR snapshot. Do not manufacture a source by combining separate herbs, or infer composition, dietary guarantees or ownership of every blend component. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "jasmine-rice-dry",
+      "name": "Dry jasmine rice",
+      "currentIngredientSha256": "37abe94ade2ee6bd201b41590d7084662506e8a6d31e816d913c26ef210cbc5a",
+      "status": "APPROVED_CURATED_RETAINED",
+      "decisionId": "ingredient-jasmine-rice-dry",
+      "payloadSha256": "3a38c487f161ede48213fb9841aa2d1594b60c8b11e56a73436be578f034b26a",
+      "rationale": "Preserve the existing cooking identity and fixed estimate. Record its family/form without collapsing the rice variety or inventing a USDA reference.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "large-eggs-dozen",
+      "name": "Chicken eggs",
+      "currentIngredientSha256": "2dfb3cd502e1f334452c408adab87c72e407021fd906fde3f8692827ae2e3b15",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-large-eggs-dozen",
+      "payloadSha256": "409385804f7d265c7e4613d7e87fb5ccf63e2c5cf014ba9f0bf2d9c151abe870",
+      "rationale": "Retain the inherited fresh whole Chicken eggs choice and dozen market relationship as curated. The unqualified fresh-whole-egg description does not explicitly bind chicken species or market grade/size; frozen/pasteurized evidence is a different form. Do not invent those source qualifications or infer size, weight, liquid/frozen-egg or nutrient conversions. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171287",
+          "ndbNumber": "1123",
+          "description": "Egg, whole, raw, fresh",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "sr_legacy_food:171287",
+          "fingerprint": "4338c4bbebad1794c4c43e28ec995cf2f94f7352b19fa86b290dd856040353b8",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "323604",
+          "ndbNumber": "1171",
+          "description": "Egg, whole, raw, frozen, pasteurized",
+          "publicationDate": "2019-04-01",
+          "categoryId": "1",
+          "categoryName": "Dairy and Egg Products",
+          "footnote": null,
+          "key": "foundation_food:323604",
+          "fingerprint": "62e5c5e70f5797a59ca70546ba5450d77ee26c34af58b7b26040da6752c1b055",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "lemon-fresh",
+      "name": "Lemon",
+      "currentIngredientSha256": "429d5cfce5cc371fbcbbf82a52aa9ac0cdb362f7211c88abb8bebb489745cc08",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-lemon-fresh",
+      "payloadSha256": "f2259503b97e55c7c5acf345c3565d9ba531a64f8bfdb2eee109da7751c47fe7",
+      "rationale": "Raw lemon evidence identifies the fresh fruit. Without-peel treatment is analytical context, not a portion/yield conversion for a whole lemon or evidence for bottled juice or peel-only inventory. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "lentils-canned",
+      "name": "Canned lentils",
+      "currentIngredientSha256": "da9de99aaa41d7554a136eb7305365a0e0efde7c57720316ba43cf79b33a29a0",
+      "status": "APPROVED_CURATED_RETAINED",
+      "decisionId": "ingredient-lentils-canned",
+      "payloadSha256": "ef3dc1d31e0ec4a62db44fa5e9f9471f4059fce036597b11781922cadc1d61e7",
+      "rationale": "Maintainer-curated proposal for the canned form. No suitable generic canned-lentil record was found in the Foundation/SR subset. Do not invent a USDA link or infer price.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "lime-juice",
+      "name": "Lime juice",
+      "currentIngredientSha256": "59e58d3f4577b08f0c567f4500f9b526e79aff22828d506717e034ee438e8704",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-lime-juice",
+      "payloadSha256": "0a0464e51e283d9571225988ab56c698d4da2e0497a418ced7cc2d5b543f0707",
+      "rationale": "Retain the existing plain ready-to-use lime-juice cooking choice, with fresh versus bottled treatment unspecified. Raw and canned/bottled records are narrower evidence than that deliberately generic scope. Do not replace juice with whole-lime inventory, sweetened drinks or concentrated forms, or infer dilution/nutrition. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168156",
+          "ndbNumber": "9160",
+          "description": "Lime juice, raw",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "sr_legacy_food:168156",
+          "fingerprint": "47cfdefe2580e9600371409dceda9e968401afc5a0945e7e70ca58d4937d9353",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "168157",
+          "ndbNumber": "9161",
+          "description": "Lime juice, canned or bottled, unsweetened",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "sr_legacy_food:168157",
+          "fingerprint": "e50ec2cc471288287c7981b69a5933adc026376a21677eb51868c918ebed27ec",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "masa-harina",
+      "name": "Masa harina",
+      "currentIngredientSha256": "4eac255f12bc5d7f73ead40fd43358e9feb70164845c2eff10aad431954020b7",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-masa-harina",
+      "payloadSha256": "11a0954448e87260e86732a085c94779d0d1bc210c2d9376d710f43040e5ac97",
+      "rationale": "The candidate explicitly identifies dry raw white-or-yellow masa harina corn flour, matching the existing Masa harina cooking choice. Add only the precise corn masa flour search alias so flour discovery includes this already accepted ingredient; do not equate ordinary corn flour, cornstarch or cornmeal, or create a dietary guarantee. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "mexican-oregano-dried",
+      "name": "Dried Mexican oregano",
+      "currentIngredientSha256": "91882944ce0c3b88fef37e218604de8f35d9d0d0bf5829058d8513521afaae99",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-mexican-oregano-dried",
+      "payloadSha256": "77f4c34ce4b7d77a3eebdda9bb03c5108ea178674b95e9a14b5481d7c4a802ff",
+      "rationale": "Retain the expressly named dried Mexican oregano choice. Generic dried-oregano evidence does not establish the named Mexican identity; do not reuse its exact identity link or infer herb substitution or species equivalence. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171328",
+          "ndbNumber": "2027",
+          "description": "Spices, oregano, dried",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "sr_legacy_food:171328",
+          "fingerprint": "9135589452453d5e4ec5d1e4c0264106919504e000249c00a4f84bd4fb50f113",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "olive-oil",
+      "name": "Olive oil",
+      "currentIngredientSha256": "feaa1cef46a271185078ba2509fab6b52fdda24cceaf301846e6a97d149522ec",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-olive-oil",
+      "payloadSha256": "5801abf1f8d22b97dd8299b937f817433537ce80570db85ff0bb443da0a28c64",
+      "rationale": "The generic olive salad/cooking-oil record matches the existing plain Olive oil choice. It does not establish extra-virgin or extra-light refinement, flavored oil, brand, smoke point, nutrition, or another oil substitution. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "onion-powder",
+      "name": "Onion powder",
+      "currentIngredientSha256": "775462bbdb4a1438a5eb622174bbe513b6acf588b305bd107f264928784f0514",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-onion-powder",
+      "payloadSha256": "03cd9334c572bf9d864338f9179a20d9a3a11fc3001c883447ca0100da9e9b8e",
+      "rationale": "The record explicitly names onion powder. Fresh onions remain separately owned and priced; no source attachment creates a dehydration/portion conversion or cross-form coverage. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "orange-juice",
+      "name": "Orange juice",
+      "currentIngredientSha256": "907f6a4db29d7799f96612b95779ec082162c94386377d501fa1baa58b489c62",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-orange-juice",
+      "payloadSha256": "ed544063449e175c85d86bae2505a7d235baafe01aff1a4d074ac4212c1feec8",
+      "rationale": "Retain the existing plain ready-to-use orange-juice cooking choice without selecting fresh/raw, from-concentrate, pulp or fortification attributes as universal. Retained subtype records are research hints. Whole oranges, juice drinks and undiluted concentrates remain distinct; no dilution, price or nutrition conversion is added. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "169098",
+          "ndbNumber": "9206",
+          "description": "Orange juice, raw (Includes foods for USDA's Food Distribution Program)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "sr_legacy_food:169098",
+          "fingerprint": "990114e514884172e0cdfa44326df8b41d8942b6b83b09d5ca82e6ae0e5bf179",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "169100",
+          "ndbNumber": "9209",
+          "description": "Orange juice, chilled, includes from concentrate",
+          "publicationDate": "2019-04-01",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "sr_legacy_food:169100",
+          "fingerprint": "25fb92a1e8dc5095811c895aa1bf8e6680120f76db741e173a0e74d07216a524",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "2003597",
+          "ndbNumber": "9206",
+          "description": "Orange juice, no pulp, not fortified, not from concentrate, refrigerated",
+          "publicationDate": "2021-10-28",
+          "categoryId": "9",
+          "categoryName": "Fruits and Fruit Juices",
+          "footnote": null,
+          "key": "foundation_food:2003597",
+          "fingerprint": "1b8ac77627db9c371f8e44d9c9051ad15692cb3080b92703b0aab389ef34c11f",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "oregano-dried",
+      "name": "Dried oregano",
+      "currentIngredientSha256": "53597d35ea83d4ccfe3f18811589b2ab002fd5187b2eae8830638ee85a9c0fb5",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-oregano-dried",
+      "payloadSha256": "05caceb98989bd5b69cba899665b5491a4d5c035a5a1293daec590f859ce3e39",
+      "rationale": "The record explicitly identifies dried oregano. It does not establish the separately named Mexican oregano identity, fresh leaves, or new herb compatibility. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "pork-shoulder-butt",
+      "name": "Pork shoulder",
+      "currentIngredientSha256": "6fcf11c662607bfb17e85e1263ba565b26f45166c14987c038e99002dee128d8",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-pork-shoulder-butt",
+      "payloadSha256": "dab8a49f2d0a25c591ca39d9f9e7f8579a251f3e3a328b488f7154690a4d6bb3",
+      "rationale": "The raw whole-shoulder record supports the existing generic Pork shoulder label, with separable lean-and-fat context. It is not a Boston-butt-only, fixed-trim/fat, bone/yield, cooked-meat or nutrient specification; existing already accepted market/recipe relationships remain unchanged. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "red-pepper-flakes",
+      "name": "Red pepper flakes",
+      "currentIngredientSha256": "3f67fe16a7711e68610df51919e4c2358c69f58b9fc521e894b845fb83a9cb80",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-red-pepper-flakes",
+      "payloadSha256": "7b2f65f02ee5379fa82fd9d9de03378413750e4d5489ce28068b48bde0d4d71d",
+      "rationale": "Retain the existing dried red-pepper-flake cooking choice. The retained red/cayenne pepper spice record does not explicitly establish flake form or a universal pepper variety. Do not substitute ground cayenne evidence or infer ownership of fresh peppers or other spice forms. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "170932",
+          "ndbNumber": "2031",
+          "description": "Spices, pepper, red or cayenne",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "sr_legacy_food:170932",
+          "fingerprint": "eb315eb74343dd5256f49552c68add60cfe6945949a0fd8ee43a1760014bb01c",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "rice-flour",
+      "name": "Rice flour",
+      "currentIngredientSha256": "abe7fc55b74dcba11cb5e119260f72611a5b002815c4a087dcbe47370c543157",
+      "status": "APPROVED_CURATED_RETAINED",
+      "decisionId": "ingredient-rice-flour",
+      "payloadSha256": "7687082ae71f71148819ac155b2f58a5471f3ca05f9fc0ce1ec6f04b8284f6dc",
+      "rationale": "Preserve the existing rice-flour ID/price and require a flour-qualified query, so a broad rice query does not mix flour with cooking rice. It remains reachable by flour and rice flour.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "rosemary-dried",
+      "name": "Dried rosemary",
+      "currentIngredientSha256": "8c075b8c686f16dfb5585ea67a8eb50ddb20b98c524e9885755aa49cb8fc323c",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-rosemary-dried",
+      "payloadSha256": "587970efad5338fdbc754cb5a275c75383caf7afc1e92a02ed656f6d9d19823f",
+      "rationale": "The record explicitly identifies dried rosemary. Preserve separation from fresh rosemary and any grinding or fresh/dried conversion. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "salt",
+      "name": "Salt",
+      "currentIngredientSha256": "56c7d649fb4e5452833c7349e2867a98fe6333ef217f9dca74fb2ffe672f45d6",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-salt",
+      "payloadSha256": "57ae9f98401ba39f89bf21cfb46b8bf48cb12d9fcbeafc2494c834b93b3adf1d",
+      "rationale": "Retain the inherited unspecified culinary-salt choice and legacy fixed teaspoon estimate. Table/iodized source records do not establish every grain style, sea/kosher treatment or iodization state in that generic choice. No sodium, salinity, grain-size or mass/volume conversion is inferred. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "173468",
+          "ndbNumber": "2047",
+          "description": "Salt, table",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "sr_legacy_food:173468",
+          "fingerprint": "2f51495c0fcb5f5e95e58afac0fc76f978c4a6f15328fd0f1bb549e1c945cc9c",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "foundation_food",
+          "fdcId": "746775",
+          "ndbNumber": "2047",
+          "description": "Salt, table, iodized",
+          "publicationDate": "2019-12-16",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": "Source number reflects the actual number of samples analyzed for a nutrient. Repeat nutrient analyses may have been done on the same sample with the values shown.",
+          "key": "foundation_food:746775",
+          "fingerprint": "9c97c7b56065f8e3255d2b6aef2e190c6ace4475c497ffc49c4beaf378166f26",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "smoked-paprika",
+      "name": "Smoked paprika",
+      "currentIngredientSha256": "60be815aee76e6d8009b740fa0de789c510b3c59e6816d290bbee2017b2314e2",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-smoked-paprika",
+      "payloadSha256": "634e19cc82d2cda45a43840808c977850ab59cc55360564bf475067c0a2b1c5b",
+      "rationale": "Retain the existing explicitly smoked paprika choice. Generic paprika evidence does not establish smoking treatment. Do not silently attach it as exact smoked-form evidence or infer equivalence with unsmoked paprika or a fresh pepper. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171329",
+          "ndbNumber": "2028",
+          "description": "Spices, paprika",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "sr_legacy_food:171329",
+          "fingerprint": "d29e1107b14986c78e108eae96a7dcdd3dd41042ccd2a545cc0fddfc6cb05ad6",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "soy-sauce",
+      "name": "Soy sauce",
+      "currentIngredientSha256": "262ff4e5342fc1ec8c8b7a915c060ea3763c896f162a42a00eb78f5f69489fc8",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-soy-sauce",
+      "payloadSha256": "71b0968441b5bf360e2a121b7eadac98d35ed9158e426497164b462e36332153",
+      "rationale": "Retain the inherited generic soy-sauce cooking choice without selecting shoyu, tamari, hydrolyzed-protein preparation, sodium level or wheat/gluten status as universal. The retained subtype records are hints, not exact evidence for every product. Do not infer ownership of soybeans or a dietary guarantee. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "174277",
+          "ndbNumber": "16123",
+          "description": "Soy sauce made from soy and wheat (shoyu)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "sr_legacy_food:174277",
+          "fingerprint": "7eac22130cc20375f23b75b0b7dfc8428b82b617e9cb0dee055a087ec9dbc08f",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "174278",
+          "ndbNumber": "16124",
+          "description": "Soy sauce made from soy (tamari)",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "sr_legacy_food:174278",
+          "fingerprint": "61110632e9adc9a02a6dff99374694cf9413b658ecf6a489123d2decca0e0f92",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "174279",
+          "ndbNumber": "16125",
+          "description": "Soy sauce made from hydrolyzed vegetable protein",
+          "publicationDate": "2019-04-01",
+          "categoryId": "16",
+          "categoryName": "Legumes and Legume Products",
+          "footnote": null,
+          "key": "sr_legacy_food:174279",
+          "fingerprint": "00a48c3a5c1590e8bfd129d45c8b5bbf97609e36602f479b5c56601ffc84a560",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "sweet-potatoes",
+      "name": "Sweet potatoes",
+      "currentIngredientSha256": "ab8f194756d57da76b4135722573d1bb71febc303a519e39e81620a632c3c639",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-sweet-potatoes",
+      "payloadSha256": "a6f766ac807c1e211922749a213f953464d1f335652c81a9dd71d18603b4436d",
+      "rationale": "The generic raw unprepared sweet-potato record matches the existing fresh cooking identity without selecting orange-flesh/peeled-only evidence. It does not establish true yam identity, cooked/canned form, or a peel/yield conversion. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "tahini",
+      "name": "Tahini",
+      "currentIngredientSha256": "f791b6238350d9c692ad413a8933102fa9426cd1afbef52c9f8cd6c8ef7f4aaa",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-tahini",
+      "payloadSha256": "3375d0cf3cfd0aadb9a63ff11083f4bda5c33bd002b3c5a46adf321e673d2aa6",
+      "rationale": "The record explicitly names tahini with kernel type unspecified, matching the inherited generic sesame-paste choice. Do not choose a raw or toasted subtype as universal evidence, infer seed ownership, or import nutrition, brand or dietary guarantees. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "thyme-dried",
+      "name": "Dried thyme",
+      "currentIngredientSha256": "89b7dff27540ed96b9f109eaccc3b88dd831888e9ff0edc3aa689f85210e7ca4",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-thyme-dried",
+      "payloadSha256": "9b763294475b758dbb436229cb46f84c2ea64bd3a10d2fd91e2ff3aa49c7f2f2",
+      "rationale": "The record explicitly identifies dried thyme. Fresh thyme and any source-based portion or hydration conversion remain separate. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "tofu-firm",
+      "name": "Firm tofu",
+      "currentIngredientSha256": "b382e4ce5c98561553e08d7b6342ad1b7e65f557cf8a7ac9f394a2f144a3d53c",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-tofu-firm",
+      "payloadSha256": "958fad99648bc87897884a692cfda1848238fa9f9ddefc19dc7d3fb64acaac85",
+      "rationale": "Both retained records explicitly identify firm tofu, with different named coagulant contexts. They support the existing generic firm texture only; no calcium/nutrient value, universal coagulant, extra-firm/soft/dried/fried equivalence, or dietary guarantee is imported. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "tomato-paste",
+      "name": "Tomato paste",
+      "currentIngredientSha256": "31b4530381ef3531b6667d147003667adcc572c6f450156dcd41173106029a9a",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-tomato-paste",
+      "payloadSha256": "c9248bd178a79e97b143d441c19590f655728d34cc963190cf1e6548e27e2bb2",
+      "rationale": "The candidate explicitly identifies canned tomato paste. No-added-salt and packaging qualifiers are evidence context, not assertions about every paste product or its concentration; preserve the generic paste choice, fixed estimate and absence of new conversions or fresh/crushed-tomato compatibility. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "vegetable-broth",
+      "name": "Vegetable broth",
+      "currentIngredientSha256": "ec82d708279d6ed56148bc6f81c2d6e3df61c8a1505e5eef2ad032059ac26a22",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-vegetable-broth",
+      "payloadSha256": "a5964592e73dfd265ffc7ba3fbf798486c3f350ad596928b13fa6c68ae0605bd",
+      "rationale": "Retain the existing generic ready-to-use vegetable broth/stock choice and alias. Ready-to-serve and brand-specific retained broth records do not establish every stock formulation, sodium level, concentration or dietary property. Keep a curated definition without claiming a complete exact USDA attribution or new conversions. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171583",
+          "ndbNumber": "6700",
+          "description": "Soup, vegetable broth, ready to serve",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "sr_legacy_food:171583",
+          "fingerprint": "602acf763d6e31c70aa14bfc512a222d3ca104a68f780a85c826e007f9443c6a",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171180",
+          "ndbNumber": "6615",
+          "description": "Soup, SWANSON, vegetable broth",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "sr_legacy_food:171180",
+          "fingerprint": "d18ebc4ce12fce94ebfea022d1a6b108cce8eb3961c635f92d36a6869d9b27da",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "whole-grain-mustard",
+      "name": "Whole grain mustard",
+      "currentIngredientSha256": "029d73311427e4991496a2485d8010f4acc630b59c951a5914f88594b0a353dc",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-whole-grain-mustard",
+      "payloadSha256": "6e5ec375174f73d04eccffcc1944e0cd7a6938137a8e3943d8522f9fe8b34ad6",
+      "rationale": "Retain the named whole-grain prepared mustard choice. Yellow prepared-mustard records do not establish the whole-grain preparation or texture. Keep the current ID, name, estimate and independent availability without a guessed USDA link. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "foundation_food",
+          "fdcId": "326698",
+          "ndbNumber": "2046",
+          "description": "Mustard, prepared, yellow",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "foundation_food:326698",
+          "fingerprint": "02fbb3ff254f068b4bd36dd5ae1bbc1ac7807a3b309e41afa097b61bc318be53",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        },
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "172234",
+          "ndbNumber": "2046",
+          "description": "Mustard, prepared, yellow",
+          "publicationDate": "2019-04-01",
+          "categoryId": "2",
+          "categoryName": "Spices and Herbs",
+          "footnote": null,
+          "key": "sr_legacy_food:172234",
+          "fingerprint": "afe8d3e8137d414ea061009b6252f60373c0a744b1d20820d7bcfca5265fda8b",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    },
+    {
+      "ingredientId": "worcestershire-sauce",
+      "name": "Worcestershire sauce",
+      "currentIngredientSha256": "8cbb232ee7faa4a391e2c98a9f701b27101c5e75332c2aa9a5948a4d0263f83f",
+      "status": "PROPOSED_SOURCE_EVIDENCE",
+      "decisionId": "ingredient-worcestershire-sauce",
+      "payloadSha256": "05797ce4abfde6f0c59f08ebc72c91c2d481b4bea3bf1c637dfbb9b7d873a550",
+      "rationale": "The record explicitly names Worcestershire sauce, matching the existing generic condiment. It does not establish gluten-free status or a fixed brand/composition, and does not cover the separate gluten-free choice. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": []
+    },
+    {
+      "ingredientId": "worcestershire-sauce-gluten-free",
+      "name": "Gluten-free Worcestershire sauce",
+      "currentIngredientSha256": "f5aaa9012668e749da8f52fa3c15615e6bf8b8592d79bb0314c00b5a1b4c69e7",
+      "status": "PROPOSED_CURATED_RETENTION",
+      "decisionId": "ingredient-worcestershire-sauce-gluten-free",
+      "payloadSha256": "d42062837c19bc1de273d71ca53a81de6a299d159315e99cc4f42a3d03d5d9d2",
+      "rationale": "Retain the existing explicitly gluten-free-qualified Worcestershire choice as a curated product qualification, separate from generic Worcestershire. The generic sauce record does not establish gluten-free status or brand composition. This entry does not certify a product, create generic-to-qualified coverage or supply a nutritional/dietary guarantee. This audit proposal preserves existing IDs, fixed estimates, recipe/market relationships, availability and inventory; it imports no source nutrition or portions.",
+      "candidateHints": [
+        {
+          "dataType": "sr_legacy_food",
+          "fdcId": "171610",
+          "ndbNumber": "6971",
+          "description": "Sauce, worcestershire",
+          "publicationDate": "2019-04-01",
+          "categoryId": "6",
+          "categoryName": "Soups, Sauces, and Gravies",
+          "footnote": null,
+          "key": "sr_legacy_food:171610",
+          "fingerprint": "a83444a47037df996f31fcebffa3951397edf0e2b74a9431bcb195512189a3e8",
+          "disposition": "candidate",
+          "purpose": "INVESTIGATION_ONLY_NOT_A_PROPOSED_SOURCE_LINK"
+        }
+      ]
+    }
+  ]
+}

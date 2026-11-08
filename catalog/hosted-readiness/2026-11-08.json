@@ -1,0 +1,153 @@
+{
+  "formatVersion": 1,
+  "observedOn": "2026-11-08",
+  "projectRef": "vrzhkekeywgrohqgfhds",
+  "projectName": "pantry-bot",
+  "environment": "DEFAULT_MAIN_DATABASE",
+  "access": "READ_ONLY_METADATA_AND_PUBLIC_CATALOG",
+  "acceptedIds": [
+    "all-purpose-flour",
+    "apple-cider-vinegar",
+    "asparagus-fresh",
+    "avocado-oil",
+    "avocados-hass",
+    "basmati-rice-dry",
+    "bay-leaf",
+    "beef-broth",
+    "bell-peppers",
+    "black-beans-canned",
+    "black-beans-dried",
+    "black-pepper",
+    "brown-rice-dry",
+    "brussels-sprouts",
+    "butter-salted-unsalted",
+    "cannellini-beans-canned",
+    "caraway-seeds",
+    "celery-stalks",
+    "chicken-breast-boneless",
+    "chicken-broth",
+    "chicken-thighs-boneless",
+    "chickpeas-canned",
+    "chili-powder",
+    "coconut-aminos",
+    "coconut-milk-canned",
+    "cornstarch",
+    "crushed-tomatoes-canned",
+    "curry-powder",
+    "dijon-mustard",
+    "dill-dried",
+    "garam-masala",
+    "garlic-fresh",
+    "garlic-powder",
+    "ginger-fresh",
+    "great-northern-beans-canned",
+    "green-cabbage",
+    "ground-beef-80-20",
+    "ground-cumin",
+    "ground-turkey",
+    "italian-seasoning",
+    "jasmine-rice-dry",
+    "kidney-beans-canned",
+    "large-eggs-dozen",
+    "lemon-fresh",
+    "lentils-canned",
+    "lentils-dried",
+    "lime-juice",
+    "masa-harina",
+    "mexican-oregano-dried",
+    "olive-oil",
+    "onion-powder",
+    "onions-fresh",
+    "orange-juice",
+    "oregano-dried",
+    "pork-shoulder-butt",
+    "red-lentils-dried",
+    "red-pepper-flakes",
+    "rice-flour",
+    "rosemary-dried",
+    "salt",
+    "smoked-paprika",
+    "soy-sauce",
+    "sweet-potatoes",
+    "tahini",
+    "thyme-dried",
+    "tofu-firm",
+    "tomato-paste",
+    "vegetable-broth",
+    "whole-grain-mustard",
+    "whole-wheat-flour",
+    "worcestershire-sauce",
+    "worcestershire-sauce-gluten-free"
+  ],
+  "installedMigrations": [
+    {
+      "version": "20261019000000",
+      "name": "v1_3_multi_tenant_rls_schema"
+    },
+    {
+      "version": "20261027223857",
+      "name": "weekly_refresh_audit"
+    },
+    {
+      "version": "20261028165803",
+      "name": "usda_market_history"
+    },
+    {
+      "version": "20261028180852",
+      "name": "usda_revision_acceptance"
+    },
+    {
+      "version": "20261028222008",
+      "name": "data_explorer"
+    },
+    {
+      "version": "20261029160115",
+      "name": "active_market_collection"
+    },
+    {
+      "version": "20261030204602",
+      "name": "virtual_pantry_persistence"
+    },
+    {
+      "version": "20261030204612",
+      "name": "pantry_staple_catalog"
+    },
+    {
+      "version": "20261030204614",
+      "name": "reviewed_cooking_catalog"
+    }
+  ],
+  "branches": [
+    {
+      "name": "main",
+      "is_default": true,
+      "git_branch": "main",
+      "status": "MIGRATIONS_FAILED"
+    }
+  ],
+  "tableRls": [
+    {
+      "table_name": "pantry_catalog",
+      "rls_enabled": true,
+      "rls_forced": false
+    },
+    {
+      "table_name": "user_pantry_entries",
+      "rls_enabled": true,
+      "rls_forced": false
+    },
+    {
+      "table_name": "user_pantry_migrations",
+      "rls_enabled": true,
+      "rls_forced": false
+    },
+    {
+      "table_name": "user_pantry_mutations",
+      "rls_enabled": true,
+      "rls_forced": false
+    }
+  ],
+  "authenticatedClientVerification": "NOT_RUN",
+  "secondClientVerification": "NOT_RUN",
+  "hostedMutationsPerformed": false
+}

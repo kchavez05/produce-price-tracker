@@ -89,6 +89,67 @@ describe('Virtual Pantry accessible controls', () => {
     expect(button('Add Dried red lentils')).toBeTruthy();
     expect(container.querySelector('summary')).toBeNull();
   });
+  it('adds approved expanded ingredients after server readiness and keeps flour varieties optional', async () => {
+    await render([], ['olive-oil']); await search('quinoa');
+    expect(button('Add Dry quinoa').disabled).toBe(true);
+    await render();
+    expect(button('Add Dry quinoa').disabled).toBe(false);
+    await run(() => button('Add Dry quinoa').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'quinoa-dry', displayName: 'Dry quinoa', available: true }, undefined);
+    await search('rice flour');
+    expect(container.querySelector('summary')?.textContent).toBe('Choose a variety (optional)');
+    await run(() => button('Add Brown rice flour').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'brown-rice-flour', displayName: 'Brown rice flour', available: true }, undefined);
+    await search('brown rice');
+    expect(container.textContent).not.toContain('Add Brown rice flour');
+  });
+  it('waits for vegetable catalog acceptance and saves a fresh herb without optional fields', async () => {
+    await render([], ['garlic-fresh']); await search('fresh coriander');
+    expect(button('Add Fresh cilantro').disabled).toBe(true);
+    await render();
+    await run(() => button('Add Fresh cilantro').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'cilantro-fresh', displayName: 'Fresh cilantro', available: true }, undefined);
+    await search('peppermint');
+    expect(container.textContent).not.toContain('Add Fresh spearmint');
+  });
+  it('keeps yogurt out of milk search and waits for acceptance before a quantity-free add', async () => {
+    await render([], ['milk-whole']); await search('milk');
+    expect(button('Add Whole milk (3.25%)')).toBeTruthy();
+    expect(container.textContent).not.toContain('Add Plain whole-milk yogurt');
+    await search('plain yogurt');
+    expect(button('Add Plain whole-milk yogurt').disabled).toBe(true);
+    await render();
+    await run(() => button('Add Plain whole-milk yogurt').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'yogurt-plain-whole-milk', displayName: 'Plain whole-milk yogurt', available: true }, undefined);
+    await search('Greek yogurt');
+    expect(container.textContent).not.toContain('Add Plain whole-milk yogurt');
+  });
+  it('shows independent whole/ground spice choices through their seed, pod and powder aliases', async () => {
+    await render([], ['coriander-seeds-whole']); await search('coriander');
+    expect(button('Add Whole coriander seeds').disabled).toBe(false);
+    expect(button('Add Ground coriander').disabled).toBe(true);
+    await render(); await search('coriander powder');
+    await run(() => button('Add Ground coriander').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'coriander-ground', displayName: 'Ground coriander', available: true }, undefined);
+    await search('cardamom pods');
+    await run(() => button('Add Whole cardamom pods').click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId: 'cardamom-pods', displayName: 'Whole cardamom pods', available: true }, undefined);
+  });
+  it.each([
+    ['baby carrots', 'Carrots', 'carrots-fresh'],
+    ['broccoli crowns', 'Broccoli', 'broccoli-fresh'],
+    ['cauliflower florets', 'Cauliflower', 'cauliflower-fresh'],
+    ['baby spinach', 'Fresh spinach', 'spinach-fresh'],
+    ['raw kale', 'Fresh kale', 'kale-fresh'],
+    ['white button mushrooms', 'Fresh white mushrooms', 'mushrooms-white-fresh'],
+    ['Roma tomatoes', 'Fresh tomatoes', 'tomatoes-fresh'],
+  ])('discovers %s and saves the exact fresh identity only after installation', async (query, displayName, ingredientId) => {
+    await render([], []); await search(query);
+    expect(button(`Add ${displayName}`).disabled).toBe(true);
+    await render(); await search(query);
+    await run(() => button(`Add ${displayName}`).click());
+    expect(save).toHaveBeenLastCalledWith({ ingredientId, displayName, available: true }, undefined);
+  });
   it('prevents adding an ID before server acceptance and explains explicit No coverage', async () => {
     await render([], ['red-lentils-dried']); await search('lentils');
     expect(button('Add Dried lentils').disabled).toBe(true);

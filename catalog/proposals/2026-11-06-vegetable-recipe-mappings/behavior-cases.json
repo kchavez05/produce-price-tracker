@@ -1,0 +1,217 @@
+{
+  "status": "proposed",
+  "note": "Expected acceptance criteria, not executed application behavior. Add executable end-to-end tests during integration.",
+  "cases": [
+    {
+      "policyId": "crucifers",
+      "positivePantryIds": [
+        "broccoli-fresh"
+      ],
+      "covered": true,
+      "rawTitle": "Fresh broccoli crowns",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "crucifers",
+      "positivePantryIds": [
+        "cauliflower-fresh"
+      ],
+      "covered": true,
+      "rawTitle": "Fresh cauliflower",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "broccoli",
+      "positivePantryIds": [
+        "cauliflower-fresh"
+      ],
+      "covered": false,
+      "rawTitle": "Fresh cauliflower",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "cauliflower",
+      "positivePantryIds": [
+        "broccoli-fresh"
+      ],
+      "covered": false,
+      "rawTitle": "Fresh broccoli crowns",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "greens",
+      "positivePantryIds": [
+        "kale-fresh"
+      ],
+      "covered": true,
+      "rawTitle": "Fresh kale",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "spinach",
+      "positivePantryIds": [
+        "kale-fresh"
+      ],
+      "covered": false,
+      "rawTitle": "Fresh kale",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "spinach",
+      "positivePantryIds": [
+        "spinach-fresh"
+      ],
+      "covered": true,
+      "rawTitle": "Fresh baby spinach",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "mushrooms",
+      "positivePantryIds": [
+        "mushrooms-white-fresh"
+      ],
+      "covered": true,
+      "rawTitle": "Fresh white mushrooms",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "cremini",
+      "positivePantryIds": [
+        "mushrooms-white-fresh"
+      ],
+      "covered": false,
+      "rawTitle": "Fresh white mushrooms",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "cremini",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Fresh baby bella mushrooms",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "tomatoes",
+      "positivePantryIds": [
+        "tomatoes-fresh"
+      ],
+      "covered": true,
+      "rawTitle": "Fresh Roma Tomatoes",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "tomatoes",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Fresh Roma Tomatoes or Husks Tomatillos",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "tomatoOrTomatillo",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Fresh Roma Tomatoes or Husks Tomatillos",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "tomatoes",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Fresh tomatillos",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "carrots",
+      "positivePantryIds": [
+        "carrots-fresh"
+      ],
+      "covered": true,
+      "rawTitle": "Fresh baby carrots",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "carrots",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Carrot juice",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "spinach",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Spinach artichoke dip",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "crucifers",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Frozen broccoli florets",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "crucifers",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Cauliflower pizza crust",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "mushrooms",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Sliced mushrooms",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "greens",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Fresh Swiss chard",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "tomatoes",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Tomato sauce",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "crucifers",
+      "positivePantryIds": [],
+      "covered": false,
+      "rawTitle": "Fresh vegetables",
+      "priceAdmissible": false
+    },
+    {
+      "policyId": "cremini",
+      "positivePantryIds": [
+        "mushrooms-cremini-white"
+      ],
+      "covered": false,
+      "rawTitle": "Fresh cremini mushrooms",
+      "priceAdmissible": true
+    },
+    {
+      "policyId": "greens",
+      "positivePantryIds": [
+        "spinach-kale-greens"
+      ],
+      "covered": false,
+      "rawTitle": "Fresh collard greens",
+      "priceAdmissible": false
+    }
+  ],
+  "additionalRequiredCases": [
+    "Broccoli Yes + cauliflower No covers an either slot once, but never the cauliflower-only mash.",
+    "White mushrooms Yes + cremini requirement is uncovered and unpriced when only white offers exist.",
+    "Both accepted pantry alternatives Yes still count one logical requirement and remove one shopping need.",
+    "A rejected bestOffer must not hide a different allowed store offer. Every store optimizer path must use the same filter.",
+    "Different accepted alternatives across stores retain exact offer title and store provenance; no copied price acquires verified status.",
+    "Custom/saved recipes with stale or edited slot context fail closed until reviewed.",
+    "Unknown market-group IDs, legacy custom entries and recipe-use IDs never become positive pantry evidence.",
+    "Quantity zero, past date and absent quantity do not change explicit Yes/No. Planning changes no inventory."
+  ]
+}

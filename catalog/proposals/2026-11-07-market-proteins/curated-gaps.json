@@ -1,0 +1,180 @@
+[
+  {
+    "ingredientId": "chicken-thighs-bone-in-raw",
+    "rationale": "Curated retail bone-in thigh choice, skin state unspecified. Meat-and-skin analytical records do not establish retail bone state or whole-pack edible yield. Do not alias the existing boneless skinless thigh identity. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "foundation_food",
+        "fdcId": "2727567",
+        "ndbNumber": "100373",
+        "description": "Chicken, thigh, meat and skin, raw",
+        "publicationDate": "2025-04-24",
+        "categoryId": "5",
+        "categoryName": "Poultry Products",
+        "footnote": null,
+        "key": "foundation_food:2727567",
+        "fingerprint": "d18f841740d1ccdb92f52f5c6844406e3dd9045212e71c365d0f3bb1e72097fa",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "chicken-drumsticks-raw",
+    "rationale": "Curated bone-in drumstick cut, skin state unspecified. The retained meat-and-skin reference is an investigation hint rather than evidence for whole retail bone-in mass. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "foundation_food",
+        "fdcId": "2727566",
+        "ndbNumber": "100372",
+        "description": "Chicken, drumstick, meat and skin, raw",
+        "publicationDate": "2025-04-24",
+        "categoryId": "5",
+        "categoryName": "Poultry Products",
+        "footnote": null,
+        "key": "foundation_food:2727566",
+        "fingerprint": "d6ab9eb8362605df2a3a63d7b5b1f18895cfc50b6a117858f38b84bd9e3adb89",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "chicken-leg-quarters-raw",
+    "rationale": "Curated bone-in thigh-and-drumstick leg-quarter retail cut. The generic analytical leg record does not define the whole retail quarter or its bone/skin yield. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "172378",
+        "ndbNumber": "5075",
+        "description": "Chicken, broilers or fryers, leg, meat and skin, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "5",
+        "categoryName": "Poultry Products",
+        "footnote": null,
+        "key": "sr_legacy_food:172378",
+        "fingerprint": "eaa7ec1816635d9d1f79cdd42067d5db29f561ac6697adcd48227a1f02c75da8",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "beef-stew-meat-raw",
+    "rationale": "Curated raw cubed stew beef with cut unspecified. Chuck-for-stew evidence cannot prove every stew-meat package is chuck or establish a common yield/tenderness. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "171206",
+        "ndbNumber": "23093",
+        "description": "Beef, chuck for stew, separable lean and fat, all grades, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "13",
+        "categoryName": "Beef Products",
+        "footnote": null,
+        "key": "sr_legacy_food:171206",
+        "fingerprint": "0b4963f74b7ec3deb9768e95c7aebc8304dde54c956b4929993969b34fef765f",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "beef-pot-roast-cut-raw",
+    "rationale": "Curated raw buying cut explicitly sold as beef for pot roast, cut and bone state unspecified. This is not the cooked dish, a synonym for chuck, or an automatic long-braise recipe permission. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "169491",
+        "ndbNumber": "13809",
+        "description": "Beef, chuck, arm pot roast, separable lean and fat, trimmed to 1/8\" fat, all grades, raw",
+        "publicationDate": "2019-04-01",
+        "categoryId": "13",
+        "categoryName": "Beef Products",
+        "footnote": null,
+        "key": "sr_legacy_food:169491",
+        "fingerprint": "85cce6adddd28e8386115e0eb924a9b6a9f87b5fa1a269ea66474d411898a10a",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "smoked-sausage-fully-cooked",
+    "rationale": "Curated explicitly fully cooked smoked sausage with species/style unspecified. The retained smoked pork sausage record does not explicitly establish fully cooked retail state for every product. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "174584",
+        "ndbNumber": "7074",
+        "description": "Sausage, smoked link sausage, pork",
+        "publicationDate": "2019-04-01",
+        "categoryId": "7",
+        "categoryName": "Sausages and Luncheon Meats",
+        "footnote": null,
+        "key": "sr_legacy_food:174584",
+        "fingerprint": "df19639d35e0d8335fe59c91ce2ba5da731f223334817245bcf4c377cb534884",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "andouille-fully-cooked",
+    "rationale": "Curated explicitly fully cooked andouille; no exact retained andouille source exists. Do not infer cooking state or species from the style name or a generic smoked-sausage source. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": []
+  },
+  {
+    "ingredientId": "smoked-sausage-raw",
+    "rationale": "Curated raw smoked sausage, species unspecified. Smoking alone does not establish fully cooked state. No current recipe accepts this unknown-species raw sausage. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "174584",
+        "ndbNumber": "7074",
+        "description": "Sausage, smoked link sausage, pork",
+        "publicationDate": "2019-04-01",
+        "categoryId": "7",
+        "categoryName": "Sausages and Luncheon Meats",
+        "footnote": null,
+        "key": "sr_legacy_food:174584",
+        "fingerprint": "df19639d35e0d8335fe59c91ce2ba5da731f223334817245bcf4c377cb534884",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "kielbasa-raw",
+    "rationale": "Curated raw kielbasa, smoking/species unspecified. Fully cooked kielbasa evidence is not evidence for the raw form. No raw-to-cooked compatibility edge is proposed. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": [
+      {
+        "dataType": "sr_legacy_food",
+        "fdcId": "173879",
+        "ndbNumber": "7970",
+        "description": "Kielbasa, fully cooked, unheated",
+        "publicationDate": "2019-04-01",
+        "categoryId": "7",
+        "categoryName": "Sausages and Luncheon Meats",
+        "footnote": null,
+        "key": "sr_legacy_food:173879",
+        "fingerprint": "3a62027cd5ce38e4a3203aa370ac84ac85fbec56f4ed89da0acd8af33ccf39ca",
+        "disposition": "candidate"
+      }
+    ]
+  },
+  {
+    "ingredientId": "andouille-raw",
+    "rationale": "Curated raw andouille, species unspecified; no exact retained source exists. Keep separate from the explicitly fully cooked identity and from raw pork sausage. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": []
+  },
+  {
+    "ingredientId": "salmon-fillets-raw",
+    "rationale": "Curated species-unspecified raw salmon fillet default. The retained raw salmon records name species; none establishes every species or retail fillet trim/skin/bone condition. Whole fish, steaks, smoked, cured and canned salmon remain outside this fillet identity. No source-derived bone/skin/trim yield, species/grade/heat guarantee, nutrition, fixed price or recipe permission is imported.",
+    "hintPurpose": "INVESTIGATION_ONLY_NOT_A_SOURCE_ASSIGNMENT",
+    "candidateHints": []
+  }
+]

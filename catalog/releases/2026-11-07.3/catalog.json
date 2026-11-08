@@ -1,0 +1,4728 @@
+{
+  "formatVersion": 1,
+  "catalogVersion": "2026-11-07.3",
+  "contentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "ingredients": [
+    {
+      "id": "acorn-squash-fresh",
+      "name": "Fresh acorn squash",
+      "aliases": [
+        "raw acorn squash",
+        "acorn winter squash"
+      ],
+      "familyId": "winter-squash",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "all-purpose-flour",
+      "name": "All-purpose wheat flour",
+      "aliases": [
+        "all purpose flour"
+      ],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.03
+      },
+      "familyId": "wheat-flour",
+      "form": "all-purpose-flour"
+    },
+    {
+      "id": "almonds-whole-raw",
+      "name": "Whole raw almonds",
+      "aliases": [],
+      "familyId": "almonds",
+      "form": "whole-raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "anaheim-peppers-fresh",
+      "name": "Fresh Anaheim peppers",
+      "aliases": [
+        "Anaheim chiles",
+        "raw Anaheim peppers"
+      ],
+      "familyId": "chiles",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "andouille-fully-cooked",
+      "name": "Fully cooked andouille sausage",
+      "aliases": [
+        "ready-to-eat andouille sausage",
+        "frozen fully cooked andouille sausage"
+      ],
+      "familyId": "andouille",
+      "form": "fully-cooked",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "andouille-raw",
+      "name": "Raw andouille sausage",
+      "aliases": [
+        "uncooked andouille sausage",
+        "frozen raw andouille sausage"
+      ],
+      "familyId": "andouille",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "apple-cider-vinegar",
+      "name": "Apple cider vinegar",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "apples-fresh",
+      "name": "Fresh apples",
+      "aliases": [
+        "raw apples"
+      ],
+      "familyId": "apples",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "asparagus-fresh",
+      "name": "Asparagus",
+      "aliases": [],
+      "recipeIngredientId": "asparagus-fresh",
+      "familyId": "asparagus",
+      "form": "fresh"
+    },
+    {
+      "id": "atlantic-salmon-fillets-raw",
+      "name": "Raw Atlantic salmon fillets",
+      "aliases": [
+        "raw Atlantic salmon filets",
+        "fresh Atlantic salmon fillets",
+        "frozen raw Atlantic salmon fillets"
+      ],
+      "familyId": "salmon",
+      "form": "raw-fillets",
+      "searchVisibility": "variant",
+      "parentIngredientId": "salmon-fillets-raw",
+      "variety": "atlantic"
+    },
+    {
+      "id": "avocado-oil",
+      "name": "Avocado oil",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.25
+      }
+    },
+    {
+      "id": "avocados-hass",
+      "name": "Hass avocado",
+      "aliases": [],
+      "recipeIngredientId": "avocados-hass"
+    },
+    {
+      "id": "barley-hulled",
+      "name": "Hulled barley",
+      "aliases": [],
+      "familyId": "barley",
+      "form": "hulled",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "barley-pearled",
+      "name": "Pearled barley",
+      "aliases": [
+        "pearl barley"
+      ],
+      "familyId": "barley",
+      "form": "pearled",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "basil-fresh",
+      "name": "Fresh basil",
+      "aliases": [],
+      "familyId": "basil",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "basmati-rice-dry",
+      "name": "Dry basmati rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.65
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "basmati"
+    },
+    {
+      "id": "bay-leaf",
+      "name": "Bay leaf",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "beef-arm-pot-roast-raw",
+      "name": "Raw beef arm pot roast",
+      "aliases": [
+        "raw beef arm roast",
+        "beef arm pot roast",
+        "frozen raw beef arm pot roast"
+      ],
+      "familyId": "beef-arm",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beef-broth",
+      "name": "Beef broth",
+      "aliases": [
+        "beef stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.45
+      }
+    },
+    {
+      "id": "beef-chuck-roast-boneless-raw",
+      "name": "Raw boneless beef chuck roast",
+      "aliases": [
+        "boneless beef chuck roast",
+        "frozen raw boneless beef chuck roast"
+      ],
+      "familyId": "beef-chuck",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beef-new-york-strip-steak-raw",
+      "name": "Raw beef New York strip steak",
+      "aliases": [
+        "raw beef NY strip steak",
+        "raw beef strip steak",
+        "frozen raw beef New York strip steak"
+      ],
+      "familyId": "beef-strip-steak",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beef-pot-roast-cut-raw",
+      "name": "Raw beef pot-roast cut, unspecified",
+      "aliases": [
+        "raw beef pot roast",
+        "frozen raw beef pot-roast cut"
+      ],
+      "familyId": "beef-pot-roast",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beef-ribeye-steak-raw",
+      "name": "Raw beef ribeye steak",
+      "aliases": [
+        "raw beef rib-eye steak",
+        "frozen raw beef ribeye steak"
+      ],
+      "familyId": "beef-ribeye",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beef-stew-meat-raw",
+      "name": "Raw beef stew meat",
+      "aliases": [
+        "raw beef for stew",
+        "raw beef stewing meat",
+        "frozen raw beef stew meat"
+      ],
+      "familyId": "beef-stew-meat",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beef-t-bone-steak-raw",
+      "name": "Raw beef T-bone steak",
+      "aliases": [
+        "raw beef T bone steak",
+        "frozen raw beef T-bone steak"
+      ],
+      "familyId": "beef-t-bone",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beef-top-sirloin-steak-raw",
+      "name": "Raw beef top sirloin steak",
+      "aliases": [
+        "raw top sirloin beef steak",
+        "frozen raw beef top sirloin steak"
+      ],
+      "familyId": "beef-top-sirloin",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "beets-fresh",
+      "name": "Beets",
+      "aliases": [
+        "beetroot"
+      ],
+      "familyId": "beets",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "bell-peppers",
+      "name": "Bell peppers",
+      "aliases": [],
+      "recipeIngredientId": "bell-peppers"
+    },
+    {
+      "id": "black-beans-canned",
+      "name": "Canned black beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "black-beans",
+      "form": "canned"
+    },
+    {
+      "id": "black-beans-dried",
+      "name": "Dried black beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.1
+      },
+      "familyId": "black-beans",
+      "form": "dried"
+    },
+    {
+      "id": "black-pepper",
+      "name": "Black pepper",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.05
+      }
+    },
+    {
+      "id": "bread-flour",
+      "name": "Wheat bread flour",
+      "aliases": [],
+      "familyId": "wheat-flour",
+      "form": "bread-flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "broccoli-fresh",
+      "name": "Broccoli",
+      "aliases": [
+        "fresh broccoli",
+        "broccoli florets",
+        "broccoli crowns"
+      ],
+      "familyId": "broccoli",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "brown-rice-dry",
+      "name": "Dry brown rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.5
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "brown"
+    },
+    {
+      "id": "brown-rice-flour",
+      "name": "Brown rice flour",
+      "aliases": [],
+      "familyId": "rice-flour",
+      "form": "flour",
+      "searchVisibility": "variant",
+      "variety": "brown",
+      "parentIngredientId": "rice-flour"
+    },
+    {
+      "id": "brussels-sprouts",
+      "name": "Brussels sprouts",
+      "aliases": [],
+      "recipeIngredientId": "brussels-sprouts",
+      "familyId": "brussels-sprouts",
+      "form": "fresh"
+    },
+    {
+      "id": "buckwheat-flour",
+      "name": "Buckwheat flour",
+      "aliases": [],
+      "familyId": "buckwheat-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "buckwheat-whole",
+      "name": "Whole-grain buckwheat",
+      "aliases": [],
+      "familyId": "buckwheat",
+      "form": "whole-grain",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "bulgur-dry",
+      "name": "Dry bulgur",
+      "aliases": [
+        "bulgur wheat"
+      ],
+      "familyId": "bulgur",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "butter-salted-unsalted",
+      "name": "Butter",
+      "aliases": [],
+      "recipeIngredientId": "butter-salted-unsalted"
+    },
+    {
+      "id": "butternut-squash-fresh",
+      "name": "Fresh butternut squash",
+      "aliases": [
+        "raw butternut squash",
+        "butternut winter squash"
+      ],
+      "familyId": "winter-squash",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cannellini-beans-canned",
+      "name": "Canned cannellini beans",
+      "aliases": [
+        "canned white kidney beans"
+      ],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "canola-oil",
+      "name": "Canola oil",
+      "aliases": [],
+      "familyId": "canola",
+      "form": "oil",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "caraway-seeds",
+      "name": "Caraway seeds",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "cardamom-ground",
+      "name": "Ground cardamom",
+      "aliases": [
+        "cardamom powder"
+      ],
+      "familyId": "cardamom",
+      "form": "ground",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cardamom-pods",
+      "name": "Whole cardamom pods",
+      "aliases": [
+        "cardamom pods",
+        "whole cardamom"
+      ],
+      "familyId": "cardamom",
+      "form": "pods",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "carrots-fresh",
+      "name": "Carrots",
+      "aliases": [
+        "fresh carrots",
+        "raw carrots",
+        "baby carrots"
+      ],
+      "familyId": "carrots",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cauliflower-fresh",
+      "name": "Cauliflower",
+      "aliases": [
+        "fresh cauliflower",
+        "cauliflower florets"
+      ],
+      "familyId": "cauliflower",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "celery-stalks",
+      "name": "Celery",
+      "aliases": [],
+      "recipeIngredientId": "celery-stalks",
+      "familyId": "celery",
+      "form": "fresh"
+    },
+    {
+      "id": "cheddar-cheese",
+      "name": "Cheddar cheese",
+      "aliases": [
+        "block cheddar cheese",
+        "shredded cheddar cheese",
+        "mild cheddar cheese",
+        "sharp cheddar cheese"
+      ],
+      "familyId": "cheddar",
+      "form": "cheese",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chicken-breast-boneless",
+      "name": "Boneless skinless chicken breast",
+      "aliases": [],
+      "recipeIngredientId": "chicken-breast-boneless"
+    },
+    {
+      "id": "chicken-broth",
+      "name": "Chicken broth",
+      "aliases": [
+        "chicken stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "chicken-drumsticks-raw",
+      "name": "Raw chicken drumsticks",
+      "aliases": [
+        "chicken drumsticks",
+        "frozen raw chicken drumsticks"
+      ],
+      "familyId": "chicken",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chicken-leg-quarters-raw",
+      "name": "Raw chicken leg quarters",
+      "aliases": [
+        "chicken leg quarters",
+        "frozen raw chicken leg quarters"
+      ],
+      "familyId": "chicken",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chicken-thighs-bone-in-raw",
+      "name": "Raw bone-in chicken thighs",
+      "aliases": [
+        "bone-in chicken thighs",
+        "frozen raw bone-in chicken thighs"
+      ],
+      "familyId": "chicken",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chicken-thighs-boneless",
+      "name": "Boneless skinless chicken thighs",
+      "aliases": [],
+      "recipeIngredientId": "chicken-thighs-boneless"
+    },
+    {
+      "id": "chickpea-flour",
+      "name": "Chickpea flour",
+      "aliases": [
+        "besan",
+        "gram flour"
+      ],
+      "familyId": "chickpea-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chickpeas-canned",
+      "name": "Canned chickpeas",
+      "aliases": [
+        "canned garbanzo beans"
+      ],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "chickpeas",
+      "form": "canned"
+    },
+    {
+      "id": "chickpeas-dried",
+      "name": "Dried chickpeas",
+      "aliases": [
+        "dried garbanzo beans"
+      ],
+      "familyId": "chickpeas",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "chili-powder",
+      "name": "Chili powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "cilantro-fresh",
+      "name": "Fresh cilantro",
+      "aliases": [
+        "fresh coriander"
+      ],
+      "familyId": "coriander-leaf",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cinnamon-ground",
+      "name": "Ground cinnamon",
+      "aliases": [],
+      "familyId": "cinnamon",
+      "form": "ground",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cloves-ground",
+      "name": "Ground cloves",
+      "aliases": [],
+      "familyId": "cloves",
+      "form": "ground",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "coconut-aminos",
+      "name": "Coconut aminos",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.3
+      }
+    },
+    {
+      "id": "coconut-milk-canned",
+      "name": "Canned coconut milk",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 1
+      }
+    },
+    {
+      "id": "coho-salmon-fillets-raw",
+      "name": "Raw coho salmon fillets",
+      "aliases": [
+        "raw coho salmon filets",
+        "fresh coho salmon fillets",
+        "frozen raw coho salmon fillets"
+      ],
+      "familyId": "salmon",
+      "form": "raw-fillets",
+      "searchVisibility": "variant",
+      "parentIngredientId": "salmon-fillets-raw",
+      "variety": "coho"
+    },
+    {
+      "id": "collard-greens-fresh",
+      "name": "Fresh collard greens",
+      "aliases": [
+        "raw collard greens",
+        "fresh collards"
+      ],
+      "familyId": "collards",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "coriander-ground",
+      "name": "Ground coriander",
+      "aliases": [
+        "coriander powder"
+      ],
+      "familyId": "coriander-seed",
+      "form": "ground",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "coriander-seeds-whole",
+      "name": "Whole coriander seeds",
+      "aliases": [
+        "coriander seed",
+        "coriander seeds",
+        "whole coriander"
+      ],
+      "familyId": "coriander-seed",
+      "form": "whole-seeds",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cornmeal-yellow-whole",
+      "name": "Whole-grain yellow cornmeal",
+      "aliases": [],
+      "familyId": "cornmeal",
+      "form": "whole-grain",
+      "searchVisibility": "primary",
+      "variety": "yellow"
+    },
+    {
+      "id": "cornstarch",
+      "name": "Cornstarch",
+      "aliases": [
+        "corn starch"
+      ],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.05
+      }
+    },
+    {
+      "id": "cosmic-crisp-apples-fresh",
+      "name": "Fresh Cosmic Crisp apples",
+      "aliases": [
+        "raw Cosmic Crisp apples"
+      ],
+      "familyId": "apples",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "apples-fresh",
+      "variety": "cosmic-crisp"
+    },
+    {
+      "id": "cottage-cheese-creamed",
+      "name": "Plain creamed cottage cheese",
+      "aliases": [
+        "creamed cottage cheese",
+        "regular plain cottage cheese"
+      ],
+      "familyId": "cottage-cheese",
+      "form": "cultured-cheese",
+      "searchVisibility": "variant",
+      "parentIngredientId": "cottage-cheese-plain",
+      "variety": "creamed"
+    },
+    {
+      "id": "cottage-cheese-plain",
+      "name": "Plain cottage cheese",
+      "aliases": [
+        "plain wet-curd cottage cheese",
+        "cottage cheese"
+      ],
+      "familyId": "cottage-cheese",
+      "form": "cultured-cheese",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "cottage-cheese-plain-1-percent",
+      "name": "Plain 1% cottage cheese",
+      "aliases": [
+        "plain 1 percent cottage cheese",
+        "1% cottage cheese",
+        "1 percent cottage cheese"
+      ],
+      "familyId": "cottage-cheese",
+      "form": "cultured-cheese",
+      "searchVisibility": "variant",
+      "parentIngredientId": "cottage-cheese-plain",
+      "variety": "1-percent"
+    },
+    {
+      "id": "cottage-cheese-plain-2-percent",
+      "name": "Plain 2% cottage cheese",
+      "aliases": [
+        "plain 2 percent cottage cheese",
+        "2% cottage cheese",
+        "2 percent cottage cheese"
+      ],
+      "familyId": "cottage-cheese",
+      "form": "cultured-cheese",
+      "searchVisibility": "variant",
+      "parentIngredientId": "cottage-cheese-plain",
+      "variety": "2-percent"
+    },
+    {
+      "id": "couscous-dry",
+      "name": "Dry couscous",
+      "aliases": [],
+      "familyId": "couscous",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "crushed-tomatoes-canned",
+      "name": "Canned crushed tomatoes",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "cucumber-fresh",
+      "name": "Cucumber",
+      "aliases": [],
+      "familyId": "cucumber",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "curry-powder",
+      "name": "Curry powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "dijon-mustard",
+      "name": "Dijon mustard",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.12
+      }
+    },
+    {
+      "id": "dill-dried",
+      "name": "Dried dill",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "eggplant-fresh",
+      "name": "Eggplant",
+      "aliases": [
+        "aubergine"
+      ],
+      "familyId": "eggplant",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "feta-cheese",
+      "name": "Feta",
+      "aliases": [
+        "feta cheese"
+      ],
+      "familyId": "feta",
+      "form": "cheese",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "fish-sauce",
+      "name": "Fish sauce",
+      "aliases": [],
+      "familyId": "fish-sauce",
+      "form": "sauce",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "fuji-apples-fresh",
+      "name": "Fresh Fuji apples",
+      "aliases": [
+        "raw Fuji apples"
+      ],
+      "familyId": "apples",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "apples-fresh",
+      "variety": "fuji"
+    },
+    {
+      "id": "gala-apples-fresh",
+      "name": "Fresh Gala apples",
+      "aliases": [
+        "raw Gala apples"
+      ],
+      "familyId": "apples",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "apples-fresh",
+      "variety": "gala"
+    },
+    {
+      "id": "garam-masala",
+      "name": "Garam masala",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.12
+      }
+    },
+    {
+      "id": "garlic-fresh",
+      "name": "Garlic",
+      "aliases": [
+        "garlic cloves"
+      ],
+      "staticPrice": {
+        "unit": "clove",
+        "usdPerUnit": 0.08
+      },
+      "familyId": "garlic",
+      "form": "fresh"
+    },
+    {
+      "id": "garlic-powder",
+      "name": "Garlic powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "ginger-fresh",
+      "name": "Ginger",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      },
+      "familyId": "ginger",
+      "form": "fresh"
+    },
+    {
+      "id": "ginger-ground",
+      "name": "Ground ginger",
+      "aliases": [],
+      "familyId": "ginger",
+      "form": "ground",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "glutinous-rice-flour",
+      "name": "Glutinous rice flour",
+      "aliases": [],
+      "familyId": "rice-flour",
+      "form": "flour",
+      "searchVisibility": "variant",
+      "variety": "glutinous",
+      "parentIngredientId": "rice-flour"
+    },
+    {
+      "id": "granny-smith-apples-fresh",
+      "name": "Fresh Granny Smith apples",
+      "aliases": [
+        "raw Granny Smith apples"
+      ],
+      "familyId": "apples",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "apples-fresh",
+      "variety": "granny-smith"
+    },
+    {
+      "id": "great-northern-beans-canned",
+      "name": "Canned Great Northern beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "greek-yogurt-plain",
+      "name": "Plain Greek yogurt",
+      "aliases": [
+        "Greek plain yogurt"
+      ],
+      "familyId": "greek-yogurt",
+      "form": "yogurt",
+      "searchVisibility": "specific"
+    },
+    {
+      "id": "greek-yogurt-plain-lowfat",
+      "name": "Plain lowfat Greek yogurt",
+      "aliases": [
+        "plain low-fat Greek yogurt",
+        "lowfat plain Greek yogurt"
+      ],
+      "familyId": "greek-yogurt",
+      "form": "yogurt",
+      "searchVisibility": "variant",
+      "parentIngredientId": "greek-yogurt-plain",
+      "variety": "lowfat"
+    },
+    {
+      "id": "greek-yogurt-plain-nonfat",
+      "name": "Plain nonfat Greek yogurt",
+      "aliases": [
+        "plain fat-free Greek yogurt",
+        "nonfat plain Greek yogurt",
+        "plain 0% Greek yogurt"
+      ],
+      "familyId": "greek-yogurt",
+      "form": "yogurt",
+      "searchVisibility": "variant",
+      "parentIngredientId": "greek-yogurt-plain",
+      "variety": "nonfat"
+    },
+    {
+      "id": "greek-yogurt-plain-whole-milk",
+      "name": "Plain whole-milk Greek yogurt",
+      "aliases": [
+        "plain whole milk Greek yogurt",
+        "plain full-fat Greek yogurt",
+        "whole milk plain Greek yogurt"
+      ],
+      "familyId": "greek-yogurt",
+      "form": "yogurt",
+      "searchVisibility": "variant",
+      "parentIngredientId": "greek-yogurt-plain",
+      "variety": "whole-milk"
+    },
+    {
+      "id": "greek-yogurt-vanilla",
+      "name": "Vanilla Greek yogurt",
+      "aliases": [
+        "Greek vanilla yogurt"
+      ],
+      "familyId": "greek-yogurt",
+      "form": "yogurt",
+      "searchVisibility": "specific"
+    },
+    {
+      "id": "greek-yogurt-vanilla-lowfat",
+      "name": "Vanilla lowfat Greek yogurt",
+      "aliases": [
+        "vanilla low-fat Greek yogurt",
+        "lowfat vanilla Greek yogurt"
+      ],
+      "familyId": "greek-yogurt",
+      "form": "yogurt",
+      "searchVisibility": "variant",
+      "parentIngredientId": "greek-yogurt-vanilla",
+      "variety": "lowfat"
+    },
+    {
+      "id": "greek-yogurt-vanilla-nonfat",
+      "name": "Vanilla nonfat Greek yogurt",
+      "aliases": [
+        "vanilla fat-free Greek yogurt",
+        "nonfat vanilla Greek yogurt"
+      ],
+      "familyId": "greek-yogurt",
+      "form": "yogurt",
+      "searchVisibility": "variant",
+      "parentIngredientId": "greek-yogurt-vanilla",
+      "variety": "nonfat"
+    },
+    {
+      "id": "green-cabbage",
+      "name": "Green cabbage",
+      "aliases": [],
+      "recipeIngredientId": "green-cabbage"
+    },
+    {
+      "id": "green-split-peas-dried",
+      "name": "Dried green split peas",
+      "aliases": [],
+      "familyId": "split-peas",
+      "form": "dried",
+      "searchVisibility": "primary",
+      "variety": "green"
+    },
+    {
+      "id": "ground-beef-80-20",
+      "name": "Ground beef",
+      "aliases": [],
+      "recipeIngredientId": "ground-beef-80-20"
+    },
+    {
+      "id": "ground-cumin",
+      "name": "Ground cumin",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "familyId": "cumin",
+      "form": "ground"
+    },
+    {
+      "id": "ground-pork-raw",
+      "name": "Raw ground pork",
+      "aliases": [
+        "raw minced pork",
+        "uncooked ground pork",
+        "frozen raw ground pork"
+      ],
+      "familyId": "ground-pork",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "ground-turkey",
+      "name": "Ground turkey",
+      "aliases": [],
+      "recipeIngredientId": "ground-turkey"
+    },
+    {
+      "id": "hatch-green-chiles-fresh",
+      "name": "Fresh Hatch green chiles",
+      "aliases": [
+        "fresh Hatch chile peppers",
+        "raw Hatch green chiles",
+        "fresh Hatch chiles"
+      ],
+      "familyId": "chiles",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "honey",
+      "name": "Honey",
+      "aliases": [],
+      "familyId": "honey",
+      "form": "unspecified",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "honeycrisp-apples-fresh",
+      "name": "Fresh Honeycrisp apples",
+      "aliases": [
+        "raw Honeycrisp apples"
+      ],
+      "familyId": "apples",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "apples-fresh",
+      "variety": "honeycrisp"
+    },
+    {
+      "id": "italian-pork-sausage-raw",
+      "name": "Raw Italian pork sausage",
+      "aliases": [
+        "raw Italian pork sausage links",
+        "uncooked Italian pork sausage",
+        "frozen raw Italian pork sausage"
+      ],
+      "familyId": "italian-pork-sausage",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "italian-seasoning",
+      "name": "Italian seasoning",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "jalapeno-peppers-fresh",
+      "name": "Fresh jalapeño peppers",
+      "aliases": [
+        "fresh jalapeno peppers",
+        "jalapeno chiles",
+        "jalapeño chiles",
+        "jalapenos",
+        "jalapeños"
+      ],
+      "familyId": "chiles",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "jasmine-rice-dry",
+      "name": "Dry jasmine rice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.6
+      },
+      "familyId": "rice",
+      "form": "dry",
+      "searchVisibility": "primary",
+      "variety": "jasmine"
+    },
+    {
+      "id": "kabocha-squash-fresh",
+      "name": "Fresh kabocha squash",
+      "aliases": [
+        "raw kabocha squash",
+        "kabocha winter squash"
+      ],
+      "familyId": "winter-squash",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "kale-fresh",
+      "name": "Fresh kale",
+      "aliases": [
+        "raw kale",
+        "fresh kale greens"
+      ],
+      "familyId": "kale",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "kidney-beans-canned",
+      "name": "Canned kidney beans",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "kidney-beans",
+      "form": "canned"
+    },
+    {
+      "id": "kidney-beans-dried",
+      "name": "Dried kidney beans",
+      "aliases": [],
+      "familyId": "kidney-beans",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "kielbasa-fully-cooked",
+      "name": "Fully cooked kielbasa",
+      "aliases": [
+        "fully cooked kielbasa sausage",
+        "ready-to-eat kielbasa",
+        "frozen fully cooked kielbasa"
+      ],
+      "familyId": "kielbasa",
+      "form": "fully-cooked",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "kielbasa-raw",
+      "name": "Raw kielbasa",
+      "aliases": [
+        "raw kielbasa sausage",
+        "uncooked kielbasa",
+        "frozen raw kielbasa"
+      ],
+      "familyId": "kielbasa",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "large-eggs-dozen",
+      "name": "Chicken eggs",
+      "aliases": [],
+      "recipeIngredientId": "large-eggs-dozen"
+    },
+    {
+      "id": "leeks-fresh",
+      "name": "Leeks",
+      "aliases": [],
+      "familyId": "leeks",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "lemon-fresh",
+      "name": "Lemon",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.6
+      }
+    },
+    {
+      "id": "lentils-canned",
+      "aliases": [],
+      "name": "Canned lentils",
+      "familyId": "lentils",
+      "form": "canned",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "lentils-dried",
+      "aliases": [],
+      "name": "Dried lentils",
+      "familyId": "lentils",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "lime-juice",
+      "name": "Lime juice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "masa-harina",
+      "name": "Masa harina",
+      "aliases": [
+        "corn masa flour"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "melting-cheese-blend",
+      "name": "Melting cheese blend, type unspecified",
+      "aliases": [
+        "shredding cheese blend",
+        "shredded melting cheese blend"
+      ],
+      "familyId": "melting-cheese-blend",
+      "form": "cheese-blend",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "mexican-oregano-dried",
+      "name": "Dried Mexican oregano",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "mexican-style-cheese-blend",
+      "name": "Mexican-style cheese blend",
+      "aliases": [
+        "Mexican blend cheese",
+        "Mexican style blend cheese",
+        "Mexican-style shredded cheese blend"
+      ],
+      "familyId": "melting-cheese-blend",
+      "form": "cheese-blend",
+      "searchVisibility": "variant",
+      "parentIngredientId": "melting-cheese-blend",
+      "variety": "mexican-style"
+    },
+    {
+      "id": "milk-whole",
+      "name": "Whole milk (3.25%)",
+      "aliases": [
+        "whole milk"
+      ],
+      "familyId": "milk",
+      "form": "whole",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "millet-whole",
+      "name": "Whole-grain millet",
+      "aliases": [],
+      "familyId": "millet",
+      "form": "whole-grain",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "miso",
+      "name": "Miso",
+      "aliases": [
+        "miso paste"
+      ],
+      "familyId": "miso",
+      "form": "paste",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "monterey-jack-cheese",
+      "name": "Monterey Jack cheese",
+      "aliases": [
+        "block Monterey Jack cheese",
+        "shredded Monterey Jack cheese"
+      ],
+      "familyId": "monterey-jack",
+      "form": "cheese",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "mozzarella-cheese-unspecified",
+      "name": "Mozzarella cheese, moisture unspecified",
+      "aliases": [
+        "mozzarella cheese"
+      ],
+      "familyId": "mozzarella",
+      "form": "cheese",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "mozzarella-fresh",
+      "name": "Fresh mozzarella cheese",
+      "aliases": [
+        "fresh mozzarella",
+        "fresh mozzarella balls"
+      ],
+      "familyId": "mozzarella",
+      "form": "fresh-cheese",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "mozzarella-low-moisture",
+      "name": "Low-moisture mozzarella cheese",
+      "aliases": [
+        "low moisture mozzarella cheese",
+        "low-moisture mozzarella",
+        "low moisture mozzarella"
+      ],
+      "familyId": "mozzarella",
+      "form": "low-moisture-cheese",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "mozzarella-low-moisture-part-skim",
+      "name": "Part-skim low-moisture mozzarella cheese",
+      "aliases": [
+        "part skim low moisture mozzarella",
+        "low-moisture part-skim mozzarella"
+      ],
+      "familyId": "mozzarella",
+      "form": "low-moisture-cheese",
+      "searchVisibility": "variant",
+      "parentIngredientId": "mozzarella-low-moisture",
+      "variety": "part-skim"
+    },
+    {
+      "id": "mozzarella-low-moisture-whole-milk",
+      "name": "Whole-milk low-moisture mozzarella cheese",
+      "aliases": [
+        "whole milk low moisture mozzarella",
+        "low-moisture whole-milk mozzarella"
+      ],
+      "familyId": "mozzarella",
+      "form": "low-moisture-cheese",
+      "searchVisibility": "variant",
+      "parentIngredientId": "mozzarella-low-moisture",
+      "variety": "whole-milk"
+    },
+    {
+      "id": "mushrooms-cremini-fresh",
+      "name": "Fresh cremini mushrooms",
+      "aliases": [
+        "fresh crimini mushrooms",
+        "baby bella mushrooms",
+        "raw cremini mushrooms"
+      ],
+      "familyId": "mushrooms",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "mushrooms-white-fresh",
+      "name": "Fresh white mushrooms",
+      "aliases": [
+        "white button mushrooms",
+        "fresh white button mushrooms"
+      ],
+      "familyId": "white-mushrooms",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "navy-beans-canned",
+      "name": "Canned navy beans",
+      "aliases": [],
+      "familyId": "navy-beans",
+      "form": "canned",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "navy-beans-dried",
+      "name": "Dried navy beans",
+      "aliases": [],
+      "familyId": "navy-beans",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "oat-flour",
+      "name": "Whole-grain oat flour",
+      "aliases": [],
+      "familyId": "oat-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "okra-fresh",
+      "name": "Okra",
+      "aliases": [],
+      "familyId": "okra",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "olive-oil",
+      "name": "Olive oil",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.2
+      }
+    },
+    {
+      "id": "onion-powder",
+      "name": "Onion powder",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "onions-fresh",
+      "aliases": [],
+      "name": "Onions",
+      "familyId": "onions",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "orange-juice",
+      "name": "Orange juice",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.5
+      }
+    },
+    {
+      "id": "oregano-dried",
+      "name": "Dried oregano",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.07
+      }
+    },
+    {
+      "id": "oyster-sauce",
+      "name": "Oyster sauce",
+      "aliases": [],
+      "familyId": "oyster-sauce",
+      "form": "sauce",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "parmesan-hard",
+      "name": "Hard Parmesan",
+      "aliases": [
+        "hard parmesan cheese"
+      ],
+      "familyId": "parmesan",
+      "form": "hard",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "parsley-fresh",
+      "name": "Fresh parsley",
+      "aliases": [],
+      "familyId": "parsley",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pasta-dry",
+      "name": "Dry pasta",
+      "aliases": [],
+      "familyId": "pasta",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pinto-beans-canned",
+      "name": "Canned pinto beans",
+      "aliases": [],
+      "familyId": "pinto-beans",
+      "form": "canned",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pinto-beans-dried",
+      "name": "Dried pinto beans",
+      "aliases": [],
+      "familyId": "pinto-beans",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "poblano-peppers-fresh",
+      "name": "Fresh poblano peppers",
+      "aliases": [
+        "poblano chiles",
+        "raw poblano peppers",
+        "poblanos"
+      ],
+      "familyId": "chiles",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pork-chorizo-raw",
+      "name": "Raw pork chorizo",
+      "aliases": [
+        "raw pork chorizo sausage",
+        "uncooked pork chorizo",
+        "frozen raw pork chorizo"
+      ],
+      "familyId": "pork-chorizo",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pork-loin-chops-boneless-raw",
+      "name": "Raw boneless pork loin chops",
+      "aliases": [
+        "boneless pork loin chops",
+        "boneless center-cut pork loin chops",
+        "frozen raw boneless pork loin chops"
+      ],
+      "familyId": "pork-loin",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pork-loin-roast-boneless-raw",
+      "name": "Raw boneless pork loin roast",
+      "aliases": [
+        "boneless pork loin roast",
+        "boneless pork half loin",
+        "frozen raw boneless pork loin roast"
+      ],
+      "familyId": "pork-loin",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pork-sausage-raw",
+      "name": "Raw pork sausage",
+      "aliases": [
+        "raw pork sausage links",
+        "uncooked pork sausage",
+        "frozen raw pork sausage"
+      ],
+      "familyId": "pork-sausage",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "pork-shoulder-butt",
+      "name": "Pork shoulder",
+      "aliases": [],
+      "recipeIngredientId": "pork-shoulder-butt"
+    },
+    {
+      "id": "pork-tenderloin-raw",
+      "name": "Raw pork tenderloin",
+      "aliases": [
+        "pork tenderloin",
+        "frozen raw pork tenderloin"
+      ],
+      "familyId": "pork-tenderloin",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "potatoes-fresh",
+      "name": "Fresh potatoes",
+      "aliases": [
+        "raw potatoes"
+      ],
+      "familyId": "potatoes",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "quinoa-dry",
+      "name": "Dry quinoa",
+      "aliases": [],
+      "familyId": "quinoa",
+      "form": "dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "radishes-fresh",
+      "name": "Radishes",
+      "aliases": [],
+      "familyId": "radishes",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "red-lentils-dried",
+      "name": "Dried red lentils",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.8
+      },
+      "familyId": "lentils",
+      "form": "dried",
+      "searchVisibility": "variant",
+      "variety": "red",
+      "parentIngredientId": "lentils-dried"
+    },
+    {
+      "id": "red-pepper-flakes",
+      "name": "Red pepper flakes",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      }
+    },
+    {
+      "id": "red-potatoes-fresh",
+      "name": "Fresh red potatoes",
+      "aliases": [
+        "raw red potatoes"
+      ],
+      "familyId": "potatoes",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "potatoes-fresh",
+      "variety": "red"
+    },
+    {
+      "id": "red-wine-vinegar",
+      "name": "Red wine vinegar",
+      "aliases": [],
+      "familyId": "red-wine-vinegar",
+      "form": "vinegar",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "rice-flour",
+      "name": "Rice flour",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.06
+      },
+      "familyId": "rice-flour",
+      "form": "flour",
+      "searchVisibility": "specific"
+    },
+    {
+      "id": "rolled-oats",
+      "name": "Rolled oats",
+      "aliases": [
+        "old-fashioned oats",
+        "old fashioned oats"
+      ],
+      "familyId": "oats",
+      "form": "rolled",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "rosemary-dried",
+      "name": "Dried rosemary",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "russet-potatoes-fresh",
+      "name": "Fresh Russet potatoes",
+      "aliases": [
+        "raw Russet potatoes"
+      ],
+      "familyId": "potatoes",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "potatoes-fresh",
+      "variety": "russet"
+    },
+    {
+      "id": "rye-flour",
+      "name": "Rye flour",
+      "aliases": [],
+      "familyId": "rye-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "salmon-fillets-raw",
+      "name": "Raw salmon fillets",
+      "aliases": [
+        "raw salmon filets",
+        "fresh salmon fillets",
+        "frozen raw salmon fillets"
+      ],
+      "familyId": "salmon",
+      "form": "raw-fillets",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.01
+      }
+    },
+    {
+      "id": "self-rising-wheat-flour",
+      "name": "Self-rising wheat flour",
+      "aliases": [
+        "self raising flour",
+        "self-raising flour"
+      ],
+      "familyId": "wheat-flour",
+      "form": "self-rising-flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "serrano-peppers-fresh",
+      "name": "Fresh serrano peppers",
+      "aliases": [
+        "serrano chiles",
+        "raw serrano peppers",
+        "serranos"
+      ],
+      "familyId": "chiles",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sesame-oil",
+      "name": "Sesame oil",
+      "aliases": [],
+      "familyId": "sesame",
+      "form": "oil",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sesame-seeds-whole-dried",
+      "name": "Whole dried sesame seeds",
+      "aliases": [],
+      "familyId": "sesame-seeds",
+      "form": "whole-dried",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "smoked-paprika",
+      "name": "Smoked paprika",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "smoked-sausage-fully-cooked",
+      "name": "Fully cooked smoked sausage",
+      "aliases": [
+        "ready-to-eat smoked sausage",
+        "frozen fully cooked smoked sausage"
+      ],
+      "familyId": "smoked-sausage",
+      "form": "fully-cooked",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "smoked-sausage-raw",
+      "name": "Raw smoked sausage",
+      "aliases": [
+        "uncooked smoked sausage",
+        "frozen raw smoked sausage"
+      ],
+      "familyId": "smoked-sausage",
+      "form": "raw",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sockeye-salmon-fillets-raw",
+      "name": "Raw sockeye salmon fillets",
+      "aliases": [
+        "raw sockeye salmon filets",
+        "fresh sockeye salmon fillets",
+        "frozen raw sockeye salmon fillets"
+      ],
+      "familyId": "salmon",
+      "form": "raw-fillets",
+      "searchVisibility": "variant",
+      "parentIngredientId": "salmon-fillets-raw",
+      "variety": "sockeye"
+    },
+    {
+      "id": "sorghum-flour",
+      "name": "Sorghum flour",
+      "aliases": [],
+      "familyId": "sorghum-flour",
+      "form": "flour",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sorghum-whole",
+      "name": "Whole-grain sorghum",
+      "aliases": [],
+      "familyId": "sorghum",
+      "form": "whole-grain",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sour-cream-full-fat",
+      "name": "Plain full-fat sour cream",
+      "aliases": [
+        "full fat sour cream",
+        "regular sour cream"
+      ],
+      "familyId": "sour-cream",
+      "form": "cultured-cream",
+      "searchVisibility": "variant",
+      "parentIngredientId": "sour-cream-plain",
+      "variety": "full-fat"
+    },
+    {
+      "id": "sour-cream-plain",
+      "name": "Plain sour cream",
+      "aliases": [
+        "sour cream",
+        "plain cultured sour cream"
+      ],
+      "familyId": "sour-cream",
+      "form": "cultured-cream",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sour-cream-reduced-fat",
+      "name": "Plain reduced-fat sour cream",
+      "aliases": [
+        "reduced fat sour cream",
+        "light sour cream"
+      ],
+      "familyId": "sour-cream",
+      "form": "cultured-cream",
+      "searchVisibility": "variant",
+      "parentIngredientId": "sour-cream-plain",
+      "variety": "reduced-fat"
+    },
+    {
+      "id": "soy-sauce",
+      "name": "Soy sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.1
+      }
+    },
+    {
+      "id": "spaghetti-squash-fresh",
+      "name": "Fresh spaghetti squash",
+      "aliases": [
+        "raw spaghetti squash",
+        "spaghetti winter squash"
+      ],
+      "familyId": "winter-squash",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "spearmint-fresh",
+      "name": "Fresh spearmint",
+      "aliases": [],
+      "familyId": "spearmint",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "spinach-fresh",
+      "name": "Fresh spinach",
+      "aliases": [
+        "baby spinach",
+        "raw spinach",
+        "fresh spinach greens"
+      ],
+      "familyId": "spinach",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "steel-cut-oats",
+      "name": "Steel-cut oats",
+      "aliases": [
+        "steel cut oats"
+      ],
+      "familyId": "oats",
+      "form": "steel-cut",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sugar-brown",
+      "name": "Brown sugar",
+      "aliases": [],
+      "familyId": "sugar",
+      "form": "brown",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sugar-granulated",
+      "name": "Granulated sugar",
+      "aliases": [],
+      "familyId": "sugar",
+      "form": "granulated",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "summer-squash-fresh",
+      "name": "Fresh summer squash",
+      "aliases": [
+        "raw summer squash"
+      ],
+      "familyId": "summer-squash",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "sweet-potatoes",
+      "name": "Sweet potatoes",
+      "aliases": [],
+      "recipeIngredientId": "sweet-potatoes"
+    },
+    {
+      "id": "swiss-chard-fresh",
+      "name": "Fresh Swiss chard",
+      "aliases": [
+        "raw Swiss chard",
+        "Swiss chard greens"
+      ],
+      "familyId": "swiss-chard",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "tahini",
+      "name": "Tahini",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.25
+      }
+    },
+    {
+      "id": "tapioca-pearls-dry",
+      "name": "Dry tapioca pearls",
+      "aliases": [],
+      "familyId": "tapioca",
+      "form": "pearls",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "tempeh",
+      "name": "Tempeh",
+      "aliases": [],
+      "familyId": "tempeh",
+      "form": "plain",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "thyme-dried",
+      "name": "Dried thyme",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      }
+    },
+    {
+      "id": "tofu-firm",
+      "name": "Firm tofu",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "tofu-soft",
+      "name": "Soft tofu",
+      "aliases": [],
+      "familyId": "tofu",
+      "form": "soft",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "tomatillos-fresh",
+      "name": "Fresh tomatillos",
+      "aliases": [
+        "raw tomatillos"
+      ],
+      "familyId": "tomatillos",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "tomato-paste",
+      "name": "Tomato paste",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      }
+    },
+    {
+      "id": "tomatoes-fresh",
+      "name": "Fresh tomatoes",
+      "aliases": [
+        "fresh red tomatoes",
+        "raw tomatoes",
+        "Roma tomatoes",
+        "vine-ripened tomatoes"
+      ],
+      "familyId": "tomatoes",
+      "form": "fresh",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "tuna-light-canned-water",
+      "name": "Canned light tuna in water",
+      "aliases": [],
+      "familyId": "tuna",
+      "form": "canned-in-water",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "turmeric-ground",
+      "name": "Ground turmeric",
+      "aliases": [],
+      "familyId": "turmeric",
+      "form": "ground",
+      "searchVisibility": "primary"
+    },
+    {
+      "id": "vegetable-broth",
+      "name": "Vegetable broth",
+      "aliases": [
+        "vegetable stock"
+      ],
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      }
+    },
+    {
+      "id": "walnuts-english-raw",
+      "name": "Raw English walnuts",
+      "aliases": [],
+      "familyId": "walnuts",
+      "form": "raw",
+      "searchVisibility": "primary",
+      "variety": "english"
+    },
+    {
+      "id": "whole-grain-mustard",
+      "name": "Whole grain mustard",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.14
+      }
+    },
+    {
+      "id": "whole-wheat-flour",
+      "name": "Whole wheat flour",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.04
+      },
+      "familyId": "wheat-flour",
+      "form": "whole-wheat-flour"
+    },
+    {
+      "id": "worcestershire-sauce",
+      "name": "Worcestershire sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      }
+    },
+    {
+      "id": "worcestershire-sauce-gluten-free",
+      "name": "Gluten-free Worcestershire sauce",
+      "aliases": [],
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      }
+    },
+    {
+      "id": "yellow-summer-squash-fresh",
+      "name": "Fresh yellow summer squash",
+      "aliases": [
+        "raw yellow summer squash",
+        "fresh yellow squash",
+        "yellow squash"
+      ],
+      "familyId": "summer-squash",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "summer-squash-fresh",
+      "variety": "yellow"
+    },
+    {
+      "id": "yogurt-plain-whole-milk",
+      "name": "Plain whole-milk yogurt",
+      "aliases": [
+        "plain yogurt",
+        "plain whole milk yogurt"
+      ],
+      "familyId": "yogurt",
+      "form": "yogurt",
+      "searchVisibility": "specific",
+      "variety": "plain-whole-milk"
+    },
+    {
+      "id": "yukon-gold-potatoes-fresh",
+      "name": "Fresh Yukon Gold potatoes",
+      "aliases": [
+        "raw Yukon Gold potatoes"
+      ],
+      "familyId": "potatoes",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "potatoes-fresh",
+      "variety": "yukon-gold"
+    },
+    {
+      "id": "zucchini-fresh",
+      "name": "Fresh zucchini",
+      "aliases": [
+        "raw zucchini",
+        "fresh courgette",
+        "courgette"
+      ],
+      "familyId": "summer-squash",
+      "form": "fresh",
+      "searchVisibility": "variant",
+      "parentIngredientId": "summer-squash-fresh",
+      "variety": "zucchini"
+    }
+  ],
+  "compatibility": [
+    {
+      "from": "atlantic-salmon-fillets-raw",
+      "to": "salmon-fillets-raw"
+    },
+    {
+      "from": "coho-salmon-fillets-raw",
+      "to": "salmon-fillets-raw"
+    },
+    {
+      "from": "cosmic-crisp-apples-fresh",
+      "to": "apples-fresh"
+    },
+    {
+      "from": "cottage-cheese-creamed",
+      "to": "cottage-cheese-plain"
+    },
+    {
+      "from": "cottage-cheese-plain-1-percent",
+      "to": "cottage-cheese-plain"
+    },
+    {
+      "from": "cottage-cheese-plain-2-percent",
+      "to": "cottage-cheese-plain"
+    },
+    {
+      "from": "fuji-apples-fresh",
+      "to": "apples-fresh"
+    },
+    {
+      "from": "gala-apples-fresh",
+      "to": "apples-fresh"
+    },
+    {
+      "from": "granny-smith-apples-fresh",
+      "to": "apples-fresh"
+    },
+    {
+      "from": "greek-yogurt-plain-lowfat",
+      "to": "greek-yogurt-plain"
+    },
+    {
+      "from": "greek-yogurt-plain-nonfat",
+      "to": "greek-yogurt-plain"
+    },
+    {
+      "from": "greek-yogurt-plain-whole-milk",
+      "to": "greek-yogurt-plain"
+    },
+    {
+      "from": "greek-yogurt-vanilla-lowfat",
+      "to": "greek-yogurt-vanilla"
+    },
+    {
+      "from": "greek-yogurt-vanilla-nonfat",
+      "to": "greek-yogurt-vanilla"
+    },
+    {
+      "from": "honeycrisp-apples-fresh",
+      "to": "apples-fresh"
+    },
+    {
+      "from": "mexican-style-cheese-blend",
+      "to": "melting-cheese-blend"
+    },
+    {
+      "from": "mozzarella-low-moisture-part-skim",
+      "to": "mozzarella-low-moisture"
+    },
+    {
+      "from": "mozzarella-low-moisture-whole-milk",
+      "to": "mozzarella-low-moisture"
+    },
+    {
+      "from": "red-lentils-dried",
+      "to": "lentils-dried"
+    },
+    {
+      "from": "red-potatoes-fresh",
+      "to": "potatoes-fresh"
+    },
+    {
+      "from": "russet-potatoes-fresh",
+      "to": "potatoes-fresh"
+    },
+    {
+      "from": "sockeye-salmon-fillets-raw",
+      "to": "salmon-fillets-raw"
+    },
+    {
+      "from": "sour-cream-full-fat",
+      "to": "sour-cream-plain"
+    },
+    {
+      "from": "sour-cream-reduced-fat",
+      "to": "sour-cream-plain"
+    },
+    {
+      "from": "yellow-summer-squash-fresh",
+      "to": "summer-squash-fresh"
+    },
+    {
+      "from": "yukon-gold-potatoes-fresh",
+      "to": "potatoes-fresh"
+    },
+    {
+      "from": "zucchini-fresh",
+      "to": "summer-squash-fresh"
+    }
+  ],
+  "sourceLinks": [
+    {
+      "ingredientId": "acorn-squash-fresh",
+      "key": "foundation_food:2685571",
+      "fingerprint": "7ccf64c4c4dbb86c220a1ae8c1afbb7ad7f097e40f76445c45252c8a6748581e",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "all-purpose-flour",
+      "key": "sr_legacy_food:168894",
+      "fingerprint": "cb88c159de6f8771c629fbaba11e4f1911ffcdf37716c0bc16da84d9d737b66d",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "all-purpose-flour",
+      "key": "sr_legacy_food:168936",
+      "fingerprint": "be90e795d5ad75bc5c0fe400c6e19c67991dddd76663058380f2214eacd3d097",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "almonds-whole-raw",
+      "key": "foundation_food:2346393",
+      "fingerprint": "15e727d15a87d766d2f982f6c608e841d17d3f0a7aebac3c6b3a53d4abc97550",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "apple-cider-vinegar",
+      "key": "sr_legacy_food:173469",
+      "fingerprint": "5c297edfcd602e66caca8db6408d4cc9a0a9c944deef312ddbb3d75af4ade833",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "apples-fresh",
+      "key": "sr_legacy_food:171688",
+      "fingerprint": "e567b32d8134760226c4c83a0b3d8ccffb2363ac98663dcb688898efccc86e44",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "asparagus-fresh",
+      "key": "sr_legacy_food:168389",
+      "fingerprint": "ca79e72ae878e450ec5692375c079a3c9303fcca2bb11f43229232083a87de01",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "atlantic-salmon-fillets-raw",
+      "key": "foundation_food:2684441",
+      "fingerprint": "3fb67f2ec97e863d5bf5f5ecb4b72938164404c58f260d9ad185ab2b43bb1675",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "atlantic-salmon-fillets-raw",
+      "key": "sr_legacy_food:173686",
+      "fingerprint": "05fb5af8cbd1212bcad98a12f83218a229b9ec159f8ffd7c90a8a72761e8a238",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "avocado-oil",
+      "key": "sr_legacy_food:173573",
+      "fingerprint": "0f9c7baaa40a8552435df12c2404335e4e68bd995609c2ce71f60a82aeff6182",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "avocados-hass",
+      "key": "foundation_food:2710824",
+      "fingerprint": "6daeed70ba6c0abc8903e426c90a39254470eb8266eac7b788527c594e13706c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "barley-hulled",
+      "key": "sr_legacy_food:170283",
+      "fingerprint": "ae1a460c98c5f3e169b3a2559abaccdafe1c5b1674252d5ab5f913471245f8b4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "barley-pearled",
+      "key": "sr_legacy_food:170284",
+      "fingerprint": "e11a8f54f2fe9bdc9a7396605a419905fb824fc06c3fac67875b5e9c8d0154dd",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "basil-fresh",
+      "key": "sr_legacy_food:172232",
+      "fingerprint": "694b955b720ecf8122299d15b0409ec0b23c07aed1a71b5264e5da1a762c03ae",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bay-leaf",
+      "key": "sr_legacy_food:170917",
+      "fingerprint": "920f695e9399d4c7bd99e39ff6ffbfa735c908c0f85defe4c5698ea63744f362",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "beef-arm-pot-roast-raw",
+      "key": "sr_legacy_food:169491",
+      "fingerprint": "85cce6adddd28e8386115e0eb924a9b6a9f87b5fa1a269ea66474d411898a10a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "beef-chuck-roast-boneless-raw",
+      "key": "foundation_food:2646174",
+      "fingerprint": "07c858d84f6cb387a4d25aa8ebe0567ca0f17cd3570c86c8f8cef5b80fe92ec8",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "beef-new-york-strip-steak-raw",
+      "key": "foundation_food:2727572",
+      "fingerprint": "5fbed9a41be75debf9c2c6f78afe28a38ba1f3f283f1a2d7e56008748e5b127b",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "beef-ribeye-steak-raw",
+      "key": "foundation_food:2646172",
+      "fingerprint": "cbeffa86cee89f8b1eb0e407e79689442fcf031f3dd88132207fdd752d89b0ee",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "beef-t-bone-steak-raw",
+      "key": "sr_legacy_food:168717",
+      "fingerprint": "3c59b2c0dc77dd75b6d0e251ae9e47bf62b086f54eea1d37208f4f46897f9b6f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "beef-top-sirloin-steak-raw",
+      "key": "foundation_food:2727574",
+      "fingerprint": "605154c4c183f5ffd6b906cdba397cf54a1998edd7a2ebd39d0f70676b6d6b29",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "beets-fresh",
+      "key": "foundation_food:2685576",
+      "fingerprint": "6ae2ec5908a903b5ce813f984e475826b441c90f07c30798e763f28b805cee6f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bell-peppers",
+      "key": "foundation_food:2258588",
+      "fingerprint": "af826e5491f059a70f66aa428f087b037ea5d65e0a899a316827353fb3a9aa29",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bell-peppers",
+      "key": "foundation_food:2258589",
+      "fingerprint": "05236a16b4c195bcc315299938fa7feb8a14d5873557272c35d62a5b4c56cfd6",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bell-peppers",
+      "key": "foundation_food:2258590",
+      "fingerprint": "ae51b08210068fbc1c03f58c96dd78f55c3c597fa278a7494fc3de2e74649684",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bell-peppers",
+      "key": "foundation_food:2258591",
+      "fingerprint": "f483f2bf673759ef256a0972c5cf384a558ee8503366df7255b83de8b77f2778",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "black-beans-canned",
+      "key": "foundation_food:2644285",
+      "fingerprint": "e9d95a8b7dd9107b2c9240928adee0db4a69fa58d9fd105c4cc5e74e604a8a6a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "black-beans-dried",
+      "key": "sr_legacy_food:173734",
+      "fingerprint": "cd69514940a144eba406b77ce23762e96aba18d947d77819579a4541026de5e5",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "black-pepper",
+      "key": "sr_legacy_food:170931",
+      "fingerprint": "7224f8718e01860d89692b0c5944048e7c039b1bf7bd2e7ef17c113679facd5c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bread-flour",
+      "key": "sr_legacy_food:168896",
+      "fingerprint": "15066bbe340f9b5e8e4d368a7e20b888f2f082fd5076298ad8748481e9d97e75",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "broccoli-fresh",
+      "key": "foundation_food:747447",
+      "fingerprint": "3edc41696e599c808e167aafbf26f2c6167e09a9b4931c89e6d6ca65ba8382ab",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "brown-rice-flour",
+      "key": "foundation_food:1104812",
+      "fingerprint": "5198f6f97376e2275f0515ee5f5d348f478d596d47da76385ed54b78789432bc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "brussels-sprouts",
+      "key": "foundation_food:2685575",
+      "fingerprint": "bd9644028bf4b04e0753159743bbc0c615ff5f39a78dc22be257dd0282105c7b",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "buckwheat-flour",
+      "key": "foundation_food:2512374",
+      "fingerprint": "1f758e261245530d894dfdcf868a70c0f1d5f12c2aa9ca5b6bf3dbb6215558c9",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "buckwheat-whole",
+      "key": "foundation_food:2512378",
+      "fingerprint": "3f543e1ca90a7efb5c5725ec023897f84aec9b2357f27aa7e2437f397ef34d02",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "bulgur-dry",
+      "key": "foundation_food:2710820",
+      "fingerprint": "6e40b8d2d92608b503fa58db760a1d4dd764de9ece8eba67747a6137d790eb73",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "butter-salted-unsalted",
+      "key": "foundation_food:789828",
+      "fingerprint": "6ba5b8c336662325697b1bbd755a4f580724bf9921dac25f976f4db79237e0e0",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "butter-salted-unsalted",
+      "key": "foundation_food:790508",
+      "fingerprint": "e07ab0ad35d832811928b44b595b24e6a9cf97b127eb0cc6b8654f70be247992",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "butternut-squash-fresh",
+      "key": "foundation_food:2685570",
+      "fingerprint": "f5d4a1a306204c94908002e3c5ebc0ca002abdc6fba6e1eca711fc006fbcb4ea",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cannellini-beans-canned",
+      "key": "foundation_food:2644287",
+      "fingerprint": "67b6581f317bee03e020a26c43b9f78d1b21f12487a7cdc2309b2050241159ad",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "canola-oil",
+      "key": "foundation_food:748278",
+      "fingerprint": "55458f2f822cd8def7e973f3786602f1aa8b5258d0895d14a5edfd547608f3d5",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "caraway-seeds",
+      "key": "sr_legacy_food:170918",
+      "fingerprint": "f599b5f42ec33932a12615521a03fdc5377d8b2b683af1545fe5726ef701a664",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cardamom-ground",
+      "key": "sr_legacy_food:170919",
+      "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549",
+      "purpose": "general-reference",
+      "familyId": "cardamom"
+    },
+    {
+      "ingredientId": "cardamom-pods",
+      "key": "sr_legacy_food:170919",
+      "fingerprint": "e6162b59eb0b7de0cd78912a2e4440bdeeb8b037c560798b32b1a8136c805549",
+      "purpose": "general-reference",
+      "familyId": "cardamom"
+    },
+    {
+      "ingredientId": "carrots-fresh",
+      "key": "sr_legacy_food:170393",
+      "fingerprint": "4c738bfd45ca39629e68d44cc3b298b9b01eeb3c6babd5663fe6d6f992db78f9",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cauliflower-fresh",
+      "key": "foundation_food:2685573",
+      "fingerprint": "685c63203e96a869c7b8e076869b09777b99ac2b255996c83a9556067568b574",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "celery-stalks",
+      "key": "foundation_food:2346405",
+      "fingerprint": "76592690aecb52bb68e7b180c544cbf34cfd5eadc6d693b519187dc540d9637d",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cheddar-cheese",
+      "key": "foundation_food:328637",
+      "fingerprint": "5aceccd08d212757278c09730db840b0bee164a1679d8965487777aec1f72e1c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chicken-breast-boneless",
+      "key": "foundation_food:2646170",
+      "fingerprint": "989917252cadd861227366aab298cbedce92d4c041090b0368ff8c654ac97cf9",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chicken-thighs-boneless",
+      "key": "foundation_food:2646171",
+      "fingerprint": "6b74fc5601e87cbe63ca9508eb5b7d210c8c8f13ba26a7fb09c051d19bfd1c5e",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chickpea-flour",
+      "key": "sr_legacy_food:174288",
+      "fingerprint": "8c38c11ba6da2cccdd32679f2c78445caab5db047b7e7c2637d54aaef6c1d5f7",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chickpeas-canned",
+      "key": "foundation_food:2644288",
+      "fingerprint": "17eb16da8bac3fb8e7b0a3495573ecc82685ede4edabc1a19bf10b7a70473e1f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chickpeas-dried",
+      "key": "foundation_food:2644282",
+      "fingerprint": "3c79ab70bbf5fbf1d4f6e9b7064110cf21467ab301a1c5d7b62349e39cf1515f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "chili-powder",
+      "key": "sr_legacy_food:171319",
+      "fingerprint": "022e981d26bb146be56d3fe1fde3e1d52065d8418347102b1e05d7624879f66b",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cilantro-fresh",
+      "key": "sr_legacy_food:169997",
+      "fingerprint": "842315f341911e2384ad696851105b06a479f3ee707a3446c644395e19e572cd",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cinnamon-ground",
+      "key": "sr_legacy_food:171320",
+      "fingerprint": "3d2b4e36ebc255c96264f4759f37c9a378ec57ae8c3559423c3a6a0b8e733f0f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cloves-ground",
+      "key": "sr_legacy_food:171321",
+      "fingerprint": "a1b249a9b31f1e6985dfaa20e324b0fa6d2390240cf8865d143f5fa32d0fc986",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "coconut-milk-canned",
+      "key": "sr_legacy_food:170173",
+      "fingerprint": "76e2ce853f256cf039f4861b4116a047addb6f9de2e16c84e0542d8b9c8e7840",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "coho-salmon-fillets-raw",
+      "key": "sr_legacy_food:173715",
+      "fingerprint": "664ce38873076172c49df72a61ad8755d4d610dd3dfa3ce3978324bf0ae5bcc4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "coho-salmon-fillets-raw",
+      "key": "sr_legacy_food:175136",
+      "fingerprint": "7c108c0a34baec225f2b1f872c39e96bbbbe659d1914e35cb09576b5a4b18764",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "collard-greens-fresh",
+      "key": "foundation_food:2685574",
+      "fingerprint": "54f6af1a090892c05c35191da9fde5918e027dd31f82d9742e6bc85b70726a79",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "coriander-ground",
+      "key": "sr_legacy_food:170922",
+      "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c",
+      "purpose": "general-reference",
+      "familyId": "coriander-seed"
+    },
+    {
+      "ingredientId": "coriander-seeds-whole",
+      "key": "sr_legacy_food:170922",
+      "fingerprint": "4e24f985ea3da559c744c677f5cff91f8c7c76b55c640c36726e649ae07c7b6c",
+      "purpose": "general-reference",
+      "familyId": "coriander-seed"
+    },
+    {
+      "ingredientId": "cornmeal-yellow-whole",
+      "key": "sr_legacy_food:169697",
+      "fingerprint": "0789dcb55750fe85b902fc9080eca57b62ab61aad3091564237e75a79d4eea81",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cornstarch",
+      "key": "sr_legacy_food:169698",
+      "fingerprint": "d54e353c1933d557d8f3e00a55da739fe290e02fb7338499e471a8a01d575513",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cottage-cheese-creamed",
+      "key": "sr_legacy_food:172179",
+      "fingerprint": "e094e4e51f68e4ccec40e7f33a987614a56ff84b0e31077183ae88a4517187b3",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cottage-cheese-plain-1-percent",
+      "key": "sr_legacy_food:173417",
+      "fingerprint": "9c5c71cc1c073e78b982c3f1e644488f4610495ac1fc9c779706a6f5584918ed",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cottage-cheese-plain-2-percent",
+      "key": "foundation_food:328841",
+      "fingerprint": "2e058ec0ab2be46373f2302ce5bbaed723f71d7c07c3e162009a94af9cd25cb5",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "couscous-dry",
+      "key": "sr_legacy_food:169699",
+      "fingerprint": "cc290824fb887adf47941b8dfda9d2f43ec63c59c3a672ab481458cd56442c61",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "crushed-tomatoes-canned",
+      "key": "foundation_food:2685581",
+      "fingerprint": "bf6ae04b54644d84c6351f99ecb1855c72994352d9006a97ec98dcbd66c6f244",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "cucumber-fresh",
+      "key": "foundation_food:2346406",
+      "fingerprint": "061ca8667f318907179dc8a69b8eeb35fab1a7fe2c30a349b861d7c92659e0b3",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "curry-powder",
+      "key": "sr_legacy_food:170924",
+      "fingerprint": "6834745761d89d3bdca471836662fbff9e5f670fe6eeda9097eb2b881fcf04cd",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "dill-dried",
+      "key": "sr_legacy_food:171322",
+      "fingerprint": "a7433686b5e50989c0bf7bbd402dd8d702e3fb6a7fd7297551fee592efaf77db",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "eggplant-fresh",
+      "key": "foundation_food:2685577",
+      "fingerprint": "a21afbc643014f2af285102f2d9cf1096ac080863b92aad470a0950ee3d0fea4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "feta-cheese",
+      "key": "sr_legacy_food:173420",
+      "fingerprint": "b5e75294c90ed40489a5ab8399e4852d2125a1acf3e2e85e6ca73d7835231e74",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "fish-sauce",
+      "key": "sr_legacy_food:174531",
+      "fingerprint": "43b2039590adb96b414fcec02d1f53633e39547ec08417afdc1cd64f6d347b41",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "fuji-apples-fresh",
+      "key": "foundation_food:1750340",
+      "fingerprint": "99fa5e49fc1373ccde5ca9a7a77b95294fa37ad35434c5f963abc5e56c7f7634",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "gala-apples-fresh",
+      "key": "foundation_food:1750341",
+      "fingerprint": "73993b2d4e7c7faa5fdd3399f4eb33e6bbf15dd51840726dc152965025f36bea",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "garlic-fresh",
+      "key": "foundation_food:1104647",
+      "fingerprint": "2ec3ffb54b247f7a359a00b735ccee20976c54005c42200acd85497d4fb648e4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "garlic-powder",
+      "key": "sr_legacy_food:171325",
+      "fingerprint": "5fc8d240f40f9989cbe163848798f51255cc70c86289a0bcf2ecf16ed6b5e153",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "ginger-fresh",
+      "key": "sr_legacy_food:169231",
+      "fingerprint": "602ecab05ddc9e26f9ca2c36bdc3a71247e2698b410ea8238036a19c4a1f75cb",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "ginger-ground",
+      "key": "sr_legacy_food:170926",
+      "fingerprint": "19229788eae49dc6af71026bd1879ae88e3a50c494ee577bd70c9e72df202cc1",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "glutinous-rice-flour",
+      "key": "foundation_food:1104867",
+      "fingerprint": "8ae1d3fa2fe365831b5a1eddaa0d0b31c038dfda7fa1426c8b866e9696684703",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "granny-smith-apples-fresh",
+      "key": "foundation_food:1750342",
+      "fingerprint": "14085c931d3bf58c88a476f195c8a5335d37e2e944ef1e3fd29ec5e614e42e90",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "great-northern-beans-canned",
+      "key": "sr_legacy_food:175192",
+      "fingerprint": "2de69dff17675319829e114866a4d6d22ffcc3cf81aaa35a45ea3a1274efe7a4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "greek-yogurt-plain-lowfat",
+      "key": "sr_legacy_food:170903",
+      "fingerprint": "3aedab2d99e509828c7f4caefd368d6aa7b42b758b598344825b00884dc2ea0f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "greek-yogurt-plain-nonfat",
+      "key": "foundation_food:330137",
+      "fingerprint": "b690195b8cde6d46af8ac1d715b3f74f4db6e91e5f4caa6be91377dbb4c8b61a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "greek-yogurt-plain-whole-milk",
+      "key": "foundation_food:2259794",
+      "fingerprint": "9c0d31303e099c2552fc76009212a51bcb962b5857ff24ef4cd0d82770234efe",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "greek-yogurt-vanilla-lowfat",
+      "key": "sr_legacy_food:170907",
+      "fingerprint": "ec4affe4411b95da91f63da63c363d29ea7ae99fd72ffbb841948fd31cdc0094",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "greek-yogurt-vanilla-nonfat",
+      "key": "sr_legacy_food:170902",
+      "fingerprint": "8569a97c988211a1fa6f50ea3badf36e960a9ff662585b9829c3000b67d85b4c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "green-cabbage",
+      "key": "foundation_food:2346407",
+      "fingerprint": "181c8b5efa40eca14c3f088979f544bf77126b3d563ec574df4f1fa72a50bb9b",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "green-split-peas-dried",
+      "key": "sr_legacy_food:172428",
+      "fingerprint": "e37d720dd02b87530e3a5efa7931228bb391352038afc985f0de2a968f64fd3e",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "ground-cumin",
+      "key": "sr_legacy_food:170923",
+      "fingerprint": "41b308c95b2291d6165571904b20ad19926156239ccdd44c44f41ad0d71b99bb",
+      "purpose": "general-reference",
+      "familyId": "cumin"
+    },
+    {
+      "ingredientId": "ground-pork-raw",
+      "key": "sr_legacy_food:167902",
+      "fingerprint": "2587e10f51d3b8847566323121900536a14f677077d34325b1d33866dce0c860",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "ground-turkey",
+      "key": "sr_legacy_food:171505",
+      "fingerprint": "ff6cb753c1b28cd27beb05ebad8a02e46cc22f61fd0fff26ebcb1778867035d8",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "honey",
+      "key": "sr_legacy_food:169640",
+      "fingerprint": "5b69a5fb782c2b5cadb4e16309c4972fad2dd7adaa0accf071abbeb087e79a29",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "honeycrisp-apples-fresh",
+      "key": "foundation_food:1750343",
+      "fingerprint": "b89906f36932e20e9cee8daa4e309a5d6cfacabdbb246f428f839329293e20fd",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "italian-pork-sausage-raw",
+      "key": "sr_legacy_food:171631",
+      "fingerprint": "2c9510f5a576b5cc01ce19873f88a84e0eca3b4daf6a4449a1d5f57f2beb63e9",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "jalapeno-peppers-fresh",
+      "key": "foundation_food:2747661",
+      "fingerprint": "1290f7d44da5438e11cea75f48fd6912fcc7b4d96db40bba839cb4672831e5df",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "kale-fresh",
+      "key": "foundation_food:323505",
+      "fingerprint": "9b33d1b8fd00519f942915b0bd4cb37265a9d307555c5ba48b55ae5b8b82f22f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "kidney-beans-canned",
+      "key": "sr_legacy_food:173741",
+      "fingerprint": "2f4bcc8c12bbdd93bd4038556eb7955c02c80351457a3bfe1563839d7ca72d72",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "kidney-beans-dried",
+      "key": "sr_legacy_food:175193",
+      "fingerprint": "767a65b31b3582c549bfe8acb74867c98f67ee4384a7cf915e4411922d1e4443",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "kielbasa-fully-cooked",
+      "key": "sr_legacy_food:173879",
+      "fingerprint": "3a62027cd5ce38e4a3203aa370ac84ac85fbec56f4ed89da0acd8af33ccf39ca",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "leeks-fresh",
+      "key": "foundation_food:2727584",
+      "fingerprint": "3d1a0054d784e05052c73774e736d9200f91821bd5a11d2d3bae56e8055a942a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "lemon-fresh",
+      "key": "sr_legacy_food:167746",
+      "fingerprint": "cbe938143568828a4e10ce6c4e842ebc6dadb227fe9dc2cd7bcc4b8374765326",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "lentils-dried",
+      "key": "foundation_food:2644283",
+      "fingerprint": "2b500e1305c8e0097fc3773ad4fbb5f1cdb6b1837d7871e1b3644743ff8b7fd9",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "masa-harina",
+      "key": "foundation_food:2710835",
+      "fingerprint": "904a382c5e99562dca3ecacc9036c58ee21058d682dad63849083c87b4f32410",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "mexican-style-cheese-blend",
+      "key": "sr_legacy_food:171288",
+      "fingerprint": "b820d7320dfe9cf89cda475327d4fbabb9edf6cb6327f9c36a8cfa1eec9d8ab1",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "milk-whole",
+      "key": "foundation_food:746782",
+      "fingerprint": "57718b64c7f2eee4fb843dc8380892dd4ae2dbb8719291670bf6455053fec4ac",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "millet-whole",
+      "key": "foundation_food:2512379",
+      "fingerprint": "f782575621792cf3794715466b440850467a2784ec7cdc8bda2dc5d46633447b",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "miso",
+      "key": "sr_legacy_food:172442",
+      "fingerprint": "f91a561f9825af390b2c0cb0ac0f85b166f76e53a9e7c27a0a0c44139137f682",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "monterey-jack-cheese",
+      "key": "foundation_food:2647438",
+      "fingerprint": "b8db39baa853ffc3dbeb473d80e5ce62def4bcbcf1c6218c562b2b27092cceac",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "mozzarella-low-moisture-part-skim",
+      "key": "foundation_food:329370",
+      "fingerprint": "e4ee19f5f59470742bfd95e8359be765f12e50cb94fee1891dfda2eb69c39155",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "mozzarella-low-moisture-whole-milk",
+      "key": "sr_legacy_food:170846",
+      "fingerprint": "f6e226e37b0f72f0eb0e288d29d2056dff9cf255ed5c09cb8d7eebaf83ea81c3",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "mushrooms-cremini-fresh",
+      "key": "sr_legacy_food:168434",
+      "fingerprint": "81054c140c0f3fbcf08987cb87add0f325514dfffceaa7bfc6711469392c8e96",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "mushrooms-white-fresh",
+      "key": "sr_legacy_food:169251",
+      "fingerprint": "a93b69e17cb32262c6cc9ecc8f3d80b2c74176ba8c6c8497329777a3f7e4dad8",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "navy-beans-canned",
+      "key": "foundation_food:2644286",
+      "fingerprint": "aa750439a2e98caaa9f05c22ae2f57fcd2c390d86bacfa257c1cf2d50f3a7c94",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "navy-beans-dried",
+      "key": "sr_legacy_food:173745",
+      "fingerprint": "c771d795050c8a4b17497fd4b569b269239c6c9ba85df12bbc30573da7c56516",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "oat-flour",
+      "key": "foundation_food:2261421",
+      "fingerprint": "57676c9f50efea0c0965065418e2576988731beed28b3374a1aaca17fc567553",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "okra-fresh",
+      "key": "sr_legacy_food:169260",
+      "fingerprint": "a53a88a30de118fa7192cbbc4356180fa96914b1d722b8aa598718edac60f53d",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "olive-oil",
+      "key": "sr_legacy_food:171413",
+      "fingerprint": "c1e2f439662b4a27d8c2f8f179121e460291e887a013351630cfc7f10c79694c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "onion-powder",
+      "key": "sr_legacy_food:171327",
+      "fingerprint": "54a11f96eb80cce40e7ddd021636e318619a65668f433d2469f4f37b7b11da18",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "onions-fresh",
+      "key": "sr_legacy_food:170000",
+      "fingerprint": "4741d9a03f916612258b37fe01a2f338f48d40bb8a6c0cc0cf8e07d4fbc0b47a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "oregano-dried",
+      "key": "sr_legacy_food:171328",
+      "fingerprint": "9135589452453d5e4ec5d1e4c0264106919504e000249c00a4f84bd4fb50f113",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "oyster-sauce",
+      "key": "sr_legacy_food:174529",
+      "fingerprint": "46e5e680a507b6218edb21201b53d0587bf9dd07c0d141ae87c7695587fbadfd",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "parmesan-hard",
+      "key": "sr_legacy_food:170848",
+      "fingerprint": "21ecf4003068f9226f07193cb810b6d1797ac1b996b30bfe62005bb0ff1a35b4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "parsley-fresh",
+      "key": "sr_legacy_food:170416",
+      "fingerprint": "ccaee9b4b7ff655387da61c37a2df2ad774a6a7e92de2f10eb94cef9c1007ba8",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pasta-dry",
+      "key": "sr_legacy_food:169736",
+      "fingerprint": "04fc5016104fc49da04014fc3b501724315c928598fe34871b68534574a7ca40",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pinto-beans-canned",
+      "key": "foundation_food:2644292",
+      "fingerprint": "1046498f4206d075380e339d2036d8f56b5770489c447662d5abb775cbf402f1",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pinto-beans-dried",
+      "key": "sr_legacy_food:175199",
+      "fingerprint": "4f68c11a4187882a0b29c0be7f107cbdbb273d39fce341b5c69eb158a34f3e15",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "poblano-peppers-fresh",
+      "key": "foundation_food:2747662",
+      "fingerprint": "b5f9e1e5e5caea2d5af651e45ebd0bf8bffa11b89e76f9af62f46b1bd0e6dc46",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pork-chorizo-raw",
+      "key": "sr_legacy_food:173859",
+      "fingerprint": "9904e6966cf94bc361e2095fbd6da75a3a7a5bf07c8f6763eb5028091c96eb8c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pork-loin-chops-boneless-raw",
+      "key": "sr_legacy_food:167839",
+      "fingerprint": "733c201624687520b5da17ccf9fa8650d36aee913284a9e71f538533b593fecb",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pork-loin-roast-boneless-raw",
+      "key": "sr_legacy_food:168314",
+      "fingerprint": "a5cd7aa27ed9e743891cc07795196873602f79abb0b04da61fcdeffd2419c92a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pork-sausage-raw",
+      "key": "sr_legacy_food:172934",
+      "fingerprint": "0593400093ca718a7052a9c32f047cf1f5eb0f65b7ad3dee4ab43756c8896231",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pork-shoulder-butt",
+      "key": "sr_legacy_food:167843",
+      "fingerprint": "e6a15732c6315301b514c22e10775ed6cef5fce0f97237f06cd5fd7cb006f2d8",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "pork-tenderloin-raw",
+      "key": "sr_legacy_food:168312",
+      "fingerprint": "00ff73c04a433dd443256f3c29e8e1c17df6d6926f25293a48f002a7f2d4a6e4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "potatoes-fresh",
+      "key": "sr_legacy_food:170026",
+      "fingerprint": "e6a588568e175bf35f50e072522eb8308217e98a50e15df285249b015b52eeb3",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "quinoa-dry",
+      "key": "sr_legacy_food:168874",
+      "fingerprint": "d4107cefe33d239200d0a3d75cf9a50713127c7da8e9548e4a0c32856ec7f885",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "radishes-fresh",
+      "key": "sr_legacy_food:169276",
+      "fingerprint": "9505635edd93d105697d13c384de1899d04df5204e19d565167158f7929ea9ae",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "red-lentils-dried",
+      "key": "sr_legacy_food:174284",
+      "fingerprint": "1837b6ae4b1c1dd067fbda3053594f28abd2c5e98a8aedf069c156cde5e60d23",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "red-potatoes-fresh",
+      "key": "foundation_food:2346402",
+      "fingerprint": "ca56d6a1edca3a55f533ecfb7d9bffb4861c40ad74f26f48dbed67368b90dd89",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "red-wine-vinegar",
+      "key": "sr_legacy_food:172240",
+      "fingerprint": "3703fd9fd1d2c69a60cc646eb899926dae355636a18ae3eeb70916fe15d6858e",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "rolled-oats",
+      "key": "foundation_food:2346396",
+      "fingerprint": "f538c76f2fbec4480109c7c81027af39ac5f5bb0865d91bc101ce16dc1de21c7",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "rosemary-dried",
+      "key": "sr_legacy_food:171333",
+      "fingerprint": "99d49731a832082a2885ce97c90143f8386d9c2de9ecd898caad155e09207c32",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "russet-potatoes-fresh",
+      "key": "foundation_food:2346401",
+      "fingerprint": "1b782407ea1d643b8345e5e052faa1fbfea0610ad6dcfc1bb325288b4ed44acb",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "rye-flour",
+      "key": "foundation_food:2512375",
+      "fingerprint": "a22e520d8953649f267dabf63c363d7de4c63ff67cff6261733f12819ea702cc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "self-rising-wheat-flour",
+      "key": "sr_legacy_food:168895",
+      "fingerprint": "7d74786cb4da91d3261c113f735468f8f231d003b4325955ce12459a2ec4e409",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "serrano-peppers-fresh",
+      "key": "foundation_food:2747663",
+      "fingerprint": "962e75e159248cca73dc9322dd4d52bccbebc4c530ba81ea0245ffa971a0d2e1",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sesame-oil",
+      "key": "sr_legacy_food:171016",
+      "fingerprint": "4bd13cfac550003456545a2607e12338ce7556d8307d4d7ac8d8d1704593d7fb",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sesame-seeds-whole-dried",
+      "key": "sr_legacy_food:170150",
+      "fingerprint": "0448969913ac3517949b5b379cc21cdac334eccaa7016fb501dacf5650c222e0",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sockeye-salmon-fillets-raw",
+      "key": "foundation_food:2684440",
+      "fingerprint": "166ab56b915e288903342603f00bbe261fa1bd135b3f3283a99015e2d8ac005c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sorghum-flour",
+      "key": "foundation_food:2512373",
+      "fingerprint": "bbeda74cc55fdb648eb8597cb18db2b551525c4d09be78e03b924dd2a3054d26",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sorghum-whole",
+      "key": "foundation_food:2710842",
+      "fingerprint": "9c0b120a56ae129082936b145a2f5179ac98bd9f77e6e71ac4a6068eacc4a0fc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sour-cream-full-fat",
+      "key": "foundation_food:2346387",
+      "fingerprint": "65f2bf3298ee5b0dcfea5471c81b02ff7f1c3ca0f7621faea14f831620cd5f09",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sour-cream-reduced-fat",
+      "key": "sr_legacy_food:171256",
+      "fingerprint": "66eb748d1878d2feab03b4da3a2a1bb4eaa6e61d962021dad66332040ca1556c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "spaghetti-squash-fresh",
+      "key": "sr_legacy_food:169298",
+      "fingerprint": "a667352c873c82e43ad3e8eb92ec6293e5e4f17219c0888f73dbbbb180279445",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "spearmint-fresh",
+      "key": "sr_legacy_food:173475",
+      "fingerprint": "0fe6c223359550361da9a87840cc1959806767f57c8a912383097b3d80bf3a7a",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "spinach-fresh",
+      "key": "sr_legacy_food:168462",
+      "fingerprint": "9942f2985601f57f8207491a6cbe2dddc33d7ca0dbd7c9b6228ce2f778309080",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "steel-cut-oats",
+      "key": "foundation_food:2346397",
+      "fingerprint": "deda55699165d5707402ae78d766776e27d29ea2c08fc2cf6186bd44c8f539b7",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sugar-brown",
+      "key": "sr_legacy_food:168833",
+      "fingerprint": "d85a8ae357f533a330a7847fa0be83a847f1bb8c83a0b8f59e164217513c8223",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sugar-granulated",
+      "key": "sr_legacy_food:169655",
+      "fingerprint": "c592e94e7addca3e059216841f4ad3667f478d56befab7f6612cdaa433280382",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "summer-squash-fresh",
+      "key": "sr_legacy_food:170487",
+      "fingerprint": "0e1f5ef927c2e0632b76fbc46a317ca443ee7039ce46850be2cad8d687a67409",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "sweet-potatoes",
+      "key": "sr_legacy_food:168482",
+      "fingerprint": "b7aa37b1fb42c9a1cbcdbd725c145e763f7f8371e3724b15e2837926e5f111fa",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "swiss-chard-fresh",
+      "key": "sr_legacy_food:169991",
+      "fingerprint": "f4a05bcfe9677fc5032e7425ed2cd1113e434750cb8c164e69d9a7018ebbbc73",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tahini",
+      "key": "sr_legacy_food:168604",
+      "fingerprint": "d3eae066e2ef94174499691d18d5693b04f01fb8868c7ab49a8d25c6e5a90461",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tapioca-pearls-dry",
+      "key": "sr_legacy_food:169717",
+      "fingerprint": "2bec3b7a20862a2b185fe514fa2d323d4381e138dd45b114492b4419d49d2c2f",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tempeh",
+      "key": "sr_legacy_food:174272",
+      "fingerprint": "fd96eda916dd10d468e900cfea4df28c54b5c950f17e1add45cbba02845525dc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "thyme-dried",
+      "key": "sr_legacy_food:170938",
+      "fingerprint": "2c9ac47fe336d08bf201252e43ca46f0a69c646945e1fa39230ed070086e5ea0",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tofu-firm",
+      "key": "sr_legacy_food:172448",
+      "fingerprint": "7a84e0437101d2409e1952c7f39c4e453886ed5e35ffc1af7e30eb8b67243aa7",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tofu-firm",
+      "key": "sr_legacy_food:172475",
+      "fingerprint": "7b26dd7e5080d55985e96641a1a3041328031ddd0a02256a785f01949e5ed168",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tofu-soft",
+      "key": "sr_legacy_food:172449",
+      "fingerprint": "13a3c3239ca5010299d79b6e75241dc7669b7ee699daf771077fad6361fb5e92",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tomatillos-fresh",
+      "key": "foundation_food:2727582",
+      "fingerprint": "649f2acdf167afcbd3af1750fb1f54a6ef1d3c4b102542972ad68a41ebfba892",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tomato-paste",
+      "key": "foundation_food:2685580",
+      "fingerprint": "aa50f462fdb3f18915274177ef7a3499c56653203b36cc3442ae9c02ae2d01d5",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tomatoes-fresh",
+      "key": "sr_legacy_food:170457",
+      "fingerprint": "99301b0c881c048e438e819f74c973dcd68e161f373795b5a810cd7c8191dd00",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "tuna-light-canned-water",
+      "key": "foundation_food:334194",
+      "fingerprint": "a8f3f5a2ee615d9a4961aada5f1aff885c28311a5706066ac00340c19d8799ca",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "turmeric-ground",
+      "key": "sr_legacy_food:172231",
+      "fingerprint": "34ac7a4b766cc5deecc1ca0f71a54096edde45236d809f93fe980eb4c8b921ab",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "walnuts-english-raw",
+      "key": "foundation_food:2346394",
+      "fingerprint": "c8e0ab6a463c773b906e81394a7611a63f879e46e5196424881cfe554e6bcd6c",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "whole-wheat-flour",
+      "key": "sr_legacy_food:168893",
+      "fingerprint": "7ac6a113aaca6eb9a140be8e9b1be0958fcfa64295d002b1035aba0327d11fe4",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "worcestershire-sauce",
+      "key": "sr_legacy_food:171610",
+      "fingerprint": "a83444a47037df996f31fcebffa3951397edf0e2b74a9431bcb195512189a3e8",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "yellow-summer-squash-fresh",
+      "key": "foundation_food:2685569",
+      "fingerprint": "a2e660fbf4429d6ab82e94f8ff7075ac9d610e9f902160c34e2b7b78399b65b2",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "yogurt-plain-whole-milk",
+      "key": "foundation_food:2259793",
+      "fingerprint": "16cd2eee7d5474f1246bc8cab49094c5da11c227490e940ad09d38df5e167bfc",
+      "purpose": "identity"
+    },
+    {
+      "ingredientId": "zucchini-fresh",
+      "key": "foundation_food:2685568",
+      "fingerprint": "cade7a1f0a4590fc6eccfd66c50d2535adfa068d27379f52341b690f8d4cc20b",
+      "purpose": "identity"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "coverage-atlantic-salmon-fillets-raw-to-salmon-fillets-raw",
+      "revision": 1,
+      "payloadSha256": "31638e782aaab48d0131975d48f172be9ba558ac2114332efcd4fdfc03b925be"
+    },
+    {
+      "id": "coverage-coho-salmon-fillets-raw-to-salmon-fillets-raw",
+      "revision": 1,
+      "payloadSha256": "dd67938fcbe7f27be8334e0dcfe78ad0550fcd7c8503ac9782170fba75347620"
+    },
+    {
+      "id": "coverage-cosmic-crisp-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "e5f8ede39b2b71ce373ecd80b49305c9c95c6e742a8e8582f05a919db0ba9330"
+    },
+    {
+      "id": "coverage-cottage-cheese-creamed-to-cottage-cheese-plain",
+      "revision": 1,
+      "payloadSha256": "ce68a9b464825b8b501960d04e454a4ed6d2e721331f712fc58ddcb582e7be7c"
+    },
+    {
+      "id": "coverage-cottage-cheese-plain-1-percent-to-cottage-cheese-plain",
+      "revision": 1,
+      "payloadSha256": "da71621b29388e9d197472544c873bcac4e129283151478302a93c28983ebf0c"
+    },
+    {
+      "id": "coverage-cottage-cheese-plain-2-percent-to-cottage-cheese-plain",
+      "revision": 1,
+      "payloadSha256": "40e77cbb23993189d17dddc065c9fb7d663f730d9b299c0fd28cc37276bd9677"
+    },
+    {
+      "id": "coverage-fuji-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "ffae86027e487ab05829c5bd38d7f9b1fe79a400ff6aeac9707907fea2381841"
+    },
+    {
+      "id": "coverage-gala-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "000794d7363fe2334310ac7d8a7cf4e6af232df395f65f55284e3df910e232dd"
+    },
+    {
+      "id": "coverage-granny-smith-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "be35f7d6436305069ca6137339d4e4ffc57dd0a4d2a1e42b35a646e9d9148734"
+    },
+    {
+      "id": "coverage-greek-yogurt-plain-lowfat-to-greek-yogurt-plain",
+      "revision": 1,
+      "payloadSha256": "f55e5f315399eb367c20e568dc52db320c3572a69aad868a24397d2565d59f32"
+    },
+    {
+      "id": "coverage-greek-yogurt-plain-nonfat-to-greek-yogurt-plain",
+      "revision": 1,
+      "payloadSha256": "7cba02dba0cc7b829049d5d246befce77b5131affde6d2aaecb4c78cf4bc5124"
+    },
+    {
+      "id": "coverage-greek-yogurt-plain-whole-milk-to-greek-yogurt-plain",
+      "revision": 1,
+      "payloadSha256": "aca7711d4689f7e51a0e7438c91900cbc65a4c348288d1bc01e39cd73c5826d3"
+    },
+    {
+      "id": "coverage-greek-yogurt-vanilla-lowfat-to-greek-yogurt-vanilla",
+      "revision": 1,
+      "payloadSha256": "15d41fb0b31b57066ecc14d7d17593711523801a11dca6f86ff6ef73258b18d3"
+    },
+    {
+      "id": "coverage-greek-yogurt-vanilla-nonfat-to-greek-yogurt-vanilla",
+      "revision": 1,
+      "payloadSha256": "73dab97a948f7bfdc1e15be2c494a8e96ff58731252e4256377a9b53cd92c55e"
+    },
+    {
+      "id": "coverage-honeycrisp-apples-fresh-to-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "a6fcdd5823dd3ee1a2965c9afdb38c8740614e355578af60f69c1ac957d7843c"
+    },
+    {
+      "id": "coverage-mexican-style-cheese-blend-to-melting-cheese-blend",
+      "revision": 1,
+      "payloadSha256": "7d247ff24dca17e8e07114ccb15c66c42811228988cce3fdb17c1058c87abd77"
+    },
+    {
+      "id": "coverage-mozzarella-low-moisture-part-skim-to-mozzarella-low-moisture",
+      "revision": 1,
+      "payloadSha256": "8c35d0eb856d8718bceeb530b055fb4be69d4b63c43887f278b2f7260f1b88c0"
+    },
+    {
+      "id": "coverage-mozzarella-low-moisture-whole-milk-to-mozzarella-low-moisture",
+      "revision": 1,
+      "payloadSha256": "4300af700b4412ef18edfcbd616faa88a803daf286f4539d92f704ce654c885d"
+    },
+    {
+      "id": "coverage-red-potatoes-fresh-to-potatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "8693954df83b831f7869095800521654a3b61ae505814ea5b9d18cf07f578d69"
+    },
+    {
+      "id": "coverage-russet-potatoes-fresh-to-potatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "7a1269b26a439cd1cccdd65a7e09991b05adb68d996ef0d2a56ba14007ba1f8f"
+    },
+    {
+      "id": "coverage-sockeye-salmon-fillets-raw-to-salmon-fillets-raw",
+      "revision": 1,
+      "payloadSha256": "a981291b95d2a369a251dece00fc620030e5fb49a5e2048669270879b050bee9"
+    },
+    {
+      "id": "coverage-sour-cream-full-fat-to-sour-cream-plain",
+      "revision": 1,
+      "payloadSha256": "452d12dc6e7cb44b6e463020b6403cc69bef7976e1d6c9b3c72ac773b74fdba8"
+    },
+    {
+      "id": "coverage-sour-cream-reduced-fat-to-sour-cream-plain",
+      "revision": 1,
+      "payloadSha256": "ca96a3407f745ae72d8f043f619fe89f8db092ae6b6d617dd0818259eafc1ba4"
+    },
+    {
+      "id": "coverage-yellow-summer-squash-fresh-to-summer-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "37f49579475578900c435beac8d2890c0d85fdd632268f0c600f03b93a928fec"
+    },
+    {
+      "id": "coverage-yukon-gold-potatoes-fresh-to-potatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "b9bbbb3215ed819b7309db342d8d905535c44c034744bad048134c65dc40473e"
+    },
+    {
+      "id": "coverage-zucchini-fresh-to-summer-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "c167dff9fecd3d76cb4a08e8a267e63096891e620fa345dcdfc6095378f64b6c"
+    },
+    {
+      "id": "hold-foundation-orphans-2026-10-29",
+      "revision": 1,
+      "payloadSha256": "31e6948ae12725760fe963cc06ec4398cc6abf486854c21d09e34c2c01908631"
+    },
+    {
+      "id": "ingredient-acorn-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "b0515288de0afd036d62f087d24edf8acdefede9f0d3f8ee04bbeab04d918e06"
+    },
+    {
+      "id": "ingredient-all-purpose-flour",
+      "revision": 1,
+      "payloadSha256": "c8c2792273105fce0546a50d7ceac445e4d6ece51457eaf10ab82c5ca6cbc793"
+    },
+    {
+      "id": "ingredient-almonds-whole-raw",
+      "revision": 1,
+      "payloadSha256": "ee89c44aad1c120defd47e9df99e66514b6b95a46368c8c9cb7f2f40fd1e4536"
+    },
+    {
+      "id": "ingredient-anaheim-peppers-fresh",
+      "revision": 1,
+      "payloadSha256": "993984ee74ba39ce39961ee7dc5cb11adf93555428ae7966e92a2d883127dedf"
+    },
+    {
+      "id": "ingredient-andouille-fully-cooked",
+      "revision": 1,
+      "payloadSha256": "5565d384a70796492f5dc24371fd42b6232e45a58aa044e41e080c3855e68a09"
+    },
+    {
+      "id": "ingredient-andouille-raw",
+      "revision": 1,
+      "payloadSha256": "7024ad745bdbde6cbe67a847017752d688cf0f84aa7edc74feba9d3044dc1925"
+    },
+    {
+      "id": "ingredient-apple-cider-vinegar",
+      "revision": 1,
+      "payloadSha256": "f5e40641dd2f1556c0ef27cb60230389443a65baead31ca9b5a55d6d3618dab8"
+    },
+    {
+      "id": "ingredient-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "3802e4810e7e66f6c8c97fd66c1975d750d85f49d6b371b2d7b6e1f4661caad5"
+    },
+    {
+      "id": "ingredient-asparagus-fresh",
+      "revision": 1,
+      "payloadSha256": "537655d45650f238507b507d71824692168ce7377596975dc6cf50003f9533b7"
+    },
+    {
+      "id": "ingredient-atlantic-salmon-fillets-raw",
+      "revision": 1,
+      "payloadSha256": "ee387eada304739c1f170dea45529dc875961cc117c038d31e775023df637684"
+    },
+    {
+      "id": "ingredient-avocado-oil",
+      "revision": 1,
+      "payloadSha256": "6d9afac098e1352ff6e77cb11ddf7b5443862ef7faf589538fc63d4e5d8fbfef"
+    },
+    {
+      "id": "ingredient-avocados-hass",
+      "revision": 1,
+      "payloadSha256": "d39ae5c192e8b1cee3b570af9f83d10d1fe9e670589ef157aea93bbc178725b8"
+    },
+    {
+      "id": "ingredient-barley-hulled",
+      "revision": 1,
+      "payloadSha256": "bf88e02bf9071669741fbfbf1698e4ada25ec72b9040285b4da80e8e749f0d84"
+    },
+    {
+      "id": "ingredient-barley-pearled",
+      "revision": 1,
+      "payloadSha256": "a7ee1b557970ce6af1e2ef13fe7ab60043959d57b61b5c83a23c6fdc1f67dc4f"
+    },
+    {
+      "id": "ingredient-basil-fresh",
+      "revision": 1,
+      "payloadSha256": "5f186acf3371c6d8a06c3b2134bb0ee0e5531a5a68b4b8537b4f0cc3aa7c75be"
+    },
+    {
+      "id": "ingredient-basmati-rice-dry",
+      "revision": 1,
+      "payloadSha256": "1ae9aa27ce049728dfc2d0a76ee5bba15136a47aaa283598457d7efeeee33dfa"
+    },
+    {
+      "id": "ingredient-bay-leaf",
+      "revision": 1,
+      "payloadSha256": "90e6c0b603df70a6a97765d29b05c49e9b8591b0eec0811e6d38797e91313e65"
+    },
+    {
+      "id": "ingredient-beef-arm-pot-roast-raw",
+      "revision": 1,
+      "payloadSha256": "e2157c034968f1f7c755b88fc26be8328f6d4df912db1bb127669de0c968c622"
+    },
+    {
+      "id": "ingredient-beef-broth",
+      "revision": 1,
+      "payloadSha256": "8a962a53af0530971726643f9e33825cd49160f1f6f1727301cb0f73ba7052b1"
+    },
+    {
+      "id": "ingredient-beef-chuck-roast-boneless-raw",
+      "revision": 1,
+      "payloadSha256": "36860065a22eb26efaebcc40b48b6a47e6e7b47bcb618f2f2359da7acd4dbcb0"
+    },
+    {
+      "id": "ingredient-beef-new-york-strip-steak-raw",
+      "revision": 1,
+      "payloadSha256": "407560d538d87bb990dfcf0f0891d96ad73832af3fc335093c38e3e398a05830"
+    },
+    {
+      "id": "ingredient-beef-pot-roast-cut-raw",
+      "revision": 1,
+      "payloadSha256": "aee2d63301ecb29be4d29427b1ce798acb253cdcf68ddbcd9d30840634f285e2"
+    },
+    {
+      "id": "ingredient-beef-ribeye-steak-raw",
+      "revision": 1,
+      "payloadSha256": "fa9ba3d9b576f6e9a8406d0672e04497978aabf1b6dc6f01646c9afcb784e1e5"
+    },
+    {
+      "id": "ingredient-beef-stew-meat-raw",
+      "revision": 1,
+      "payloadSha256": "c7279f295a574fff2c778aaa05b9ea6f5d44009e1a1ea5411d918161474d1ce9"
+    },
+    {
+      "id": "ingredient-beef-t-bone-steak-raw",
+      "revision": 1,
+      "payloadSha256": "04b35f94f9a39abb84a0e6e9b2cc892a9984c8754bb934cecc1dd49f18785c15"
+    },
+    {
+      "id": "ingredient-beef-top-sirloin-steak-raw",
+      "revision": 1,
+      "payloadSha256": "1787a108114df3058f8cc35519bb80e6f8903ae9cbaf6f0256b7ad2e894d6201"
+    },
+    {
+      "id": "ingredient-beets-fresh",
+      "revision": 1,
+      "payloadSha256": "8124e13d9271f751b33eac1a71391858433cb32e79fec4efc74500465ba30119"
+    },
+    {
+      "id": "ingredient-bell-peppers",
+      "revision": 1,
+      "payloadSha256": "40f2fef78411a2cd45605b773c9bb506bb8c0e6a86dfed0b552b470f555669fa"
+    },
+    {
+      "id": "ingredient-black-beans-canned",
+      "revision": 1,
+      "payloadSha256": "b12e8ab8030b22b7f45a92c10622200e03d7c4bfeb4daa3a340a12786823c411"
+    },
+    {
+      "id": "ingredient-black-beans-dried",
+      "revision": 1,
+      "payloadSha256": "7abceb6bb1361a49235e25812ab766dcbd27809d5cd9c6cb539e1ee504fb7e81"
+    },
+    {
+      "id": "ingredient-black-pepper",
+      "revision": 1,
+      "payloadSha256": "47239c3c7552a3fdf568d842332d7c5dc48f84bcdf8aa4c8150945c10279aa61"
+    },
+    {
+      "id": "ingredient-bread-flour",
+      "revision": 1,
+      "payloadSha256": "305d72baece9e5f2d48a932b746e5f40b6940996ddf1252bf1fb6ffa085dac25"
+    },
+    {
+      "id": "ingredient-broccoli-fresh",
+      "revision": 1,
+      "payloadSha256": "e69645518481ef527403a3942f2d19d5aef8a3b941acb92852806f03ab3498d8"
+    },
+    {
+      "id": "ingredient-brown-rice-dry",
+      "revision": 1,
+      "payloadSha256": "8a0761873db235e4955b822f14092035cb4004d7fc01ce8ce73cd6cc4d510f58"
+    },
+    {
+      "id": "ingredient-brown-rice-flour",
+      "revision": 1,
+      "payloadSha256": "07aa0faf9bb1dc6915f1baf3bee32eee10deace3f68bc5dd12f996b46383d38c"
+    },
+    {
+      "id": "ingredient-brussels-sprouts",
+      "revision": 1,
+      "payloadSha256": "98c981000f2778292d0f64671dbb414e040cc97850eec0f805402c22928ee68f"
+    },
+    {
+      "id": "ingredient-buckwheat-flour",
+      "revision": 1,
+      "payloadSha256": "f794c644538d60f8c0b2876f73d515f39ecaa35233248bebfa57c442788ff2c8"
+    },
+    {
+      "id": "ingredient-buckwheat-whole",
+      "revision": 1,
+      "payloadSha256": "9fa5fa771b27ac8aa58ba3014cc6c5cd93fe8ebd16e1d4fd17bbf39e88d633ef"
+    },
+    {
+      "id": "ingredient-bulgur-dry",
+      "revision": 1,
+      "payloadSha256": "cb6c8447db270f236b63426dfa8ec1c106d901a9ab5d995220bef2db81e09b06"
+    },
+    {
+      "id": "ingredient-butter-salted-unsalted",
+      "revision": 1,
+      "payloadSha256": "f6b2d83e410e84c64bda170994d26bce9939d4fa264d2e201617cf2ba99b589f"
+    },
+    {
+      "id": "ingredient-butternut-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "9c6dd0880e88a77fceca9ce7719c348b25b5249c54f53998566d67fb60283cb5"
+    },
+    {
+      "id": "ingredient-cannellini-beans-canned",
+      "revision": 1,
+      "payloadSha256": "b3b46c98bcde6436c08458d7355a82ae0b4eeb59e582297a23c1e4b24c7e59ea"
+    },
+    {
+      "id": "ingredient-canola-oil",
+      "revision": 1,
+      "payloadSha256": "bef967002dd16be189b5e12355896d496682c333faa625825eee2c7f90186df2"
+    },
+    {
+      "id": "ingredient-caraway-seeds",
+      "revision": 1,
+      "payloadSha256": "527942d7e80cb38b1b5565a08e63423cf25545661e6d4dfcf7149d1250c58491"
+    },
+    {
+      "id": "ingredient-cardamom-ground",
+      "revision": 1,
+      "payloadSha256": "d20574c5537ae39738e42ecd553b4924f9c1d1e3e45cf1e68e31f6a32de2246e"
+    },
+    {
+      "id": "ingredient-cardamom-pods",
+      "revision": 1,
+      "payloadSha256": "56ed29acbefb3d1d5ff7b540e98c65618ee3038d25c241a29b160cc631b1d279"
+    },
+    {
+      "id": "ingredient-carrots-fresh",
+      "revision": 1,
+      "payloadSha256": "38301b7ce0b494d236a9440a8a9757d7602ee3f67ccdb702c080fccabf98251e"
+    },
+    {
+      "id": "ingredient-cauliflower-fresh",
+      "revision": 1,
+      "payloadSha256": "5189aed916bde9a083c60b953d6a95da7cdc880c403f88d6aaa4102c560cdeaa"
+    },
+    {
+      "id": "ingredient-celery-stalks",
+      "revision": 1,
+      "payloadSha256": "5a004e6b5793bac6c700c3016e591963b1dbee12015777f3c957eb8e4829a868"
+    },
+    {
+      "id": "ingredient-cheddar-cheese",
+      "revision": 1,
+      "payloadSha256": "9f23bcefe9ac9978a1976c45b8459e9b7e0ba0b472accac727007c3bcd5a1d06"
+    },
+    {
+      "id": "ingredient-chicken-breast-boneless",
+      "revision": 1,
+      "payloadSha256": "2ac105d01def464afc01591ed77a615e47fbf06299f1238c4e2afea0caacde94"
+    },
+    {
+      "id": "ingredient-chicken-broth",
+      "revision": 1,
+      "payloadSha256": "3c7324c6ce9ec8113974fcc84be7fac766b21101f2a5da42fd7dd89b50cf6e6f"
+    },
+    {
+      "id": "ingredient-chicken-drumsticks-raw",
+      "revision": 1,
+      "payloadSha256": "cc78228ec16617e44d2774dea8d17a52d173851dda037c9611d14c7a864eeede"
+    },
+    {
+      "id": "ingredient-chicken-leg-quarters-raw",
+      "revision": 1,
+      "payloadSha256": "2c3bb96c40ab41ff3d8591ff24bb946b2dbbf824c05707ad3a3aa90dcb86d34a"
+    },
+    {
+      "id": "ingredient-chicken-thighs-bone-in-raw",
+      "revision": 1,
+      "payloadSha256": "9da1973a29163107ce38b76a6eb253c4a18e5d24e33818bea970f271ddb7436c"
+    },
+    {
+      "id": "ingredient-chicken-thighs-boneless",
+      "revision": 1,
+      "payloadSha256": "7270eb6979d77e2b6fcc3f32c3c8efa9f498cdf63fbba220bfe0b6e11d7bf467"
+    },
+    {
+      "id": "ingredient-chickpea-flour",
+      "revision": 1,
+      "payloadSha256": "c0950286f2c96243a55c737e8b5a22f2246f445470bef919761faca8a0885c67"
+    },
+    {
+      "id": "ingredient-chickpeas-canned",
+      "revision": 1,
+      "payloadSha256": "ab321eba7db6190fdff4cc882950f0e0115d2a9d3f668991f43f649f3a1f3587"
+    },
+    {
+      "id": "ingredient-chickpeas-dried",
+      "revision": 1,
+      "payloadSha256": "dd234eab1744165a3acfc3aa2fd82811cc4b74c9bb484f7d5017071adfeb7cba"
+    },
+    {
+      "id": "ingredient-chili-powder",
+      "revision": 1,
+      "payloadSha256": "42c44b551b5028b713fbc58603fae7a391716d63578159da0bb65f120a0bd6b5"
+    },
+    {
+      "id": "ingredient-cilantro-fresh",
+      "revision": 1,
+      "payloadSha256": "51be2228e1cee6f2eec73dfd31544dfa2cdbe9d919d29bc7a5aba9ddb3d1ace2"
+    },
+    {
+      "id": "ingredient-cinnamon-ground",
+      "revision": 1,
+      "payloadSha256": "f7fac0b28c0c57779095a408a075b0f19c37c3ca53a7eea2ede8c0e883cdd4ee"
+    },
+    {
+      "id": "ingredient-cloves-ground",
+      "revision": 1,
+      "payloadSha256": "95fd1b58053d4ae3039b8a7ada10e7e484a8edcfb4501d9cfe8eefcc4ff714ab"
+    },
+    {
+      "id": "ingredient-coconut-aminos",
+      "revision": 1,
+      "payloadSha256": "1c72ea944b10252ffa180d38e01fcc262346c28e7582b0605877388a2f00e27c"
+    },
+    {
+      "id": "ingredient-coconut-milk-canned",
+      "revision": 1,
+      "payloadSha256": "08edd16596ee206bb991c7415b47fced964d7955a7ed7534734a93899ce46117"
+    },
+    {
+      "id": "ingredient-coho-salmon-fillets-raw",
+      "revision": 1,
+      "payloadSha256": "9cd7a9a6d6e29d4ed636d7567c77dd6b3c1ac27091b34c290d8e856955846c85"
+    },
+    {
+      "id": "ingredient-collard-greens-fresh",
+      "revision": 1,
+      "payloadSha256": "dd28635a30e1e26879557773e528d3d771688eba2f9de64d674892526cbb9100"
+    },
+    {
+      "id": "ingredient-coriander-ground",
+      "revision": 1,
+      "payloadSha256": "99eb041a99e06b99268801564a50301cc87871e0cf69b255f00f541a8773d4c9"
+    },
+    {
+      "id": "ingredient-coriander-seeds-whole",
+      "revision": 1,
+      "payloadSha256": "be16939e1e892ca6d9ca93feb89c078c24b6495e9202b1a4bfaa8689e7d90a16"
+    },
+    {
+      "id": "ingredient-cornmeal-yellow-whole",
+      "revision": 1,
+      "payloadSha256": "a83e2304d6709367b86786d75f6801ff92fcf934905568e87490061352176ebf"
+    },
+    {
+      "id": "ingredient-cornstarch",
+      "revision": 1,
+      "payloadSha256": "8987506a6a73c3f7a771ba83fc27a7e6ad5b82c3826ce8acc60bbe41f6d85737"
+    },
+    {
+      "id": "ingredient-cosmic-crisp-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "534e8eef1fafa137e03244b67f7e1527297dd64c0c08f0112ef966c38461a166"
+    },
+    {
+      "id": "ingredient-cottage-cheese-creamed",
+      "revision": 1,
+      "payloadSha256": "1079d028865152577d179badace7fd8e27517d602e621071a795040dd9dc1552"
+    },
+    {
+      "id": "ingredient-cottage-cheese-plain-1-percent",
+      "revision": 1,
+      "payloadSha256": "dd913ae2155135bba37b450967397fdf5efbc41783b256acf4df661a59620266"
+    },
+    {
+      "id": "ingredient-cottage-cheese-plain-2-percent",
+      "revision": 1,
+      "payloadSha256": "afe0dd1a6a6757a0a8c4349e28be6fc2a1437269182608af5043c74ee884ead8"
+    },
+    {
+      "id": "ingredient-cottage-cheese-plain",
+      "revision": 1,
+      "payloadSha256": "36ea918cd3fef3ccb98a31aebf9cebc4f3f1017a16a29d257615dbadbf372999"
+    },
+    {
+      "id": "ingredient-couscous-dry",
+      "revision": 1,
+      "payloadSha256": "aeb3774fcf8c8834f40409de6c41f56f3491ecde0625986702237d0e9651db0f"
+    },
+    {
+      "id": "ingredient-crushed-tomatoes-canned",
+      "revision": 1,
+      "payloadSha256": "5d7895b777c0186f3aad98e7745ccce277899f33c1292f146b1d6666f662a843"
+    },
+    {
+      "id": "ingredient-cucumber-fresh",
+      "revision": 1,
+      "payloadSha256": "168c4e0518a7f836f4bc98981a4250db06b77bd22aead1bd1a5a965d461b1fd0"
+    },
+    {
+      "id": "ingredient-curry-powder",
+      "revision": 1,
+      "payloadSha256": "e0a2fdac59cbd537ea6d4ea5ac95c39cfd6bdc36d19b10e6245c05d5821c51cd"
+    },
+    {
+      "id": "ingredient-dijon-mustard",
+      "revision": 1,
+      "payloadSha256": "eaa6b6abc8713c11b80993620191d143560e78042ca6eeda60baf05d9fcce0c2"
+    },
+    {
+      "id": "ingredient-dill-dried",
+      "revision": 1,
+      "payloadSha256": "69fbf8e09e3b5cb5203395e76fc519783f38faf5db3875aca25454fb747dad7f"
+    },
+    {
+      "id": "ingredient-eggplant-fresh",
+      "revision": 1,
+      "payloadSha256": "9515347c38d07f36d4c9df3dd945ce6041e1b987301571958217314a5a640b69"
+    },
+    {
+      "id": "ingredient-feta-cheese",
+      "revision": 1,
+      "payloadSha256": "3f5427e970edc07bf8d8ecd37f95beb9c316ba812f918d668ebe1d244d41bfd8"
+    },
+    {
+      "id": "ingredient-fish-sauce",
+      "revision": 1,
+      "payloadSha256": "05d0a8a4a8f960d3c7f1973562dc38257b0ed0c7d68d57bf83befd7df8f38e55"
+    },
+    {
+      "id": "ingredient-fuji-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "e567dbacff79d8bee1027d26c9b6da78fe3956b0f9b5314752a6c29e100b6003"
+    },
+    {
+      "id": "ingredient-gala-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "c61d97dc35edc7a7ee604fddc6738373c4c60e1dc0cc4e54b1e4326542723c2f"
+    },
+    {
+      "id": "ingredient-garam-masala",
+      "revision": 1,
+      "payloadSha256": "22d56493a9fcfe5155e830f50d394043cc0b4791a4edf51d0e2ad0b1b259b08a"
+    },
+    {
+      "id": "ingredient-garlic-fresh",
+      "revision": 1,
+      "payloadSha256": "782c31ebd4edd9a66a4e5a89f536aa4c84c9fc1ba465be820a541e26538c50da"
+    },
+    {
+      "id": "ingredient-garlic-powder",
+      "revision": 1,
+      "payloadSha256": "eed7d58b89c2ba0e37f865e132a2de340f752c29ae177537ae8c624f5508cc21"
+    },
+    {
+      "id": "ingredient-ginger-fresh",
+      "revision": 1,
+      "payloadSha256": "faed43600a78a1a56b232d39d474087d4f042ffb3f3b1435347e2f7c1d73976a"
+    },
+    {
+      "id": "ingredient-ginger-ground",
+      "revision": 1,
+      "payloadSha256": "857179ece150c838e954258cadd8211e2febbb7915239f9eb5e16b3b1efca718"
+    },
+    {
+      "id": "ingredient-glutinous-rice-flour",
+      "revision": 1,
+      "payloadSha256": "65a73bfb203448cd142ee029a4cc4b651b1feda6bf01e8550530fa9f3002f1f5"
+    },
+    {
+      "id": "ingredient-granny-smith-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "36af77913c1a434edd88408cb7cfbd3ffa0eda92d126f4b2e8380d3a08b7c79e"
+    },
+    {
+      "id": "ingredient-great-northern-beans-canned",
+      "revision": 1,
+      "payloadSha256": "916e1db95e174d324fc7e8345353c0fe518518522505403ae282ec80b2dc06fc"
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain-lowfat",
+      "revision": 1,
+      "payloadSha256": "336f4628877eb1832a19e313f54a8549aa6e0c8f1c46d0b2577940754af6bc35"
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain-nonfat",
+      "revision": 1,
+      "payloadSha256": "6fe590e61e9e87fc88a7e8a180a964dfe0155e889d73f50a46ba6ba40ba2a6fb"
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain-whole-milk",
+      "revision": 1,
+      "payloadSha256": "ce41120a8d1cc11aab57903156aa62db3f9184d2481650d7bee7b7d027145444"
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain",
+      "revision": 1,
+      "payloadSha256": "9e25a9ec1572c9029713dd1fcf19e0dc97a83e66053d27a6c0947683c25447f8"
+    },
+    {
+      "id": "ingredient-greek-yogurt-vanilla-lowfat",
+      "revision": 1,
+      "payloadSha256": "1f7d0e7306ccf2823c99e764f54a6fa2c9950c899ad204c78aaaef1a9ac45e86"
+    },
+    {
+      "id": "ingredient-greek-yogurt-vanilla-nonfat",
+      "revision": 1,
+      "payloadSha256": "76043f6ac9e4221ee5898fd82a1b631a5b12710f8ccf2b17c6711018ef639afa"
+    },
+    {
+      "id": "ingredient-greek-yogurt-vanilla",
+      "revision": 1,
+      "payloadSha256": "6c7aad17bf0132322b7fbbfa7d31f6c510d18fda17d5234c70f1f684d38ec059"
+    },
+    {
+      "id": "ingredient-green-cabbage",
+      "revision": 1,
+      "payloadSha256": "24333ae6fb1e103cf694350aa46a25df3bbabb628df3ee2540cce94686871998"
+    },
+    {
+      "id": "ingredient-green-split-peas-dried",
+      "revision": 1,
+      "payloadSha256": "2ac17d814236d69f5a29ad20335437e1a14246e10a947b1acbc03739beb2514b"
+    },
+    {
+      "id": "ingredient-ground-beef-80-20",
+      "revision": 1,
+      "payloadSha256": "d48f6dce6fb039f7f98d92f3b6770720bece79c816a610007a09e48fabfbba31"
+    },
+    {
+      "id": "ingredient-ground-cumin",
+      "revision": 1,
+      "payloadSha256": "a9b01a2df043348b6835aa5e13dc8560fce510b7dbb4071196b4e6391e88a65a"
+    },
+    {
+      "id": "ingredient-ground-pork-raw",
+      "revision": 1,
+      "payloadSha256": "55668c46953bda038a8c861da3a4bfb383acdd57111eb726506487f1f087696f"
+    },
+    {
+      "id": "ingredient-ground-turkey",
+      "revision": 1,
+      "payloadSha256": "d350eeb3d7eea8604b45843b994db8cfc869747e899612adabb3905ab32237b4"
+    },
+    {
+      "id": "ingredient-hatch-green-chiles-fresh",
+      "revision": 1,
+      "payloadSha256": "5dda9b4a82af00a52b644c95639e13c0733b91dd907e8cf42b56c5251340101d"
+    },
+    {
+      "id": "ingredient-honey",
+      "revision": 1,
+      "payloadSha256": "d64c84f136f5fa690d5f3daebe0c41153c8176c590bf94580ae3034d57d569a6"
+    },
+    {
+      "id": "ingredient-honeycrisp-apples-fresh",
+      "revision": 1,
+      "payloadSha256": "ceef916f946eb4b0c4b4df6b7b0141cbf6d5bd52ea01331b39679184fab79acf"
+    },
+    {
+      "id": "ingredient-italian-pork-sausage-raw",
+      "revision": 1,
+      "payloadSha256": "71e00c8e50c209546ee3bde50917d870efe0529bcb0acf1b9b2ff7a1dc1cca8d"
+    },
+    {
+      "id": "ingredient-italian-seasoning",
+      "revision": 1,
+      "payloadSha256": "43734816851618adcbe66f7464fe4ad07277e436733269a8ed7d7c681ae32909"
+    },
+    {
+      "id": "ingredient-jalapeno-peppers-fresh",
+      "revision": 1,
+      "payloadSha256": "63cd1e6d5da14322cb6c7bf8fdeb2430f691dfafd0feefe237ab926db9d2fe98"
+    },
+    {
+      "id": "ingredient-jasmine-rice-dry",
+      "revision": 1,
+      "payloadSha256": "3a38c487f161ede48213fb9841aa2d1594b60c8b11e56a73436be578f034b26a"
+    },
+    {
+      "id": "ingredient-kabocha-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "0df852964538f55b0a107d3e77ee99b852495cdd740dc3967941d50848a1cb3c"
+    },
+    {
+      "id": "ingredient-kale-fresh",
+      "revision": 1,
+      "payloadSha256": "d0e3d263b351f638de6e0704896d921fd68b16be3c5d29faa50cbfd014c2f667"
+    },
+    {
+      "id": "ingredient-kale-fresh",
+      "revision": 2,
+      "payloadSha256": "189b22846402abd1e6d42f2f42f4bd8fb51a4fe4c3860c8c9acaa07ef07d8608"
+    },
+    {
+      "id": "ingredient-kidney-beans-canned",
+      "revision": 1,
+      "payloadSha256": "40ca746f2b242ad71edb47fd14d419fdb8030a42e9dd3d47f6eb778bf6e78be4"
+    },
+    {
+      "id": "ingredient-kidney-beans-dried",
+      "revision": 1,
+      "payloadSha256": "662feca44f727df4d9c648698681ecd24b82872592b592feb08ca0d2e532ad85"
+    },
+    {
+      "id": "ingredient-kielbasa-fully-cooked",
+      "revision": 1,
+      "payloadSha256": "dc5c18381d6d7e8ff84d60c50a94943efba0afcc010515c765ee1263ed763ef9"
+    },
+    {
+      "id": "ingredient-kielbasa-raw",
+      "revision": 1,
+      "payloadSha256": "c28d7ec68a219fbc6037abd59f68e1371eb9c662645c1910e8763f010996e9dd"
+    },
+    {
+      "id": "ingredient-large-eggs-dozen",
+      "revision": 1,
+      "payloadSha256": "409385804f7d265c7e4613d7e87fb5ccf63e2c5cf014ba9f0bf2d9c151abe870"
+    },
+    {
+      "id": "ingredient-leeks-fresh",
+      "revision": 1,
+      "payloadSha256": "1e42361f3621e99a8cd48f66af6a642c34993122ee3d8573065ed028250eab12"
+    },
+    {
+      "id": "ingredient-lemon-fresh",
+      "revision": 1,
+      "payloadSha256": "f2259503b97e55c7c5acf345c3565d9ba531a64f8bfdb2eee109da7751c47fe7"
+    },
+    {
+      "id": "ingredient-lentils-canned",
+      "revision": 1,
+      "payloadSha256": "ef3dc1d31e0ec4a62db44fa5e9f9471f4059fce036597b11781922cadc1d61e7"
+    },
+    {
+      "id": "ingredient-lentils-dried",
+      "revision": 1,
+      "payloadSha256": "42c87d02554a05dc1001028eea83f3b79885a2bbf3d70df056b49c636ef8178e"
+    },
+    {
+      "id": "ingredient-lime-juice",
+      "revision": 1,
+      "payloadSha256": "0a0464e51e283d9571225988ab56c698d4da2e0497a418ced7cc2d5b543f0707"
+    },
+    {
+      "id": "ingredient-masa-harina",
+      "revision": 1,
+      "payloadSha256": "11a0954448e87260e86732a085c94779d0d1bc210c2d9376d710f43040e5ac97"
+    },
+    {
+      "id": "ingredient-melting-cheese-blend",
+      "revision": 1,
+      "payloadSha256": "1013cf70114c4ff193fe46afdc4718c0e71e78df6cfa7cb1258c25854b15d8e5"
+    },
+    {
+      "id": "ingredient-mexican-oregano-dried",
+      "revision": 1,
+      "payloadSha256": "77f4c34ce4b7d77a3eebdda9bb03c5108ea178674b95e9a14b5481d7c4a802ff"
+    },
+    {
+      "id": "ingredient-mexican-style-cheese-blend",
+      "revision": 1,
+      "payloadSha256": "ba7f86591e52cbee9292fac45cb36176f126ef20b7ac67331530b33dc24d4642"
+    },
+    {
+      "id": "ingredient-milk-whole",
+      "revision": 1,
+      "payloadSha256": "763674158f28756ce97df00850e877b1feb4de1d4f57dfa7e2760cc4e17b437a"
+    },
+    {
+      "id": "ingredient-millet-whole",
+      "revision": 1,
+      "payloadSha256": "df4a0f1f30eacc78e37f236c687ccfe644655a160aab76e09c92e687be18ca0e"
+    },
+    {
+      "id": "ingredient-miso",
+      "revision": 1,
+      "payloadSha256": "7e69c00c74bcc255f759308c4580925264e07c408463dfeeb71266a50ee60e81"
+    },
+    {
+      "id": "ingredient-monterey-jack-cheese",
+      "revision": 1,
+      "payloadSha256": "427d659dd6117c5cff4bec195177956fbfe17b2277bf9c025ce1e0a7fb0811f3"
+    },
+    {
+      "id": "ingredient-mozzarella-cheese-unspecified",
+      "revision": 1,
+      "payloadSha256": "5994497081a30fc26e57a8f6fb6a7e3a32128b7aa130a0f60761ac6eed6be5c0"
+    },
+    {
+      "id": "ingredient-mozzarella-fresh",
+      "revision": 1,
+      "payloadSha256": "e22d74bee411ecb9379ee143f492e369c3e3835a2850d3a0e05091aa0412e149"
+    },
+    {
+      "id": "ingredient-mozzarella-low-moisture-part-skim",
+      "revision": 1,
+      "payloadSha256": "0231d6fb574fc9ccaf27f7112c604cdee1be9db40a8be89ef44c190605e23700"
+    },
+    {
+      "id": "ingredient-mozzarella-low-moisture-whole-milk",
+      "revision": 1,
+      "payloadSha256": "722cd39f5f03589c2827a86ef48a32945d0f76be3fa160efc81fa76e98d15e26"
+    },
+    {
+      "id": "ingredient-mozzarella-low-moisture",
+      "revision": 1,
+      "payloadSha256": "04468562fac46dd09c100d24a2e1e67560691cf67a38910846e70f304a2b9907"
+    },
+    {
+      "id": "ingredient-mushrooms-cremini-fresh",
+      "revision": 1,
+      "payloadSha256": "39845a5c69f2d00953ee633b637796cea0b89252554e375396709ed28451475f"
+    },
+    {
+      "id": "ingredient-mushrooms-white-fresh",
+      "revision": 1,
+      "payloadSha256": "5ad7d442cbdc61b21b54ca757b91427865ba4c159572cc5a2c7fab6abbd55f13"
+    },
+    {
+      "id": "ingredient-navy-beans-canned",
+      "revision": 1,
+      "payloadSha256": "a2a27a33ad9fc17013edd8b5c88e36c8e00cf23e9272b929418f8991d63fded4"
+    },
+    {
+      "id": "ingredient-navy-beans-dried",
+      "revision": 1,
+      "payloadSha256": "068b694cf32444156de52f046b761cd5097d899fd9af13c64b8abeb8e3441604"
+    },
+    {
+      "id": "ingredient-oat-flour",
+      "revision": 1,
+      "payloadSha256": "c263941aeb7dd0def366fe752a24d428021d26897c319770e8216b9bd534b28a"
+    },
+    {
+      "id": "ingredient-okra-fresh",
+      "revision": 1,
+      "payloadSha256": "99ef9dbeadb7f40d55e7e293af41d8cc5e5699bc426cb6aa191e9482839beddb"
+    },
+    {
+      "id": "ingredient-olive-oil",
+      "revision": 1,
+      "payloadSha256": "5801abf1f8d22b97dd8299b937f817433537ce80570db85ff0bb443da0a28c64"
+    },
+    {
+      "id": "ingredient-onion-powder",
+      "revision": 1,
+      "payloadSha256": "03cd9334c572bf9d864338f9179a20d9a3a11fc3001c883447ca0100da9e9b8e"
+    },
+    {
+      "id": "ingredient-onions-fresh",
+      "revision": 1,
+      "payloadSha256": "3fb85db5f728e07fbb5a4528d0a94537002843311b6136385f1deea6ff75b172"
+    },
+    {
+      "id": "ingredient-orange-juice",
+      "revision": 1,
+      "payloadSha256": "ed544063449e175c85d86bae2505a7d235baafe01aff1a4d074ac4212c1feec8"
+    },
+    {
+      "id": "ingredient-oregano-dried",
+      "revision": 1,
+      "payloadSha256": "05caceb98989bd5b69cba899665b5491a4d5c035a5a1293daec590f859ce3e39"
+    },
+    {
+      "id": "ingredient-oyster-sauce",
+      "revision": 1,
+      "payloadSha256": "f262f3b9429f1b3b76955f8210d00fd2000d30269d19aa7fcba938b393ad9a7f"
+    },
+    {
+      "id": "ingredient-parmesan-hard",
+      "revision": 1,
+      "payloadSha256": "31b43a77954bfd2cf8fc206d4cefe990ad35c7d9e722c71e75fff4415b2d099e"
+    },
+    {
+      "id": "ingredient-parsley-fresh",
+      "revision": 1,
+      "payloadSha256": "b8d45025b2f6b4dfe6f5d8618de4e7a14bfd47592ca3755477d1da0beacb3cce"
+    },
+    {
+      "id": "ingredient-pasta-dry",
+      "revision": 1,
+      "payloadSha256": "c9e96578e160b8036b647bd93f6f04ea2d0fe3f50ab1a96721b76b27d4568c95"
+    },
+    {
+      "id": "ingredient-pinto-beans-canned",
+      "revision": 1,
+      "payloadSha256": "419bf81de92e2fac8237b2f08734e720ded7c0f045302da7bd92b6e3f8fbe134"
+    },
+    {
+      "id": "ingredient-pinto-beans-dried",
+      "revision": 1,
+      "payloadSha256": "15c300f7aae68a59c390a86f023c55e674b4bf974eeb68b6ed8583495037ddf5"
+    },
+    {
+      "id": "ingredient-poblano-peppers-fresh",
+      "revision": 1,
+      "payloadSha256": "deae4cd0ea0c56a8eb6a9c9979de95976f0656520c34d00c2597e7520a568e37"
+    },
+    {
+      "id": "ingredient-pork-chorizo-raw",
+      "revision": 1,
+      "payloadSha256": "32f8dcc165f4c233d50da55f28261d0a9b12f80a9e9abdef9c82c30d89a42d90"
+    },
+    {
+      "id": "ingredient-pork-loin-chops-boneless-raw",
+      "revision": 1,
+      "payloadSha256": "49f4c99cac507d1b4d565d0147ef18f07e509abb39db74f4258746ac54888ea3"
+    },
+    {
+      "id": "ingredient-pork-loin-roast-boneless-raw",
+      "revision": 1,
+      "payloadSha256": "1a204561905e8a3999b2cf6c363ae273fb636b54ecfbceaa898e457a4c58639b"
+    },
+    {
+      "id": "ingredient-pork-sausage-raw",
+      "revision": 1,
+      "payloadSha256": "2c2f77c1c20456cd293828d7f012460b8b3b1d53e647108457da335def6c552f"
+    },
+    {
+      "id": "ingredient-pork-shoulder-butt",
+      "revision": 1,
+      "payloadSha256": "dab8a49f2d0a25c591ca39d9f9e7f8579a251f3e3a328b488f7154690a4d6bb3"
+    },
+    {
+      "id": "ingredient-pork-tenderloin-raw",
+      "revision": 1,
+      "payloadSha256": "8a5d6cb2906fca54a0378fe34b6c9baeb085099f1d109eafb8f42078fc1242e6"
+    },
+    {
+      "id": "ingredient-potatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "547257c49729799b62bffd184d5b5ad4647842796aba2f004241eefbc653d4a8"
+    },
+    {
+      "id": "ingredient-quinoa-dry",
+      "revision": 1,
+      "payloadSha256": "e128e593be3946059c9da7ac17c70eb354176e709b7c58c2cf7f14980d1b6de0"
+    },
+    {
+      "id": "ingredient-radishes-fresh",
+      "revision": 1,
+      "payloadSha256": "498f46aa54d94de275e311023d19c6f70ac388f31f33cb518ce79bf0c3b882ff"
+    },
+    {
+      "id": "ingredient-red-lentils-dried",
+      "revision": 1,
+      "payloadSha256": "0bf18b1e9e0d7cc3f60785d53bd811161cb73cd0010ad97ef35307069d56cc80"
+    },
+    {
+      "id": "ingredient-red-pepper-flakes",
+      "revision": 1,
+      "payloadSha256": "7b2f65f02ee5379fa82fd9d9de03378413750e4d5489ce28068b48bde0d4d71d"
+    },
+    {
+      "id": "ingredient-red-potatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "5ae09bb751edab8bcf642e1bc3241448f37d5362dcf5a5370e10d6a9bc44ca7a"
+    },
+    {
+      "id": "ingredient-red-wine-vinegar",
+      "revision": 1,
+      "payloadSha256": "421a6599e2a4c6419c3679ed6a1418e175e9a0b5546049a67378b9508aaa20e1"
+    },
+    {
+      "id": "ingredient-rice-flour",
+      "revision": 1,
+      "payloadSha256": "7687082ae71f71148819ac155b2f58a5471f3ca05f9fc0ce1ec6f04b8284f6dc"
+    },
+    {
+      "id": "ingredient-rolled-oats",
+      "revision": 1,
+      "payloadSha256": "96ae055ae7b8b96e546ffed0dc8f24d6a43579233dcd185f88589daf216ec0cc"
+    },
+    {
+      "id": "ingredient-rosemary-dried",
+      "revision": 1,
+      "payloadSha256": "587970efad5338fdbc754cb5a275c75383caf7afc1e92a02ed656f6d9d19823f"
+    },
+    {
+      "id": "ingredient-russet-potatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "5c2cbacc95b76432e94f2498b558521fc5712e4fa2c107381d18a7baebe90d95"
+    },
+    {
+      "id": "ingredient-rye-flour",
+      "revision": 1,
+      "payloadSha256": "c4e4be5760e8fc3dff9d1767e9e9353369a3d0334038d8c9d34066c29c5b44a6"
+    },
+    {
+      "id": "ingredient-salmon-fillets-raw",
+      "revision": 1,
+      "payloadSha256": "a2f191e4d927697a335252fc4b377b1406f15587f4e7b84dc9c3faa9ab692884"
+    },
+    {
+      "id": "ingredient-salt",
+      "revision": 1,
+      "payloadSha256": "57ae9f98401ba39f89bf21cfb46b8bf48cb12d9fcbeafc2494c834b93b3adf1d"
+    },
+    {
+      "id": "ingredient-self-rising-wheat-flour",
+      "revision": 1,
+      "payloadSha256": "f563f0afb952b48d1cbe9c72c693d8ec833b948e65164c3bc5a57d70fca49833"
+    },
+    {
+      "id": "ingredient-serrano-peppers-fresh",
+      "revision": 1,
+      "payloadSha256": "d673bbc03f85b1279600d08c61ee8425616348125b96f486fb2132b495fb2d3b"
+    },
+    {
+      "id": "ingredient-sesame-oil",
+      "revision": 1,
+      "payloadSha256": "2d83d022c145ab353f0a20de4c5a2085a75feae7bd3fc187cbef05d7a30f6ef4"
+    },
+    {
+      "id": "ingredient-sesame-seeds-whole-dried",
+      "revision": 1,
+      "payloadSha256": "b3d5ab60df26c655a673113044a23ac2e8e604a52d78406cea29ad4adb429e16"
+    },
+    {
+      "id": "ingredient-smoked-paprika",
+      "revision": 1,
+      "payloadSha256": "634e19cc82d2cda45a43840808c977850ab59cc55360564bf475067c0a2b1c5b"
+    },
+    {
+      "id": "ingredient-smoked-sausage-fully-cooked",
+      "revision": 1,
+      "payloadSha256": "7d25d0bac282ea0b38c6d10e45865f3e69e663c4dc3eb181ce8b83e6f4211b2c"
+    },
+    {
+      "id": "ingredient-smoked-sausage-raw",
+      "revision": 1,
+      "payloadSha256": "c583a998aa0dc5a2a750349048016e227b1d536e7e20d59fc72c243c16537007"
+    },
+    {
+      "id": "ingredient-sockeye-salmon-fillets-raw",
+      "revision": 1,
+      "payloadSha256": "d438ab74691a28f177098c145c89f6a138e5e9d79fc62ba72b80bdbe9dccb177"
+    },
+    {
+      "id": "ingredient-sorghum-flour",
+      "revision": 1,
+      "payloadSha256": "2db3ca0b1498221db21bbc8fee2a2063e1365e010b156b14d5f66354f2944649"
+    },
+    {
+      "id": "ingredient-sorghum-whole",
+      "revision": 1,
+      "payloadSha256": "5c1a6b849ab1501314ef6599a145de1bbb92cdeafb4f78303605d5700a2727b5"
+    },
+    {
+      "id": "ingredient-sour-cream-full-fat",
+      "revision": 1,
+      "payloadSha256": "c8af861d5e6ad65b18f5c267e4ba0787088e6861cf69997bf4f47f897659b056"
+    },
+    {
+      "id": "ingredient-sour-cream-plain",
+      "revision": 1,
+      "payloadSha256": "bcbb25838ed01e889842387ebdc015d69289ff4780ccf6aea7f7f2a4f809e4e0"
+    },
+    {
+      "id": "ingredient-sour-cream-reduced-fat",
+      "revision": 1,
+      "payloadSha256": "f4e91ab26e5f2a143a78454a34660e47bad717f289b6000f148967e86df9f116"
+    },
+    {
+      "id": "ingredient-soy-sauce",
+      "revision": 1,
+      "payloadSha256": "71b0968441b5bf360e2a121b7eadac98d35ed9158e426497164b462e36332153"
+    },
+    {
+      "id": "ingredient-spaghetti-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "e848710d2f78457be79408cc3467a06acc3951bfbb2e712ba1a28965a4f521e2"
+    },
+    {
+      "id": "ingredient-spearmint-fresh",
+      "revision": 1,
+      "payloadSha256": "633b74494abb252bb7ee99b93576bfb7df6af5738543ce2c081af66b0c739431"
+    },
+    {
+      "id": "ingredient-spinach-fresh",
+      "revision": 1,
+      "payloadSha256": "6ea5dd59bcbee720b2e4997db0c1c2a6d5036eead5d83ec79a79f3c5ebecbc69"
+    },
+    {
+      "id": "ingredient-spinach-fresh",
+      "revision": 2,
+      "payloadSha256": "9f656d68c979da9074a3d19d15e2082deeaddf27ed531c0beda919b8f65ba7b4"
+    },
+    {
+      "id": "ingredient-steel-cut-oats",
+      "revision": 1,
+      "payloadSha256": "c57eaf92579bf19f547826f6998e9b2feadb5e1d5550c3ab3bbe173289efd964"
+    },
+    {
+      "id": "ingredient-sugar-brown",
+      "revision": 1,
+      "payloadSha256": "89effb07316c3775d73fe4ef5d3d9101451a750bbca2a1756f43bf6eb5954f2c"
+    },
+    {
+      "id": "ingredient-sugar-granulated",
+      "revision": 1,
+      "payloadSha256": "e5682c89a67d5a39890e0f7f4c390105bbe75b39a27622bc58b69ac6158b0363"
+    },
+    {
+      "id": "ingredient-summer-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "acd8519333b97f0e87a920e648baa8427a4295912e2e68735141cce91d469520"
+    },
+    {
+      "id": "ingredient-sweet-potatoes",
+      "revision": 1,
+      "payloadSha256": "a6f766ac807c1e211922749a213f953464d1f335652c81a9dd71d18603b4436d"
+    },
+    {
+      "id": "ingredient-swiss-chard-fresh",
+      "revision": 1,
+      "payloadSha256": "f68ac7ac192839ee82949615eee678d1eba50e2fcde409857d1f3b89ac078e80"
+    },
+    {
+      "id": "ingredient-tahini",
+      "revision": 1,
+      "payloadSha256": "3375d0cf3cfd0aadb9a63ff11083f4bda5c33bd002b3c5a46adf321e673d2aa6"
+    },
+    {
+      "id": "ingredient-tapioca-pearls-dry",
+      "revision": 1,
+      "payloadSha256": "35c86eaddd860875bace6e55460e5993bc49a10d814fca97a6679b8e59feae80"
+    },
+    {
+      "id": "ingredient-tempeh",
+      "revision": 1,
+      "payloadSha256": "3988e886c78bed7eab0fcbf54660a87b359171a5469b2c27b471bd5c970c0dda"
+    },
+    {
+      "id": "ingredient-thyme-dried",
+      "revision": 1,
+      "payloadSha256": "9b763294475b758dbb436229cb46f84c2ea64bd3a10d2fd91e2ff3aa49c7f2f2"
+    },
+    {
+      "id": "ingredient-tofu-firm",
+      "revision": 1,
+      "payloadSha256": "958fad99648bc87897884a692cfda1848238fa9f9ddefc19dc7d3fb64acaac85"
+    },
+    {
+      "id": "ingredient-tofu-soft",
+      "revision": 1,
+      "payloadSha256": "864926ad788d6c84b46c9fbd1d428d2b18e09d2d2d3f7794f2fd64f0cb5f737d"
+    },
+    {
+      "id": "ingredient-tomatillos-fresh",
+      "revision": 1,
+      "payloadSha256": "dfb51bf2607718ce9fd4e05c5ac044d1c794b45abf6395dcf943fa0a4160f1ef"
+    },
+    {
+      "id": "ingredient-tomato-paste",
+      "revision": 1,
+      "payloadSha256": "c9248bd178a79e97b143d441c19590f655728d34cc963190cf1e6548e27e2bb2"
+    },
+    {
+      "id": "ingredient-tomatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "e181d80ca0753d9a9798eeb0e1c4f255a800d1b14766df5de7af491ef5f7448f"
+    },
+    {
+      "id": "ingredient-tuna-light-canned-water",
+      "revision": 1,
+      "payloadSha256": "f0d5418e1cb7e70032a70dbc27da7be268d4a5ebc4c881ec71c3a0dcbc9eca2a"
+    },
+    {
+      "id": "ingredient-turmeric-ground",
+      "revision": 1,
+      "payloadSha256": "d51c3506a19684c87d28490d4ffac66f618f5e6c852376a82147489667e74240"
+    },
+    {
+      "id": "ingredient-vegetable-broth",
+      "revision": 1,
+      "payloadSha256": "a5964592e73dfd265ffc7ba3fbf798486c3f350ad596928b13fa6c68ae0605bd"
+    },
+    {
+      "id": "ingredient-walnuts-english-raw",
+      "revision": 1,
+      "payloadSha256": "50b6853f830dc1c5d6f4b8333272f131e8d3aab499caacec1ae18f289cb00cd5"
+    },
+    {
+      "id": "ingredient-whole-grain-mustard",
+      "revision": 1,
+      "payloadSha256": "6e5ec375174f73d04eccffcc1944e0cd7a6938137a8e3943d8522f9fe8b34ad6"
+    },
+    {
+      "id": "ingredient-whole-wheat-flour",
+      "revision": 1,
+      "payloadSha256": "7d6e241743c8f128b26854b529f0c45fb35c076e6bea3c1977aa6529b1802dae"
+    },
+    {
+      "id": "ingredient-worcestershire-sauce-gluten-free",
+      "revision": 1,
+      "payloadSha256": "d42062837c19bc1de273d71ca53a81de6a299d159315e99cc4f42a3d03d5d9d2"
+    },
+    {
+      "id": "ingredient-worcestershire-sauce",
+      "revision": 1,
+      "payloadSha256": "05797ce4abfde6f0c59f08ebc72c91c2d481b4bea3bf1c637dfbb9b7d873a550"
+    },
+    {
+      "id": "ingredient-yellow-summer-squash-fresh",
+      "revision": 1,
+      "payloadSha256": "331ba5d75c7911aaed18483c4c75c7074923e199fa8060d54ff4f1fe261643c2"
+    },
+    {
+      "id": "ingredient-yogurt-plain-whole-milk",
+      "revision": 1,
+      "payloadSha256": "cfb2eb63ba6416f06ff55e28ad46c0abc885dc8db06ac95d2e78858039a61fc6"
+    },
+    {
+      "id": "ingredient-yukon-gold-potatoes-fresh",
+      "revision": 1,
+      "payloadSha256": "f49c04191f048df4bbd405dbe08344c492613d49e257d54d46654909727003d0"
+    },
+    {
+      "id": "ingredient-zucchini-fresh",
+      "revision": 1,
+      "payloadSha256": "68c1ad44d1919949a36b7734ea6673714cdb91fb8c8aff672907ba9eea091efa"
+    },
+    {
+      "id": "red-lentils-cover-general-dried",
+      "revision": 1,
+      "payloadSha256": "ec4f67de76f022a388fce48bcc621faff520e5a42373e6659a9eb1d1e93b08f4"
+    }
+  ]
+}

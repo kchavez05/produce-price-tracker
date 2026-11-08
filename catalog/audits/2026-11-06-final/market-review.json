@@ -1,0 +1,879 @@
+{
+  "marketCatalogHash": "87d3adf646930c3dae99f7aedf571405b267d23f235b413809e687f8083c8815",
+  "counts": {
+    "linked": 22,
+    "noMarketItem": 123
+  },
+  "marketGroupsWithPantryCounterparts": 20,
+  "ingredientRelationships": [
+    {
+      "ingredientId": "all-purpose-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "almonds-whole-raw",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "apple-cider-vinegar",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "asparagus-fresh",
+      "directMarketIds": [
+        "asparagus-fresh"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "avocado-oil",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "avocados-hass",
+      "directMarketIds": [
+        "avocados-hass"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "barley-hulled",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "barley-pearled",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "basil-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "basmati-rice-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "bay-leaf",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "beef-broth",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "beets-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "bell-peppers",
+      "directMarketIds": [
+        "bell-peppers"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "black-beans-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "black-beans-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "black-pepper",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "bread-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "broccoli-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": [
+        "dutch-oven-beef-chuck-pot-roast-stew:root_starch:broccoli-cauliflower",
+        "cheesy-chicken-broccoli-potato-casserole:cruciferous_veg:broccoli-cauliflower",
+        "cheesy-chicken-broccoli-potato-casserole:base_starch:broccoli-cauliflower",
+        "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:roast_veg:broccoli-cauliflower",
+        "sheet-pan-salmon-asparagus-brussels-potato-roast:green_veg:broccoli-cauliflower"
+      ]
+    },
+    {
+      "ingredientId": "brown-rice-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "brown-rice-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "brussels-sprouts",
+      "directMarketIds": [
+        "brussels-sprouts"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "buckwheat-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "buckwheat-whole",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "bulgur-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "butter-salted-unsalted",
+      "directMarketIds": [
+        "butter-salted-unsalted"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cannellini-beans-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "canola-oil",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "caraway-seeds",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cardamom-ground",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cardamom-pods",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "carrots-fresh",
+      "directMarketIds": [
+        "carrots-whole-baby"
+      ],
+      "scopedUseIds": [
+        "dutch-oven-beef-chuck-pot-roast-stew:root_veg:carrots-whole-baby",
+        "tuscan-sausage-white-bean-spinach-potato-stew:aromatics:carrots-whole-baby"
+      ]
+    },
+    {
+      "ingredientId": "cauliflower-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": [
+        "colorado-pork-green-chile-stew:stew_starch:broccoli-cauliflower",
+        "dutch-oven-beef-chuck-pot-roast-stew:root_starch:broccoli-cauliflower",
+        "cheesy-chicken-broccoli-potato-casserole:cruciferous_veg:broccoli-cauliflower",
+        "cheesy-chicken-broccoli-potato-casserole:base_starch:broccoli-cauliflower",
+        "tuscan-sausage-white-bean-spinach-potato-stew:starch_base:broccoli-cauliflower",
+        "golden-chicken-butternut-squash-curry-braise:squash_starch:broccoli-cauliflower",
+        "golden-chicken-butternut-squash-curry-braise:greens_veg:broccoli-cauliflower",
+        "keto-caveman-beef-chuck-mushroom-cauliflower-braise:low_carb_base:broccoli-cauliflower"
+      ]
+    },
+    {
+      "ingredientId": "celery-stalks",
+      "directMarketIds": [
+        "celery-stalks"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "chicken-breast-boneless",
+      "directMarketIds": [
+        "chicken-breast-boneless"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "chicken-broth",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "chicken-thighs-boneless",
+      "directMarketIds": [
+        "chicken-thighs-boneless"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "chickpea-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "chickpeas-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "chickpeas-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "chili-powder",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cilantro-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cinnamon-ground",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cloves-ground",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "coconut-aminos",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "coconut-milk-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "coriander-ground",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "coriander-seeds-whole",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cornmeal-yellow-whole",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cornstarch",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "couscous-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "crushed-tomatoes-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "cucumber-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "curry-powder",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "dijon-mustard",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "dill-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "eggplant-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "feta-cheese",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "fish-sauce",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "garam-masala",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "garlic-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "garlic-powder",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "ginger-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "ginger-ground",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "glutinous-rice-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "great-northern-beans-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "green-cabbage",
+      "directMarketIds": [
+        "green-cabbage"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "green-split-peas-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "ground-beef-80-20",
+      "directMarketIds": [
+        "ground-beef-80-20"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "ground-cumin",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "ground-turkey",
+      "directMarketIds": [
+        "ground-turkey"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "honey",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "italian-seasoning",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "jasmine-rice-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "kale-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": [
+        "tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:spinach-kale-greens",
+        "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:spinach-kale-greens",
+        "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:spinach-kale-greens"
+      ]
+    },
+    {
+      "ingredientId": "kidney-beans-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "kidney-beans-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "large-eggs-dozen",
+      "directMarketIds": [
+        "large-eggs-dozen"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "leeks-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "lemon-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "lentils-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "lentils-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "lime-juice",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "masa-harina",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "mexican-oregano-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "milk-whole",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "millet-whole",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "miso",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "mushrooms-white-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": [
+        "dutch-oven-beef-chuck-pot-roast-stew:root_starch:mushrooms-cremini-white",
+        "dutch-oven-beef-chuck-pot-roast-stew:umami_veg:mushrooms-cremini-white",
+        "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:mushrooms-cremini-white"
+      ]
+    },
+    {
+      "ingredientId": "navy-beans-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "navy-beans-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "oat-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "okra-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "olive-oil",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "onion-powder",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "onions-fresh",
+      "directMarketIds": [
+        "yellow-white-onions"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "orange-juice",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "oregano-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "oyster-sauce",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "parmesan-hard",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "parsley-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "pasta-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "pinto-beans-canned",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "pinto-beans-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "pork-shoulder-butt",
+      "directMarketIds": [
+        "pork-shoulder-butt"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "quinoa-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "radishes-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "red-lentils-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "red-pepper-flakes",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "red-wine-vinegar",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "rice-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "rolled-oats",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "rosemary-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "rye-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "salt",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "self-rising-wheat-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "sesame-oil",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "sesame-seeds-whole-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "smoked-paprika",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "sorghum-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "sorghum-whole",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "soy-sauce",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "spearmint-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "spinach-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": [
+        "tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:spinach-kale-greens",
+        "golden-chicken-butternut-squash-curry-braise:greens_veg:spinach-kale-greens",
+        "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:spinach-kale-greens",
+        "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:spinach-kale-greens"
+      ]
+    },
+    {
+      "ingredientId": "steel-cut-oats",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "sugar-brown",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "sugar-granulated",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "sweet-potatoes",
+      "directMarketIds": [
+        "sweet-potatoes"
+      ],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "tahini",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "tapioca-pearls-dry",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "tempeh",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "thyme-dried",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "tofu-firm",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "tofu-soft",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "tomato-paste",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "tomatoes-fresh",
+      "directMarketIds": [],
+      "scopedUseIds": [
+        "colorado-pork-green-chile-stew:tomato_acid:tomatoes-roma-vine",
+        "golden-chicken-butternut-squash-curry-braise:aromatics_tomato:tomatoes-roma-vine"
+      ]
+    },
+    {
+      "ingredientId": "tuna-light-canned-water",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "turmeric-ground",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "vegetable-broth",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "walnuts-english-raw",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "whole-grain-mustard",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "whole-wheat-flour",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "worcestershire-sauce",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "worcestershire-sauce-gluten-free",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    },
+    {
+      "ingredientId": "yogurt-plain-whole-milk",
+      "directMarketIds": [],
+      "scopedUseIds": []
+    }
+  ],
+  "marketGroupsWithoutPantryCounterparts": [
+    {
+      "id": "chicken-thighs-bone-in",
+      "name": "Bone-In Chicken Thighs / Drumsticks",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "pork-loin-roast-chops",
+      "name": "Boneless Pork Loin / Center Cut Chops",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "beef-chuck-roast",
+      "name": "Beef Chuck Roast / Pot Roast / Stew Meat",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "italian-pork-sausage",
+      "name": "Italian Sausage / Ground Pork / Chorizo",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "smoked-sausage-kielbasa",
+      "name": "Smoked Sausage / Andouille / Kielbasa",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "sirloin-strip-steak",
+      "name": "Beef New York Strip / Top Sirloin Steak",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "salmon-fillets",
+      "name": "Atlantic or Wild Sockeye Salmon Fillets",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "potatoes-russet-gold",
+      "name": "Russet or Yukon Gold Potatoes (5 lb Bag)",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "poblano-anaheim-peppers",
+      "name": "Poblano, Anaheim, or Jalapeño Peppers",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "butternut-acorn-squash",
+      "name": "Butternut, Acorn, or Spaghetti Squash",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "zucchini-yellow-squash",
+      "name": "Zucchini or Yellow Summer Squash",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "apples-honeycrisp-gala",
+      "name": "Honeycrisp, Gala, or Fuji Apples",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "shredded-block-cheese",
+      "name": "Shredded or Block Cheese (Cheddar, Jack, Mozzarella)",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "cottage-cheese-sour-cream",
+      "name": "Cottage Cheese or Sour Cream (16–24 oz Tub)",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    },
+    {
+      "id": "greek-yogurt-tub",
+      "name": "Plain or Vanilla Greek Yogurt (32 oz Tub)",
+      "status": "NO_APPROVED_PANTRY_COUNTERPART"
+    }
+  ],
+  "note": "Counterpart availability does not claim all live offers or hosted environments were validated. Existing compound groups remain distinct from pantry identity; scoped use and title admission are separately reviewed."
+}

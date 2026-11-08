@@ -1,0 +1,64 @@
+{
+  "status": "PROPOSAL_VALIDATED_NOT_APPROVED_NOT_ACTIVE",
+  "preparedOn": "2026-11-07",
+  "parentVersion": "2026-11-07.3",
+  "parentContentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "packageHash": "a9398933e20cca9a4c8d16b52e3ca91b08f26c1dd48bd2d94442ad769b118b60",
+  "validatorFileSha256": "1dd9e512699abba3f78cb9826d21ebd90cda64ef8b30feaf516cd76de79bb63d",
+  "counts": {
+    "newIngredients": 0,
+    "newSources": 0,
+    "newCompatibilityEdges": 0,
+    "newAcceptedRegistryIds": 0,
+    "retainedIngredients": 222,
+    "retainedIngredientDecisions": 252,
+    "offerQualificationRules": 4,
+    "marketCounterpartsAdded": 4,
+    "proposedCounterparts": 85,
+    "recipeCandidateDecisions": 18,
+    "retainedExactCandidates": 15,
+    "rejectedCandidates": 3,
+    "exactRecipeExclusions": 3,
+    "textPatches": 11,
+    "scopeDeferrals": 5,
+    "offerCases": 71,
+    "availabilityCases": 8,
+    "retainedScopedUses": 63,
+    "declaredScopeLabelChanges": 6
+  },
+  "checks": {
+    "active222Identities252DecisionsAndOwnershipLinksUnchanged": true,
+    "fullSourceReplayReproducesAcceptedArtifact": true,
+    "fourExistingSourceFingerprintsVerifiedNoHeldAssignment": true,
+    "all457ExistingSearchFixturesPass": true,
+    "unboundedCategoryQueryCounts": {
+      "beans": 12,
+      "lentils": 2,
+      "rice": 3,
+      "flour": 11,
+      "tofu": 2,
+      "yogurt": 3
+    },
+    "current63Scopes81CounterpartsAnd20ProtectedGroupsUnchanged": true,
+    "fourExactQualificationAndCounterpartPayloadsBound": true,
+    "all18NormalAndLowCarbRecipeOccurrencesReviewed": true,
+    "threeCandidateRemovalsAndNarrowExclusionsBound": true,
+    "noExcludedFoodHasAnotherLegitimateSlotInSameRecipe": true,
+    "elevenTextPatchesAndInverseReplayExact": true,
+    "quantitiesMacrosDietaryTagsAndAllOtherFieldsPreserved": true,
+    "onlySixDeclaredPriorScopeLabelsProjectDifferently": true,
+    "eightExactYesNoCasesPass": true,
+    "fiveUpdatedScopeDeferralsBoundToHistoricalProposal": true,
+    "noNewIdsSourcesEdgesOrRegistryMigration": true
+  },
+  "pendingGates": [
+    "Exact maintainer approval of the four offer policies, three recipe exclusions, all recipe/text choices and five v1.6.1 scope boundaries",
+    "Implement and execute all 71 original-offer expectations against market scoring, direct/cached recipe repricing, shopping and all store pools",
+    "Verify stale matched AND literal saved requirements stay blocked only in the three named recipes; preserve exact ownership elsewhere",
+    "Refresh final release audit and complete hosted/readiness/release checks"
+  ],
+  "offerCases": {
+    "count": 71,
+    "implementation": "PENDING: review expectations only; the new global qualification and narrow exclusion runtime is not implemented or claimed executed"
+  }
+}

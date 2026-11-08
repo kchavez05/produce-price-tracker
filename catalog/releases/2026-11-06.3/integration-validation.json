@@ -1,0 +1,32 @@
+{
+  "status": "LOCAL_INTEGRATION_VERIFIED_HOSTED_ROLLOUT_PENDING",
+  "date": "2026-11-06",
+  "catalogVersion": "2026-11-06.3",
+  "catalogIdentities": 138,
+  "newIdentities": 4,
+  "exclusiveIdentityLinks": 77,
+  "generalReferenceLinks": 4,
+  "generalReferenceSources": 2,
+  "distinctSourceRecords": 79,
+  "sourceLinkedIdentities": 80,
+  "marketLinks": 15,
+  "noMarketCounterpart": 123,
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unit": 296,
+    "smoke": 21,
+    "regression": 37,
+    "build": "passed",
+    "runtimeProjectionAndMarketAudit": "passed",
+    "approvedAndPreviewSearchFixtures": 138,
+    "deterministicFullSourceReplay": true,
+    "curationScriptsLint": "passed",
+    "retainedSourceSnapshotUnchanged": true
+  },
+  "sourcePolicyVerification": "Shared references require explicit USDA upserts, matching family and identical fingerprints; legacy exact links stay exclusive. Replay, pair-specific withdrawal, cross-family/mixed-purpose/duplicate rejection, stale/quarantined source handling and coordinated fingerprint refresh tested. Existing approval hashes unchanged.",
+  "inventoryVerification": "Pre-migration rejection; same-ID post-migration retry; migration replay; independent whole/ground Yes/No values; exact recipe ownership; seed/pod/powder alias UI readiness; all earlier retained views, owner-bound queues and API persistence suites pass.",
+  "hostedMigrationsApplied": false,
+  "productionActivated": false,
+  "releasePublished": false
+}

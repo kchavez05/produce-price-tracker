@@ -1,0 +1,30 @@
+-- Approved fresh produce identities; all existing IDs/inventory remain intact.
+-- Counterparts and recipe alternatives never become inventory IDs.
+insert into public.pantry_catalog(id) values
+ ('acorn-squash-fresh'),
+ ('anaheim-peppers-fresh'),
+ ('apples-fresh'),
+ ('butternut-squash-fresh'),
+ ('collard-greens-fresh'),
+ ('cosmic-crisp-apples-fresh'),
+ ('fuji-apples-fresh'),
+ ('gala-apples-fresh'),
+ ('granny-smith-apples-fresh'),
+ ('hatch-green-chiles-fresh'),
+ ('honeycrisp-apples-fresh'),
+ ('jalapeno-peppers-fresh'),
+ ('kabocha-squash-fresh'),
+ ('mushrooms-cremini-fresh'),
+ ('poblano-peppers-fresh'),
+ ('potatoes-fresh'),
+ ('red-potatoes-fresh'),
+ ('russet-potatoes-fresh'),
+ ('serrano-peppers-fresh'),
+ ('spaghetti-squash-fresh'),
+ ('summer-squash-fresh'),
+ ('swiss-chard-fresh'),
+ ('tomatillos-fresh'),
+ ('yellow-summer-squash-fresh'),
+ ('yukon-gold-potatoes-fresh'),
+ ('zucchini-fresh')
+on conflict do nothing;

@@ -1,0 +1,157 @@
+[
+  {
+    "id": "ingredient-chicken-thighs-bone-in-raw",
+    "revision": 1,
+    "payloadSha256": "9da1973a29163107ce38b76a6eb253c4a18e5d24e33818bea970f271ddb7436c"
+  },
+  {
+    "id": "ingredient-chicken-drumsticks-raw",
+    "revision": 1,
+    "payloadSha256": "cc78228ec16617e44d2774dea8d17a52d173851dda037c9611d14c7a864eeede"
+  },
+  {
+    "id": "ingredient-chicken-leg-quarters-raw",
+    "revision": 1,
+    "payloadSha256": "2c3bb96c40ab41ff3d8591ff24bb946b2dbbf824c05707ad3a3aa90dcb86d34a"
+  },
+  {
+    "id": "ingredient-pork-loin-roast-boneless-raw",
+    "revision": 1,
+    "payloadSha256": "1a204561905e8a3999b2cf6c363ae273fb636b54ecfbceaa898e457a4c58639b"
+  },
+  {
+    "id": "ingredient-pork-loin-chops-boneless-raw",
+    "revision": 1,
+    "payloadSha256": "49f4c99cac507d1b4d565d0147ef18f07e509abb39db74f4258746ac54888ea3"
+  },
+  {
+    "id": "ingredient-pork-tenderloin-raw",
+    "revision": 1,
+    "payloadSha256": "8a5d6cb2906fca54a0378fe34b6c9baeb085099f1d109eafb8f42078fc1242e6"
+  },
+  {
+    "id": "ingredient-beef-chuck-roast-boneless-raw",
+    "revision": 1,
+    "payloadSha256": "36860065a22eb26efaebcc40b48b6a47e6e7b47bcb618f2f2359da7acd4dbcb0"
+  },
+  {
+    "id": "ingredient-beef-arm-pot-roast-raw",
+    "revision": 1,
+    "payloadSha256": "e2157c034968f1f7c755b88fc26be8328f6d4df912db1bb127669de0c968c622"
+  },
+  {
+    "id": "ingredient-beef-stew-meat-raw",
+    "revision": 1,
+    "payloadSha256": "c7279f295a574fff2c778aaa05b9ea6f5d44009e1a1ea5411d918161474d1ce9"
+  },
+  {
+    "id": "ingredient-beef-pot-roast-cut-raw",
+    "revision": 1,
+    "payloadSha256": "aee2d63301ecb29be4d29427b1ce798acb253cdcf68ddbcd9d30840634f285e2"
+  },
+  {
+    "id": "ingredient-italian-pork-sausage-raw",
+    "revision": 1,
+    "payloadSha256": "71e00c8e50c209546ee3bde50917d870efe0529bcb0acf1b9b2ff7a1dc1cca8d"
+  },
+  {
+    "id": "ingredient-ground-pork-raw",
+    "revision": 1,
+    "payloadSha256": "55668c46953bda038a8c861da3a4bfb383acdd57111eb726506487f1f087696f"
+  },
+  {
+    "id": "ingredient-pork-chorizo-raw",
+    "revision": 1,
+    "payloadSha256": "32f8dcc165f4c233d50da55f28261d0a9b12f80a9e9abdef9c82c30d89a42d90"
+  },
+  {
+    "id": "ingredient-pork-sausage-raw",
+    "revision": 1,
+    "payloadSha256": "2c2f77c1c20456cd293828d7f012460b8b3b1d53e647108457da335def6c552f"
+  },
+  {
+    "id": "ingredient-smoked-sausage-fully-cooked",
+    "revision": 1,
+    "payloadSha256": "7d25d0bac282ea0b38c6d10e45865f3e69e663c4dc3eb181ce8b83e6f4211b2c"
+  },
+  {
+    "id": "ingredient-kielbasa-fully-cooked",
+    "revision": 1,
+    "payloadSha256": "dc5c18381d6d7e8ff84d60c50a94943efba0afcc010515c765ee1263ed763ef9"
+  },
+  {
+    "id": "ingredient-andouille-fully-cooked",
+    "revision": 1,
+    "payloadSha256": "5565d384a70796492f5dc24371fd42b6232e45a58aa044e41e080c3855e68a09"
+  },
+  {
+    "id": "ingredient-smoked-sausage-raw",
+    "revision": 1,
+    "payloadSha256": "c583a998aa0dc5a2a750349048016e227b1d536e7e20d59fc72c243c16537007"
+  },
+  {
+    "id": "ingredient-kielbasa-raw",
+    "revision": 1,
+    "payloadSha256": "c28d7ec68a219fbc6037abd59f68e1371eb9c662645c1910e8763f010996e9dd"
+  },
+  {
+    "id": "ingredient-andouille-raw",
+    "revision": 1,
+    "payloadSha256": "7024ad745bdbde6cbe67a847017752d688cf0f84aa7edc74feba9d3044dc1925"
+  },
+  {
+    "id": "ingredient-beef-new-york-strip-steak-raw",
+    "revision": 1,
+    "payloadSha256": "407560d538d87bb990dfcf0f0891d96ad73832af3fc335093c38e3e398a05830"
+  },
+  {
+    "id": "ingredient-beef-top-sirloin-steak-raw",
+    "revision": 1,
+    "payloadSha256": "1787a108114df3058f8cc35519bb80e6f8903ae9cbaf6f0256b7ad2e894d6201"
+  },
+  {
+    "id": "ingredient-beef-ribeye-steak-raw",
+    "revision": 1,
+    "payloadSha256": "fa9ba3d9b576f6e9a8406d0672e04497978aabf1b6dc6f01646c9afcb784e1e5"
+  },
+  {
+    "id": "ingredient-beef-t-bone-steak-raw",
+    "revision": 1,
+    "payloadSha256": "04b35f94f9a39abb84a0e6e9b2cc892a9984c8754bb934cecc1dd49f18785c15"
+  },
+  {
+    "id": "ingredient-salmon-fillets-raw",
+    "revision": 1,
+    "payloadSha256": "a2f191e4d927697a335252fc4b377b1406f15587f4e7b84dc9c3faa9ab692884"
+  },
+  {
+    "id": "ingredient-atlantic-salmon-fillets-raw",
+    "revision": 1,
+    "payloadSha256": "ee387eada304739c1f170dea45529dc875961cc117c038d31e775023df637684"
+  },
+  {
+    "id": "ingredient-sockeye-salmon-fillets-raw",
+    "revision": 1,
+    "payloadSha256": "d438ab74691a28f177098c145c89f6a138e5e9d79fc62ba72b80bdbe9dccb177"
+  },
+  {
+    "id": "ingredient-coho-salmon-fillets-raw",
+    "revision": 1,
+    "payloadSha256": "9cd7a9a6d6e29d4ed636d7567c77dd6b3c1ac27091b34c290d8e856955846c85"
+  },
+  {
+    "id": "coverage-atlantic-salmon-fillets-raw-to-salmon-fillets-raw",
+    "revision": 1,
+    "payloadSha256": "31638e782aaab48d0131975d48f172be9ba558ac2114332efcd4fdfc03b925be"
+  },
+  {
+    "id": "coverage-sockeye-salmon-fillets-raw-to-salmon-fillets-raw",
+    "revision": 1,
+    "payloadSha256": "a981291b95d2a369a251dece00fc620030e5fb49a5e2048669270879b050bee9"
+  },
+  {
+    "id": "coverage-coho-salmon-fillets-raw-to-salmon-fillets-raw",
+    "revision": 1,
+    "payloadSha256": "dd67938fcbe7f27be8334e0dcfe78ad0550fcd7c8503ac9782170fba75347620"
+  }
+]

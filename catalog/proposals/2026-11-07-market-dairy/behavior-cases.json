@@ -1,0 +1,701 @@
+{
+  "formatVersion": 1,
+  "status": "PROPOSED_EXPECTATIONS_NOT_RUNTIME_IMPLEMENTATION",
+  "offerCases": [
+    {
+      "id": "dairy-offer-1",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Kroger Natural Sharp Cheddar Cheese Block 8 oz",
+      "expectedCounterpartIds": [
+        "cheddar-cheese"
+      ],
+      "allowedRecipeFoodIds": [
+        "cheddar-cheese"
+      ]
+    },
+    {
+      "id": "dairy-offer-2",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Lucerne Shredded Monterey Jack Cheese 8 oz",
+      "expectedCounterpartIds": [
+        "monterey-jack-cheese"
+      ],
+      "allowedRecipeFoodIds": [
+        "monterey-jack-cheese"
+      ]
+    },
+    {
+      "id": "dairy-offer-3",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Mexican-style Shredded Cheese Blend 8 oz",
+      "expectedCounterpartIds": [
+        "melting-cheese-blend",
+        "mexican-style-cheese-blend"
+      ],
+      "allowedRecipeFoodIds": [
+        "mexican-style-cheese-blend"
+      ]
+    },
+    {
+      "id": "dairy-offer-4",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Melting Cheese Blend Shredded 8 oz",
+      "expectedCounterpartIds": [
+        "melting-cheese-blend"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-5",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Whole Milk Low-Moisture Mozzarella Cheese Block",
+      "expectedCounterpartIds": [
+        "mozzarella-low-moisture",
+        "mozzarella-low-moisture-whole-milk"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-6",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Part Skim Low Moisture Mozzarella Cheese Shredded",
+      "expectedCounterpartIds": [
+        "mozzarella-low-moisture",
+        "mozzarella-low-moisture-part-skim"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-7",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Low-Moisture Mozzarella Cheese Shredded",
+      "expectedCounterpartIds": [
+        "mozzarella-low-moisture"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-8",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Fresh Mozzarella Cheese Balls",
+      "expectedCounterpartIds": [
+        "mozzarella-fresh"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-9",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Mozzarella Cheese Shredded",
+      "expectedCounterpartIds": [
+        "mozzarella-cheese-unspecified"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-10",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Kroger Cheese 8 oz",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-11",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Block Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-12",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Shredded Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-13",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Cheddar or Monterey Jack Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-14",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Pepper Jack Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-15",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Colby Jack Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-16",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Reduced Fat Cheddar Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-17",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Fat Free Cheddar Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-18",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Processed Cheddar Cheese Food Slices",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-19",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Cheddar Cheese Sauce",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-20",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Breaded Mozzarella Sticks",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-21",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Plant Based Cheddar Shreds",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-22",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Cheddar and Monterey Jack Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-23",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Mexican Queso Dip",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-24",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Fresh Low-Moisture Mozzarella Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-25",
+      "marketIngredientId": "shredded-block-cheese",
+      "title": "Natural Cheddar Cheese with Jalapeno",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-26",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Daisy Sour Cream 16 oz",
+      "expectedCounterpartIds": [
+        "sour-cream-plain"
+      ],
+      "allowedRecipeFoodIds": [
+        "sour-cream-plain"
+      ]
+    },
+    {
+      "id": "dairy-offer-27",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Daisy Regular Sour Cream 16 oz",
+      "expectedCounterpartIds": [
+        "sour-cream-plain",
+        "sour-cream-full-fat"
+      ],
+      "allowedRecipeFoodIds": [
+        "sour-cream-plain",
+        "sour-cream-full-fat"
+      ]
+    },
+    {
+      "id": "dairy-offer-28",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain Light Sour Cream",
+      "expectedCounterpartIds": [
+        "sour-cream-plain",
+        "sour-cream-reduced-fat"
+      ],
+      "allowedRecipeFoodIds": [
+        "sour-cream-plain"
+      ]
+    },
+    {
+      "id": "dairy-offer-29",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain Cottage Cheese 16 oz",
+      "expectedCounterpartIds": [
+        "cottage-cheese-plain"
+      ],
+      "allowedRecipeFoodIds": [
+        "cottage-cheese-plain"
+      ]
+    },
+    {
+      "id": "dairy-offer-30",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain Creamed Cottage Cheese",
+      "expectedCounterpartIds": [
+        "cottage-cheese-plain",
+        "cottage-cheese-creamed"
+      ],
+      "allowedRecipeFoodIds": [
+        "cottage-cheese-plain"
+      ]
+    },
+    {
+      "id": "dairy-offer-31",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain 2% Cottage Cheese",
+      "expectedCounterpartIds": [
+        "cottage-cheese-plain",
+        "cottage-cheese-plain-2-percent"
+      ],
+      "allowedRecipeFoodIds": [
+        "cottage-cheese-plain"
+      ]
+    },
+    {
+      "id": "dairy-offer-32",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain 1% Cottage Cheese",
+      "expectedCounterpartIds": [
+        "cottage-cheese-plain",
+        "cottage-cheese-plain-1-percent"
+      ],
+      "allowedRecipeFoodIds": [
+        "cottage-cheese-plain"
+      ]
+    },
+    {
+      "id": "dairy-offer-33",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Knudsen 16 oz",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-34",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Cottage Cheese 16 oz",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-35",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Cottage Cheese with Pineapple",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-36",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain Dry Curd Cottage Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-37",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Sour Cream and Onion Dip",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-38",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain Dairy Free Sour Cream",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-39",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Plain 1% 2% Cottage Cheese",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-40",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Full Fat Light Sour Cream",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-41",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "title": "Frozen Sour Cream",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-42",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Plain Greek Yogurt 32 oz",
+      "expectedCounterpartIds": [
+        "greek-yogurt-plain"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-43",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Fage Plain Whole Milk Greek Yogurt 32 oz",
+      "expectedCounterpartIds": [
+        "greek-yogurt-plain",
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "allowedRecipeFoodIds": [
+        "greek-yogurt-plain-whole-milk"
+      ]
+    },
+    {
+      "id": "dairy-offer-44",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Plain Lowfat Greek Yogurt",
+      "expectedCounterpartIds": [
+        "greek-yogurt-plain",
+        "greek-yogurt-plain-lowfat"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-45",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Plain Nonfat Greek Yogurt",
+      "expectedCounterpartIds": [
+        "greek-yogurt-plain",
+        "greek-yogurt-plain-nonfat"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-46",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Vanilla Greek Yogurt",
+      "expectedCounterpartIds": [
+        "greek-yogurt-vanilla"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-47",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Vanilla Lowfat Greek Yogurt",
+      "expectedCounterpartIds": [
+        "greek-yogurt-vanilla",
+        "greek-yogurt-vanilla-lowfat"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-48",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Vanilla Nonfat Greek Yogurt",
+      "expectedCounterpartIds": [
+        "greek-yogurt-vanilla",
+        "greek-yogurt-vanilla-nonfat"
+      ],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-49",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Chobani 32 oz",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-50",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Greek Yogurt 32 oz",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-51",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Plain Whole Milk Yogurt",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-52",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Vanilla Plain Greek Yogurt",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-53",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Strawberry Greek Yogurt",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-54",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Plain Nonfat Whole Milk Greek Yogurt",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-55",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Plain Greek Yogurt Drink",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-56",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Frozen Vanilla Greek Yogurt Dessert",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    },
+    {
+      "id": "dairy-offer-57",
+      "marketIngredientId": "greek-yogurt-tub",
+      "title": "Dairy Free Plain Greek Yogurt",
+      "expectedCounterpartIds": [],
+      "allowedRecipeFoodIds": []
+    }
+  ],
+  "availabilityCases": [
+    {
+      "id": "dairy-availability-1",
+      "positives": [],
+      "negatives": [],
+      "requiredIds": [
+        "cottage-cheese-plain",
+        "cheddar-cheese"
+      ],
+      "expectedCovered": 0
+    },
+    {
+      "id": "dairy-availability-2",
+      "positives": [
+        "cottage-cheese-plain"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "cottage-cheese-plain",
+        "cheddar-cheese"
+      ],
+      "expectedCovered": 1
+    },
+    {
+      "id": "dairy-availability-3",
+      "positives": [
+        "cheddar-cheese"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "cottage-cheese-plain",
+        "cheddar-cheese"
+      ],
+      "expectedCovered": 1
+    },
+    {
+      "id": "dairy-availability-4",
+      "positives": [
+        "cottage-cheese-plain",
+        "cheddar-cheese"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "cottage-cheese-plain",
+        "cheddar-cheese"
+      ],
+      "expectedCovered": 2
+    },
+    {
+      "id": "dairy-availability-5",
+      "positives": [
+        "cottage-cheese-plain-2-percent",
+        "cheddar-cheese"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "cottage-cheese-plain",
+        "cheddar-cheese"
+      ],
+      "expectedCovered": 2
+    },
+    {
+      "id": "dairy-availability-6",
+      "positives": [
+        "cottage-cheese-plain-2-percent",
+        "cheddar-cheese"
+      ],
+      "negatives": [
+        "cottage-cheese-plain"
+      ],
+      "requiredIds": [
+        "cottage-cheese-plain",
+        "cheddar-cheese"
+      ],
+      "expectedCovered": 1
+    },
+    {
+      "id": "dairy-availability-7",
+      "positives": [
+        "mexican-style-cheese-blend"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "cheddar-cheese",
+        "monterey-jack-cheese"
+      ],
+      "expectedCovered": 0
+    },
+    {
+      "id": "dairy-availability-8",
+      "positives": [
+        "melting-cheese-blend"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "mexican-style-cheese-blend"
+      ],
+      "expectedCovered": 0
+    },
+    {
+      "id": "dairy-availability-9",
+      "positives": [
+        "mexican-style-cheese-blend"
+      ],
+      "negatives": [
+        "melting-cheese-blend"
+      ],
+      "requiredIds": [
+        "melting-cheese-blend"
+      ],
+      "expectedCovered": 0
+    },
+    {
+      "id": "dairy-availability-10",
+      "positives": [
+        "greek-yogurt-plain"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "expectedCovered": 0
+    },
+    {
+      "id": "dairy-availability-11",
+      "positives": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "greek-yogurt-plain"
+      ],
+      "expectedCovered": 1
+    },
+    {
+      "id": "dairy-availability-12",
+      "positives": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "negatives": [
+        "greek-yogurt-plain"
+      ],
+      "requiredIds": [
+        "greek-yogurt-plain"
+      ],
+      "expectedCovered": 0
+    },
+    {
+      "id": "dairy-availability-13",
+      "positives": [
+        "greek-yogurt-vanilla-nonfat"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "greek-yogurt-plain",
+        "greek-yogurt-vanilla"
+      ],
+      "expectedCovered": 1
+    },
+    {
+      "id": "dairy-availability-14",
+      "positives": [
+        "yogurt-plain-whole-milk"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "expectedCovered": 0
+    },
+    {
+      "id": "dairy-availability-15",
+      "positives": [
+        "sour-cream-reduced-fat"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "sour-cream-plain",
+        "sour-cream-full-fat"
+      ],
+      "expectedCovered": 1
+    },
+    {
+      "id": "dairy-availability-16",
+      "positives": [
+        "mozzarella-fresh"
+      ],
+      "negatives": [],
+      "requiredIds": [
+        "mozzarella-low-moisture"
+      ],
+      "expectedCovered": 0
+    }
+  ],
+  "rejectedScopeContexts": [
+    {
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "creamy_finish",
+      "marketIngredientId": "shredded-block-cheese"
+    },
+    {
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "dairy_protein",
+      "marketIngredientId": "shredded-block-cheese"
+    }
+  ],
+  "integrationCases": [
+    "Breakfast neither/cottage-only/cheddar-only/both: 0/1/1/2 distinct required dairy needs; each missing need keeps its own shopping and cost; inventory never mutates.",
+    "Saved old combined-slot breakfast, custom copies and AI recipes cannot inherit the new split by title alone; unresolved protected candidates fail closed and need regeneration.",
+    "For all six stores, recover the original admissible food before cheapest-per-store selection. A cheaper vanilla yogurt, light sour cream or cottage-cheese sibling cannot price whole-milk Greek/full-fat sour/cheddar. Preserve selected store pools.",
+    "Both breakfast dairy slots can legitimately quote different exact foods from the same market group only through their approved counterpart scopes; no shared requirement or duplicate coverage.",
+    "Shopping retains cheddar/cottage/whole-milk plain Greek yogurt nouns and exact store provenance; no new fixed prices for unmatched quotes.",
+    "Test additive 23-ID registry install/replay, two guest accounts, restart/retry, stale catalogs and rollback to 2026-11-07.2 before hosted rollout."
+  ]
+}

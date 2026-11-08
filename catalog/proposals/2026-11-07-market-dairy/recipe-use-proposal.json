@@ -1,0 +1,502 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "blueprintHash": "bd192c267e3f42590a388dd49278ad5c059c5797c4f44c4db9a89f36bedda52a",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "previousScopedApprovalHash": "fab260de4573c579c0500b6d6da8932bfb225db9134761f14b7b6cb8f494918c",
+  "previousCoverageApprovalHash": "13592252595fbc8db64e2ac82b006af087d16f1a84d51f295d80e2acb84a99ef",
+  "protectedMarketIngredientIds": [
+    "shredded-block-cheese",
+    "cottage-cheese-sour-cream",
+    "greek-yogurt-tub"
+  ],
+  "availabilityPolicy": "Exact positive IDs plus 13 reviewed one-hop specific-to-generic rules only; generic No overrides derived matches. Independent alternative IDs keep independent No. No flavor/moisture/food/component conversion. Breakfast requires cottage cheese AND cheddar as two distinct nonoptional needs; neither ingredient covers the other.",
+  "integrationRequirement": "Append approval without editing previous batches. Extend dairy type/moisture/flavor/fat title admission and compiler token support. Replay the one ordinary candidate removal, one explicit combined-slot split and exact text patches. Protect all three mixed market groups for stale/custom/saved contexts. Recompute full review contexts; preserve prior uses and the new conjunction through coverage, cost and shopping. Never claim a research simulation is active runtime validation.",
+  "decisions": [
+    {
+      "id": "colorado-pork-green-chile-stew:dairy_topper:shredded-block-cheese",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "dairy_topper",
+      "slotLabel": "Cheese or Sour Cream Finish",
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientIds": [
+        "cheddar-cheese",
+        "monterey-jack-cheese",
+        "mexican-style-cheese-blend"
+      ],
+      "offerFoods": [
+        "cheddar-cheese",
+        "monterey-jack-cheese",
+        "mexican-style-cheese-blend"
+      ],
+      "rationale": "Natural cheddar, plain Monterey Jack or named Mexican-style blend may top this stew/chili after cooking. Shred blocks first. Generic blends and mozzarella have no permission.",
+      "status": "proposed",
+      "payloadSha256": "cca7b36ce727a1210f60338bef960365f4863bdd27ab62fc07143602e03865b5"
+    },
+    {
+      "id": "colorado-pork-green-chile-stew:dairy_topper:cottage-cheese-sour-cream",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "dairy_topper",
+      "slotLabel": "Cheese or Sour Cream Finish",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientIds": [
+        "sour-cream-plain"
+      ],
+      "offerFoods": [
+        "sour-cream-plain"
+      ],
+      "rationale": "Plain sour cream is a cold/serving topper, with full-fat or reduced-fat variants covering the generic requirement. Cottage cheese is not an unreviewed topper substitute.",
+      "status": "proposed",
+      "payloadSha256": "ffa0ba46cbfed1cf6a35d1abbed2ac0bc21131d120c933821aae7d91b17b9226"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:creamy_binder:cottage-cheese-sour-cream",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "creamy_binder",
+      "slotLabel": "Sour Cream / Cottage Cheese / Greek Yogurt",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientIds": [
+        "sour-cream-full-fat",
+        "cottage-cheese-plain"
+      ],
+      "offerFoods": [
+        "sour-cream-full-fat",
+        "cottage-cheese-plain"
+      ],
+      "rationale": "Full-fat sour cream or plain wet-curd cottage cheese blended smooth is a scoped binder alternative. Do not treat sour cream and cottage cheese as ownership of each other.",
+      "status": "proposed",
+      "payloadSha256": "7f7791042ff1c5d23355aa7f90f2c3b35371c617088e7c4b650d7f279c43f99c"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:creamy_binder:greek-yogurt-tub",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "creamy_binder",
+      "slotLabel": "Sour Cream / Cottage Cheese / Greek Yogurt",
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientIds": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "offerFoods": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "rationale": "Only plain whole-milk Greek yogurt is reviewed for this hot savory method. Add the finish off heat after tempering; for the baked binder whisk it smooth before baking. Vanilla, lowfat/nonfat, unspecified fat and ordinary yogurt do not cover this identity.",
+      "status": "proposed",
+      "payloadSha256": "93821400c043835e640f20a775de5ace3e3ac1b76dc983e4e978846d7c8df88f"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:cheese_top:shredded-block-cheese",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "cheese_top",
+      "slotLabel": "Shredded Cheese",
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientIds": [
+        "cheddar-cheese"
+      ],
+      "offerFoods": [
+        "cheddar-cheese"
+      ],
+      "rationale": "Cheddar-only casserole preserves the advertised cheddar sauce; grate a block before using. Mozzarella/unknown blends do not inherit this recipe.",
+      "status": "proposed",
+      "payloadSha256": "36a476d8034107db8882468ccb112bb46ed00d418b6c42a65e881f81034e8954"
+    },
+    {
+      "id": "southwest-sweet-potato-ground-beef-chili-bake:topper_cheese:shredded-block-cheese",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "slotKey": "topper_cheese",
+      "slotLabel": "Shredded Cheese or Sour Cream",
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientIds": [
+        "cheddar-cheese",
+        "monterey-jack-cheese",
+        "mexican-style-cheese-blend"
+      ],
+      "offerFoods": [
+        "cheddar-cheese",
+        "monterey-jack-cheese",
+        "mexican-style-cheese-blend"
+      ],
+      "rationale": "Natural cheddar, plain Monterey Jack or named Mexican-style blend may top this stew/chili after cooking. Shred blocks first. Generic blends and mozzarella have no permission.",
+      "status": "proposed",
+      "payloadSha256": "e1b7e280bc2f2a9a72e16bde2cee91fb8d52841367d994fd6a5f080d073a4b80"
+    },
+    {
+      "id": "southwest-sweet-potato-ground-beef-chili-bake:topper_cheese:cottage-cheese-sour-cream",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "slotKey": "topper_cheese",
+      "slotLabel": "Shredded Cheese or Sour Cream",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientIds": [
+        "sour-cream-plain"
+      ],
+      "offerFoods": [
+        "sour-cream-plain"
+      ],
+      "rationale": "Plain sour cream is a cold/serving topper, with full-fat or reduced-fat variants covering the generic requirement. Cottage cheese is not an unreviewed topper substitute.",
+      "status": "proposed",
+      "payloadSha256": "b7909637feffeed93c27fb60398a57c329425d5af9ee30ad3449d5ba33f17c94"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:creamy_finish:cottage-cheese-sour-cream",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "creamy_finish",
+      "slotLabel": "Sour Cream / Greek Yogurt / Cheese",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientIds": [
+        "sour-cream-full-fat"
+      ],
+      "offerFoods": [
+        "sour-cream-full-fat"
+      ],
+      "rationale": "Full-fat plain sour cream only for this tempered off-heat hot finish; cottage cheese and unspecified/reduced-fat sour cream have no permission.",
+      "status": "proposed",
+      "payloadSha256": "6bbb05fcce4b638aec5828c6e46c42ea9594d6c8b0e2bdd29c714c1882863883"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:creamy_finish:greek-yogurt-tub",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "creamy_finish",
+      "slotLabel": "Sour Cream / Greek Yogurt / Cheese",
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientIds": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "offerFoods": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "rationale": "Only plain whole-milk Greek yogurt is reviewed for this hot savory method. Add the finish off heat after tempering; for the baked binder whisk it smooth before baking. Vanilla, lowfat/nonfat, unspecified fat and ordinary yogurt do not cover this identity.",
+      "status": "proposed",
+      "payloadSha256": "3949f91a667f1fc0b7e4c43d1e94ed6ebbe3e23b4f5ebd32c7350baf65f80667"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:creamy_finish:shredded-block-cheese",
+      "revision": 1,
+      "action": "reject",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "slotKey": "creamy_finish",
+      "slotLabel": "Sour Cream / Greek Yogurt / Cheese",
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientIds": [],
+      "offerFoods": [],
+      "rationale": "Reject the cheese candidate: current velvety soup finish has no reviewed cheese-emulsion method; retain full-fat sour cream or whole-milk plain Greek yogurt with an off-heat tempered finish.",
+      "status": "proposed",
+      "payloadSha256": "851c731472d36e3b8be8a25ef5717007e9d9554f6aa52d4cdeb62fa502a23885"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:yogurt_swirl:greek-yogurt-tub",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "yogurt_swirl",
+      "slotLabel": "Greek Yogurt or Sour Cream",
+      "marketIngredientId": "greek-yogurt-tub",
+      "pantryIngredientIds": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "offerFoods": [
+        "greek-yogurt-plain-whole-milk"
+      ],
+      "rationale": "Only plain whole-milk Greek yogurt is reviewed for this hot savory method. Add the finish off heat after tempering; for the baked binder whisk it smooth before baking. Vanilla, lowfat/nonfat, unspecified fat and ordinary yogurt do not cover this identity.",
+      "status": "proposed",
+      "payloadSha256": "51f4dce08b3e57d701cb3c74c8476a75484c0a097fb78ff99d4d79be85af7917"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:yogurt_swirl:cottage-cheese-sour-cream",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "yogurt_swirl",
+      "slotLabel": "Greek Yogurt or Sour Cream",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientIds": [
+        "sour-cream-full-fat"
+      ],
+      "offerFoods": [
+        "sour-cream-full-fat"
+      ],
+      "rationale": "Full-fat plain sour cream only for this tempered off-heat hot finish; cottage cheese and unspecified/reduced-fat sour cream have no permission.",
+      "status": "proposed",
+      "payloadSha256": "2dc43962027c9ba12b35db13dfafb3ebeff3841748c3ed04ac4cfaab002b8161"
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:dairy_protein:cottage-cheese-sour-cream",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "dairy_protein",
+      "slotLabel": "Cottage Cheese & Shredded Cheddar",
+      "marketIngredientId": "cottage-cheese-sour-cream",
+      "pantryIngredientIds": [
+        "cottage-cheese-plain"
+      ],
+      "offerFoods": [
+        "cottage-cheese-plain"
+      ],
+      "rationale": "Require plain wet-curd cottage cheese, with any of its reviewed regular/1%/2% variants able to cover the generic requirement. Sour cream cannot satisfy the cottage-cheese component.",
+      "status": "proposed",
+      "payloadSha256": "9d23d0a8a207cbccc64c1758d36cae2271f7c48deccc4604235b55c95e471eda"
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:dairy_protein:shredded-block-cheese",
+      "revision": 1,
+      "action": "reject",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "dairy_protein",
+      "slotLabel": "Cottage Cheese & Shredded Cheddar",
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientIds": [],
+      "offerFoods": [],
+      "rationale": "Reject cheddar as an alternative to cottage cheese in the combined slot. Keep cottage cheese in dairy_protein and require cheddar separately in the new cheddar_top slot.",
+      "status": "proposed",
+      "payloadSha256": "45f1b90c456210fb250fe21de1d6e01d96cf89498de3fecb7477c9976b9d4538"
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:butter_enricher:shredded-block-cheese",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "butter_enricher",
+      "slotLabel": "Grass-Fed Butter or Cheese Mash",
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientIds": [
+        "cheddar-cheese",
+        "monterey-jack-cheese"
+      ],
+      "offerFoods": [
+        "cheddar-cheese",
+        "monterey-jack-cheese"
+      ],
+      "rationale": "Review natural cheddar or plain Monterey Jack as explicit alternatives to butter in the mash; stir finely shredded cheese into hot mashed cauliflower off heat.",
+      "status": "proposed",
+      "payloadSha256": "beb10c3372cc4350feb8a3d7bb9fcc60e8793e6b16c1747ffcbdbe9e9eae5545"
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:cheddar_top:shredded-block-cheese",
+      "revision": 1,
+      "action": "allow",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "cheddar_top",
+      "slotLabel": "Shredded Cheddar",
+      "marketIngredientId": "shredded-block-cheese",
+      "pantryIngredientIds": [
+        "cheddar-cheese"
+      ],
+      "offerFoods": [
+        "cheddar-cheese"
+      ],
+      "rationale": "Separate required cheddar component alongside cottage cheese; one pantry item must not satisfy both requirements. Use 8 oz natural cheddar, shredded.",
+      "status": "proposed",
+      "payloadSha256": "46a94c8560038f21885e70d53e6acf289a3086f93c54b079f2bc5dc74fa56810"
+    }
+  ],
+  "candidateRemovals": [
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:creamy_finish:shredded-block-cheese",
+      "before": {
+        "candidateIngredientIds": [
+          "cottage-cheese-sour-cream",
+          "greek-yogurt-tub",
+          "shredded-block-cheese"
+        ],
+        "lowCarbCandidateIds": []
+      },
+      "after": {
+        "candidateIngredientIds": [
+          "cottage-cheese-sour-cream",
+          "greek-yogurt-tub"
+        ],
+        "lowCarbCandidateIds": []
+      }
+    }
+  ],
+  "slotStructurePatches": [
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:split-dairy-protein",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "action": "split-required-slot",
+      "before": {
+        "slotKey": "dairy_protein",
+        "label": "Cottage Cheese & Shredded Cheddar",
+        "candidateIngredientIds": [
+          "cottage-cheese-sour-cream",
+          "shredded-block-cheese"
+        ],
+        "quantityRequired": 1,
+        "isDairySlot": true
+      },
+      "after": [
+        {
+          "slotKey": "dairy_protein",
+          "label": "Plain Cottage Cheese",
+          "candidateIngredientIds": [
+            "cottage-cheese-sour-cream"
+          ],
+          "quantityRequired": 0.5,
+          "isDairySlot": true
+        },
+        {
+          "slotKey": "cheddar_top",
+          "label": "Shredded Cheddar",
+          "candidateIngredientIds": [
+            "shredded-block-cheese"
+          ],
+          "quantityRequired": 0.5,
+          "isDairySlot": true
+        }
+      ],
+      "rationale": "The instructions require both foods, not alternatives. Allocate the former 1.0 lb combined estimate as 0.5 lb cottage cheese plus 0.5 lb cheddar (8 oz each), both required. This is an explicit proposed recipe quantity decision, not a USDA portion conversion or a claim of unchanged nutritional analysis. Existing macro estimates are not recalculated by this catalog batch.",
+      "status": "proposed",
+      "payloadSha256": "9f51008395b5dec5df8daa49c71162d19c0ad022dfefa1bbc1307cc2819ea853"
+    }
+  ],
+  "instructionTitleAndLabelPatches": [
+    {
+      "id": "colorado-pork-green-chile-stew:steps:3",
+      "recipeId": "colorado-pork-green-chile-stew",
+      "field": "steps",
+      "stepIndex": 3,
+      "before": "Portion into meal-prep containers and top each with shredded cheese or a dollop of sour cream when reheating.",
+      "after": "Shred block cheese before using. Portion into meal-prep containers; after reheating, top with natural cheddar, plain Monterey Jack or a Mexican-style cheese blend, or a dollop of plain sour cream.",
+      "status": "proposed",
+      "payloadSha256": "c06148cc5720ac2d3b7148466bcfb49426ff201695d80860994dd3e6c848d401"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:slotLabel:creamy_binder",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "field": "slotLabel",
+      "slotKey": "creamy_binder",
+      "before": "Sour Cream / Cottage Cheese / Greek Yogurt",
+      "after": "Full-Fat Sour Cream, Blended Plain Cottage Cheese or Whole-Milk Plain Greek Yogurt",
+      "status": "proposed",
+      "payloadSha256": "93926e14dc35fb12b592904b71f5a88ebd1dee77a9deff13e8003d172029caa5"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:slotLabel:cheese_top",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "field": "slotLabel",
+      "slotKey": "cheese_top",
+      "before": "Shredded Cheese",
+      "after": "Shredded Cheddar",
+      "status": "proposed",
+      "payloadSha256": "233ec1f7d5eccf2eeafd7ffaf59fc92412335a0c2cb2b9fefb23e74daba96c68"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:steps:1",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "field": "steps",
+      "stepIndex": 1,
+      "before": "Whisk sour cream (or blended cottage cheese/Greek yogurt) with half the shredded cheese and ½ cup chicken broth.",
+      "after": "Shred the cheddar if using a block. Blend plain wet-curd cottage cheese smooth if selected; otherwise use plain full-fat sour cream or plain whole-milk Greek yogurt. Whisk the selected binder with half the shredded cheddar and ½ cup chicken broth.",
+      "status": "proposed",
+      "payloadSha256": "1ea66edb6ba52623efebaa99c92f271ecb916fb55895cd81ca2cf15b97d79bfb"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:steps:3",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "field": "steps",
+      "stepIndex": 3,
+      "before": "Bake an additional 20–22 minutes until the selected florets are tender and cheese is bubbling golden brown.",
+      "after": "Bake an additional 20–22 minutes, checking that the casserole and chicken reach at least 165°F in the center on a food thermometer and the selected florets are tender; continue cooking as needed.",
+      "status": "proposed",
+      "payloadSha256": "ca582b43a06bfe0530ece1264a19b17e20a66408cf50eb36a4ecb65dd349defb"
+    },
+    {
+      "id": "southwest-sweet-potato-ground-beef-chili-bake:steps:3",
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "field": "steps",
+      "stepIndex": 3,
+      "before": "Stir in half the shredded cheese (or omit for dairy-free) and pack with fresh avocado slices for serving.",
+      "after": "Shred block cheese before using. Stir in half the natural cheddar, plain Monterey Jack or Mexican-style cheese blend, reserving the rest for serving; if using plain sour cream instead, omit the cheese and add it as a dollop after reheating. Omit dairy for dairy-free and pack fresh avocado slices for serving.",
+      "status": "proposed",
+      "payloadSha256": "00dcb0bac5561386f4590f46bd2910d8b549782c9322cc2afe8e10f112be3c1e"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:slotLabel:creamy_finish",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "field": "slotLabel",
+      "slotKey": "creamy_finish",
+      "before": "Sour Cream / Greek Yogurt / Cheese",
+      "after": "Full-Fat Sour Cream or Whole-Milk Plain Greek Yogurt",
+      "status": "proposed",
+      "payloadSha256": "cc6c66838f1638fd626b3f487f4dd7087dfda5e017aceac6bf590e1782cb8dd5"
+    },
+    {
+      "id": "tuscan-sausage-white-bean-spinach-potato-stew:steps:2",
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "field": "steps",
+      "stepIndex": 2,
+      "before": "For kale, simmer the chopped leaves in the broth until tender before turning off the heat. For spinach, turn off heat and stir in the leaves until wilted. Finish with sour cream (or coconut milk for dairy-free) for a rich, velvety broth.",
+      "after": "For kale, simmer the chopped leaves in the broth until tender before turning off the heat. For spinach, turn off heat and stir in the leaves until wilted. For the dairy finish, let the pot stop simmering, gradually whisk a little warm broth into plain full-fat sour cream or plain whole-milk Greek yogurt, then stir it gently back into the pot off heat; do not boil. Use coconut milk instead for dairy-free.",
+      "status": "proposed",
+      "payloadSha256": "03d4c1e791817158192cc00e06ec41612df688f63e5ea207b6ca81e0190b3128"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:slotLabel:yogurt_swirl",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "field": "slotLabel",
+      "slotKey": "yogurt_swirl",
+      "before": "Greek Yogurt or Sour Cream",
+      "after": "Whole-Milk Plain Greek Yogurt or Full-Fat Sour Cream",
+      "status": "proposed",
+      "payloadSha256": "37a1322591d8094f30e2de7603fcfd2e2b1b62e37e6505539a29183e956781b8"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:steps:2",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "field": "steps",
+      "stepIndex": 2,
+      "before": "Shred or chunk the chicken in the pot, cook the selected cauliflower florets until tender, or fold in fresh spinach until wilted, then add Greek yogurt (or full-fat coconut milk if dairy-free) until creamy, and portion into meal containers.",
+      "after": "Shred or chunk the chicken in the pot, cook the selected cauliflower florets until tender, or fold in fresh spinach until wilted. Turn off the heat and let simmering stop. Gradually whisk a little warm sauce into plain whole-milk Greek yogurt or plain full-fat sour cream, then stir it gently back into the pot off heat; do not boil. Use full-fat coconut milk instead for dairy-free, and portion into meal containers.",
+      "status": "proposed",
+      "payloadSha256": "0afea069e448de5f42089a2beebab56f467baa6c731a65728de98cd4a408e7d6"
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:steps:1",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "field": "steps",
+      "stepIndex": 1,
+      "before": "Whisk eggs with cottage cheese (the secret to ultra-fluffy reheatable eggs that never get rubbery) and half the shredded cheddar.",
+      "after": "Blend the 8 oz plain wet-curd cottage cheese smooth if desired. Shred the 8 oz cheddar if using a block. Whisk eggs with all the cottage cheese and half the shredded cheddar; both dairy ingredients are required for this version.",
+      "status": "proposed",
+      "payloadSha256": "cdd84e86c321cef7fcbb219d3d81b6f389a23b110358e4807e2532ef8517620d"
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:slotLabel:butter_enricher",
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "field": "slotLabel",
+      "slotKey": "butter_enricher",
+      "before": "Grass-Fed Butter or Cheese Mash",
+      "after": "Butter or Shredded Cheddar / Monterey Jack",
+      "status": "proposed",
+      "payloadSha256": "2735932693de429f6732d66743c50d30e0c343321a6425b3d3d8ffb4c90485ca"
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:steps:2",
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "field": "steps",
+      "stepIndex": 2,
+      "before": "Steam or microwave cauliflower florets for 6 minutes, then blitz or mash with butter (or olive oil for dairy-free) and roasted garlic.",
+      "after": "Steam or microwave cauliflower florets for 6 minutes, checking until tender, then blitz or mash with roasted garlic. Off heat, stir in butter or finely shredded natural cheddar or plain Monterey Jack until melted; use olive oil instead for dairy-free.",
+      "status": "proposed",
+      "payloadSha256": "1dc0daa3e00d3a95572a8824dc9610f606c977f227d71bd0e7ff24ea16ba16a3"
+    }
+  ],
+  "proposedImplementedBlueprintHash": "0e812a2af25dcdc1b815f8c427c373d96a2504a38f47db1e6198399f122e76e7"
+}

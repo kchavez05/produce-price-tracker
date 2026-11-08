@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ingredient-coriander-seeds-whole",
+    "revision": 1,
+    "payloadSha256": "be16939e1e892ca6d9ca93feb89c078c24b6495e9202b1a4bfaa8689e7d90a16"
+  },
+  {
+    "id": "ingredient-coriander-ground",
+    "revision": 1,
+    "payloadSha256": "99eb041a99e06b99268801564a50301cc87871e0cf69b255f00f541a8773d4c9"
+  },
+  {
+    "id": "ingredient-cardamom-pods",
+    "revision": 1,
+    "payloadSha256": "56ed29acbefb3d1d5ff7b540e98c65618ee3038d25c241a29b160cc631b1d279"
+  },
+  {
+    "id": "ingredient-cardamom-ground",
+    "revision": 1,
+    "payloadSha256": "d20574c5537ae39738e42ecd553b4924f9c1d1e3e45cf1e68e31f6a32de2246e"
+  }
+]

@@ -159,6 +159,7 @@ export interface StoreOffer {
   /** Normalized price in $/lb (or $/doz for eggs) for direct comparison */
   normalizedPricePerUnit: number;
   regularPricePerUnit: number;
+  regularPriceEvidence?: 'OBSERVED_SAME_PRODUCT';
   dealType: DealType;
   dealConditions?: string;
   observedAtIso?: string;
@@ -191,6 +192,7 @@ export interface KingSoopersLocation {
 }
 
 export interface ScoredCommodity {
+  comparisonEvidence?: 'UNQUALIFIED_GROUP_HISTORY';
   usdaBenchmark?: import('@/lib/usda/read').UsdaProvenance;
   ingredient: CanonicalIngredient;
   bestOffer: StoreOffer;
@@ -199,6 +201,10 @@ export interface ScoredCommodity {
   safewayOffer?: StoreOffer;
   /** Multi-vendor offer map across all active stores (v1.1) */
   storeOffers?: Partial<Record<StoreChain, StoreOffer>>;
+  /** Uncollapsed matching offers for reviewed recipe-specific admission. */
+  recipeOffers?: StoreOffer[];
+  /** Store pool selected for recipe cards/ranking, before offer admission. */
+  recipeStorePool?: StoreChain[];
   /** Overall Workhorse Value Score (0 - 100) weighted for absolute affordability + discount */
   valueScore: number;
   affordabilityScore: number;
@@ -366,6 +372,8 @@ export interface AggregatedShoppingItem {
     Record<
       StoreChain,
       {
+        /** Original matching offer title for a scoped recipe alternative. */
+        ingredientName?: string;
         unitCost: number;
         totalCost: number;
         rawDealText: string;
@@ -396,6 +404,7 @@ export interface StoreTripComparison {
     store: StoreChain;
     storeName: string;
     total: number;
+    verifiedItemCount?: number;
     diffFromBest: number;
     isBest: boolean;
   }[];

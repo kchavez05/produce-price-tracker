@@ -27,15 +27,15 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     slots: [
       {
         slotKey: 'primary_protein',
-        label: 'Braising Pork Cut',
-        candidateIngredientIds: ['pork-shoulder-butt', 'pork-loin-roast-chops'],
+        label: 'Pork Shoulder',
+        candidateIngredientIds: ['pork-shoulder-butt'],
         quantityRequired: 2.5,
       },
       {
         slotKey: 'stew_starch',
         label: 'Diced Potatoes',
         candidateIngredientIds: ['potatoes-russet-gold'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash', 'green-cabbage'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.0,
       },
       {
@@ -62,9 +62,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     estimatedPantryCost: 2.1,
     steps: [
       'Broil whole poblano/anaheim peppers, tomatillos/tomatoes, and quartered onion on a sheet pan for 10 minutes until charred, then pulse in a blender with garlic, cumin, oregano, and 2 cups broth.',
-      'Cube pork shoulder (or loin) into 1.5-inch chunks, season with salt & pepper, and toss into the slow cooker with cubed potatoes (or cauliflower florets for low-carb).',
+      'Thaw frozen raw pork in the refrigerator before starting. Cube pork shoulder into 1.5-inch chunks, season with salt & pepper, and toss into the slow cooker with cubed potatoes (or cauliflower florets for low-carb).',
       'Pour the roasted green chile sauce and remaining broth over top. Cook on LOW for 6–7 hours (or HIGH for 4 hours) until pork shreds effortlessly.',
-      'Portion into meal-prep containers and top each with shredded cheese or a dollop of sour cream when reheating.',
+      'Shred block cheese before using. Portion into meal-prep containers; after reheating, top with natural cheddar, plain Monterey Jack or a Mexican-style cheese blend, or a dollop of plain sour cream.',
     ],
     reheatTip: 'Flavor deepens on days 2–5. Reheat covered in the microwave for 2.5 minutes, stirring halfway.',
   },
@@ -94,14 +94,14 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     slots: [
       {
         slotKey: 'primary_protein',
-        label: 'Braising Beef Cut',
-        candidateIngredientIds: ['beef-chuck-roast', 'ground-beef-80-20'],
+        label: 'Boneless Beef Chuck Roast',
+        candidateIngredientIds: ['beef-chuck-roast'],
         quantityRequired: 2.5,
       },
       {
         slotKey: 'root_starch',
         label: 'Potatoes',
-        candidateIngredientIds: ['potatoes-russet-gold', 'sweet-potatoes'],
+        candidateIngredientIds: ['potatoes-russet-gold'],
         lowCarbCandidateIds: ['broccoli-cauliflower', 'mushrooms-cremini-white'],
         quantityRequired: 2.0,
       },
@@ -121,7 +121,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Beef broth (4 cups)', 'Tomato paste (2 tbsp)', 'Worcestershire sauce', 'Cornstarch or flour (3 tbsp)', 'Dried thyme & bay leaves'],
     estimatedPantryCost: 2.4,
     steps: [
-      'Cut chuck roast into 2-inch cubes, pat dry, and sear in batches in a hot Dutch oven until deeply browned.',
+      'Thaw frozen raw beef in the refrigerator before starting. Cut boneless beef chuck roast into 2-inch cubes, pat dry, and sear in batches in a hot Dutch oven until deeply browned.',
       'Add halved mushrooms, thick-cut carrots, and diced onions to the pot drippings; stir in tomato paste and thickener for 2 minutes.',
       'Deglaze with beef broth and Worcestershire sauce, add cubed potatoes and herbs, cover, and braise in a 325°F oven (or low stovetop simmer) for 2.5 hours.',
       'Divide evenly into meal-prep containers with plenty of thick gravy over the meat and vegetables.',
@@ -154,7 +154,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     slots: [
       {
         slotKey: 'primary_protein',
-        label: 'Chicken Cut',
+        label: 'Boneless Skinless Chicken Thighs or Breast',
         candidateIngredientIds: ['chicken-thighs-boneless', 'chicken-breast-boneless'],
         quantityRequired: 2.25,
       },
@@ -166,21 +166,21 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'base_starch',
-        label: 'Diced Potatoes or Butternut Squash',
+        label: 'Diced Potatoes, Sweet Potatoes or Butternut Squash',
         candidateIngredientIds: ['potatoes-russet-gold', 'sweet-potatoes', 'butternut-acorn-squash'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.0,
       },
       {
         slotKey: 'creamy_binder',
-        label: 'Sour Cream / Cottage Cheese / Greek Yogurt',
+        label: 'Full-Fat Sour Cream, Blended Plain Cottage Cheese or Whole-Milk Plain Greek Yogurt',
         candidateIngredientIds: ['cottage-cheese-sour-cream', 'greek-yogurt-tub'],
         quantityRequired: 1.0,
         isDairySlot: true,
       },
       {
         slotKey: 'cheese_top',
-        label: 'Shredded Cheese',
+        label: 'Shredded Cheddar',
         candidateIngredientIds: ['shredded-block-cheese'],
         quantityRequired: 0.75,
         isDairySlot: true,
@@ -189,10 +189,10 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Garlic powder, onion powder, smoked paprika', 'Chicken bouillon or splash of broth', 'Olive oil (2 tbsp)'],
     estimatedPantryCost: 1.25,
     steps: [
-      'Preheat oven to 400°F. Toss ½-inch cubed potatoes and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.',
-      'Whisk sour cream (or blended cottage cheese/Greek yogurt) with half the shredded cheese and ½ cup chicken broth.',
-      'Remove dish, stir in fresh broccoli florets and the creamy cheese mixture, and blanket the top with the remaining shredded cheese.',
-      'Bake an additional 20–22 minutes until broccoli is tender and cheese is bubbling golden brown.',
+      'Thaw frozen raw chicken in the refrigerator before starting. Preheat oven to 400°F. Toss ½-inch cubed potatoes, sweet potatoes or butternut squash and bite-sized boneless skinless chicken thighs or breast directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.',
+      'Shred the cheddar if using a block. Blend plain wet-curd cottage cheese smooth if selected; otherwise use plain full-fat sour cream or plain whole-milk Greek yogurt. Whisk the selected binder with half the shredded cheddar and ½ cup chicken broth.',
+      'Remove dish, stir in the selected fresh broccoli or cauliflower florets and the creamy cheese mixture, and blanket the top with the remaining shredded cheese.',
+      'Bake an additional 20–22 minutes, checking that the casserole and chicken reach at least 165°F in the center on a food thermometer and the selected florets are tender; continue cooking as needed.',
     ],
     reheatTip: 'Reheats cleanly in the microwave or 8 minutes in an air fryer / toaster oven to re-crisp the cheese crust.',
   },
@@ -208,7 +208,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     cookTimeMinutes: 40,
     reheatRating: 5,
     freezerFriendly: true,
-    flavorProfile: 'Smoky chili powder, sweet roasted yams, savory beef, cool avocado & cheddar',
+    flavorProfile: 'Smoky chili powder, sweet roasted sweet potatoes, savory beef, cool avocado & cheddar',
     macrosPerServing: {
       calories: 525,
       proteinGrams: 39,
@@ -229,8 +229,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       {
         slotKey: 'starch_veg',
         label: 'Sweet Potatoes or Butternut Squash',
-        candidateIngredientIds: ['sweet-potatoes', 'butternut-acorn-squash', 'potatoes-russet-gold'],
-        lowCarbCandidateIds: ['zucchini-yellow-squash', 'bell-peppers'],
+        candidateIngredientIds: ['sweet-potatoes', 'butternut-acorn-squash'],
+        lowCarbCandidateIds: ['bell-peppers'],
         quantityRequired: 2.0,
       },
       {
@@ -248,7 +248,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'avocado_finish',
-        label: 'Fresh Avocado Topper',
+        label: 'Fresh Hass Avocado Topper',
         candidateIngredientIds: ['avocados-hass'],
         quantityRequired: 0.7,
         optional: true,
@@ -257,16 +257,16 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Black beans or kidney beans (2 cans)', 'Crushed tomatoes (28 oz can)', 'Chili powder, cumin, smoked paprika'],
     estimatedPantryCost: 3.2,
     steps: [
-      'Brown ground beef (or turkey/sausage) with diced onions and bell/poblano peppers in a large pot or Dutch oven; drain excess fat.',
-      'Add peeled ½-inch cubed sweet potatoes, canned crushed tomatoes, black beans, spices, and 1.5 cups water or broth.',
-      'Simmer covered for 25–30 minutes until sweet potatoes are fork-tender and chili is thick and rich.',
-      'Stir in half the shredded cheese (or omit for dairy-free) and pack with fresh avocado slices for serving.',
+      'Thaw frozen raw meat in the refrigerator before starting. Remove casings from raw sausage links and crumble the sausage or ground meat. Brown ground beef, ground turkey, raw ground pork or crumbled raw pork sausage/chorizo with diced onions and bell/poblano peppers; drain excess fat. Use a food thermometer: cook ground beef/pork and pork sausage to at least 160°F, or ground turkey to at least 165°F.',
+      'Add peeled ½-inch cubed sweet potatoes (or butternut squash), canned crushed tomatoes, black beans, spices, and 1.5 cups water or broth.',
+      'Simmer covered for 25–30 minutes until the selected sweet potatoes or butternut squash are fork-tender and chili is thick and rich.',
+      'Shred block cheese before using. Stir in half the natural cheddar, plain Monterey Jack or Mexican-style cheese blend, reserving the rest for serving; if using plain sour cream instead, omit the cheese and add it as a dollop after reheating. Omit dairy for dairy-free and pack fresh avocado slices for serving.',
     ],
     reheatTip: 'Keep diced avocado in a small side cup to toss on top after heating the chili.',
   },
   {
     id: 'kielbasa-cabbage-apple-potato-braise',
-    title: 'Bavarian Smoked Kielbasa, Braised Cabbage, Honeycrisp Apple & Potato Skillet',
+    title: 'Bavarian Sausage, Braised Cabbage, Apple & Potato Skillet',
     subtitle: 'Rustic one-pot autumn braise with seared sausage, caramelized cabbage, sweet apples, and gold potatoes',
     style: 'STEW_BRAISE',
     appliance: 'Deep Skillet',
@@ -290,8 +290,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     slots: [
       {
         slotKey: 'primary_protein',
-        label: 'Smoked Sausage or Pork Loin',
-        candidateIngredientIds: ['smoked-sausage-kielbasa', 'italian-pork-sausage', 'pork-loin-roast-chops'],
+        label: 'Fully Cooked Sausage',
+        candidateIngredientIds: ['smoked-sausage-kielbasa'],
         quantityRequired: 1.75,
       },
       {
@@ -325,9 +325,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Apple cider vinegar (2 tbsp)', 'Whole grain or Dijon mustard (2 tbsp)', 'Chicken broth (1.5 cups)', 'Caraway seeds or thyme'],
     estimatedPantryCost: 1.5,
     steps: [
-      'Slice smoked sausage into coins and sear in a deep Dutch oven or heavy skillet until browned; transfer to a plate.',
-      'Melt butter (or olive oil) in the pan, add sliced onions, wedged apples, and shredded green cabbage; cook 8 minutes until lightly caramelized.',
-      'Nestle cubed potatoes and seared sausage into the cabbage, pour in broth whisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until tender.',
+      'Use only sausage labeled fully cooked or ready-to-eat: smoked sausage, kielbasa or andouille. If frozen, thaw in the refrigerator before slicing. Slice into coins and sear in a deep Dutch oven or heavy skillet until browned; follow the product label for heating, then transfer to a plate.',
+      'Melt butter (or olive oil) in the pan, add sliced onions, wedged apples, and the required shredded green cabbage; cook 8 minutes until lightly caramelized. If choosing the additional green-cabbage low-carb replacement for the potato slot, add that separately listed quantity of shredded green cabbage here as well.',
+      'Nestle cubed potatoes and seared sausage into the cabbage, pour in broth whisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until tender. When using the additional green-cabbage replacement for potatoes, omit the potatoes and braise the sausage with all the cabbage until tender.',
     ],
     reheatTip: 'Braised cabbage holds its texture far better than leafy greens—reheats in 2 minutes flat.',
   },
@@ -365,13 +365,13 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
         slotKey: 'starch_base',
         label: 'Sliced Potatoes',
         candidateIngredientIds: ['potatoes-russet-gold'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.25,
       },
       {
         slotKey: 'greens_veg',
         label: 'Fresh Spinach or Kale',
-        candidateIngredientIds: ['spinach-kale-greens', 'zucchini-yellow-squash'],
+        candidateIngredientIds: ['spinach-kale-greens'],
         quantityRequired: 0.65,
       },
       {
@@ -382,8 +382,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'creamy_finish',
-        label: 'Sour Cream / Greek Yogurt / Cheese',
-        candidateIngredientIds: ['cottage-cheese-sour-cream', 'greek-yogurt-tub', 'shredded-block-cheese'],
+        label: 'Full-Fat Sour Cream or Whole-Milk Plain Greek Yogurt',
+        candidateIngredientIds: ['cottage-cheese-sour-cream', 'greek-yogurt-tub'],
         quantityRequired: 0.5,
         isDairySlot: true,
       },
@@ -391,9 +391,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Cannellini or Great Northern beans (1 can)', 'Chicken broth (5 cups)', 'Italian seasoning & red pepper flakes', 'Garlic (4 cloves)'],
     estimatedPantryCost: 2.35,
     steps: [
-      'Brown Italian sausage in the Instant Pot (or Dutch oven) with diced onion, carrots, and garlic.',
+      'Thaw frozen raw protein in the refrigerator before starting. Remove casings from raw Italian pork sausage links and crumble the sausage, or cut boneless chicken thighs into bite-sized pieces. Brown the selected sausage, chicken or ground turkey with diced onion, carrots and garlic. Use a food thermometer: cook pork sausage to at least 160°F, or chicken/ground turkey to at least 165°F.',
       'Add halved baby/russet potatoes (or cauliflower florets for keto), white beans, Italian seasoning, and chicken broth. Pressure cook HIGH for 8 minutes (or simmer 22 minutes on stovetop).',
-      'Turn off heat and stir in fresh baby spinach until wilted, followed by sour cream (or coconut milk for dairy-free) for a rich, velvety broth.',
+      'For kale, simmer the chopped leaves in the broth until tender before turning off the heat. For spinach, turn off heat and stir in the leaves until wilted. For the dairy finish, let the pot stop simmering, gradually whisk a little warm broth into plain full-fat sour cream or plain whole-milk Greek yogurt, then stir it gently back into the pot off heat; do not boil. Use coconut milk instead for dairy-free.',
     ],
     reheatTip: 'Heat on medium-high (70% power) in microwave so the creamy broth stays emulsified.',
   },
@@ -424,14 +424,14 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       {
         slotKey: 'primary_protein',
         label: 'Chicken Thighs or Breast',
-        candidateIngredientIds: ['chicken-thighs-boneless', 'chicken-thighs-bone-in', 'chicken-breast-boneless'],
+        candidateIngredientIds: ['chicken-thighs-boneless', 'chicken-breast-boneless'],
         quantityRequired: 2.25,
       },
       {
         slotKey: 'squash_starch',
         label: 'Butternut Squash or Sweet Potatoes',
-        candidateIngredientIds: ['butternut-acorn-squash', 'sweet-potatoes', 'potatoes-russet-gold'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'zucchini-yellow-squash'],
+        candidateIngredientIds: ['butternut-acorn-squash', 'sweet-potatoes'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.25,
       },
       {
@@ -448,7 +448,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'yogurt_swirl',
-        label: 'Greek Yogurt or Sour Cream',
+        label: 'Whole-Milk Plain Greek Yogurt or Full-Fat Sour Cream',
         candidateIngredientIds: ['greek-yogurt-tub', 'cottage-cheese-sour-cream'],
         quantityRequired: 0.6,
         isDairySlot: true,
@@ -457,9 +457,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Curry powder & garam masala (2 tbsp)', 'Coconut milk or chicken broth (1 can)', 'Garlic & ginger', 'Basmati rice (optional base)'],
     estimatedPantryCost: 2.6,
     steps: [
-      'Place cubed butternut squash (or sweet potatoes), diced onions, diced tomatoes, and chicken thighs into the slow cooker.',
-      'Whisk broth/coconut milk with curry powder, garam masala, garlic, and ginger; pour over chicken and cook on LOW for 4.5 hours.',
-      'Shred or chunk the chicken in the pot, fold in fresh spinach and Greek yogurt (or full-fat coconut milk if dairy-free) until creamy, and portion into meal containers.',
+      'Thaw frozen raw chicken in the refrigerator before starting. Place cubed butternut squash (or sweet potatoes, or cauliflower florets for the low-carb replacement), diced onions, diced tomatoes, and boneless skinless chicken thighs or breast into the slow cooker.',
+      'Whisk broth/coconut milk with curry powder, garam masala, garlic, and ginger; pour over chicken and cook on LOW for about 4.5 hours, until the chicken reaches at least 165°F on a food thermometer.',
+      'Shred or chunk the chicken in the pot, cook the selected cauliflower florets until tender, or fold in fresh spinach until wilted. Turn off the heat and let simmering stop. Gradually whisk a little warm sauce into plain whole-milk Greek yogurt or plain full-fat sour cream, then stir it gently back into the pot off heat; do not boil. Use full-fat coconut milk instead for dairy-free, and portion into meal containers.',
     ],
     reheatTip: 'Curries are famous for tasting even better after 48 hours in the fridge as spices meld into the squash.',
   },
@@ -495,7 +495,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'meat_protein',
-        label: 'Sausage or Ground Turkey/Beef',
+        label: 'Raw Pork Sausage, Fully Cooked Sausage or Ground Turkey',
         candidateIngredientIds: ['italian-pork-sausage', 'smoked-sausage-kielbasa', 'ground-turkey'],
         quantityRequired: 1.0,
       },
@@ -514,18 +514,25 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'dairy_protein',
-        label: 'Cottage Cheese & Shredded Cheddar',
-        candidateIngredientIds: ['cottage-cheese-sour-cream', 'shredded-block-cheese'],
-        quantityRequired: 1.0,
+        label: 'Plain Cottage Cheese',
+        candidateIngredientIds: ['cottage-cheese-sour-cream'],
+        quantityRequired: 0.5,
+        isDairySlot: true,
+      },
+      {
+        slotKey: 'cheddar_top',
+        label: 'Shredded Cheddar',
+        candidateIngredientIds: ['shredded-block-cheese'],
+        quantityRequired: 0.5,
         isDairySlot: true,
       },
     ],
     pantryStaples: ['Salt, black pepper, smoked paprika, garlic powder', 'Cooking spray or 1 tbsp olive oil'],
     estimatedPantryCost: 0.75,
     steps: [
-      'Brown sausage with finely diced potatoes/sweet potatoes (or mushrooms/zucchini for keto) and diced peppers/onions in a skillet for 10 minutes until tender; spread into a greased 9x13 baking dish.',
-      'Whisk eggs with cottage cheese (the secret to ultra-fluffy reheatable eggs that never get rubbery) and half the shredded cheddar.',
-      'Pour egg mixture over the sausage-vegetable hash, top with remaining cheddar, and bake at 375°F for 35–40 minutes until set in the center.',
+      'Thaw frozen protein in the refrigerator before starting. For raw pork sausage links, remove casings and crumble; for fully cooked sausage, slice or dice. Brown the selected meat with finely diced potatoes/sweet potatoes (or mushrooms or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable base) and diced peppers/onions until tender. Cook raw pork/sausage to at least 160°F or raw ground turkey to at least 165°F on a food thermometer; heat fully cooked sausage according to its label. If using spinach or kale for the low-carb base, saute the chopped greens until tender and excess moisture evaporates; spread into a greased 9x13 baking dish.',
+      'Blend the 8 oz plain wet-curd cottage cheese smooth if desired. Shred the 8 oz cheddar if using a block. Whisk eggs with all the cottage cheese and half the shredded cheddar; both dairy ingredients are required for this version.',
+      'Pour egg mixture over the sausage-vegetable hash, top with remaining cheddar, and bake at 375°F for about 35–40 minutes until the casserole reaches at least 165°F in the center on a food thermometer.',
     ],
     reheatTip: 'Blending cottage cheese into the eggs keeps the squares moist all week—microwave 90 seconds per slice.',
   },
@@ -586,9 +593,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Olive oil or avocado oil (3 tbsp)', 'Chili powder, cumin, garlic powder, oregano', 'Lime juice (2 tbsp)'],
     estimatedPantryCost: 1.35,
     steps: [
-      'Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.',
-      'Toss cubed sweet potatoes (or broccoli/zucchini for keto) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.',
-      'Toss sliced chicken thighs, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for 18–20 minutes until charred at the edges.',
+      'Thaw frozen raw chicken in the refrigerator before starting. Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.',
+      'Toss cubed sweet potatoes (or broccoli or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable replacement) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.',
+      'Toss sliced boneless skinless chicken thighs or breast, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for about 18–20 minutes. Use a food thermometer to check that the chicken reaches at least 165°F, and continue cooking as needed until the selected vegetables are tender.',
       'Squeeze fresh lime juice over everything and divide into 6 meal-prep containers with sliced avocado.',
     ],
     reheatTip: 'Sheet-pan fajita chicken stays ultra-juicy when reheated for 2 minutes in the microwave or tossed into a hot skillet.',
@@ -619,20 +626,20 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     slots: [
       {
         slotKey: 'primary_protein',
-        label: 'Chuck Roast or Sirloin/Ground Beef',
-        candidateIngredientIds: ['beef-chuck-roast', 'ground-beef-80-20', 'sirloin-strip-steak'],
+        label: 'Boneless Beef Chuck Roast',
+        candidateIngredientIds: ['beef-chuck-roast'],
         quantityRequired: 2.5,
       },
       {
         slotKey: 'low_carb_base',
-        label: 'Cauliflower & Broccoli Florets',
-        candidateIngredientIds: ['broccoli-cauliflower', 'green-cabbage'],
+        label: 'Cauliflower Florets for Mash',
+        candidateIngredientIds: ['broccoli-cauliflower'],
         quantityRequired: 2.25,
       },
       {
         slotKey: 'umami_mushrooms',
         label: 'Cremini / Baby Bella Mushrooms',
-        candidateIngredientIds: ['mushrooms-cremini-white', 'zucchini-yellow-squash'],
+        candidateIngredientIds: ['mushrooms-cremini-white'],
         quantityRequired: 1.0,
       },
       {
@@ -643,7 +650,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'butter_enricher',
-        label: 'Grass-Fed Butter or Cheese Mash',
+        label: 'Butter or Shredded Cheddar / Monterey Jack',
         candidateIngredientIds: ['butter-salted-unsalted', 'shredded-block-cheese'],
         quantityRequired: 0.35,
         optional: true,
@@ -653,9 +660,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Beef broth (3 cups)', 'Worcestershire or coconut aminos (2 tbsp)', 'Garlic cloves (5), rosemary & thyme'],
     estimatedPantryCost: 1.9,
     steps: [
-      'Season beef chuck roast generously with salt, black pepper, garlic powder, and rosemary; place in the slow cooker surrounded by whole baby bella mushrooms, diced onion, and celery.',
+      'Thaw frozen raw beef in the refrigerator before starting. Season boneless beef chuck roast generously with salt, black pepper, garlic powder, and rosemary; place in the slow cooker surrounded by whole baby bella mushrooms, diced onion, and celery.',
       'Pour in beef broth and Worcestershire sauce; cook on LOW for 6–7 hours until fork-tender.',
-      'Steam or microwave cauliflower florets for 6 minutes, then blitz or mash with butter (or olive oil for dairy-free) and roasted garlic.',
+      'Steam or microwave cauliflower florets for 6 minutes, checking until tender, then blitz or mash with roasted garlic. Off heat, stir in butter or finely shredded natural cheddar or plain Monterey Jack until melted; use olive oil instead for dairy-free.',
       'Portion the cauliflower mash into 6 containers and ladle the shredded chuck roast, mushrooms, and pan jus over top.',
     ],
     reheatTip: 'Cauliflower mash absorbs the savory beef jus during storage and reheats in 2.5 minutes without separating.',
@@ -698,7 +705,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'side_starch',
-        label: 'Potatoes or Zucchini/Squash',
+        label: 'Potatoes, Sweet Potatoes or Zucchini/Squash',
         candidateIngredientIds: ['potatoes-russet-gold', 'sweet-potatoes', 'zucchini-yellow-squash'],
         lowCarbCandidateIds: ['zucchini-yellow-squash', 'asparagus-fresh', 'spinach-kale-greens'],
         quantityRequired: 1.5,
@@ -707,9 +714,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Extra-virgin olive oil (3 tbsp)', 'Lemon juice & zest', 'Dijon mustard (1 tbsp)', 'Garlic powder & dried dill'],
     estimatedPantryCost: 1.6,
     steps: [
-      'Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes/zucchini on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.',
+      'Thaw frozen raw salmon fillets in the refrigerator before starting. Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes, ½-inch cubed sweet potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes. Check that the selected starch is fork-tender before serving and continue its cooking separately if the salmon finishes first.',
       'Push vegetables to the edges, place portioned salmon fillets and asparagus spears in the center, and brush salmon with olive oil, lemon juice, Dijon mustard, and dill.',
-      'Roast 11–13 minutes more until salmon flakes easily at 135°F internal temp so it stays moist when reheated.',
+      'If serving the low-carb spinach or kale side, saute those greens separately until tender. Roast until the salmon reaches at least 145°F on a food thermometer; check after about 11–13 minutes and continue cooking as needed.',
     ],
     reheatTip: 'Reheat salmon at 60% microwave power for 90 seconds (or enjoy flaked cold over greens) so it never overcooks.',
   },
@@ -739,8 +746,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     slots: [
       {
         slotKey: 'primary_protein',
-        label: 'Pork Shoulder or Pork Loin',
-        candidateIngredientIds: ['pork-shoulder-butt', 'pork-loin-roast-chops'],
+        label: 'Pork Shoulder',
+        candidateIngredientIds: ['pork-shoulder-butt'],
         quantityRequired: 2.5,
       },
       {

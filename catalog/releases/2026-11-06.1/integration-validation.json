@@ -1,0 +1,28 @@
+{
+  "status": "LOCAL_INTEGRATION_VERIFIED_HOSTED_ROLLOUT_PENDING",
+  "date": "2026-11-06",
+  "catalogVersion": "2026-11-06.1",
+  "catalogIdentities": 111,
+  "newIdentities": 10,
+  "provenanceUpdates": 5,
+  "sourceLinks": 54,
+  "sourceLinkedIdentities": 53,
+  "marketLinks": 15,
+  "noMarketCounterpart": 96,
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unit": 287,
+    "smoke": 20,
+    "regression": 37,
+    "build": "passed",
+    "runtimeProjectionAndMarketAudit": "passed",
+    "approvedAndPreviewSearchFixtures": 72,
+    "deterministicFullSourceReplay": true
+  },
+  "databaseVerification": "Isolated PGlite: new vegetable ID rejected before migration, accepted afterward using the same unacknowledged mutation ID, repeated migration/retry idempotent, existing inventory and details preserved; owner isolation and deletion tests pass.",
+  "compatibilityVerification": "Exact 101- and 72-identity views and original 69-identity baseline remain available; new herb ownership does not create substitutions. Readiness/UI, unknown-ID and owner-bound queue suites pass.",
+  "hostedMigrationsApplied": false,
+  "productionActivated": false,
+  "releasePublished": false
+}

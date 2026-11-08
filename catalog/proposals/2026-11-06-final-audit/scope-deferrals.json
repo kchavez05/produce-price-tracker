@@ -1,0 +1,81 @@
+{
+  "formatVersion": 1,
+  "status": "PROPOSED_NON_MARKET_CATEGORY_DEFERRALS",
+  "catalogVersion": "2026-11-06.4",
+  "retainedIngredientCount": 145,
+  "decisions": [
+    {
+      "id": "additional-bean-forms",
+      "scope": [
+        "mung-bean forms",
+        "adzuki-bean forms",
+        "lima-bean forms",
+        "black-eyed-pea forms"
+      ],
+      "rationale": "The approved beans query already has twelve distinct results. Further primary choices need a reviewed grouping/navigation design and exact canned/dried identities before expansion; do not hide them through truncation.",
+      "revisit": "Before adding more primary bean choices in a future catalog batch.",
+      "revision": 1,
+      "status": "proposed",
+      "owner": "Catalog maintainer",
+      "payloadSha256": "221afe35952077cfd19bbc0157ba5b8c8e469050e6e1b9aa5f1143514366a45a"
+    },
+    {
+      "id": "additional-lentil-varieties",
+      "scope": [
+        "named green, brown and black lentil varieties",
+        "additional form-specific lentil choices"
+      ],
+      "rationale": "Retain the approved generic dried/canned choices and optional dried red lentils. Other varieties/forms need specific evidence and separately reviewed directional compatibility; family text or aliases cannot supply it.",
+      "revisit": "When a future batch has precise form/variety evidence and reviewed optional-choice navigation.",
+      "revision": 1,
+      "status": "proposed",
+      "owner": "Catalog maintainer",
+      "payloadSha256": "d51d2f81a37f564951dbbc4f5edcd2e4ae14298a037c48665e598b720d82dbb4"
+    },
+    {
+      "id": "additional-rice-forms",
+      "scope": [
+        "further named rice varieties",
+        "cooked/ready-to-use rice forms",
+        "grain-length-specific brown rice"
+      ],
+      "rationale": "Retain the three approved dry rice choices. Basmati, jasmine and grain-length-unspecified brown rice already have explicit approved curated definitions; generic long-grain records must not silently supply named-variety identity. New cooking forms remain separate.",
+      "revisit": "During the next rice/form review with suitable evidence and compact discovery.",
+      "revision": 1,
+      "status": "proposed",
+      "owner": "Catalog maintainer",
+      "payloadSha256": "80f48ac8c7df106182ee81af6081b90e766513aa1d2880c686d02e85c4f9c3c9"
+    },
+    {
+      "id": "additional-flour-choices",
+      "scope": [
+        "further wheat flours",
+        "further corn and legume flours",
+        "new optional flour varieties"
+      ],
+      "rationale": "Retain the approved flour choices and optional rice-flour variants. The proposed corn masa flour alias makes an existing identity discoverable, not a new food. Additional flours require specific cooking-form evidence and a broad-query/grouping review.",
+      "revisit": "Before another flour batch; keep the default flour results within the reviewed discovery limit.",
+      "revision": 1,
+      "status": "proposed",
+      "owner": "Catalog maintainer",
+      "payloadSha256": "8285163d2aef8587750b8b972b84e378d67ad96a7ca042f39bce3d45cb1ab8a7"
+    },
+    {
+      "id": "additional-preservation-and-variety-choices",
+      "scope": [
+        "additional fresh/frozen/canned vegetable and herb forms",
+        "additional whole/ground spices",
+        "toasted/untoasted oils and seeds",
+        "additional tofu textures and yogurt fat/preparation types"
+      ],
+      "rationale": "This release does not claim every culinary form is complete. Retain the exact approved distinctions, including separate coriander/cardamom forms and fresh cilantro. New preservation, species, processing or texture choices require separate identity/coverage approval; custom entries remain private exact choices.",
+      "revisit": "When a separately scoped future category batch supplies exact forms and culinary granularity.",
+      "revision": 1,
+      "status": "proposed",
+      "owner": "Catalog maintainer",
+      "payloadSha256": "a939b593ba96031a7b57caa92149bb46da1e44a148a8f94d380a8525e0bca16c"
+    }
+  ],
+  "releaseIngredientCountFixed": false,
+  "marketCoverageDirectionHash": "d5bc5e92ba1f811ead9c5d0e5777037eacbc0e1bd3f92de040b2f346c7a195a6"
+}

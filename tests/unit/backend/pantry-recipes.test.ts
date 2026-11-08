@@ -1,3 +1,7 @@
+import staplesCatalog from '../../../catalog/releases/2026-11-06.2/catalog.json';
+import vegetableCatalog from '../../../catalog/releases/2026-11-06.1/catalog.json';
+import firstExpandedCatalog from '../../../catalog/releases/2026-10-31.1/catalog.json';
+import previousCatalog from '../../../catalog/releases/2026-10-30.1/catalog.json';
 import baseline from '../../../catalog/baseline-1.5.2.json';
 import { searchCookingCatalog } from '@/lib/pantry/catalog-search';
 import { describe, expect, it } from 'vitest';
@@ -27,7 +31,8 @@ describe('pantry recipe and shopping integration', () => {
       const scaled = selectRecipeStaples(blueprint.id, [], 8);
       expect(scaled[0].quantity).toBeCloseTo(requirements[0].quantity * 8 / 6, 3);
     }
-    expect(ranked().every((dish) => dish.additionalCostEstimateComplete)).toBe(true);
+    // Generic mock offer titles do not prove the species/form of grouped vegetables.
+    for (const dish of ranked()) expect(dish.additionalCostEstimateComplete).toBe(dish.missingPriceIngredientIds?.length === 0);
   });
   it('uses boolean availability even for zero quantities or past dates, and does not count custom names', () => {
     const ids = availablePantryIngredientIds([
@@ -71,6 +76,65 @@ describe('pantry recipe and shopping integration', () => {
     const saved = { id: 'general', ingredientId: 'lentils-dried', displayName: 'Dried lentils', available: false, revision: 1, updatedAtIso: '' };
     expect(canSavePantryIngredient(saved, saved, [])).toBe(true);
     expect(() => cookingCatalogView('unreviewed')).toThrow('Unsupported');
+  });
+  it('restores the exact previous pantry view without losing expanded IDs or creating flour coverage', () => {
+    const rollback = cookingCatalogView('2026-10-30.1');
+    expect(rollback.ingredients).toEqual(previousCatalog.ingredients);
+    expect(rollback.compatibility).toEqual(previousCatalog.compatibility);
+    expect(searchCookingCatalog(rollback.ingredients, 'quinoa')).toEqual([]);
+    expect(pantryCatalog.has('quinoa-dry')).toBe(true);
+    const saved = { id: 'quinoa', ingredientId: 'quinoa-dry', displayName: 'Dry quinoa', available: false, revision: 1, updatedAtIso: '' };
+    expect(canSavePantryIngredient(saved, saved, [])).toBe(true);
+    const flour = { ...saved, id: 'flour', ingredientId: 'brown-rice-flour', displayName: 'Brown rice flour', available: true };
+    expect(availablePantryIngredientIds([flour])).toEqual(['brown-rice-flour']);
+    const requirements = [{ ingredientId: 'rice-flour', quantity: 1, unit: 'tbsp' }];
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([flour]))).toHaveLength(1);
+  });
+  it('retains the 101-ingredient rollback view while preserving exact new herb ownership', () => {
+    const rollback = cookingCatalogView('2026-10-31.1');
+    expect(rollback.ingredients).toEqual(firstExpandedCatalog.ingredients);
+    expect(rollback.compatibility).toEqual(firstExpandedCatalog.compatibility);
+    expect(searchCookingCatalog(rollback.ingredients, 'cilantro')).toEqual([]);
+    const herb: PantryEntry = { id: 'herb', ingredientId: 'cilantro-fresh', displayName: 'Fresh cilantro', available: true, revision: 1, updatedAtIso: '' };
+    expect(canSavePantryIngredient(herb, herb, [])).toBe(true);
+    expect(availablePantryIngredientIds([herb])).toEqual(['cilantro-fresh']);
+    const requirements = [{ ingredientId: 'cilantro-fresh', quantity: 1, unit: 'bunch' }];
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([herb]))).toEqual([]);
+    expect(pantryShoppingNeeds(requirements, [])).toMatchObject([{ priceBasis: 'UNPRICED', estimatedCost: null }]);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([{ ...herb, available: false }]))).toHaveLength(1);
+  });
+  it('retains the 111-identity view and keeps milk/yogurt and ground/fresh ginger ownership distinct', () => {
+    const rollback = cookingCatalogView('2026-11-06.1');
+    expect(rollback.ingredients).toEqual(vegetableCatalog.ingredients);
+    expect(rollback.compatibility).toEqual(vegetableCatalog.compatibility);
+    expect(searchCookingCatalog(rollback.ingredients, 'plain yogurt')).toEqual([]);
+    const milk: PantryEntry = { id: 'milk', ingredientId: 'milk-whole', displayName: 'Whole milk (3.25%)', available: true, quantity: 0, revision: 1, updatedAtIso: '' };
+    const yogurt: PantryEntry = { ...milk, id: 'yogurt', ingredientId: 'yogurt-plain-whole-milk', displayName: 'Plain whole-milk yogurt' };
+    expect(canSavePantryIngredient(yogurt, yogurt, [])).toBe(true);
+    const requirements = [{ ingredientId: milk.ingredientId!, quantity: 1, unit: 'cup' }, { ingredientId: yogurt.ingredientId!, quantity: 1, unit: 'cup' }];
+    const dish = createMockDish({ pantryStaples: [], pantryRequirements: requirements });
+    const before = JSON.stringify([milk, yogurt, dish]);
+    const partial = applyPantryToRecipe(dish, availablePantryIngredientIds([milk]), []);
+    expect(partial.pantryCoverage).toMatchObject({ requiredCount: 2, availableRequiredCount: 1 });
+    expect(partial.additionalCostEstimateComplete).toBe(false);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([milk]))).toMatchObject([{ ingredientId: yogurt.ingredientId, priceBasis: 'UNPRICED', estimatedCost: null }]);
+    const complete = applyPantryToRecipe(dish, availablePantryIngredientIds([milk, yogurt]), []);
+    expect(complete.pantryCoverage?.availableRequiredCount).toBe(2);
+    expect(complete.totalBatchCost).toBe(0);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([milk, yogurt]))).toEqual([]);
+    expect(availablePantryIngredientIds([{ ...milk, ingredientId: 'ginger-ground' }])).toEqual(['ginger-ground']);
+    expect(JSON.stringify([milk, yogurt, dish])).toBe(before);
+  });
+  it('shares spice provenance without sharing whole/ground availability and retains the 134-identity view', () => {
+    expect(cookingCatalogView('2026-11-06.2').ingredients).toEqual(staplesCatalog.ingredients);
+    const whole: PantryEntry = { id: 'whole', ingredientId: 'coriander-seeds-whole', displayName: 'Whole coriander seeds', available: true, revision: 1, updatedAtIso: '' };
+    const ground: PantryEntry = { ...whole, id: 'ground', ingredientId: 'coriander-ground', displayName: 'Ground coriander' };
+    const requirements = [{ ingredientId: whole.ingredientId!, quantity: 1, unit: 'tsp' }, { ingredientId: ground.ingredientId!, quantity: 1, unit: 'tsp' }];
+    expect(availablePantryIngredientIds([whole])).toEqual([whole.ingredientId]);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([whole]))).toMatchObject([{ ingredientId: ground.ingredientId, priceBasis: 'UNPRICED' }]);
+    expect(pantryShoppingNeeds(requirements, availablePantryIngredientIds([whole, ground]))).toEqual([]);
+    expect(availablePantryIngredientIds([{ ...whole, ingredientId: 'cardamom-pods' }])).toEqual(['cardamom-pods']);
+    expect(availablePantryIngredientIds([whole])).not.toContain('cilantro-fresh');
   });
   it('covers market onion cards, zeroes costs, and omits shopping needs using fresh pantry onions', () => {
     const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;

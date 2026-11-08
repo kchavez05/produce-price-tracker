@@ -1,0 +1,96 @@
+{
+  "status": "EXISTING_APPROVED_IDENTITIES_UNCHANGED",
+  "catalogVersion": "2026-11-07.3",
+  "contentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "decisionsHash": "fcd8fca329146ef303839574ffaecf224617157f302044582c60b6a01c565b59",
+  "bindings": [
+    {
+      "marketIngredientId": "avocados-hass",
+      "pantryIngredient": {
+        "id": "avocados-hass",
+        "name": "Hass avocado",
+        "aliases": [],
+        "recipeIngredientId": "avocados-hass"
+      },
+      "ingredientDecision": {
+        "id": "ingredient-avocados-hass",
+        "revision": 1,
+        "payloadSha256": "d39ae5c192e8b1cee3b570af9f83d10d1fe9e670589ef157aea93bbc178725b8"
+      },
+      "sourceLinks": [
+        {
+          "ingredientId": "avocados-hass",
+          "key": "foundation_food:2710824",
+          "fingerprint": "6daeed70ba6c0abc8903e426c90a39254470eb8266eac7b788527c594e13706c",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "chicken-breast-boneless",
+      "pantryIngredient": {
+        "id": "chicken-breast-boneless",
+        "name": "Boneless skinless chicken breast",
+        "aliases": [],
+        "recipeIngredientId": "chicken-breast-boneless"
+      },
+      "ingredientDecision": {
+        "id": "ingredient-chicken-breast-boneless",
+        "revision": 1,
+        "payloadSha256": "2ac105d01def464afc01591ed77a615e47fbf06299f1238c4e2afea0caacde94"
+      },
+      "sourceLinks": [
+        {
+          "ingredientId": "chicken-breast-boneless",
+          "key": "foundation_food:2646170",
+          "fingerprint": "989917252cadd861227366aab298cbedce92d4c041090b0368ff8c654ac97cf9",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredient": {
+        "id": "green-cabbage",
+        "name": "Green cabbage",
+        "aliases": [],
+        "recipeIngredientId": "green-cabbage"
+      },
+      "ingredientDecision": {
+        "id": "ingredient-green-cabbage",
+        "revision": 1,
+        "payloadSha256": "24333ae6fb1e103cf694350aa46a25df3bbabb628df3ee2540cce94686871998"
+      },
+      "sourceLinks": [
+        {
+          "ingredientId": "green-cabbage",
+          "key": "foundation_food:2346407",
+          "fingerprint": "181c8b5efa40eca14c3f088979f544bf77126b3d563ec574df4f1fa72a50bb9b",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredient": {
+        "id": "sweet-potatoes",
+        "name": "Sweet potatoes",
+        "aliases": [],
+        "recipeIngredientId": "sweet-potatoes"
+      },
+      "ingredientDecision": {
+        "id": "ingredient-sweet-potatoes",
+        "revision": 1,
+        "payloadSha256": "a6f766ac807c1e211922749a213f953464d1f335652c81a9dd71d18603b4436d"
+      },
+      "sourceLinks": [
+        {
+          "ingredientId": "sweet-potatoes",
+          "key": "sr_legacy_food:168482",
+          "fingerprint": "b7aa37b1fb42c9a1cbcdbd725c145e763f7f8371e3724b15e2837926e5f111fa",
+          "purpose": "identity"
+        }
+      ]
+    }
+  ]
+}

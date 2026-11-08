@@ -1,3 +1,4 @@
+import { exactOfferAllowed, requiresExactOffer, exactComparisonOffer } from './pantry/exact-offer';
 import { rankMealPrepDishes } from './meal-prep-matcher';
 import { calculateValueScore } from '@/lib/value-score';
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
@@ -36,6 +37,7 @@ import {
   persistLiveOffersToSqlite,
 } from './db/sqlite';
 import { isSupabaseConfigured } from './supabase/config';
+import { isProtectedMarketIngredient } from './pantry/recipe-use';
 
 export function scoreAllCommodities(
   allOffers: StoreOffer[],
@@ -51,7 +53,7 @@ export function scoreAllCommodities(
 
   for (const sourceIng of CANONICAL_INGREDIENTS) {
     // Verified retail benchmarks do not establish wholesale momentum.
-    const rawIng: CanonicalIngredient = histories ? { ...sourceIng, usdaSignal: { ...sourceIng.usdaSignal,
+    const rawIng: CanonicalIngredient = (histories || requiresExactOffer(sourceIng.id)) ? { ...sourceIng, usdaSignal: { ...sourceIng.usdaSignal,
       trend: 'STABLE', wholesaleChangePct: 0, mountainAdFeaturePct: 0,
       note: 'Wholesale momentum unavailable; retail benchmark provenance is shown separately.',
     } } : sourceIng;
@@ -71,8 +73,8 @@ export function scoreAllCommodities(
       : rawIng;
 
     const matchingOffers = allOffers.filter(
-      (o) => o.canonicalIngredientId === ingredient.id && Number.isFinite(o.normalizedPricePerUnit) && o.normalizedPricePerUnit > 0
-    );
+      (o) => o.canonicalIngredientId === ingredient.id && Number.isFinite(o.normalizedPricePerUnit) && o.normalizedPricePerUnit > 0 && exactOfferAllowed(ingredient.id, o.rawTitle) !== false
+    ).map(exactComparisonOffer);
     if (matchingOffers.length === 0) continue;
 
     const storeOffers: Partial<Record<StoreChain, StoreOffer>> = {};
@@ -110,7 +112,7 @@ export function scoreAllCommodities(
 
     const { discountVsBaselinePct, discountVsRegularPct, affordabilityScore,
       discountDepthScore, wholesaleBonusScore, valueScore } = calculateValueScore(
-        ingredient, bestOffer.normalizedPricePerUnit, bestOffer.regularPricePerUnit);
+        ingredient, bestOffer.normalizedPricePerUnit, bestOffer.regularPricePerUnit, bestOffer.regularPriceEvidence === 'OBSERVED_SAME_PRODUCT');
 
     const isHighRegularPrice =
       bestOffer.regularPricePerUnit >= 4.75 ||
@@ -151,7 +153,7 @@ export function scoreAllCommodities(
     } = histories ? histories[ingredient.id] ?? emptyHistory() : getIngredientHistoryFromSqlite(ingredient.id);
 
     // Ticket #25: Wholesale Club (Costco & Sam's Club) Price Normalizer
-    const clubBenchmark = compareAgainstWholesaleClubs(
+    const clubBenchmark = requiresExactOffer(ingredient.id) ? undefined : compareAgainstWholesaleClubs(
       ingredient.id,
       bestOffer.normalizedPricePerUnit,
       ingredient.standardUnit
@@ -159,7 +161,7 @@ export function scoreAllCommodities(
 
     // Ticket #24: Predictive 6-Week Cycle Signal Classification
     const pctVsSixWeekLow =
-      sixWeekLow > 0
+      !requiresExactOffer(ingredient.id) && sixWeekLow > 0
         ? Math.round(
             ((bestOffer.normalizedPricePerUnit - sixWeekLow) / sixWeekLow) * 100
           )
@@ -198,6 +200,11 @@ export function scoreAllCommodities(
       badgeLabel = 'Historical estimate (verify current price)';
     }
 
+    if (requiresExactOffer(ingredient.id)) {
+      cycleStatus = 'FAIR_SALE_PRICE';
+      badgeLabel = verifiedPrice ? 'Current price; identity-qualified history unavailable' : 'Historical estimate; identity-qualified comparisons unavailable';
+    }
+
     // Ticket #21: Virtual Freezer Arbitrage Prompt ("Buy 2: Prep 1, Freeze 1")
     const isFreezableCategory =
       ingredient.category === 'PROTEIN' ||
@@ -234,12 +241,17 @@ export function scoreAllCommodities(
     };
 
     scored.push({
+      ...(requiresExactOffer(ingredient.id) ? { comparisonEvidence: 'UNQUALIFIED_GROUP_HISTORY' as const } : {}),
       ingredient,
       bestOffer,
       runnerUpOffer,
       kingSoopersOffer,
       safewayOffer,
       storeOffers,
+      ...((isProtectedMarketIngredient(ingredient.id) || requiresExactOffer(ingredient.id)) ? {
+        recipeOffers: matchingOffers,
+        recipeStorePool: storeFilter !== 'ALL' ? [storeFilter] : activeStores?.length ? [...activeStores] : [...ALL_STORE_CHAINS],
+      } : {}),
       valueScore,
       affordabilityScore,
       discountDepthScore,

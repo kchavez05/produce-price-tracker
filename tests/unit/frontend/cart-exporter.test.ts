@@ -13,13 +13,13 @@ describe('cart-exporter: search query cleaner', () => {
   it('strips parenthetical weight/bag sizes from raw names', () => {
     expect(
       cleanSearchQueryForIngredient('Russet or Yukon Gold Potatoes (5 lb Bag)')
-    ).toBe('Russet');
+    ).toBe('Russet potatoes');
   });
 
   it('strips "or" alternatives to produce clean grocery query tokens', () => {
     expect(
       cleanSearchQueryForIngredient('Honeycrisp or Gala Apples (3 lb Bag)')
-    ).toBe('Honeycrisp');
+    ).toBe('Honeycrisp apples');
   });
 
   it('preserves clean ingredient names without parens or alternatives', () => {

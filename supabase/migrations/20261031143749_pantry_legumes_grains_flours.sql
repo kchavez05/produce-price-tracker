@@ -1,0 +1,33 @@
+-- Additive accepted identities for approved catalog 2026-10-31.1.
+-- Keep every accepted ID on presentation rollback; do not alter inventory or grants.
+insert into public.pantry_catalog(id) values
+ ('barley-hulled'),
+ ('barley-pearled'),
+ ('bread-flour'),
+ ('brown-rice-flour'),
+ ('buckwheat-flour'),
+ ('buckwheat-whole'),
+ ('bulgur-dry'),
+ ('chickpea-flour'),
+ ('chickpeas-dried'),
+ ('cornmeal-yellow-whole'),
+ ('couscous-dry'),
+ ('glutinous-rice-flour'),
+ ('green-split-peas-dried'),
+ ('kidney-beans-dried'),
+ ('millet-whole'),
+ ('navy-beans-canned'),
+ ('navy-beans-dried'),
+ ('oat-flour'),
+ ('pasta-dry'),
+ ('pinto-beans-canned'),
+ ('pinto-beans-dried'),
+ ('quinoa-dry'),
+ ('rolled-oats'),
+ ('rye-flour'),
+ ('self-rising-wheat-flour'),
+ ('sorghum-flour'),
+ ('sorghum-whole'),
+ ('steel-cut-oats'),
+ ('tapioca-pearls-dry')
+on conflict do nothing;

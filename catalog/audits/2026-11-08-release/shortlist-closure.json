@@ -1,0 +1,300 @@
+{
+  "choices": [
+    {
+      "choice": "Carrots",
+      "ingredientIds": [
+        "carrots-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Broccoli",
+      "ingredientIds": [
+        "broccoli-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cauliflower",
+      "ingredientIds": [
+        "cauliflower-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Spinach",
+      "ingredientIds": [
+        "spinach-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Kale",
+      "ingredientIds": [
+        "kale-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Leeks",
+      "ingredientIds": [
+        "leeks-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Beets",
+      "ingredientIds": [
+        "beets-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Radishes",
+      "ingredientIds": [
+        "radishes-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Okra",
+      "ingredientIds": [
+        "okra-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Eggplant",
+      "ingredientIds": [
+        "eggplant-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cilantro",
+      "ingredientIds": [
+        "cilantro-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Parsley",
+      "ingredientIds": [
+        "parsley-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Basil",
+      "ingredientIds": [
+        "basil-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Spearmint",
+      "ingredientIds": [
+        "spearmint-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "White mushrooms",
+      "ingredientIds": [
+        "mushrooms-white-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cucumber",
+      "ingredientIds": [
+        "cucumber-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Fresh tomatoes",
+      "ingredientIds": [
+        "tomatoes-fresh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Canola oil",
+      "ingredientIds": [
+        "canola-oil"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Sesame oil",
+      "ingredientIds": [
+        "sesame-oil"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground cinnamon",
+      "ingredientIds": [
+        "cinnamon-ground"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground cloves",
+      "ingredientIds": [
+        "cloves-ground"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground turmeric",
+      "ingredientIds": [
+        "turmeric-ground"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Coriander seed",
+      "ingredientIds": [
+        "coriander-ground",
+        "coriander-seeds-whole"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Ground ginger",
+      "ingredientIds": [
+        "ginger-ground"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Cardamom",
+      "ingredientIds": [
+        "cardamom-ground",
+        "cardamom-pods"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Red wine vinegar",
+      "ingredientIds": [
+        "red-wine-vinegar"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Miso",
+      "ingredientIds": [
+        "miso"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Fish sauce",
+      "ingredientIds": [
+        "fish-sauce"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Oyster sauce",
+      "ingredientIds": [
+        "oyster-sauce"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Granulated sugar",
+      "ingredientIds": [
+        "sugar-granulated"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Brown sugar",
+      "ingredientIds": [
+        "sugar-brown"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Honey",
+      "ingredientIds": [
+        "honey"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Tempeh",
+      "ingredientIds": [
+        "tempeh"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Soft tofu",
+      "ingredientIds": [
+        "tofu-soft"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Whole milk",
+      "ingredientIds": [
+        "milk-whole"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Plain yogurt",
+      "ingredientIds": [
+        "yogurt-plain-whole-milk"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Feta",
+      "ingredientIds": [
+        "feta-cheese"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Hard Parmesan",
+      "ingredientIds": [
+        "parmesan-hard"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Canned light tuna in water",
+      "ingredientIds": [
+        "tuna-light-canned-water"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Raw almonds",
+      "ingredientIds": [
+        "almonds-whole-raw"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "English walnuts",
+      "ingredientIds": [
+        "walnuts-english-raw"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    },
+    {
+      "choice": "Dried whole sesame seeds",
+      "ingredientIds": [
+        "sesame-seeds-whole-dried"
+      ],
+      "status": "APPROVED_AND_INTEGRATED"
+    }
+  ]
+}

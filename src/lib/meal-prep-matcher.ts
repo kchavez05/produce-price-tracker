@@ -3,7 +3,10 @@ import { currentAdCycle } from '@/lib/offer-freshness';
 import { selectRecipeStaples } from '@/data/recipe-staples';
 import { applyPantryToRecipe, recipePantryRequirements } from '@/lib/pantry/recipe';
 import { evaluatePantryRequirementsByIds } from '@/lib/pantry/requirements';
-import { recipeAvailableIngredientIds } from '@/lib/pantry/recipe-identity';
+import { recipeAvailableIngredientIds, recipeUseRequirementId } from '@/lib/pantry/recipe-identity';
+import { requiresExactOffer } from '@/lib/pantry/exact-offer';
+import { pantryCatalog } from '@/lib/pantry/model';
+import { recipeIngredientExcluded, recipeUseForSlot, scopedRecipeCommodity } from '@/lib/pantry/recipe-use';
 import { CookingVesselArchetype, DietaryConstraint, MacroGoal, MatchedSlotIngredient, NutritionMacros, RecommendedDish, ScoredCommodity } from '@/types/domain';
 
 /**
@@ -117,14 +120,50 @@ export function rankMealPrepDishes(
         );
       }
 
+      // Pantry evidence does not depend on a market quote. Consider an owned
+      // reviewed alternative before dropping candidates absent from this store pool.
+      const reviewedRequirement = (id: string) => {
+        const use = recipeUseForSlot(blueprint.id, slot.label, id);
+        if (use) return { marketIngredientId: id, ingredientId: recipeUseRequirementId(use), displayName: use.displayName };
+        if (requiresExactOffer(id) && !recipeIngredientExcluded(blueprint.id, id)) {
+          return { marketIngredientId: id, ingredientId: id, displayName: pantryCatalog.get(id)?.name ?? id };
+        }
+      };
+      const ownedWithoutCommodity = options?.pantryMode ? activeCandidateIds
+        .map(reviewedRequirement)
+        .filter((requirement) => requirement && !commodityMap.has(requirement.marketIngredientId) && onHandSet.has(requirement.ingredientId))
+        .sort((a, b) => Number(Boolean(b && pinnedSet.has(b.marketIngredientId))) - Number(Boolean(a && pinnedSet.has(a.marketIngredientId))))[0] : undefined;
+      const hasPricedPin = activeCandidateIds.some((id) => commodityMap.has(id) && pinnedSet.has(id));
+      if (ownedWithoutCommodity && (pinnedSet.has(ownedWithoutCommodity.marketIngredientId) || !hasPricedPin)) {
+        missingRequirements.push({ ingredientId: ownedWithoutCommodity.ingredientId, displayName: ownedWithoutCommodity.displayName,
+          quantity: Number((slot.quantityRequired * scaleFactor).toFixed(2)), unit: 'lb', ...(slot.optional ? { optional: true } : {}) });
+        if (pinnedSet.has(ownedWithoutCommodity.marketIngredientId)) pinnedHits += 1;
+        continue;
+      }
+
+      const usablePrices = new Set<string>();
+      const candidateAvailabilityId = (id: string) => {
+        const use = options?.pantryMode ? recipeUseForSlot(blueprint.id, slot.label, id) : undefined;
+        return use ? recipeUseRequirementId(use) : id;
+      };
       const candidates = activeCandidateIds
         .map((id) => commodityMap.get(id))
-        .filter((c): c is ScoredCommodity => Boolean(c));
+        .filter((c): c is ScoredCommodity => Boolean(c))
+        .map((candidate) => {
+          const use = options?.pantryMode ? recipeUseForSlot(blueprint.id, slot.label, candidate.ingredient.id) : undefined;
+          const priced = use ? scopedRecipeCommodity(use, candidate) : candidate;
+          if (priced) usablePrices.add(candidate.ingredient.id);
+          return priced ?? { ...candidate, valueScore: 0 };
+        });
 
       if (candidates.length === 0) {
-        if (options?.pantryMode) missingRequirements.push({ ingredientId: `unmapped:${blueprint.id}:${slot.slotKey}`,
-          displayName: slot.label, quantity: Number((slot.quantityRequired * scaleFactor).toFixed(2)), unit: '',
-          ...(slot.optional ? { optional: true } : {}) });
+        if (options?.pantryMode) {
+          const requirements = activeCandidateIds.map(reviewedRequirement).filter((requirement) => Boolean(requirement));
+          const requirement = requirements.find((r) => r && onHandSet.has(r.ingredientId)) ?? requirements[0];
+          missingRequirements.push({ ingredientId: requirement?.ingredientId ?? `unmapped:${blueprint.id}:${slot.slotKey}`,
+            displayName: requirement?.displayName ?? slot.label, quantity: Number((slot.quantityRequired * scaleFactor).toFixed(2)), unit: requirement ? 'lb' : '',
+            ...(slot.optional ? { optional: true } : {}) });
+        }
         continue;
       }
 
@@ -134,16 +173,17 @@ export function rankMealPrepDishes(
         const bPinned = pinnedSet.has(b.ingredient.id) ? 1 : 0;
         if (aPinned !== bPinned) return bPinned - aPinned;
 
-        const aOnHand = onHandSet.has(a.ingredient.id) ? 1 : 0;
-        const bOnHand = onHandSet.has(b.ingredient.id) ? 1 : 0;
+        const aOnHand = onHandSet.has(candidateAvailabilityId(a.ingredient.id)) ? 1 : 0;
+        const bOnHand = onHandSet.has(candidateAvailabilityId(b.ingredient.id)) ? 1 : 0;
         if (aOnHand !== bOnHand) return bOnHand - aOnHand;
+        if (options?.pantryMode && usablePrices.has(a.ingredient.id) !== usablePrices.has(b.ingredient.id)) return usablePrices.has(a.ingredient.id) ? -1 : 1;
 
         return b.valueScore - a.valueScore;
       });
 
       const chosen = candidates[0];
       const isUserPinned = pinnedSet.has(chosen.ingredient.id);
-      const isOnHand = onHandSet.has(chosen.ingredient.id);
+      const isOnHand = onHandSet.has(candidateAvailabilityId(chosen.ingredient.id));
       const fromVirtualFreezer = freezerSet.has(chosen.ingredient.id);
       if (isUserPinned) pinnedHits += 1;
       if (isOnHand) onHandHits += 1;
@@ -298,7 +338,10 @@ export function rankMealPrepDishes(
       savedInLibrary: savedIdsSet.has(blueprint.id),
       poweredByFreezerCount,
     };
-    evaluated.push(options?.pantryMode ? applyPantryToRecipe(dish, [...onHandSet], scoredCommodities, pantryRequirements) : dish);
+    const current = options?.pantryMode ? applyPantryToRecipe(dish, [...onHandSet], scoredCommodities, pantryRequirements) : dish;
+    if (options?.pantryMode) current.dishMatchScore = Math.round(dishMatchScore - costEfficiencyBonus +
+      (current.additionalCostEstimateComplete === false ? 0 : Math.max(0, (3.25 - current.costPerServing) * 14)));
+    evaluated.push(current);
   }
 
   // Merge any custom AI-generated recipes saved into SQLite (Ticket #10)

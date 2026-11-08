@@ -7,6 +7,34 @@ import { availableCookingIngredientIds, cookingCatalogVariants, searchCookingCat
 import baselineData from '../../../catalog/baseline-1.5.2.json';
 import ledgerData from '../../../catalog/curation-ledger.json';
 import fixtures from '../../../catalog/core-search-fixtures.json';
+import initialFixtures from '../../../catalog/releases/2026-10-30.1/search-fixtures.json';
+import firstExpansionFixtures from '../../../catalog/releases/2026-10-31.1/search-fixtures.json';
+import vegetableFixtures from '../../../catalog/releases/2026-11-06.1/search-fixtures.json';
+import staplesFixtures from '../../../catalog/releases/2026-11-06.2/search-fixtures.json';
+import spiceFixtures from '../../../catalog/proposals/2026-11-06-shared-spice-references/search-fixtures.json';
+import vegetableMappingFixtures from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/search-fixtures.json';
+import currentData from '../../../catalog/releases/2026-11-06.4/catalog.json';
+import vegetableMappingHashes from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/decision-hashes.json';
+import vegetableMappingEvidence from '../../../catalog/proposals/2026-11-06-vegetable-recipe-mappings/source-evidence.json';
+import spiceData from '../../../catalog/releases/2026-11-06.3/catalog.json';
+import spiceManifest from '../../../catalog/releases/2026-11-06.3/manifest.json';
+import spiceHashes from '../../../catalog/proposals/2026-11-06-shared-spice-references/decision-hashes.json';
+import spiceEvidence from '../../../catalog/proposals/2026-11-06-shared-spice-references/source-evidence.json';
+import staplesData from '../../../catalog/releases/2026-11-06.2/catalog.json';
+import staplesManifest from '../../../catalog/releases/2026-11-06.2/manifest.json';
+import staplesAudit from '../../../catalog/releases/2026-11-06.2/audit.json';
+import staplesHashes from '../../../catalog/proposals/2026-11-06-staples-proteins/decision-hashes.json';
+import staplesEvidence from '../../../catalog/proposals/2026-11-06-staples-proteins/source-evidence.json';
+import vegetableData from '../../../catalog/releases/2026-11-06.1/catalog.json';
+import vegetableManifest from '../../../catalog/releases/2026-11-06.1/manifest.json';
+import vegetableAudit from '../../../catalog/releases/2026-11-06.1/audit.json';
+import vegetableHashes from '../../../catalog/proposals/2026-11-06-vegetables-aromatics/decision-hashes.json';
+import vegetableEvidence from '../../../catalog/proposals/2026-11-06-vegetables-aromatics/source-evidence.json';
+import expansionData from '../../../catalog/releases/2026-10-31.1/catalog.json';
+import expansionManifest from '../../../catalog/releases/2026-10-31.1/manifest.json';
+import expansionAudit from '../../../catalog/releases/2026-10-31.1/audit.json';
+import expansionHashes from '../../../catalog/proposals/2026-10-31-legumes-grains-flours/decision-hashes.json';
+import expansionEvidence from '../../../catalog/proposals/2026-10-31-legumes-grains-flours/source-evidence.json';
 import approvedData from '../../../catalog/releases/2026-10-30.1/catalog.json';
 import releaseManifest from '../../../catalog/releases/2026-10-30.1/manifest.json';
 import releaseAudit from '../../../catalog/releases/2026-10-30.1/audit.json';
@@ -36,18 +64,128 @@ describe('curation and recurring approval gates', () => {
     expect(parseLedger(ledgerData).decisions.every((d) => d.status === 'approved' && d.review?.payloadSha256 === decisionHash(d))).toBe(true);
   });
   it('retains the exact reviewed release with matching approvals, provenance, and search gates', () => {
-    const approved = parseArtifact(approvedData); const ledger = parseLedger(ledgerData);
+    const approved = parseArtifact(approvedData); const fullLedger = parseLedger(ledgerData);
+    const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => approved.decisions.some((history) => history.id === d.id && history.revision === d.revision)) };
     expect(approved.ingredients).toHaveLength(72);
     expect(approved.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
     expect(releaseManifest).toMatchObject({ catalogVersion: approved.catalogVersion, contentHash: approved.contentHash, published: false, status: 'APPROVED_FOR_INTEGRATION' });
     expect(releaseAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: 'baseline-1.5.2', outcome: 'staged', published: false });
-    for (const fixture of fixtures) expect(searchCookingCatalog(approved.ingredients, fixture.query).map((r) => r.id).sort()).toEqual([...fixture.expected].sort());
+    for (const fixture of initialFixtures) expect(searchCookingCatalog(approved.ingredients, fixture.query).map((r) => r.id).sort()).toEqual([...fixture.expected].sort());
     for (const old of parseArtifact(baselineData).ingredients) {
       const current = approved.ingredients.find((r) => r.id === old.id);
       expect(current).toMatchObject(old);
     }
     expect(approved.compatibility).toEqual([{ from: red.id, to: general.id }]);
     expect(approved.sourceLinks).toHaveLength(3);
+  });
+  it('retains the approved expansion, all earlier identities, and unchanged recipe compatibility', () => {
+    const expanded = parseArtifact(expansionData); const fullLedger = parseLedger(ledgerData);
+    const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => expanded.decisions.some((h) => h.id === d.id && h.revision === d.revision)) };
+    const previous = parseArtifact(approvedData);
+    expect(expanded.ingredients).toHaveLength(101);
+    expect(expanded.decisions).toEqual(ledger.decisions.map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(expansionManifest).toMatchObject({ catalogVersion: expanded.catalogVersion, contentHash: expanded.contentHash, published: false, status: 'APPROVED_FOR_INTEGRATION' });
+    expect(expansionAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: previous.catalogVersion, outcome: 'staged', published: false });
+    const evidence = parseSources(expansionEvidence);
+    for (const reviewed of expansionHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id && d.revision === reviewed.revision)!;
+      expect(decision.status).toBe('approved');
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      for (const ref of decision.sourceRefs) expect(evidence.records.find((r) => r.key === ref.key)?.fingerprint).toBe(ref.fingerprint);
+    }
+    expect(expanded.compatibility).toEqual(previous.compatibility);
+    for (const before of previous.ingredients) expect(expanded.ingredients.find((r) => r.id === before.id)).toMatchObject(before);
+    const additions = expanded.ingredients.filter((r) => !previous.ingredients.some((before) => before.id === r.id));
+    expect(additions).toHaveLength(29);
+    expect(additions.every((r) => !r.staticPrice && !r.recipeIngredientId)).toBe(true);
+    for (const fixture of firstExpansionFixtures) expect(searchCookingCatalog(expanded.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+    for (const query of ['beans', 'flour', 'rice', 'lentils']) expect(searchCookingCatalog(expanded.ingredients, query, 1000).length).toBeLessThanOrEqual(12);
+  });
+  it('retains the exact approved vegetable payloads, evidence, prior fields and existing coverage rules', () => {
+    const catalog = parseArtifact(vegetableData), previous = parseArtifact(expansionData), fullLedger = parseLedger(ledgerData);
+    const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)) };
+    expect(catalog.ingredients).toHaveLength(111);
+    expect(catalog.decisions).toEqual(ledger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)).map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(vegetableManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, status: 'APPROVED_FOR_INTEGRATION', published: false });
+    expect(vegetableAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: previous.catalogVersion, outcome: 'staged' });
+    const evidence = parseSources(vegetableEvidence);
+    for (const reviewed of vegetableHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id && d.revision === reviewed.revision)!;
+      expect(decision.status).toBe('approved');
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      for (const ref of decision.sourceRefs) expect(evidence.records.find((r) => r.key === ref.key)?.fingerprint).toBe(ref.fingerprint);
+    }
+    for (const before of previous.ingredients) expect(catalog.ingredients.find((r) => r.id === before.id)).toMatchObject(before);
+    const additions = catalog.ingredients.filter((r) => !previous.ingredients.some((old) => old.id === r.id));
+    expect(additions).toHaveLength(10);
+    expect(additions.every((r) => !r.staticPrice && !r.recipeIngredientId && r.form === 'fresh')).toBe(true);
+    expect(catalog.compatibility).toEqual(previous.compatibility);
+    for (const fixture of vegetableFixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+  });
+  it('retains all 23 approved staples payloads and source-specific overrides without changing earlier identities', () => {
+    const catalog = parseArtifact(staplesData), previous = parseArtifact(vegetableData), fullLedger = parseLedger(ledgerData);
+    const ledger = { ...fullLedger, decisions: fullLedger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)) };
+    expect(catalog.ingredients).toHaveLength(134);
+    expect(catalog.decisions).toEqual(ledger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)).map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(staplesManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, status: 'APPROVED_FOR_INTEGRATION', published: false });
+    expect(staplesAudit).toMatchObject({ ledgerHash: sha256(ledger), parentVersion: previous.catalogVersion, outcome: 'staged' });
+    const evidence = parseSources(staplesEvidence);
+    expect(evidence.records.filter((r) => r.disposition === 'excluded').map((r) => r.key).sort()).toEqual(['sr_legacy_food:168833', 'sr_legacy_food:169640', 'sr_legacy_food:169655']);
+    for (const reviewed of staplesHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id && d.revision === reviewed.revision)!;
+      expect(decision.status).toBe('approved');
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      for (const ref of decision.sourceRefs) {
+        const row = evidence.records.find((r) => r.key === ref.key)!;
+        expect(row.fingerprint).toBe(ref.fingerprint);
+        if (row.disposition === 'excluded') expect(decision.rationale).toContain('Explicit proposed inclusion override');
+      }
+    }
+    for (const before of previous.ingredients) expect(catalog.ingredients.find((r) => r.id === before.id)).toEqual(before);
+    const additions = catalog.ingredients.filter((r) => !previous.ingredients.some((old) => old.id === r.id));
+    expect(additions).toHaveLength(23);
+    expect(additions.every((r) => !r.staticPrice && !r.recipeIngredientId)).toBe(true);
+    expect(catalog.compatibility).toEqual(previous.compatibility);
+    for (const fixture of staplesFixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+    for (const query of ['beans', 'flour', 'rice', 'lentils', 'oil', 'sauce', 'milk', 'yogurt', 'sugar']) expect(searchCookingCatalog(catalog.ingredients, query, 1000).length).toBeLessThanOrEqual(12);
+  });
+  it('retains four distinct spice forms with two explicit shared form-unspecified USDA records', () => {
+    const catalog = parseArtifact(spiceData), previous = parseArtifact(staplesData), ledger = parseLedger(ledgerData);
+    expect(catalog.ingredients).toHaveLength(138);
+    expect(catalog.decisions).toEqual(ledger.decisions.filter((d) => catalog.decisions.some((h) => h.id === d.id && h.revision === d.revision)).map((d) => ({ id: d.id, revision: d.revision, payloadSha256: decisionHash(d) })).sort((a, b) => a.id.localeCompare(b.id)));
+    expect(spiceManifest).toMatchObject({ catalogVersion: catalog.catalogVersion, contentHash: catalog.contentHash, published: false });
+    const evidence = parseSources(spiceEvidence);
+    for (const reviewed of spiceHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id && d.revision === reviewed.revision)!;
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      expect(decision.sourcePurpose).toBe('general-reference');
+      for (const ref of decision.sourceRefs) expect(evidence.records.find((r) => r.key === ref.key)?.fingerprint).toBe(ref.fingerprint);
+    }
+    const shared = catalog.sourceLinks.filter((r) => r.purpose === 'general-reference');
+    expect(shared).toHaveLength(4);
+    expect([...new Set(shared.map((r) => r.key))].sort()).toEqual(['sr_legacy_food:170919', 'sr_legacy_food:170922']);
+    expect(catalog.sourceLinks.filter((r) => r.purpose === 'identity')).toEqual(previous.sourceLinks);
+    for (const before of previous.ingredients) expect(catalog.ingredients.find((r) => r.id === before.id)).toEqual(before);
+    expect(catalog.compatibility).toEqual(previous.compatibility);
+    for (const fixture of spiceFixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
+  });
+  it('integrates seven exact fresh vegetable approvals without altering older identities or compatibility', () => {
+    const catalog = parseArtifact(currentData), previous = parseArtifact(spiceData), ledger = parseLedger(ledgerData);
+    expect(catalog.ingredients).toHaveLength(145);
+    expect(catalog.decisions).toHaveLength(94);
+    const evidence = parseSources(vegetableMappingEvidence);
+    for (const reviewed of vegetableMappingHashes) {
+      const decision = ledger.decisions.find((d) => d.id === reviewed.id)!;
+      expect(decision.status).toBe('approved');
+      expect(decisionHash(decision)).toBe(reviewed.payloadSha256);
+      expect(decision.review?.payloadSha256).toBe(reviewed.payloadSha256);
+      for (const ref of decision.sourceRefs) expect(evidence.records.find((r) => r.key === ref.key)?.fingerprint).toBe(ref.fingerprint);
+    }
+    for (const before of previous.ingredients) expect(catalog.ingredients.find((r) => r.id === before.id)).toEqual(before);
+    expect(catalog.sourceLinks).toEqual(expect.arrayContaining(previous.sourceLinks));
+    expect(catalog.sourceLinks).toHaveLength(88);
+    expect(catalog.compatibility).toEqual(previous.compatibility);
+    for (const fixture of vegetableMappingFixtures) expect(searchCookingCatalog(catalog.ingredients, fixture.query).map((r) => r.id).sort(), fixture.query).toEqual([...fixture.expected].sort());
   });
   it('keeps proposals in the unapproved preview and replays only approvals with unchanged fingerprints', () => {
     const proposal = decision({ ingredient: { ...general, name: 'Dry lentils' } });
@@ -137,6 +275,45 @@ describe('curation and recurring approval gates', () => {
     expect(compile([curated]).artifact.sourceLinks).toEqual([]);
     expect(() => compile([decision({ sourceRefs: [] })])).toThrow('require source evidence');
   });
+  it('shares a reviewed general source within one family without merging forms or losing links on replay', () => {
+    const source = record({ description: 'Spices, coriander seed' });
+    const whole: CookingIngredient = { id: 'whole-coriander', name: 'Whole coriander seeds', aliases: [], familyId: 'coriander-seed', form: 'whole' };
+    const ground: CookingIngredient = { ...whole, id: 'ground-coriander', name: 'Ground coriander', form: 'ground' };
+    const sourceRefs = [{ key: source.key, fingerprint: source.fingerprint }];
+    const first = approve(decision({ id: 'whole-spice', ingredient: whole, sourcePurpose: 'general-reference', sourceRefs }));
+    const second = approve(decision({ id: 'ground-spice', ingredient: ground, sourcePurpose: 'general-reference', sourceRefs }));
+    const options = { previous: makeBaseline([], 'spices-base'), sources: { rulesVersion: 1, records: [source] } };
+    const result = compile([first, second], options);
+    expect(result.artifact.sourceLinks).toHaveLength(2);
+    expect(result.artifact.sourceLinks.every((r) => r.purpose === 'general-reference' && r.familyId === whole.familyId)).toBe(true);
+    expect(availableCookingIngredientIds([entry(whole.id)], result.artifact.ingredients, result.artifact.compatibility)).toEqual([whole.id]);
+    expect(compile([first, second], { ...options, previous: result.artifact }).artifact).toEqual(result.artifact);
+    const withdrawal = approve({ ...first, revision: 2, sourceKind: 'CURATED', sourceRefs: [], sourcePurpose: undefined });
+    const withdrawn = compile([first, second, withdrawal], { ...options, previous: result.artifact, version: 'withdrawn' });
+    expect(withdrawn.artifact.sourceLinks).toMatchObject([{ ingredientId: ground.id, key: source.key }]);
+    expect(withdrawn.artifact.ingredients).toHaveLength(2);
+    const otherFamily = approve({ ...second, ingredient: { ...ground, familyId: 'another-spice' } });
+    expect(() => compile([first, otherFamily], options)).toThrow('different purpose, family, or fingerprint');
+    expect(() => compile([first, approve({ ...second, sourcePurpose: undefined })], options)).toThrow('already assigned');
+    expect(() => compile([approve({ ...first, ingredient: { ...whole, familyId: undefined } })], options)).toThrow('explicit ingredient family');
+    for (const changed of [record({ description: 'Changed source meaning' }), record({ description: source.description, disposition: 'quarantined' })]) {
+      const blocked = compile([first, second], { ...options, previous: result.artifact, version: 'source-changed', sources: { rulesVersion: 1, records: [changed] } });
+      expect(blocked.report.publishable).toBe(false);
+      expect(blocked.artifact.sourceLinks).toEqual(result.artifact.sourceLinks);
+      expect(blocked.report.blockedDecisions).toHaveLength(2);
+    }
+    const refreshed = record({ description: 'Spices, coriander seed, updated reference' });
+    const updatedRefs = [{ key: refreshed.key, fingerprint: refreshed.fingerprint }];
+    const renewedGround = approve({ ...second, revision: 2, sourceRefs: updatedRefs });
+    const refreshOptions = { ...options, previous: result.artifact, version: 'refreshed', sources: { rulesVersion: 1, records: [refreshed] } };
+    expect(() => compile([first, second, renewedGround], refreshOptions)).toThrow('fingerprint');
+    const renewedWhole = approve({ ...first, revision: 2, sourceRefs: updatedRefs });
+    expect(compile([first, second, renewedGround, renewedWhole], refreshOptions).report.publishable).toBe(true);
+    const duplicateLinks = [...result.artifact.sourceLinks, result.artifact.sourceLinks[0]];
+    expect(() => parseArtifact({ ...result.artifact, sourceLinks: duplicateLinks, contentHash: sha256(artifactContent({ ...result.artifact, sourceLinks: duplicateLinks })) })).toThrow('Duplicate ingredient/source');
+    const wrongFamily = result.artifact.sourceLinks.map((r) => ({ ...r, familyId: 'another-spice' }));
+    expect(() => parseArtifact({ ...result.artifact, sourceLinks: wrongFamily })).toThrow('match its ingredient family');
+  });
   it('blocks rejected evidence still linked by another approval and supports explicit reviewed source withdrawal', () => {
     const approved = approve(decision()); const first = compile([approved]);
     const rejected = approve(decision({ id: 'reject-source', action: 'exclude', ingredient: undefined }));
@@ -191,6 +368,21 @@ describe('grouped cooking search and availability contract (not yet active in th
     const retired = items.map((r) => r.id === general.id ? { ...r, lifecycle: 'retired' as const } : r);
     expect(searchCookingCatalog(retired, 'lentils').map((r) => r.id)).not.toContain(general.id);
     expect(availableCookingIngredientIds([entry(general.id)], retired, [])).toEqual([general.id]);
+  });
+  it('keeps optional flour varieties out of grain searches while retaining precise and optional discovery', () => {
+    const flour: CookingIngredient = { id: 'rice-flour', name: 'Rice flour', aliases: [], familyId: 'rice-flour', form: 'flour', searchVisibility: 'specific' };
+    const brownFlour: CookingIngredient = { ...flour, id: 'brown-rice-flour', name: 'Brown rice flour', variety: 'brown', searchVisibility: 'variant', parentIngredientId: flour.id };
+    const grain: CookingIngredient = { id: 'brown-rice-dry', name: 'Dry brown rice', aliases: [] };
+    const catalog = [flour, brownFlour, grain];
+    expect(searchCookingCatalog(catalog, 'rice').map((r) => r.id)).toEqual([grain.id]);
+    expect(searchCookingCatalog(catalog, 'brown rice').map((r) => r.id)).toEqual([grain.id]);
+    expect(searchCookingCatalog(catalog, 'flour').map((r) => r.id)).toEqual([flour.id]);
+    expect(searchCookingCatalog(catalog, 'BROWN  RICE FLOUR').map((r) => r.id)).toEqual([brownFlour.id]);
+    expect(cookingCatalogVariants(catalog, flour.id)).toEqual([brownFlour]);
+    expect(availableCookingIngredientIds([entry(brownFlour.id)], catalog, [])).toEqual([brownFlour.id]);
+    const retiredParent = catalog.map((r) => r.id === flour.id ? { ...r, lifecycle: 'retired' as const } : r);
+    expect(searchCookingCatalog(retiredParent, 'brown rice').map((r) => r.id)).toEqual([grain.id]);
+    expect(searchCookingCatalog(retiredParent, 'brown rice flour').map((r) => r.id)).toEqual([brownFlour.id]);
   });
   it('honors specific-to-general coverage, explicit No precedence, quantities, and dates without transitive inference', () => {
     const exact = [entry(red.id, true, { quantity: 0, useByDate: '2000-01-01' })];

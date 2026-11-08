@@ -1,0 +1,370 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "baseCatalogVersion": "2026-11-06.5",
+  "baseCatalogHash": "863270d2579e48b3c6b171edc43fcc07a0f19921b9cdda10590f1e0a77aed764",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "protectedMarketIngredientIds": [
+    "potatoes-russet-gold",
+    "poblano-anaheim-peppers",
+    "butternut-acorn-squash",
+    "zucchini-yellow-squash",
+    "apples-honeycrisp-gala",
+    "mushrooms-cremini-white",
+    "tomatoes-roma-vine",
+    "spinach-kale-greens"
+  ],
+  "defaults": {
+    "identityEvidence": "Require the named food and all named variety/origin qualifiers for a specific identity. A generic identity may accept a named same-form member, without assigning that member to the user.",
+    "forms": "Unprepared raw produce only. Reject cooked, canned, frozen, dried, pickled, sauced, stuffed, chips, juice, soup, salsa, blends and other prepared products; bare group labels/brand-only/ambiguous food titles remain unverified.",
+    "mixedOffers": "Reject composite food products and unresolved either/or or multi-food titles for a precise identity. Do not transfer a mixed group quote to a single member. Brand cleaning must retain the food noun.",
+    "prices": "No new fixed prices. Do not infer edible yield from bag weight, dehusking, peeling, seeding or USDA portions. Preserve observed price unit and uncertainty; per-store titles and costs stay attached to the actual offer.",
+    "history": "Retain market IDs and historical prices unchanged. Counterpart records are distinct from recipe-use records."
+  },
+  "ambiguousTerms": [
+    {
+      "term": "gold/yellow potatoes",
+      "decision": "Accept only generic potatoes unless Yukon Gold is explicitly stated. Do not alias gold to the cultivar."
+    },
+    {
+      "term": "pasilla",
+      "decision": "Do not alias to poblano. Fresh/dried identity is unresolved by this keyword; reject for these fresh counterparts without explicit reviewed food evidence. Dried pasilla is outside this fresh market association."
+    },
+    {
+      "term": "Hatch",
+      "decision": "Require an explicitly named fresh Hatch green chile food, not a brand alone; do not infer mild heat or substitute into bulk poblano slots."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "counterpart:potatoes-russet-gold:potatoes-fresh",
+      "revision": 1,
+      "marketIngredientId": "potatoes-russet-gold",
+      "pantryIngredientId": "potatoes-fresh",
+      "titlePolicy": "named-unprepared-potatoes-unspecified-or-variety",
+      "foodName": "Fresh potatoes",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "67447aa1f103f23e6780ce92fb34d2aa8c139cbc550ad8bcfb74f37db99add30"
+    },
+    {
+      "id": "counterpart:potatoes-russet-gold:russet-potatoes-fresh",
+      "revision": 1,
+      "marketIngredientId": "potatoes-russet-gold",
+      "pantryIngredientId": "russet-potatoes-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Russet potatoes",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "698fee4c75d0e82cbe9d2eab1c7ad87321d7bc4f1a67f66bb5d4889c3ffbc9c4"
+    },
+    {
+      "id": "counterpart:potatoes-russet-gold:yukon-gold-potatoes-fresh",
+      "revision": 1,
+      "marketIngredientId": "potatoes-russet-gold",
+      "pantryIngredientId": "yukon-gold-potatoes-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Yukon Gold potatoes",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "0f5bf4de25c7e249fc1db638cac1b2d0a1c07faf205409beb9fc5089c09db114"
+    },
+    {
+      "id": "counterpart:potatoes-russet-gold:red-potatoes-fresh",
+      "revision": 1,
+      "marketIngredientId": "potatoes-russet-gold",
+      "pantryIngredientId": "red-potatoes-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh red potatoes",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "25270c6d3c4cde7da79da136851e53ce93b82879b727288858c24e66fd322530"
+    },
+    {
+      "id": "counterpart:poblano-anaheim-peppers:poblano-peppers-fresh",
+      "revision": 1,
+      "marketIngredientId": "poblano-anaheim-peppers",
+      "pantryIngredientId": "poblano-peppers-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh poblano peppers",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "8330d5b764e20b8e6ae6bf4ed4fd349938b5241206c2747cd7a84d8cb71dd5db"
+    },
+    {
+      "id": "counterpart:poblano-anaheim-peppers:anaheim-peppers-fresh",
+      "revision": 1,
+      "marketIngredientId": "poblano-anaheim-peppers",
+      "pantryIngredientId": "anaheim-peppers-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Anaheim peppers",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "8a8167971d98f144312091b0b703904ee9f41e74a35475607df1d3caab642be7"
+    },
+    {
+      "id": "counterpart:poblano-anaheim-peppers:jalapeno-peppers-fresh",
+      "revision": 1,
+      "marketIngredientId": "poblano-anaheim-peppers",
+      "pantryIngredientId": "jalapeno-peppers-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh jalapeño peppers",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "1293ba28d51b540da3e68cdf78280b483dbce4984e522b5bc05060c09803f378"
+    },
+    {
+      "id": "counterpart:poblano-anaheim-peppers:serrano-peppers-fresh",
+      "revision": 1,
+      "marketIngredientId": "poblano-anaheim-peppers",
+      "pantryIngredientId": "serrano-peppers-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh serrano peppers",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "1972a0df68754aca9192f45c60dd1b7932626ac4f1f875026f94551808519168"
+    },
+    {
+      "id": "counterpart:poblano-anaheim-peppers:hatch-green-chiles-fresh",
+      "revision": 1,
+      "marketIngredientId": "poblano-anaheim-peppers",
+      "pantryIngredientId": "hatch-green-chiles-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Hatch green chiles",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "3e2ecea020a95f93101e0bcfcb7f0145c1ff547025ef1dfe937fa0fa6c3ad9d3"
+    },
+    {
+      "id": "counterpart:butternut-acorn-squash:butternut-squash-fresh",
+      "revision": 1,
+      "marketIngredientId": "butternut-acorn-squash",
+      "pantryIngredientId": "butternut-squash-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh butternut squash",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "bceb91ee0a4e1a2ff0f57eb7ead204d4a2d6975960241fe9d1e725c835d2a9c6"
+    },
+    {
+      "id": "counterpart:butternut-acorn-squash:acorn-squash-fresh",
+      "revision": 1,
+      "marketIngredientId": "butternut-acorn-squash",
+      "pantryIngredientId": "acorn-squash-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh acorn squash",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "662a506bc5061314de9f932057411041ce672df0e53896850d5f137a97bd127b"
+    },
+    {
+      "id": "counterpart:butternut-acorn-squash:spaghetti-squash-fresh",
+      "revision": 1,
+      "marketIngredientId": "butternut-acorn-squash",
+      "pantryIngredientId": "spaghetti-squash-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh spaghetti squash",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "1bd1357ea5a6441f3cff258d27d8c52ca43541f1dbd89fe1640fd6bb0b2b4e9f"
+    },
+    {
+      "id": "counterpart:butternut-acorn-squash:kabocha-squash-fresh",
+      "revision": 1,
+      "marketIngredientId": "butternut-acorn-squash",
+      "pantryIngredientId": "kabocha-squash-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh kabocha squash",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "934c5df8e9d66c2301075db4e41d92979b72081affcb3983f3806c9a9721fdfa"
+    },
+    {
+      "id": "counterpart:zucchini-yellow-squash:summer-squash-fresh",
+      "revision": 1,
+      "marketIngredientId": "zucchini-yellow-squash",
+      "pantryIngredientId": "summer-squash-fresh",
+      "titlePolicy": "named-unprepared-summer-squash-unspecified-or-variety",
+      "foodName": "Fresh summer squash",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "4b59b5677f129c196359e88ba48d0328df5404a997fe870fbbc1920fc12ffb13"
+    },
+    {
+      "id": "counterpart:zucchini-yellow-squash:zucchini-fresh",
+      "revision": 1,
+      "marketIngredientId": "zucchini-yellow-squash",
+      "pantryIngredientId": "zucchini-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh zucchini",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "20ed13676e69ed262426a38cb181b07f82c3d7727e80b653c30f9c3a8cfa2bdc"
+    },
+    {
+      "id": "counterpart:zucchini-yellow-squash:yellow-summer-squash-fresh",
+      "revision": 1,
+      "marketIngredientId": "zucchini-yellow-squash",
+      "pantryIngredientId": "yellow-summer-squash-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh yellow summer squash",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "20866d658c68e23c44250471d52a4f2abb62cbd51f4e4c14e237b0aa597c96a3"
+    },
+    {
+      "id": "counterpart:apples-honeycrisp-gala:apples-fresh",
+      "revision": 1,
+      "marketIngredientId": "apples-honeycrisp-gala",
+      "pantryIngredientId": "apples-fresh",
+      "titlePolicy": "named-unprepared-apples-unspecified-or-variety",
+      "foodName": "Fresh apples",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "4a7bc2a5e480c357e5b9ed5256a229e7a544942d471ddebdc5429c0a77935541"
+    },
+    {
+      "id": "counterpart:apples-honeycrisp-gala:honeycrisp-apples-fresh",
+      "revision": 1,
+      "marketIngredientId": "apples-honeycrisp-gala",
+      "pantryIngredientId": "honeycrisp-apples-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Honeycrisp apples",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "d3a413a9ba21aefbffeabebdc4b7e7569e06f496046678051c6dbf2d10462aa6"
+    },
+    {
+      "id": "counterpart:apples-honeycrisp-gala:gala-apples-fresh",
+      "revision": 1,
+      "marketIngredientId": "apples-honeycrisp-gala",
+      "pantryIngredientId": "gala-apples-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Gala apples",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "052e1cbb74ec78838ccde997db56706cb3cfdb2ac01106934643a12ced277adc"
+    },
+    {
+      "id": "counterpart:apples-honeycrisp-gala:fuji-apples-fresh",
+      "revision": 1,
+      "marketIngredientId": "apples-honeycrisp-gala",
+      "pantryIngredientId": "fuji-apples-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Fuji apples",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "9210cf2c613e0e550e3521f12b1ba8ac79a6252f087fff7c156169c7c05f3481"
+    },
+    {
+      "id": "counterpart:apples-honeycrisp-gala:granny-smith-apples-fresh",
+      "revision": 1,
+      "marketIngredientId": "apples-honeycrisp-gala",
+      "pantryIngredientId": "granny-smith-apples-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Granny Smith apples",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "85735a0f9085f2afa36ba6bef11e3eed87074df2a938914c5fef9c62d4829865"
+    },
+    {
+      "id": "counterpart:apples-honeycrisp-gala:cosmic-crisp-apples-fresh",
+      "revision": 1,
+      "marketIngredientId": "apples-honeycrisp-gala",
+      "pantryIngredientId": "cosmic-crisp-apples-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Cosmic Crisp apples",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "933d10cbd6065e31fb3bf849c59eda08361182e655f38335605e70e6609439fc"
+    },
+    {
+      "id": "counterpart:mushrooms-cremini-white:mushrooms-white-fresh",
+      "revision": 1,
+      "marketIngredientId": "mushrooms-cremini-white",
+      "pantryIngredientId": "mushrooms-white-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh white mushrooms",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "95fff24b8ed62acd17a7d8b521a9a5817daf7ba4469b45f4e59a7842aa698195"
+    },
+    {
+      "id": "counterpart:mushrooms-cremini-white:mushrooms-cremini-fresh",
+      "revision": 1,
+      "marketIngredientId": "mushrooms-cremini-white",
+      "pantryIngredientId": "mushrooms-cremini-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh cremini mushrooms",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "5ee40b973897cb43e0e2255469ff1a33748b9087ac0ed45ba649c0c8e0218df7"
+    },
+    {
+      "id": "counterpart:tomatoes-roma-vine:tomatoes-fresh",
+      "revision": 1,
+      "marketIngredientId": "tomatoes-roma-vine",
+      "pantryIngredientId": "tomatoes-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh tomatoes",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "161fa92cb901fadd6738254a3b9fa542a2604cb9c22def99a00d0578f46ffd8c"
+    },
+    {
+      "id": "counterpart:tomatoes-roma-vine:tomatillos-fresh",
+      "revision": 1,
+      "marketIngredientId": "tomatoes-roma-vine",
+      "pantryIngredientId": "tomatillos-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh tomatillos",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "4c79a745222592e59ea6937f4f67af52032ca33cd8fe6c494dcf10eef22a2390"
+    },
+    {
+      "id": "counterpart:spinach-kale-greens:spinach-fresh",
+      "revision": 1,
+      "marketIngredientId": "spinach-kale-greens",
+      "pantryIngredientId": "spinach-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh spinach",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "bbb8f88a283122003581464c520ad5e80cb19c539653a3ab55d1e2dc9af2c593"
+    },
+    {
+      "id": "counterpart:spinach-kale-greens:kale-fresh",
+      "revision": 1,
+      "marketIngredientId": "spinach-kale-greens",
+      "pantryIngredientId": "kale-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh kale",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "6e5adbc56291475edcc27c9e45fbbc81c8ba1227fa690cc28b6c1ec74b05acd4"
+    },
+    {
+      "id": "counterpart:spinach-kale-greens:collard-greens-fresh",
+      "revision": 1,
+      "marketIngredientId": "spinach-kale-greens",
+      "pantryIngredientId": "collard-greens-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh collard greens",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "33fbf971188f9cc6377ad10465602f239b0d6335e108312498faa31999d923fc"
+    },
+    {
+      "id": "counterpart:spinach-kale-greens:swiss-chard-fresh",
+      "revision": 1,
+      "marketIngredientId": "spinach-kale-greens",
+      "pantryIngredientId": "swiss-chard-fresh",
+      "titlePolicy": "require-exact-reviewed-food-and-qualification",
+      "foodName": "Fresh Swiss chard",
+      "rationale": "Market association identifies a supported possible food only. It establishes neither inventory ownership, sibling identity, fixed price, USDA equivalence nor recipe compatibility. Each original observed offer and store needs independent title/form qualification.",
+      "status": "proposed",
+      "payloadSha256": "753aa126ae913dd7d291a95ad144e4f00fb74a5c71f593a6d2a6c62db2ec8b28"
+    }
+  ]
+}

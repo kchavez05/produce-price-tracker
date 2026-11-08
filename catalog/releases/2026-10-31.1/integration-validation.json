@@ -1,0 +1,27 @@
+{
+  "status": "LOCAL_INTEGRATION_VERIFIED_HOSTED_ROLLOUT_PENDING",
+  "date": "2026-10-31",
+  "catalogVersion": "2026-10-31.1",
+  "catalogIdentities": 101,
+  "newIdentities": 29,
+  "provenanceUpdates": 6,
+  "sourceLinks": 39,
+  "sourceLinkedIdentities": 38,
+  "marketLinks": 15,
+  "noMarketCounterpart": 86,
+  "localChecks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "unit": 283,
+    "smoke": 20,
+    "regression": 37,
+    "build": "passed",
+    "runtimeProjectionAndMarketAudit": "passed",
+    "approvedAndPreviewSearchFixtures": 56
+  },
+  "databaseVerification": "Isolated PGlite: pre-migration rejection, all accepted IDs, post-migration save/retry/reapply/edit, direct-write denial, account isolation, and deletion. SQLite: disk-backed keyless guest save/reopen/retry and private-session isolation.",
+  "compatibilityVerification": "Exact prior 72-identity view and original 69-identity baseline retained; unknown-ID/owner-bound queue, edit, export/deletion, and recipe tests pass. No new recipe compatibility or fixed price.",
+  "hostedMigrationsApplied": false,
+  "productionActivated": false,
+  "releasePublished": false
+}

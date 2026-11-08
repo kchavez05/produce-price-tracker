@@ -41,7 +41,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
   openapi: '3.1.0',
   info: {
     title: 'PantryBot API',
-    version: '1.6.0',
+    version: '1.6.1',
     description:
       'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages Virtual Pantry availability, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
@@ -1435,7 +1435,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       },
       PantryRequirement: {
         type: 'object', properties: {
-          ingredientId: { type: 'string' }, displayName: { type: 'string' },
+          ingredientId: { type: 'string', description: 'Exact pantry identity or a reviewed recipe-use requirement ID. Recipe-use IDs represent alternatives within a specific recipe slot and cannot be stored as pantry inventory.' }, displayName: { type: 'string' },
           quantity: { type: 'number', minimum: 0 }, unit: { type: 'string' }, optional: { type: 'boolean' },
         }, required: ['ingredientId', 'quantity', 'unit'],
       },
@@ -1573,6 +1573,8 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             required: ['id', 'name', 'category', 'standardUnit'],
           },
           bestOffer: { $ref: '#/components/schemas/StoreOffer' },
+          recipeOffers: { type: 'array', items: { $ref: '#/components/schemas/StoreOffer' }, description: 'Uncollapsed offers for reviewed recipe-specific price admission; market-board identities and prices remain grouped.' },
+          recipeStorePool: { type: 'array', items: { $ref: '#/components/schemas/StoreChain' }, description: 'Selected stores eligible for recipe-card and ranking prices. Admission must not expand this pool.' },
           valueScore: { type: 'number', example: 92 },
           affordabilityScore: { type: 'number', example: 85 },
           discountDepthScore: { type: 'number', example: 98 },

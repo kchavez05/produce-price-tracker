@@ -1,0 +1,192 @@
+[
+  {
+    "id": "ingredient-potatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "547257c49729799b62bffd184d5b5ad4647842796aba2f004241eefbc653d4a8"
+  },
+  {
+    "id": "ingredient-russet-potatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "5c2cbacc95b76432e94f2498b558521fc5712e4fa2c107381d18a7baebe90d95"
+  },
+  {
+    "id": "ingredient-yukon-gold-potatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "f49c04191f048df4bbd405dbe08344c492613d49e257d54d46654909727003d0"
+  },
+  {
+    "id": "ingredient-red-potatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "5ae09bb751edab8bcf642e1bc3241448f37d5362dcf5a5370e10d6a9bc44ca7a"
+  },
+  {
+    "id": "ingredient-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "3802e4810e7e66f6c8c97fd66c1975d750d85f49d6b371b2d7b6e1f4661caad5"
+  },
+  {
+    "id": "ingredient-honeycrisp-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "ceef916f946eb4b0c4b4df6b7b0141cbf6d5bd52ea01331b39679184fab79acf"
+  },
+  {
+    "id": "ingredient-gala-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "c61d97dc35edc7a7ee604fddc6738373c4c60e1dc0cc4e54b1e4326542723c2f"
+  },
+  {
+    "id": "ingredient-fuji-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "e567dbacff79d8bee1027d26c9b6da78fe3956b0f9b5314752a6c29e100b6003"
+  },
+  {
+    "id": "ingredient-granny-smith-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "36af77913c1a434edd88408cb7cfbd3ffa0eda92d126f4b2e8380d3a08b7c79e"
+  },
+  {
+    "id": "ingredient-cosmic-crisp-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "534e8eef1fafa137e03244b67f7e1527297dd64c0c08f0112ef966c38461a166"
+  },
+  {
+    "id": "ingredient-summer-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "acd8519333b97f0e87a920e648baa8427a4295912e2e68735141cce91d469520"
+  },
+  {
+    "id": "ingredient-zucchini-fresh",
+    "revision": 1,
+    "payloadSha256": "68c1ad44d1919949a36b7734ea6673714cdb91fb8c8aff672907ba9eea091efa"
+  },
+  {
+    "id": "ingredient-yellow-summer-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "331ba5d75c7911aaed18483c4c75c7074923e199fa8060d54ff4f1fe261643c2"
+  },
+  {
+    "id": "ingredient-butternut-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "9c6dd0880e88a77fceca9ce7719c348b25b5249c54f53998566d67fb60283cb5"
+  },
+  {
+    "id": "ingredient-acorn-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "b0515288de0afd036d62f087d24edf8acdefede9f0d3f8ee04bbeab04d918e06"
+  },
+  {
+    "id": "ingredient-spaghetti-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "e848710d2f78457be79408cc3467a06acc3951bfbb2e712ba1a28965a4f521e2"
+  },
+  {
+    "id": "ingredient-kabocha-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "0df852964538f55b0a107d3e77ee99b852495cdd740dc3967941d50848a1cb3c"
+  },
+  {
+    "id": "ingredient-poblano-peppers-fresh",
+    "revision": 1,
+    "payloadSha256": "deae4cd0ea0c56a8eb6a9c9979de95976f0656520c34d00c2597e7520a568e37"
+  },
+  {
+    "id": "ingredient-anaheim-peppers-fresh",
+    "revision": 1,
+    "payloadSha256": "993984ee74ba39ce39961ee7dc5cb11adf93555428ae7966e92a2d883127dedf"
+  },
+  {
+    "id": "ingredient-jalapeno-peppers-fresh",
+    "revision": 1,
+    "payloadSha256": "63cd1e6d5da14322cb6c7bf8fdeb2430f691dfafd0feefe237ab926db9d2fe98"
+  },
+  {
+    "id": "ingredient-serrano-peppers-fresh",
+    "revision": 1,
+    "payloadSha256": "d673bbc03f85b1279600d08c61ee8425616348125b96f486fb2132b495fb2d3b"
+  },
+  {
+    "id": "ingredient-hatch-green-chiles-fresh",
+    "revision": 1,
+    "payloadSha256": "5dda9b4a82af00a52b644c95639e13c0733b91dd907e8cf42b56c5251340101d"
+  },
+  {
+    "id": "ingredient-mushrooms-cremini-fresh",
+    "revision": 1,
+    "payloadSha256": "39845a5c69f2d00953ee633b637796cea0b89252554e375396709ed28451475f"
+  },
+  {
+    "id": "ingredient-tomatillos-fresh",
+    "revision": 1,
+    "payloadSha256": "dfb51bf2607718ce9fd4e05c5ac044d1c794b45abf6395dcf943fa0a4160f1ef"
+  },
+  {
+    "id": "ingredient-collard-greens-fresh",
+    "revision": 1,
+    "payloadSha256": "dd28635a30e1e26879557773e528d3d771688eba2f9de64d674892526cbb9100"
+  },
+  {
+    "id": "ingredient-swiss-chard-fresh",
+    "revision": 1,
+    "payloadSha256": "f68ac7ac192839ee82949615eee678d1eba50e2fcde409857d1f3b89ac078e80"
+  },
+  {
+    "id": "ingredient-spinach-fresh",
+    "revision": 2,
+    "payloadSha256": "9f656d68c979da9074a3d19d15e2082deeaddf27ed531c0beda919b8f65ba7b4"
+  },
+  {
+    "id": "ingredient-kale-fresh",
+    "revision": 2,
+    "payloadSha256": "189b22846402abd1e6d42f2f42f4bd8fb51a4fe4c3860c8c9acaa07ef07d8608"
+  },
+  {
+    "id": "coverage-russet-potatoes-fresh-to-potatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "7a1269b26a439cd1cccdd65a7e09991b05adb68d996ef0d2a56ba14007ba1f8f"
+  },
+  {
+    "id": "coverage-yukon-gold-potatoes-fresh-to-potatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "b9bbbb3215ed819b7309db342d8d905535c44c034744bad048134c65dc40473e"
+  },
+  {
+    "id": "coverage-red-potatoes-fresh-to-potatoes-fresh",
+    "revision": 1,
+    "payloadSha256": "8693954df83b831f7869095800521654a3b61ae505814ea5b9d18cf07f578d69"
+  },
+  {
+    "id": "coverage-honeycrisp-apples-fresh-to-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "a6fcdd5823dd3ee1a2965c9afdb38c8740614e355578af60f69c1ac957d7843c"
+  },
+  {
+    "id": "coverage-gala-apples-fresh-to-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "000794d7363fe2334310ac7d8a7cf4e6af232df395f65f55284e3df910e232dd"
+  },
+  {
+    "id": "coverage-fuji-apples-fresh-to-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "ffae86027e487ab05829c5bd38d7f9b1fe79a400ff6aeac9707907fea2381841"
+  },
+  {
+    "id": "coverage-granny-smith-apples-fresh-to-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "be35f7d6436305069ca6137339d4e4ffc57dd0a4d2a1e42b35a646e9d9148734"
+  },
+  {
+    "id": "coverage-cosmic-crisp-apples-fresh-to-apples-fresh",
+    "revision": 1,
+    "payloadSha256": "e5f8ede39b2b71ce373ecd80b49305c9c95c6e742a8e8582f05a919db0ba9330"
+  },
+  {
+    "id": "coverage-zucchini-fresh-to-summer-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "c167dff9fecd3d76cb4a08e8a267e63096891e620fa345dcdfc6095378f64b6c"
+  },
+  {
+    "id": "coverage-yellow-summer-squash-fresh-to-summer-squash-fresh",
+    "revision": 1,
+    "payloadSha256": "37f49579475578900c435beac8d2890c0d85fdd632268f0c600f03b93a928fec"
+  }
+]

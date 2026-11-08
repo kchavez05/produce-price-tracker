@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "accessedOn": "2026-11-07",
+  "sources": [
+    {
+      "url": "https://extension.missouri.edu/publications/n689",
+      "publisher": "University of Missouri Extension",
+      "supports": "Lower-fat yogurt has a higher curdling risk when heated; use higher-fat yogurt or reviewed stabilization. Yogurt substitutions are not universal one-for-one.",
+      "application": "Require whole-milk plain Greek yogurt for the three existing hot savory scopes; lower-fat remains available in pantry but unreviewed for those methods."
+    },
+    {
+      "url": "https://www.realcaliforniamilk.com/baking/yogurt",
+      "publisher": "California Milk Advisory Board",
+      "supports": "Add yogurt late, warm gradually and stir gently in hot dishes.",
+      "application": "Exact off-heat/gradual-tempering finish patches for soup and curry; this is a scoped cooking decision, not proof that all substitutions perform identically."
+    },
+    {
+      "url": "https://www.arlapro.com/en-gb/stories/why-does-mozzarella-make-pizza-soggy/",
+      "publisher": "Arla Pro (manufacturer)",
+      "supports": "Fresh and low-moisture mozzarella have different moisture release and preparation/handling.",
+      "application": "Separate fresh and low-moisture identities; generic mozzarella text cannot establish either. No current recipe permissions are proposed for mozzarella."
+    },
+    {
+      "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+      "publisher": "FoodSafety.gov",
+      "supports": "Poultry and meat/poultry casseroles require 165°F on a thermometer.",
+      "application": "Add the missing thermometer endpoint to the chicken casserole while editing its binder method."
+    }
+  ],
+  "sourceBoundary": "Identity source data is the retained October 29 fingerprinted USDA snapshot, not a live refresh. FDC detail-page fetch for 328637 returned 404; retained row/fingerprint is the evidence. Manufacturer/extension sources support cooking boundaries, not USDA identity assignments or nutritional guarantees."
+}

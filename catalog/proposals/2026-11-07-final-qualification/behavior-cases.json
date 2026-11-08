@@ -1,0 +1,749 @@
+{
+  "formatVersion": 1,
+  "status": "REVIEW_EXPECTATIONS_NOT_IMPLEMENTED",
+  "offerCases": [
+    {
+      "id": "qualification-offer-1",
+      "marketIngredientId": "avocados-hass",
+      "title": "Hass Avocados",
+      "expectedCounterpartIds": [
+        "avocados-hass"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-2",
+      "marketIngredientId": "avocados-hass",
+      "title": "Fresh Hass Avocado 4 count",
+      "expectedCounterpartIds": [
+        "avocados-hass"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-3",
+      "marketIngredientId": "avocados-hass",
+      "title": "Kroger Hass Avocados 1 lb",
+      "expectedCounterpartIds": [
+        "avocados-hass"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-4",
+      "marketIngredientId": "avocados-hass",
+      "title": "Organic Hass Avocados (Large or Bagged)",
+      "expectedCounterpartIds": [
+        "avocados-hass"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-5",
+      "marketIngredientId": "avocados-hass",
+      "title": "Large Avocados",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-6",
+      "marketIngredientId": "avocados-hass",
+      "title": "Medium Avocados",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-7",
+      "marketIngredientId": "avocados-hass",
+      "title": "Avocado Bag",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-8",
+      "marketIngredientId": "avocados-hass",
+      "title": "Fresh Avocados from Mexico",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-9",
+      "marketIngredientId": "avocados-hass",
+      "title": "Hass Farms Avocados",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-10",
+      "marketIngredientId": "avocados-hass",
+      "title": "Fuerte Avocados",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-11",
+      "marketIngredientId": "avocados-hass",
+      "title": "Hass or Fuerte Avocados",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-12",
+      "marketIngredientId": "avocados-hass",
+      "title": "Hass Avocado Guacamole",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-13",
+      "marketIngredientId": "avocados-hass",
+      "title": "Frozen Hass Avocado Chunks",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-14",
+      "marketIngredientId": "avocados-hass",
+      "title": "Hass Avocado Oil",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-15",
+      "marketIngredientId": "avocados-hass",
+      "title": "Hass Avocado Toast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-16",
+      "marketIngredientId": "avocados-hass",
+      "title": "Not Hass Avocados",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-17",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Boneless Skinless Chicken Breast",
+      "expectedCounterpartIds": [
+        "chicken-breast-boneless"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-18",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Frozen Raw Boneless Skinless Chicken Breasts",
+      "expectedCounterpartIds": [
+        "chicken-breast-boneless"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-19",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Uncooked Boneless Skinless Chicken Breast",
+      "expectedCounterpartIds": [
+        "chicken-breast-boneless"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-20",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Boneless Skinless Chicken Breast - Cook Before Eating",
+      "expectedCounterpartIds": [
+        "chicken-breast-boneless"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-21",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Boneless & Skinless Chicken Breast",
+      "expectedCounterpartIds": [
+        "chicken-breast-boneless"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-22",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Boneless and Skinless Chicken Breasts",
+      "expectedCounterpartIds": [
+        "chicken-breast-boneless"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-23",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Fresh Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-24",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Boneless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-25",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Boneless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-26",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Skinless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-27",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Boneless Skinless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-28",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Bone-in Skin-on Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-29",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Fully Cooked Boneless Skinless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-30",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Fully Cooked Boneless Skinless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-31",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Marinated Raw Boneless Skinless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-32",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Breaded Boneless Skinless Chicken Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-33",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Boneless Skinless Chicken Thighs",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-34",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Turkey Breast",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-35",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Boneless Skinless Chicken Breast or Tenders",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-36",
+      "marketIngredientId": "chicken-breast-boneless",
+      "title": "Raw Boneless Skinless Chicken Breast with Bones",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-37",
+      "marketIngredientId": "green-cabbage",
+      "title": "Fresh Green Cabbage",
+      "expectedCounterpartIds": [
+        "green-cabbage"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-38",
+      "marketIngredientId": "green-cabbage",
+      "title": "Green Cabbage Head",
+      "expectedCounterpartIds": [
+        "green-cabbage"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-39",
+      "marketIngredientId": "green-cabbage",
+      "title": "Plain Shredded Fresh Green Cabbage",
+      "expectedCounterpartIds": [
+        "green-cabbage"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-40",
+      "marketIngredientId": "green-cabbage",
+      "title": "Kroger Fresh Green Cabbage",
+      "expectedCounterpartIds": [
+        "green-cabbage"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-41",
+      "marketIngredientId": "green-cabbage",
+      "title": "Fresh Cabbage",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-42",
+      "marketIngredientId": "green-cabbage",
+      "title": "Head Cabbage",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-43",
+      "marketIngredientId": "green-cabbage",
+      "title": "Red Cabbage",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-44",
+      "marketIngredientId": "green-cabbage",
+      "title": "Napa Cabbage",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-45",
+      "marketIngredientId": "green-cabbage",
+      "title": "Savoy Cabbage",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-46",
+      "marketIngredientId": "green-cabbage",
+      "title": "Green Red Cabbage Mix",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-47",
+      "marketIngredientId": "green-cabbage",
+      "title": "Green Cabbage Slaw Kit",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-48",
+      "marketIngredientId": "green-cabbage",
+      "title": "Green Cabbage with Dressing",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-49",
+      "marketIngredientId": "green-cabbage",
+      "title": "Green Cabbage Kimchi",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-50",
+      "marketIngredientId": "green-cabbage",
+      "title": "Frozen Green Cabbage",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-51",
+      "marketIngredientId": "green-cabbage",
+      "title": "Green Farms Cabbage",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-52",
+      "marketIngredientId": "green-cabbage",
+      "title": "Fresh Green Cabbage or Kale",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-53",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Fresh Sweet Potatoes",
+      "expectedCounterpartIds": [
+        "sweet-potatoes"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-54",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Organic Sweetpotatoes",
+      "expectedCounterpartIds": [
+        "sweet-potatoes"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-55",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Fresh Garnet Yams (Sweet Potatoes)",
+      "expectedCounterpartIds": [
+        "sweet-potatoes"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-56",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Raw Diced Sweet Potatoes",
+      "expectedCounterpartIds": [
+        "sweet-potatoes"
+      ],
+      "admit": true
+    },
+    {
+      "id": "qualification-offer-57",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Yams",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-58",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Garnet Yams",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-59",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "True Yams",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-60",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Dioscorea Yams",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-61",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Ube Yams",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-62",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Yams and Sweet Potatoes",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-63",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Sweet Potatoes or Yams",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-64",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Sweet Potato Fries",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-65",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Canned Sweet Potatoes",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-66",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Frozen Sweet Potatoes",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-67",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Mashed Sweet Potatoes",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-68",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Sweet Potato Pie",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-69",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Sweet Potato Seasoning",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-70",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Sweet Farms Potatoes",
+      "expectedCounterpartIds": [],
+      "admit": false
+    },
+    {
+      "id": "qualification-offer-71",
+      "marketIngredientId": "sweet-potatoes",
+      "title": "Fresh Sweet Potatoes and True Yams",
+      "expectedCounterpartIds": [],
+      "admit": false
+    }
+  ],
+  "availabilityCases": [
+    {
+      "ingredientId": "avocados-hass",
+      "positiveIds": [
+        "avocados-hass"
+      ],
+      "negativeIds": [],
+      "expectedAvailable": true
+    },
+    {
+      "ingredientId": "avocados-hass",
+      "positiveIds": [
+        "avocados-hass"
+      ],
+      "negativeIds": [
+        "avocados-hass"
+      ],
+      "expectedAvailable": false
+    },
+    {
+      "ingredientId": "chicken-breast-boneless",
+      "positiveIds": [
+        "chicken-breast-boneless"
+      ],
+      "negativeIds": [],
+      "expectedAvailable": true
+    },
+    {
+      "ingredientId": "chicken-breast-boneless",
+      "positiveIds": [
+        "chicken-breast-boneless"
+      ],
+      "negativeIds": [
+        "chicken-breast-boneless"
+      ],
+      "expectedAvailable": false
+    },
+    {
+      "ingredientId": "green-cabbage",
+      "positiveIds": [
+        "green-cabbage"
+      ],
+      "negativeIds": [],
+      "expectedAvailable": true
+    },
+    {
+      "ingredientId": "green-cabbage",
+      "positiveIds": [
+        "green-cabbage"
+      ],
+      "negativeIds": [
+        "green-cabbage"
+      ],
+      "expectedAvailable": false
+    },
+    {
+      "ingredientId": "sweet-potatoes",
+      "positiveIds": [
+        "sweet-potatoes"
+      ],
+      "negativeIds": [],
+      "expectedAvailable": true
+    },
+    {
+      "ingredientId": "sweet-potatoes",
+      "positiveIds": [
+        "sweet-potatoes"
+      ],
+      "negativeIds": [
+        "sweet-potatoes"
+      ],
+      "expectedAvailable": false
+    }
+  ],
+  "recipeCases": [
+    {
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "stew_starch",
+      "marketIngredientId": "green-cabbage",
+      "expectedCandidate": false,
+      "optional": false
+    },
+    {
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "marketIngredientId": "sweet-potatoes",
+      "expectedCandidate": false,
+      "optional": false
+    },
+    {
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "chicken-breast-boneless",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "base_starch",
+      "marketIngredientId": "sweet-potatoes",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "slotKey": "starch_veg",
+      "marketIngredientId": "sweet-potatoes",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "slotKey": "avocado_finish",
+      "marketIngredientId": "avocados-hass",
+      "expectedCandidate": true,
+      "optional": true
+    },
+    {
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "slotKey": "cabbage_base",
+      "marketIngredientId": "green-cabbage",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "slotKey": "potato_base",
+      "marketIngredientId": "green-cabbage",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "chicken-breast-boneless",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "squash_starch",
+      "marketIngredientId": "sweet-potatoes",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "hash_base",
+      "marketIngredientId": "sweet-potatoes",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "primary_protein",
+      "marketIngredientId": "chicken-breast-boneless",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "roast_veg",
+      "marketIngredientId": "sweet-potatoes",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "avocado_topper",
+      "marketIngredientId": "avocados-hass",
+      "expectedCandidate": true,
+      "optional": true
+    },
+    {
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "low_carb_base",
+      "marketIngredientId": "green-cabbage",
+      "expectedCandidate": false,
+      "optional": false
+    },
+    {
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "slotKey": "side_starch",
+      "marketIngredientId": "sweet-potatoes",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+      "slotKey": "cabbage_slaw_base",
+      "marketIngredientId": "green-cabbage",
+      "expectedCandidate": true,
+      "optional": false
+    },
+    {
+      "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+      "slotKey": "avocado_topper",
+      "marketIngredientId": "avocados-hass",
+      "expectedCandidate": true,
+      "optional": true
+    }
+  ],
+  "integrationCases": [
+    "All four exact IDs keep normal pantry Yes/No and existing recipeIngredientId semantics outside the three named recipe exclusions. No synthetic group ownership or family coverage is created.",
+    "Qualify original offers before market-board/explorer scoring and per-store selection; preserve source observations, price history, canonical labels/keywords and normalized retail units. Unqualified rows are not verified current quotes. Historical group benchmarks without exact food evidence cannot establish qualified-identity savings and need an unavailable/uncertain comparison.",
+    "Exercise all six stores, selected-store pools, a cheaper unqualified same-store sibling, and direct/cached ScoredCommodity input; recipe repricing and shopping must qualify again rather than trust a prior bestOffer.",
+    "For all three exclusions, stale matched slots AND literal saved pantry requirements cannot regain availability or a quote under the old built-in recipe ID. Keep unrelated exact-ID custom recipes and legitimate uses of those IDs intact.",
+    "Keep all 18 normal/low-carb affected candidate dispositions explicit, replay three removals and all text patches, preserve quantities/macros/tags, and project only the declared prior-scope label changes.",
+    "Retain the exact 222-identity catalog, 252 decisions, 457 fixtures, compatibility, source links, accepted registry and all ten historical views. No new migration or hosted change is needed for this batch."
+  ]
+}
