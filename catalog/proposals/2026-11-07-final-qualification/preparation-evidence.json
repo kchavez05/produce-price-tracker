@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "accessedOn": "2026-11-07",
+  "sources": [
+    {
+      "url": "https://www.ars.usda.gov/oc/utm/getting-more-uses-out-of-the-vitamin-packed-sweetpotato/",
+      "publisher": "USDA Agricultural Research Service",
+      "supports": "Sweetpotato and true yam are distinct crops; some US sweetpotatoes are marketed as yams.",
+      "application": "Require explicit sweet-potato evidence on the actual offer; do not infer identity from bare yam/Garnet-yam text, origin or US retail prevalence."
+    },
+    {
+      "url": "https://yardandgarden.extension.iastate.edu/faq/are-sweet-potatoes-and-yams-same-thing",
+      "publisher": "Iowa State University Extension",
+      "supports": "Different crops can share retail yam terminology.",
+      "application": "The parenthetical sweet-potato label case is a reviewed one-food label; unresolved mixed food offers remain rejected."
+    },
+    {
+      "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+      "publisher": "FoodSafety.gov",
+      "supports": "Chicken and poultry casseroles require at least 165°F on a food thermometer.",
+      "application": "Add the missing explicit endpoint to the breast-capable fajita directions and retain existing 165°F curry/casserole endpoints."
+    }
+  ],
+  "sourceBoundary": "The four USDA identity references are already approved and unchanged. This packet verifies them against the retained full snapshot; it adds no source, source-derived nutrition/yield, fixed estimate or new cooking identity."
+}

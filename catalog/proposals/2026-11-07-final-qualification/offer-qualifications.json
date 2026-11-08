@@ -1,0 +1,55 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "baseCatalogVersion": "2026-11-07.3",
+  "baseCatalogHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "preserveExactPantryLinks": true,
+  "defaultPolicy": "Only these four existing market IDs receive this global exact-food price gate. Generic terms and brands never supply missing qualifiers. Product-label evidence must be traceable to the specific offer; selecting a pantry entry or using the canonical group name is not proof. Strip only known leading brands; reject negated, conflicting, mixed or uncertain qualifiers. All per-store comparisons, direct recipe repricing, cached/saved recipe prices, shopping links and explorer scoring must use the same rule. Unqualified historical rows stay observed history, not verified current food-specific quotes. Group-level histories and benchmarks retain their original uncertainty; comparisons without exact food evidence must not claim qualified-identity savings. Unrelated market IDs keep their approved policies.",
+  "decisions": [
+    {
+      "revision": 1,
+      "id": "qualify-hass-avocado",
+      "marketIngredientId": "avocados-hass",
+      "pantryIngredientId": "avocados-hass",
+      "require": "Original offer must name Hass and avocado, representing fresh unprepared fruit. Size, bag, generic avocado, place of origin or brand is not variety evidence.",
+      "reject": "Reject generic large/medium/bagged avocados without Hass, named non-Hass varieties, mixed/unresolved food alternatives, frozen/canned/cooked/seasoned products, guacamole, avocado oil and prepared meals. Do not infer edible yield or source-derived retail weight.",
+      "scope": "Apply to current market-board scoring and exact recipe/shopping price admission, before cheapest-per-store selection. Retain raw observations, historical assignments, canonical IDs/names/keywords, existing pantry availability and all source links. This is no source, alias, compatibility or inventory migration.",
+      "status": "proposed",
+      "payloadSha256": "d55ad3f67cca92aa2c279a38ce31cbc691ada087e379f3e0a90efafa8b9878e5"
+    },
+    {
+      "revision": 1,
+      "id": "qualify-boneless-skinless-raw-breast",
+      "marketIngredientId": "chicken-breast-boneless",
+      "pantryIngredientId": "chicken-breast-boneless",
+      "require": "Original offer must identify chicken breast, boneless AND skinless, plus raw/uncooked/unprepared or cook-before-eating evidence. Chilled and frozen raw unprepared breast are the same reviewed identity; thaw frozen raw chicken in the refrigerator before these recipes.",
+      "reject": "Fresh, a value pack, a brand, breast fillet wording, boneless alone or skinless alone does not prove every required qualifier. Reject bone-in, skin-on, thighs/tenders/cutlets claimed as breasts, cooked/deli/canned/breaded/stuffed/marinated/sauced products, unresolved cuts/species and conflicting state/form labels.",
+      "scope": "Apply to current market-board scoring and exact recipe/shopping price admission, before cheapest-per-store selection. Retain raw observations, historical assignments, canonical IDs/names/keywords, existing pantry availability and all source links. This is no source, alias, compatibility or inventory migration.",
+      "status": "proposed",
+      "payloadSha256": "94f70850fe6a5afba0785b3312770829579b4e2fc9dd47b4e96ef803ed65cee2"
+    },
+    {
+      "revision": 1,
+      "id": "qualify-green-cabbage",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "require": "Original offer must identify fresh unprepared green cabbage. Whole or plainly cut/shredded raw green cabbage is the same food; retain the observed retail unit without a new yield conversion.",
+      "reject": "Head, fresh or generic cabbage alone does not prove green. Reject red/purple/savoy/napa cabbage, bok choy, mixed slaw, kits/dressing, sauerkraut/kimchi and frozen/canned/cooked forms. A brand or color adjective attached to another food supplies no cabbage variety.",
+      "scope": "Apply to current market-board scoring and exact recipe/shopping price admission, before cheapest-per-store selection. Retain raw observations, historical assignments, canonical IDs/names/keywords, existing pantry availability and all source links. This is no source, alias, compatibility or inventory migration.",
+      "status": "proposed",
+      "payloadSha256": "c715eee33e3700afb3ed01ba93f93610b31f075f974e9299fc3eb095c05ebd78"
+    },
+    {
+      "revision": 1,
+      "id": "qualify-sweet-potato-not-yam",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "require": "Original offer must explicitly identify fresh unprepared sweet potato or sweetpotato. A single label such as Garnet yams (sweet potatoes) can establish sweet potato only because it explicitly names it; a bare yam or Garnet-yam title cannot. No new yam alias or true-yam ingredient is proposed.",
+      "reject": "Reject bare yams, Garnet yams without sweet-potato evidence, true yams/Dioscorea/ube, ordinary potatoes, mixed yam-and-sweet-potato offers, unresolved food alternatives, frozen/canned/cooked/mashed/fries/chips/pie/seasoned products. Retail terminology does not create source equivalence or a variety/flesh-color guarantee.",
+      "scope": "Apply to current market-board scoring and exact recipe/shopping price admission, before cheapest-per-store selection. Retain raw observations, historical assignments, canonical IDs/names/keywords, existing pantry availability and all source links. This is no source, alias, compatibility or inventory migration.",
+      "status": "proposed",
+      "payloadSha256": "489d0d0c65063614f39724fbf01ceef7e617cdb220f7e45e6667247b546da98e"
+    }
+  ]
+}
