@@ -1,4 +1,4 @@
-import activeArtifact from '../../../catalog/releases/2026-11-07.3/catalog.json';
+import activeArtifact from '../../../catalog/releases/2026-11-07.4/catalog.json';
 import { describe, expect, it } from 'vitest';
 import cases from '../../../catalog/proposals/2026-11-07-market-produce/behavior-cases.json';
 import proposal from '../../../catalog/proposals/2026-11-07-market-produce/recipe-use-proposal.json';
@@ -151,7 +151,7 @@ describe('approved market produce integration', () => {
     const compiled = () => compileScopedRecipeUses(originalScoped, current.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, approval);
     expect(compiled().uses).toEqual(scopedRecipeUses); expect(scopedRecipeUses).toHaveLength(63);
     expect(compileMarketCounterparts(approval, current.ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts);
-    expect(runtime.marketCounterparts).toHaveLength(81);
+    expect(runtime.marketCounterparts).toHaveLength(85);
     const changed = structuredClone(approval); changed.approvals[0].recipeUses.decisions[0].pantryIngredientIds = ['collard-greens-fresh'];
     expect(() => compileScopedRecipeUses(originalScoped, current.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, changed)).toThrow('stale');
     const bad = structuredClone(approval); bad.approvals[0].review.payloadSha256 = 'bad';

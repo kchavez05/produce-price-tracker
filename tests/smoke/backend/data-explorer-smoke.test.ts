@@ -35,12 +35,12 @@ describe('public data explorer API', () => {
     expect(await csv.text()).toContain('synthetic_demo');
     const score = await get('score');
     expect(score.status).toBe(200);
-    expect((await score.json()).score.trace.policyVersion).toBe('1.5.1');
+    expect((await score.json()).score.trace.policyVersion).toBe('1.6.1');
     const calculated = await get('rows', 'dataset=calculated');
     const scoreRow = (await calculated.json()).rows.find(
       (r: { source: string }) => r.source === 'PANTRYBOT'
     );
-    expect(scoreRow.details.trace.policyVersion).toBe('1.5.1');
+    expect(scoreRow.details.trace.policyVersion).toBe('1.6.1');
     const catalog = await get('catalog');
     expect(catalog.status).toBe(200);
     expect((await catalog.json()).ingredients.length).toBeGreaterThan(20);

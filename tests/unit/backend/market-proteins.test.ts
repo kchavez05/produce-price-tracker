@@ -1,4 +1,4 @@
-import activeArtifact from '../../../catalog/releases/2026-11-07.3/catalog.json';
+import activeArtifact from '../../../catalog/releases/2026-11-07.4/catalog.json';
 import { beforeDairyBlueprints } from '../../helpers/dairy-blueprints';
 import { describe, expect, it } from 'vitest';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -124,10 +124,10 @@ describe('approved protein market integration', () => {
     expect(cleanSearchQueryForIngredient('Raw Atlantic or sockeye salmon fillets')).toBe('Atlantic salmon fillets');
     expect(cleanSearchQueryForIngredient('Raw New York strip or top sirloin steak')).toBe('New York strip steak');
   });
-  it('binds 63 current scopes, 81 counterparts and all 20 protected mixed groups to the append-only approvals', () => {
+  it('binds 63 current scopes, 85 counterparts and all 20 protected mixed groups to the append-only approvals', () => {
     const compile = (raw: unknown = approval) => compileScopedRecipeUses(originalScoped, parseArtifact(activeArtifact).ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, raw);
     expect(compile().uses).toEqual(scopedRecipeUses); expect(scopedRecipeUses).toHaveLength(63); expect(compile().protectedMarketIds).toEqual(runtime.protectedRecipeMarketIds); expect(runtime.protectedRecipeMarketIds).toHaveLength(20);
-    expect(compileMarketCounterparts(approval, parseArtifact(activeArtifact).ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts); expect(runtime.marketCounterparts).toHaveLength(81);
+    expect(compileMarketCounterparts(approval, parseArtifact(activeArtifact).ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts); expect(runtime.marketCounterparts).toHaveLength(85);
     const altered = structuredClone(approval); altered.approvals[1].recipeUses.decisions[0].pantryIngredientIds = ['salmon-fillets-raw']; expect(() => compile(altered)).toThrow('stale');
     const firstChanged = structuredClone(approval); firstChanged.approvals[0].review.by = 'Different reviewer'; expect(() => compile(firstChanged)).toThrow('chain');
     expect(approval.approvals[1].recipeUses.previousCoverageApprovalHash).toBe(sha256({ formatVersion: 1, approvals: approval.approvals.slice(0, 1) }));

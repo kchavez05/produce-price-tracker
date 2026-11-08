@@ -1,11 +1,11 @@
+import { filterCommodityOffers, qualifiedExactCommodity } from './commodity-offers';
 import { proteinRecipeOfferAllowed } from './protein-offer';
 import { dairyRecipeOfferAllowed } from './dairy-offer';
 import cookingData from '@/data/cooking-catalog.json';
 import { ScopedRecipeUse } from '@/types/catalog';
-import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity, StoreChain, StoreOffer } from '@/types/domain';
+import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity } from '@/types/domain';
 import { PantryRequirement } from '@/types/pantry';
 import { recipePantryIngredientId, recipeUseRequirementId, scopedRecipeUses } from './recipe-identity';
-import { calculateValueScore } from '@/lib/value-score';
 import { OFFER_FOOD_TERMS as foodTerms, INCOMPATIBLE_PRODUCE as incompatible, stripProduceOfferBrand as stripOfferBrand, hasUnresolvedProduceAlternatives, hasMultipleProduceFoods } from './offer-food';
 
 const protectedIds = new Set<string>(cookingData.protectedRecipeMarketIds);
@@ -37,10 +37,14 @@ export function recipeUseForRequirement(dish: RecommendedDish, id: string): Scop
   return recipeUseRequirementAllowed(dish, id) ? byRequirement.get(id) : undefined;
 }
 
+export function recipeIngredientExcluded(recipeId: string, id: string): boolean {
+  return cookingData.exactRecipeExclusions.some((r) => r.recipeId === recipeId && r.pantryIngredientId === id);
+}
+
 export function matchedRecipeRequirement(dish: RecommendedDish, ingredient: MatchedSlotIngredient): PantryRequirement {
   const use = resolveRecipeUse(dish, ingredient);
   const valid = Number.isFinite(ingredient.quantityUsed) && ingredient.quantityUsed >= 0;
-  return { ingredientId: use ? recipeUseRequirementId(use) : protectedIds.has(ingredient.ingredientId)
+  return { ingredientId: recipeIngredientExcluded(dish.id, ingredient.ingredientId) ? `unmapped:recipe:${dish.id}:${ingredient.ingredientId}` : use ? recipeUseRequirementId(use) : protectedIds.has(ingredient.ingredientId)
     ? `unmapped:recipe:${dish.id}:${ingredient.slotLabel}:${ingredient.ingredientId}` : recipePantryIngredientId(ingredient.ingredientId),
   displayName: use?.displayName ?? ingredient.ingredientName, quantity: valid ? ingredient.quantityUsed : 1,
   unit: valid ? ingredient.unit : '', ...(ingredient.optional ? { optional: true } : {}) };
@@ -78,29 +82,13 @@ export function recipeOfferAllowed(use: ScopedRecipeUse, rawTitle: string): bool
 
 /** Filter each actual offer separately; never relabel the original commodity or its history. */
 export function recipeCommodity(dish: RecommendedDish, ingredient: MatchedSlotIngredient, commodity: ScoredCommodity | undefined): ScoredCommodity | undefined {
-  if (!commodity || !protectedIds.has(ingredient.ingredientId)) return commodity;
+  if (!commodity || recipeIngredientExcluded(dish.id, ingredient.ingredientId)) return;
+  const qualified = qualifiedExactCommodity(commodity);
+  if (!qualified || !protectedIds.has(ingredient.ingredientId)) return qualified;
   const use = resolveRecipeUse(dish, ingredient);
-  if (!use) return;
-  return scopedRecipeCommodity(use, commodity);
+  return use ? scopedRecipeCommodity(use, qualified) : undefined;
 }
 
 export function scopedRecipeCommodity(use: ScopedRecipeUse, commodity: ScoredCommodity): ScoredCommodity | undefined {
-  const compare = (a: StoreOffer, b: StoreOffer) => Number(a.source === 'CURATED_FALLBACK') - Number(b.source === 'CURATED_FALLBACK') || a.normalizedPricePerUnit - b.normalizedPricePerUnit;
-  // Production scoring collapses the market board per store; admission must see the
-  // original offers first, so a cheap sibling cannot discard this recipe's food.
-  const offers = (commodity.recipeOffers ?? [commodity.bestOffer, commodity.runnerUpOffer, commodity.kingSoopersOffer, commodity.safewayOffer, ...Object.values(commodity.storeOffers ?? {})])
-    .filter((offer): offer is StoreOffer => Boolean(offer && offer.canonicalIngredientId === use.marketIngredientId &&
-      Number.isFinite(offer.normalizedPricePerUnit) && offer.normalizedPricePerUnit >= 0 && recipeOfferAllowed(use, offer.rawTitle))).sort(compare);
-  const storeOffers: Partial<Record<StoreChain, StoreOffer>> = {};
-  for (const offer of offers) if (!storeOffers[offer.store]) storeOffers[offer.store] = offer;
-  // Keep admissible comparison offers, but choose card/ranking prices only from
-  // the selected pool. A rejected selected-store offer does not authorize another store.
-  // Older cached payloads do not expose the chosen pool; preserve their chosen
-  // store instead of interpreting missing metadata as permission to expand it.
-  const eligibleStores = commodity.recipeStorePool ?? [commodity.bestOffer.store];
-  const pool = Object.values(storeOffers).filter((offer): offer is StoreOffer => Boolean(offer && eligibleStores.includes(offer.store))).sort(compare);
-  if (!pool.length) return;
-  return { ...commodity, ...calculateValueScore(commodity.ingredient, pool[0].normalizedPricePerUnit, pool[0].regularPricePerUnit),
-    bestOffer: pool[0], runnerUpOffer: pool[1], storeOffers,
-    kingSoopersOffer: storeOffers.KING_SOOPERS, safewayOffer: storeOffers.SAFEWAY };
+  return filterCommodityOffers(commodity, (offer) => recipeOfferAllowed(use, offer.rawTitle));
 }

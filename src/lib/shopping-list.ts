@@ -1,3 +1,5 @@
+import { qualifiedExactCommodity } from './pantry/commodity-offers';
+import { requiresExactOffer } from './pantry/exact-offer';
 import {
   ALL_STORE_CHAINS,
   resolveStoreBanner,
@@ -13,7 +15,7 @@ import {
 import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { recipeAvailableIngredientIds, recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { applyPantryToRecipe, formatPantryRequirement, pantryShoppingNeeds, recipePantryRequirements } from '@/lib/pantry/recipe';
-import { recipeCommodity, resolveRecipeUse } from '@/lib/pantry/recipe-use';
+import { recipeCommodity, resolveRecipeUse, matchedRecipeRequirement, recipeIngredientExcluded } from '@/lib/pantry/recipe-use';
 import { recipeUseRequirementId } from '@/lib/pantry/recipe-identity';
 
 export function buildShoppingListAndStoreComparison(
@@ -29,6 +31,24 @@ export function buildShoppingListAndStoreComparison(
   tripComparison: StoreTripComparison;
   pantryNeeds: PantryShoppingNeed[];
 } {
+  const legacyRequirements: PantryRequirement[] = [];
+  if (!pantryMode) {
+    const source = new Map(commodities.map((c) => [c.ingredient.id, c]));
+    activeDishes = activeDishes.map((dish) => ({ ...dish, matchedIngredients: dish.matchedIngredients.flatMap((item) => {
+      if (!requiresExactOffer(item.ingredientId) && !recipeIngredientExcluded(dish.id,item.ingredientId)) return [item];
+      const excluded = recipeIngredientExcluded(dish.id,item.ingredientId);
+      if (!excluded && (item.isOnHand || onHandIngredientIds.includes(item.ingredientId))) return [item];
+      const qualified = recipeCommodity(dish,item,source.get(item.ingredientId));
+      if (!qualified || !Number.isFinite(item.quantityUsed) || item.quantityUsed < 0) {
+        legacyRequirements.push(matchedRecipeRequirement(dish,item));
+        return [];
+      }
+      return [{ ...item, store: qualified.bestOffer.store, unitCost: qualified.bestOffer.normalizedPricePerUnit,
+        slotCost: Number((item.quantityUsed * qualified.bestOffer.normalizedPricePerUnit).toFixed(2)),
+        rawDealText: `${qualified.bestOffer.rawTitle} — ${qualified.bestOffer.rawPriceText}` }];
+    }) }));
+  }
+  commodities = commodities.flatMap((c) => { const qualified = qualifiedExactCommodity(c); return qualified ? [qualified] : []; });
   // Project only reviewed recipe uses. Store prices retain their original offer provenance;
   // separate scopes cannot aggregate into a cheaper, incompatible vegetable requirement.
   if (pantryMode) {
@@ -154,14 +174,14 @@ export function buildShoppingListAndStoreComparison(
           (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
 
         const unitCost = offer?.normalizedPricePerUnit ?? slotIng.unitCost;
-        const scopedEstimate = pantryMode && slotIng.ingredientId.startsWith('recipe-use:') && !offer;
+        const scopedEstimate = pantryMode && (slotIng.ingredientId.startsWith('recipe-use:') || requiresExactOffer(slotIng.ingredientId)) && !offer;
         if (scopedEstimate && activeStores.includes(chain)) missingScopedStorePrices.add(slotIng.ingredientId);
         const totalCost = isOnHand
           ? 0
           : Number((slotIng.quantityUsed * unitCost).toFixed(2));
 
         storePricing[chain] = {
-          ...(pantryMode && slotIng.ingredientId.startsWith('recipe-use:') ? { ingredientName: (offer ?? scored?.bestOffer)?.rawTitle } : {}),
+          ...(pantryMode && (slotIng.ingredientId.startsWith('recipe-use:') || requiresExactOffer(slotIng.ingredientId)) ? { ingredientName: (offer ?? scored?.bestOffer)?.rawTitle } : {}),
           unitCost,
           totalCost,
           rawDealText: isOnHand
@@ -229,11 +249,12 @@ export function buildShoppingListAndStoreComparison(
     }
   }
 
-  const pantryNeeds = pantryMode ? pantryShoppingNeeds(requirements, [...onHandSet]) : [];
+  const pantryNeeds = (pantryMode || legacyRequirements.length) ? pantryShoppingNeeds([...requirements,...legacyRequirements], [...onHandSet]) : [];
   if (pantryMode) {
     estimatedPantryTotal = pantryNeeds.reduce((sum, need) => sum + (need.estimatedCost ?? 0), 0);
     for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} fixed estimate`}`);
   }
+  if (!pantryMode) for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — price unavailable`);
   const missingPriceIngredientIds = [...new Set([...pantryNeeds.filter((need) => need.estimatedCost === null).map((need) => need.ingredientId), ...missingScopedStorePrices])];
   const items = Array.from(itemMap.values()).sort((a, b) => {
     if (a.isOnHand !== b.isOnHand) return a.isOnHand ? 1 : -1;
@@ -369,7 +390,7 @@ export function buildShoppingListAndStoreComparison(
     pantryChecklist: Array.from(pantrySet),
     pantryNeeds,
     tripComparison: {
-      ...(pantryMode ? { additionalCostEstimateComplete: missingPriceIngredientIds.length === 0, missingPriceIngredientIds } : {}),
+      ...((pantryMode || legacyRequirements.length > 0) ? { additionalCostEstimateComplete: missingPriceIngredientIds.length === 0, missingPriceIngredientIds } : {}),
       optimalSplitTotal,
       kingSoopersOnlyTotal,
       safewayOnlyTotal,

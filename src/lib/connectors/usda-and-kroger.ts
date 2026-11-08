@@ -1,3 +1,4 @@
+import { requiresExactOffer } from '@/lib/pantry/exact-offer';
 import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { KingSoopersLocation, StoreOffer } from '@/types/domain';
 
@@ -132,6 +133,7 @@ export async function fetchKrogerLiveOffers(
       if (!ingredient) continue;
 
       for (const prod of res.data) {
+        if (requiresExactOffer(ingredient.id) && !prod.description?.trim()) continue;
         const item = prod?.items?.[0];
         const regular = item?.price?.regular;
         const promo = item?.price?.promo;
@@ -151,6 +153,7 @@ export async function fetchKrogerLiveOffers(
             saleUnit: item?.size || ingredient.standardUnit,
             normalizedPricePerUnit: activePrice,
             regularPricePerUnit: regular || ingredient.typicalRegularPerUnit,
+            ...(Number.isFinite(regular) && regular > 0 ? { regularPriceEvidence: 'OBSERVED_SAME_PRODUCT' as const } : {}),
             dealType: promo ? 'SHELF_OR_MEMBER' : 'EVERYDAY_LOW',
             validFrom: '',
             validTo: '',

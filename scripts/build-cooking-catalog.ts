@@ -1,4 +1,4 @@
-import { compileMarketCounterparts } from './lib/market-coverage-approvals';
+import { compileMarketCounterparts, compileExactQualifications } from './lib/market-coverage-approvals';
 import { validateMarketLinkAudit } from './lib/market-link-audit';
 import { readFileSync, writeFileSync, renameSync, rmSync } from 'node:fs';
 import { CANONICAL_INGREDIENTS } from '../src/data/canonical-ingredients';
@@ -7,14 +7,14 @@ import { compileScopedRecipeUses } from './lib/scoped-recipe-uses';
 import { MEAL_PREP_BLUEPRINTS } from '../src/data/meal-prep-blueprints';
 
 // Only the reviewed release can generate browser data; raw sources stay server-side.
-const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-07.3/catalog.json', 'utf8')));
+const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-07.4/catalog.json', 'utf8')));
 const ledger = parseLedger(JSON.parse(readFileSync('catalog/curation-ledger.json', 'utf8')));
 for (const history of artifact.decisions) {
   const decision = ledger.decisions.find((d) => d.id === history.id && d.revision === history.revision);
   if (!decision || decision.status !== 'approved' || decisionHash(decision) !== history.payloadSha256) throw new Error('Catalog approval history does not match ledger');
 }
 const baseline = parseArtifact(JSON.parse(readFileSync('catalog/baseline-1.5.2.json', 'utf8')));
-const retainedArtifacts = [baseline, ...['2026-10-30.1', '2026-10-31.1', '2026-11-06.1', '2026-11-06.2', '2026-11-06.3', '2026-11-06.4', '2026-11-06.5', '2026-11-07.1', '2026-11-07.2'].map((version) => {
+const retainedArtifacts = [baseline, ...['2026-10-30.1', '2026-10-31.1', '2026-11-06.1', '2026-11-06.2', '2026-11-06.3', '2026-11-06.4', '2026-11-06.5', '2026-11-07.1', '2026-11-07.2', '2026-11-07.3'].map((version) => {
   const retained = parseArtifact(JSON.parse(readFileSync(`catalog/releases/${version}/catalog.json`, 'utf8')));
   return retained;
 })];
@@ -37,13 +37,14 @@ for (const value of rows) {
   recipeLinks.push({ marketIngredientId: payload.marketIngredientId, pantryIngredientId: payload.pantryIngredientId });
 }
 const coverageApprovals: unknown = JSON.parse(readFileSync('catalog/market-coverage-approvals.json', 'utf8'));
+const { qualifications: exactOfferQualifications, exclusions: exactRecipeExclusions } = compileExactQualifications(coverageApprovals, artifact.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS);
 const marketCounterparts = compileMarketCounterparts(coverageApprovals, artifact.ingredients, CANONICAL_INGREDIENTS);
 const { uses: scopedRecipeUses, contexts: scopedRecipeContexts, protectedMarketIds: protectedRecipeMarketIds } = compileScopedRecipeUses(JSON.parse(readFileSync('catalog/scoped-recipe-uses.json', 'utf8')), artifact.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, coverageApprovals);
 // The approved whole/baby carrot relationship is exact; mixed groups have no global alias.
 const carrots = scopedRecipeUses.filter((use) => use.marketIngredientId === 'carrots-whole-baby');
 if (carrots.length && carrots.every((use) => use.pantryIngredientIds.length === 1 && use.pantryIngredientIds[0] === 'carrots-fresh')) recipeLinks.push({ marketIngredientId: 'carrots-whole-baby', pantryIngredientId: 'carrots-fresh' });
 validateMarketLinkAudit(JSON.parse(readFileSync('catalog/market-link-audit.json', 'utf8')), artifact, recipeLinks, CANONICAL_INGREDIENTS, scopedRecipeUses, marketCounterparts);
-const data = { protectedRecipeMarketIds, marketCounterpartsHash: sha256(marketCounterparts), marketCounterparts, retainedCatalogs, recipeLinksFormatVersion: recipeLedger.formatVersion, recipeLinksHash: sha256(recipeLinks), recipeLinks, scopedRecipeUsesHash: sha256(scopedRecipeUses), scopedRecipeUses, scopedRecipeContexts, rollbackVersion: baseline.catalogVersion, rollbackIngredientIds: baseline.ingredients.map((r) => r.id), catalogVersion: artifact.catalogVersion, contentHash: artifact.contentHash, ingredients: artifact.ingredients, compatibility: artifact.compatibility };
+const data = { exactOfferQualifications, exactRecipeExclusions, protectedRecipeMarketIds, marketCounterpartsHash: sha256(marketCounterparts), marketCounterparts, retainedCatalogs, recipeLinksFormatVersion: recipeLedger.formatVersion, recipeLinksHash: sha256(recipeLinks), recipeLinks, scopedRecipeUsesHash: sha256(scopedRecipeUses), scopedRecipeUses, scopedRecipeContexts, rollbackVersion: baseline.catalogVersion, rollbackIngredientIds: baseline.ingredients.map((r) => r.id), catalogVersion: artifact.catalogVersion, contentHash: artifact.contentHash, ingredients: artifact.ingredients, compatibility: artifact.compatibility };
 const content = JSON.stringify(data, null, 2) + '\n';
 const output = 'src/data/cooking-catalog.json';
 if (process.argv.includes('--check')) {

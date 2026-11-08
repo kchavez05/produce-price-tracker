@@ -35,7 +35,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
         slotKey: 'stew_starch',
         label: 'Diced Potatoes',
         candidateIngredientIds: ['potatoes-russet-gold'],
-        lowCarbCandidateIds: ['broccoli-cauliflower', 'green-cabbage'],
+        lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.0,
       },
       {
@@ -101,7 +101,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       {
         slotKey: 'root_starch',
         label: 'Potatoes',
-        candidateIngredientIds: ['potatoes-russet-gold', 'sweet-potatoes'],
+        candidateIngredientIds: ['potatoes-russet-gold'],
         lowCarbCandidateIds: ['broccoli-cauliflower', 'mushrooms-cremini-white'],
         quantityRequired: 2.0,
       },
@@ -154,7 +154,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     slots: [
       {
         slotKey: 'primary_protein',
-        label: 'Chicken Cut',
+        label: 'Boneless Skinless Chicken Thighs or Breast',
         candidateIngredientIds: ['chicken-thighs-boneless', 'chicken-breast-boneless'],
         quantityRequired: 2.25,
       },
@@ -166,7 +166,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'base_starch',
-        label: 'Diced Potatoes or Butternut Squash',
+        label: 'Diced Potatoes, Sweet Potatoes or Butternut Squash',
         candidateIngredientIds: ['potatoes-russet-gold', 'sweet-potatoes', 'butternut-acorn-squash'],
         lowCarbCandidateIds: ['broccoli-cauliflower'],
         quantityRequired: 2.0,
@@ -189,7 +189,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Garlic powder, onion powder, smoked paprika', 'Chicken bouillon or splash of broth', 'Olive oil (2 tbsp)'],
     estimatedPantryCost: 1.25,
     steps: [
-      'Preheat oven to 400°F. Toss ½-inch cubed potatoes (or butternut squash) and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.',
+      'Thaw frozen raw chicken in the refrigerator before starting. Preheat oven to 400°F. Toss ½-inch cubed potatoes, sweet potatoes or butternut squash and bite-sized boneless skinless chicken thighs or breast directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.',
       'Shred the cheddar if using a block. Blend plain wet-curd cottage cheese smooth if selected; otherwise use plain full-fat sour cream or plain whole-milk Greek yogurt. Whisk the selected binder with half the shredded cheddar and ½ cup chicken broth.',
       'Remove dish, stir in the selected fresh broccoli or cauliflower florets and the creamy cheese mixture, and blanket the top with the remaining shredded cheese.',
       'Bake an additional 20–22 minutes, checking that the casserole and chicken reach at least 165°F in the center on a food thermometer and the selected florets are tender; continue cooking as needed.',
@@ -208,7 +208,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     cookTimeMinutes: 40,
     reheatRating: 5,
     freezerFriendly: true,
-    flavorProfile: 'Smoky chili powder, sweet roasted yams, savory beef, cool avocado & cheddar',
+    flavorProfile: 'Smoky chili powder, sweet roasted sweet potatoes, savory beef, cool avocado & cheddar',
     macrosPerServing: {
       calories: 525,
       proteinGrams: 39,
@@ -248,7 +248,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'avocado_finish',
-        label: 'Fresh Avocado Topper',
+        label: 'Fresh Hass Avocado Topper',
         candidateIngredientIds: ['avocados-hass'],
         quantityRequired: 0.7,
         optional: true,
@@ -326,8 +326,8 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     estimatedPantryCost: 1.5,
     steps: [
       'Use only sausage labeled fully cooked or ready-to-eat: smoked sausage, kielbasa or andouille. If frozen, thaw in the refrigerator before slicing. Slice into coins and sear in a deep Dutch oven or heavy skillet until browned; follow the product label for heating, then transfer to a plate.',
-      'Melt butter (or olive oil) in the pan, add sliced onions, wedged apples, and shredded green cabbage; cook 8 minutes until lightly caramelized.',
-      'Nestle cubed potatoes and seared sausage into the cabbage, pour in broth whisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until tender.',
+      'Melt butter (or olive oil) in the pan, add sliced onions, wedged apples, and the required shredded green cabbage; cook 8 minutes until lightly caramelized. If choosing the additional green-cabbage low-carb replacement for the potato slot, add that separately listed quantity of shredded green cabbage here as well.',
+      'Nestle cubed potatoes and seared sausage into the cabbage, pour in broth whisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until tender. When using the additional green-cabbage replacement for potatoes, omit the potatoes and braise the sausage with all the cabbage until tender.',
     ],
     reheatTip: 'Braised cabbage holds its texture far better than leafy greens—reheats in 2 minutes flat.',
   },
@@ -593,9 +593,9 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Olive oil or avocado oil (3 tbsp)', 'Chili powder, cumin, garlic powder, oregano', 'Lime juice (2 tbsp)'],
     estimatedPantryCost: 1.35,
     steps: [
-      'Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.',
+      'Thaw frozen raw chicken in the refrigerator before starting. Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.',
       'Toss cubed sweet potatoes (or broccoli or diced fresh summer squash, including zucchini or yellow summer squash, for the low-carb vegetable replacement) with 1 tbsp oil and spices on pan #1; roast for 10 minutes head start.',
-      'Toss sliced chicken thighs, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for 18–20 minutes until charred at the edges.',
+      'Toss sliced boneless skinless chicken thighs or breast, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for about 18–20 minutes. Use a food thermometer to check that the chicken reaches at least 165°F, and continue cooking as needed until the selected vegetables are tender.',
       'Squeeze fresh lime juice over everything and divide into 6 meal-prep containers with sliced avocado.',
     ],
     reheatTip: 'Sheet-pan fajita chicken stays ultra-juicy when reheated for 2 minutes in the microwave or tossed into a hot skillet.',
@@ -633,7 +633,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       {
         slotKey: 'low_carb_base',
         label: 'Cauliflower Florets for Mash',
-        candidateIngredientIds: ['broccoli-cauliflower', 'green-cabbage'],
+        candidateIngredientIds: ['broccoli-cauliflower'],
         quantityRequired: 2.25,
       },
       {
@@ -705,7 +705,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
       },
       {
         slotKey: 'side_starch',
-        label: 'Potatoes or Zucchini/Squash',
+        label: 'Potatoes, Sweet Potatoes or Zucchini/Squash',
         candidateIngredientIds: ['potatoes-russet-gold', 'sweet-potatoes', 'zucchini-yellow-squash'],
         lowCarbCandidateIds: ['zucchini-yellow-squash', 'asparagus-fresh', 'spinach-kale-greens'],
         quantityRequired: 1.5,
@@ -714,7 +714,7 @@ export const MEAL_PREP_BLUEPRINTS: MealPrepBlueprint[] = [
     pantryStaples: ['Extra-virgin olive oil (3 tbsp)', 'Lemon juice & zest', 'Dijon mustard (1 tbsp)', 'Garlic powder & dried dill'],
     estimatedPantryCost: 1.6,
     steps: [
-      'Thaw frozen raw salmon fillets in the refrigerator before starting. Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.',
+      'Thaw frozen raw salmon fillets in the refrigerator before starting. Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes, ½-inch cubed sweet potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes. Check that the selected starch is fork-tender before serving and continue its cooking separately if the salmon finishes first.',
       'Push vegetables to the edges, place portioned salmon fillets and asparagus spears in the center, and brush salmon with olive oil, lemon juice, Dijon mustard, and dill.',
       'If serving the low-carb spinach or kale side, saute those greens separately until tender. Roast until the salmon reaches at least 145°F on a food thermometer; check after about 11–13 minutes and continue cooking as needed.',
     ],

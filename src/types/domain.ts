@@ -159,6 +159,7 @@ export interface StoreOffer {
   /** Normalized price in $/lb (or $/doz for eggs) for direct comparison */
   normalizedPricePerUnit: number;
   regularPricePerUnit: number;
+  regularPriceEvidence?: 'OBSERVED_SAME_PRODUCT';
   dealType: DealType;
   dealConditions?: string;
   observedAtIso?: string;
@@ -191,6 +192,7 @@ export interface KingSoopersLocation {
 }
 
 export interface ScoredCommodity {
+  comparisonEvidence?: 'UNQUALIFIED_GROUP_HISTORY';
   usdaBenchmark?: import('@/lib/usda/read').UsdaProvenance;
   ingredient: CanonicalIngredient;
   bestOffer: StoreOffer;

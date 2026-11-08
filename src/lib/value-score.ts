@@ -1,6 +1,7 @@
+import { requiresExactOffer } from './pantry/exact-offer';
 import type { CanonicalIngredient } from '@/types/domain';
 
-export const SCORE_POLICY_VERSION = '1.5.1';
+export const SCORE_POLICY_VERSION = '1.6.1';
 
 function calculateAffordabilityScore(
   ingredient: CanonicalIngredient,
@@ -67,22 +68,23 @@ export function discountPercent(reference: number, price: number): number {
 export function calculateValueScore(
   ingredient: CanonicalIngredient,
   price: number,
-  regular: number
+  regular: number,
+  regularIsQualified = false
 ) {
   if (!Number.isFinite(price) || price <= 0)
     throw new Error('invalid_offer_price');
   const discountVsBaselinePct = discountPercent(
-    ingredient.mountainBaselinePerUnit,
+    requiresExactOffer(ingredient.id) ? 0 : ingredient.mountainBaselinePerUnit,
     price
   );
-  const discountVsRegularPct = discountPercent(regular, price);
+  const discountVsRegularPct = discountPercent(requiresExactOffer(ingredient.id) && !regularIsQualified ? 0 : regular, price);
   const affordabilityScore = calculateAffordabilityScore(ingredient, price);
   const discountDepthScore = calculateDiscountDepthScore(
     discountVsBaselinePct,
     discountVsRegularPct
   );
   const wholesaleBonusScore = calculateWholesaleBonus(
-    ingredient,
+    requiresExactOffer(ingredient.id) ? { ...ingredient, usdaSignal: { ...ingredient.usdaSignal, trend: 'STABLE' } } : ingredient,
     discountVsBaselinePct
   );
   const contributions = [

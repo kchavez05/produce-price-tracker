@@ -406,7 +406,8 @@ export function explainScore(
     trace: calculateValueScore(
       commodity.ingredient,
       commodity.bestOffer.normalizedPricePerUnit,
-      commodity.bestOffer.regularPricePerUnit
+      commodity.bestOffer.regularPricePerUnit,
+      commodity.bestOffer.regularPriceEvidence === 'OBSERVED_SAME_PRODUCT'
     ),
   };
 }
