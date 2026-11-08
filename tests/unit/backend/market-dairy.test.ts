@@ -60,8 +60,18 @@ describe('approved dairy market integration', () => {
     const ids = availablePantryIngredientIds([...r.positives.map((id) => entry(id)), ...r.negatives.map((id) => entry(id, false))]); expect(r.requiredIds.filter((id) => ids.includes(id))).toHaveLength(r.expectedCovered);
   });
   it.each(cases.offerCases)('qualifies "$title" before any recipe price or pantry ownership', (r) => {
-    expect(marketCounterpartIds(r.marketIngredientId, r.title)).toEqual([...r.expectedCounterpartIds].sort());
-    for (const use of dairyUses.filter((u) => u.marketIngredientId === r.marketIngredientId)) expect(recipeOfferAllowed(use, r.title), use.id).toBe(use.offerFoods.some((f) => r.allowedRecipeFoodIds.includes(f)));
+    for (const title of [r.title, ...(/nonfat/i.test(r.title) ? ['Fat-Free', 'Fat Free', 'Non-Fat'].map((q) => r.title.replace(/nonfat/gi, q)) : [])]) {
+      expect(marketCounterpartIds(r.marketIngredientId, title)).toEqual([...r.expectedCounterpartIds].sort());
+      for (const use of dairyUses.filter((u) => u.marketIngredientId === r.marketIngredientId)) expect(recipeOfferAllowed(use, title), use.id).toBe(use.offerFoods.some((f) => r.allowedRecipeFoodIds.includes(f)));
+    }
+  });
+  it('admits equivalent nonfat wet-curd cottage labels without inventing a fat-specific identity', () => {
+    for (const qualifier of ['Nonfat', 'Fat-Free', 'Fat Free', 'Non-Fat']) {
+      const title = `Plain ${qualifier} Cottage Cheese`;
+      expect(marketCounterpartIds('cottage-cheese-sour-cream', title)).toEqual(['cottage-cheese-plain']);
+      for (const use of dairyUses.filter((u) => u.pantryIngredientIds.includes('cottage-cheese-plain'))) expect(recipeOfferAllowed(use, title)).toBe(true);
+      expect(marketCounterpartIds('cottage-cheese-sour-cream', `Plain ${qualifier} Dry Curd Cottage Cheese`)).toEqual([]);
+    }
   });
   it.each(accepted)('covers/prices $pantryId only in $row.id', ({ row, pantryId }) => {
     const use = dairyUses.find((u) => u.id === row.id)!;

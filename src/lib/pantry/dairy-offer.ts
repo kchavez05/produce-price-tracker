@@ -8,7 +8,7 @@ const whole = /\b(?:whole[ -]milk|full[ -]fat)\b(?!\s+(?:farms?|brand|company)\b
 const low = /\b(?:low[ -]?fat|reduced[ -]fat|less\s+fat|light)\b(?!\s+(?:farms?|brand|company)\b)/i;
 const nonfat = /\b(?:non[ -]?fat|fat[ -]?free)\b|\b0\s*%/i;
 const percent = (title: string, n: number) => new RegExp(`\\b${n}\\s*(?:%|percent\\b)`, 'i').test(title);
-const titleWords = new Set(('plain whole milk full fat regular light low lowfat reduced less nonfat non fatfree part skim creamed wet curd large small percent block shredded shredding melting fresh moisture unspecified natural cheddar cheese monterey jack mozzarella mexican style blend greek yogurt vanilla cottage sour cream mild sharp extra organic dairy solid balls package tub bag lb lbs oz ounce ounces pound pounds g kg gram grams pack ct count value family size grade a probiotic live active cultures unsweetened no added sugar zero protein total filtered strained cultured traditional').split(' '));
+const titleWords = new Set(('plain whole milk full fat free regular light low lowfat reduced less nonfat non fatfree part skim creamed wet curd large small percent block shredded shredding melting fresh moisture unspecified natural cheddar cheese monterey jack mozzarella mexican style blend greek yogurt vanilla cottage sour cream mild sharp extra organic dairy solid balls package tub bag lb lbs oz ounce ounces pound pounds g kg gram grams pack ct count value family size grade a probiotic live active cultures unsweetened no added sugar zero protein total filtered strained cultured traditional').split(' '));
 
 /** Original title evidence only. These possible foods never create pantry ownership. */
 export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] | undefined {
