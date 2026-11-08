@@ -1,0 +1,431 @@
+{
+  "formatVersion": 1,
+  "observedOn": "2026-11-08",
+  "verifiedAtUtc": "2026-11-08 15:36:00 UTC",
+  "projectRef": "vrzhkekeywgrohqgfhds",
+  "projectName": "pantry-bot",
+  "environment": "DEFAULT_MAIN_DATABASE",
+  "approval": {
+    "by": "kchavez05",
+    "evidence": "Approve the eight hosted migrations in Codex chat",
+    "scope": "Eight reviewed additive accepted-ID migrations only; no pantry flag or production app release"
+  },
+  "catalogVersion": "2026-11-07.4",
+  "beforeAcceptedIdCount": 72,
+  "afterAcceptedIdCount": 222,
+  "newAcceptedIds": 150,
+  "missingIds": [],
+  "unexpectedIds": [],
+  "acceptedIds": [
+    "acorn-squash-fresh",
+    "all-purpose-flour",
+    "almonds-whole-raw",
+    "anaheim-peppers-fresh",
+    "andouille-fully-cooked",
+    "andouille-raw",
+    "apple-cider-vinegar",
+    "apples-fresh",
+    "asparagus-fresh",
+    "atlantic-salmon-fillets-raw",
+    "avocado-oil",
+    "avocados-hass",
+    "barley-hulled",
+    "barley-pearled",
+    "basil-fresh",
+    "basmati-rice-dry",
+    "bay-leaf",
+    "beef-arm-pot-roast-raw",
+    "beef-broth",
+    "beef-chuck-roast-boneless-raw",
+    "beef-new-york-strip-steak-raw",
+    "beef-pot-roast-cut-raw",
+    "beef-ribeye-steak-raw",
+    "beef-stew-meat-raw",
+    "beef-t-bone-steak-raw",
+    "beef-top-sirloin-steak-raw",
+    "beets-fresh",
+    "bell-peppers",
+    "black-beans-canned",
+    "black-beans-dried",
+    "black-pepper",
+    "bread-flour",
+    "broccoli-fresh",
+    "brown-rice-dry",
+    "brown-rice-flour",
+    "brussels-sprouts",
+    "buckwheat-flour",
+    "buckwheat-whole",
+    "bulgur-dry",
+    "butter-salted-unsalted",
+    "butternut-squash-fresh",
+    "cannellini-beans-canned",
+    "canola-oil",
+    "caraway-seeds",
+    "cardamom-ground",
+    "cardamom-pods",
+    "carrots-fresh",
+    "cauliflower-fresh",
+    "celery-stalks",
+    "cheddar-cheese",
+    "chicken-breast-boneless",
+    "chicken-broth",
+    "chicken-drumsticks-raw",
+    "chicken-leg-quarters-raw",
+    "chicken-thighs-bone-in-raw",
+    "chicken-thighs-boneless",
+    "chickpea-flour",
+    "chickpeas-canned",
+    "chickpeas-dried",
+    "chili-powder",
+    "cilantro-fresh",
+    "cinnamon-ground",
+    "cloves-ground",
+    "coconut-aminos",
+    "coconut-milk-canned",
+    "coho-salmon-fillets-raw",
+    "collard-greens-fresh",
+    "coriander-ground",
+    "coriander-seeds-whole",
+    "cornmeal-yellow-whole",
+    "cornstarch",
+    "cosmic-crisp-apples-fresh",
+    "cottage-cheese-creamed",
+    "cottage-cheese-plain",
+    "cottage-cheese-plain-1-percent",
+    "cottage-cheese-plain-2-percent",
+    "couscous-dry",
+    "crushed-tomatoes-canned",
+    "cucumber-fresh",
+    "curry-powder",
+    "dijon-mustard",
+    "dill-dried",
+    "eggplant-fresh",
+    "feta-cheese",
+    "fish-sauce",
+    "fuji-apples-fresh",
+    "gala-apples-fresh",
+    "garam-masala",
+    "garlic-fresh",
+    "garlic-powder",
+    "ginger-fresh",
+    "ginger-ground",
+    "glutinous-rice-flour",
+    "granny-smith-apples-fresh",
+    "great-northern-beans-canned",
+    "greek-yogurt-plain",
+    "greek-yogurt-plain-lowfat",
+    "greek-yogurt-plain-nonfat",
+    "greek-yogurt-plain-whole-milk",
+    "greek-yogurt-vanilla",
+    "greek-yogurt-vanilla-lowfat",
+    "greek-yogurt-vanilla-nonfat",
+    "green-cabbage",
+    "green-split-peas-dried",
+    "ground-beef-80-20",
+    "ground-cumin",
+    "ground-pork-raw",
+    "ground-turkey",
+    "hatch-green-chiles-fresh",
+    "honey",
+    "honeycrisp-apples-fresh",
+    "italian-pork-sausage-raw",
+    "italian-seasoning",
+    "jalapeno-peppers-fresh",
+    "jasmine-rice-dry",
+    "kabocha-squash-fresh",
+    "kale-fresh",
+    "kidney-beans-canned",
+    "kidney-beans-dried",
+    "kielbasa-fully-cooked",
+    "kielbasa-raw",
+    "large-eggs-dozen",
+    "leeks-fresh",
+    "lemon-fresh",
+    "lentils-canned",
+    "lentils-dried",
+    "lime-juice",
+    "masa-harina",
+    "melting-cheese-blend",
+    "mexican-oregano-dried",
+    "mexican-style-cheese-blend",
+    "milk-whole",
+    "millet-whole",
+    "miso",
+    "monterey-jack-cheese",
+    "mozzarella-cheese-unspecified",
+    "mozzarella-fresh",
+    "mozzarella-low-moisture",
+    "mozzarella-low-moisture-part-skim",
+    "mozzarella-low-moisture-whole-milk",
+    "mushrooms-cremini-fresh",
+    "mushrooms-white-fresh",
+    "navy-beans-canned",
+    "navy-beans-dried",
+    "oat-flour",
+    "okra-fresh",
+    "olive-oil",
+    "onion-powder",
+    "onions-fresh",
+    "orange-juice",
+    "oregano-dried",
+    "oyster-sauce",
+    "parmesan-hard",
+    "parsley-fresh",
+    "pasta-dry",
+    "pinto-beans-canned",
+    "pinto-beans-dried",
+    "poblano-peppers-fresh",
+    "pork-chorizo-raw",
+    "pork-loin-chops-boneless-raw",
+    "pork-loin-roast-boneless-raw",
+    "pork-sausage-raw",
+    "pork-shoulder-butt",
+    "pork-tenderloin-raw",
+    "potatoes-fresh",
+    "quinoa-dry",
+    "radishes-fresh",
+    "red-lentils-dried",
+    "red-pepper-flakes",
+    "red-potatoes-fresh",
+    "red-wine-vinegar",
+    "rice-flour",
+    "rolled-oats",
+    "rosemary-dried",
+    "russet-potatoes-fresh",
+    "rye-flour",
+    "salmon-fillets-raw",
+    "salt",
+    "self-rising-wheat-flour",
+    "serrano-peppers-fresh",
+    "sesame-oil",
+    "sesame-seeds-whole-dried",
+    "smoked-paprika",
+    "smoked-sausage-fully-cooked",
+    "smoked-sausage-raw",
+    "sockeye-salmon-fillets-raw",
+    "sorghum-flour",
+    "sorghum-whole",
+    "sour-cream-full-fat",
+    "sour-cream-plain",
+    "sour-cream-reduced-fat",
+    "soy-sauce",
+    "spaghetti-squash-fresh",
+    "spearmint-fresh",
+    "spinach-fresh",
+    "steel-cut-oats",
+    "sugar-brown",
+    "sugar-granulated",
+    "summer-squash-fresh",
+    "sweet-potatoes",
+    "swiss-chard-fresh",
+    "tahini",
+    "tapioca-pearls-dry",
+    "tempeh",
+    "thyme-dried",
+    "tofu-firm",
+    "tofu-soft",
+    "tomatillos-fresh",
+    "tomato-paste",
+    "tomatoes-fresh",
+    "tuna-light-canned-water",
+    "turmeric-ground",
+    "vegetable-broth",
+    "walnuts-english-raw",
+    "whole-grain-mustard",
+    "whole-wheat-flour",
+    "worcestershire-sauce",
+    "worcestershire-sauce-gluten-free",
+    "yellow-summer-squash-fresh",
+    "yogurt-plain-whole-milk",
+    "yukon-gold-potatoes-fresh",
+    "zucchini-fresh"
+  ],
+  "installedMigrations": [
+    {
+      "version": "20261019000000",
+      "name": "v1_3_multi_tenant_rls_schema"
+    },
+    {
+      "version": "20261027223857",
+      "name": "weekly_refresh_audit"
+    },
+    {
+      "version": "20261028165803",
+      "name": "usda_market_history"
+    },
+    {
+      "version": "20261028180852",
+      "name": "usda_revision_acceptance"
+    },
+    {
+      "version": "20261028222008",
+      "name": "data_explorer"
+    },
+    {
+      "version": "20261029160115",
+      "name": "active_market_collection"
+    },
+    {
+      "version": "20261030204602",
+      "name": "virtual_pantry_persistence"
+    },
+    {
+      "version": "20261030204612",
+      "name": "pantry_staple_catalog"
+    },
+    {
+      "version": "20261030204614",
+      "name": "reviewed_cooking_catalog"
+    },
+    {
+      "version": "20261108153507",
+      "name": "pantry_legumes_grains_flours"
+    },
+    {
+      "version": "20261108153510",
+      "name": "pantry_vegetables_aromatics"
+    },
+    {
+      "version": "20261108153514",
+      "name": "pantry_staples_proteins"
+    },
+    {
+      "version": "20261108153517",
+      "name": "pantry_spice_forms"
+    },
+    {
+      "version": "20261108153525",
+      "name": "pantry_remaining_vegetables"
+    },
+    {
+      "version": "20261108153528",
+      "name": "pantry_market_produce"
+    },
+    {
+      "version": "20261108153531",
+      "name": "pantry_market_proteins"
+    },
+    {
+      "version": "20261108153534",
+      "name": "pantry_market_dairy"
+    }
+  ],
+  "migrationsApplied": [
+    {
+      "file": "20261031143749_pantry_legumes_grains_flours.sql",
+      "name": "pantry_legumes_grains_flours",
+      "sha256": "8de112bee31387346712a7f641cfab7b3d062df79952620b698b0ba70150f3e4",
+      "idsAddedByPayload": 29,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153507"
+    },
+    {
+      "file": "20261106155015_pantry_vegetables_aromatics.sql",
+      "name": "pantry_vegetables_aromatics",
+      "sha256": "a695e5646f08a2ec5d17b1e250e21ef413f8b6ff8ef480e373b8e503dc8287cf",
+      "idsAddedByPayload": 10,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153510"
+    },
+    {
+      "file": "20261106161943_pantry_staples_proteins.sql",
+      "name": "pantry_staples_proteins",
+      "sha256": "4372b029a69f2a75b89a849938dc0238abe4376f3458af2d6752b628794dae50",
+      "idsAddedByPayload": 23,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153514"
+    },
+    {
+      "file": "20261106170650_pantry_spice_forms.sql",
+      "name": "pantry_spice_forms",
+      "sha256": "ecb958c2bc68205ff256fcce8075f20caf31b166303216b487b89b816a6de669",
+      "idsAddedByPayload": 4,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153517"
+    },
+    {
+      "file": "20261106175108_pantry_remaining_vegetables.sql",
+      "name": "pantry_remaining_vegetables",
+      "sha256": "db4f993948423fadee4532157ccda9d19ca63b553db8645dd5f6471e11f2165a",
+      "idsAddedByPayload": 7,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153525"
+    },
+    {
+      "file": "20261107144458_pantry_market_produce.sql",
+      "name": "pantry_market_produce",
+      "sha256": "98d4c4c33dd73eb6c2971af3739ff9d1a18fe76ad0d2655e73a38020757f86c6",
+      "idsAddedByPayload": 26,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153528"
+    },
+    {
+      "file": "20261107172039_pantry_market_proteins.sql",
+      "name": "pantry_market_proteins",
+      "sha256": "309046251c73fc396eab6646cebcda92a27eac3cd85403b01585d4e6697bebbc",
+      "idsAddedByPayload": 28,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153531"
+    },
+    {
+      "file": "20261108005922_pantry_market_dairy.sql",
+      "name": "pantry_market_dairy",
+      "sha256": "70f76d3fe14075372fd3cad4df7a7c9df56680614ebfb5e3bda922e6ece97b8c",
+      "idsAddedByPayload": 23,
+      "result": {
+        "success": true
+      },
+      "hostedVersion": "20261108153534"
+    }
+  ],
+  "tableRls": [
+    {
+      "table_name": "pantry_catalog",
+      "rls_enabled": true,
+      "rls_forced": false
+    },
+    {
+      "table_name": "user_pantry_entries",
+      "rls_enabled": true,
+      "rls_forced": false
+    },
+    {
+      "table_name": "user_pantry_migrations",
+      "rls_enabled": true,
+      "rls_forced": false
+    },
+    {
+      "table_name": "user_pantry_mutations",
+      "rls_enabled": true,
+      "rls_forced": false
+    }
+  ],
+  "verification": {
+    "allCatalogIdsInstalled": true,
+    "allEightMigrationsRecorded": true,
+    "priorAcceptedIdsPreserved": true,
+    "rlsEnabledOnFourPantryTables": true,
+    "inventoryTablesTargetedByAppliedSql": false,
+    "grantsOrPoliciesChangedByAppliedSql": false,
+    "pantryFlagChanged": false
+  },
+  "hostedMutationsPerformed": true,
+  "authenticatedClientVerification": "NOT_RUN",
+  "secondClientVerification": "NOT_RUN",
+  "productionAppReleased": false,
+  "catalogContentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5"
+}
