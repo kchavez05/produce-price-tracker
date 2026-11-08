@@ -1,0 +1,164 @@
+{
+  "formatVersion": 1,
+  "observedAtUtc": "2026-11-08T15:58:31.593Z",
+  "projectRef": "vrzhkekeywgrohqgfhds",
+  "catalogVersion": "2026-11-07.4",
+  "catalogContentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "boundary": "SUPABASE_AUTHENTICATED_CLIENT_TO_HOSTED_RPC_AND_RLS",
+  "deploymentApiVerification": "PASSED_SEE_2026-11-08-deployed-api-verification.json",
+  "browserVerification": "PASSED_PROTECTED_DEVELOP_PREVIEW_GUEST_FLOW",
+  "temporaryAccountsCreated": 2,
+  "checks": [
+    {
+      "name": "two independent fresh authenticated sessions for account A and a separate account B",
+      "passed": true
+    },
+    {
+      "name": "private fresh accounts explicitly migrate empty legacy inventory",
+      "passed": true
+    },
+    {
+      "name": "authenticated Data API exposes exactly all 222 installed catalog IDs",
+      "passed": true
+    },
+    {
+      "name": "quantity-free save of ten representative new identities covering all eight migration batches and optional forms",
+      "passed": true
+    },
+    {
+      "name": "second independent authenticated client reloads every saved identity",
+      "passed": true
+    },
+    {
+      "name": "account B cannot read account A inventory through RPC or table RLS",
+      "passed": true
+    },
+    {
+      "name": "same idempotency key replays once across clients without duplicate entries",
+      "passed": true
+    },
+    {
+      "name": "reused idempotency key with a changed payload is rejected",
+      "passed": true
+    },
+    {
+      "name": "duplicate catalog identity is an explicit identity conflict",
+      "passed": true
+    },
+    {
+      "name": "persisted exact No overrides directional coverage and custom display text establishes no catalog ownership",
+      "passed": true
+    },
+    {
+      "name": "cross-client stale revisions preserve newer No and report a conflict",
+      "passed": true
+    },
+    {
+      "name": "tombstones are visible across sessions and stale retries cannot resurrect deleted entries",
+      "passed": true
+    },
+    {
+      "name": "unknown catalog identity is rejected without writing an entry",
+      "passed": true
+    },
+    {
+      "name": "authenticated direct table writes are denied",
+      "passed": true
+    },
+    {
+      "name": "anonymous callers cannot invoke private pantry RPC",
+      "passed": true
+    }
+  ],
+  "cleanup": {
+    "completed": true,
+    "temporaryAccountsDeleted": 2,
+    "sessionsSignedOut": true,
+    "scopedRowsAbsent": true,
+    "failures": []
+  },
+  "productionAppReleased": false,
+  "status": "HOSTED_RPC_AND_DEPLOYED_GUEST_BROWSER_CHECKS_PASSED",
+  "previewConfiguration": {
+    "key": "PANTRYBOT_PANTRY_ENABLED",
+    "value": "true",
+    "environment": "preview",
+    "gitBranch": "develop",
+    "productionSettingChanged": false,
+    "deploymentProtectionChanged": false,
+    "requestedRebuildCommit": "3f49f211903b8d438a90d847b256bb0757d23d91",
+    "rebuildStarted": true,
+    "blocker": null,
+    "rebuildStatus": "READY",
+    "deploymentId": "dpl_Dh1wmjnzTTzWKj3b8SqjRB6bDq9i",
+    "immutableUrl": "https://produce-price-tracker-oykkxmdeo-kchavez05-4094.vercel.app",
+    "identityVerification": "COMPLETED_BY_MAINTAINER"
+  },
+  "browserChecks": [
+    {
+      "name": "Virtual Pantry enabled on protected Preview/develop",
+      "passed": true
+    },
+    {
+      "name": "guest pantry initially empty; no inventory preselected",
+      "passed": true
+    },
+    {
+      "name": "whole/ground coriander and whole/ground cardamom separately discoverable",
+      "passed": true
+    },
+    {
+      "name": "quantity-free whole coriander add/save/reload persists",
+      "passed": true
+    },
+    {
+      "name": "zero quantity and past use-by date do not change explicit Yes",
+      "passed": true
+    },
+    {
+      "name": "explicit No remains stored and can be displayed separately",
+      "passed": true
+    },
+    {
+      "name": "plain whole-milk Greek yogurt optional choice can be saved",
+      "passed": true
+    },
+    {
+      "name": "unbounded broad flour discovery presents all eleven primary choices",
+      "passed": true
+    },
+    {
+      "name": "mozzarella shows three distinct primary moisture choices",
+      "passed": true
+    },
+    {
+      "name": "plain/vanilla yogurt discovery and optional plain fat choices remain separate",
+      "passed": true
+    },
+    {
+      "name": "brown/glutinous rice flour optional choices reachable",
+      "passed": true
+    },
+    {
+      "name": "same-build immutable origin starts with an isolated empty guest pantry",
+      "passed": true
+    },
+    {
+      "name": "deployed guest pantry API exposes private owner and 222 unique accepted IDs for 2026-11-07.4",
+      "passed": true
+    },
+    {
+      "name": "browser console has no captured errors or warnings",
+      "passed": true
+    },
+    {
+      "name": "both disposable guest entries deleted; pantry returned to empty",
+      "passed": true
+    }
+  ],
+  "verificationLimits": [
+    "Authenticated deployed API checks use real fresh SSR cookie sessions, not a Google/Apple OAuth UI roundtrip.",
+    "Browser network-offline controls are not exposed. Durable offline queues/recovery/account switching are covered by the required unit/regression suites; real deployed retry/conflict behavior is verified separately."
+  ],
+  "runtimeCatalogFileSha256": "fbbf6f2399dc76e3d786d8077df33c2df1bd47e1f35573af3afc109b666c9205"
+}
