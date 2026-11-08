@@ -1,4 +1,5 @@
 import { proteinOfferSearchTerm } from './protein-offer';
+import { dairyOfferSearchTerm } from './dairy-offer';
 import { stripKnownOfferBrand, hasOfferAlternatives } from './offer-title';
 /** Complete food terms shared by price admission and pickup-query normalization. */
 export const OFFER_FOOD_TERMS: Readonly<Record<string, RegExp>> = {
@@ -31,7 +32,7 @@ export function offerFoodSearchTerm(title: string): string | undefined {
     return match ? [{ id, index: match.index, text: match[0] }] : [];
   }).sort((a, b) => a.index - b.index);
   const first = matches[0];
-  if (!first) return proteinOfferSearchTerm(title);
+  if (!first) return dairyOfferSearchTerm(title) ?? proteinOfferSearchTerm(title);
   if (first.id === 'potatoes') {
     const variety = /\b(russet|yukon\s+gold|red)(?=\s+or\b|(?:\s+(?:fresh|organic|baking|baker))*\s+potato(?:es)?\b)/i.exec(title);
     if (variety) return `${variety[1]} potatoes`;

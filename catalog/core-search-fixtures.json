@@ -638,18 +638,22 @@
     "query": "milk",
     "expected": [
       "coconut-milk-canned",
-      "milk-whole"
+      "milk-whole",
+      "mozzarella-low-moisture-whole-milk"
     ]
   },
   {
     "query": "yogurt",
     "expected": [
+      "greek-yogurt-plain",
+      "greek-yogurt-vanilla",
       "yogurt-plain-whole-milk"
     ]
   },
   {
     "query": "plain yogurt",
     "expected": [
+      "greek-yogurt-plain",
       "yogurt-plain-whole-milk"
     ]
   },
@@ -680,7 +684,14 @@
   {
     "query": "cheese",
     "expected": [
+      "cheddar-cheese",
+      "cottage-cheese-plain",
       "feta-cheese",
+      "melting-cheese-blend",
+      "monterey-jack-cheese",
+      "mozzarella-cheese-unspecified",
+      "mozzarella-fresh",
+      "mozzarella-low-moisture",
       "parmesan-hard"
     ]
   },
@@ -720,11 +731,16 @@
   },
   {
     "query": "Greek yogurt",
-    "expected": []
+    "expected": [
+      "greek-yogurt-plain",
+      "greek-yogurt-vanilla"
+    ]
   },
   {
     "query": "vanilla yogurt",
-    "expected": []
+    "expected": [
+      "greek-yogurt-vanilla"
+    ]
   },
   {
     "query": "tuna in oil",
@@ -2281,5 +2297,513 @@
       "pork-loin-chops-boneless-raw",
       "pork-loin-roast-boneless-raw"
     ]
+  },
+  {
+    "query": "Cheddar cheese",
+    "expected": [
+      "cheddar-cheese"
+    ]
+  },
+  {
+    "query": "block cheddar cheese",
+    "expected": [
+      "cheddar-cheese"
+    ]
+  },
+  {
+    "query": "shredded cheddar cheese",
+    "expected": [
+      "cheddar-cheese"
+    ]
+  },
+  {
+    "query": "mild cheddar cheese",
+    "expected": [
+      "cheddar-cheese"
+    ]
+  },
+  {
+    "query": "sharp cheddar cheese",
+    "expected": [
+      "cheddar-cheese"
+    ]
+  },
+  {
+    "query": "Monterey Jack cheese",
+    "expected": [
+      "monterey-jack-cheese"
+    ]
+  },
+  {
+    "query": "block Monterey Jack cheese",
+    "expected": [
+      "monterey-jack-cheese"
+    ]
+  },
+  {
+    "query": "shredded Monterey Jack cheese",
+    "expected": [
+      "monterey-jack-cheese"
+    ]
+  },
+  {
+    "query": "Mozzarella cheese, moisture unspecified",
+    "expected": [
+      "mozzarella-cheese-unspecified"
+    ]
+  },
+  {
+    "query": "mozzarella cheese",
+    "expected": [
+      "mozzarella-cheese-unspecified",
+      "mozzarella-fresh",
+      "mozzarella-low-moisture"
+    ]
+  },
+  {
+    "query": "Low-moisture mozzarella cheese",
+    "expected": [
+      "mozzarella-low-moisture"
+    ]
+  },
+  {
+    "query": "low moisture mozzarella cheese",
+    "expected": [
+      "mozzarella-low-moisture"
+    ]
+  },
+  {
+    "query": "low-moisture mozzarella",
+    "expected": [
+      "mozzarella-low-moisture"
+    ]
+  },
+  {
+    "query": "low moisture mozzarella",
+    "expected": [
+      "mozzarella-low-moisture"
+    ]
+  },
+  {
+    "query": "Whole-milk low-moisture mozzarella cheese",
+    "expected": [
+      "mozzarella-low-moisture-whole-milk"
+    ]
+  },
+  {
+    "query": "whole milk low moisture mozzarella",
+    "expected": [
+      "mozzarella-low-moisture-whole-milk"
+    ]
+  },
+  {
+    "query": "low-moisture whole-milk mozzarella",
+    "expected": [
+      "mozzarella-low-moisture-whole-milk"
+    ]
+  },
+  {
+    "query": "Part-skim low-moisture mozzarella cheese",
+    "expected": [
+      "mozzarella-low-moisture-part-skim"
+    ]
+  },
+  {
+    "query": "part skim low moisture mozzarella",
+    "expected": [
+      "mozzarella-low-moisture-part-skim"
+    ]
+  },
+  {
+    "query": "low-moisture part-skim mozzarella",
+    "expected": [
+      "mozzarella-low-moisture-part-skim"
+    ]
+  },
+  {
+    "query": "Fresh mozzarella cheese",
+    "expected": [
+      "mozzarella-fresh"
+    ]
+  },
+  {
+    "query": "fresh mozzarella",
+    "expected": [
+      "mozzarella-fresh"
+    ]
+  },
+  {
+    "query": "fresh mozzarella balls",
+    "expected": [
+      "mozzarella-fresh"
+    ]
+  },
+  {
+    "query": "Melting cheese blend, type unspecified",
+    "expected": [
+      "melting-cheese-blend"
+    ]
+  },
+  {
+    "query": "shredding cheese blend",
+    "expected": [
+      "melting-cheese-blend"
+    ]
+  },
+  {
+    "query": "shredded melting cheese blend",
+    "expected": [
+      "melting-cheese-blend"
+    ]
+  },
+  {
+    "query": "Mexican-style cheese blend",
+    "expected": [
+      "mexican-style-cheese-blend"
+    ]
+  },
+  {
+    "query": "Mexican blend cheese",
+    "expected": [
+      "mexican-style-cheese-blend"
+    ]
+  },
+  {
+    "query": "Mexican style blend cheese",
+    "expected": [
+      "mexican-style-cheese-blend"
+    ]
+  },
+  {
+    "query": "Mexican-style shredded cheese blend",
+    "expected": [
+      "mexican-style-cheese-blend"
+    ]
+  },
+  {
+    "query": "Plain cottage cheese",
+    "expected": [
+      "cottage-cheese-plain"
+    ]
+  },
+  {
+    "query": "plain wet-curd cottage cheese",
+    "expected": [
+      "cottage-cheese-plain"
+    ]
+  },
+  {
+    "query": "cottage cheese",
+    "expected": [
+      "cottage-cheese-plain"
+    ]
+  },
+  {
+    "query": "Plain creamed cottage cheese",
+    "expected": [
+      "cottage-cheese-creamed"
+    ]
+  },
+  {
+    "query": "creamed cottage cheese",
+    "expected": [
+      "cottage-cheese-creamed"
+    ]
+  },
+  {
+    "query": "regular plain cottage cheese",
+    "expected": [
+      "cottage-cheese-creamed"
+    ]
+  },
+  {
+    "query": "Plain 2% cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-2-percent"
+    ]
+  },
+  {
+    "query": "plain 2 percent cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-2-percent"
+    ]
+  },
+  {
+    "query": "2% cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-2-percent"
+    ]
+  },
+  {
+    "query": "2 percent cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-2-percent"
+    ]
+  },
+  {
+    "query": "Plain 1% cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-1-percent"
+    ]
+  },
+  {
+    "query": "plain 1 percent cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-1-percent"
+    ]
+  },
+  {
+    "query": "1% cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-1-percent"
+    ]
+  },
+  {
+    "query": "1 percent cottage cheese",
+    "expected": [
+      "cottage-cheese-plain-1-percent"
+    ]
+  },
+  {
+    "query": "Plain sour cream",
+    "expected": [
+      "sour-cream-plain"
+    ]
+  },
+  {
+    "query": "sour cream",
+    "expected": [
+      "sour-cream-plain"
+    ]
+  },
+  {
+    "query": "plain cultured sour cream",
+    "expected": [
+      "sour-cream-plain"
+    ]
+  },
+  {
+    "query": "Plain full-fat sour cream",
+    "expected": [
+      "sour-cream-full-fat"
+    ]
+  },
+  {
+    "query": "full fat sour cream",
+    "expected": [
+      "sour-cream-full-fat"
+    ]
+  },
+  {
+    "query": "regular sour cream",
+    "expected": [
+      "sour-cream-full-fat"
+    ]
+  },
+  {
+    "query": "Plain reduced-fat sour cream",
+    "expected": [
+      "sour-cream-reduced-fat"
+    ]
+  },
+  {
+    "query": "reduced fat sour cream",
+    "expected": [
+      "sour-cream-reduced-fat"
+    ]
+  },
+  {
+    "query": "light sour cream",
+    "expected": [
+      "sour-cream-reduced-fat"
+    ]
+  },
+  {
+    "query": "Plain Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain"
+    ]
+  },
+  {
+    "query": "Greek plain yogurt",
+    "expected": [
+      "greek-yogurt-plain"
+    ]
+  },
+  {
+    "query": "Plain whole-milk Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain whole milk Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "plain full-fat Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "whole milk plain Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-whole-milk"
+    ]
+  },
+  {
+    "query": "Plain lowfat Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-lowfat"
+    ]
+  },
+  {
+    "query": "plain low-fat Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-lowfat"
+    ]
+  },
+  {
+    "query": "lowfat plain Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-lowfat"
+    ]
+  },
+  {
+    "query": "Plain nonfat Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-nonfat"
+    ]
+  },
+  {
+    "query": "plain fat-free Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-nonfat"
+    ]
+  },
+  {
+    "query": "nonfat plain Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-nonfat"
+    ]
+  },
+  {
+    "query": "plain 0% Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-nonfat"
+    ]
+  },
+  {
+    "query": "Vanilla Greek yogurt",
+    "expected": [
+      "greek-yogurt-vanilla"
+    ]
+  },
+  {
+    "query": "Greek vanilla yogurt",
+    "expected": [
+      "greek-yogurt-vanilla"
+    ]
+  },
+  {
+    "query": "Vanilla lowfat Greek yogurt",
+    "expected": [
+      "greek-yogurt-vanilla-lowfat"
+    ]
+  },
+  {
+    "query": "vanilla low-fat Greek yogurt",
+    "expected": [
+      "greek-yogurt-vanilla-lowfat"
+    ]
+  },
+  {
+    "query": "lowfat vanilla Greek yogurt",
+    "expected": [
+      "greek-yogurt-vanilla-lowfat"
+    ]
+  },
+  {
+    "query": "Vanilla nonfat Greek yogurt",
+    "expected": [
+      "greek-yogurt-vanilla-nonfat"
+    ]
+  },
+  {
+    "query": "vanilla fat-free Greek yogurt",
+    "expected": [
+      "greek-yogurt-vanilla-nonfat"
+    ]
+  },
+  {
+    "query": "nonfat vanilla Greek yogurt",
+    "expected": [
+      "greek-yogurt-vanilla-nonfat"
+    ]
+  },
+  {
+    "query": "mozzarella",
+    "expected": [
+      "mozzarella-cheese-unspecified",
+      "mozzarella-fresh",
+      "mozzarella-low-moisture"
+    ]
+  },
+  {
+    "query": "cream",
+    "expected": [
+      "cottage-cheese-creamed",
+      "sour-cream-plain"
+    ]
+  },
+  {
+    "query": "vanilla",
+    "expected": []
+  },
+  {
+    "query": "plain Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain"
+    ]
+  },
+  {
+    "query": "cheddar",
+    "expected": [
+      "cheddar-cheese"
+    ]
+  },
+  {
+    "query": "Monterey Jack",
+    "expected": [
+      "monterey-jack-cheese"
+    ]
+  },
+  {
+    "query": "cheese blend",
+    "expected": [
+      "melting-cheese-blend"
+    ]
+  },
+  {
+    "query": "nonfat Greek yogurt",
+    "expected": [
+      "greek-yogurt-plain-nonfat",
+      "greek-yogurt-vanilla-nonfat"
+    ]
+  },
+  {
+    "query": "cottage cheese with fruit",
+    "expected": []
+  },
+  {
+    "query": "cream cheese",
+    "expected": []
+  },
+  {
+    "query": "Pepper Jack",
+    "expected": []
   }
 ]

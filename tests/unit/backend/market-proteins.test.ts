@@ -1,3 +1,5 @@
+import activeArtifact from '../../../catalog/releases/2026-11-07.3/catalog.json';
+import { beforeDairyBlueprints } from '../../helpers/dairy-blueprints';
 import { describe, expect, it } from 'vitest';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -122,17 +124,17 @@ describe('approved protein market integration', () => {
     expect(cleanSearchQueryForIngredient('Raw Atlantic or sockeye salmon fillets')).toBe('Atlantic salmon fillets');
     expect(cleanSearchQueryForIngredient('Raw New York strip or top sirloin steak')).toBe('New York strip steak');
   });
-  it('binds 49 current scopes, 58 counterparts and all 17 protected mixed groups to the append-only approvals', () => {
-    const compile = (raw: unknown = approval) => compileScopedRecipeUses(originalScoped, artifact.ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, raw);
-    expect(compile().uses).toEqual(scopedRecipeUses); expect(scopedRecipeUses).toHaveLength(49); expect(compile().protectedMarketIds).toEqual(runtime.protectedRecipeMarketIds); expect(runtime.protectedRecipeMarketIds).toHaveLength(17);
-    expect(compileMarketCounterparts(approval, artifact.ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts); expect(runtime.marketCounterparts).toHaveLength(58);
+  it('binds 63 current scopes, 81 counterparts and all 20 protected mixed groups to the append-only approvals', () => {
+    const compile = (raw: unknown = approval) => compileScopedRecipeUses(originalScoped, parseArtifact(activeArtifact).ingredients, CANONICAL_INGREDIENTS, MEAL_PREP_BLUEPRINTS, raw);
+    expect(compile().uses).toEqual(scopedRecipeUses); expect(scopedRecipeUses).toHaveLength(63); expect(compile().protectedMarketIds).toEqual(runtime.protectedRecipeMarketIds); expect(runtime.protectedRecipeMarketIds).toHaveLength(20);
+    expect(compileMarketCounterparts(approval, parseArtifact(activeArtifact).ingredients, CANONICAL_INGREDIENTS)).toEqual(runtime.marketCounterparts); expect(runtime.marketCounterparts).toHaveLength(81);
     const altered = structuredClone(approval); altered.approvals[1].recipeUses.decisions[0].pantryIngredientIds = ['salmon-fillets-raw']; expect(() => compile(altered)).toThrow('stale');
     const firstChanged = structuredClone(approval); firstChanged.approvals[0].review.by = 'Different reviewer'; expect(() => compile(firstChanged)).toThrow('chain');
     expect(approval.approvals[1].recipeUses.previousCoverageApprovalHash).toBe(sha256({ formatVersion: 1, approvals: approval.approvals.slice(0, 1) }));
   });
   it('replays exactly 19 text edits and eight removals without changing quantities, macro fields or prior produce choices', () => {
-    expect(sha256(MEAL_PREP_BLUEPRINTS)).toBe(proposal.proposedImplementedBlueprintHash);
-    const before = structuredClone(MEAL_PREP_BLUEPRINTS);
+    expect(sha256(beforeDairyBlueprints())).toBe(proposal.proposedImplementedBlueprintHash);
+    const before = beforeDairyBlueprints();
     for (const patch of [...proposal.instructionTitleAndLabelPatches].reverse()) { const b = before.find((r) => r.id === patch.recipeId)!; if (patch.field === 'title') { expect(b.title).toBe(patch.after); b.title = patch.before; } else if (patch.field === 'steps') { expect(b.steps[patch.stepIndex!]).toBe(patch.after); b.steps[patch.stepIndex!] = patch.before; } else { const s = b.slots.find((r) => r.slotKey === patch.slotKey)!; expect(s.label).toBe(patch.after); s.label = patch.before; } }
     for (const removal of [...proposal.candidateRemovals].reverse()) { const r = [...proposal.decisions, ...proposal.auxiliaryCandidateDecisions].find((r) => r.id === removal.id)!; const s = before.find((b) => b.id === r.recipeId)!.slots.find((s) => s.slotKey === r.slotKey)!; expect(s.candidateIngredientIds).toEqual(removal.after.candidateIngredientIds); s.candidateIngredientIds = removal.before.candidateIngredientIds; if (s.lowCarbCandidateIds) s.lowCarbCandidateIds = removal.before.lowCarbCandidateIds; }
     expect(sha256(before)).toBe(proposal.blueprintHash);

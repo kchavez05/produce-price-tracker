@@ -20,7 +20,7 @@ export function compileMarketCounterparts(raw: unknown, ingredients: readonly Co
   const result: MarketCounterpart[] = [];
   const seen = new Set<string>();
   for (const { counterparts } of approvedMarketCoverageBatches(raw)) {
-    if (counterparts.formatVersion !== 1 || counterparts.status !== 'proposed' || counterparts.marketHash !== sha256(market) || !Array.isArray(counterparts.decisions) || !record(counterparts.defaults) || !Array.isArray(counterparts.ambiguousTerms)) throw new Error('Market counterpart inputs are stale');
+    if (counterparts.formatVersion !== 1 || counterparts.status !== 'proposed' || counterparts.marketHash !== sha256(market) || !Array.isArray(counterparts.decisions) || !record(counterparts.defaults) || (counterparts.ambiguousTerms !== undefined && !Array.isArray(counterparts.ambiguousTerms))) throw new Error('Market counterpart inputs are stale');
     for (const value of counterparts.decisions) {
       if (!record(value)) throw new Error('Invalid market counterpart');
       const { status, payloadSha256, ...payload } = value;
@@ -28,7 +28,7 @@ export function compileMarketCounterparts(raw: unknown, ingredients: readonly Co
       if (status !== 'proposed' || payloadSha256 !== sha256(payload) || value.revision !== 1 || !ingredient || value.foodName !== ingredient.name ||
         !market.some((r) => r.id === value.marketIngredientId) || typeof value.marketIngredientId !== 'string' || typeof value.pantryIngredientId !== 'string' ||
         value.id !== `counterpart:${value.marketIngredientId}:${value.pantryIngredientId}` || seen.has(String(value.id)) ||
-        !['named-unprepared-potatoes-unspecified-or-variety', 'named-unprepared-apples-unspecified-or-variety', 'named-unprepared-summer-squash-unspecified-or-variety', 'require-exact-reviewed-food-and-qualification', 'require-raw-salmon-fillet-unspecified-or-species', 'require-exact-reviewed-protein-cut-species-and-cooking-state'].includes(String(value.titlePolicy))) throw new Error('Invalid or conflicting market counterpart');
+        !['named-unprepared-potatoes-unspecified-or-variety', 'named-unprepared-apples-unspecified-or-variety', 'named-unprepared-summer-squash-unspecified-or-variety', 'require-exact-reviewed-food-and-qualification', 'require-raw-salmon-fillet-unspecified-or-species', 'require-exact-reviewed-protein-cut-species-and-cooking-state', 'require-exact-reviewed-dairy-type-moisture-flavor-and-fat'].includes(String(value.titlePolicy))) throw new Error('Invalid or conflicting market counterpart');
       seen.add(String(value.id));
       result.push({ marketIngredientId: value.marketIngredientId, pantryIngredientId: value.pantryIngredientId });
     }

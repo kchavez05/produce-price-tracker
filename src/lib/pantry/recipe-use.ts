@@ -1,4 +1,5 @@
 import { proteinRecipeOfferAllowed } from './protein-offer';
+import { dairyRecipeOfferAllowed } from './dairy-offer';
 import cookingData from '@/data/cooking-catalog.json';
 import { ScopedRecipeUse } from '@/types/catalog';
 import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity, StoreChain, StoreOffer } from '@/types/domain';
@@ -62,6 +63,8 @@ function sharedFoodDescriptor(part: string, namedFoods: string[]): boolean {
   return Boolean(words) && namedFoods.some((food) => words.split(/\s+/).every((word) => foodDescriptors[food]?.includes(word)));
 }
 export function recipeOfferAllowed(use: ScopedRecipeUse, rawTitle: string): boolean {
+  const dairy = dairyRecipeOfferAllowed(use.marketIngredientId, use.offerFoods, rawTitle);
+  if (dairy !== undefined) return dairy;
   const protein = proteinRecipeOfferAllowed(use.marketIngredientId, use.offerFoods, rawTitle);
   if (protein !== undefined) return protein;
   if (typeof rawTitle !== 'string' || incompatible.test(rawTitle)) return false;

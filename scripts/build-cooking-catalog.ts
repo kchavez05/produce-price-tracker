@@ -7,14 +7,14 @@ import { compileScopedRecipeUses } from './lib/scoped-recipe-uses';
 import { MEAL_PREP_BLUEPRINTS } from '../src/data/meal-prep-blueprints';
 
 // Only the reviewed release can generate browser data; raw sources stay server-side.
-const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-07.2/catalog.json', 'utf8')));
+const artifact = parseArtifact(JSON.parse(readFileSync('catalog/releases/2026-11-07.3/catalog.json', 'utf8')));
 const ledger = parseLedger(JSON.parse(readFileSync('catalog/curation-ledger.json', 'utf8')));
 for (const history of artifact.decisions) {
   const decision = ledger.decisions.find((d) => d.id === history.id && d.revision === history.revision);
   if (!decision || decision.status !== 'approved' || decisionHash(decision) !== history.payloadSha256) throw new Error('Catalog approval history does not match ledger');
 }
 const baseline = parseArtifact(JSON.parse(readFileSync('catalog/baseline-1.5.2.json', 'utf8')));
-const retainedArtifacts = [baseline, ...['2026-10-30.1', '2026-10-31.1', '2026-11-06.1', '2026-11-06.2', '2026-11-06.3', '2026-11-06.4', '2026-11-06.5', '2026-11-07.1'].map((version) => {
+const retainedArtifacts = [baseline, ...['2026-10-30.1', '2026-10-31.1', '2026-11-06.1', '2026-11-06.2', '2026-11-06.3', '2026-11-06.4', '2026-11-06.5', '2026-11-07.1', '2026-11-07.2'].map((version) => {
   const retained = parseArtifact(JSON.parse(readFileSync(`catalog/releases/${version}/catalog.json`, 'utf8')));
   return retained;
 })];
