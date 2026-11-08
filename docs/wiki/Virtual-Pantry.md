@@ -1,5 +1,7 @@
 # Virtual Pantry
 
+> v1.6.1 was released November 8, 2026 with all 222 hosted IDs installed. Production authenticated API and guest-browser checks pass, with test data cleaned up. See the [release record](../releases/v1.6.1.md) and [production receipt](../../catalog/hosted-readiness/2026-11-08-production-verification.json). The batch paragraphs below retain their historical rollout observations.
+
 Virtual Pantry requires installed pantry migrations and `PANTRYBOT_PANTRY_ENABLED=true`. Unmigrated installations retain the disabled default; hosted activation follows the [release checklist](../releases/v1.6.0.md). Earlier freezer documentation describes the flag-off compatibility path.
 
 Open **Virtual Pantry** to search the catalog, add a name as Yes, or add a private custom ingredient. Optional shortcuts never preselect inventory. Use the availability control to mark No while retaining details; delete is a separate action. Quantity, unit, storage location, and use-by date are optional context. Zero quantity and past dates do not change availability.
