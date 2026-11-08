@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refresh USDA provenance and curated dispositions while retaining explicit prices, private inventory and directional No precedence.
 
 ### Rollout
-- Prepared as a release candidate. The eight additive hosted migrations were approved and applied November 8, with all 222 accepted IDs verified. Hosted session/second-client verification and the release workflow remain open; see [release notes](docs/releases/v1.6.1.md).
+- Prepared as a release candidate. The eight additive hosted migrations were approved and applied November 8, with all 222 accepted IDs verified. Hosted independent-session/API and guest-browser verification pass. The release workflow remains open; see [release notes](docs/releases/v1.6.1.md).
 
 ## [1.6.0] - 2026-10-30
 

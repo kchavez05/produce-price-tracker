@@ -1,6 +1,6 @@
 # PantryBot Wiki
 
-> v1.6.1 is prepared as a release candidate with 222 reviewed ingredients. The [final audit](../research/v1.6.1-release-audit.md) passes locally; all eight hosted migrations and 222 IDs are verified. Fresh session/second-client checks remain before release. See the [release checklist](../releases/v1.6.1.md).
+> v1.6.1 is prepared as a release candidate with 222 reviewed ingredients. The [final audit](../research/v1.6.1-release-audit.md) passes locally; all eight hosted migrations and 222 IDs are verified. Fresh independent-session/API and guest-browser verification pass; the release workflow remains. See the [release checklist](../releases/v1.6.1.md).
 
 
 > v1.6.0 introduces [Virtual Pantry](Virtual-Pantry.md), explicit boolean availability, private guest/account persistence, reviewed cooking ingredients, and recipe/shopping coverage. See the [release notes](../releases/v1.6.0.md) and [rollout guide](../usda-catalog-integration.md).

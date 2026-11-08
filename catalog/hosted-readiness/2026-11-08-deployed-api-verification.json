@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "observedAtUtc": "2026-11-08T18:56:34.266Z",
+  "deployment": "dpl_Dh1wmjnzTTzWKj3b8SqjRB6bDq9i",
+  "sourceCommit": "3f49f211903b8d438a90d847b256bb0757d23d91",
+  "url": "https://produce-price-tracker-git-develop-kchavez05-4094.vercel.app",
+  "environment": "PREVIEW_DEVELOP",
+  "projectRef": "vrzhkekeywgrohqgfhds",
+  "catalogVersion": "2026-11-07.4",
+  "catalogContentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "boundary": "INDEPENDENT_AUTHENTICATED_COOKIE_CLIENTS_TO_DEPLOYED_NEXT_API_TO_HOSTED_SUPABASE",
+  "access": "EXISTING_PROJECT_SHORT_LIVED_DEVELOPMENT_IDENTITY",
+  "shareLinksCreated": false,
+  "deploymentProtectionChanged": false,
+  "temporaryAccountsCreated": 2,
+  "checks": [
+    {
+      "name": "protected deployed pantry API is enabled and serves the exact 222-ID catalog",
+      "passed": true
+    },
+    {
+      "name": "deployed API derives three fresh cloud-backed sessions from real independent SSR auth cookies",
+      "passed": true
+    },
+    {
+      "name": "fresh account migration and private no-store reads succeed through deployed routes",
+      "passed": true
+    },
+    {
+      "name": "quantity-free deployed saves spanning all eight batches reload in the second independent client",
+      "passed": true
+    },
+    {
+      "name": "deployed authenticated readiness matches every reviewed catalog ID",
+      "passed": true
+    },
+    {
+      "name": "cross-client retry of an acknowledged mutation remains idempotent",
+      "passed": true
+    },
+    {
+      "name": "duplicate identity is a deployed HTTP 409 conflict",
+      "passed": true
+    },
+    {
+      "name": "account switch cannot replay another account owner or expose its pantry",
+      "passed": true
+    },
+    {
+      "name": "deployed pantry mutation rejects a foreign Origin",
+      "passed": true
+    },
+    {
+      "name": "stale deployed writes preserve the newer explicit No and optional metadata",
+      "passed": true
+    },
+    {
+      "name": "custom ingredients remain unlinked and persist through deployed reads",
+      "passed": true
+    },
+    {
+      "name": "deployed account export includes only the signed-in pantry and current explicit availability",
+      "passed": true
+    },
+    {
+      "name": "deployed tombstones and stale retries cannot resurrect deleted entries",
+      "passed": true
+    },
+    {
+      "name": "deployed sign-out removes account context and reveals a private empty guest context",
+      "passed": true
+    },
+    {
+      "name": "deployed account deletion purges only the disposable account profile and pantry children",
+      "passed": true
+    }
+  ],
+  "cleanup": {
+    "completed": true,
+    "temporaryAccountsDeleted": 2,
+    "scopedRowsAbsent": true,
+    "failures": []
+  },
+  "productionAppReleased": false,
+  "status": "DEPLOYED_AUTHENTICATED_API_CHECKS_PASSED",
+  "runtimeCatalogFileSha256": "fbbf6f2399dc76e3d786d8077df33c2df1bd47e1f35573af3afc109b666c9205"
+}
