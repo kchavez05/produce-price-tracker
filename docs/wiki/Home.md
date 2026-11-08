@@ -1,5 +1,8 @@
 # PantryBot Wiki
 
+> v1.6.1 is prepared as a release candidate with 222 reviewed ingredients. The [final audit](../research/v1.6.1-release-audit.md) passes locally; eight hosted migrations and fresh session checks remain before release. See the [release checklist](../releases/v1.6.1.md).
+
+
 > v1.6.0 introduces [Virtual Pantry](Virtual-Pantry.md), explicit boolean availability, private guest/account persistence, reviewed cooking ingredients, and recipe/shopping coverage. See the [release notes](../releases/v1.6.0.md) and [rollout guide](../usda-catalog-integration.md).
 
 > v1.5.2 adds visible source/package details, USDA-only history statistics, a hypothetical score calculator, canonical ingredient explanations, and bounded active-market collection. See the [release notes](../releases/v1.5.2.md).

@@ -5,6 +5,22 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - Unreleased
+
+### Added
+- 150 reviewed pantry identities across legumes, grains, flours, vegetables, aromatics, spices, proteins and dairy; 222 identities total.
+- Independent market counterpart associations, scoped recipe alternatives, exact-food offer qualification and retained historical catalog views.
+- Deterministic final release audit, source/approval/discovery evidence and an exact hosted accepted-ID rollout report.
+
+### Changed
+- Separate whole/ground coriander and cardamom, raw/cooked proteins, mozzarella forms, yogurt flavors/fat levels and other reviewed cooking distinctions.
+- Correct recipe methods and quantities, including separate required cottage-cheese and cheddar portions and narrow exclusions for unsupported cabbage/sweet-potato uses.
+- Require actual food evidence before price selection; preserve native pantry ownership when no qualifying quote exists. Group history and estimated regular prices do not establish precise-food savings.
+- Refresh USDA provenance and curated dispositions while retaining explicit prices, private inventory and directional No precedence.
+
+### Rollout
+- Prepared as a release candidate. The November 8 hosted audit found 72 installed IDs and 150 missing IDs across eight pending additive migrations. Hosted session/second-client verification and the release workflow remain open; see [release notes](docs/releases/v1.6.1.md).
+
 ## [1.6.0] - 2026-10-30
 
 ### Added

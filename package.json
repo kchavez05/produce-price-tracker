@@ -1,6 +1,6 @@
 {
   "name": "produce-price-tracker",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -20,7 +20,8 @@
     "market:types": "node --import tsx scripts/generate-market-types.mts",
     "catalog:fdc": "node --import tsx scripts/import-fdc-catalog.ts",
     "catalog:curate": "node --import tsx scripts/curate-catalog.ts",
-    "catalog:build": "node --import tsx scripts/build-cooking-catalog.ts"
+    "catalog:build": "node --import tsx scripts/build-cooking-catalog.ts",
+    "catalog:audit-release": "node --import tsx scripts/audit-release-catalog.ts"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",

@@ -1,3 +1,5 @@
+> v1.6.1 release candidate: package and OpenAPI versions are synchronized. Catalog readiness still reflects installed hosted IDs; the [rollout checklist](../releases/v1.6.1.md) tracks eight pending additive migrations and fresh authenticated-session checks.
+
 > v1.6.0: `/api/pantry` documents private reads, explicit migration, revisioned mutations, conflicts, and installed catalog readiness. Unknown saved IDs are preserved across compatible clients and exports. Regenerate both schema copies with `npm run openapi:export`.
 
 # OpenAPI 3.1.0 Specification & Swagger UI Console
