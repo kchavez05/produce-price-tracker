@@ -1,4 +1,5 @@
 import { PROTEIN_RECIPE_FOODS } from '../../src/lib/pantry/protein-offer';
+import { DAIRY_RECIPE_FOODS } from '../../src/lib/pantry/dairy-offer';
 import { CookingIngredient, ScopedRecipeUse } from '../../src/types/catalog';
 import { MealPrepBlueprint } from '../../src/types/domain';
 import { sha256 } from './catalog-curation';
@@ -27,6 +28,20 @@ export function compileScopedRecipeUses(raw: unknown, ingredients: readonly Cook
     if (revision.formatVersion !== 1 || revision.status !== 'proposed' || revision.blueprintHash !== blueprintHash || revision.marketHash !== sha256(market) || revision.previousScopedApprovalHash !== sha256(raw) ||
       !strings(revision.protectedMarketIngredientIds) || !Array.isArray(revision.decisions)) throw new Error('Scoped revision approval or integration fingerprint is stale');
     for (const id of revision.protectedMarketIngredientIds) protectedIds.add(id);
+    if (revision.slotStructurePatches !== undefined) {
+      if (!Array.isArray(revision.slotStructurePatches)) throw new Error('Invalid reviewed slot splits');
+      for (const split of revision.slotStructurePatches) {
+        if (!object(split)) throw new Error('Invalid reviewed slot split');
+        const { status, payloadSha256, ...payload } = split;
+        const recipe = blueprints.find((b) => b.id === split.recipeId);
+        if (status !== 'proposed' || payloadSha256 !== sha256(payload) || split.action !== 'split-required-slot' || !recipe || !object(split.before) ||
+          !Array.isArray(split.after) || split.after.length !== 2 || !split.after.every(object) ||
+          typeof split.before.quantityRequired !== 'number' || !Number.isFinite(split.before.quantityRequired) || split.before.quantityRequired <= 0 ||
+          new Set(split.after.map((s) => s.slotKey)).size !== 2 || !split.after.some((s) => s.slotKey === (split.before as Record<string, unknown>).slotKey) ||
+          split.after.some((s) => s.optional === true || s.isDairySlot !== true || typeof s.quantityRequired !== 'number' || !Number.isFinite(s.quantityRequired) || s.quantityRequired <= 0 || sha256(recipe.slots.find((r) => r.slotKey === s.slotKey)) !== sha256(s)) ||
+          split.after.reduce((n, s) => n + Number(s.quantityRequired), 0) !== split.before.quantityRequired) throw new Error('Reviewed required slot split or quantities changed');
+      }
+    }
     const revised = new Set<string>();
     for (const row of revision.decisions) {
       if (!object(row) || typeof row.id !== 'string' || revised.has(row.id)) throw new Error('Invalid scoped revision');
@@ -68,7 +83,7 @@ export function compileScopedRecipeUses(raw: unknown, ingredients: readonly Cook
       continue;
     }
     if (!isCandidate || new Set(row.pantryIngredientIds).size !== row.pantryIngredientIds.length || row.pantryIngredientIds.some((id) => !known.has(id)) ||
-      !row.offerFoods.length || row.offerFoods.some((food) => !Object.hasOwn(OFFER_FOOD_TERMS, food) && !Object.hasOwn(PROTEIN_RECIPE_FOODS, food))) throw new Error('Invalid or incomplete scoped recipe decision');
+      !row.offerFoods.length || row.offerFoods.some((food) => !Object.hasOwn(OFFER_FOOD_TERMS, food) && !Object.hasOwn(PROTEIN_RECIPE_FOODS, food) && !DAIRY_RECIPE_FOODS.has(food))) throw new Error('Invalid or incomplete scoped recipe decision');
     const original = proposal.decisions.find((r: { id?: string }) => r.id === row.id);
     const displayName = typeof row.displayName === 'string' ? row.displayName : original?.displayName ?? row.pantryIngredientIds.map((id) => known.get(id)!.name).join(' or ');
     if (typeof displayName !== 'string' || !displayName.trim()) throw new Error('Scoped recipe display name is required');

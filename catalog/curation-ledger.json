@@ -6426,6 +6426,957 @@
         "date": "2026-11-07",
         "payloadSha256": "dd67938fcbe7f27be8334e0dcfe78ad0550fcd7c8503ac9782170fba75347620"
       }
+    },
+    {
+      "id": "ingredient-cheddar-cheese",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:328637",
+          "fingerprint": "5aceccd08d212757278c09730db840b0bee164a1679d8965487777aec1f72e1c"
+        }
+      ],
+      "rationale": "The generic Foundation cheddar record supports natural cheddar. Mild/sharp are optional taste context, not separate inventory; shred a block before recipes. Reduced-fat/fat-free and processed cheese products are outside this regular-cheddar identity. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "cheddar-cheese",
+        "name": "Cheddar cheese",
+        "aliases": [
+          "block cheddar cheese",
+          "shredded cheddar cheese",
+          "mild cheddar cheese",
+          "sharp cheddar cheese"
+        ],
+        "familyId": "cheddar",
+        "form": "cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "9f23bcefe9ac9978a1976c45b8459e9b7e0ba0b472accac727007c3bcd5a1d06"
+      }
+    },
+    {
+      "id": "ingredient-monterey-jack-cheese",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2647438",
+          "fingerprint": "b8db39baa853ffc3dbeb473d80e5ce62def4bcbcf1c6218c562b2b27092cceac"
+        }
+      ],
+      "rationale": "Foundation solid Monterey Jack supports natural regular Jack, including a block subsequently shredded. Pepper Jack, Colby Jack, reduced-fat and processed products do not establish plain Monterey Jack. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "monterey-jack-cheese",
+        "name": "Monterey Jack cheese",
+        "aliases": [
+          "block Monterey Jack cheese",
+          "shredded Monterey Jack cheese"
+        ],
+        "familyId": "monterey-jack",
+        "form": "cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "427d659dd6117c5cff4bec195177956fbfe17b2277bf9c025ce1e0a7fb0811f3"
+      }
+    },
+    {
+      "id": "ingredient-mozzarella-cheese-unspecified",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated fallback for a package whose mozzarella moisture is unknown. Neither whole-milk nor shredded wording proves fresh or low-moisture; this identity has no current recipe permission or moisture conversion. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "mozzarella-cheese-unspecified",
+        "name": "Mozzarella cheese, moisture unspecified",
+        "aliases": [
+          "mozzarella cheese"
+        ],
+        "familyId": "mozzarella",
+        "form": "cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "5994497081a30fc26e57a8f6fb6a7e3a32128b7aa130a0f60761ac6eed6be5c0"
+      }
+    },
+    {
+      "id": "ingredient-mozzarella-low-moisture",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated low-moisture mozzarella with milkfat unspecified. The selected whole-milk and part-skim evidence belongs only to its optional variants; do not assign one fat-specific record to the generic identity. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "mozzarella-low-moisture",
+        "name": "Low-moisture mozzarella cheese",
+        "aliases": [
+          "low moisture mozzarella cheese",
+          "low-moisture mozzarella",
+          "low moisture mozzarella"
+        ],
+        "familyId": "mozzarella",
+        "form": "low-moisture-cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "04468562fac46dd09c100d24a2e1e67560691cf67a38910846e70f304a2b9907"
+      }
+    },
+    {
+      "id": "ingredient-mozzarella-low-moisture-whole-milk",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170846",
+          "fingerprint": "f6e226e37b0f72f0eb0e288d29d2056dff9cf255ed5c09cb8d7eebaf83ea81c3"
+        }
+      ],
+      "rationale": "The SR row explicitly identifies whole-milk low-moisture mozzarella. Fresh mozzarella remains a different moisture form. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "mozzarella-low-moisture-whole-milk",
+        "name": "Whole-milk low-moisture mozzarella cheese",
+        "aliases": [
+          "whole milk low moisture mozzarella",
+          "low-moisture whole-milk mozzarella"
+        ],
+        "familyId": "mozzarella",
+        "form": "low-moisture-cheese",
+        "searchVisibility": "variant",
+        "parentIngredientId": "mozzarella-low-moisture",
+        "variety": "whole-milk"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "722cd39f5f03589c2827a86ef48a32945d0f76be3fa160efc81fa76e98d15e26"
+      }
+    },
+    {
+      "id": "ingredient-mozzarella-low-moisture-part-skim",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:329370",
+          "fingerprint": "e4ee19f5f59470742bfd95e8359be765f12e50cb94fee1891dfda2eb69c39155"
+        }
+      ],
+      "rationale": "The Foundation row explicitly identifies low-moisture part-skim mozzarella. Do not infer this form from a generic part-skim mozzarella package. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "mozzarella-low-moisture-part-skim",
+        "name": "Part-skim low-moisture mozzarella cheese",
+        "aliases": [
+          "part skim low moisture mozzarella",
+          "low-moisture part-skim mozzarella"
+        ],
+        "familyId": "mozzarella",
+        "form": "low-moisture-cheese",
+        "searchVisibility": "variant",
+        "parentIngredientId": "mozzarella-low-moisture",
+        "variety": "part-skim"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "0231d6fb574fc9ccaf27f7112c604cdee1be9db40a8be89ef44c190605e23700"
+      }
+    },
+    {
+      "id": "ingredient-mozzarella-fresh",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated fresh high-moisture mozzarella, distinct from low-moisture shredding cheese. The retained whole-milk mozzarella row does not explicitly establish fresh moisture/packing. No current recipe permission. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "mozzarella-fresh",
+        "name": "Fresh mozzarella cheese",
+        "aliases": [
+          "fresh mozzarella",
+          "fresh mozzarella balls"
+        ],
+        "familyId": "mozzarella",
+        "form": "fresh-cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "e22d74bee411ecb9379ee143f492e369c3e3835a2850d3a0e05091aa0412e149"
+      }
+    },
+    {
+      "id": "ingredient-melting-cheese-blend",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated natural dairy shredding/melting blend with composition unspecified. A generic cheese blend or brand alone does not prove this use. It establishes none of its component cheeses and has no current recipe permission. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "melting-cheese-blend",
+        "name": "Melting cheese blend, type unspecified",
+        "aliases": [
+          "shredding cheese blend",
+          "shredded melting cheese blend"
+        ],
+        "familyId": "melting-cheese-blend",
+        "form": "cheese-blend",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "1013cf70114c4ff193fe46afdc4718c0e71e78df6cfa7cb1258c25854b15d8e5"
+      }
+    },
+    {
+      "id": "ingredient-mexican-style-cheese-blend",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171288",
+          "fingerprint": "b820d7320dfe9cf89cda475327d4fbabb9edf6cb6327f9c36a8cfa1eec9d8ab1"
+        }
+      ],
+      "rationale": "The SR Mexican blend row supports the named natural dairy blend. Composition/proportions are not universal; neither queso dip nor every Mexican cheese is this blend. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "mexican-style-cheese-blend",
+        "name": "Mexican-style cheese blend",
+        "aliases": [
+          "Mexican blend cheese",
+          "Mexican style blend cheese",
+          "Mexican-style shredded cheese blend"
+        ],
+        "familyId": "melting-cheese-blend",
+        "form": "cheese-blend",
+        "searchVisibility": "variant",
+        "parentIngredientId": "melting-cheese-blend",
+        "variety": "mexican-style"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "ba7f86591e52cbee9292fac45cb36176f126ef20b7ac67331530b33dc24d4642"
+      }
+    },
+    {
+      "id": "ingredient-cottage-cheese-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated plain wet/creamy cottage cheese with milkfat unspecified. Keep dry-curd, fruit, vegetables and flavored preparations separate. Fat-specific sources are reserved for variants; blending is a recipe preparation, not a new inventory food. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "cottage-cheese-plain",
+        "name": "Plain cottage cheese",
+        "aliases": [
+          "plain wet-curd cottage cheese",
+          "cottage cheese"
+        ],
+        "familyId": "cottage-cheese",
+        "form": "cultured-cheese",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "36ea918cd3fef3ccb98a31aebf9cebc4f3f1017a16a29d257615dbadbf372999"
+      }
+    },
+    {
+      "id": "ingredient-cottage-cheese-creamed",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:172179",
+          "fingerprint": "e094e4e51f68e4ccec40e7f33a987614a56ff84b0e31077183ae88a4517187b3"
+        }
+      ],
+      "rationale": "The SR row explicitly identifies creamed large/small-curd cottage cheese. Do not infer an exact milkfat percentage from the source name; this is the regular creamed choice. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "cottage-cheese-creamed",
+        "name": "Plain creamed cottage cheese",
+        "aliases": [
+          "creamed cottage cheese",
+          "regular plain cottage cheese"
+        ],
+        "familyId": "cottage-cheese",
+        "form": "cultured-cheese",
+        "searchVisibility": "variant",
+        "parentIngredientId": "cottage-cheese-plain",
+        "variety": "creamed"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "1079d028865152577d179badace7fd8e27517d602e621071a795040dd9dc1552"
+      }
+    },
+    {
+      "id": "ingredient-cottage-cheese-plain-2-percent",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:328841",
+          "fingerprint": "2e058ec0ab2be46373f2302ce5bbaed723f71d7c07c3e162009a94af9cd25cb5"
+        }
+      ],
+      "rationale": "Foundation explicitly identifies lowfat 2% milkfat cottage cheese; plain wet-curd identity only. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "cottage-cheese-plain-2-percent",
+        "name": "Plain 2% cottage cheese",
+        "aliases": [
+          "plain 2 percent cottage cheese",
+          "2% cottage cheese",
+          "2 percent cottage cheese"
+        ],
+        "familyId": "cottage-cheese",
+        "form": "cultured-cheese",
+        "searchVisibility": "variant",
+        "parentIngredientId": "cottage-cheese-plain",
+        "variety": "2-percent"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "afe0dd1a6a6757a0a8c4349e28be6fc2a1437269182608af5043c74ee884ead8"
+      }
+    },
+    {
+      "id": "ingredient-cottage-cheese-plain-1-percent",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:173417",
+          "fingerprint": "9c5c71cc1c073e78b982c3f1e644488f4610495ac1fc9c779706a6f5584918ed"
+        }
+      ],
+      "rationale": "SR explicitly identifies lowfat 1% milkfat cottage cheese. Reduced sodium/lactose treatments alone are not separate ingredients. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "cottage-cheese-plain-1-percent",
+        "name": "Plain 1% cottage cheese",
+        "aliases": [
+          "plain 1 percent cottage cheese",
+          "1% cottage cheese",
+          "1 percent cottage cheese"
+        ],
+        "familyId": "cottage-cheese",
+        "form": "cultured-cheese",
+        "searchVisibility": "variant",
+        "parentIngredientId": "cottage-cheese-plain",
+        "variety": "1-percent"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "dd913ae2155135bba37b450967397fdf5efbc41783b256acf4df661a59620266"
+      }
+    },
+    {
+      "id": "ingredient-sour-cream-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated dairy sour cream with fat level unspecified; separate from cottage cheese, crema and sour-cream dips. Full-fat and reduced-fat evidence is linked only to optional variants. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "sour-cream-plain",
+        "name": "Plain sour cream",
+        "aliases": [
+          "sour cream",
+          "plain cultured sour cream"
+        ],
+        "familyId": "sour-cream",
+        "form": "cultured-cream",
+        "searchVisibility": "primary"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "bcbb25838ed01e889842387ebdc015d69289ff4780ccf6aea7f7f2a4f809e4e0"
+      }
+    },
+    {
+      "id": "ingredient-sour-cream-full-fat",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2346387",
+          "fingerprint": "65f2bf3298ee5b0dcfea5471c81b02ff7f1c3ca0f7621faea14f831620cd5f09"
+        }
+      ],
+      "rationale": "Foundation explicitly identifies full-fat sour cream; preferred for hot savory methods. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "sour-cream-full-fat",
+        "name": "Plain full-fat sour cream",
+        "aliases": [
+          "full fat sour cream",
+          "regular sour cream"
+        ],
+        "familyId": "sour-cream",
+        "form": "cultured-cream",
+        "searchVisibility": "variant",
+        "parentIngredientId": "sour-cream-plain",
+        "variety": "full-fat"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "c8af861d5e6ad65b18f5c267e4ba0787088e6861cf69997bf4f47f897659b056"
+      }
+    },
+    {
+      "id": "ingredient-sour-cream-reduced-fat",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:171256",
+          "fingerprint": "66eb748d1878d2feab03b4da3a2a1bb4eaa6e61d962021dad66332040ca1556c"
+        }
+      ],
+      "rationale": "SR explicitly identifies reduced-fat cultured sour cream. This variant covers a generic cold topper but not a full-fat hot-method requirement. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "sour-cream-reduced-fat",
+        "name": "Plain reduced-fat sour cream",
+        "aliases": [
+          "reduced fat sour cream",
+          "light sour cream"
+        ],
+        "familyId": "sour-cream",
+        "form": "cultured-cream",
+        "searchVisibility": "variant",
+        "parentIngredientId": "sour-cream-plain",
+        "variety": "reduced-fat"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "f4e91ab26e5f2a143a78454a34660e47bad717f289b6000f148967e86df9f116"
+      }
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated plain Greek dairy yogurt with milkfat unspecified; ordinary yogurt is not an alias. Whole/low/nonfat sources belong to optional variants. Hot recipe scopes separately require the whole-milk identity. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "greek-yogurt-plain",
+        "name": "Plain Greek yogurt",
+        "aliases": [
+          "Greek plain yogurt"
+        ],
+        "familyId": "greek-yogurt",
+        "form": "yogurt",
+        "searchVisibility": "specific"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "9e25a9ec1572c9029713dd1fcf19e0dc97a83e66053d27a6c0947683c25447f8"
+      }
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain-whole-milk",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:2259794",
+          "fingerprint": "9c0d31303e099c2552fc76009212a51bcb962b5857ff24ef4cd0d82770234efe"
+        }
+      ],
+      "rationale": "Foundation explicitly identifies plain whole-milk Greek yogurt; flavor and milkfat are material to the reviewed hot methods. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "greek-yogurt-plain-whole-milk",
+        "name": "Plain whole-milk Greek yogurt",
+        "aliases": [
+          "plain whole milk Greek yogurt",
+          "plain full-fat Greek yogurt",
+          "whole milk plain Greek yogurt"
+        ],
+        "familyId": "greek-yogurt",
+        "form": "yogurt",
+        "searchVisibility": "variant",
+        "parentIngredientId": "greek-yogurt-plain",
+        "variety": "whole-milk"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "ce41120a8d1cc11aab57903156aa62db3f9184d2481650d7bee7b7d027145444"
+      }
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain-lowfat",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170903",
+          "fingerprint": "3aedab2d99e509828c7f4caefd368d6aa7b42b758b598344825b00884dc2ea0f"
+        }
+      ],
+      "rationale": "SR explicitly identifies plain lowfat Greek yogurt; no exact 2% claim is added. No hot-method equivalence to whole-milk yogurt is inferred. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "greek-yogurt-plain-lowfat",
+        "name": "Plain lowfat Greek yogurt",
+        "aliases": [
+          "plain low-fat Greek yogurt",
+          "lowfat plain Greek yogurt"
+        ],
+        "familyId": "greek-yogurt",
+        "form": "yogurt",
+        "searchVisibility": "variant",
+        "parentIngredientId": "greek-yogurt-plain",
+        "variety": "lowfat"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "336f4628877eb1832a19e313f54a8549aa6e0c8f1c46d0b2577940754af6bc35"
+      }
+    },
+    {
+      "id": "ingredient-greek-yogurt-plain-nonfat",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "foundation_food:330137",
+          "fingerprint": "b690195b8cde6d46af8ac1d715b3f74f4db6e91e5f4caa6be91377dbb4c8b61a"
+        }
+      ],
+      "rationale": "Foundation explicitly identifies plain nonfat Greek yogurt. No hot-method equivalence to whole-milk yogurt is inferred. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "greek-yogurt-plain-nonfat",
+        "name": "Plain nonfat Greek yogurt",
+        "aliases": [
+          "plain fat-free Greek yogurt",
+          "nonfat plain Greek yogurt",
+          "plain 0% Greek yogurt"
+        ],
+        "familyId": "greek-yogurt",
+        "form": "yogurt",
+        "searchVisibility": "variant",
+        "parentIngredientId": "greek-yogurt-plain",
+        "variety": "nonfat"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "6fe590e61e9e87fc88a7e8a180a964dfe0155e889d73f50a46ba6ba40ba2a6fb"
+      }
+    },
+    {
+      "id": "ingredient-greek-yogurt-vanilla",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Curated vanilla Greek dairy yogurt with milkfat unspecified; remains distinct from plain even when unsweetened. No savory recipe permission. Fat-specific evidence belongs only to optional variants. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "greek-yogurt-vanilla",
+        "name": "Vanilla Greek yogurt",
+        "aliases": [
+          "Greek vanilla yogurt"
+        ],
+        "familyId": "greek-yogurt",
+        "form": "yogurt",
+        "searchVisibility": "specific"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "6c7aad17bf0132322b7fbbfa7d31f6c510d18fda17d5234c70f1f684d38ec059"
+      }
+    },
+    {
+      "id": "ingredient-greek-yogurt-vanilla-lowfat",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170907",
+          "fingerprint": "ec4affe4411b95da91f63da63c363d29ea7ae99fd72ffbb841948fd31cdc0094"
+        }
+      ],
+      "rationale": "SR explicitly identifies vanilla lowfat Greek yogurt. No plain or savory compatibility. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "greek-yogurt-vanilla-lowfat",
+        "name": "Vanilla lowfat Greek yogurt",
+        "aliases": [
+          "vanilla low-fat Greek yogurt",
+          "lowfat vanilla Greek yogurt"
+        ],
+        "familyId": "greek-yogurt",
+        "form": "yogurt",
+        "searchVisibility": "variant",
+        "parentIngredientId": "greek-yogurt-vanilla",
+        "variety": "lowfat"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "1f7d0e7306ccf2823c99e764f54a6fa2c9950c899ad204c78aaaef1a9ac45e86"
+      }
+    },
+    {
+      "id": "ingredient-greek-yogurt-vanilla-nonfat",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "upsert",
+      "sourceKind": "USDA",
+      "sourceRefs": [
+        {
+          "key": "sr_legacy_food:170902",
+          "fingerprint": "8569a97c988211a1fa6f50ea3badf36e960a9ff662585b9829c3000b67d85b4c"
+        }
+      ],
+      "rationale": "SR explicitly identifies vanilla nonfat Greek yogurt. No plain or savory compatibility. No nutrition, dietary certification, fixed price or global recipe link is imported.",
+      "ingredient": {
+        "id": "greek-yogurt-vanilla-nonfat",
+        "name": "Vanilla nonfat Greek yogurt",
+        "aliases": [
+          "vanilla fat-free Greek yogurt",
+          "nonfat vanilla Greek yogurt"
+        ],
+        "familyId": "greek-yogurt",
+        "form": "yogurt",
+        "searchVisibility": "variant",
+        "parentIngredientId": "greek-yogurt-vanilla",
+        "variety": "nonfat"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "76043f6ac9e4221ee5898fd82a1b631a5b12710f8ccf2b17c6711018ef639afa"
+      }
+    },
+    {
+      "id": "coverage-mozzarella-low-moisture-whole-milk-to-mozzarella-low-moisture",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "mozzarella-low-moisture-whole-milk",
+        "to": "mozzarella-low-moisture"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "4300af700b4412ef18edfcbd616faa88a803daf286f4539d92f704ce654c885d"
+      }
+    },
+    {
+      "id": "coverage-mozzarella-low-moisture-part-skim-to-mozzarella-low-moisture",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "mozzarella-low-moisture-part-skim",
+        "to": "mozzarella-low-moisture"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "8c35d0eb856d8718bceeb530b055fb4be69d4b63c43887f278b2f7260f1b88c0"
+      }
+    },
+    {
+      "id": "coverage-mexican-style-cheese-blend-to-melting-cheese-blend",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "mexican-style-cheese-blend",
+        "to": "melting-cheese-blend"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "7d247ff24dca17e8e07114ccb15c66c42811228988cce3fdb17c1058c87abd77"
+      }
+    },
+    {
+      "id": "coverage-cottage-cheese-creamed-to-cottage-cheese-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "cottage-cheese-creamed",
+        "to": "cottage-cheese-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "ce68a9b464825b8b501960d04e454a4ed6d2e721331f712fc58ddcb582e7be7c"
+      }
+    },
+    {
+      "id": "coverage-cottage-cheese-plain-2-percent-to-cottage-cheese-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "cottage-cheese-plain-2-percent",
+        "to": "cottage-cheese-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "40e77cbb23993189d17dddc065c9fb7d663f730d9b299c0fd28cc37276bd9677"
+      }
+    },
+    {
+      "id": "coverage-cottage-cheese-plain-1-percent-to-cottage-cheese-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "cottage-cheese-plain-1-percent",
+        "to": "cottage-cheese-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "da71621b29388e9d197472544c873bcac4e129283151478302a93c28983ebf0c"
+      }
+    },
+    {
+      "id": "coverage-sour-cream-full-fat-to-sour-cream-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "sour-cream-full-fat",
+        "to": "sour-cream-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "452d12dc6e7cb44b6e463020b6403cc69bef7976e1d6c9b3c72ac773b74fdba8"
+      }
+    },
+    {
+      "id": "coverage-sour-cream-reduced-fat-to-sour-cream-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "sour-cream-reduced-fat",
+        "to": "sour-cream-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "ca96a3407f745ae72d8f043f619fe89f8db092ae6b6d617dd0818259eafc1ba4"
+      }
+    },
+    {
+      "id": "coverage-greek-yogurt-plain-whole-milk-to-greek-yogurt-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "greek-yogurt-plain-whole-milk",
+        "to": "greek-yogurt-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "aca7711d4689f7e51a0e7438c91900cbc65a4c348288d1bc01e39cd73c5826d3"
+      }
+    },
+    {
+      "id": "coverage-greek-yogurt-plain-lowfat-to-greek-yogurt-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "greek-yogurt-plain-lowfat",
+        "to": "greek-yogurt-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "f55e5f315399eb367c20e568dc52db320c3572a69aad868a24397d2565d59f32"
+      }
+    },
+    {
+      "id": "coverage-greek-yogurt-plain-nonfat-to-greek-yogurt-plain",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "greek-yogurt-plain-nonfat",
+        "to": "greek-yogurt-plain"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "7cba02dba0cc7b829049d5d246befce77b5131affde6d2aaecb4c78cf4bc5124"
+      }
+    },
+    {
+      "id": "coverage-greek-yogurt-vanilla-lowfat-to-greek-yogurt-vanilla",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "greek-yogurt-vanilla-lowfat",
+        "to": "greek-yogurt-vanilla"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "15d41fb0b31b57066ecc14d7d17593711523801a11dca6f86ff6ef73258b18d3"
+      }
+    },
+    {
+      "id": "coverage-greek-yogurt-vanilla-nonfat-to-greek-yogurt-vanilla",
+      "revision": 1,
+      "rulesVersion": 1,
+      "status": "approved",
+      "action": "compatibility",
+      "sourceKind": "CURATED",
+      "sourceRefs": [],
+      "rationale": "Reviewed one-hop same-form specific-to-generic coverage only. Required generic No overrides derived coverage. No reverse/sibling coverage, component ownership, flavor/moisture conversion, nutrition or price equivalence.",
+      "compatibility": {
+        "from": "greek-yogurt-vanilla-nonfat",
+        "to": "greek-yogurt-vanilla"
+      },
+      "review": {
+        "by": "kchavez05 (maintainer approval in Codex chat: Approve the dairy packet)",
+        "date": "2026-11-07",
+        "payloadSha256": "73dab97a948f7bfdc1e15be2c494a8e96ff58731252e4256377a9b53cd92c55e"
+      }
     }
   ]
 }

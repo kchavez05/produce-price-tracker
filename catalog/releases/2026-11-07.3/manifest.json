@@ -1,0 +1,6632 @@
+{
+  "formatVersion": 1,
+  "catalogVersion": "2026-11-07.3",
+  "contentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "parentVersion": "2026-11-07.2",
+  "status": "APPROVED_FOR_INTEGRATION",
+  "published": false,
+  "productApproval": {
+    "by": "kchavez05",
+    "date": "2026-11-07",
+    "evidence": "Explicit Approve the dairy packet response in Codex chat",
+    "scope": "23 identities, 13 same-form rules, 23 counterparts, 16 scoped decisions, one ordinary candidate removal, one required breakfast-slot split into 8 oz cottage cheese AND 8 oz cheddar, all 13 text edits and exact dairy offer policies",
+    "envelopeHash": "bf85fd750df53cc6f3bc0fbf986ae76a7f1ff37e8a914d357d4440beb357b50a",
+    "recordedPayloads": "catalog/proposals/2026-11-07-market-dairy/review-envelope.json"
+  },
+  "validation": {
+    "approvedIngredientCount": 222,
+    "approvedDecisionCount": 252,
+    "identitySourceLinks": 178,
+    "generalReferenceLinks": 5,
+    "curationChecksPassed": true,
+    "sourceDispositions": {
+      "candidate": 6670,
+      "excluded": 1547,
+      "quarantined": 74
+    },
+    "fixtureResults": [
+      {
+        "query": "lentils",
+        "expected": [
+          "lentils-canned",
+          "lentils-dried"
+        ],
+        "actual": [
+          "lentils-canned",
+          "lentils-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "lentils-canned",
+          "lentils-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "red lentils",
+        "expected": [
+          "red-lentils-dried"
+        ],
+        "actual": [
+          "red-lentils-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "red-lentils-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "rice",
+        "expected": [
+          "basmati-rice-dry",
+          "brown-rice-dry",
+          "jasmine-rice-dry"
+        ],
+        "actual": [
+          "basmati-rice-dry",
+          "brown-rice-dry",
+          "jasmine-rice-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "basmati-rice-dry",
+          "brown-rice-dry",
+          "jasmine-rice-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "flour",
+        "expected": [
+          "all-purpose-flour",
+          "bread-flour",
+          "buckwheat-flour",
+          "chickpea-flour",
+          "masa-harina",
+          "oat-flour",
+          "rice-flour",
+          "rye-flour",
+          "self-rising-wheat-flour",
+          "sorghum-flour",
+          "whole-wheat-flour"
+        ],
+        "actual": [
+          "all-purpose-flour",
+          "bread-flour",
+          "buckwheat-flour",
+          "chickpea-flour",
+          "masa-harina",
+          "oat-flour",
+          "rice-flour",
+          "rye-flour",
+          "self-rising-wheat-flour",
+          "sorghum-flour",
+          "whole-wheat-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "all-purpose-flour",
+          "bread-flour",
+          "buckwheat-flour",
+          "chickpea-flour",
+          "masa-harina",
+          "oat-flour",
+          "rice-flour",
+          "rye-flour",
+          "self-rising-wheat-flour",
+          "sorghum-flour",
+          "whole-wheat-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "black beans",
+        "expected": [
+          "black-beans-canned",
+          "black-beans-dried"
+        ],
+        "actual": [
+          "black-beans-canned",
+          "black-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "black-beans-canned",
+          "black-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "garlic",
+        "expected": [
+          "garlic-fresh",
+          "garlic-powder"
+        ],
+        "actual": [
+          "garlic-fresh",
+          "garlic-powder"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "garlic-fresh",
+          "garlic-powder"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "onions",
+        "expected": [
+          "onions-fresh"
+        ],
+        "actual": [
+          "onions-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "onions-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "broth",
+        "expected": [
+          "beef-broth",
+          "chicken-broth",
+          "vegetable-broth"
+        ],
+        "actual": [
+          "beef-broth",
+          "chicken-broth",
+          "vegetable-broth"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-broth",
+          "chicken-broth",
+          "vegetable-broth"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cumin",
+        "expected": [
+          "ground-cumin"
+        ],
+        "actual": [
+          "ground-cumin"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ground-cumin"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "paprika",
+        "expected": [
+          "smoked-paprika"
+        ],
+        "actual": [
+          "smoked-paprika"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-paprika"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "tahini",
+        "expected": [
+          "tahini"
+        ],
+        "actual": [
+          "tahini"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tahini"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "garbanzo",
+        "expected": [
+          "chickpeas-canned",
+          "chickpeas-dried"
+        ],
+        "actual": [
+          "chickpeas-canned",
+          "chickpeas-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chickpeas-canned",
+          "chickpeas-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "beans",
+        "expected": [
+          "black-beans-canned",
+          "black-beans-dried",
+          "cannellini-beans-canned",
+          "chickpeas-canned",
+          "chickpeas-dried",
+          "great-northern-beans-canned",
+          "kidney-beans-canned",
+          "kidney-beans-dried",
+          "navy-beans-canned",
+          "navy-beans-dried",
+          "pinto-beans-canned",
+          "pinto-beans-dried"
+        ],
+        "actual": [
+          "black-beans-canned",
+          "black-beans-dried",
+          "cannellini-beans-canned",
+          "chickpeas-canned",
+          "chickpeas-dried",
+          "great-northern-beans-canned",
+          "kidney-beans-canned",
+          "kidney-beans-dried",
+          "navy-beans-canned",
+          "navy-beans-dried",
+          "pinto-beans-canned",
+          "pinto-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "black-beans-canned",
+          "black-beans-dried",
+          "cannellini-beans-canned",
+          "chickpeas-canned",
+          "chickpeas-dried",
+          "great-northern-beans-canned",
+          "kidney-beans-canned",
+          "kidney-beans-dried",
+          "navy-beans-canned",
+          "navy-beans-dried",
+          "pinto-beans-canned",
+          "pinto-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "chickpeas",
+        "expected": [
+          "chickpeas-canned",
+          "chickpeas-dried"
+        ],
+        "actual": [
+          "chickpeas-canned",
+          "chickpeas-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chickpeas-canned",
+          "chickpeas-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "pinto",
+        "expected": [
+          "pinto-beans-canned",
+          "pinto-beans-dried"
+        ],
+        "actual": [
+          "pinto-beans-canned",
+          "pinto-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pinto-beans-canned",
+          "pinto-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "navy",
+        "expected": [
+          "navy-beans-canned",
+          "navy-beans-dried"
+        ],
+        "actual": [
+          "navy-beans-canned",
+          "navy-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "navy-beans-canned",
+          "navy-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "kidney",
+        "expected": [
+          "cannellini-beans-canned",
+          "kidney-beans-canned",
+          "kidney-beans-dried"
+        ],
+        "actual": [
+          "cannellini-beans-canned",
+          "kidney-beans-canned",
+          "kidney-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cannellini-beans-canned",
+          "kidney-beans-canned",
+          "kidney-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "mung",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "oats",
+        "expected": [
+          "rolled-oats",
+          "steel-cut-oats"
+        ],
+        "actual": [
+          "rolled-oats",
+          "steel-cut-oats"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "rolled-oats",
+          "steel-cut-oats"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "barley",
+        "expected": [
+          "barley-hulled",
+          "barley-pearled"
+        ],
+        "actual": [
+          "barley-hulled",
+          "barley-pearled"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "barley-hulled",
+          "barley-pearled"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "brown rice flour",
+        "expected": [
+          "brown-rice-flour"
+        ],
+        "actual": [
+          "brown-rice-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "brown-rice-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "glutinous rice flour",
+        "expected": [
+          "glutinous-rice-flour"
+        ],
+        "actual": [
+          "glutinous-rice-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "glutinous-rice-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "besan",
+        "expected": [
+          "chickpea-flour"
+        ],
+        "actual": [
+          "chickpea-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chickpea-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "lentil soup",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "mung sprouts",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dried chickpeas",
+        "expected": [
+          "chickpeas-dried"
+        ],
+        "actual": [
+          "chickpeas-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chickpeas-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Canned pinto beans",
+        "expected": [
+          "pinto-beans-canned"
+        ],
+        "actual": [
+          "pinto-beans-canned"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pinto-beans-canned"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dried pinto beans",
+        "expected": [
+          "pinto-beans-dried"
+        ],
+        "actual": [
+          "pinto-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pinto-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Canned navy beans",
+        "expected": [
+          "navy-beans-canned"
+        ],
+        "actual": [
+          "navy-beans-canned"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "navy-beans-canned"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dried navy beans",
+        "expected": [
+          "navy-beans-dried"
+        ],
+        "actual": [
+          "navy-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "navy-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dried kidney beans",
+        "expected": [
+          "kidney-beans-dried"
+        ],
+        "actual": [
+          "kidney-beans-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kidney-beans-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dried green split peas",
+        "expected": [
+          "green-split-peas-dried"
+        ],
+        "actual": [
+          "green-split-peas-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "green-split-peas-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Rolled oats",
+        "expected": [
+          "rolled-oats"
+        ],
+        "actual": [
+          "rolled-oats"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "rolled-oats"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Steel-cut oats",
+        "expected": [
+          "steel-cut-oats"
+        ],
+        "actual": [
+          "steel-cut-oats"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "steel-cut-oats"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dry quinoa",
+        "expected": [
+          "quinoa-dry"
+        ],
+        "actual": [
+          "quinoa-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "quinoa-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dry bulgur",
+        "expected": [
+          "bulgur-dry"
+        ],
+        "actual": [
+          "bulgur-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "bulgur-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Pearled barley",
+        "expected": [
+          "barley-pearled"
+        ],
+        "actual": [
+          "barley-pearled"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "barley-pearled"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Hulled barley",
+        "expected": [
+          "barley-hulled"
+        ],
+        "actual": [
+          "barley-hulled"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "barley-hulled"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole-grain buckwheat",
+        "expected": [
+          "buckwheat-whole"
+        ],
+        "actual": [
+          "buckwheat-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "buckwheat-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole-grain millet",
+        "expected": [
+          "millet-whole"
+        ],
+        "actual": [
+          "millet-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "millet-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dry couscous",
+        "expected": [
+          "couscous-dry"
+        ],
+        "actual": [
+          "couscous-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "couscous-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dry pasta",
+        "expected": [
+          "pasta-dry"
+        ],
+        "actual": [
+          "pasta-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pasta-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole-grain sorghum",
+        "expected": [
+          "sorghum-whole"
+        ],
+        "actual": [
+          "sorghum-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sorghum-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole-grain yellow cornmeal",
+        "expected": [
+          "cornmeal-yellow-whole"
+        ],
+        "actual": [
+          "cornmeal-yellow-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cornmeal-yellow-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Dry tapioca pearls",
+        "expected": [
+          "tapioca-pearls-dry"
+        ],
+        "actual": [
+          "tapioca-pearls-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tapioca-pearls-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole-grain oat flour",
+        "expected": [
+          "oat-flour"
+        ],
+        "actual": [
+          "oat-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "oat-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Rye flour",
+        "expected": [
+          "rye-flour"
+        ],
+        "actual": [
+          "rye-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "rye-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Buckwheat flour",
+        "expected": [
+          "buckwheat-flour"
+        ],
+        "actual": [
+          "buckwheat-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "buckwheat-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Chickpea flour",
+        "expected": [
+          "chickpea-flour"
+        ],
+        "actual": [
+          "chickpea-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chickpea-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Sorghum flour",
+        "expected": [
+          "sorghum-flour"
+        ],
+        "actual": [
+          "sorghum-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sorghum-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Wheat bread flour",
+        "expected": [
+          "bread-flour"
+        ],
+        "actual": [
+          "bread-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "bread-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Self-rising wheat flour",
+        "expected": [
+          "self-rising-wheat-flour"
+        ],
+        "actual": [
+          "self-rising-wheat-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "self-rising-wheat-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Brown rice flour",
+        "expected": [
+          "brown-rice-flour"
+        ],
+        "actual": [
+          "brown-rice-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "brown-rice-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Glutinous rice flour",
+        "expected": [
+          "glutinous-rice-flour"
+        ],
+        "actual": [
+          "glutinous-rice-flour"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "glutinous-rice-flour"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "brown rice",
+        "expected": [
+          "brown-rice-dry"
+        ],
+        "actual": [
+          "brown-rice-dry"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "brown-rice-dry"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "glutinous rice",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "Leeks",
+        "expected": [
+          "leeks-fresh"
+        ],
+        "actual": [
+          "leeks-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "leeks-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Beets",
+        "expected": [
+          "beets-fresh"
+        ],
+        "actual": [
+          "beets-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beets-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Radishes",
+        "expected": [
+          "radishes-fresh"
+        ],
+        "actual": [
+          "radishes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "radishes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Okra",
+        "expected": [
+          "okra-fresh"
+        ],
+        "actual": [
+          "okra-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "okra-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Eggplant",
+        "expected": [
+          "eggplant-fresh"
+        ],
+        "actual": [
+          "eggplant-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "eggplant-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh cilantro",
+        "expected": [
+          "cilantro-fresh"
+        ],
+        "actual": [
+          "cilantro-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cilantro-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh parsley",
+        "expected": [
+          "parsley-fresh"
+        ],
+        "actual": [
+          "parsley-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "parsley-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh basil",
+        "expected": [
+          "basil-fresh"
+        ],
+        "actual": [
+          "basil-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "basil-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh spearmint",
+        "expected": [
+          "spearmint-fresh"
+        ],
+        "actual": [
+          "spearmint-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spearmint-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Cucumber",
+        "expected": [
+          "cucumber-fresh"
+        ],
+        "actual": [
+          "cucumber-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cucumber-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "beetroot",
+        "expected": [
+          "beets-fresh"
+        ],
+        "actual": [
+          "beets-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beets-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "aubergine",
+        "expected": [
+          "eggplant-fresh"
+        ],
+        "actual": [
+          "eggplant-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "eggplant-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh coriander",
+        "expected": [
+          "cilantro-fresh"
+        ],
+        "actual": [
+          "cilantro-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cilantro-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "mint",
+        "expected": [
+          "spearmint-fresh"
+        ],
+        "actual": [
+          "spearmint-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spearmint-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "dried basil",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "peppermint",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "Canola oil",
+        "expected": [
+          "canola-oil"
+        ],
+        "actual": [
+          "canola-oil"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "canola-oil"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Sesame oil",
+        "expected": [
+          "sesame-oil"
+        ],
+        "actual": [
+          "sesame-oil"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sesame-oil"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Ground cinnamon",
+        "expected": [
+          "cinnamon-ground"
+        ],
+        "actual": [
+          "cinnamon-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cinnamon-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Ground cloves",
+        "expected": [
+          "cloves-ground"
+        ],
+        "actual": [
+          "cloves-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cloves-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Ground turmeric",
+        "expected": [
+          "turmeric-ground"
+        ],
+        "actual": [
+          "turmeric-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "turmeric-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Ground ginger",
+        "expected": [
+          "ginger-ground"
+        ],
+        "actual": [
+          "ginger-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ginger-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Red wine vinegar",
+        "expected": [
+          "red-wine-vinegar"
+        ],
+        "actual": [
+          "red-wine-vinegar"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "red-wine-vinegar"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Miso",
+        "expected": [
+          "miso"
+        ],
+        "actual": [
+          "miso"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "miso"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fish sauce",
+        "expected": [
+          "fish-sauce"
+        ],
+        "actual": [
+          "fish-sauce"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "fish-sauce"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Oyster sauce",
+        "expected": [
+          "oyster-sauce"
+        ],
+        "actual": [
+          "oyster-sauce"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "oyster-sauce"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Granulated sugar",
+        "expected": [
+          "sugar-granulated"
+        ],
+        "actual": [
+          "sugar-granulated"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sugar-granulated"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Brown sugar",
+        "expected": [
+          "sugar-brown"
+        ],
+        "actual": [
+          "sugar-brown"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sugar-brown"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Honey",
+        "expected": [
+          "honey",
+          "honeycrisp-apples-fresh"
+        ],
+        "actual": [
+          "honey",
+          "honeycrisp-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "honey",
+          "honeycrisp-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Tempeh",
+        "expected": [
+          "tempeh"
+        ],
+        "actual": [
+          "tempeh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tempeh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Soft tofu",
+        "expected": [
+          "tofu-soft"
+        ],
+        "actual": [
+          "tofu-soft"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tofu-soft"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole milk (3.25%)",
+        "expected": [
+          "milk-whole"
+        ],
+        "actual": [
+          "milk-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "milk-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain whole-milk yogurt",
+        "expected": [
+          "yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Feta",
+        "expected": [
+          "feta-cheese"
+        ],
+        "actual": [
+          "feta-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "feta-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Hard Parmesan",
+        "expected": [
+          "parmesan-hard"
+        ],
+        "actual": [
+          "parmesan-hard"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "parmesan-hard"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Canned light tuna in water",
+        "expected": [
+          "tuna-light-canned-water"
+        ],
+        "actual": [
+          "tuna-light-canned-water"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tuna-light-canned-water"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole raw almonds",
+        "expected": [
+          "almonds-whole-raw"
+        ],
+        "actual": [
+          "almonds-whole-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "almonds-whole-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw English walnuts",
+        "expected": [
+          "walnuts-english-raw"
+        ],
+        "actual": [
+          "walnuts-english-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "walnuts-english-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole dried sesame seeds",
+        "expected": [
+          "sesame-seeds-whole-dried"
+        ],
+        "actual": [
+          "sesame-seeds-whole-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sesame-seeds-whole-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "oil",
+        "expected": [
+          "avocado-oil",
+          "canola-oil",
+          "olive-oil",
+          "sesame-oil"
+        ],
+        "actual": [
+          "avocado-oil",
+          "canola-oil",
+          "olive-oil",
+          "sesame-oil"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "avocado-oil",
+          "canola-oil",
+          "olive-oil",
+          "sesame-oil"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "ginger",
+        "expected": [
+          "ginger-fresh",
+          "ginger-ground"
+        ],
+        "actual": [
+          "ginger-fresh",
+          "ginger-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ginger-fresh",
+          "ginger-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "vinegar",
+        "expected": [
+          "apple-cider-vinegar",
+          "red-wine-vinegar"
+        ],
+        "actual": [
+          "apple-cider-vinegar",
+          "red-wine-vinegar"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "apple-cider-vinegar",
+          "red-wine-vinegar"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "sauce",
+        "expected": [
+          "fish-sauce",
+          "oyster-sauce",
+          "soy-sauce",
+          "worcestershire-sauce",
+          "worcestershire-sauce-gluten-free"
+        ],
+        "actual": [
+          "fish-sauce",
+          "oyster-sauce",
+          "soy-sauce",
+          "worcestershire-sauce",
+          "worcestershire-sauce-gluten-free"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "fish-sauce",
+          "oyster-sauce",
+          "soy-sauce",
+          "worcestershire-sauce",
+          "worcestershire-sauce-gluten-free"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "sugar",
+        "expected": [
+          "sugar-brown",
+          "sugar-granulated"
+        ],
+        "actual": [
+          "sugar-brown",
+          "sugar-granulated"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sugar-brown",
+          "sugar-granulated"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "milk",
+        "expected": [
+          "coconut-milk-canned",
+          "milk-whole",
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "actual": [
+          "coconut-milk-canned",
+          "milk-whole",
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coconut-milk-canned",
+          "milk-whole",
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "yogurt",
+        "expected": [
+          "greek-yogurt-plain",
+          "greek-yogurt-vanilla",
+          "yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "greek-yogurt-plain",
+          "greek-yogurt-vanilla",
+          "yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain",
+          "greek-yogurt-vanilla",
+          "yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain yogurt",
+        "expected": [
+          "greek-yogurt-plain",
+          "yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "greek-yogurt-plain",
+          "yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain",
+          "yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain whole milk yogurt",
+        "expected": [
+          "yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "miso paste",
+        "expected": [
+          "miso"
+        ],
+        "actual": [
+          "miso"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "miso"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "feta cheese",
+        "expected": [
+          "feta-cheese"
+        ],
+        "actual": [
+          "feta-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "feta-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "hard parmesan cheese",
+        "expected": [
+          "parmesan-hard"
+        ],
+        "actual": [
+          "parmesan-hard"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "parmesan-hard"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cheese",
+        "expected": [
+          "cheddar-cheese",
+          "cottage-cheese-plain",
+          "feta-cheese",
+          "melting-cheese-blend",
+          "monterey-jack-cheese",
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture",
+          "parmesan-hard"
+        ],
+        "actual": [
+          "cheddar-cheese",
+          "cottage-cheese-plain",
+          "feta-cheese",
+          "melting-cheese-blend",
+          "monterey-jack-cheese",
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture",
+          "parmesan-hard"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cheddar-cheese",
+          "cottage-cheese-plain",
+          "feta-cheese",
+          "melting-cheese-blend",
+          "monterey-jack-cheese",
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture",
+          "parmesan-hard"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "tofu",
+        "expected": [
+          "tofu-firm",
+          "tofu-soft"
+        ],
+        "actual": [
+          "tofu-firm",
+          "tofu-soft"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tofu-firm",
+          "tofu-soft"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "sesame",
+        "expected": [
+          "sesame-oil",
+          "sesame-seeds-whole-dried"
+        ],
+        "actual": [
+          "sesame-oil",
+          "sesame-seeds-whole-dried"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sesame-oil",
+          "sesame-seeds-whole-dried"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "toasted sesame oil",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "cinnamon sticks",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh turmeric",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "powdered sugar",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "mushroom oyster sauce",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain",
+          "greek-yogurt-vanilla"
+        ],
+        "actual": [
+          "greek-yogurt-plain",
+          "greek-yogurt-vanilla"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain",
+          "greek-yogurt-vanilla"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "vanilla yogurt",
+        "expected": [
+          "greek-yogurt-vanilla"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "tuna in oil",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "roasted almonds",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "black walnuts",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "toasted sesame seeds",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "ground coriander",
+        "expected": [
+          "coriander-ground"
+        ],
+        "actual": [
+          "coriander-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coriander-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cardamom",
+        "expected": [
+          "cardamom-ground",
+          "cardamom-pods"
+        ],
+        "actual": [
+          "cardamom-ground",
+          "cardamom-pods"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cardamom-ground",
+          "cardamom-pods"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole coriander seeds",
+        "expected": [
+          "coriander-seeds-whole"
+        ],
+        "actual": [
+          "coriander-seeds-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coriander-seeds-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Ground coriander",
+        "expected": [
+          "coriander-ground"
+        ],
+        "actual": [
+          "coriander-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coriander-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole cardamom pods",
+        "expected": [
+          "cardamom-pods"
+        ],
+        "actual": [
+          "cardamom-pods"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cardamom-pods"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Ground cardamom",
+        "expected": [
+          "cardamom-ground"
+        ],
+        "actual": [
+          "cardamom-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cardamom-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "coriander",
+        "expected": [
+          "cilantro-fresh",
+          "coriander-ground",
+          "coriander-seeds-whole"
+        ],
+        "actual": [
+          "cilantro-fresh",
+          "coriander-ground",
+          "coriander-seeds-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cilantro-fresh",
+          "coriander-ground",
+          "coriander-seeds-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "coriander seed",
+        "expected": [
+          "coriander-seeds-whole"
+        ],
+        "actual": [
+          "coriander-seeds-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coriander-seeds-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "coriander seeds",
+        "expected": [
+          "coriander-seeds-whole"
+        ],
+        "actual": [
+          "coriander-seeds-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coriander-seeds-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "whole coriander",
+        "expected": [
+          "coriander-seeds-whole"
+        ],
+        "actual": [
+          "coriander-seeds-whole"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coriander-seeds-whole"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "coriander powder",
+        "expected": [
+          "coriander-ground"
+        ],
+        "actual": [
+          "coriander-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coriander-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cardamom pods",
+        "expected": [
+          "cardamom-pods"
+        ],
+        "actual": [
+          "cardamom-pods"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cardamom-pods"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "whole cardamom",
+        "expected": [
+          "cardamom-pods"
+        ],
+        "actual": [
+          "cardamom-pods"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cardamom-pods"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cardamom powder",
+        "expected": [
+          "cardamom-ground"
+        ],
+        "actual": [
+          "cardamom-ground"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cardamom-ground"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "green cardamom",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "black cardamom",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "Carrots",
+        "expected": [
+          "carrots-fresh"
+        ],
+        "actual": [
+          "carrots-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "carrots-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh carrots",
+        "expected": [
+          "carrots-fresh"
+        ],
+        "actual": [
+          "carrots-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "carrots-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw carrots",
+        "expected": [
+          "carrots-fresh"
+        ],
+        "actual": [
+          "carrots-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "carrots-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "baby carrots",
+        "expected": [
+          "carrots-fresh"
+        ],
+        "actual": [
+          "carrots-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "carrots-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Broccoli",
+        "expected": [
+          "broccoli-fresh"
+        ],
+        "actual": [
+          "broccoli-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "broccoli-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh broccoli",
+        "expected": [
+          "broccoli-fresh"
+        ],
+        "actual": [
+          "broccoli-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "broccoli-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "broccoli florets",
+        "expected": [
+          "broccoli-fresh"
+        ],
+        "actual": [
+          "broccoli-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "broccoli-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "broccoli crowns",
+        "expected": [
+          "broccoli-fresh"
+        ],
+        "actual": [
+          "broccoli-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "broccoli-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Cauliflower",
+        "expected": [
+          "cauliflower-fresh"
+        ],
+        "actual": [
+          "cauliflower-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cauliflower-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh cauliflower",
+        "expected": [
+          "cauliflower-fresh"
+        ],
+        "actual": [
+          "cauliflower-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cauliflower-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cauliflower florets",
+        "expected": [
+          "cauliflower-fresh"
+        ],
+        "actual": [
+          "cauliflower-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cauliflower-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh spinach",
+        "expected": [
+          "spinach-fresh"
+        ],
+        "actual": [
+          "spinach-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spinach-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "baby spinach",
+        "expected": [
+          "spinach-fresh"
+        ],
+        "actual": [
+          "spinach-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spinach-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw spinach",
+        "expected": [
+          "spinach-fresh"
+        ],
+        "actual": [
+          "spinach-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spinach-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh kale",
+        "expected": [
+          "kale-fresh"
+        ],
+        "actual": [
+          "kale-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kale-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw kale",
+        "expected": [
+          "kale-fresh"
+        ],
+        "actual": [
+          "kale-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kale-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh white mushrooms",
+        "expected": [
+          "mushrooms-white-fresh"
+        ],
+        "actual": [
+          "mushrooms-white-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-white-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "white button mushrooms",
+        "expected": [
+          "mushrooms-white-fresh"
+        ],
+        "actual": [
+          "mushrooms-white-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-white-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh white button mushrooms",
+        "expected": [
+          "mushrooms-white-fresh"
+        ],
+        "actual": [
+          "mushrooms-white-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-white-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh tomatoes",
+        "expected": [
+          "tomatoes-fresh"
+        ],
+        "actual": [
+          "tomatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh red tomatoes",
+        "expected": [
+          "tomatoes-fresh"
+        ],
+        "actual": [
+          "tomatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw tomatoes",
+        "expected": [
+          "tomatoes-fresh"
+        ],
+        "actual": [
+          "tomatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Roma tomatoes",
+        "expected": [
+          "tomatoes-fresh"
+        ],
+        "actual": [
+          "tomatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "vine-ripened tomatoes",
+        "expected": [
+          "tomatoes-fresh"
+        ],
+        "actual": [
+          "tomatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cremini",
+        "expected": [
+          "mushrooms-cremini-fresh"
+        ],
+        "actual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "baby bella",
+        "expected": [
+          "mushrooms-cremini-fresh"
+        ],
+        "actual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "tomatillos",
+        "expected": [
+          "tomatillos-fresh"
+        ],
+        "actual": [
+          "tomatillos-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatillos-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "New Zealand spinach",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen broccoli",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "canned tomatoes",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "collard greens",
+        "expected": [
+          "collard-greens-fresh"
+        ],
+        "actual": [
+          "collard-greens-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "collard-greens-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Swiss chard",
+        "expected": [
+          "swiss-chard-fresh"
+        ],
+        "actual": [
+          "swiss-chard-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "swiss-chard-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "corn masa flour",
+        "expected": [
+          "masa-harina"
+        ],
+        "actual": [
+          "masa-harina"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "masa-harina"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh potatoes",
+        "expected": [
+          "potatoes-fresh"
+        ],
+        "actual": [
+          "potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw potatoes",
+        "expected": [
+          "potatoes-fresh"
+        ],
+        "actual": [
+          "potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Russet potatoes",
+        "expected": [
+          "russet-potatoes-fresh"
+        ],
+        "actual": [
+          "russet-potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "russet-potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Russet potatoes",
+        "expected": [
+          "russet-potatoes-fresh"
+        ],
+        "actual": [
+          "russet-potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "russet-potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Yukon Gold potatoes",
+        "expected": [
+          "yukon-gold-potatoes-fresh"
+        ],
+        "actual": [
+          "yukon-gold-potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yukon-gold-potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Yukon Gold potatoes",
+        "expected": [
+          "yukon-gold-potatoes-fresh"
+        ],
+        "actual": [
+          "yukon-gold-potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yukon-gold-potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh red potatoes",
+        "expected": [
+          "red-potatoes-fresh"
+        ],
+        "actual": [
+          "red-potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "red-potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw red potatoes",
+        "expected": [
+          "red-potatoes-fresh"
+        ],
+        "actual": [
+          "red-potatoes-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "red-potatoes-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh apples",
+        "expected": [
+          "apples-fresh"
+        ],
+        "actual": [
+          "apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw apples",
+        "expected": [
+          "apples-fresh"
+        ],
+        "actual": [
+          "apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Honeycrisp apples",
+        "expected": [
+          "honeycrisp-apples-fresh"
+        ],
+        "actual": [
+          "honeycrisp-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "honeycrisp-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Honeycrisp apples",
+        "expected": [
+          "honeycrisp-apples-fresh"
+        ],
+        "actual": [
+          "honeycrisp-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "honeycrisp-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Gala apples",
+        "expected": [
+          "gala-apples-fresh"
+        ],
+        "actual": [
+          "gala-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "gala-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Gala apples",
+        "expected": [
+          "gala-apples-fresh"
+        ],
+        "actual": [
+          "gala-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "gala-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Fuji apples",
+        "expected": [
+          "fuji-apples-fresh"
+        ],
+        "actual": [
+          "fuji-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "fuji-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Fuji apples",
+        "expected": [
+          "fuji-apples-fresh"
+        ],
+        "actual": [
+          "fuji-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "fuji-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Granny Smith apples",
+        "expected": [
+          "granny-smith-apples-fresh"
+        ],
+        "actual": [
+          "granny-smith-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "granny-smith-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Granny Smith apples",
+        "expected": [
+          "granny-smith-apples-fresh"
+        ],
+        "actual": [
+          "granny-smith-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "granny-smith-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Cosmic Crisp apples",
+        "expected": [
+          "cosmic-crisp-apples-fresh"
+        ],
+        "actual": [
+          "cosmic-crisp-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cosmic-crisp-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Cosmic Crisp apples",
+        "expected": [
+          "cosmic-crisp-apples-fresh"
+        ],
+        "actual": [
+          "cosmic-crisp-apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cosmic-crisp-apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh summer squash",
+        "expected": [
+          "summer-squash-fresh"
+        ],
+        "actual": [
+          "summer-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "summer-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw summer squash",
+        "expected": [
+          "summer-squash-fresh"
+        ],
+        "actual": [
+          "summer-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "summer-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh zucchini",
+        "expected": [
+          "zucchini-fresh"
+        ],
+        "actual": [
+          "zucchini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "zucchini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw zucchini",
+        "expected": [
+          "zucchini-fresh"
+        ],
+        "actual": [
+          "zucchini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "zucchini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh courgette",
+        "expected": [
+          "zucchini-fresh"
+        ],
+        "actual": [
+          "zucchini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "zucchini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "courgette",
+        "expected": [
+          "zucchini-fresh"
+        ],
+        "actual": [
+          "zucchini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "zucchini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh yellow summer squash",
+        "expected": [
+          "yellow-summer-squash-fresh"
+        ],
+        "actual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw yellow summer squash",
+        "expected": [
+          "yellow-summer-squash-fresh"
+        ],
+        "actual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh yellow squash",
+        "expected": [
+          "yellow-summer-squash-fresh"
+        ],
+        "actual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "yellow squash",
+        "expected": [
+          "yellow-summer-squash-fresh"
+        ],
+        "actual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "yellow-summer-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh butternut squash",
+        "expected": [
+          "butternut-squash-fresh"
+        ],
+        "actual": [
+          "butternut-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "butternut-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw butternut squash",
+        "expected": [
+          "butternut-squash-fresh"
+        ],
+        "actual": [
+          "butternut-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "butternut-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "butternut winter squash",
+        "expected": [
+          "butternut-squash-fresh"
+        ],
+        "actual": [
+          "butternut-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "butternut-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh acorn squash",
+        "expected": [
+          "acorn-squash-fresh"
+        ],
+        "actual": [
+          "acorn-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "acorn-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw acorn squash",
+        "expected": [
+          "acorn-squash-fresh"
+        ],
+        "actual": [
+          "acorn-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "acorn-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "acorn winter squash",
+        "expected": [
+          "acorn-squash-fresh"
+        ],
+        "actual": [
+          "acorn-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "acorn-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh spaghetti squash",
+        "expected": [
+          "spaghetti-squash-fresh"
+        ],
+        "actual": [
+          "spaghetti-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spaghetti-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw spaghetti squash",
+        "expected": [
+          "spaghetti-squash-fresh"
+        ],
+        "actual": [
+          "spaghetti-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spaghetti-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "spaghetti winter squash",
+        "expected": [
+          "spaghetti-squash-fresh"
+        ],
+        "actual": [
+          "spaghetti-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spaghetti-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh kabocha squash",
+        "expected": [
+          "kabocha-squash-fresh"
+        ],
+        "actual": [
+          "kabocha-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kabocha-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw kabocha squash",
+        "expected": [
+          "kabocha-squash-fresh"
+        ],
+        "actual": [
+          "kabocha-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kabocha-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "kabocha winter squash",
+        "expected": [
+          "kabocha-squash-fresh"
+        ],
+        "actual": [
+          "kabocha-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kabocha-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh poblano peppers",
+        "expected": [
+          "poblano-peppers-fresh"
+        ],
+        "actual": [
+          "poblano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "poblano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "poblano chiles",
+        "expected": [
+          "poblano-peppers-fresh"
+        ],
+        "actual": [
+          "poblano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "poblano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw poblano peppers",
+        "expected": [
+          "poblano-peppers-fresh"
+        ],
+        "actual": [
+          "poblano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "poblano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "poblanos",
+        "expected": [
+          "poblano-peppers-fresh"
+        ],
+        "actual": [
+          "poblano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "poblano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Anaheim peppers",
+        "expected": [
+          "anaheim-peppers-fresh"
+        ],
+        "actual": [
+          "anaheim-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "anaheim-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Anaheim chiles",
+        "expected": [
+          "anaheim-peppers-fresh"
+        ],
+        "actual": [
+          "anaheim-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "anaheim-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Anaheim peppers",
+        "expected": [
+          "anaheim-peppers-fresh"
+        ],
+        "actual": [
+          "anaheim-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "anaheim-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh jalapeño peppers",
+        "expected": [
+          "jalapeno-peppers-fresh"
+        ],
+        "actual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh jalapeno peppers",
+        "expected": [
+          "jalapeno-peppers-fresh"
+        ],
+        "actual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "jalapeno chiles",
+        "expected": [
+          "jalapeno-peppers-fresh"
+        ],
+        "actual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "jalapeño chiles",
+        "expected": [
+          "jalapeno-peppers-fresh"
+        ],
+        "actual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "jalapenos",
+        "expected": [
+          "jalapeno-peppers-fresh"
+        ],
+        "actual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "jalapeños",
+        "expected": [
+          "jalapeno-peppers-fresh"
+        ],
+        "actual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "jalapeno-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh serrano peppers",
+        "expected": [
+          "serrano-peppers-fresh"
+        ],
+        "actual": [
+          "serrano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "serrano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "serrano chiles",
+        "expected": [
+          "serrano-peppers-fresh"
+        ],
+        "actual": [
+          "serrano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "serrano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw serrano peppers",
+        "expected": [
+          "serrano-peppers-fresh"
+        ],
+        "actual": [
+          "serrano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "serrano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "serranos",
+        "expected": [
+          "serrano-peppers-fresh"
+        ],
+        "actual": [
+          "serrano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "serrano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Hatch green chiles",
+        "expected": [
+          "hatch-green-chiles-fresh"
+        ],
+        "actual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh Hatch chile peppers",
+        "expected": [
+          "hatch-green-chiles-fresh"
+        ],
+        "actual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Hatch green chiles",
+        "expected": [
+          "hatch-green-chiles-fresh"
+        ],
+        "actual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh Hatch chiles",
+        "expected": [
+          "hatch-green-chiles-fresh"
+        ],
+        "actual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "hatch-green-chiles-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh cremini mushrooms",
+        "expected": [
+          "mushrooms-cremini-fresh"
+        ],
+        "actual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh crimini mushrooms",
+        "expected": [
+          "mushrooms-cremini-fresh"
+        ],
+        "actual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "baby bella mushrooms",
+        "expected": [
+          "mushrooms-cremini-fresh"
+        ],
+        "actual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw cremini mushrooms",
+        "expected": [
+          "mushrooms-cremini-fresh"
+        ],
+        "actual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-cremini-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh tomatillos",
+        "expected": [
+          "tomatillos-fresh"
+        ],
+        "actual": [
+          "tomatillos-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatillos-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw tomatillos",
+        "expected": [
+          "tomatillos-fresh"
+        ],
+        "actual": [
+          "tomatillos-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "tomatillos-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh collard greens",
+        "expected": [
+          "collard-greens-fresh"
+        ],
+        "actual": [
+          "collard-greens-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "collard-greens-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw collard greens",
+        "expected": [
+          "collard-greens-fresh"
+        ],
+        "actual": [
+          "collard-greens-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "collard-greens-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh collards",
+        "expected": [
+          "collard-greens-fresh"
+        ],
+        "actual": [
+          "collard-greens-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "collard-greens-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh Swiss chard",
+        "expected": [
+          "swiss-chard-fresh"
+        ],
+        "actual": [
+          "swiss-chard-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "swiss-chard-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Swiss chard",
+        "expected": [
+          "swiss-chard-fresh"
+        ],
+        "actual": [
+          "swiss-chard-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "swiss-chard-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Swiss chard greens",
+        "expected": [
+          "swiss-chard-fresh"
+        ],
+        "actual": [
+          "swiss-chard-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "swiss-chard-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh spinach greens",
+        "expected": [
+          "spinach-fresh"
+        ],
+        "actual": [
+          "spinach-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "spinach-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh kale greens",
+        "expected": [
+          "kale-fresh"
+        ],
+        "actual": [
+          "kale-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kale-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "potatoes",
+        "expected": [
+          "potatoes-fresh",
+          "sweet-potatoes"
+        ],
+        "actual": [
+          "potatoes-fresh",
+          "sweet-potatoes"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "potatoes-fresh",
+          "sweet-potatoes"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "apples",
+        "expected": [
+          "apples-fresh"
+        ],
+        "actual": [
+          "apples-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "apples-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "squash",
+        "expected": [
+          "acorn-squash-fresh",
+          "butternut-squash-fresh",
+          "kabocha-squash-fresh",
+          "spaghetti-squash-fresh",
+          "summer-squash-fresh"
+        ],
+        "actual": [
+          "acorn-squash-fresh",
+          "butternut-squash-fresh",
+          "kabocha-squash-fresh",
+          "spaghetti-squash-fresh",
+          "summer-squash-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "acorn-squash-fresh",
+          "butternut-squash-fresh",
+          "kabocha-squash-fresh",
+          "spaghetti-squash-fresh",
+          "summer-squash-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "chiles",
+        "expected": [
+          "anaheim-peppers-fresh",
+          "hatch-green-chiles-fresh",
+          "jalapeno-peppers-fresh",
+          "poblano-peppers-fresh",
+          "serrano-peppers-fresh"
+        ],
+        "actual": [
+          "anaheim-peppers-fresh",
+          "hatch-green-chiles-fresh",
+          "jalapeno-peppers-fresh",
+          "poblano-peppers-fresh",
+          "serrano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "anaheim-peppers-fresh",
+          "hatch-green-chiles-fresh",
+          "jalapeno-peppers-fresh",
+          "poblano-peppers-fresh",
+          "serrano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "peppers",
+        "expected": [
+          "anaheim-peppers-fresh",
+          "bell-peppers",
+          "hatch-green-chiles-fresh",
+          "jalapeno-peppers-fresh",
+          "poblano-peppers-fresh",
+          "serrano-peppers-fresh"
+        ],
+        "actual": [
+          "anaheim-peppers-fresh",
+          "bell-peppers",
+          "hatch-green-chiles-fresh",
+          "jalapeno-peppers-fresh",
+          "poblano-peppers-fresh",
+          "serrano-peppers-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "anaheim-peppers-fresh",
+          "bell-peppers",
+          "hatch-green-chiles-fresh",
+          "jalapeno-peppers-fresh",
+          "poblano-peppers-fresh",
+          "serrano-peppers-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "mushrooms",
+        "expected": [
+          "mushrooms-cremini-fresh",
+          "mushrooms-white-fresh"
+        ],
+        "actual": [
+          "mushrooms-cremini-fresh",
+          "mushrooms-white-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mushrooms-cremini-fresh",
+          "mushrooms-white-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "greens",
+        "expected": [
+          "collard-greens-fresh",
+          "kale-fresh",
+          "spinach-fresh",
+          "swiss-chard-fresh"
+        ],
+        "actual": [
+          "collard-greens-fresh",
+          "kale-fresh",
+          "spinach-fresh",
+          "swiss-chard-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "collard-greens-fresh",
+          "kale-fresh",
+          "spinach-fresh",
+          "swiss-chard-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "collards",
+        "expected": [
+          "collard-greens-fresh"
+        ],
+        "actual": [
+          "collard-greens-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "collard-greens-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "chard",
+        "expected": [
+          "swiss-chard-fresh"
+        ],
+        "actual": [
+          "swiss-chard-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "swiss-chard-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "pasilla",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen potatoes",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "canned tomatillos",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "dried chiles",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw bone-in chicken thighs",
+        "expected": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "actual": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "bone-in chicken thighs",
+        "expected": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "actual": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw bone-in chicken thighs",
+        "expected": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "actual": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-thighs-bone-in-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw chicken drumsticks",
+        "expected": [
+          "chicken-drumsticks-raw"
+        ],
+        "actual": [
+          "chicken-drumsticks-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-drumsticks-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "chicken drumsticks",
+        "expected": [
+          "chicken-drumsticks-raw"
+        ],
+        "actual": [
+          "chicken-drumsticks-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-drumsticks-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw chicken drumsticks",
+        "expected": [
+          "chicken-drumsticks-raw"
+        ],
+        "actual": [
+          "chicken-drumsticks-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-drumsticks-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw chicken leg quarters",
+        "expected": [
+          "chicken-leg-quarters-raw"
+        ],
+        "actual": [
+          "chicken-leg-quarters-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-leg-quarters-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "chicken leg quarters",
+        "expected": [
+          "chicken-leg-quarters-raw"
+        ],
+        "actual": [
+          "chicken-leg-quarters-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-leg-quarters-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw chicken leg quarters",
+        "expected": [
+          "chicken-leg-quarters-raw"
+        ],
+        "actual": [
+          "chicken-leg-quarters-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-leg-quarters-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw boneless pork loin roast",
+        "expected": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "boneless pork loin roast",
+        "expected": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "boneless pork half loin",
+        "expected": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw boneless pork loin roast",
+        "expected": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw boneless pork loin chops",
+        "expected": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "boneless pork loin chops",
+        "expected": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "boneless center-cut pork loin chops",
+        "expected": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw boneless pork loin chops",
+        "expected": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-chops-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw pork tenderloin",
+        "expected": [
+          "pork-tenderloin-raw"
+        ],
+        "actual": [
+          "pork-tenderloin-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-tenderloin-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "pork tenderloin",
+        "expected": [
+          "pork-tenderloin-raw"
+        ],
+        "actual": [
+          "pork-tenderloin-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-tenderloin-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw pork tenderloin",
+        "expected": [
+          "pork-tenderloin-raw"
+        ],
+        "actual": [
+          "pork-tenderloin-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-tenderloin-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw boneless beef chuck roast",
+        "expected": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "actual": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "boneless beef chuck roast",
+        "expected": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "actual": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw boneless beef chuck roast",
+        "expected": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "actual": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-chuck-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw beef arm pot roast",
+        "expected": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "actual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef arm roast",
+        "expected": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "actual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "beef arm pot roast",
+        "expected": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "actual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw beef arm pot roast",
+        "expected": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "actual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-arm-pot-roast-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw beef stew meat",
+        "expected": [
+          "beef-stew-meat-raw"
+        ],
+        "actual": [
+          "beef-stew-meat-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-stew-meat-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef for stew",
+        "expected": [
+          "beef-stew-meat-raw"
+        ],
+        "actual": [
+          "beef-stew-meat-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-stew-meat-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef stewing meat",
+        "expected": [
+          "beef-stew-meat-raw"
+        ],
+        "actual": [
+          "beef-stew-meat-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-stew-meat-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw beef stew meat",
+        "expected": [
+          "beef-stew-meat-raw"
+        ],
+        "actual": [
+          "beef-stew-meat-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-stew-meat-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw beef pot-roast cut, unspecified",
+        "expected": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "actual": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef pot roast",
+        "expected": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "actual": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw beef pot-roast cut",
+        "expected": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "actual": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-pot-roast-cut-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw Italian pork sausage",
+        "expected": [
+          "italian-pork-sausage-raw"
+        ],
+        "actual": [
+          "italian-pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "italian-pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Italian pork sausage links",
+        "expected": [
+          "italian-pork-sausage-raw"
+        ],
+        "actual": [
+          "italian-pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "italian-pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "uncooked Italian pork sausage",
+        "expected": [
+          "italian-pork-sausage-raw"
+        ],
+        "actual": [
+          "italian-pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "italian-pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw Italian pork sausage",
+        "expected": [
+          "italian-pork-sausage-raw"
+        ],
+        "actual": [
+          "italian-pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "italian-pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw ground pork",
+        "expected": [
+          "ground-pork-raw"
+        ],
+        "actual": [
+          "ground-pork-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ground-pork-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw minced pork",
+        "expected": [
+          "ground-pork-raw"
+        ],
+        "actual": [
+          "ground-pork-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ground-pork-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "uncooked ground pork",
+        "expected": [
+          "ground-pork-raw"
+        ],
+        "actual": [
+          "ground-pork-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ground-pork-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw ground pork",
+        "expected": [
+          "ground-pork-raw"
+        ],
+        "actual": [
+          "ground-pork-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ground-pork-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw pork chorizo",
+        "expected": [
+          "pork-chorizo-raw"
+        ],
+        "actual": [
+          "pork-chorizo-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-chorizo-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw pork chorizo sausage",
+        "expected": [
+          "pork-chorizo-raw"
+        ],
+        "actual": [
+          "pork-chorizo-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-chorizo-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "uncooked pork chorizo",
+        "expected": [
+          "pork-chorizo-raw"
+        ],
+        "actual": [
+          "pork-chorizo-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-chorizo-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw pork chorizo",
+        "expected": [
+          "pork-chorizo-raw"
+        ],
+        "actual": [
+          "pork-chorizo-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-chorizo-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw pork sausage",
+        "expected": [
+          "pork-sausage-raw"
+        ],
+        "actual": [
+          "pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw pork sausage links",
+        "expected": [
+          "pork-sausage-raw"
+        ],
+        "actual": [
+          "pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "uncooked pork sausage",
+        "expected": [
+          "pork-sausage-raw"
+        ],
+        "actual": [
+          "pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw pork sausage",
+        "expected": [
+          "pork-sausage-raw"
+        ],
+        "actual": [
+          "pork-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fully cooked smoked sausage",
+        "expected": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "actual": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "ready-to-eat smoked sausage",
+        "expected": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "actual": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen fully cooked smoked sausage",
+        "expected": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "actual": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-sausage-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fully cooked kielbasa",
+        "expected": [
+          "kielbasa-fully-cooked"
+        ],
+        "actual": [
+          "kielbasa-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fully cooked kielbasa sausage",
+        "expected": [
+          "kielbasa-fully-cooked"
+        ],
+        "actual": [
+          "kielbasa-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "ready-to-eat kielbasa",
+        "expected": [
+          "kielbasa-fully-cooked"
+        ],
+        "actual": [
+          "kielbasa-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen fully cooked kielbasa",
+        "expected": [
+          "kielbasa-fully-cooked"
+        ],
+        "actual": [
+          "kielbasa-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fully cooked andouille sausage",
+        "expected": [
+          "andouille-fully-cooked"
+        ],
+        "actual": [
+          "andouille-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "ready-to-eat andouille sausage",
+        "expected": [
+          "andouille-fully-cooked"
+        ],
+        "actual": [
+          "andouille-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen fully cooked andouille sausage",
+        "expected": [
+          "andouille-fully-cooked"
+        ],
+        "actual": [
+          "andouille-fully-cooked"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-fully-cooked"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw smoked sausage",
+        "expected": [
+          "smoked-sausage-raw"
+        ],
+        "actual": [
+          "smoked-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "uncooked smoked sausage",
+        "expected": [
+          "smoked-sausage-raw"
+        ],
+        "actual": [
+          "smoked-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw smoked sausage",
+        "expected": [
+          "smoked-sausage-raw"
+        ],
+        "actual": [
+          "smoked-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw kielbasa",
+        "expected": [
+          "kielbasa-raw"
+        ],
+        "actual": [
+          "kielbasa-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw kielbasa sausage",
+        "expected": [
+          "kielbasa-raw"
+        ],
+        "actual": [
+          "kielbasa-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "uncooked kielbasa",
+        "expected": [
+          "kielbasa-raw"
+        ],
+        "actual": [
+          "kielbasa-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw kielbasa",
+        "expected": [
+          "kielbasa-raw"
+        ],
+        "actual": [
+          "kielbasa-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw andouille sausage",
+        "expected": [
+          "andouille-raw"
+        ],
+        "actual": [
+          "andouille-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "uncooked andouille sausage",
+        "expected": [
+          "andouille-raw"
+        ],
+        "actual": [
+          "andouille-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw andouille sausage",
+        "expected": [
+          "andouille-raw"
+        ],
+        "actual": [
+          "andouille-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw beef New York strip steak",
+        "expected": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "actual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef NY strip steak",
+        "expected": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "actual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef strip steak",
+        "expected": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "actual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw beef New York strip steak",
+        "expected": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "actual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-new-york-strip-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw beef top sirloin steak",
+        "expected": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "actual": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw top sirloin beef steak",
+        "expected": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "actual": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw beef top sirloin steak",
+        "expected": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "actual": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-top-sirloin-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw beef ribeye steak",
+        "expected": [
+          "beef-ribeye-steak-raw"
+        ],
+        "actual": [
+          "beef-ribeye-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-ribeye-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef rib-eye steak",
+        "expected": [
+          "beef-ribeye-steak-raw"
+        ],
+        "actual": [
+          "beef-ribeye-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-ribeye-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw beef ribeye steak",
+        "expected": [
+          "beef-ribeye-steak-raw"
+        ],
+        "actual": [
+          "beef-ribeye-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-ribeye-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw beef T-bone steak",
+        "expected": [
+          "beef-t-bone-steak-raw"
+        ],
+        "actual": [
+          "beef-t-bone-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-t-bone-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw beef T bone steak",
+        "expected": [
+          "beef-t-bone-steak-raw"
+        ],
+        "actual": [
+          "beef-t-bone-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-t-bone-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw beef T-bone steak",
+        "expected": [
+          "beef-t-bone-steak-raw"
+        ],
+        "actual": [
+          "beef-t-bone-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-t-bone-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw salmon fillets",
+        "expected": [
+          "salmon-fillets-raw"
+        ],
+        "actual": [
+          "salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw salmon filets",
+        "expected": [
+          "salmon-fillets-raw"
+        ],
+        "actual": [
+          "salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh salmon fillets",
+        "expected": [
+          "salmon-fillets-raw"
+        ],
+        "actual": [
+          "salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw salmon fillets",
+        "expected": [
+          "salmon-fillets-raw"
+        ],
+        "actual": [
+          "salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw Atlantic salmon fillets",
+        "expected": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "actual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw Atlantic salmon filets",
+        "expected": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "actual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh Atlantic salmon fillets",
+        "expected": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "actual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw Atlantic salmon fillets",
+        "expected": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "actual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "atlantic-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw sockeye salmon fillets",
+        "expected": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "actual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw sockeye salmon filets",
+        "expected": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "actual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh sockeye salmon fillets",
+        "expected": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "actual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw sockeye salmon fillets",
+        "expected": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "actual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sockeye-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Raw coho salmon fillets",
+        "expected": [
+          "coho-salmon-fillets-raw"
+        ],
+        "actual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "raw coho salmon filets",
+        "expected": [
+          "coho-salmon-fillets-raw"
+        ],
+        "actual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh coho salmon fillets",
+        "expected": [
+          "coho-salmon-fillets-raw"
+        ],
+        "actual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "frozen raw coho salmon fillets",
+        "expected": [
+          "coho-salmon-fillets-raw"
+        ],
+        "actual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "coho-salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "beef",
+        "expected": [
+          "beef-arm-pot-roast-raw",
+          "beef-broth",
+          "beef-chuck-roast-boneless-raw",
+          "beef-new-york-strip-steak-raw",
+          "beef-pot-roast-cut-raw",
+          "beef-ribeye-steak-raw",
+          "beef-stew-meat-raw",
+          "beef-t-bone-steak-raw",
+          "beef-top-sirloin-steak-raw",
+          "ground-beef-80-20"
+        ],
+        "actual": [
+          "beef-arm-pot-roast-raw",
+          "beef-broth",
+          "beef-chuck-roast-boneless-raw",
+          "beef-new-york-strip-steak-raw",
+          "beef-pot-roast-cut-raw",
+          "beef-ribeye-steak-raw",
+          "beef-stew-meat-raw",
+          "beef-t-bone-steak-raw",
+          "beef-top-sirloin-steak-raw",
+          "ground-beef-80-20"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-arm-pot-roast-raw",
+          "beef-broth",
+          "beef-chuck-roast-boneless-raw",
+          "beef-new-york-strip-steak-raw",
+          "beef-pot-roast-cut-raw",
+          "beef-ribeye-steak-raw",
+          "beef-stew-meat-raw",
+          "beef-t-bone-steak-raw",
+          "beef-top-sirloin-steak-raw",
+          "ground-beef-80-20"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "pork",
+        "expected": [
+          "ground-pork-raw",
+          "italian-pork-sausage-raw",
+          "pork-chorizo-raw",
+          "pork-loin-chops-boneless-raw",
+          "pork-loin-roast-boneless-raw",
+          "pork-sausage-raw",
+          "pork-shoulder-butt",
+          "pork-tenderloin-raw"
+        ],
+        "actual": [
+          "ground-pork-raw",
+          "italian-pork-sausage-raw",
+          "pork-chorizo-raw",
+          "pork-loin-chops-boneless-raw",
+          "pork-loin-roast-boneless-raw",
+          "pork-sausage-raw",
+          "pork-shoulder-butt",
+          "pork-tenderloin-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "ground-pork-raw",
+          "italian-pork-sausage-raw",
+          "pork-chorizo-raw",
+          "pork-loin-chops-boneless-raw",
+          "pork-loin-roast-boneless-raw",
+          "pork-sausage-raw",
+          "pork-shoulder-butt",
+          "pork-tenderloin-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "chicken",
+        "expected": [
+          "chicken-breast-boneless",
+          "chicken-broth",
+          "chicken-drumsticks-raw",
+          "chicken-leg-quarters-raw",
+          "chicken-thighs-bone-in-raw",
+          "chicken-thighs-boneless",
+          "large-eggs-dozen"
+        ],
+        "actual": [
+          "chicken-breast-boneless",
+          "chicken-broth",
+          "chicken-drumsticks-raw",
+          "chicken-leg-quarters-raw",
+          "chicken-thighs-bone-in-raw",
+          "chicken-thighs-boneless",
+          "large-eggs-dozen"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "chicken-breast-boneless",
+          "chicken-broth",
+          "chicken-drumsticks-raw",
+          "chicken-leg-quarters-raw",
+          "chicken-thighs-bone-in-raw",
+          "chicken-thighs-boneless",
+          "large-eggs-dozen"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "sausage",
+        "expected": [
+          "andouille-fully-cooked",
+          "andouille-raw",
+          "italian-pork-sausage-raw",
+          "kielbasa-fully-cooked",
+          "kielbasa-raw",
+          "pork-chorizo-raw",
+          "pork-sausage-raw",
+          "smoked-sausage-fully-cooked",
+          "smoked-sausage-raw"
+        ],
+        "actual": [
+          "andouille-fully-cooked",
+          "andouille-raw",
+          "italian-pork-sausage-raw",
+          "kielbasa-fully-cooked",
+          "kielbasa-raw",
+          "pork-chorizo-raw",
+          "pork-sausage-raw",
+          "smoked-sausage-fully-cooked",
+          "smoked-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-fully-cooked",
+          "andouille-raw",
+          "italian-pork-sausage-raw",
+          "kielbasa-fully-cooked",
+          "kielbasa-raw",
+          "pork-chorizo-raw",
+          "pork-sausage-raw",
+          "smoked-sausage-fully-cooked",
+          "smoked-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "salmon",
+        "expected": [
+          "salmon-fillets-raw"
+        ],
+        "actual": [
+          "salmon-fillets-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "salmon-fillets-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "steak",
+        "expected": [
+          "beef-new-york-strip-steak-raw",
+          "beef-ribeye-steak-raw",
+          "beef-t-bone-steak-raw",
+          "beef-top-sirloin-steak-raw"
+        ],
+        "actual": [
+          "beef-new-york-strip-steak-raw",
+          "beef-ribeye-steak-raw",
+          "beef-t-bone-steak-raw",
+          "beef-top-sirloin-steak-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "beef-new-york-strip-steak-raw",
+          "beef-ribeye-steak-raw",
+          "beef-t-bone-steak-raw",
+          "beef-top-sirloin-steak-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "kielbasa",
+        "expected": [
+          "kielbasa-fully-cooked",
+          "kielbasa-raw"
+        ],
+        "actual": [
+          "kielbasa-fully-cooked",
+          "kielbasa-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "kielbasa-fully-cooked",
+          "kielbasa-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "andouille",
+        "expected": [
+          "andouille-fully-cooked",
+          "andouille-raw"
+        ],
+        "actual": [
+          "andouille-fully-cooked",
+          "andouille-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "andouille-fully-cooked",
+          "andouille-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "smoked sausage",
+        "expected": [
+          "smoked-sausage-fully-cooked",
+          "smoked-sausage-raw"
+        ],
+        "actual": [
+          "smoked-sausage-fully-cooked",
+          "smoked-sausage-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "smoked-sausage-fully-cooked",
+          "smoked-sausage-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "canned salmon",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "smoked salmon",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "cooked pork chops",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "boneless pork loin",
+        "expected": [
+          "pork-loin-chops-boneless-raw",
+          "pork-loin-roast-boneless-raw"
+        ],
+        "actual": [
+          "pork-loin-chops-boneless-raw",
+          "pork-loin-roast-boneless-raw"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "pork-loin-chops-boneless-raw",
+          "pork-loin-roast-boneless-raw"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Cheddar cheese",
+        "expected": [
+          "cheddar-cheese"
+        ],
+        "actual": [
+          "cheddar-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cheddar-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "block cheddar cheese",
+        "expected": [
+          "cheddar-cheese"
+        ],
+        "actual": [
+          "cheddar-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cheddar-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "shredded cheddar cheese",
+        "expected": [
+          "cheddar-cheese"
+        ],
+        "actual": [
+          "cheddar-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cheddar-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "mild cheddar cheese",
+        "expected": [
+          "cheddar-cheese"
+        ],
+        "actual": [
+          "cheddar-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cheddar-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "sharp cheddar cheese",
+        "expected": [
+          "cheddar-cheese"
+        ],
+        "actual": [
+          "cheddar-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cheddar-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Monterey Jack cheese",
+        "expected": [
+          "monterey-jack-cheese"
+        ],
+        "actual": [
+          "monterey-jack-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "monterey-jack-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "block Monterey Jack cheese",
+        "expected": [
+          "monterey-jack-cheese"
+        ],
+        "actual": [
+          "monterey-jack-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "monterey-jack-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "shredded Monterey Jack cheese",
+        "expected": [
+          "monterey-jack-cheese"
+        ],
+        "actual": [
+          "monterey-jack-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "monterey-jack-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Mozzarella cheese, moisture unspecified",
+        "expected": [
+          "mozzarella-cheese-unspecified"
+        ],
+        "actual": [
+          "mozzarella-cheese-unspecified"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-cheese-unspecified"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "mozzarella cheese",
+        "expected": [
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture"
+        ],
+        "actual": [
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Low-moisture mozzarella cheese",
+        "expected": [
+          "mozzarella-low-moisture"
+        ],
+        "actual": [
+          "mozzarella-low-moisture"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "low moisture mozzarella cheese",
+        "expected": [
+          "mozzarella-low-moisture"
+        ],
+        "actual": [
+          "mozzarella-low-moisture"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "low-moisture mozzarella",
+        "expected": [
+          "mozzarella-low-moisture"
+        ],
+        "actual": [
+          "mozzarella-low-moisture"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "low moisture mozzarella",
+        "expected": [
+          "mozzarella-low-moisture"
+        ],
+        "actual": [
+          "mozzarella-low-moisture"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Whole-milk low-moisture mozzarella cheese",
+        "expected": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "actual": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "whole milk low moisture mozzarella",
+        "expected": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "actual": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "low-moisture whole-milk mozzarella",
+        "expected": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "actual": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Part-skim low-moisture mozzarella cheese",
+        "expected": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "actual": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "part skim low moisture mozzarella",
+        "expected": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "actual": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "low-moisture part-skim mozzarella",
+        "expected": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "actual": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-low-moisture-part-skim"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Fresh mozzarella cheese",
+        "expected": [
+          "mozzarella-fresh"
+        ],
+        "actual": [
+          "mozzarella-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh mozzarella",
+        "expected": [
+          "mozzarella-fresh"
+        ],
+        "actual": [
+          "mozzarella-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "fresh mozzarella balls",
+        "expected": [
+          "mozzarella-fresh"
+        ],
+        "actual": [
+          "mozzarella-fresh"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-fresh"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Melting cheese blend, type unspecified",
+        "expected": [
+          "melting-cheese-blend"
+        ],
+        "actual": [
+          "melting-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "melting-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "shredding cheese blend",
+        "expected": [
+          "melting-cheese-blend"
+        ],
+        "actual": [
+          "melting-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "melting-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "shredded melting cheese blend",
+        "expected": [
+          "melting-cheese-blend"
+        ],
+        "actual": [
+          "melting-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "melting-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Mexican-style cheese blend",
+        "expected": [
+          "mexican-style-cheese-blend"
+        ],
+        "actual": [
+          "mexican-style-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mexican-style-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Mexican blend cheese",
+        "expected": [
+          "mexican-style-cheese-blend"
+        ],
+        "actual": [
+          "mexican-style-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mexican-style-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Mexican style blend cheese",
+        "expected": [
+          "mexican-style-cheese-blend"
+        ],
+        "actual": [
+          "mexican-style-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mexican-style-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Mexican-style shredded cheese blend",
+        "expected": [
+          "mexican-style-cheese-blend"
+        ],
+        "actual": [
+          "mexican-style-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mexican-style-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain cottage cheese",
+        "expected": [
+          "cottage-cheese-plain"
+        ],
+        "actual": [
+          "cottage-cheese-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain wet-curd cottage cheese",
+        "expected": [
+          "cottage-cheese-plain"
+        ],
+        "actual": [
+          "cottage-cheese-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cottage cheese",
+        "expected": [
+          "cottage-cheese-plain"
+        ],
+        "actual": [
+          "cottage-cheese-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain creamed cottage cheese",
+        "expected": [
+          "cottage-cheese-creamed"
+        ],
+        "actual": [
+          "cottage-cheese-creamed"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-creamed"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "creamed cottage cheese",
+        "expected": [
+          "cottage-cheese-creamed"
+        ],
+        "actual": [
+          "cottage-cheese-creamed"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-creamed"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "regular plain cottage cheese",
+        "expected": [
+          "cottage-cheese-creamed"
+        ],
+        "actual": [
+          "cottage-cheese-creamed"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-creamed"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain 2% cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain 2 percent cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "2% cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "2 percent cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-2-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain 1% cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain 1 percent cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "1% cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "1 percent cottage cheese",
+        "expected": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "actual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-plain-1-percent"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain sour cream",
+        "expected": [
+          "sour-cream-plain"
+        ],
+        "actual": [
+          "sour-cream-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "sour cream",
+        "expected": [
+          "sour-cream-plain"
+        ],
+        "actual": [
+          "sour-cream-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain cultured sour cream",
+        "expected": [
+          "sour-cream-plain"
+        ],
+        "actual": [
+          "sour-cream-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain full-fat sour cream",
+        "expected": [
+          "sour-cream-full-fat"
+        ],
+        "actual": [
+          "sour-cream-full-fat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-full-fat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "full fat sour cream",
+        "expected": [
+          "sour-cream-full-fat"
+        ],
+        "actual": [
+          "sour-cream-full-fat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-full-fat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "regular sour cream",
+        "expected": [
+          "sour-cream-full-fat"
+        ],
+        "actual": [
+          "sour-cream-full-fat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-full-fat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain reduced-fat sour cream",
+        "expected": [
+          "sour-cream-reduced-fat"
+        ],
+        "actual": [
+          "sour-cream-reduced-fat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-reduced-fat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "reduced fat sour cream",
+        "expected": [
+          "sour-cream-reduced-fat"
+        ],
+        "actual": [
+          "sour-cream-reduced-fat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-reduced-fat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "light sour cream",
+        "expected": [
+          "sour-cream-reduced-fat"
+        ],
+        "actual": [
+          "sour-cream-reduced-fat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "sour-cream-reduced-fat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain"
+        ],
+        "actual": [
+          "greek-yogurt-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Greek plain yogurt",
+        "expected": [
+          "greek-yogurt-plain"
+        ],
+        "actual": [
+          "greek-yogurt-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain whole-milk Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain whole milk Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain full-fat Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "whole milk plain Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "actual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-whole-milk"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain lowfat Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain low-fat Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "lowfat plain Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-lowfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Plain nonfat Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain fat-free Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "nonfat plain Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain 0% Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Vanilla Greek yogurt",
+        "expected": [
+          "greek-yogurt-vanilla"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Greek vanilla yogurt",
+        "expected": [
+          "greek-yogurt-vanilla"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Vanilla lowfat Greek yogurt",
+        "expected": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "vanilla low-fat Greek yogurt",
+        "expected": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "lowfat vanilla Greek yogurt",
+        "expected": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla-lowfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Vanilla nonfat Greek yogurt",
+        "expected": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "vanilla fat-free Greek yogurt",
+        "expected": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "nonfat vanilla Greek yogurt",
+        "expected": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "mozzarella",
+        "expected": [
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture"
+        ],
+        "actual": [
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "mozzarella-cheese-unspecified",
+          "mozzarella-fresh",
+          "mozzarella-low-moisture"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cream",
+        "expected": [
+          "cottage-cheese-creamed",
+          "sour-cream-plain"
+        ],
+        "actual": [
+          "cottage-cheese-creamed",
+          "sour-cream-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cottage-cheese-creamed",
+          "sour-cream-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "vanilla",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "plain Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain"
+        ],
+        "actual": [
+          "greek-yogurt-plain"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cheddar",
+        "expected": [
+          "cheddar-cheese"
+        ],
+        "actual": [
+          "cheddar-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "cheddar-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "Monterey Jack",
+        "expected": [
+          "monterey-jack-cheese"
+        ],
+        "actual": [
+          "monterey-jack-cheese"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "monterey-jack-cheese"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cheese blend",
+        "expected": [
+          "melting-cheese-blend"
+        ],
+        "actual": [
+          "melting-cheese-blend"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "melting-cheese-blend"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "nonfat Greek yogurt",
+        "expected": [
+          "greek-yogurt-plain-nonfat",
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "actual": [
+          "greek-yogurt-plain-nonfat",
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "passed": true,
+        "approvedActual": [
+          "greek-yogurt-plain-nonfat",
+          "greek-yogurt-vanilla-nonfat"
+        ],
+        "approvedPassed": true
+      },
+      {
+        "query": "cottage cheese with fruit",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "cream cheese",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      },
+      {
+        "query": "Pepper Jack",
+        "expected": [],
+        "actual": [],
+        "passed": true,
+        "approvedActual": [],
+        "approvedPassed": true
+      }
+    ],
+    "stalePublishedLinks": [],
+    "unapprovedQuarantines": [],
+    "deterministicCatalogPreviewReportReplay": true
+  },
+  "activationGates": [
+    "Feature PR CI, Preview and completed Codex review",
+    "Hosted 23-ID accepted-registry migration and account readiness verification",
+    "Four existing qualification findings and five pending non-market scope decisions",
+    "Final artifact audit and v1.6.1 release workflow"
+  ]
+}
