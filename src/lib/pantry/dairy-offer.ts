@@ -6,8 +6,12 @@ const markets = new Set<string>(DAIRY_MARKET_IDS);
 const incompatible = /\b(?:plant[ -]based|dairy[ -]free|non[ -]dairy|vegan|processed|imitation|alternative|analogue|spread|sauce|dip|soup|meal|dinner|pizza|pasta|macaroni|breaded|battered|sticks?|crackers?|frozen|thawed|drink|smoothie|dessert|ice[ -]cream|dry[ -]curds?|dry\s+curd|with|pepper\s+jack|colby(?:\s+jack)?|jalape[nñ]o|seasoned|flavored|flavoured|fruit|strawberry|blueberry|raspberry|pineapple|peach|cherry|lemon|maple|honey|chocolate|caramel|herbs?|garlic|onion|not|never)\b/i;
 const whole = /\b(?:whole[ -]milk|full[ -]fat)\b(?!\s+(?:farms?|brand|company)\b)/i;
 const low = /\b(?:low[ -]?fat|reduced[ -]fat|less\s+fat|light)\b(?!\s+(?:farms?|brand|company)\b)/i;
-const nonfat = /\b(?:non[ -]?fat|fat[ -]?free)\b|\b0\s*%/i;
-const percent = (title: string, n: number) => new RegExp(`\\b${n}\\s*(?:%|percent\\b)`, 'i').test(title);
+const nonfat = /\b(?:non[ -]?fat|fat[ -]?free)\b/i;
+function fatPercentages(title: string): Set<number> | undefined {
+  const matches = [...title.matchAll(/(?<![\p{L}\p{N}.,+\-])(\d+(?:\.\d+)?|\.\d+)\s*(?:%|percent\b)/giu)];
+  if (matches.length !== (title.match(/%|\bpercent\b/gi) ?? []).length) return undefined;
+  return new Set(matches.map((m) => Number(m[1])));
+}
 const commonTitleWords = new Set(('plain whole milk milkfat full fat free regular light low lowfat reduced less nonfat non fatfree large small percent natural organic dairy package tub bag lb lbs oz ounce ounces pound pounds g kg gram grams pack ct count value family size grade a probiotic live active cultures unsweetened no added sugar zero protein total filtered strained cultured traditional').split(' '));
 const foodTitleWords: Readonly<Record<string, ReadonlySet<string>>> = {
   'shredded-block-cheese': new Set('part skim block shredded shredding melting fresh moisture unspecified cheddar cheese monterey jack mozzarella mexican style blend solid balls mild sharp extra'.split(' ')),
@@ -29,13 +33,15 @@ export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] 
   if (marketId === 'shredded-block-cheese' && /\byogurt\b|\bcottage\s+cheese\b|\bsour\s+cream\b/i.test(title)) return [];
   if (marketId === 'cottage-cheese-sour-cream' && /\byogurt\b|\b(?:cheddar|monterey|mozzarella)\b/i.test(title)) return [];
   if (marketId === 'greek-yogurt-tub' && /\bcheese\b|\bsour\s+cream\b/i.test(title)) return [];
-  const full = whole.test(title), reduced = low.test(title), zero = nonfat.test(title);
-  if (Number(full) + Number(reduced) + Number(zero) > 1) return [];
+  const percentages = fatPercentages(title);
+  if (!percentages || percentages.size > 1) return [];
+  const full = whole.test(title), reduced = low.test(title), zero = nonfat.test(title) || percentages.has(0);
+  if (Number(full) + Number(reduced) + Number(zero) > 1 || (zero && [...percentages].some((n) => n > 0))) return [];
   if (marketId === 'shredded-block-cheese') {
     if (!/\bcheese\b/i.test(title) && !/\bmozzarella\b/i.test(title)) return [];
     const cheddar = /\bcheddar\b/i.test(title), jack = /\bmonterey\s+jack\b/i.test(title), mozzarella = /\bmozzarella\b/i.test(title), blend = /\bblend\b/i.test(title);
     if (Number(cheddar) + Number(jack) + Number(mozzarella) + Number(blend) !== 1) return [];
-    if (cheddar || jack) return reduced || zero || percent(title, 1) || percent(title, 2) ? [] : [cheddar ? 'cheddar-cheese' : 'monterey-jack-cheese'];
+    if (cheddar || jack) return reduced || zero || percentages.has(1) || percentages.has(2) ? [] : [cheddar ? 'cheddar-cheese' : 'monterey-jack-cheese'];
     if (blend) {
       if (reduced || zero) return [];
       if (/\bmexican[ -]?(?:style)?\b/i.test(title)) return ['melting-cheese-blend', 'mexican-style-cheese-blend'];
@@ -56,14 +62,12 @@ export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] 
       return ['sour-cream-plain', ...(/\bfull[ -]fat\b/i.test(title) || regular ? ['sour-cream-full-fat'] : reduced ? ['sour-cream-reduced-fat'] : [])];
     }
     if (!/\bplain\b/i.test(title)) return [];
-    const percentages = new Set([...title.matchAll(/\b(\d+(?:\.\d+)?)\s*(?:%|percent\b)/gi)].map((m) => Number(m[1])));
-    if (percentages.size > 1 || (zero && [...percentages].some((n) => n > 0))) return [];
-    const one = percent(title, 1), two = percent(title, 2), creamed = /\b(?:creamed|regular)\b/i.test(title);
+    const one = percentages.has(1), two = percentages.has(2), creamed = /\b(?:creamed|regular)\b/i.test(title);
     if (Number(one) + Number(two) + Number(creamed) > 1 || ((full || zero) && (one || two)) || (zero && creamed) || (reduced && creamed)) return [];
     return ['cottage-cheese-plain', ...(one ? ['cottage-cheese-plain-1-percent'] : two ? ['cottage-cheese-plain-2-percent'] : creamed ? ['cottage-cheese-creamed'] : [])];
   }
   if (!/\bgreek\b/i.test(title) || !/\byogurt\b/i.test(title) || /\bgreek[ -]style\b/i.test(title)) return [];
-  if (full && (percent(title, 1) || percent(title, 2))) return [];
+  if (full && (percentages.has(1) || percentages.has(2))) return [];
   const plain = /\bplain\b/i.test(title), vanilla = /\bvanilla\b/i.test(title);
   if (plain === vanilla) return [];
   const id = plain ? 'greek-yogurt-plain' : 'greek-yogurt-vanilla';

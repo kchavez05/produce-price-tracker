@@ -92,6 +92,16 @@ describe('approved dairy market integration', () => {
     expect(marketCounterpartIds('shredded-block-cheese', 'Full Fat Low-Moisture Mozzarella Cheese')).toEqual(['mozzarella-low-moisture']);
     expect(marketCounterpartIds('greek-yogurt-tub', 'Plain Full-Fat Greek Yogurt')).toEqual(['greek-yogurt-plain', 'greek-yogurt-plain-whole-milk']);
   });
+  it('parses complete decimal percentages without confusing their suffixes with zero or sibling fat levels', () => {
+    for (const [number, expected] of [['1.0', 'cottage-cheese-plain-1-percent'], ['2.0', 'cottage-cheese-plain-2-percent'], ['2.00', 'cottage-cheese-plain-2-percent']] as const) {
+      for (const unit of ['%', ' percent']) expect(marketCounterpartIds('cottage-cheese-sour-cream', `Plain ${number}${unit} Milkfat Cottage Cheese`)).toEqual(['cottage-cheese-plain', expected]);
+    }
+    for (const number of ['0.5', '.5', '2.1', '12.0']) expect(marketCounterpartIds('cottage-cheese-sour-cream', `Plain ${number}% Cottage Cheese`)).toEqual(['cottage-cheese-plain']);
+    expect(marketCounterpartIds('greek-yogurt-tub', 'Plain 0.0% Greek Yogurt')).toEqual(['greek-yogurt-plain', 'greek-yogurt-plain-nonfat']);
+    for (const title of ['Plain Nonfat 2.0% Cottage Cheese', 'Plain Nonfat 2.0% Greek Yogurt', 'Plain Whole Milk 2.0% Greek Yogurt', 'Plain 1.2.0% Cottage Cheese', 'Plain -2.0% Cottage Cheese']) expect(marketCounterpartIds(title.includes('Greek') ? 'greek-yogurt-tub' : 'cottage-cheese-sour-cream', title)).toEqual([]);
+    const use = breakfastUses.find((u) => u.slotKey === 'dairy_protein')!;
+    expect(recipeOfferAllowed(use, 'Plain 2.0% Milkfat Cottage Cheese')).toBe(true);
+  });
   it.each(accepted)('covers/prices $pantryId only in $row.id', ({ row, pantryId }) => {
     const use = dairyUses.find((u) => u.id === row.id)!;
     const example = cases.offerCases.find((c) => c.marketIngredientId === row.marketIngredientId && c.allowedRecipeFoodIds.includes(pantryId))!; expect(example).toBeDefined();

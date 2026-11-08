@@ -69,7 +69,7 @@
   "localChecks": {
     "typecheck": "passed",
     "lint": "passed",
-    "unitTests": 636,
+    "unitTests": 637,
     "smokeTests": 28,
     "regressionTests": 37,
     "catalogProjectionAndMarketAudit": "passed",
