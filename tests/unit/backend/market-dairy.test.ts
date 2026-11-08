@@ -73,6 +73,15 @@ describe('approved dairy market integration', () => {
       expect(marketCounterpartIds('cottage-cheese-sour-cream', `Plain ${qualifier} Dry Curd Cottage Cheese`)).toEqual([]);
     }
   });
+  it('recognizes approved Greek plain/vanilla word order without inferring Greek-style yogurt', () => {
+    for (const flavor of ['Plain', 'Vanilla']) for (const fat of ['', 'Nonfat ', 'Whole Milk ']) {
+      const title = `${fat}Greek ${flavor} Yogurt`, standard = `${flavor} ${fat}Greek Yogurt`;
+      expect(marketCounterpartIds('greek-yogurt-tub', title)).toEqual(marketCounterpartIds('greek-yogurt-tub', standard));
+      for (const use of dairyUses.filter((u) => u.marketIngredientId === 'greek-yogurt-tub')) expect(recipeOfferAllowed(use, title)).toBe(recipeOfferAllowed(use, standard));
+    }
+    expect(marketCounterpartIds('greek-yogurt-tub', 'Plain Whole Milk Greek-style Yogurt')).toEqual([]);
+    expect(cleanSearchQueryForIngredient('Greek Plain or Vanilla Yogurt')).toContain('Greek yogurt');
+  });
   it.each(accepted)('covers/prices $pantryId only in $row.id', ({ row, pantryId }) => {
     const use = dairyUses.find((u) => u.id === row.id)!;
     const example = cases.offerCases.find((c) => c.marketIngredientId === row.marketIngredientId && c.allowedRecipeFoodIds.includes(pantryId))!; expect(example).toBeDefined();

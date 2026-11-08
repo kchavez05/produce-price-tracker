@@ -57,7 +57,7 @@ export function qualifiedDairyIds(marketId: string, rawTitle: string): string[] 
     if (Number(one) + Number(two) + Number(creamed) > 1 || ((full || zero) && (one || two)) || (zero && creamed) || (reduced && creamed)) return [];
     return ['cottage-cheese-plain', ...(one ? ['cottage-cheese-plain-1-percent'] : two ? ['cottage-cheese-plain-2-percent'] : creamed ? ['cottage-cheese-creamed'] : [])];
   }
-  if (!/\bgreek\s+yogurt\b/i.test(title)) return [];
+  if (!/\bgreek\b/i.test(title) || !/\byogurt\b/i.test(title) || /\bgreek[ -]style\b/i.test(title)) return [];
   if (full && (percent(title, 1) || percent(title, 2))) return [];
   const plain = /\bplain\b/i.test(title), vanilla = /\bvanilla\b/i.test(title);
   if (plain === vanilla) return [];
@@ -74,7 +74,7 @@ export function dairyRecipeOfferAllowed(marketId: string, foods: readonly string
 export function dairyOfferSearchTerm(title: string): string | undefined {
   if (/\bcottage\s+cheese\b/i.test(title)) return `${/\bplain\b/i.test(title) ? 'plain ' : ''}cottage cheese`;
   if (/\bsour\s+cream\b/i.test(title)) return `${whole.test(title) ? 'full-fat ' : ''}sour cream`;
-  if (/\bgreek\s+yogurt\b/i.test(title)) return `${/\bvanilla\b/i.test(title) ? 'vanilla ' : /\bplain\b/i.test(title) ? 'plain ' : ''}${whole.test(title) ? 'whole-milk ' : ''}Greek yogurt`;
+  if (/\bgreek\b/i.test(title) && /\byogurt\b/i.test(title)) return `${/\bvanilla\b/i.test(title) ? 'vanilla ' : /\bplain\b/i.test(title) ? 'plain ' : ''}${whole.test(title) ? 'whole-milk ' : ''}Greek yogurt`;
   if (/\bcheddar\b/i.test(title)) return 'cheddar cheese';
   if (/\bmonterey\s+jack\b/i.test(title)) return 'Monterey Jack cheese';
   if (/\bmexican[ -]?(?:style)?\b/i.test(title) && /\bblend\b/i.test(title)) return 'Mexican-style cheese blend';
