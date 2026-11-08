@@ -1,4 +1,4 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.0`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.1` release candidate)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
@@ -12,7 +12,7 @@ A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) pr
 
 ## Next: v1.6.1 — Pantry Catalog Expansion
 
-The next release prioritizes pantry catalog expansion before speech entry. The approved batches compile to 222 identities in catalog `2026-11-07.4`, with 175 source-linked identities, 85 independent market counterpart associations and 63 scoped recipe uses. The [produce](docs/research/v1.6.1-market-produce-review.md), [protein](docs/research/v1.6.1-market-protein-review.md) and [dairy](docs/research/v1.6.1-market-dairy-review.md) batches close the 18 reviewed coverage gaps locally. All 35 market groups have counterpart paths; the [market completion plan](docs/specs/v1.6.1-market-coverage.md) records the four implemented offer-qualification rules and five explicitly approved release scope boundaries. Hosted registry rollout, release audit and release preparation remain pending.
+The v1.6.1 release candidate expands the pantry catalog before speech entry. The approved batches compile to 222 identities in catalog `2026-11-07.4`, with 175 source-linked identities, 85 independent market counterpart associations and 63 scoped recipe uses. The [produce](docs/research/v1.6.1-market-produce-review.md), [protein](docs/research/v1.6.1-market-protein-review.md) and [dairy](docs/research/v1.6.1-market-dairy-review.md) batches close the 18 reviewed coverage gaps locally. All 35 market groups have counterpart paths; the [market completion plan](docs/specs/v1.6.1-market-coverage.md) records the four implemented offer-qualification rules and five explicitly approved release scope boundaries. The [final local audit](docs/research/v1.6.1-release-audit.md) passes. Hosted rollout is blocked on eight additive migrations covering 150 IDs, followed by authenticated staging/second-client checks and the release workflow. See the [v1.6.1 release checklist](docs/releases/v1.6.1.md).
 
 ## Key Features (`v1.6.0`)
 
@@ -56,6 +56,7 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.6.1 — Pantry Catalog Expansion (release candidate)](./docs/releases/v1.6.1.md)
   * [v1.6.0 — Virtual Pantry](./docs/releases/v1.6.0.md)
   * [v1.5.2 — Data Clarity & Active Markets](./docs/releases/v1.5.2.md)
   * [v1.5.1 — Data Explorer & Score Transparency](./docs/releases/v1.5.1.md)
