@@ -1,0 +1,79 @@
+{
+  "formatVersion": 1,
+  "status": "PROPOSED_NOT_APPROVED_NOT_ACTIVE",
+  "preparedOn": "2026-11-07",
+  "parentVersion": "2026-11-07.3",
+  "parentContentHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "activeLedgerHash": "b1e334ed1a7a47815af7fd17220a8af752203f011da4aada862ba3f8c3484292",
+  "sourceRelease": "2026-10-29",
+  "sourceSnapshotFileSha256": "9d6d4b5bf5c6a4a0ceffcc09aed2f4025acefa7844e5b9a43526c988808cd5a6",
+  "blueprintHash": "0e812a2af25dcdc1b815f8c427c373d96a2504a38f47db1e6198399f122e76e7",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "previousCoverageApprovalHash": "7d139df7d17573c55d797ff3fffb044e19f14a6817d2bc1dfb56417b298ae055",
+  "existingSearchFixturesHash": "3319189e7e637606a5d6cf9838a320c53974de39c400b8c8516cd9e45629cde7",
+  "priorScopedUsesHash": "7366c54eb1a675ea0dc66cc2e5141e8a68766fd8a8fe91c94fe3180ae7352293",
+  "projectedScopedUsesHash": "6e7781b3f355c959fc8799d8056f50365762ca734e792fee1b1e359c16cf11a3",
+  "declaredScopeLabelChanges": [
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:broccoli-cauliflower",
+      "before": "Diced Potatoes or Butternut Squash",
+      "after": "Diced Potatoes, Sweet Potatoes or Butternut Squash"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:spinach-kale-greens",
+      "before": "Potatoes or Zucchini/Squash",
+      "after": "Potatoes, Sweet Potatoes or Zucchini/Squash"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:potatoes-russet-gold",
+      "before": "Diced Potatoes or Butternut Squash",
+      "after": "Diced Potatoes, Sweet Potatoes or Butternut Squash"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:butternut-acorn-squash",
+      "before": "Diced Potatoes or Butternut Squash",
+      "after": "Diced Potatoes, Sweet Potatoes or Butternut Squash"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:potatoes-russet-gold",
+      "before": "Potatoes or Zucchini/Squash",
+      "after": "Potatoes, Sweet Potatoes or Zucchini/Squash"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:zucchini-yellow-squash",
+      "before": "Potatoes or Zucchini/Squash",
+      "after": "Potatoes, Sweet Potatoes or Zucchini/Squash"
+    }
+  ],
+  "counts": {
+    "newIngredients": 0,
+    "newSources": 0,
+    "newCompatibilityEdges": 0,
+    "newAcceptedRegistryIds": 0,
+    "retainedIngredients": 222,
+    "retainedIngredientDecisions": 252,
+    "offerQualificationRules": 4,
+    "marketCounterpartsAdded": 4,
+    "proposedCounterparts": 85,
+    "recipeCandidateDecisions": 18,
+    "retainedExactCandidates": 15,
+    "rejectedCandidates": 3,
+    "exactRecipeExclusions": 3,
+    "textPatches": 11,
+    "scopeDeferrals": 5,
+    "offerCases": 71,
+    "availabilityCases": 8,
+    "retainedScopedUses": 63,
+    "declaredScopeLabelChanges": 6
+  },
+  "fileHashes": {
+    "ingredient-bindings.json": "681d2a3669c2544b72a7108141c776c62d36b2b0581f820fcd5cf2ced8a458ba",
+    "source-evidence.json": "d7ac4ca6de3a74f54c32c952cdf85b1eb45dca2e362957e4371a5cd3aed33be4",
+    "offer-qualifications.json": "587d39c84fb951bda066f2f7f8cee2b213ad118f82e7b9a3ee6cbf5a929cd40c",
+    "market-counterparts.json": "a73f25d7f52c24b0414f8fde41bc6509c92ea7e2ad7b8f79dd94d1d8bd66a69e",
+    "recipe-use-proposal.json": "e79b85b1a673bb837abd508ef529cba3dd0808d60655134e39457c1e4ad23628",
+    "scope-deferrals.json": "3e34c475d47722e23ca79f3d295b2a252ca775f203da3346cad971c4473979dc",
+    "behavior-cases.json": "c8390e379af734a8a0f02bff4a40129d156d36e1e38823062cf22681b27fa9a3",
+    "preparation-evidence.json": "8b6c1304d15b666cf5f9ce3953bb5d726a3c46bcd43ee40b6d5e0f6f9923f872"
+  }
+}

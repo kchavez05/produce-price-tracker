@@ -1,0 +1,94 @@
+{
+  "formatVersion": 1,
+  "status": "PROPOSED_V1_6_1_SCOPE_BOUNDARIES_NOT_ACTIVE",
+  "baseCatalogVersion": "2026-11-07.3",
+  "baseCatalogHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "retainedIngredientCount": 222,
+  "releaseIngredientCountFixed": false,
+  "originalProposalHash": "29abee59aa1e220f17c4bde11d748bfba17a6393387549339091e45f42248285",
+  "notDeferred": "No supported market member, the four current qualification findings, source holds, hosted verification or release gate is deferred by these choices.",
+  "decisions": [
+    {
+      "revision": 2,
+      "previousProposalPayloadSha256": "221afe35952077cfd19bbc0157ba5b8c8e469050e6e1b9aa5f1143514366a45a",
+      "id": "additional-bean-forms",
+      "scope": [
+        "Dried/canned and other cooking-relevant mung-bean forms",
+        "Dried/canned and other cooking-relevant adzuki-bean forms",
+        "Dried/canned and other cooking-relevant lima-bean forms",
+        "Dried/canned and other cooking-relevant black-eyed-pea forms"
+      ],
+      "rationale": "None of these four bean families is in the accepted 222-identity catalog. The unbounded beans query already has 12 primary results. Add them through a future exact identity/source/coverage batch with reviewed navigation; truncation is not grouping.",
+      "revisit": "Before expanding the beans category; approve compact family/form navigation and exact identities first.",
+      "owner": "Catalog maintainer",
+      "appliesTo": "v1.6.1 release scope only; reconsider with the stated next category review or a relevant source release. No ingredient retirement, inventory deletion, permanent exclusion or automatic future activation.",
+      "status": "proposed",
+      "payloadSha256": "80883afc8ae250f00e5d625ed44624dc7ad07937318ddf7967260c61a2c05118"
+    },
+    {
+      "revision": 2,
+      "previousProposalPayloadSha256": "d51d2f81a37f564951dbbc4f5edcd2e4ae14298a037c48665e598b720d82dbb4",
+      "id": "additional-lentil-varieties",
+      "scope": [
+        "Named green, brown and black lentils",
+        "Further form-specific lentil choices beyond current generic dried/canned and optional dried red"
+      ],
+      "rationale": "Retain generic dried/canned lentils and optional dried red lentils. Additional variety/form evidence and same-form edges need separate review; neither the shared family nor a generic source proves a named variety.",
+      "revisit": "At the next lentil review with suitable evidence and optional-choice navigation.",
+      "owner": "Catalog maintainer",
+      "appliesTo": "v1.6.1 release scope only; reconsider with the stated next category review or a relevant source release. No ingredient retirement, inventory deletion, permanent exclusion or automatic future activation.",
+      "status": "proposed",
+      "payloadSha256": "f8441c6e0a878c192cdd79b15787d78bb62dbcf217cc2d3410be123630735a68"
+    },
+    {
+      "revision": 2,
+      "previousProposalPayloadSha256": "80f48ac8c7df106182ee81af6081b90e766513aa1d2880c686d02e85c4f9c3c9",
+      "id": "additional-rice-forms",
+      "scope": [
+        "Further dry rice varieties, including unspecified white/long-grain choices",
+        "Cooked/ready-to-use rice forms",
+        "Grain-length-specific brown rice"
+      ],
+      "rationale": "Retain approved dry basmati, jasmine and grain-length-unspecified brown rice. Their curated variety definitions remain exact. Rice flour is a different material form. No generic source or dry-to-cooked conversion silently supplies additional rice choices.",
+      "revisit": "At the next rice/form review with exact evidence and compact discovery.",
+      "owner": "Catalog maintainer",
+      "appliesTo": "v1.6.1 release scope only; reconsider with the stated next category review or a relevant source release. No ingredient retirement, inventory deletion, permanent exclusion or automatic future activation.",
+      "status": "proposed",
+      "payloadSha256": "c20d403202363663677f1a7088a5df3ff345bd99260cece7d7f89d02af8f5929"
+    },
+    {
+      "revision": 2,
+      "previousProposalPayloadSha256": "8285163d2aef8587750b8b972b84e378d67ad96a7ca042f39bce3d45cb1ab8a7",
+      "id": "additional-flour-choices",
+      "scope": [
+        "Further wheat flours beyond approved all-purpose, bread, self-rising and whole-wheat choices",
+        "Further corn and legume flours beyond existing masa harina and chickpea flour",
+        "Further optional flour varieties beyond current rice-flour variants"
+      ],
+      "rationale": "Retain all 11 current primary flour-query results and existing rice-flour variants. Bread and self-rising flours are already included, not deferred. Additional forms need culinary/source evidence and grouping review before broad-query growth.",
+      "revisit": "Before another flour batch; review all primary results without hiding additions behind the 12-result limit.",
+      "owner": "Catalog maintainer",
+      "appliesTo": "v1.6.1 release scope only; reconsider with the stated next category review or a relevant source release. No ingredient retirement, inventory deletion, permanent exclusion or automatic future activation.",
+      "status": "proposed",
+      "payloadSha256": "d686b4bd4bd417a9e6295a3e8076e1a4eeb38667ae19910fb26c030acb9d2dc5"
+    },
+    {
+      "revision": 2,
+      "previousProposalPayloadSha256": "a939b593ba96031a7b57caa92149bb46da1e44a148a8f94d380a8525e0bca16c",
+      "id": "additional-preservation-and-variety-choices",
+      "scope": [
+        "Further fresh/frozen/canned vegetable and herb forms not already approved",
+        "Further whole/ground spice forms beyond approved coriander/cardamom distinctions",
+        "Further toasted/untoasted oil and seed choices",
+        "Additional tofu textures beyond firm and soft",
+        "Further ordinary-yogurt fat/preparation choices and Greek-yogurt flavors/forms beyond the approved plain/vanilla dairy batch"
+      ],
+      "rationale": "This is a v1.6.1 boundary, not category completeness or a permanent food exclusion. The fresh produce additions, raw/frozen protein policy and 23 dairy identities already approved remain included. Private custom entries remain available; new standardized forms still require exact identity/coverage approval.",
+      "revisit": "When the next separately scoped category batch supplies the exact material forms and cooking rationale.",
+      "owner": "Catalog maintainer",
+      "appliesTo": "v1.6.1 release scope only; reconsider with the stated next category review or a relevant source release. No ingredient retirement, inventory deletion, permanent exclusion or automatic future activation.",
+      "status": "proposed",
+      "payloadSha256": "2127a635fcf533344b477267dff3dc5e4054de389e0db2887494116ab275c8e0"
+    }
+  ]
+}

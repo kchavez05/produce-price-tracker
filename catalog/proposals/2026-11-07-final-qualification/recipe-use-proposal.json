@@ -1,0 +1,525 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "blueprintHash": "0e812a2af25dcdc1b815f8c427c373d96a2504a38f47db1e6198399f122e76e7",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "previousScopedApprovalHash": "fab260de4573c579c0500b6d6da8932bfb225db9134761f14b7b6cb8f494918c",
+  "previousCoverageApprovalHash": "7d139df7d17573c55d797ff3fffb044e19f14a6817d2bc1dfb56417b298ae055",
+  "protectedMarketIngredientIds": [],
+  "decisions": [],
+  "recipeCandidateDecisions": [
+    {
+      "id": "colorado-pork-green-chile-stew:stew_starch:green-cabbage",
+      "revision": 1,
+      "action": "reject",
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "stew_starch",
+      "slotLabel": "Diced Potatoes",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "optional": false,
+      "role": "low-carb",
+      "rationale": "The current low-carb method explicitly names cauliflower florets, not a cabbage cooking method. Remove green cabbage rather than infer another substitution.",
+      "status": "proposed",
+      "payloadSha256": "ad4ea88ae1e971a58a226e9b136d78142a948090db2a16405abb6aca5bcb8226"
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:sweet-potatoes",
+      "revision": 1,
+      "action": "reject",
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "slotLabel": "Potatoes",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "optional": false,
+      "role": "normal",
+      "rationale": "The long-braise method and root-starch label specify potatoes, without a reviewed sweet-potato cut/addition time. Retain sweet potato in its six other explicitly reviewed uses, not as an automatic long-braise substitution.",
+      "status": "proposed",
+      "payloadSha256": "f17d5e9a86993b455063b5ae2e47c434c7d56aaa9d3646a9316b134d50fc3c61"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:primary_protein:chicken-breast-boneless",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "primary_protein",
+      "slotLabel": "Chicken Cut",
+      "marketIngredientId": "chicken-breast-boneless",
+      "pantryIngredientId": "chicken-breast-boneless",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact raw boneless skinless breast with the explicit thawing, cut and 165°F method where patched; generic or differently prepared breast cannot supply its quote.",
+      "status": "proposed",
+      "payloadSha256": "df9491c4db4f757da5f49546ba1777bbea5619592de906896871c2c501c46e2a"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:base_starch:sweet-potatoes",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "slotKey": "base_starch",
+      "slotLabel": "Diced Potatoes or Butternut Squash",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh sweet potato in the explicit dice/roast/simmer method; no bare-yam, true-yam, cooked/canned or ordinary-potato equivalence.",
+      "status": "proposed",
+      "payloadSha256": "465959c190b4a11900401501969fd2b7c801b4671879e62431fdf68ab7c4fc20"
+    },
+    {
+      "id": "southwest-sweet-potato-ground-beef-chili-bake:starch_veg:sweet-potatoes",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "slotKey": "starch_veg",
+      "slotLabel": "Sweet Potatoes or Butternut Squash",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh sweet potato in the explicit dice/roast/simmer method; no bare-yam, true-yam, cooked/canned or ordinary-potato equivalence.",
+      "status": "proposed",
+      "payloadSha256": "f2f3191e238843985e8bbae2b0b90cad465e0a25144298295ac2c7df9186722c"
+    },
+    {
+      "id": "southwest-sweet-potato-ground-beef-chili-bake:avocado_finish:avocados-hass",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "slotKey": "avocado_finish",
+      "slotLabel": "Fresh Avocado Topper",
+      "marketIngredientId": "avocados-hass",
+      "pantryIngredientId": "avocados-hass",
+      "optional": true,
+      "role": "normal",
+      "rationale": "Retain exact Hass avocado as this optional fresh topper. No generic avocado or non-Hass ownership/price substitution.",
+      "status": "proposed",
+      "payloadSha256": "23131c49484ced555aa9965c51e71d3a3fa1c51b584571fd0c52324488a586e7"
+    },
+    {
+      "id": "kielbasa-cabbage-apple-potato-braise:cabbage_base:green-cabbage",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "slotKey": "cabbage_base",
+      "slotLabel": "Shredded Green Cabbage",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh green cabbage in the explicitly shredded/charred/braised role; the low-carb extra-cabbage option is described in the exact step patches.",
+      "status": "proposed",
+      "payloadSha256": "a40f7e7613fe2515567c902da828248e53d30e44c3930c8c6ddfe310ce3ab822"
+    },
+    {
+      "id": "kielbasa-cabbage-apple-potato-braise:potato_base:green-cabbage",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "slotKey": "potato_base",
+      "slotLabel": "Potatoes",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "optional": false,
+      "role": "low-carb",
+      "rationale": "Retain exact fresh green cabbage in the explicitly shredded/charred/braised role; the low-carb extra-cabbage option is described in the exact step patches.",
+      "status": "proposed",
+      "payloadSha256": "b0c2190bf2ae8f899476b434133b0ef15158de3ef926800ccf5bad545820e90a"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:primary_protein:chicken-breast-boneless",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "primary_protein",
+      "slotLabel": "Chicken Thighs or Breast",
+      "marketIngredientId": "chicken-breast-boneless",
+      "pantryIngredientId": "chicken-breast-boneless",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact raw boneless skinless breast with the explicit thawing, cut and 165°F method where patched; generic or differently prepared breast cannot supply its quote.",
+      "status": "proposed",
+      "payloadSha256": "8a166aed68765841f0e2750edc79220f259d9419b653f33efe98345e8c404ca1"
+    },
+    {
+      "id": "golden-chicken-butternut-squash-curry-braise:squash_starch:sweet-potatoes",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "slotKey": "squash_starch",
+      "slotLabel": "Butternut Squash or Sweet Potatoes",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh sweet potato in the explicit dice/roast/simmer method; no bare-yam, true-yam, cooked/canned or ordinary-potato equivalence.",
+      "status": "proposed",
+      "payloadSha256": "295007e3e7d688afa5486b08e65fa92d842c7d09f66253bfb30b9bea0ea86d44"
+    },
+    {
+      "id": "high-protein-sausage-egg-sweet-potato-breakfast-casserole:hash_base:sweet-potatoes",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "slotKey": "hash_base",
+      "slotLabel": "Potatoes or Sweet Potatoes",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh sweet potato in the explicit dice/roast/simmer method; no bare-yam, true-yam, cooked/canned or ordinary-potato equivalence.",
+      "status": "proposed",
+      "payloadSha256": "463896123cfb43453b6edfbc1d9e05d7f3bc6d57078a4fc046d5c2607919c39a"
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:primary_protein:chicken-breast-boneless",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "primary_protein",
+      "slotLabel": "Boneless Chicken Thighs or Breast",
+      "marketIngredientId": "chicken-breast-boneless",
+      "pantryIngredientId": "chicken-breast-boneless",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact raw boneless skinless breast with the explicit thawing, cut and 165°F method where patched; generic or differently prepared breast cannot supply its quote.",
+      "status": "proposed",
+      "payloadSha256": "03dafa61d8de85e1dc96c1dc18f5f49fd2cbf293ab0e43e83cd71f932947ae3f"
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:roast_veg:sweet-potatoes",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "roast_veg",
+      "slotLabel": "Sweet Potatoes or Broccoli/Zucchini",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh sweet potato in the explicit dice/roast/simmer method; no bare-yam, true-yam, cooked/canned or ordinary-potato equivalence.",
+      "status": "proposed",
+      "payloadSha256": "21cb1b482dda085108caa4ef7822e6b00df3a8a02b1f930ec4b214841be7301c"
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:avocado_topper:avocados-hass",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "slotKey": "avocado_topper",
+      "slotLabel": "Hass Avocado Finish",
+      "marketIngredientId": "avocados-hass",
+      "pantryIngredientId": "avocados-hass",
+      "optional": true,
+      "role": "normal",
+      "rationale": "Retain exact Hass avocado as this optional fresh topper. No generic avocado or non-Hass ownership/price substitution.",
+      "status": "proposed",
+      "payloadSha256": "6334e2534b295d00f47af2feafc8535fba88e70d1da3ad062a083b0267f9bd63"
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:low_carb_base:green-cabbage",
+      "revision": 1,
+      "action": "reject",
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "low_carb_base",
+      "slotLabel": "Cauliflower Florets for Mash",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "optional": false,
+      "role": "normal",
+      "rationale": "The maintainer-approved mash is cauliflower-only. Green cabbage is not cauliflower and cannot cover or price that mash.",
+      "status": "proposed",
+      "payloadSha256": "d0afe7dda48f2736524c9c49483420f61775e9a1d0284cc80fcbf272220c5a53"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:side_starch:sweet-potatoes",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "slotKey": "side_starch",
+      "slotLabel": "Potatoes or Zucchini/Squash",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh sweet potato in the explicit dice/roast/simmer method; no bare-yam, true-yam, cooked/canned or ordinary-potato equivalence.",
+      "status": "proposed",
+      "payloadSha256": "bfa8cda35630c585fc08672a12f39f306860f4b46f9924b9acef0f8784804924"
+    },
+    {
+      "id": "instant-pot-pork-carnitas-cabbage-peppers-skillet:cabbage_slaw_base:green-cabbage",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+      "slotKey": "cabbage_slaw_base",
+      "slotLabel": "Shredded Green Cabbage",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "optional": false,
+      "role": "normal",
+      "rationale": "Retain exact fresh green cabbage in the explicitly shredded/charred/braised role; the low-carb extra-cabbage option is described in the exact step patches.",
+      "status": "proposed",
+      "payloadSha256": "103f2701af927a8c62175c1e3cb9223f72b9cfd0ef41b94f6cee073b481e1f06"
+    },
+    {
+      "id": "instant-pot-pork-carnitas-cabbage-peppers-skillet:avocado_topper:avocados-hass",
+      "revision": 1,
+      "action": "retain-exact",
+      "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+      "slotKey": "avocado_topper",
+      "slotLabel": "Fresh Hass Avocado",
+      "marketIngredientId": "avocados-hass",
+      "pantryIngredientId": "avocados-hass",
+      "optional": true,
+      "role": "normal",
+      "rationale": "Retain exact Hass avocado as this optional fresh topper. No generic avocado or non-Hass ownership/price substitution.",
+      "status": "proposed",
+      "payloadSha256": "43c3f7a72b6467dbce53937322f91460efcceea51f151ac310c4270535f59497"
+    }
+  ],
+  "auxiliaryCandidateDecisions": [
+    {
+      "id": "colorado-pork-green-chile-stew:stew_starch:green-cabbage",
+      "action": "reject",
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "stew_starch",
+      "marketIngredientId": "green-cabbage",
+      "rationale": "The current low-carb method explicitly names cauliflower florets, not a cabbage cooking method. Remove green cabbage rather than infer another substitution.",
+      "status": "proposed",
+      "payloadSha256": "2c1d850119e6ed1bb8864ef27d9e2514cde80b0482dc9e1ad69447d0776e6ef5"
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:sweet-potatoes",
+      "action": "reject",
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "marketIngredientId": "sweet-potatoes",
+      "rationale": "The long-braise method and root-starch label specify potatoes, without a reviewed sweet-potato cut/addition time. Retain sweet potato in its six other explicitly reviewed uses, not as an automatic long-braise substitution.",
+      "status": "proposed",
+      "payloadSha256": "e0f531ba1070f0f14a3681db4cb020c81e1f665a56f96e6bc00e78b86439d6d4"
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:low_carb_base:green-cabbage",
+      "action": "reject",
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "low_carb_base",
+      "marketIngredientId": "green-cabbage",
+      "rationale": "The maintainer-approved mash is cauliflower-only. Green cabbage is not cauliflower and cannot cover or price that mash.",
+      "status": "proposed",
+      "payloadSha256": "1ca73368327914065978fd8d386d4b6ded59fcfa636262f0ddf894a280d31e18"
+    }
+  ],
+  "exactRecipeExclusions": [
+    {
+      "id": "exclude:colorado-pork-green-chile-stew:stew_starch:green-cabbage",
+      "revision": 1,
+      "recipeId": "colorado-pork-green-chile-stew",
+      "slotKey": "stew_starch",
+      "slotLabel": "Diced Potatoes",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "scope": "For this stable built-in recipe ID, block this exact candidate from matched slots and literal/unpriced saved pantry requirements, including stale/custom/AI copies retaining that ID. These three recipes have no remaining legitimate use of the excluded food. Represent it as unmapped/unpriced rather than acknowledging availability. Do not globally protect the pantry ID or affect its other recipes, custom recipes with a different ID, stored Yes/No, inventory or source history.",
+      "status": "proposed",
+      "payloadSha256": "b44ef44c6853d0ca6b86479d573d119a13e797e297648d0e3c532109370f9fac"
+    },
+    {
+      "id": "exclude:dutch-oven-beef-chuck-pot-roast-stew:root_starch:sweet-potatoes",
+      "revision": 1,
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "slotKey": "root_starch",
+      "slotLabel": "Potatoes",
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "scope": "For this stable built-in recipe ID, block this exact candidate from matched slots and literal/unpriced saved pantry requirements, including stale/custom/AI copies retaining that ID. These three recipes have no remaining legitimate use of the excluded food. Represent it as unmapped/unpriced rather than acknowledging availability. Do not globally protect the pantry ID or affect its other recipes, custom recipes with a different ID, stored Yes/No, inventory or source history.",
+      "status": "proposed",
+      "payloadSha256": "3e37b9e5a348149544dc8368641a5583c6a2844fc12a7a46505cf0a7b222f022"
+    },
+    {
+      "id": "exclude:keto-caveman-beef-chuck-mushroom-cauliflower-braise:low_carb_base:green-cabbage",
+      "revision": 1,
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "slotKey": "low_carb_base",
+      "slotLabel": "Cauliflower Florets for Mash",
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "scope": "For this stable built-in recipe ID, block this exact candidate from matched slots and literal/unpriced saved pantry requirements, including stale/custom/AI copies retaining that ID. These three recipes have no remaining legitimate use of the excluded food. Represent it as unmapped/unpriced rather than acknowledging availability. Do not globally protect the pantry ID or affect its other recipes, custom recipes with a different ID, stored Yes/No, inventory or source history.",
+      "status": "proposed",
+      "payloadSha256": "f34f6cc679e8d2309415f697fa354a17ad5a92a36e163771608ab19a4b146e74"
+    }
+  ],
+  "candidateRemovals": [
+    {
+      "id": "colorado-pork-green-chile-stew:stew_starch:green-cabbage",
+      "before": {
+        "candidateIngredientIds": [
+          "potatoes-russet-gold"
+        ],
+        "lowCarbCandidateIds": [
+          "broccoli-cauliflower",
+          "green-cabbage"
+        ]
+      },
+      "after": {
+        "candidateIngredientIds": [
+          "potatoes-russet-gold"
+        ],
+        "lowCarbCandidateIds": [
+          "broccoli-cauliflower"
+        ]
+      }
+    },
+    {
+      "id": "dutch-oven-beef-chuck-pot-roast-stew:root_starch:sweet-potatoes",
+      "before": {
+        "candidateIngredientIds": [
+          "potatoes-russet-gold",
+          "sweet-potatoes"
+        ],
+        "lowCarbCandidateIds": [
+          "broccoli-cauliflower",
+          "mushrooms-cremini-white"
+        ]
+      },
+      "after": {
+        "candidateIngredientIds": [
+          "potatoes-russet-gold"
+        ],
+        "lowCarbCandidateIds": [
+          "broccoli-cauliflower",
+          "mushrooms-cremini-white"
+        ]
+      }
+    },
+    {
+      "id": "keto-caveman-beef-chuck-mushroom-cauliflower-braise:low_carb_base:green-cabbage",
+      "before": {
+        "candidateIngredientIds": [
+          "broccoli-cauliflower",
+          "green-cabbage"
+        ],
+        "lowCarbCandidateIds": []
+      },
+      "after": {
+        "candidateIngredientIds": [
+          "broccoli-cauliflower"
+        ],
+        "lowCarbCandidateIds": []
+      }
+    }
+  ],
+  "instructionTitleAndLabelPatches": [
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:slotLabel:primary_protein",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "field": "slotLabel",
+      "slotKey": "primary_protein",
+      "before": "Chicken Cut",
+      "after": "Boneless Skinless Chicken Thighs or Breast",
+      "status": "proposed",
+      "payloadSha256": "1b906e462289965461f146ad8847319fb8de8f4c900d73b9e9e91cdf3541825d"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:slotLabel:base_starch",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "field": "slotLabel",
+      "slotKey": "base_starch",
+      "before": "Diced Potatoes or Butternut Squash",
+      "after": "Diced Potatoes, Sweet Potatoes or Butternut Squash",
+      "status": "proposed",
+      "payloadSha256": "0afa0d92ba391bc5464fac66e3924971f15cdb27fb279a1f0fc6a720cf1582df"
+    },
+    {
+      "id": "cheesy-chicken-broccoli-potato-casserole:steps:0",
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "field": "steps",
+      "stepIndex": 0,
+      "before": "Preheat oven to 400°F. Toss ½-inch cubed potatoes (or butternut squash) and bite-sized chicken pieces directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.",
+      "after": "Thaw frozen raw chicken in the refrigerator before starting. Preheat oven to 400°F. Toss ½-inch cubed potatoes, sweet potatoes or butternut squash and bite-sized boneless skinless chicken thighs or breast directly in a greased 9x13 baking dish with olive oil, garlic powder, onion powder, and paprika. Bake 20 minutes.",
+      "status": "proposed",
+      "payloadSha256": "ed3d376c9b1887dae41eb50af09510bc57ba6b764c6b9744f04f28fe08ca8209"
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:steps:0",
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "field": "steps",
+      "stepIndex": 0,
+      "before": "Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.",
+      "after": "Thaw frozen raw chicken in the refrigerator before starting. Preheat oven to 425°F and line two large rimmed sheet pans with foil or parchment for zero-scrub cleanup.",
+      "status": "proposed",
+      "payloadSha256": "d7f56e364a804051541d15eaf642231ebfc57e5d95d83d9d50851b337c5a111a"
+    },
+    {
+      "id": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato:steps:2",
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "field": "steps",
+      "stepIndex": 2,
+      "before": "Toss sliced chicken thighs, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for 18–20 minutes until charred at the edges.",
+      "after": "Toss sliced boneless skinless chicken thighs or breast, bell pepper strips, poblano strips, and red/yellow onion wedges with remaining oil and fajita spices; spread across pan #2 and roast both pans for about 18–20 minutes. Use a food thermometer to check that the chicken reaches at least 165°F, and continue cooking as needed until the selected vegetables are tender.",
+      "status": "proposed",
+      "payloadSha256": "842c89c58c627281f972550526391dfac3f62cd930550edf886702a8d27d55ed"
+    },
+    {
+      "id": "southwest-sweet-potato-ground-beef-chili-bake:slotLabel:avocado_finish",
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "field": "slotLabel",
+      "slotKey": "avocado_finish",
+      "before": "Fresh Avocado Topper",
+      "after": "Fresh Hass Avocado Topper",
+      "status": "proposed",
+      "payloadSha256": "e3a70b21560ab5505d50e85f73d4e3164be0c96655512500a3ca03d0f12e6169"
+    },
+    {
+      "id": "southwest-sweet-potato-ground-beef-chili-bake:flavorProfile:text",
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "field": "flavorProfile",
+      "before": "Smoky chili powder, sweet roasted yams, savory beef, cool avocado & cheddar",
+      "after": "Smoky chili powder, sweet roasted sweet potatoes, savory beef, cool avocado & cheddar",
+      "status": "proposed",
+      "payloadSha256": "8c931b8bd6e1a7205b0d1969069f9037abf3fb0c9cb32f0b7e7cfe441d72a093"
+    },
+    {
+      "id": "kielbasa-cabbage-apple-potato-braise:steps:1",
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "field": "steps",
+      "stepIndex": 1,
+      "before": "Melt butter (or olive oil) in the pan, add sliced onions, wedged apples, and shredded green cabbage; cook 8 minutes until lightly caramelized.",
+      "after": "Melt butter (or olive oil) in the pan, add sliced onions, wedged apples, and the required shredded green cabbage; cook 8 minutes until lightly caramelized. If choosing the additional green-cabbage low-carb replacement for the potato slot, add that separately listed quantity of shredded green cabbage here as well.",
+      "status": "proposed",
+      "payloadSha256": "28621f88e14ed2f8b133ea7887df59dbde5733e87834691d74f2c7990cab2d4d"
+    },
+    {
+      "id": "kielbasa-cabbage-apple-potato-braise:steps:2",
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "field": "steps",
+      "stepIndex": 2,
+      "before": "Nestle cubed potatoes and seared sausage into the cabbage, pour in broth whisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until tender.",
+      "after": "Nestle cubed potatoes and seared sausage into the cabbage, pour in broth whisked with cider vinegar and Dijon mustard, cover, and braise 20–25 minutes until tender. When using the additional green-cabbage replacement for potatoes, omit the potatoes and braise the sausage with all the cabbage until tender.",
+      "status": "proposed",
+      "payloadSha256": "8a80e96aa86b4c0eeeb554fdbc91c0c3105d4b5e8032256f58c4219093ba126e"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:slotLabel:side_starch",
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "field": "slotLabel",
+      "slotKey": "side_starch",
+      "before": "Potatoes or Zucchini/Squash",
+      "after": "Potatoes, Sweet Potatoes or Zucchini/Squash",
+      "status": "proposed",
+      "payloadSha256": "39ae87d315b6057d2b7a475ffcce164ee553b871273781b21b8bee750709f48a"
+    },
+    {
+      "id": "sheet-pan-salmon-asparagus-brussels-potato-roast:steps:0",
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "field": "steps",
+      "stepIndex": 0,
+      "before": "Thaw frozen raw salmon fillets in the refrigerator before starting. Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes.",
+      "after": "Thaw frozen raw salmon fillets in the refrigerator before starting. Preheat oven to 400°F. Toss halved Brussels sprouts (or broccoli) and diced potatoes, ½-inch cubed sweet potatoes or fresh summer squash (including zucchini or yellow summer squash) on a large sheet pan with olive oil, salt, and garlic powder; roast 12 minutes. Check that the selected starch is fork-tender before serving and continue its cooking separately if the salmon finishes first.",
+      "status": "proposed",
+      "payloadSha256": "95b09fee7b744d017c7ac99a5345a91fa7622f78dfe8cb3446ff50dbbc4dc985"
+    }
+  ],
+  "proposedImplementedBlueprintHash": "5a573202d401b1d4f9376978044992b9e34a2d3f4df8a02904af52a0373c915c",
+  "ownershipPolicy": "Preserve all four existing precise pantry IDs, exact recipeIngredientId links and independent Yes/No semantics. These are precise foods, not mixed market groups: do not add them to protectedRecipeMarketIds or create synthetic replacement ownership IDs. Apply the three narrow named-recipe exclusions separately to stale slots and literal saved requirements. No new compatibility, price, quantity, macro or dietary-tag decision."
+}

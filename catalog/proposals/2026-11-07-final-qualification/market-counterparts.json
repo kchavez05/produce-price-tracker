@@ -1,0 +1,58 @@
+{
+  "formatVersion": 1,
+  "status": "proposed",
+  "baseCatalogVersion": "2026-11-07.3",
+  "baseCatalogHash": "33a3277f9e0d99af338f97ce25ea88a80d8f841c7fad40f5644f0210fe53a5a5",
+  "marketHash": "0f3fc8a527e1488eaf3d16f11e979a1251221e309ba025ec167c63966f9ccfa9",
+  "protectedMarketIngredientIds": [],
+  "defaults": {
+    "evidence": "These four precise existing foods already have approved exact pantry/market links. Add explicit counterpart records with the reviewed global title policy; this does not turn the IDs into mixed groups, create substitutions or change exact pantry ownership.",
+    "prices": "Qualify original offers before scoring and per-store selection, including direct/cached recipe repricing. Preserve selected-store pools and history. No new fixed price or yield conversion."
+  },
+  "decisions": [
+    {
+      "id": "counterpart:avocados-hass:avocados-hass",
+      "revision": 1,
+      "marketIngredientId": "avocados-hass",
+      "pantryIngredientId": "avocados-hass",
+      "foodName": "Hass avocado",
+      "titlePolicy": "require-exact-existing-identity-qualification",
+      "rationale": "Original offer must name Hass and avocado, representing fresh unprepared fruit. Size, bag, generic avocado, place of origin or brand is not variety evidence.",
+      "status": "proposed",
+      "payloadSha256": "a810354595ffdddf80dfec84a82ef78c9fa3a8d32f2c11d2407bd38dafe715b4"
+    },
+    {
+      "id": "counterpart:chicken-breast-boneless:chicken-breast-boneless",
+      "revision": 1,
+      "marketIngredientId": "chicken-breast-boneless",
+      "pantryIngredientId": "chicken-breast-boneless",
+      "foodName": "Boneless skinless chicken breast",
+      "titlePolicy": "require-exact-existing-identity-qualification",
+      "rationale": "Original offer must identify chicken breast, boneless AND skinless, plus raw/uncooked/unprepared or cook-before-eating evidence. Chilled and frozen raw unprepared breast are the same reviewed identity; thaw frozen raw chicken in the refrigerator before these recipes.",
+      "status": "proposed",
+      "payloadSha256": "78e758ad88ed10d6027e6114053cdfce13b4c7800f1aeb1a96444a8eb5952a33"
+    },
+    {
+      "id": "counterpart:green-cabbage:green-cabbage",
+      "revision": 1,
+      "marketIngredientId": "green-cabbage",
+      "pantryIngredientId": "green-cabbage",
+      "foodName": "Green cabbage",
+      "titlePolicy": "require-exact-existing-identity-qualification",
+      "rationale": "Original offer must identify fresh unprepared green cabbage. Whole or plainly cut/shredded raw green cabbage is the same food; retain the observed retail unit without a new yield conversion.",
+      "status": "proposed",
+      "payloadSha256": "ffe9671a63aafc7c8b71f4ce51ac9d321d6c4e32eec5a942c801aaf445b58402"
+    },
+    {
+      "id": "counterpart:sweet-potatoes:sweet-potatoes",
+      "revision": 1,
+      "marketIngredientId": "sweet-potatoes",
+      "pantryIngredientId": "sweet-potatoes",
+      "foodName": "Sweet potatoes",
+      "titlePolicy": "require-exact-existing-identity-qualification",
+      "rationale": "Original offer must explicitly identify fresh unprepared sweet potato or sweetpotato. A single label such as Garnet yams (sweet potatoes) can establish sweet potato only because it explicitly names it; a bare yam or Garnet-yam title cannot. No new yam alias or true-yam ingredient is proposed.",
+      "status": "proposed",
+      "payloadSha256": "9cc004194ce90e7cecadee942db37ef0d92dad8fe496eb41178cedc07f5a74ef"
+    }
+  ]
+}

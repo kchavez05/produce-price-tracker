@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "rulesVersion": 1,
+  "releaseDate": "2026-10-29",
+  "records": [
+    {
+      "dataType": "foundation_food",
+      "fdcId": "2346407",
+      "ndbNumber": "11109",
+      "description": "Cabbage, green, raw",
+      "publicationDate": "2022-10-28",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": "Vitamin K (phylloquinone) median value corrected on 4/18/2024",
+      "key": "foundation_food:2346407",
+      "fingerprint": "181c8b5efa40eca14c3f088979f544bf77126b3d563ec574df4f1fa72a50bb9b",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "foundation_food",
+      "fdcId": "2646170",
+      "ndbNumber": "100304",
+      "description": "Chicken, breast, boneless, skinless, raw",
+      "publicationDate": "2023-10-26",
+      "categoryId": "5",
+      "categoryName": "Poultry Products",
+      "footnote": null,
+      "key": "foundation_food:2646170",
+      "fingerprint": "989917252cadd861227366aab298cbedce92d4c041090b0368ff8c654ac97cf9",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "foundation_food",
+      "fdcId": "2710824",
+      "ndbNumber": "100348",
+      "description": "Avocado, Hass, peeled, raw",
+      "publicationDate": "2024-10-31",
+      "categoryId": "9",
+      "categoryName": "Fruits and Fruit Juices",
+      "footnote": null,
+      "key": "foundation_food:2710824",
+      "fingerprint": "6daeed70ba6c0abc8903e426c90a39254470eb8266eac7b788527c594e13706c",
+      "disposition": "candidate"
+    },
+    {
+      "dataType": "sr_legacy_food",
+      "fdcId": "168482",
+      "ndbNumber": "11507",
+      "description": "Sweet potato, raw, unprepared (Includes foods for USDA's Food Distribution Program)",
+      "publicationDate": "2019-04-01",
+      "categoryId": "11",
+      "categoryName": "Vegetables and Vegetable Products",
+      "footnote": null,
+      "key": "sr_legacy_food:168482",
+      "fingerprint": "b7aa37b1fb42c9a1cbcdbd725c145e763f7f8371e3724b15e2837926e5f111fa",
+      "disposition": "candidate"
+    }
+  ]
+}
