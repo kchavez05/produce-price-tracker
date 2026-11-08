@@ -1,6 +1,6 @@
 # PantryBot Wiki
 
-> v1.6.1 is prepared as a release candidate with 222 reviewed ingredients. The [final audit](../research/v1.6.1-release-audit.md) passes locally; all eight hosted migrations and 222 IDs are verified. Fresh independent-session/API and guest-browser verification pass; the release workflow remains. See the [release checklist](../releases/v1.6.1.md).
+> v1.6.1 was released November 8, 2026 with 222 reviewed ingredients. The [final audit](../research/v1.6.1-release-audit.md) passes locally; all eight hosted migrations and 222 IDs are verified. Production independent-session/API and guest-browser verification pass; disposable test data is cleaned up. See the [release notes](../releases/v1.6.1.md).
 
 
 > v1.6.0 introduces [Virtual Pantry](Virtual-Pantry.md), explicit boolean availability, private guest/account persistence, reviewed cooking ingredients, and recipe/shopping coverage. See the [release notes](../releases/v1.6.0.md) and [rollout guide](../usda-catalog-integration.md).
@@ -12,7 +12,7 @@
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
 
 
-Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Pantry & Weekend Meal-Prep Optimizer** (`v1.6.0`, live at [pantrybot.dev](https://pantrybot.dev)).
+Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Pantry & Weekend Meal-Prep Optimizer** (`v1.6.1`, live at [pantrybot.dev](https://pantrybot.dev)).
 
 ## Purpose
 
