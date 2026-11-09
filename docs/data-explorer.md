@@ -42,7 +42,7 @@ The server uses `SUPABASE_SECRET_KEY` only through the existing market client. C
 
 Public routes are documented in OpenAPI: `/api/data/history`, `/api/data/rows`, `/api/data/report`, `/api/data/catalog`, `/api/data/score`, and `/api/data/export`. Read limits use the application's process-local IP limiter (60/minute for reads, 10/minute for report/download operations); they are abuse mitigation, not a globally distributed quota. Archive cache entries expire after sixty seconds and the cache holds at most 24 snapshots.
 
-Verify the footer entry, every direct view link, chart-to-row drill-through, report JSON, CSV and metadata downloads, pagination, current score trace, and a narrow viewport. Test no-key demo, configured outage, empty store coverage, invalid filters, changed snapshots, revisions, browser-role denial, and source-field redaction. The normal repository CI/preview/Codex review gates still apply.
+Verify the footer entry, every direct view link, chart-to-row drill-through, report JSON, CSV and metadata downloads, pagination, current score trace, and a narrow viewport. Test no-key demo, configured outage, empty store coverage, invalid filters, changed snapshots, revisions, browser-role denial, and source-field redaction. The normal repository CI/preview/Copilot review gates still apply.
 
 ## Source publication review
 

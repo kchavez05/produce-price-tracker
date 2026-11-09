@@ -64,7 +64,7 @@ Install `20261106155015_pantry_vegetables_aromatics.sql` after `20261031143749_p
 
 For the second-batch build, the default runtime view was `2026-11-06.1`; the current default is described below. Build the same compatibility-capable code with `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION=2026-10-31.1` for the exact 101-identity view, or `2026-10-30.1` for the exact 72-identity view. The original baseline remains supported. Retain all 111 accepted IDs and owned inventory during either rollback, including pending edits and exports.
 
-Verify pre-migration rejection and post-migration acceptance, preserved existing inventory/details, idempotent reapply/retry, fresh-herb search/readiness, owner isolation, exports/deletion, and both retained views before hosted rollout. Source evidence and search aliases do not create recipe compatibility: cilantro leaves cannot establish coriander seed, and spearmint cannot establish peppermint. Missing prices remain explicit. Complete CI, Preview, Codex review, environment verification, and the release workflow before production activation.
+Verify pre-migration rejection and post-migration acceptance, preserved existing inventory/details, idempotent reapply/retry, fresh-herb search/readiness, owner isolation, exports/deletion, and both retained views before hosted rollout. Source evidence and search aliases do not create recipe compatibility: cilantro leaves cannot establish coriander seed, and spearmint cannot establish peppermint. Missing prices remain explicit. Complete CI, Preview, Copilot review, environment verification, and the release workflow before production activation.
 
 ## v1.6.1 staples/proteins batch
 
@@ -74,7 +74,7 @@ Install `20261106161943_pantry_staples_proteins.sql` after the existing pantry m
 
 The default runtime view is now `2026-11-06.2`. The exact `2026-11-06.1` (111), `2026-10-31.1` (101), `2026-10-30.1` (72), and original baseline views remain supported through `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION`. Retain all 134 server IDs, owned inventory, pending edits, and export/recovery data on presentation rollback. Never delete accepted rows or restore old inventory snapshots as a UI rollback.
 
-Verify pre-migration rejection and same-ID post-migration retry for all three sweeteners and yogurt, repeated migration, preserved inventory/details, owner isolation, anonymous/direct-write denial, export/deletion, keyless disk persistence, yogurt discovery/readiness, exact milk/yogurt and ground/fresh-ginger coverage, and all retained views. Missing prices remain explicit, while marked-available requirements have zero additional grocery cost. Complete local checks, CI, Preview, Codex review and hosted release verification before activation. No hosted migration or production activation is performed by this implementation.
+Verify pre-migration rejection and same-ID post-migration retry for all three sweeteners and yogurt, repeated migration, preserved inventory/details, owner isolation, anonymous/direct-write denial, export/deletion, keyless disk persistence, yogurt discovery/readiness, exact milk/yogurt and ground/fresh-ginger coverage, and all retained views. Missing prices remain explicit, while marked-available requirements have zero additional grocery cost. Complete local checks, CI, Preview, Copilot review and hosted release verification before activation. No hosted migration or production activation is performed by this implementation.
 
 ## v1.6.1 shared USDA spice references
 

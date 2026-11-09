@@ -2,15 +2,15 @@
 
 ## 1. Branching & Environment Architecture
 
-Never commit or push directly to `main` or `develop`. All changes must flow through Pull Requests with passing CI and Codex code review:
+Never commit or push directly to `main` or `develop`. All changes must flow through Pull Requests with passing CI and Copilot code review:
 
 ```
 feature/* | fix/* | chore/* | docs/*
         │
-        ▼  (PR + CI Quality Gate + Codex Code Review)
+        ▼  (PR + CI Quality Gate + GitHub Copilot Code Review)
      develop   ──► Vercel Preview / Staging Environment
         │
-        ▼  (Release PR + CI Quality Gate + Codex Code Review)
+        ▼  (Release PR + CI Quality Gate + GitHub Copilot Code Review)
       main     ──► Vercel Production Environment (pantrybot.dev)
 ```
 
@@ -50,13 +50,13 @@ git push -u origin <branch-name>
 gh pr create --base develop --head <branch-name> --title "<title>" --body "<summary>"
 ```
 
-### Step 4: CI Quality Gate & Codex Code Review
+### Step 4: CI Quality Gate & GitHub Copilot Code Review
 Every PR targeting `develop` must pass:
 1. **GitHub Actions CI (`CI Quality Gate / Typecheck, Lint & Build`)**: Defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml).
 2. **Vercel Preview Deployment**: Confirms the preview build succeeds.
-3. **Codex Code Review (`chatgpt-codex-connector`)**:
-   * Connect this repository to Codex and enable automatic reviews in Codex settings. Review guidance lives in this file and [`docs/code-review.md`](./docs/code-review.md). See the [official setup guide](https://learn.chatgpt.com/docs/third-party/github).
-   * If follow-up commits are pushed or a manual review is needed, comment `@codex review` on the PR (`gh pr comment --body "@codex review"`).
+3. **GitHub Copilot Code Review**:
+   * Configure automatic Copilot reviews for `develop` and `main`, including **Review new pushes**. If repository rulesets are unavailable under the current GitHub plan, enable account-level automatic reviews for eligible PR authors or request Copilot manually. See [`docs/code-review.md`](./docs/code-review.md) for setup and the plan limitation.
+   * For manual reviews or re-reviews, use **Reviewers → Copilot → Request** on the PR. Wait for a completed review of the latest head before merging; a review request alone is not completion.
    * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and fix all actionable P0/P1/P2 findings on the feature branch before merging.
    * After pushing fixes (or explaining why a suggestion is skipped), **reply to each review comment thread** with a brief summary/commit SHA and **mark the review thread as resolved**:
 ```bash
@@ -74,7 +74,7 @@ gh api graphql -f query='
 ```
 
 ### Step 5: Merge into `develop` & Clean Up
-Once CI checks are green and Codex code review feedback is addressed:
+Once CI checks are green and Copilot code review feedback is addressed:
 * Merge the feature PR into `develop` (via the GitHub UI or `gh pr merge`).
 * Switch back to `develop`, pull the latest changes, and delete the feature branch:
 ```bash
@@ -97,7 +97,7 @@ When cutting a release (`vX.Y.Z`) to production (`main`), complete every item in
 gh pr create --base main --head develop --title "Release vX.Y.Z: <Milestone Title>" --body-file docs/releases/vX.Y.Z.md
 ```
    * [ ] Verify **CI Quality Gate (`Typecheck, Lint & Build`)** and **Vercel Preview** succeed.
-   * [ ] Run **Codex** review (`@codex review` if needed), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
+   * [ ] Complete **Copilot** review of the latest head (request or re-request Copilot through the PR Reviewers menu if needed), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
 3. **Merge to `main` & Sync `develop`**
    * [ ] Merge the Release PR into `main` (triggering the production deployment to [pantrybot.dev](https://pantrybot.dev)).
    * [ ] Pull `main` and fast-forward `develop` if any merge/hotfix commits landed on `main`:
