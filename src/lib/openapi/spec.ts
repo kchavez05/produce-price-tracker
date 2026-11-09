@@ -1628,7 +1628,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       KingSoopersLocation: {
         type: 'object',
         properties: {
-          locationId: { type: 'string', example: '62000116' },
+          locationId: { type: 'string', example: '62000105' },
           name: { type: 'string', example: 'King Soopers Firestone' },
           address: { type: 'string', example: '6110 Firestone Blvd' },
           city: { type: 'string', example: 'Firestone' },
