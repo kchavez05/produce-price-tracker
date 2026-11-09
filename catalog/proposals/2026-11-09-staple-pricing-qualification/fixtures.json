@@ -1,0 +1,672 @@
+{
+  "status": "proposed_expected_vectors_not_runtime_test_results",
+  "fixtures": [
+    {
+      "id": "cost-tbsp-fluid-ounce",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 480,
+        "packageAmount": "16",
+        "packageUnit": "US_fl_oz",
+        "requiredAmount": "2",
+        "requiredUnit": "tbsp"
+      },
+      "expected": {
+        "roundHalfUpCents": 30
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cost-cup-fluid-ounce",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 320,
+        "packageAmount": "32",
+        "packageUnit": "US_fl_oz",
+        "requiredAmount": "1",
+        "requiredUnit": "cup"
+      },
+      "expected": {
+        "roundHalfUpCents": 80
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cost-mass-net-contents",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 125,
+        "packageAmount": "15",
+        "packageUnit": "oz",
+        "requiredAmount": "30",
+        "requiredUnit": "oz"
+      },
+      "expected": {
+        "roundHalfUpCents": 250
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cost-count",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 55,
+        "packageAmount": "1",
+        "packageUnit": "each",
+        "requiredAmount": "1",
+        "requiredUnit": "each"
+      },
+      "expected": {
+        "roundHalfUpCents": 55
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cost-metric-volume",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 400,
+        "packageAmount": "1000",
+        "packageUnit": "mL",
+        "requiredAmount": "1",
+        "requiredUnit": "cup"
+      },
+      "expected": {
+        "roundHalfUpCents": 95
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cost-15fo-reviewed-only",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 600,
+        "packageAmount": "15",
+        "packageUnit": "US_fl_oz",
+        "requiredAmount": "2",
+        "requiredUnit": "tbsp"
+      },
+      "expected": {
+        "roundHalfUpCents": 40
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cost-half-cent-up",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 100,
+        "packageAmount": "200",
+        "packageUnit": "g",
+        "requiredAmount": "1",
+        "requiredUnit": "g"
+      },
+      "expected": {
+        "roundHalfUpCents": 1
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cost-free-with-evidence",
+      "group": "arithmetic",
+      "input": {
+        "packagePriceCents": 0,
+        "packageAmount": "16",
+        "packageUnit": "US_fl_oz",
+        "requiredAmount": "2",
+        "requiredUnit": "tbsp"
+      },
+      "expected": {
+        "roundHalfUpCents": 0
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "bare-oz-broth",
+      "group": "qualification",
+      "input": {
+        "food": "broth",
+        "size": "32 oz",
+        "recipeUnit": "cup"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "unreviewed-fo",
+      "group": "qualification",
+      "input": {
+        "productKey": "SYNTH_UNREVIEWED",
+        "size": "15 fo"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "exact-unit-conflict",
+      "group": "qualification",
+      "input": {
+        "productKey": "SYNTH_REVIEWED",
+        "labelEvidence": "15 US_fl_oz",
+        "size": "12 fo"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "lite-coconut",
+      "group": "qualification",
+      "input": {
+        "requiredForm": "full-fat canned",
+        "offeredForm": "lite canned"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "coconut-drink",
+      "group": "qualification",
+      "input": {
+        "requiredForm": "full-fat canned",
+        "offeredForm": "carton beverage"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "dry-beans",
+      "group": "qualification",
+      "input": {
+        "requiredForm": "canned",
+        "offeredForm": "dry"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "stale-saved-can-basis",
+      "group": "qualification",
+      "input": {
+        "quantityBasis": null,
+        "food": "canned beans",
+        "savedRecipe": true,
+        "quantityBasisVersion": "stale"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "drained-beans",
+      "group": "qualification",
+      "input": {
+        "quantityBasis": "drained_weight",
+        "offerBasis": "net_contents"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "concentrate",
+      "group": "qualification",
+      "input": {
+        "requiredForm": "ready-to-use juice",
+        "offeredForm": "concentrate"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "spray",
+      "group": "qualification",
+      "input": {
+        "requiredForm": "pourable oil",
+        "offeredForm": "spray"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "gluten-claim-missing",
+      "group": "qualification",
+      "input": {
+        "requiredClaim": "gluten_free",
+        "verifiedClaim": false
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "unknown-conditions",
+      "group": "qualification",
+      "input": {
+        "regularPriceCents": 300,
+        "conditionsVerified": false
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "national-price",
+      "group": "qualification",
+      "input": {
+        "nationalPrice": 300,
+        "locationPrice": null
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "coupon-only",
+      "group": "qualification",
+      "input": {
+        "conditions": "coupon",
+        "regularPriceCents": null,
+        "promoPriceCents": 200
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "membership",
+      "group": "qualification",
+      "input": {
+        "conditions": "membership"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "multibuy",
+      "group": "qualification",
+      "input": {
+        "conditions": "multibuy"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "wrong-market",
+      "group": "qualification",
+      "input": {
+        "quoteMarket": "OTHER",
+        "requestedMarket": "MEAD_CO"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "unselected-store",
+      "group": "qualification",
+      "input": {
+        "location": "SYNTH_B",
+        "selectedLocations": [
+          "SYNTH_A"
+        ]
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "expired",
+      "group": "qualification",
+      "input": {
+        "observedAt": "2026-11-09T18:00:00Z",
+        "expiresAt": "2026-11-09T19:00:00Z",
+        "now": "2026-11-09T20:00:00Z"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "mountain-midnight",
+      "group": "qualification",
+      "input": {
+        "observedAt": "2026-11-10T06:59:59Z",
+        "now": "2026-11-10T07:00:00Z"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "future-observation",
+      "group": "qualification",
+      "input": {
+        "observedAt": "2026-11-09T21:00:00Z",
+        "now": "2026-11-09T20:00:00Z"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "out-of-stock",
+      "group": "qualification",
+      "input": {
+        "inStore": true,
+        "stockLevel": "TEMPORARILY_OUT_OF_STOCK"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "no-instore",
+      "group": "qualification",
+      "input": {
+        "inStore": false,
+        "priceCents": 300
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "zero-denominator",
+      "group": "qualification",
+      "input": {
+        "packageAmount": "0"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "nonfinite",
+      "group": "qualification",
+      "input": {
+        "packageAmount": "NaN"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "negative",
+      "group": "qualification",
+      "input": {
+        "priceCents": -1
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "overflow",
+      "group": "qualification",
+      "input": {
+        "allocatedCents": "9007199254740992"
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "zero-without-evidence",
+      "group": "qualification",
+      "input": {
+        "priceCents": 0,
+        "explicitFreeEvidence": false
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "unknown-unit-no-static",
+      "group": "qualification",
+      "input": {
+        "unit": "mystery",
+        "staticPrice": null
+      },
+      "expected": {
+        "outcome": "UNPRICED"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "pantry-yes",
+      "group": "qualification",
+      "input": {
+        "available": true,
+        "optionalQuantity": "0.1",
+        "requiredQuantity": "10"
+      },
+      "expected": {
+        "outcome": "ON_HAND_ZERO_ADDITIONAL_NEED"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "pantry-no",
+      "group": "qualification",
+      "input": {
+        "available": false,
+        "qualifyingQuote": true
+      },
+      "expected": {
+        "outcome": "OBSERVED_NEED_RETAINED"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "unknown-stock",
+      "group": "qualification",
+      "input": {
+        "inStore": true,
+        "stockLevel": null,
+        "otherwiseQualified": true
+      },
+      "expected": {
+        "outcome": "OBSERVED_WITH_STOCK_UNCONFIRMED_LABEL"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "promo-ignored",
+      "group": "qualification",
+      "input": {
+        "regularPriceCents": 480,
+        "promoPriceCents": 240,
+        "regularConditionsVerified": true
+      },
+      "expected": {
+        "outcome": "SELECT_REGULAR_480"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "revision-conflict",
+      "group": "qualification",
+      "input": {
+        "sameProductRevision": true,
+        "conflictingPriceCents": [
+          200,
+          300
+        ]
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "pinned-food",
+      "group": "qualification",
+      "input": {
+        "pinnedFood": "SYNTH_A",
+        "onlyCheapOfferFood": "SYNTH_B"
+      },
+      "expected": {
+        "outcome": "KEEP_A_STATIC"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "source-gate-closed",
+      "group": "qualification",
+      "input": {
+        "sourceGateApproved": false,
+        "otherwiseQualified": true
+      },
+      "expected": {
+        "outcome": "STATIC_ESTIMATE"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "rounding-reconciliation",
+      "group": "presentation",
+      "input": {
+        "exactRecipeRowCostsCents": [
+          "0.5",
+          "0.5",
+          "0.5"
+        ],
+        "stableRowKeys": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "expected": {
+        "recipeTotalCents": 2,
+        "displayRowCents": [
+          1,
+          1,
+          0
+        ],
+        "shoppingReusesAllocatedRows": true
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "offer-tie",
+      "group": "selection",
+      "input": {
+        "offers": [
+          {
+            "key": "b",
+            "unitCost": "1/3",
+            "observedAt": "2026-11-09T18:00:00Z"
+          },
+          {
+            "key": "a",
+            "unitCost": "1/3",
+            "observedAt": "2026-11-09T18:00:00Z"
+          }
+        ],
+        "sameLocationAndProduct": true
+      },
+      "expected": {
+        "selectedKey": "a",
+        "comparisonBasis": "exact rational unit cost then stable IDs"
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "mixed-basis",
+      "group": "presentation",
+      "input": {
+        "rows": [
+          "OBSERVED",
+          "STATIC_ESTIMATE",
+          "UNPRICED"
+        ]
+      },
+      "expected": {
+        "includesStaticEstimates": true,
+        "incompleteEstimate": true,
+        "singleObservedTotalLabel": false
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "independent-disable",
+      "group": "rollout",
+      "input": {
+        "observedPricingEnabled": false,
+        "barcodeLookupEnabled": true
+      },
+      "expected": {
+        "pricing": "STATIC_OR_UNPRICED",
+        "inventoryWritten": false,
+        "lookupUnaffected": true
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "missing-cache-permission",
+      "group": "operations",
+      "input": {
+        "cacheControl": null,
+        "retentionPermission": false
+      },
+      "expected": {
+        "persistentCache": false,
+        "payloadLogging": false
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    },
+    {
+      "id": "cache-header-no-store",
+      "group": "operations",
+      "input": {
+        "cacheControl": "no-store",
+        "retentionPermission": false
+      },
+      "expected": {
+        "persistentCache": false,
+        "offlineKrogerPayload": false
+      },
+      "dataKind": "synthetic_not_a_live_quote"
+    }
+  ]
+}
