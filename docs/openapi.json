@@ -3466,7 +3466,7 @@
         "properties": {
           "locationId": {
             "type": "string",
-            "example": "62000116"
+            "example": "62000105"
           },
           "name": {
             "type": "string",
