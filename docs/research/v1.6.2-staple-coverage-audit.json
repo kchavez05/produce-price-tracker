@@ -1,0 +1,1853 @@
+{
+  "status": "feasibility audit; not approved mappings or verified live coverage",
+  "audit_date": "2026-11-09",
+  "repository_head": "8a7e244ca2a3a1dcbc16dae6d1d67a3ca6593afe",
+  "source_manifest": {
+    "food.csv": {
+      "bytes": 221920942,
+      "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+    },
+    "branded_food.csv": {
+      "bytes": 960715079,
+      "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+    }
+  },
+  "source_rules": "Case-insensitive description discovery; join fdc_id; examples require US market, no discontinued_date and valid GTIN check digit. Rank Kroger brand first, package_weight presence second, publication_date then FDC ID descending. No deduplication or currency assertion; description counts include revisions. Ingredient lists are contextual only. Example ranking is not runtime revision selection.",
+  "staples": [
+    {
+      "id": "chicken-broth",
+      "name": "Chicken broth",
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.4
+      },
+      "uses": [
+        {
+          "recipe": "colorado-pork-green-chile-stew",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "chicken-broth",
+          "quantity": 4,
+          "unit": "cup"
+        },
+        {
+          "recipe": "cheesy-chicken-broccoli-potato-casserole",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "chicken-broth",
+          "quantity": 0.5,
+          "unit": "cup"
+        },
+        {
+          "recipe": "kielbasa-cabbage-apple-potato-braise",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "chicken-broth",
+          "quantity": 1.5,
+          "unit": "cup"
+        },
+        {
+          "recipe": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "chicken-broth",
+          "quantity": 5,
+          "unit": "cup"
+        },
+        {
+          "recipe": "golden-chicken-butternut-squash-curry-braise",
+          "slot": 2,
+          "alternative": 1,
+          "ingredientId": "chicken-broth",
+          "quantity": 1.75,
+          "unit": "cup"
+        },
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "chicken-broth",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bchicken broth\\b",
+      "matching_description_rows": 2600,
+      "joined_branded_rows": 2600,
+      "discovery_examples": [
+        {
+          "fdc_id": "2657891",
+          "gtin_upc": "011110738424",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "14 oz/396 g",
+          "market_country": "United States",
+          "modified_date": "2023-09-08",
+          "available_date": "2023-10-26",
+          "ingredients": "CHICKEN STOCK, CONTAINS 2% OR LESS OF: SEA SALT, SALT, SUGAR, NATURAL FLAVORING, DEHYDRATED ONION, YEAST EXTRACT, CHICKEN FAT, CARROT JUICE CONCENTRATE, CELERY ONIONS.",
+          "branded_food_category": "Canned Soup",
+          "description": "CHICKEN BROTH, CHICKEN",
+          "publication_date": "2023-10-26",
+          "audit_disposition": "Product discovery only: package is mass, recipe is cups; volume evidence required."
+        },
+        {
+          "fdc_id": "2654448",
+          "gtin_upc": "011110738431",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "14 oz/396 g",
+          "market_country": "United States",
+          "modified_date": "2023-09-02",
+          "available_date": "2023-10-26",
+          "ingredients": "CHICKEN STOCK, SALT, CHICKEN FLAVOR (CONTAINS OTHER NATURAL FLAVOR), DEXTROSE, YEAST EXTRACT, CARROT JUICE CONCENTRATE, ONION JUICE CONCENTRATE, CELERY JUICE CONCENTRATE, TURMERIC.",
+          "branded_food_category": "Canned Soup",
+          "description": "CHICKEN BROTH, CHICKEN",
+          "publication_date": "2023-10-26",
+          "audit_disposition": "Product discovery only: package is mass, recipe is cups; volume evidence required."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "ground-cumin",
+      "name": "Ground cumin",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "colorado-pork-green-chile-stew",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "ground-cumin",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "ground-cumin",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "ground-cumin",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "ground-cumin",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "mexican-oregano-dried",
+      "name": "Dried Mexican oregano",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "colorado-pork-green-chile-stew",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "mexican-oregano-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "garlic-fresh",
+      "name": "Garlic",
+      "staticPrice": {
+        "unit": "clove",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "colorado-pork-green-chile-stew",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "garlic-fresh",
+          "quantity": 4,
+          "unit": "clove"
+        },
+        {
+          "recipe": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "garlic-fresh",
+          "quantity": 4,
+          "unit": "clove"
+        },
+        {
+          "recipe": "golden-chicken-butternut-squash-curry-braise",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "garlic-fresh",
+          "quantity": 4,
+          "unit": "clove"
+        },
+        {
+          "recipe": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "garlic-fresh",
+          "quantity": 5,
+          "unit": "clove"
+        },
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "garlic-fresh",
+          "quantity": 4,
+          "unit": "clove"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "cornstarch",
+      "name": "Cornstarch",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.05
+      },
+      "uses": [
+        {
+          "recipe": "colorado-pork-green-chile-stew",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "cornstarch",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "cornstarch",
+          "quantity": 3,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "beef-broth",
+      "name": "Beef broth",
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.45
+      },
+      "uses": [
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "beef-broth",
+          "quantity": 4,
+          "unit": "cup"
+        },
+        {
+          "recipe": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "beef-broth",
+          "quantity": 3,
+          "unit": "cup"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bbeef broth\\b",
+      "matching_description_rows": 767,
+      "joined_branded_rows": 767,
+      "discovery_examples": [
+        {
+          "fdc_id": "2657892",
+          "gtin_upc": "011110738455",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "14 oz/396 g",
+          "market_country": "United States",
+          "modified_date": "2023-09-08",
+          "available_date": "2023-10-26",
+          "ingredients": "WATER, BEEF BROTH, SALT, AUTOLYZED YEAST EXTRACT, NATURAL FLAVOR, FRUCTOSE, CARAMEL COLOR, BEEF FAT, BEEF EXTRACT.",
+          "branded_food_category": "Canned Soup",
+          "description": "BEEF BROTH, BEEF",
+          "publication_date": "2023-10-26",
+          "audit_disposition": "Product discovery only: mass package cannot establish broth volume."
+        },
+        {
+          "fdc_id": "2386494",
+          "gtin_upc": "011110085962",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "32 OZ/2 LB/907 g",
+          "market_country": "United States",
+          "modified_date": "2020-12-02",
+          "available_date": "2022-12-22",
+          "ingredients": "BEEF BROTH, SALT, YEAST EXTRACT, FLAVOR, CARAMELIZED SUGAR, BEEF BROTH FLAVOR (BEEF BROTH, BEEF, SALT, NATURAL FLAVOR), BEEF FAT*, XANTHAN GUM, LACTIC ACID, BEEF EXTRACT.",
+          "branded_food_category": "Canned Soup",
+          "description": "BEEF BROTH, BEEF",
+          "publication_date": "2022-12-22",
+          "audit_disposition": "Product discovery only: mass package cannot establish broth volume."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "tomato-paste",
+      "name": "Tomato paste",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      },
+      "uses": [
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "tomato-paste",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "worcestershire-sauce-gluten-free",
+      "name": "Gluten-free Worcestershire sauce",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      },
+      "uses": [
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "worcestershire-sauce-gluten-free",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "recipe": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "worcestershire-sauce-gluten-free",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bworcestershire\\b",
+      "matching_description_rows": 470,
+      "joined_branded_rows": 470,
+      "discovery_examples": [
+        {
+          "fdc_id": "2533428",
+          "gtin_upc": "011110719287",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "15 fl oz/443 ml",
+          "market_country": "United States",
+          "modified_date": "2023-03-22",
+          "available_date": "2023-04-27",
+          "ingredients": "WATER, DISTILLED VINEGAR, MOLASSES, SALT, CITRIC ACID, DEXTROSE, CARAMEL COLOR, NATURAL FLAVORS, MALIC ACID, HYDROLYZED SOY AND CORN PROTEIN, DEHYDRATED ONION, DEHYDRATED GARLIC.",
+          "branded_food_category": "Ketchup, Mustard, BBQ & Cheese Sauce",
+          "description": "WORCESTERSHIRE SAUCE, WORCESTERSHIRE",
+          "publication_date": "2023-04-27",
+          "audit_disposition": "Plausible ordinary Worcestershire volume candidate; no gluten-free claim established."
+        },
+        {
+          "fdc_id": "2678433",
+          "gtin_upc": "051497261153",
+          "brand_owner": "Gracie's Enterprises Ltd",
+          "brand_name": "W SAUCE",
+          "package_weight": "12 oz",
+          "market_country": "United States",
+          "modified_date": "2021-10-22",
+          "available_date": "2023-11-16",
+          "ingredients": "DISTILLED WHITE VINEGAR, BROWN SUGAR, DICED TOMATOES, ONIONS, SALT, ASSORTED SPICES, FRESH GARLIC, CAYENNE, HABANERO PEPPER, FRESH, ANCHOVY, XANTHAM GUM.",
+          "branded_food_category": "Ketchup, Mustard, BBQ & Cheese Sauce",
+          "description": "BEAR & BURTON'S AMERICA'S WORCESTERSHIRE, BEAR & BURTON'S",
+          "publication_date": "2023-11-16",
+          "audit_disposition": "Hold: ambiguous oz basis and recipe/form review required; no gluten-free claim established."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "worcestershire-sauce",
+      "name": "Worcestershire sauce",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.18
+      },
+      "uses": [
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 2,
+          "alternative": 1,
+          "ingredientId": "worcestershire-sauce",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "recipe": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slot": 1,
+          "alternative": 1,
+          "ingredientId": "worcestershire-sauce",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bworcestershire\\b",
+      "matching_description_rows": 470,
+      "joined_branded_rows": 470,
+      "discovery_examples": [
+        {
+          "fdc_id": "2533428",
+          "gtin_upc": "011110719287",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "15 fl oz/443 ml",
+          "market_country": "United States",
+          "modified_date": "2023-03-22",
+          "available_date": "2023-04-27",
+          "ingredients": "WATER, DISTILLED VINEGAR, MOLASSES, SALT, CITRIC ACID, DEXTROSE, CARAMEL COLOR, NATURAL FLAVORS, MALIC ACID, HYDROLYZED SOY AND CORN PROTEIN, DEHYDRATED ONION, DEHYDRATED GARLIC.",
+          "branded_food_category": "Ketchup, Mustard, BBQ & Cheese Sauce",
+          "description": "WORCESTERSHIRE SAUCE, WORCESTERSHIRE",
+          "publication_date": "2023-04-27",
+          "audit_disposition": "Plausible ordinary Worcestershire volume candidate; no gluten-free claim established."
+        },
+        {
+          "fdc_id": "2678433",
+          "gtin_upc": "051497261153",
+          "brand_owner": "Gracie's Enterprises Ltd",
+          "brand_name": "W SAUCE",
+          "package_weight": "12 oz",
+          "market_country": "United States",
+          "modified_date": "2021-10-22",
+          "available_date": "2023-11-16",
+          "ingredients": "DISTILLED WHITE VINEGAR, BROWN SUGAR, DICED TOMATOES, ONIONS, SALT, ASSORTED SPICES, FRESH GARLIC, CAYENNE, HABANERO PEPPER, FRESH, ANCHOVY, XANTHAM GUM.",
+          "branded_food_category": "Ketchup, Mustard, BBQ & Cheese Sauce",
+          "description": "BEAR & BURTON'S AMERICA'S WORCESTERSHIRE, BEAR & BURTON'S",
+          "publication_date": "2023-11-16",
+          "audit_disposition": "Hold: ambiguous oz basis and recipe/form review required; no gluten-free claim established."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "all-purpose-flour",
+      "name": "All-purpose wheat flour",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.03
+      },
+      "uses": [
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 3,
+          "alternative": 1,
+          "ingredientId": "all-purpose-flour",
+          "quantity": 3,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "thyme-dried",
+      "name": "Dried thyme",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "thyme-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "kielbasa-cabbage-apple-potato-braise",
+          "slot": 3,
+          "alternative": 1,
+          "ingredientId": "thyme-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "thyme-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "bay-leaf",
+      "name": "Bay leaf",
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.1
+      },
+      "uses": [
+        {
+          "recipe": "dutch-oven-beef-chuck-pot-roast-stew",
+          "slot": 5,
+          "alternative": 0,
+          "ingredientId": "bay-leaf",
+          "quantity": 2,
+          "unit": "each"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "garlic-powder",
+      "name": "Garlic powder",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      },
+      "uses": [
+        {
+          "recipe": "cheesy-chicken-broccoli-potato-casserole",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "garlic-powder",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "garlic-powder",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "garlic-powder",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "garlic-powder",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "onion-powder",
+      "name": "Onion powder",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      },
+      "uses": [
+        {
+          "recipe": "cheesy-chicken-broccoli-potato-casserole",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "onion-powder",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "smoked-paprika",
+      "name": "Smoked paprika",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "cheesy-chicken-broccoli-potato-casserole",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "smoked-paprika",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "smoked-paprika",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "smoked-paprika",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "smoked-paprika",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "olive-oil",
+      "name": "Olive oil",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.2
+      },
+      "uses": [
+        {
+          "recipe": "cheesy-chicken-broccoli-potato-casserole",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "olive-oil",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "recipe": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "olive-oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        },
+        {
+          "recipe": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "olive-oil",
+          "quantity": 3,
+          "unit": "tbsp"
+        },
+        {
+          "recipe": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "olive-oil",
+          "quantity": 3,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bolive oil\\b",
+      "matching_description_rows": 13131,
+      "joined_branded_rows": 13131,
+      "discovery_examples": [
+        {
+          "fdc_id": "2629691",
+          "gtin_upc": "011110122322",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH ORGANIC",
+          "package_weight": "5 oz/142 g",
+          "market_country": "United States",
+          "modified_date": "2023-07-03",
+          "available_date": "2023-08-31",
+          "ingredients": "ORGANIC EXTRA VIRGIN OLIVE OIL, ORGANIC SOY LECITHIN.",
+          "branded_food_category": "Vegetable & Cooking Oils",
+          "description": "EXTRA VIRGIN OLIVE OIL COOKING SPRAY, EXTRA VIRGIN OLIVE OIL",
+          "publication_date": "2023-08-31",
+          "audit_disposition": "Reject as olive oil: cooking spray with lecithin; mass package."
+        },
+        {
+          "fdc_id": "2533402",
+          "gtin_upc": "011110118134",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "PRIVATE SELECTION",
+          "package_weight": "16.9 FL OZ/500 mL",
+          "market_country": "United States",
+          "modified_date": "2023-03-03",
+          "available_date": "2023-04-27",
+          "ingredients": "EXTRA VIRGIN OLIVE OIL.",
+          "branded_food_category": "Vegetable & Cooking Oils",
+          "description": "EXTRA VIRGIN OLIVE OIL",
+          "publication_date": "2023-04-27",
+          "audit_disposition": "Plausible oil/volume candidate; confirm applicable recipe variant and live product identity."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "black-beans-canned",
+      "name": "Canned black beans",
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "uses": [
+        {
+          "recipe": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "black-beans-canned",
+          "quantity": 30,
+          "unit": "oz"
+        }
+      ],
+      "conversion_disposition": "net_mass_basis_review_required",
+      "discovery_pattern": "\\bblack beans\\b",
+      "matching_description_rows": 4755,
+      "joined_branded_rows": 4755,
+      "discovery_examples": [
+        {
+          "fdc_id": "2674077",
+          "gtin_upc": "011110626905",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "5 lbs/2.27 kg",
+          "market_country": "United States",
+          "modified_date": "2023-10-03",
+          "available_date": "2023-11-16",
+          "ingredients": "BLACK BEANS.",
+          "branded_food_category": "Vegetable and Lentil Mixes",
+          "description": "BLACK BEANS, BLACK",
+          "publication_date": "2023-11-16",
+          "audit_disposition": "Reject as canned beans: record does not establish canned/prepared form; dry-form discovery lead."
+        },
+        {
+          "fdc_id": "2668304",
+          "gtin_upc": "011110122063",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH ORGANIC",
+          "package_weight": "60 oz/3.75 lbs/1.70 kg",
+          "market_country": "United States",
+          "modified_date": "2023-10-05",
+          "available_date": "2023-11-16",
+          "ingredients": "WATER, ORGANIC BLACK BEANS, SEA SALT.",
+          "branded_food_category": "Canned & Bottled Beans",
+          "description": "BLACK BEANS, BLACK",
+          "publication_date": "2023-11-16",
+          "audit_disposition": "Plausible prepared-bean candidate; packaging/form and recipe net-mass basis still need confirmation."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "kidney-beans-canned",
+      "name": "Canned kidney beans",
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "uses": [
+        {
+          "recipe": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slot": 0,
+          "alternative": 1,
+          "ingredientId": "kidney-beans-canned",
+          "quantity": 30,
+          "unit": "oz"
+        }
+      ],
+      "conversion_disposition": "net_mass_basis_review_required",
+      "discovery_pattern": "\\bkidney beans\\b",
+      "matching_description_rows": 2799,
+      "joined_branded_rows": 2799,
+      "discovery_examples": [
+        {
+          "fdc_id": "2668301",
+          "gtin_upc": "011110121455",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "15.5 oz/439 g",
+          "market_country": "United States",
+          "modified_date": "2023-10-09",
+          "available_date": "2023-11-16",
+          "ingredients": "PREPARED LIGHT RED KIDNEY BEANS, WATER, CORN SYRUP, SALT, CALCIUM CHLORIDE (ADDED TO PROMOTE FIRMNESS), DISODIUM EDTA ADDED TO PROMOTE COLOR RETENTION).",
+          "branded_food_category": "Canned & Bottled Beans",
+          "description": "LIGHT RED KIDNEY BEANS, LIGHT RED KIDNEY",
+          "publication_date": "2023-11-16",
+          "audit_disposition": "Plausible prepared-bean candidate; verify canned form and recipe net-mass basis."
+        },
+        {
+          "fdc_id": "2654493",
+          "gtin_upc": "011110124739",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "62 oz/3.88 lbs/1.76 kg",
+          "market_country": "United States",
+          "modified_date": "2023-09-06",
+          "available_date": "2023-10-26",
+          "ingredients": "PREPARED DARK RED KIDNEY BEANS, WATER, CORN SYRUP, SALT, CALCIUM CHLORIDE (ADDED TO PROMOTE FIRMNESS), DISODIUM EDTA (ADDED TO PROMOTE COLOR RETENTION).",
+          "branded_food_category": "Canned & Bottled Beans",
+          "description": "DARK RED KIDNEY BEANS, DARK RED KIDNEY",
+          "publication_date": "2023-10-26",
+          "audit_disposition": "Plausible prepared-bean candidate; verify canned form and recipe net-mass basis."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "crushed-tomatoes-canned",
+      "name": "Canned crushed tomatoes",
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.06
+      },
+      "uses": [
+        {
+          "recipe": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "crushed-tomatoes-canned",
+          "quantity": 28,
+          "unit": "oz"
+        }
+      ],
+      "conversion_disposition": "net_mass_basis_review_required",
+      "discovery_pattern": "\\bcrushed tomatoes\\b",
+      "matching_description_rows": 1420,
+      "joined_branded_rows": 1420,
+      "discovery_examples": [
+        {
+          "fdc_id": "1864324",
+          "gtin_upc": "011110809308",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH",
+          "package_weight": "28 oz/793 g",
+          "market_country": "United States",
+          "modified_date": "2021-05-18",
+          "available_date": "2021-07-29",
+          "ingredients": "ORGANIC TOMATO PUREE, ORGANIC TOMATOES, CITRIC ACID.",
+          "branded_food_category": "Tomatoes",
+          "description": "NO SALT ADDED CRUSHED TOMATOES",
+          "publication_date": "2021-07-29",
+          "audit_disposition": "Plausible crushed-tomato/net-mass candidate; verify canned form against source offer."
+        },
+        {
+          "fdc_id": "1838832",
+          "gtin_upc": "011110809308",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH",
+          "package_weight": "793 g",
+          "market_country": "United States",
+          "modified_date": "2021-05-18",
+          "available_date": "2021-06-25",
+          "ingredients": "ORGANIC TOMATO PUREE, ORGANIC TOMATOES, CITRIC ACID.",
+          "branded_food_category": "Tomatoes",
+          "description": "NO SALT ADDED CRUSHED TOMATOES",
+          "publication_date": "2021-06-25",
+          "audit_disposition": "Plausible crushed-tomato candidate; may be another revision, not an independent product."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "chili-powder",
+      "name": "Chili powder",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "southwest-sweet-potato-ground-beef-chili-bake",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "chili-powder",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "chili-powder",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "apple-cider-vinegar",
+      "name": "Apple cider vinegar",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.06
+      },
+      "uses": [
+        {
+          "recipe": "kielbasa-cabbage-apple-potato-braise",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "apple-cider-vinegar",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bapple cider vinegar\\b",
+      "matching_description_rows": 1685,
+      "joined_branded_rows": 1685,
+      "discovery_examples": [
+        {
+          "fdc_id": "2493338",
+          "gtin_upc": "011110107657",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH ORGANIC",
+          "package_weight": "16 FL OZ/1 PT/473 ml",
+          "market_country": "United States",
+          "modified_date": "2022-10-07",
+          "available_date": "2023-03-16",
+          "ingredients": "ORGANIC APPLE CIDER VINEGAR, DILUTED WITH WATER TO 5% ACIDITY.",
+          "branded_food_category": "Other Cooking Sauces",
+          "description": "APPLE CIDER VINEGAR WITH MOTHER, APPLE CIDER VINEGAR",
+          "publication_date": "2023-03-16",
+          "audit_disposition": "Plausible vinegar/volume candidate; verify ordinary culinary product/form."
+        },
+        {
+          "fdc_id": "2446260",
+          "gtin_upc": "011110039163",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH",
+          "package_weight": "4.5 oz/128 g",
+          "market_country": "United States",
+          "modified_date": "2021-05-13",
+          "available_date": "2023-01-26",
+          "ingredients": "ORGANIC SPINACH, ORGANIC APPLE CIDER VINEGAR DIJON VINAIGRETTE (WATER, ORGANIC CANOLA OIL, ORGANIC APPLE JUICE CONCENTRATE, ORGANIC APPLE CIDER VINEGAR, ORGANIC WHITE WINE VINEGAR, ORGANIC CANE SUGAR, ORGANIC DIJON MUSTARD [ORGANIC APPLE CIDER VINEGAR, WATER, ORGANIC MUSTARD SEED, SALT, ORGANIC SPICES], LESS THAN 2% OF SALT, ORGANIC CORN STARCH, ORGANIC MALTODEXTRIN, XANTHAN GUM), ORGANIC RAISINS, ORGANIC WHITE CHEDDAR CHEESE (ORGANIC CHEDDAR CHEESE [PASTEURIZED ORGANIC MILK, CHEESE CULTURE, SALT, ENZYMES], POWDERED CELLULOSE [TO PREVENT CAKING]), ORGANIC ALMONDS.",
+          "branded_food_category": "Pickles, Olives, Peppers & Relishes",
+          "description": "ALMOND CHEDDAR WITH APPLE CIDER VINEGAR & DIJON VINAIGRETTE, SPINACH, RAISINS & ALMONDS, WHITE CHEDDAR SALAD BOWL, ALMOND CHEDDAR",
+          "publication_date": "2023-01-26",
+          "audit_disposition": "Reject: mixed salad bowl, not vinegar."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "whole-grain-mustard",
+      "name": "Whole grain mustard",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.14
+      },
+      "uses": [
+        {
+          "recipe": "kielbasa-cabbage-apple-potato-braise",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "whole-grain-mustard",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "dijon-mustard",
+      "name": "Dijon mustard",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.12
+      },
+      "uses": [
+        {
+          "recipe": "kielbasa-cabbage-apple-potato-braise",
+          "slot": 1,
+          "alternative": 1,
+          "ingredientId": "dijon-mustard",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "recipe": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "dijon-mustard",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "caraway-seeds",
+      "name": "Caraway seeds",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "kielbasa-cabbage-apple-potato-braise",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "caraway-seeds",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "cannellini-beans-canned",
+      "name": "Canned cannellini beans",
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      },
+      "uses": [
+        {
+          "recipe": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "cannellini-beans-canned",
+          "quantity": 15,
+          "unit": "oz"
+        }
+      ],
+      "conversion_disposition": "net_mass_basis_review_required",
+      "discovery_pattern": "\\bcannellini\\b",
+      "matching_description_rows": 691,
+      "joined_branded_rows": 691,
+      "discovery_examples": [
+        {
+          "fdc_id": "2654511",
+          "gtin_upc": "011110121424",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "15.5 oz/439 g",
+          "market_country": "United States",
+          "modified_date": "2023-09-11",
+          "available_date": "2023-10-26",
+          "ingredients": "PREPARED CANNELLINI BEANS, WATER, SALT, CALCIUM CHLORIDE (ADDED TO PROMOTE FIRMNESS), DISODIUM EDTA (ADDED TO PROMOTE COLOR RETENTION).",
+          "branded_food_category": "Canned & Bottled Beans",
+          "description": "CANNELLIN BEANS, CANNELLINI",
+          "publication_date": "2023-10-26",
+          "audit_disposition": "Plausible prepared-bean candidate; verify canned form and net-mass basis."
+        },
+        {
+          "fdc_id": "2462271",
+          "gtin_upc": "011110055316",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "PRIVATE SELECTION",
+          "package_weight": "16 oz/1 lbs/454 g",
+          "market_country": "United States",
+          "modified_date": "2021-04-15",
+          "available_date": "2023-02-16",
+          "ingredients": "WATER, CANNELLINI BEANS, TOMATO PASTE, ONIONS, CHORIZO SAUSAGE CRUMBLE (PORK, WATER, PAPRIKA, SALT, CAYENNE PEPPER, RED WINE POWDER [MALTODEXTRIN {WHEAT}, SULFITE], GARLIC POWDER), RENDERED BACON FAT, LESS THAN 1% OF: SALT, GARLIC, RED WINE VINEGAR, VEGETABLES (CARROTS, ONIONS, CELERY), MODIFIED CORN STARCH, SUGAR, CORN OIL, WHITE VINEGAR, PAPRIKA, NATURAL FLAVOR, CAYENNE PEPPER, BLACK PEPPER, CARROT POWDER, BUTTER (CREAM).",
+          "branded_food_category": "Other Soups",
+          "description": "CANNELLINI BEAN & CHORIZO GOURMET SOUP, CANNELLINI BEAN & CHORIZO",
+          "publication_date": "2023-02-16",
+          "audit_disposition": "Reject: bean/chorizo soup does not establish canned cannellini ownership or pricing."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "great-northern-beans-canned",
+      "name": "Canned Great Northern beans",
+      "staticPrice": {
+        "unit": "oz",
+        "usdPerUnit": 0.07
+      },
+      "uses": [
+        {
+          "recipe": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slot": 0,
+          "alternative": 1,
+          "ingredientId": "great-northern-beans-canned",
+          "quantity": 15,
+          "unit": "oz"
+        }
+      ],
+      "conversion_disposition": "net_mass_basis_review_required",
+      "discovery_pattern": "\\bgreat northern beans\\b",
+      "matching_description_rows": 971,
+      "joined_branded_rows": 971,
+      "discovery_examples": [
+        {
+          "fdc_id": "2641655",
+          "gtin_upc": "011110122155",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH ORGANIC",
+          "package_weight": "15 oz/425 g",
+          "market_country": "United States",
+          "modified_date": "2023-08-26",
+          "available_date": "2023-09-14",
+          "ingredients": "PREPARED ORGANIC GREAT NORTHERN BEANS, WATER, SEA SALT, CALCIUM CHLORIDE (FIRMING AGENT).",
+          "branded_food_category": "Canned & Bottled Beans",
+          "description": "GREAT NORTHERN BEANS, GREAT NORTHERN",
+          "publication_date": "2023-09-14",
+          "audit_disposition": "Plausible prepared-bean candidate; verify canned form and net-mass basis."
+        },
+        {
+          "fdc_id": "2400238",
+          "gtin_upc": "011110849410",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH",
+          "package_weight": "15 oz/425 g",
+          "market_country": "United States",
+          "modified_date": "2021-05-20",
+          "available_date": "2022-12-22",
+          "ingredients": "WATER, ORGANIC GREAT NORTHERN BEANS, SEA SALT, CALCIUM CHLORIDE (FIRMING AGENT).",
+          "branded_food_category": "Canned & Bottled Beans",
+          "description": "GREAT NORTHERN BEANS, GREAT NORTHERN",
+          "publication_date": "2022-12-22",
+          "audit_disposition": "Plausible prepared-bean candidate; may be another revision."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "italian-seasoning",
+      "name": "Italian seasoning",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "italian-seasoning",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "red-pepper-flakes",
+      "name": "Red pepper flakes",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.06
+      },
+      "uses": [
+        {
+          "recipe": "tuscan-sausage-white-bean-spinach-potato-stew",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "red-pepper-flakes",
+          "quantity": 0.5,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "curry-powder",
+      "name": "Curry powder",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.1
+      },
+      "uses": [
+        {
+          "recipe": "golden-chicken-butternut-squash-curry-braise",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "curry-powder",
+          "quantity": 3,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "garam-masala",
+      "name": "Garam masala",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.12
+      },
+      "uses": [
+        {
+          "recipe": "golden-chicken-butternut-squash-curry-braise",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "garam-masala",
+          "quantity": 3,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "coconut-milk-canned",
+      "name": "Canned coconut milk",
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 1
+      },
+      "uses": [
+        {
+          "recipe": "golden-chicken-butternut-squash-curry-braise",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "coconut-milk-canned",
+          "quantity": 1.75,
+          "unit": "cup"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bcoconut milk\\b",
+      "matching_description_rows": 2382,
+      "joined_branded_rows": 2382,
+      "discovery_examples": [
+        {
+          "fdc_id": "2617178",
+          "gtin_upc": "011110904157",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "13.5 fl oz/399 mL",
+          "market_country": "United States",
+          "modified_date": "2023-07-11",
+          "available_date": "2023-08-31",
+          "ingredients": "WATER, COCONUT CREAM, XANTHAN GUM.",
+          "branded_food_category": "Plant Based Milk",
+          "description": "KROGER, LITE COCONUT MILK",
+          "publication_date": "2023-08-31",
+          "audit_disposition": "Reject for current full-fat curry use: lite coconut milk."
+        },
+        {
+          "fdc_id": "2571878",
+          "gtin_upc": "011110857323",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH ORGANIC",
+          "package_weight": "13.5 fl oz/399 mL",
+          "market_country": "United States",
+          "modified_date": "2023-05-10",
+          "available_date": "2023-06-29",
+          "ingredients": "PURIFIED WATER, ORGANIC COCONUT, ORGANIC GUAR GUM.",
+          "branded_food_category": "Baking Additives & Extracts",
+          "description": "LITE COCONUT MILK, LITE",
+          "publication_date": "2023-06-29",
+          "audit_disposition": "Reject for current full-fat curry use: lite coconut milk."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "ginger-fresh",
+      "name": "Ginger",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      },
+      "uses": [
+        {
+          "recipe": "golden-chicken-butternut-squash-curry-braise",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "ginger-fresh",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "basmati-rice-dry",
+      "name": "Dry basmati rice",
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.65
+      },
+      "uses": [
+        {
+          "recipe": "golden-chicken-butternut-squash-curry-braise",
+          "slot": 5,
+          "alternative": 0,
+          "ingredientId": "basmati-rice-dry",
+          "quantity": 1,
+          "unit": "cup",
+          "optional": true
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "salt",
+      "name": "Salt",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.01
+      },
+      "uses": [
+        {
+          "recipe": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slot": 0,
+          "alternative": 0,
+          "ingredientId": "salt",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 5,
+          "alternative": 0,
+          "ingredientId": "salt",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "black-pepper",
+      "name": "Black pepper",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.05
+      },
+      "uses": [
+        {
+          "recipe": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "black-pepper",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 6,
+          "alternative": 0,
+          "ingredientId": "black-pepper",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "avocado-oil",
+      "name": "Avocado oil",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.25
+      },
+      "uses": [
+        {
+          "recipe": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slot": 0,
+          "alternative": 1,
+          "ingredientId": "avocado-oil",
+          "quantity": 3,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bavocado oil\\b",
+      "matching_description_rows": 1567,
+      "joined_branded_rows": 1567,
+      "discovery_examples": [
+        {
+          "fdc_id": "2668307",
+          "gtin_upc": "011110123251",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "PRIVATE SELECTION",
+          "package_weight": "67.6 fl oz/2 L",
+          "market_country": "United States",
+          "modified_date": "2023-10-30",
+          "available_date": "2023-11-16",
+          "ingredients": "AVOCADO OIL.",
+          "branded_food_category": "Vegetable & Cooking Oils",
+          "description": "COLD - PRESSED AVOCADO OIL",
+          "publication_date": "2023-11-16",
+          "audit_disposition": "Plausible oil/volume candidate; verify exact live offer identity."
+        },
+        {
+          "fdc_id": "2668275",
+          "gtin_upc": "011110129871",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH ORGANIC",
+          "package_weight": "8.5 fl oz/250 mL",
+          "market_country": "United States",
+          "modified_date": "2023-10-30",
+          "available_date": "2023-11-16",
+          "ingredients": "ORGANIC REFINED AVOCADO OIL.",
+          "branded_food_category": "Vegetable & Cooking Oils",
+          "description": "REFINED AVOCADO OIL",
+          "publication_date": "2023-11-16",
+          "audit_disposition": "Plausible oil/volume candidate; verify exact live offer identity."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "oregano-dried",
+      "name": "Dried oregano",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.07
+      },
+      "uses": [
+        {
+          "recipe": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "oregano-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 2,
+          "alternative": 0,
+          "ingredientId": "oregano-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "lime-juice",
+      "name": "Lime juice",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.15
+      },
+      "uses": [
+        {
+          "recipe": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+          "slot": 5,
+          "alternative": 0,
+          "ingredientId": "lime-juice",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\blime juice\\b",
+      "matching_description_rows": 649,
+      "joined_branded_rows": 649,
+      "discovery_examples": [
+        {
+          "fdc_id": "2196471",
+          "gtin_upc": "011110098405",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "PRIVATE SELECTION",
+          "package_weight": "11.8 OZ/349 mL",
+          "market_country": "United States",
+          "modified_date": "2021-11-01",
+          "available_date": "2021-12-01",
+          "ingredients": "WATER, CANOLA OIL, EVAPORATED CANE SUGAR, DISTILLED VINEGAR, AJI AMARILLO CHILI PEPPER, GARLIC, SALT, CONCENTRATED LIME JUICE, SPICES, ONION POWDER, GARLIC POWDER, XANTHAN GUM, GUAR GUM, BASIL FLAKES, SPICE EXTRACT, DISODIUM EDTA (PRESERVATIVE), NATURAL FLAVOR.",
+          "branded_food_category": "Seasoning Mixes, Salts, Marinades & Tenderizers",
+          "description": "AJI AMARILLO SPICY CHILES, GARLIC AND LIME JUICE PERUVIAN INSPIRED MARINADE, AJI AMARILLO",
+          "publication_date": "2021-12-01",
+          "audit_disposition": "Reject: mixed marinade, not lime juice."
+        },
+        {
+          "fdc_id": "2023228",
+          "gtin_upc": "011110021939",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "12 fl oz/354 mL",
+          "market_country": "United States",
+          "modified_date": "2017-07-14",
+          "available_date": "2021-10-28",
+          "ingredients": "WATER, LIME JUICE FROM CONCENTRATE, HIGH FRUCTOSE CORN SYRUP, DISTILLED VINEGAR, SOY SAUCE (WATER, SOYBEANS, WHEAT AND SALT), SALT, DRIED GARLIC, OLIVE OIL, DRIED ONION, APPLE CIDER VINEGAR, CONTAINS 2% OR LESS OF THE FOLLOWING: SPICES, SOYBEAN OIL, XANTHAN GUM, SODIUM BENZOATE AND POTASSIUM SORBATE (PRESERVATIVES), CALCIUM DISODIUM EDTA (TO PROTECT FLAVOR), CITRIC ACID, NATURAL FLAVOR.",
+          "branded_food_category": "Seasoning Mixes, Salts, Marinades & Tenderizers",
+          "description": "FAJITA WITH LIME JUICE",
+          "publication_date": "2021-10-28",
+          "audit_disposition": "Reject: fajita marinade, not lime juice."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "coconut-aminos",
+      "name": "Coconut aminos",
+      "staticPrice": {
+        "unit": "tbsp",
+        "usdPerUnit": 0.3
+      },
+      "uses": [
+        {
+          "recipe": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slot": 1,
+          "alternative": 2,
+          "ingredientId": "coconut-aminos",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\bcoconut aminos\\b",
+      "matching_description_rows": 42,
+      "joined_branded_rows": 42,
+      "discovery_examples": [
+        {
+          "fdc_id": "2132095",
+          "gtin_upc": "011110849953",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH",
+          "package_weight": "10 fl oz/296 mL",
+          "market_country": "United States",
+          "modified_date": "2021-05-11",
+          "available_date": "2021-10-28",
+          "ingredients": "ORGANIC COCONUT BLOSSOM NECTAR, WATER, SEA SALT.",
+          "branded_food_category": "Seasoning Mixes, Salts, Marinades & Tenderizers",
+          "description": "COCONUT AMINOS ALL-PURPOSE SEASONING SAUCE, COCONUT AMINOS",
+          "publication_date": "2021-10-28",
+          "audit_disposition": "Plausible coconut-aminos/volume candidate; verify live offer identity."
+        },
+        {
+          "fdc_id": "1677060",
+          "gtin_upc": "011110849953",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "SIMPLE TRUTH",
+          "package_weight": "",
+          "market_country": "United States",
+          "modified_date": "2020-04-08",
+          "available_date": "2021-03-19",
+          "ingredients": "ORGANIC COCONUT BLOSSOM NECTAR, WATER, SEA SALT.",
+          "branded_food_category": "Seasoning Mixes, Salts, Marinades & Tenderizers",
+          "description": "COCONUT AMINOS ALL-PURPOSE SEASONING SAUCE, COCONUT AMINOS",
+          "publication_date": "2021-03-19",
+          "audit_disposition": "Hold: no package amount; may be an older revision."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "rosemary-dried",
+      "name": "Dried rosemary",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+          "slot": 3,
+          "alternative": 0,
+          "ingredientId": "rosemary-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "lemon-fresh",
+      "name": "Lemon",
+      "staticPrice": {
+        "unit": "each",
+        "usdPerUnit": 0.6
+      },
+      "uses": [
+        {
+          "recipe": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slot": 1,
+          "alternative": 0,
+          "ingredientId": "lemon-fresh",
+          "quantity": 1,
+          "unit": "each"
+        }
+      ],
+      "conversion_disposition": "exact_each_offer_required",
+      "discovery_pattern": "^lemons?(?:, raw)?$",
+      "matching_description_rows": 23,
+      "joined_branded_rows": 23,
+      "discovery_examples": [
+        {
+          "fdc_id": "2425696",
+          "gtin_upc": "041735053428",
+          "brand_owner": "Price Chopper Supermarkets",
+          "brand_name": "PRICE CHOPPER",
+          "package_weight": "2 LBS/90 kg",
+          "market_country": "United States",
+          "modified_date": "2021-07-13",
+          "available_date": "2022-12-22",
+          "ingredients": "LEMONS",
+          "branded_food_category": "Pre-Packaged Fruit & Vegetables",
+          "description": "LEMONS",
+          "publication_date": "2022-12-22",
+          "audit_disposition": "Reject package conversion: conflicting mass labels and no each count."
+        },
+        {
+          "fdc_id": "2276359",
+          "gtin_upc": "884853623094",
+          "brand_owner": "Nash Finch Company",
+          "brand_name": "OPEN ACRES",
+          "package_weight": "32 OZ/2 LB/.907 kg",
+          "market_country": "United States",
+          "modified_date": "2021-10-11",
+          "available_date": "2022-05-23",
+          "ingredients": "LEMONS COATED WITH FOOD-GRADE VEGETABLE, BEESWAX, AND/OR LAC-RESIN BASED WAX OR RESIN, TO MAINTAIN FRESHNESS.",
+          "branded_food_category": "Pre-Packaged Fruit & Vegetables",
+          "description": "LEMONS",
+          "publication_date": "2022-05-23",
+          "audit_disposition": "Hold for pricing: mass package cannot supply a per-lemon estimate."
+        }
+      ],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "dill-dried",
+      "name": "Dried dill",
+      "staticPrice": {
+        "unit": "tsp",
+        "usdPerUnit": 0.08
+      },
+      "uses": [
+        {
+          "recipe": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+          "slot": 4,
+          "alternative": 0,
+          "ingredientId": "dill-dried",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "conversion_disposition": "static_until_separate_conversion_review",
+      "discovery_pattern": null,
+      "matching_description_rows": null,
+      "joined_branded_rows": null,
+      "discovery_examples": [],
+      "verified_observed_offers": 0
+    },
+    {
+      "id": "orange-juice",
+      "name": "Orange juice",
+      "staticPrice": {
+        "unit": "cup",
+        "usdPerUnit": 0.5
+      },
+      "uses": [
+        {
+          "recipe": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+          "slot": 0,
+          "alternative": 1,
+          "ingredientId": "orange-juice",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ],
+      "conversion_disposition": "volume_evidence_required",
+      "discovery_pattern": "\\borange juice\\b",
+      "matching_description_rows": 4302,
+      "joined_branded_rows": 4302,
+      "discovery_examples": [
+        {
+          "fdc_id": "2493398",
+          "gtin_upc": "011110877369",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "12 ml/354 mL",
+          "market_country": "United States",
+          "modified_date": "2023-02-27",
+          "available_date": "2023-03-16",
+          "ingredients": "CONCENTRATED ORANGE JUICE, WATER, CALCIUM PHOSPHATE**, CALCIUM LACTATE** CITRIC ACID.",
+          "branded_food_category": "Frozen Fruit & Fruit Juice Concentrates",
+          "description": "ORANGE JUICE FROZEN CONCENTRATE, ORANGE",
+          "publication_date": "2023-03-16",
+          "audit_disposition": "Reject: frozen concentrate, with contradictory package units."
+        },
+        {
+          "fdc_id": "2493378",
+          "gtin_upc": "011110484826",
+          "brand_owner": "The Kroger Co.",
+          "brand_name": "KROGER",
+          "package_weight": "ONE GALLON/3.78 L",
+          "market_country": "United States",
+          "modified_date": "2023-02-25",
+          "available_date": "2023-03-16",
+          "ingredients": "WATER, CONCENTRATED ORANGE JUICE.",
+          "branded_food_category": "Fruit & Vegetable Juice, Nectars & Fruit Drinks",
+          "description": "ORIGINAL ORANGE JUICE FROM CONCENTRATE, ORIGINAL",
+          "publication_date": "2023-03-16",
+          "audit_disposition": "Plausible ready-to-use juice/volume candidate; distinguish reconstituted juice from concentrate."
+        }
+      ],
+      "verified_observed_offers": 0
+    }
+  ],
+  "live_offer_verification": {
+    "status": "not performed; zero verified offers is not evidence of zero store availability",
+    "local_credentials_present": false,
+    "hosted_metadata_check": "Vercel connector returned 404 for locally linked project; discovery listed no linked projects. Hosted credential presence remains unknown.",
+    "locations": [
+      "62000116",
+      "62000080",
+      "62000042",
+      "62000102"
+    ]
+  },
+  "input_sha256": {
+    "src/data/recipe-staples.ts": "20a74e0c28b9655a3b67c38f5f891f3117d111a748ef2491ba1a04a4e2292e00",
+    "src/data/cooking-catalog.json": "fbbf6f2399dc76e3d786d8077df33c2df1bd47e1f35573af3afc109b666c9205",
+    "src/data/meal-prep-blueprints.ts": "3d5747a0052e23c6fa3780e0c7afb4b9d7801c1d8e2d2d53dbe1a5ed4d2a4e19",
+    "src/lib/connectors/usda-and-kroger.ts": "88c06d4e918e276b2b1c476922cedad8b8ba6aa304c31472cf9cb866ce5b7788",
+    "src/lib/pantry/requirements.ts": "3b9e58eb476cce639a560a54e702674c3c7c1ece9c315d3a251947fb46d0cd01",
+    "src/lib/pantry/recipe.ts": "0b6b52fcc5829f41268f534a347e69be6aac672ef5c8d64b0372e58c7e4cdb9c"
+  }
+}
