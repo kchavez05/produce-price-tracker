@@ -77,6 +77,13 @@ describe('source gates and quote qualification', () => {
     expect(first(context({ quotes: [{ ...quote, observedAtIso: '2026-11-09T11:00:00-07:00' }] })).basis).toBe('OBSERVED');
   });
 
+  it('treats expiry as an exclusive boundary', () => {
+    const q = { ...quote, expiresAtIso: '2026-11-09T20:00:00Z' };
+    expect(first(context({ nowIso: '2026-11-09T19:59:59.999Z', quotes: [q] })).basis).toBe('OBSERVED');
+    expect(first(context({ nowIso: '2026-11-09T20:00:00Z', quotes: [q] })).basis).toBe('STATIC_ESTIMATE');
+    expect(first(context({ nowIso: '2026-11-09T20:00:00.001Z', quotes: [q] })).basis).toBe('STATIC_ESTIMATE');
+  });
+
   it('never resurrects an older eligible snapshot when the newest is unavailable', () => {
     const newer = { ...quote, id: 'new', observedAtIso: '2026-11-09T19:00:00Z', stockLevel: 'TEMPORARILY_OUT_OF_STOCK' as const };
     for (const quotes of [[quote, newer], [newer, quote]]) expect(first(context({ quotes })).basis).toBe('STATIC_ESTIMATE');

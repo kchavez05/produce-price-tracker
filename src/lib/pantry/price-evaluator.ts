@@ -185,7 +185,7 @@ function observedCost(requirement: StaplePriceRequirement, amount: Fraction, con
     }
     if (quote.expiresAtIso !== undefined) {
       const end = instant(quote.expiresAtIso);
-      if (end === undefined || now > end) continue;
+      if (end === undefined || now >= end) continue;
     }
     // Rule identity and package evidence are reviewed configuration; labels alone grant no admission.
     const admission = admissions.get(admissionKey(requirement.ingredientId, quote.productId, quote.itemId,
