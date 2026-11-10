@@ -43,3 +43,7 @@ next-env.d.ts
 
 # Local USDA catalog review artifacts (never raw bulk data in the app bundle)
 /data/fdc-catalog-review/
+
+# Operator-built public barcode snapshot artifacts and Python bytecode
+/data/fdc-barcode-index/
+__pycache__/

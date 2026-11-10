@@ -110,6 +110,24 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     },
   ],
   paths: {
+    '/api/pantry/barcode-lookup': {
+      post: {
+        tags: ['Virtual Pantry'], operationId: 'lookupPantryBarcode', summary: 'Look up a packaged product in the approved USDA snapshot',
+        description: 'Default-off, bounded non-AI lookup for guests and accounts. Returns public product evidence and a separate reviewed suggestion; never changes inventory or infers package quantities/prices. Public activation requires a verified artifact and shared rate enforcement. Offline is a client transport state.',
+        requestBody: { required: true, content: { 'application/json': { schema: {
+          type: 'object', additionalProperties: false, required: ['barcode'], properties: {
+            barcode: { type: 'string', minLength: 1, maxLength: 64, description: 'Original ASCII barcode text, including leading zeros. Outer ASCII spaces allowed for manual entry. Total request body at most 256 bytes.' },
+            format: { type: 'string', enum: ['MANUAL', 'UPC_A', 'EAN_13'], default: 'MANUAL' },
+          },
+        } } } },
+        responses: {
+          '200': { description: 'Found, ambiguous or an explicit snapshot miss/hold; no pantry mutation.', content: { 'application/json': { schema: { $ref: '#/components/schemas/BarcodeLookupResult' } } } },
+          '400': { description: 'Invalid or unsupported barcode/request.' }, '403': { description: 'Cross-origin request rejected.' },
+          '413': { description: 'Request exceeds 256 bytes.' }, '429': { description: 'Throttled; honor Retry-After.' },
+          '503': { description: 'Disabled, missing/unverified artifact or service failure. Manual entry remains available.' },
+        },
+      },
+    },
     '/api/pantry': {
       get: {
         tags: ['Virtual Pantry'], operationId: 'getPrivatePantry', summary: 'Read the current private pantry and legacy migration source',
@@ -1432,6 +1450,25 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           'regularSlotCost',
           'isUserPinned',
         ],
+      },
+      BarcodeProduct: {
+        type: 'object', properties: {
+          source: { type: 'string', enum: ['USDA_FDC_BRANDED'] }, fdcId: { type: 'string' }, originalBarcode: { type: 'string' }, description: { type: 'string' },
+          brandName: { type: 'string', nullable: true }, brandOwner: { type: 'string', nullable: true }, packageLabel: { type: 'string', nullable: true },
+          marketCountry: { type: 'string' }, publicationDate: { type: 'string', format: 'date' }, modifiedDate: { type: 'string', nullable: true }, availableDate: { type: 'string', nullable: true },
+          snapshotDate: { type: 'string', format: 'date' }, sourceUrl: { type: 'string', format: 'uri' },
+        }, required: ['source', 'fdcId', 'originalBarcode', 'description', 'brandName', 'brandOwner', 'packageLabel', 'marketCountry', 'publicationDate', 'modifiedDate', 'availableDate', 'snapshotDate', 'sourceUrl'],
+      },
+      ValidatedBarcode: { type: 'object', properties: {
+        original: { type: 'string' }, digits: { type: 'string' }, key: { type: 'string', minLength: 14, maxLength: 14 }, format: { type: 'string', enum: ['MANUAL', 'UPC_A', 'EAN_13'] },
+      }, required: ['original', 'digits', 'key', 'format'] },
+      BarcodeLookupResult: {
+        oneOf: [
+          { type: 'object', properties: { status: { type: 'string', enum: ['FOUND'] }, barcode: { $ref: '#/components/schemas/ValidatedBarcode' }, product: { $ref: '#/components/schemas/BarcodeProduct' },
+            suggestion: { type: 'object', nullable: true, properties: { ingredientId: { type: 'string' }, ruleId: { type: 'string' } }, required: ['ingredientId', 'ruleId'] } }, required: ['status', 'barcode', 'product', 'suggestion'] },
+          { type: 'object', properties: { status: { type: 'string', enum: ['AMBIGUOUS_PRODUCT'] }, barcode: { $ref: '#/components/schemas/ValidatedBarcode' }, products: { type: 'array', maxItems: 5, items: { $ref: '#/components/schemas/BarcodeProduct' } }, matchCount: { type: 'integer', minimum: 2 } }, required: ['status', 'barcode', 'products', 'matchCount'] },
+          { type: 'object', properties: { status: { type: 'string', enum: ['INVALID', 'UNSUPPORTED', 'NOT_FOUND', 'DISCONTINUED', 'SOURCE_DATE_HOLD', 'DISABLED', 'SERVICE_UNAVAILABLE', 'THROTTLED'] }, message: { type: 'string' } }, required: ['status', 'message'] },
+        ], discriminator: { propertyName: 'status' },
       },
       PantryRequirement: {
         type: 'object', properties: {
