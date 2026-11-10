@@ -1,3 +1,4 @@
+import { createPantryPriceContext, PantryPriceContext, pantryPriceLabel } from './pantry/pricing';
 import { qualifiedExactCommodity } from './pantry/commodity-offers';
 import { requiresExactOffer } from './pantry/exact-offer';
 import {
@@ -12,9 +13,9 @@ import {
   StoreChain,
   StoreTripComparison,
 } from '@/types/domain';
-import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
+import { PantryPriceDetail, PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { recipeAvailableIngredientIds, recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
-import { applyPantryToRecipe, formatPantryRequirement, pantryShoppingNeeds, recipePantryRequirements } from '@/lib/pantry/recipe';
+import { aggregatePantryPriceDetails, applyPantryToRecipe, formatPantryRequirement, pantryShoppingNeeds } from '@/lib/pantry/recipe';
 import { recipeCommodity, resolveRecipeUse, matchedRecipeRequirement, recipeIngredientExcluded } from '@/lib/pantry/recipe-use';
 import { recipeUseRequirementId } from '@/lib/pantry/recipe-identity';
 
@@ -25,12 +26,15 @@ export function buildShoppingListAndStoreComparison(
   zipCode: string = '80542',
   activeStoresList?: StoreChain[],
   pantryMode = activeDishes.some((dish) => Array.isArray(dish.pantryRequirements)),
+  priceContext: PantryPriceContext = createPantryPriceContext(),
 ): {
   items: AggregatedShoppingItem[];
   pantryChecklist: string[];
   tripComparison: StoreTripComparison;
   pantryNeeds: PantryShoppingNeed[];
 } {
+  const context = activeStoresList?.length && !activeStoresList.includes('KING_SOOPERS')
+    ? createPantryPriceContext({ ...priceContext, observedPricingEnabled: false }) : priceContext;
   const legacyRequirements: PantryRequirement[] = [];
   if (!pantryMode) {
     const source = new Map(commodities.map((c) => [c.ingredient.id, c]));
@@ -55,7 +59,7 @@ export function buildShoppingListAndStoreComparison(
     const original = new Map(commodities.map((c) => [c.ingredient.id, c]));
     const scoped = new Map<string, ScoredCommodity>();
     activeDishes = activeDishes.map((input) => {
-      const dish = applyPantryToRecipe(input, onHandIngredientIds, commodities);
+      const dish = applyPantryToRecipe(input, onHandIngredientIds, commodities, undefined, context);
       return { ...dish, matchedIngredients: dish.matchedIngredients.map((ingredient) => {
         const use = resolveRecipeUse(dish, ingredient);
         const commodity = recipeCommodity(dish, ingredient, original.get(ingredient.ingredientId));
@@ -89,11 +93,12 @@ export function buildShoppingListAndStoreComparison(
   const pantrySet = new Set<string>();
   let estimatedPantryTotal = 0;
   const requirements: PantryRequirement[] = [];
+  const priceRows: PantryPriceDetail[] = [];
   const missingScopedStorePrices = new Set<string>();
 
   for (const dish of activeDishes) {
     if (pantryMode) {
-      requirements.push(...recipePantryRequirements(dish));
+      priceRows.push(...(dish.pantryPricing?.rows ?? []));
     } else {
       estimatedPantryTotal += dish.estimatedPantryCost || 0;
       for (const p of dish.pantryStaples || []) pantrySet.add(p);
@@ -249,10 +254,20 @@ export function buildShoppingListAndStoreComparison(
     }
   }
 
-  const pantryNeeds = (pantryMode || legacyRequirements.length) ? pantryShoppingNeeds([...requirements,...legacyRequirements], [...onHandSet]) : [];
+  const extraNeeds = (requirements.length || legacyRequirements.length) ? pantryShoppingNeeds([...requirements, ...legacyRequirements], [...onHandSet], context) : [];
+  const pantryNeeds = aggregatePantryPriceDetails([...priceRows, ...extraNeeds.flatMap((need) => need.priceDetails ?? [])]);
   if (pantryMode) {
-    estimatedPantryTotal = pantryNeeds.reduce((sum, need) => sum + (need.estimatedCost ?? 0), 0);
-    for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} fixed estimate`}`);
+    const allocatedCents = pantryNeeds.flatMap((need) => need.priceDetails ?? []).reduce((sum, row) => sum + (row.allocatedCents ?? 0), 0);
+    if (!Number.isSafeInteger(allocatedCents)) throw new RangeError('Shopping price exceeds the supported range');
+    estimatedPantryTotal = allocatedCents / 100;
+    for (const need of pantryNeeds) {
+      // Basis groups are intentionally separate. Keep their checklist/checkbox labels distinct.
+      const hasBasisPeer = pantryNeeds.some((other) => other.ingredientId === need.ingredientId && other.unit === need.unit && other.quantityBasisVersion !== need.quantityBasisVersion);
+      const basisLabel = need.quantityBasisVersion === 'canned-net-contents-v1' ? 'Unopened can contents'
+        : need.quantityBasisVersion ? `Quantity basis: ${need.quantityBasisVersion}` : hasBasisPeer ? 'Quantity basis not recorded' : '';
+      const labels = [...new Set(need.priceDetails?.map(pantryPriceLabel) ?? [])].join('; ');
+      pantrySet.add(`${formatPantryRequirement(need)}${basisLabel ? ` — ${basisLabel}` : ''} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} ${labels || 'recipe-use estimate'}`}`);
+    }
   }
   if (!pantryMode) for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — price unavailable`);
   const missingPriceIngredientIds = [...new Set([...pantryNeeds.filter((need) => need.estimatedCost === null).map((need) => need.ingredientId), ...missingScopedStorePrices])];
@@ -390,7 +405,7 @@ export function buildShoppingListAndStoreComparison(
     pantryChecklist: Array.from(pantrySet),
     pantryNeeds,
     tripComparison: {
-      ...((pantryMode || legacyRequirements.length > 0) ? { additionalCostEstimateComplete: missingPriceIngredientIds.length === 0, missingPriceIngredientIds } : {}),
+      ...((pantryMode || legacyRequirements.length > 0) ? { additionalCostEstimateComplete: missingPriceIngredientIds.length === 0, missingPriceIngredientIds, includesStaticPantryEstimates: pantryNeeds.some((need) => need.priceBasis === 'STATIC_ESTIMATE' || need.priceBasis === 'MIXED') } : {}),
       optimalSplitTotal,
       kingSoopersOnlyTotal,
       safewayOnlyTotal,

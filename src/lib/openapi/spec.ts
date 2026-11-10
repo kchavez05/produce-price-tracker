@@ -1437,7 +1437,32 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         type: 'object', properties: {
           ingredientId: { type: 'string', description: 'Exact pantry identity or a reviewed recipe-use requirement ID. Recipe-use IDs represent alternatives within a specific recipe slot and cannot be stored as pantry inventory.' }, displayName: { type: 'string' },
           quantity: { type: 'number', minimum: 0 }, unit: { type: 'string' }, optional: { type: 'boolean' },
+          quantityBasisVersion: { type: 'string', description: 'Reviewed use basis, including canned-net-contents-v1 for labeled unopened can contents. Missing saved basis never implies net contents.' },
         }, required: ['ingredientId', 'quantity', 'unit'],
+      },
+      PantryPriceDetail: {
+        allOf: [{ $ref: '#/components/schemas/PantryRequirement' }, {
+          type: 'object', properties: {
+            requirementKey: { type: 'string' }, allocatedCents: { type: 'integer', minimum: 0, nullable: true, description: 'Authoritative integer recipe allocation.' },
+            priceBasis: { type: 'string', enum: ['OBSERVED', 'STATIC_ESTIMATE', 'UNPRICED', 'ON_HAND', 'OPTIONAL'] },
+            estimatedCost: { type: 'number', nullable: true, description: 'Allocated USD recipe cents; null means unpriced.' },
+            observation: { type: 'object', properties: {
+              source: { type: 'string', enum: ['KROGER_PRODUCTION'] }, quoteId: { type: 'string' },
+              productId: { type: 'string' }, itemId: { type: 'string' }, locationId: { type: 'string' },
+              observedAtIso: { type: 'string', format: 'date-time' }, effectiveAtIso: { type: 'string', format: 'date-time' }, expiresAtIso: { type: 'string', format: 'date-time' },
+              packagePrice: { type: 'number' }, packageAmount: { type: 'string' }, packageUnit: { type: 'string' },
+              sourceSizeLabel: { type: 'string' }, ruleVersion: { type: 'string' }, stockUnconfirmed: { type: 'boolean' },
+            }, required: ['source', 'quoteId', 'productId', 'itemId', 'locationId', 'observedAtIso', 'packagePrice', 'packageAmount', 'packageUnit', 'sourceSizeLabel', 'ruleVersion', 'stockUnconfirmed'] },
+          }, required: ['requirementKey', 'allocatedCents', 'priceBasis', 'estimatedCost'],
+        }],
+      },
+      PantryPricing: {
+        type: 'object', description: 'Derived current recipe-use pricing. Discarded before saving recipes; live provider activation remains disabled.',
+        properties: {
+          rows: { type: 'array', items: { $ref: '#/components/schemas/PantryPriceDetail' } }, total: { type: 'number' },
+          includesStaticEstimates: { type: 'boolean' }, incompleteEstimate: { type: 'boolean' },
+          evaluatedAtIso: { type: 'string', format: 'date-time' }, marketId: { type: 'string' }, selectedLocationIds: { type: 'array', items: { type: 'string' } },
+        }, required: ['rows', 'total', 'includesStaticEstimates', 'incompleteEstimate', 'evaluatedAtIso', 'marketId', 'selectedLocationIds'],
       },
       RecommendedDish: {
         type: 'object',
@@ -1474,13 +1499,14 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             example: ['Beef broth', 'Olive oil', 'Salt & pepper'],
           },
           pantryRequirements: { type: 'array', items: { $ref: '#/components/schemas/PantryRequirement' }, description: 'Explicit batch-use staple requirements in staged pantry mode; legacy free text remains unpriced.' },
+          pantryPricing: { $ref: '#/components/schemas/PantryPricing' },
           pantryCoverage: { type: 'object', properties: {
             requiredCount: { type: 'integer' }, availableRequiredCount: { type: 'integer' },
             optionalCount: { type: 'integer' }, availableOptionalCount: { type: 'integer' },
           } },
           additionalCostEstimateComplete: { type: 'boolean', description: 'False means totals are known subtotals plus unpriced ingredients.' },
           missingPriceIngredientIds: { type: 'array', items: { type: 'string' } },
-          estimatedPantryCost: { type: 'number', example: 2.5, description: 'Fixed USD recipe-use estimate for uncovered required staples in pantry mode; never an observed store offer.' },
+          estimatedPantryCost: { type: 'number', example: 2.5, description: 'USD recipe-use estimate for uncovered required staples; allocated row basis is reported in pantryPricing. Live provider activation remains disabled.' },
           totalBatchCost: { type: 'number', example: 14.85 },
           regularBatchCost: { type: 'number', example: 23.4 },
           totalBatchSavings: { type: 'number', example: 8.55 },

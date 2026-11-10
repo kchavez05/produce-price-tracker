@@ -1,3 +1,4 @@
+import { createPantryPriceContext, PantryPriceContext } from '@/lib/pantry/pricing';
 import { MEAL_PREP_BLUEPRINTS } from '@/data/meal-prep-blueprints';
 import { currentAdCycle } from '@/lib/offer-freshness';
 import { selectRecipeStaples } from '@/data/recipe-staples';
@@ -28,6 +29,7 @@ export function rankMealPrepDishes(
     savedRecipes?: RecommendedDish[];
     now?: Date;
     pantryMode?: boolean;
+    pantryPriceContext?: PantryPriceContext;
   }
 ): {
   recommendedTrio: RecommendedDish[];
@@ -42,6 +44,7 @@ export function rankMealPrepDishes(
   const macroGoal: MacroGoal = options?.macroGoal || 'ANY';
   const dietaryConstraints: DietaryConstraint[] = options?.dietaryConstraints || [];
   const applianceFilter: CookingVesselArchetype = options?.applianceFilter || 'ANY';
+  const pantryPriceContext = options?.pantryPriceContext ?? createPantryPriceContext({ nowIso: (options?.now ?? new Date()).toISOString() });
   const freezerSet = new Set(options?.pantryMode ? [] : options?.freezerIngredientIds || []);
   const pinnedSet = new Set(pinnedIngredientIds);
   const onHandSet = new Set([
@@ -264,7 +267,7 @@ export function rankMealPrepDishes(
     }
 
     const pantryRequirements = options?.pantryMode ? selectRecipeStaples(blueprint.id, [...onHandSet], targetServings, dietaryConstraints, pinnedIngredientIds).concat(missingRequirements) : undefined;
-    const stapleEstimate = pantryRequirements ? evaluatePantryRequirementsByIds(pantryRequirements, [...onHandSet]) : null;
+    const stapleEstimate = pantryRequirements ? evaluatePantryRequirementsByIds(pantryRequirements, [...onHandSet], pantryPriceContext) : null;
     const scaledPantryCost = stapleEstimate?.estimatedAdditionalCost ?? Number((blueprint.estimatedPantryCost * scaleFactor).toFixed(2));
     const totalBatchCost = Number(
       (storeIngredientCost + scaledPantryCost).toFixed(2)
@@ -338,7 +341,7 @@ export function rankMealPrepDishes(
       savedInLibrary: savedIdsSet.has(blueprint.id),
       poweredByFreezerCount,
     };
-    const current = options?.pantryMode ? applyPantryToRecipe(dish, [...onHandSet], scoredCommodities, pantryRequirements) : dish;
+    const current = options?.pantryMode ? applyPantryToRecipe(dish, [...onHandSet], scoredCommodities, pantryRequirements, pantryPriceContext) : dish;
     if (options?.pantryMode) current.dishMatchScore = Math.round(dishMatchScore - costEfficiencyBonus +
       (current.additionalCostEstimateComplete === false ? 0 : Math.max(0, (3.25 - current.costPerServing) * 14)));
     evaluated.push(current);
@@ -354,7 +357,7 @@ export function rankMealPrepDishes(
         matchedIngredients: (Array.isArray(saved.matchedIngredients) ? saved.matchedIngredients : []).map((ingredient) => ({ ...ingredient, quantityUsed: ingredient.quantityUsed * scaled })),
         pantryRequirements: recipePantryRequirements(saved).map((requirement) => ({ ...requirement, quantity: requirement.quantity * scaled })),
         pantryStaples: [],
-      }, [...onHandSet], scoredCommodities) : saved;
+      }, [...onHandSet], scoredCommodities, undefined, pantryPriceContext) : saved;
       evaluated.push({
         ...current,
         savedInLibrary: true,
