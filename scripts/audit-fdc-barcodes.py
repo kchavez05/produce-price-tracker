@@ -182,8 +182,11 @@ def audit(source, output, cutoff, expected=None, sample_file=None):
             continue
         status, key = code_status(sample['gtin_upc'])
         head = db.execute('SELECT * FROM heads WHERE key=?', (key,)).fetchone() if key else None
-        enriched.append({**sample, **dict(parent), 'code_status': status, 'lookup_key': key,
-                         'us_revision_group': dict(head) if head else None})
+        evidence = {**sample, **dict(parent)}
+        fingerprint = hashlib.sha256(json.dumps(evidence, sort_keys=True, separators=(',', ':'),
+                                                ensure_ascii=False).encode('utf-8')).hexdigest()
+        enriched.append({**evidence, 'source_row_fingerprint': fingerprint, 'code_status': status,
+                         'lookup_key': key, 'us_revision_group': dict(head) if head else None})
     bounds = dict(zip(['oldest_publication', 'newest_publication'], db.execute('SELECT min(published),max(published) FROM products').fetchone()))
     after = {name: {'bytes': (source / name).stat().st_size, 'sha256': digest(source / name)} for name in FIELDS}
     if after != manifest:

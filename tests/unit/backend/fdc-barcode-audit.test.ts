@@ -82,6 +82,22 @@ describe('offline barcode feasibility audit', () => {
     expect(readFileSync(join(input, 'branded_food.csv'))).toEqual(before);
     const repeated = run(); expect(repeated.status).not.toBe(0); expect(repeated.stderr).toContain('Output exists');
   });
+  it('emits source fingerprints from joined evidence before adding derived lookup fields', () => {
+    const sampleFile = join(directory, 'samples.json');
+    writeFileSync(sampleFile, JSON.stringify({ fdc_ids: ['6'] }));
+    const output = join(directory, 'fingerprint');
+    const result = spawnSync(python, [script, '--input', input, '--output', output, '--snapshot', '2026-10-29', '--samples', sampleFile], { encoding: 'utf8' });
+    expect(result.status, result.stderr).toBe(0);
+    const records = JSON.parse(readFileSync(join(output, 'examples.json'), 'utf8'));
+    expect(records).toHaveLength(1);
+    const record = records[0];
+    const fields = Object.fromEntries(Object.entries(record).filter(([key]) => !['source_row_fingerprint', 'code_status', 'lookup_key', 'us_revision_group'].includes(key)));
+    const canonical = Object.fromEntries(Object.keys(fields).sort().map((key) => [key, fields[key]]));
+    expect(record.source_row_fingerprint).toBe(createHash('sha256').update(JSON.stringify(canonical)).digest('hex'));
+    expect(record.description).toContain('"quoted"\nrecord');
+    expect(record.code_status).toBe('candidate');
+    expect(record.lookup_key).toBe(`00${c}`);
+  });
   it('binds the review packet and exact candidate mappings to retained source evidence without catalog expansion', () => {
     const envelope = JSON.parse(readFileSync(join(packet, 'review-envelope.json'), 'utf8'));
     for (const [file, hash] of Object.entries(envelope.files)) {
