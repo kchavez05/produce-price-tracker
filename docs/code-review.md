@@ -15,7 +15,17 @@
 
 Use GitHub Copilot Code Review for PRs targeting `develop` and `main`. Wait for a completed review of the latest head, address actionable P0/P1/P2 findings (or equivalent severity), reply with the fixing commit or a reason for skipping a suggestion, and resolve each thread before merging. A review request alone is not a completed review. Keep the existing CI, Vercel Preview, and release gates.
 
-For manual reviews, open the PR and select **Reviewers → Copilot → Request**. After follow-up commits, request a re-review unless automatic review of new pushes is enabled. Keep the PR open if Copilot reports missing access, quota, or setup; a missing review is not approval. Copilot comments are not, by default, approving reviews; preserve any separately configured required approvals.
+Prefer the GitHub connector or `gh`/REST API for review requests, re-reviews, CI/Preview monitoring, comments and thread resolution. Request the reviewer login `copilot-pull-request-reviewer[bot]`; `Copilot` is the display name and is not a reliable reviewer identifier for this operation. The API path was verified against PR #628 on November 9, 2026. Use the browser's **Reviewers → Copilot → Request** only if API access is unavailable or the request fails. [GitHub documents REST support](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/copilot-code-review).
+
+```bash
+# Request or re-request Copilot after pushing the intended head.
+gh api repos/{owner}/{repo}/pulls/{pr-number}/requested_reviewers \
+  --method POST -f 'reviewers[]=copilot-pull-request-reviewer[bot]' --silent
+```
+
+Verify a new `review_requested` event in the issue timeline or a completed Copilot review. Do not rely solely on HTTP success or the requested-reviewer list, which may omit Copilot. After follow-up commits, request a re-review unless automatic review of new pushes is enabled. Keep the PR open if Copilot reports missing access, quota, or setup; a missing review is not approval. Copilot comments are not, by default, approving reviews; preserve any separately configured required approvals.
+
+Keep monitoring output compact: use `gh pr checks`, or query `headRefOid`, review author/state/commit, and check name/status/conclusion with `gh pr view --json ... --jq ...`. Store routine watch output locally or suppress unchanged results; fetch full logs or comment bodies only when a failure or finding needs investigation. Verify the completed review's commit matches the current head and inspect unresolved threads before merging. API monitoring does not relax any review, CI, Preview, or release gate.
 
 ### Automatic review setup
 

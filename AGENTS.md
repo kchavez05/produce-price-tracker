@@ -56,7 +56,7 @@ Every PR targeting `develop` must pass:
 2. **Vercel Preview Deployment**: Confirms the preview build succeeds.
 3. **GitHub Copilot Code Review**:
    * Configure automatic Copilot reviews for `develop` and `main`, including **Review new pushes**. If repository rulesets are unavailable under the current GitHub plan, enable account-level automatic reviews for eligible PR authors or request Copilot manually. See [`docs/code-review.md`](./docs/code-review.md) for setup and the plan limitation.
-   * For manual reviews or re-reviews, use **Reviewers → Copilot → Request** on the PR. Wait for a completed review of the latest head before merging; a review request alone is not completion.
+   * Prefer the GitHub API/CLI for requesting reviews and re-reviews, monitoring checks, and inspecting comments. Request reviewer **`copilot-pull-request-reviewer[bot]`**, not the display name `Copilot`. Verify the request through a new review-request timeline event or completed review; a successful API response alone is insufficient. Use **Reviewers → Copilot → Request** in the browser only when the API is unavailable or fails. See [`docs/code-review.md`](./docs/code-review.md) for commands and compact monitoring. Wait for a completed review of the latest head before merging; a review request alone is not completion.
    * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and fix all actionable P0/P1/P2 findings on the feature branch before merging.
    * After pushing fixes (or explaining why a suggestion is skipped), **reply to each review comment thread** with a brief summary/commit SHA and **mark the review thread as resolved**:
 ```bash
@@ -97,7 +97,7 @@ When cutting a release (`vX.Y.Z`) to production (`main`), complete every item in
 gh pr create --base main --head develop --title "Release vX.Y.Z: <Milestone Title>" --body-file docs/releases/vX.Y.Z.md
 ```
    * [ ] Verify **CI Quality Gate (`Typecheck, Lint & Build`)** and **Vercel Preview** succeed.
-   * [ ] Complete **Copilot** review of the latest head (request or re-request Copilot through the PR Reviewers menu if needed), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
+   * [ ] Complete **Copilot** review of the latest head (request or re-request via the API-first workflow above), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
 3. **Merge to `main` & Sync `develop`**
    * [ ] Merge the Release PR into `main` (triggering the production deployment to [pantrybot.dev](https://pantrybot.dev)).
    * [ ] Pull `main` and fast-forward `develop` if any merge/hotfix commits landed on `main`:
