@@ -17,6 +17,7 @@ export interface RateLimitResult {
 
 /**
  * Extracts a client IP identifier from standard proxy headers for rate limiting.
+ * Deploy only behind a trusted ingress that overwrites these caller-spoofable headers.
  */
 export function getClientIp(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -41,19 +42,24 @@ export function checkRateLimit(
 ): RateLimitResult {
   const now = Date.now();
 
-  if (rateLimitStore.size > MAX_BUCKETS) {
-    for (const [key, bucket] of rateLimitStore.entries()) {
-      if (bucket.resetAtMs <= now) {
-        rateLimitStore.delete(key);
-      }
-    }
-  }
-
   const ip = identity ?? getClientIp(request);
   const key = `${scope}:${ip}`;
   const existing = rateLimitStore.get(key);
 
   if (!existing || existing.resetAtMs <= now) {
+    if (!existing && rateLimitStore.size >= MAX_BUCKETS) {
+      let earliestReset = now + windowMs;
+      for (const [bucketKey, bucket] of rateLimitStore) {
+        if (bucket.resetAtMs <= now) rateLimitStore.delete(bucketKey);
+        else earliestReset = Math.min(earliestReset, bucket.resetAtMs);
+      }
+      // Keep active clients' counters; new identities fail closed at capacity.
+      // Evict only expired buckets, so rotating identities cannot reset throttled clients.
+      if (rateLimitStore.size >= MAX_BUCKETS) return {
+        allowed: false, limit, remaining: 0,
+        resetInSeconds: Math.max(1, Math.ceil((earliestReset - now) / 1000)),
+      };
+    }
     const nextBucket: RateLimitBucket = {
       count: 1,
       resetAtMs: now + windowMs,

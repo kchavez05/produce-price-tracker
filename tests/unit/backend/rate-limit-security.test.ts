@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { NextRequest } from 'next/server';
 import {
   checkRateLimit,
@@ -54,6 +54,21 @@ describe('rate-limit-security: checkRateLimit', () => {
     const r2 = checkRateLimit(req, scope, 5, 10_000);
     expect(r2.allowed).toBe(true);
     expect(r2.remaining).toBe(3);
+  });
+
+  it('caps distinct identities without evicting active counters and recovers after expiry', async () => {
+    vi.resetModules();
+    const { checkRateLimit: bounded } = await import('@/lib/security/rate-limit');
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(10_000);
+    const req = createMockRequest({});
+    try {
+      for (let i = 0; i < 5000; i++) expect(bounded(req, 'capacity', 1, 60_000, `client-${i}`).allowed).toBe(true);
+      for (let i = 5000; i < 5100; i++) expect(bounded(req, 'capacity', 1, 60_000, `client-${i}`)).toMatchObject({ allowed: false, remaining: 0, resetInSeconds: 60 });
+      expect(bounded(req, 'capacity', 1, 60_000, 'client-0').allowed).toBe(false);
+      clock.mockReturnValue(70_001);
+      expect(bounded(req, 'capacity', 1, 60_000, 'new-client').allowed).toBe(true);
+      expect(bounded(req, 'capacity', 1, 60_000, 'client-0').allowed).toBe(true);
+    } finally { clock.mockRestore(); }
   });
 
   it('blocks requests once limit is exceeded', () => {
