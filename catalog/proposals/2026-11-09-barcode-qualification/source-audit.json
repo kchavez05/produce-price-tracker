@@ -1,0 +1,84 @@
+{
+  "status": "proposal_only_not_runtime_or_approved_mapping",
+  "rules_version": "barcode-feasibility-v1",
+  "snapshot_label": "2026-10-29",
+  "source_manifest": {
+    "food.csv": {
+      "bytes": 221920942,
+      "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+    },
+    "branded_food.csv": {
+      "bytes": 960715079,
+      "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+    }
+  },
+  "food_rows_by_type": {
+    "branded_food": 2010212,
+    "experimental_food": 116,
+    "sr_legacy_food": 7793,
+    "sample_food": 4109,
+    "market_acquistion": 7607,
+    "sub_sample_food": 88508,
+    "foundation_food": 498,
+    "agricultural_acquisition": 810,
+    "survey_fndds_food": 5432
+  },
+  "branded_rows": 2010212,
+  "barcode_statuses": {
+    "bad_check_digit": 6590,
+    "candidate": 1927890,
+    "deferred_8_digit": 4247,
+    "non_digits": 117,
+    "packaging_or_variable_measure": 23458,
+    "restricted_reserved_or_nonfood": 2444,
+    "unsupported_length": 45466
+  },
+  "raw_code_lengths": {
+    "10": 335,
+    "11": 45067,
+    "12": 1720906,
+    "13": 60024,
+    "14": 174422,
+    "15": 63,
+    "16": 1,
+    "17": 16,
+    "18": 1,
+    "5": 1,
+    "6": 13,
+    "7": 38,
+    "8": 9310,
+    "9": 15
+  },
+  "markets": {
+    "New Zealand": 1117,
+    "US": 22624,
+    "United States": 1986471
+  },
+  "missing_branded_parents": 0,
+  "parent_only_branded": 0,
+  "us_lookup_outcomes": {
+    "ambiguous_latest": 4931,
+    "discontinued_latest": 1842,
+    "single_snapshot_record": 416687
+  },
+  "us_codes_with_multiple_revisions": 374721,
+  "us_keys_with_multiple_raw_representations": 22366,
+  "publication_bounds": {
+    "oldest_publication": "2019-04-01",
+    "newest_publication": "2026-10-22"
+  },
+  "invalid_publication_dates": [],
+  "representative_source_rows": 45,
+  "representative_selection_sha256": "ff6224dc83ba34a1a87645e893be353a66d06b761c0e676b42b99d95ae93f42a",
+  "maximum_latest_date_ties": 7,
+  "storage_probe": {
+    "bytes": 115601408,
+    "rows": 432347,
+    "keys": 423460,
+    "scope": "all US latest heads plus outcome markers, including ties and discontinued records; no ingredients, portions, mapping or inventory",
+    "warm_local_lookup_count": 1000,
+    "warm_local_p50_ms": 0.006875,
+    "warm_local_p95_ms": 0.007875
+  },
+  "elapsed_seconds": 44.658
+}
