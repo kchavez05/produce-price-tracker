@@ -19,10 +19,23 @@ export function createPantryPriceContext(options: Partial<PantryPriceContext> = 
 // Values come exclusively from the existing reviewed catalog, never saved costs or caller prices.
 const staticPrices = new Map([...pantryCatalog].flatMap(([id, ingredient]) => ingredient.staticPrice ? [[id, ingredient.staticPrice] as const] : []));
 
+/** Expand JS number notation without rounding away a valid fractional recipe amount. */
+function recipeQuantityDecimal(value: number): string {
+  const text = String(value);
+  if (!Number.isFinite(value) || value < 0 || !text.includes('e')) return text;
+  const [coefficient, exponent] = text.split('e');
+  const [whole, fraction = ''] = coefficient.split('.');
+  const digits = whole + fraction;
+  const point = whole.length + Number(exponent);
+  if (point <= 0) return `0.${'0'.repeat(-point)}${digits}`;
+  if (point >= digits.length) return digits + '0'.repeat(point - digits.length);
+  return `${digits.slice(0, point)}.${digits.slice(point)}`;
+}
+
 export function pricePantryRequirements(requirements: readonly PantryRequirement[], available: ReadonlySet<string>, context: PantryPriceContext) {
   const evaluation = evaluateStaplePrices(requirements.map((requirement, index) => ({
     key: `requirement:${String(index).padStart(4, '0')}`, ingredientId: requirement.ingredientId,
-    quantity: String(requirement.quantity), unit: requirement.unit, quantityBasisVersion: requirement.quantityBasisVersion,
+    quantity: recipeQuantityDecimal(requirement.quantity), unit: requirement.unit, quantityBasisVersion: requirement.quantityBasisVersion,
     available: available.has(requirement.ingredientId), optional: requirement.optional,
   })), { ...context, staticPrices });
   const rows: PantryPriceDetail[] = evaluation.rows.map((row, index) => {

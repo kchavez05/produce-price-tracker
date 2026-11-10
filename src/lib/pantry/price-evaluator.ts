@@ -89,7 +89,7 @@ function fraction(numerator: bigint, denominator: bigint): Fraction {
   return { numerator: numerator / divisor, denominator: denominator / divisor };
 }
 function decimal(value: string, places = 9): Fraction | undefined {
-  if (typeof value !== 'string' || value.length > 32 || !/^\d+(?:\.\d+)?$/.test(value)) return;
+  if (typeof value !== 'string' || value.length > Math.max(32, places + 18) || !/^\d+(?:\.\d+)?$/.test(value)) return;
   const [whole, part = ''] = value.split('.');
   if (part.length > places) return;
   const result = fraction(BigInt(whole + part), 10n ** BigInt(part.length));
@@ -230,7 +230,9 @@ export function evaluateStaplePrices(requirements: readonly StaplePriceRequireme
       exact.push(ZERO);
       return { ...row, basis: requirement.optional === true ? 'OPTIONAL' : 'ON_HAND', allocatedCents: 0 };
     }
-    const quantity = decimal(requirement.quantity);
+    // Numeric recipe amounts can have up to 324 fractional places (JS subnormals).
+    // Source package amounts and static unit prices retain their nine-place bound.
+    const quantity = decimal(requirement.quantity, 324);
     if (!quantity) { exact.push(ZERO); return row; }
     const observed = observedCost(requirement, quantity, context, quotes, now, admissions);
     if (observed) {

@@ -7,6 +7,7 @@ import { applyPantryToRecipe, aggregatePantryPriceDetails } from '@/lib/pantry/r
 import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
 import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
+import { formatShoppingListForClipboard } from '@/lib/cart-exporter';
 import { availablePantryIngredientIds } from '@/lib/pantry/model';
 import { createMockCommodity, createMockDish } from 'tests/test-utils';
 
@@ -47,6 +48,34 @@ describe('shared current / saved / shopping price context', () => {
       expect(plan.pantryChecklist.join(' ')).toContain('Stock unconfirmed');
       expect(plan.pantryChecklist.join(' ')).toContain('$4.80 / 16 fl oz');
     }
+  });
+
+  it.each([1 / 3, 0.1 + 0.2, 1e-7, Number.MIN_VALUE])('prices ordinary numeric quantities without dropping fractional precision: %s', (quantity) => {
+    const dish = oilDish(quantity);
+    const current = applyPantryToRecipe(dish, [], []);
+    expect(current.additionalCostEstimateComplete).toBe(true);
+    expect(current.pantryPricing!.rows[0]).toMatchObject({ priceBasis: 'STATIC_ESTIMATE', allocatedCents: Math.round(quantity * .2 * 100) });
+    expect(shopping([dish], context({ observedPricingEnabled: false })).tripComparison.estimatedPantryTotal).toBe(current.estimatedPantryCost);
+    const observed = applyPantryToRecipe(dish, [], [], undefined, context());
+    expect(observed.pantryPricing!.rows[0].priceBasis).toBe('OBSERVED');
+    expect(observed.pantryPricing!.rows[0].allocatedCents).toBe(Math.round(quantity * .15 * 100));
+    expect(observed.pantryPricing!.rows[0].quantity).toBe(quantity);
+  });
+
+  it('keeps same-size canned basis groups distinct in dashboard and clipboard checklists', () => {
+    const requirement = { ingredientId: 'black-beans-canned', quantity: 30, unit: 'oz' };
+    const dishes = [createMockDish({ id: 'current-beans', matchedIngredients: [], pantryStaples: [], pantryRequirements: [{ ...requirement, quantityBasisVersion: CANNED_NET_CONTENTS_VERSION }] }),
+      createMockDish({ id: 'old-beans', matchedIngredients: [], pantryStaples: [], pantryRequirements: [requirement] })];
+    const plan = shopping(dishes, context({ observedPricingEnabled: false }));
+    expect(plan.tripComparison.estimatedPantryTotal).toBe(3.6);
+    expect(plan.pantryChecklist).toHaveLength(2);
+    expect(plan.pantryChecklist[0]).toContain('Unopened can contents');
+    expect(plan.pantryChecklist[1]).toContain('Quantity basis not recorded');
+    expect(plan.pantryChecklist.every((line) => line.includes('(30 oz)') && line.includes('$1.80 Static estimate'))).toBe(true);
+    const text = formatShoppingListForClipboard({ ...plan, items: [], activeTrio: dishes, zipCode: '80542', cityLabel: 'Synthetic', tripMode: 'SPLIT' });
+    expect(text).toContain('Unopened can contents');
+    expect(text).toContain('Quantity basis not recorded');
+    expect(text).toContain('$3.60');
   });
 
   it('reselects pinned alternatives and dietary-safe requirements before pricing', () => {

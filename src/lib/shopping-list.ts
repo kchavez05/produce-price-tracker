@@ -260,7 +260,14 @@ export function buildShoppingListAndStoreComparison(
     const allocatedCents = pantryNeeds.flatMap((need) => need.priceDetails ?? []).reduce((sum, row) => sum + (row.allocatedCents ?? 0), 0);
     if (!Number.isSafeInteger(allocatedCents)) throw new RangeError('Shopping price exceeds the supported range');
     estimatedPantryTotal = allocatedCents / 100;
-    for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} ${need.priceDetails?.map(pantryPriceLabel).filter((label, index, labels) => labels.indexOf(label) === index).join('; ') ?? 'recipe-use estimate'}`}`);
+    for (const need of pantryNeeds) {
+      // Basis groups are intentionally separate. Keep their checklist/checkbox labels distinct.
+      const hasBasisPeer = pantryNeeds.some((other) => other.ingredientId === need.ingredientId && other.unit === need.unit && other.quantityBasisVersion !== need.quantityBasisVersion);
+      const basisLabel = need.quantityBasisVersion === 'canned-net-contents-v1' ? 'Unopened can contents'
+        : need.quantityBasisVersion ? `Quantity basis: ${need.quantityBasisVersion}` : hasBasisPeer ? 'Quantity basis not recorded' : '';
+      const labels = [...new Set(need.priceDetails?.map(pantryPriceLabel) ?? [])].join('; ');
+      pantrySet.add(`${formatPantryRequirement(need)}${basisLabel ? ` — ${basisLabel}` : ''} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} ${labels || 'recipe-use estimate'}`}`);
+    }
   }
   if (!pantryMode) for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — price unavailable`);
   const missingPriceIngredientIds = [...new Set([...pantryNeeds.filter((need) => need.estimatedCost === null).map((need) => need.ingredientId), ...missingScopedStorePrices])];
