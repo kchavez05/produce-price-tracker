@@ -1,0 +1,554 @@
+{
+  "status": "awaiting_maintainer_review",
+  "catalog_identity_count": 222,
+  "positive_product_revisions": 16,
+  "positive_generic_identities": 11,
+  "held_examples": 29,
+  "rules": [
+    {
+      "fdc_id": "1677060",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Superseded source revision; use 2132095 only after its own mapping review."
+    },
+    {
+      "fdc_id": "1838832",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Superseded source revision. Also lacks explicit canned-container evidence."
+    },
+    {
+      "fdc_id": "1864324",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Crushed-tomato label is relevant, but canned form/container needs exact corroboration before a canned-identity suggestion."
+    },
+    {
+      "fdc_id": "2023228",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Fajita product containing lime juice is not lime juice."
+    },
+    {
+      "fdc_id": "2127314",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Italian-style chicken fritters do not prove plain raw boneless/skinless breast."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2132095",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2132095",
+      "original_barcode": "011110849953",
+      "lookup_key": "00011110849953",
+      "market": "US",
+      "publication_date": "2021-10-28",
+      "source_row_fingerprint": "317931d08d4a353ad26dd8a7fa4f5107e8596ba31f7d5ae3b4a8dc278c1cd875",
+      "ingredient_id": "coconut-aminos",
+      "reason": "Explicit coconut-aminos seasoning sauce; no component ownership.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2135263",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Raw chicken pieces do not prove the existing boneless/skinless breast identity."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2186095",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2186095",
+      "original_barcode": "011110834546",
+      "lookup_key": "00011110834546",
+      "market": "US",
+      "publication_date": "2021-12-01",
+      "source_row_fingerprint": "e183a922b0d11a15206e9673ddae133166b0a913e55315c712dddc33bc35b003",
+      "ingredient_id": "greek-yogurt-plain-nonfat",
+      "reason": "Explicit plain Greek nonfat yogurt; organic does not change the existing cooking identity.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2196471",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Mixed marinade containing garlic/lime is neither separate component."
+    },
+    {
+      "fdc_id": "2276359",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Lemons are a useful discovery lead; corroborate the required fresh whole-fruit form before automatic suggestion."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2340548",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2340548",
+      "original_barcode": "011110835291",
+      "lookup_key": "00011110835291",
+      "market": "US",
+      "publication_date": "2022-09-15",
+      "source_row_fingerprint": "94d5015f0c80a14dd00e6f5fe2cf7a1c4045a1b1d60d474e503b61e5653ce4cc",
+      "ingredient_id": "greek-yogurt-plain-nonfat",
+      "reason": "Explicit plain Greek nonfat yogurt; no whole-milk/vanilla inference.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2386494",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Superseded source revision; newest selected US record is 2657880."
+    },
+    {
+      "fdc_id": "2400238",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Bean name/category/ingredients are discovery context, not proof of the exact canned food form. Require corroborating product-form evidence before suggesting a canned identity."
+    },
+    {
+      "fdc_id": "2400256",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Prepared rice/quinoa/vegetable/sauce mix is not separate components."
+    },
+    {
+      "fdc_id": "2400361",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Rice/quinoa mix is not separate rice or quinoa ownership."
+    },
+    {
+      "fdc_id": "2425696",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Fresh-form evidence is missing and package text contradicts itself (2 LBS/90 kg); show raw context with warning, no inferred quantity."
+    },
+    {
+      "fdc_id": "2446260",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Mixed salad bowl/dressing is not apple-cider vinegar or separate components."
+    },
+    {
+      "fdc_id": "2462271",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Cannellini/chorizo soup is not canned cannellini beans or separate components."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2493338",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2493338",
+      "original_barcode": "011110107657",
+      "lookup_key": "00011110107657",
+      "market": "US",
+      "publication_date": "2023-03-16",
+      "source_row_fingerprint": "35fe6eb83ebf001181889a42252fc0d92a22f5eaf159ac7438a55c2d0c867421",
+      "ingredient_id": "apple-cider-vinegar",
+      "reason": "Explicit apple-cider vinegar with mother; not a dressing or mixed meal.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2493378",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Confirm ready-to-drink rather than concentrate before suggesting orange juice."
+    },
+    {
+      "fdc_id": "2493398",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Frozen orange-juice concentrate is not ready-to-drink juice; package units also conflict."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2493482",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2493482",
+      "original_barcode": "011822338370",
+      "lookup_key": "00011822338370",
+      "market": "US",
+      "publication_date": "2023-03-16",
+      "source_row_fingerprint": "b0002dcf2580a08cf9d54a0494d440c6176b49d38a6e5eee85e6d651c84b37bb",
+      "ingredient_id": "garlic-powder",
+      "reason": "Explicit garlic-powder label; not the guacamole discovery hit.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2506316",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Mixed guacamole is not garlic powder or its other component ingredients."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2533402",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2533402",
+      "original_barcode": "011110118134",
+      "lookup_key": "00011110118134",
+      "market": "US",
+      "publication_date": "2023-04-27",
+      "source_row_fingerprint": "e32fb811d17f4907a7168fdc371ee182c596ac98b827960cd8be8dabcb0c9f79",
+      "ingredient_id": "olive-oil",
+      "reason": "Explicit extra-virgin olive-oil label; liquid package, not spray.",
+      "confirmation_required": true
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2533428",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2533428",
+      "original_barcode": "011110719287",
+      "lookup_key": "00011110719287",
+      "market": "US",
+      "publication_date": "2023-04-27",
+      "source_row_fingerprint": "4777784883de0246ea368f49d6fbfcfd51ca3cd2e02984cb791a26da79ac8a2c",
+      "ingredient_id": "worcestershire-sauce",
+      "reason": "Explicit ordinary Worcestershire sauce; no gluten-free suggestion or dietary certification.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2571878",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Lite coconut milk does not establish the existing full-fat canned requirement."
+    },
+    {
+      "fdc_id": "2617178",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Lite coconut milk does not establish full-fat canned milk."
+    },
+    {
+      "fdc_id": "2629691",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Cooking spray is not the recipe liquid-oil identity."
+    },
+    {
+      "fdc_id": "2641655",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Bean name/category/ingredients are discovery context, not proof of the exact canned food form. Require corroborating product-form evidence before suggesting a canned identity."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2654448",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2654448",
+      "original_barcode": "011110738431",
+      "lookup_key": "00011110738431",
+      "market": "US",
+      "publication_date": "2023-10-26",
+      "source_row_fingerprint": "1dd2a03df319aac76183ec4bb20d0fa1e7d6877db53d173f3ead5db1837d4922",
+      "ingredient_id": "chicken-broth",
+      "reason": "Explicit chicken-broth product. Does not establish fluid-volume or retail-price evidence.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2654493",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Bean name/category/ingredients are discovery context, not proof of the exact canned food form. Require corroborating product-form evidence before suggesting a canned identity."
+    },
+    {
+      "fdc_id": "2654511",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Bean name/category/ingredients are discovery context, not proof of the exact canned food form. Require corroborating product-form evidence before suggesting a canned identity."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2657880",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2657880",
+      "original_barcode": "011110085962",
+      "lookup_key": "00011110085962",
+      "market": "US",
+      "publication_date": "2023-10-26",
+      "source_row_fingerprint": "bee97e33bdfb927e69f43f8c17e2c409771747caa0dab2984d6714267e112651",
+      "ingredient_id": "beef-broth",
+      "reason": "Newest US successor says beef fat-free broth; suggest only existing generic broth identity.",
+      "confirmation_required": true
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2657891",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2657891",
+      "original_barcode": "011110738424",
+      "lookup_key": "00011110738424",
+      "market": "US",
+      "publication_date": "2023-10-26",
+      "source_row_fingerprint": "ce588f3d0ce202ed823c4be2748848c63c2d60691bea4a6540f7ad0b8e77993b",
+      "ingredient_id": "chicken-broth",
+      "reason": "Explicit chicken-broth product. Package mass is not converted to recipe cups.",
+      "confirmation_required": true
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2657892",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2657892",
+      "original_barcode": "011110738455",
+      "lookup_key": "00011110738455",
+      "market": "US",
+      "publication_date": "2023-10-26",
+      "source_row_fingerprint": "e072a2d6069a2e3d2bfee30e1e34ed8732e336b2171be51f58c0492557fb34eb",
+      "ingredient_id": "beef-broth",
+      "reason": "Explicit beef-broth product. No price, yield or volume conversion.",
+      "confirmation_required": true
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2668275",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2668275",
+      "original_barcode": "011110129871",
+      "lookup_key": "00011110129871",
+      "market": "US",
+      "publication_date": "2023-11-16",
+      "source_row_fingerprint": "de3d6b615ae6b810a84479c03a49da3cda2bfd48c6c08f013421802f047aa277",
+      "ingredient_id": "avocado-oil",
+      "reason": "Explicit refined avocado-oil label; liquid package.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2668301",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Bean name/category/ingredients are discovery context, not proof of the exact canned food form. Require corroborating product-form evidence before suggesting a canned identity."
+    },
+    {
+      "fdc_id": "2668304",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Bean name/category/ingredients are discovery context, not proof of the exact canned food form. Require corroborating product-form evidence before suggesting a canned identity."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2668307",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2668307",
+      "original_barcode": "011110123251",
+      "lookup_key": "00011110123251",
+      "market": "US",
+      "publication_date": "2023-11-16",
+      "source_row_fingerprint": "98fedaee1e5b648a242306bba754b297943a934ec8542f35c37ca50c6332a16d",
+      "ingredient_id": "avocado-oil",
+      "reason": "Explicit cold-pressed avocado-oil label; liquid package.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2670928",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Smoked ground cumin is a preparation variant outside the proposed plain-cumin rule."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2670939",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2670939",
+      "original_barcode": "725677214238",
+      "lookup_key": "00725677214238",
+      "market": "US",
+      "publication_date": "2023-11-16",
+      "source_row_fingerprint": "cfbfe31da16816d5628504a01cacae41205ca53f5d1f87ab685bcba7b98ea68a",
+      "ingredient_id": "ground-cumin",
+      "reason": "Explicit plain ground-cumin label; not the smoked preparation.",
+      "confirmation_required": true
+    },
+    {
+      "fdc_id": "2674077",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Bean name/category/ingredients are discovery context, not proof of the exact canned food form. Require corroborating product-form evidence before suggesting a canned identity."
+    },
+    {
+      "fdc_id": "2678433",
+      "status": "hold_no_automatic_mapping",
+      "reason": "Brand/title does not establish gluten-free identity; retain manual choice pending exact-form review."
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2775309",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2775309",
+      "original_barcode": "00016000106109",
+      "lookup_key": "00016000106109",
+      "market": "US",
+      "publication_date": "2026-08-20",
+      "source_row_fingerprint": "c3c44fd6b166c5859700b46295710bf27ab1825a6b58aff8b1919e52f03d4f39",
+      "ingredient_id": "all-purpose-flour",
+      "reason": "Explicit all-purpose wheat-flour label; no gluten-free claim.",
+      "confirmation_required": true
+    },
+    {
+      "rule_id": "barcode-map-v1-fdc-2777407",
+      "status": "proposed_not_active",
+      "source": "USDA_FDC_BRANDED",
+      "source_snapshot": "2026-10-29",
+      "source_manifest": {
+        "food.csv": {
+          "bytes": 221920942,
+          "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+        },
+        "branded_food.csv": {
+          "bytes": 960715079,
+          "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+        }
+      },
+      "fdc_id": "2777407",
+      "original_barcode": "00016000195806",
+      "lookup_key": "00016000195806",
+      "market": "US",
+      "publication_date": "2026-09-24",
+      "source_row_fingerprint": "2d2e10d62bb0f26de1d8f1510c19d142b62ea0459728029ea484888b3c6e1424",
+      "ingredient_id": "all-purpose-flour",
+      "reason": "Explicit unbleached all-purpose wheat-flour label; no gluten-free claim.",
+      "confirmation_required": true
+    }
+  ]
+}

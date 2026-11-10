@@ -1,0 +1,27 @@
+{
+  "status": "awaiting_maintainer_decision",
+  "decisions": [
+    {
+      "id": "BQ-01",
+      "title": "Consumer identifiers and US snapshot revision selection",
+      "recommendation": "Accept the specified validated 12/13/zero-filled-14 scope, restricted ranges and conservative tie/date/discontinued holds; defer eight-digit and packaging codes."
+    },
+    {
+      "id": "BQ-02",
+      "title": "Keyless read-only USDA index",
+      "recommendation": "Implement the versioned server SQLite artifact and bounded typed POST lookup; keep activation gated on artifact delivery, total function size, Preview behavior and shared rate limiting."
+    },
+    {
+      "id": "BQ-03",
+      "title": "Exact generic suggestions and correction",
+      "recommendation": "Approve the 16 source-revision candidates for 11 existing identities; keep 29 holds and all unreviewed products manual. Confirm every addition; no component ownership or private metadata."
+    },
+    {
+      "id": "BQ-04",
+      "title": "Owner-safe confirmation and camera fallback",
+      "recommendation": "Implement typed confirmation first, then lazy ZXing UPC-A/EAN-13 capture, independent default-off controls, privacy limits and existing owner-bound persistence; require launch-device verification before camera activation."
+    }
+  ],
+  "approval": null,
+  "approval_note": "Documentation merge, CI and code review do not approve these product/technical decisions or activate lookup/camera."
+}

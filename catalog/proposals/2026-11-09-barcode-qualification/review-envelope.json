@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "awaiting_maintainer_decision_not_activation",
+  "files": {
+    "catalog/proposals/2026-11-09-barcode-qualification/decisions.json": "2effef2ebf8a65528addd54526c21122335e1fd3e6d4872390684b88f8f49de2",
+    "catalog/proposals/2026-11-09-barcode-qualification/decoder-measurement.json": "89957b16ef9b1a2cbf64ee8e6ae6444e026e62dd132dc51c52abbf542d366bf3",
+    "catalog/proposals/2026-11-09-barcode-qualification/fixtures.json": "acd64ba7f125bf1792e8a5d9100ccdc062f80dc28748fec868b6bb1b71c3a753",
+    "catalog/proposals/2026-11-09-barcode-qualification/mapping-proposals.json": "aeb6f14579202176d4012d5af8e660ec2f538c94ccf7dfb76972885c630e3764",
+    "catalog/proposals/2026-11-09-barcode-qualification/sample-ids.json": "ff6224dc83ba34a1a87645e893be353a66d06b761c0e676b42b99d95ae93f42a",
+    "catalog/proposals/2026-11-09-barcode-qualification/source-audit.json": "d0e44d8ca983f33f930ed34deb7327e8e3e2f2cafabd248739b65da1bf0d478d",
+    "catalog/proposals/2026-11-09-barcode-qualification/source-examples.json": "5f40fd44e4e0b15df70bd0593d968ff6ae729508554c190c65917c23be0ebfca",
+    "docs/research/v1.6.2-barcode-qualification-packet.md": "2b5cd00dad87eb6b8d3107db94db77b0e67d4618ebe4d3043b0f1da1d95d0b6e"
+  },
+  "packetSha256": "892b530c6b8d13ca23c5eb0dc6bbe8bd98e1b0cbfaa5e085b936dc09fc10903f",
+  "decisions": [
+    "BQ-01",
+    "BQ-02",
+    "BQ-03",
+    "BQ-04"
+  ],
+  "note": "Digest covers canonical compact JSON of the sorted files map. This binds the proposal, not maintainer approval. Runtime/device vectors remain proposed."
+}
