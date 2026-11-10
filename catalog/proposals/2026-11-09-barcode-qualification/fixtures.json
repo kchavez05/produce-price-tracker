@@ -693,6 +693,105 @@
         "outcome": "preserve pantry and queued updates; static/unpriced recipes remain",
         "inventory_automatically_changed": false
       }
+    },
+    {
+      "id": "valid-ns0-upc-02-length-12",
+      "stage": "source_code",
+      "input": {
+        "barcode": "020200170044"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00020200170044"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-02-length-13",
+      "stage": "source_code",
+      "input": {
+        "barcode": "0020200170044"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00020200170044"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-02-length-14",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00020200170044"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00020200170044"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-04-length-12",
+      "stage": "source_code",
+      "input": {
+        "barcode": "041318300512"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00041318300512"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-04-length-13",
+      "stage": "source_code",
+      "input": {
+        "barcode": "0041318300512"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00041318300512"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-04-length-14",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00041318300512"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00041318300512"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-05-length-12",
+      "stage": "source_code",
+      "input": {
+        "barcode": "053000006329"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00053000006329"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-05-length-13",
+      "stage": "source_code",
+      "input": {
+        "barcode": "0053000006329"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00053000006329"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-05-length-14",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00053000006329"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00053000006329"
+      }
     }
   ]
 }

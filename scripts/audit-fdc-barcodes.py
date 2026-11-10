@@ -38,6 +38,8 @@ def code_status(code):
     key = '0' * (14 - len(code)) + code
     if key[0] != '0':
         return 'packaging_or_variable_measure', None
+    # GS1 prefixes use the EAN-13 namespace: UPC-A 2/4/5 -> EAN 02/04/05.
+    # UPC-A 02/04/05 instead -> EAN 002/004/005 (ordinary company prefixes).
     ean = key[1:]
     if ean.startswith(('02', '04', '05', '2', '98', '99', '977', '978', '979', '00000')):
         return 'restricted_reserved_or_nonfood', None
