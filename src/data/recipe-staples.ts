@@ -4,7 +4,10 @@ import { PantryRequirement } from '@/types/pantry';
 // Reviewed amounts for a six-serving batch. Alternatives reflect the existing
 // recipe text, rather than fuzzy name matching or newly invented substitutions.
 type Choice = readonly PantryRequirement[];
-const item = (ingredientId: string, quantity: number, unit: string, optional = false): PantryRequirement => ({ ingredientId, quantity, unit, ...(optional ? { optional } : {}) });
+/** Labeled unopened can contents, never drained food mass. Old saved recipes remain unspecified. */
+export const CANNED_NET_CONTENTS_VERSION = 'canned-net-contents-v1';
+const netContentsIngredients = new Set(['black-beans-canned', 'kidney-beans-canned', 'cannellini-beans-canned', 'great-northern-beans-canned', 'crushed-tomatoes-canned']);
+const item = (ingredientId: string, quantity: number, unit: string, optional = false): PantryRequirement => ({ ingredientId, quantity, unit, ...(unit === 'oz' && netContentsIngredients.has(ingredientId) ? { quantityBasisVersion: CANNED_NET_CONTENTS_VERSION } : {}), ...(optional ? { optional } : {}) });
 const one = (ingredientId: string, quantity: number, unit: string): Choice => [item(ingredientId, quantity, unit)];
 const garlic = (cloves = 4) => one('garlic-fresh', cloves, 'clove');
 const spice = (id: string, teaspoons = 1) => one(id, teaspoons, 'tsp');

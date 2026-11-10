@@ -41,3 +41,29 @@ it('retains SQLite accepted IDs through restart and replays queued future edits 
     `);
   } finally { rmSync(folder, { recursive: true, force: true }); }
 }, 15000);
+
+
+it('strips derived quote details at the saved-recipe persistence boundary without crossing owners', () => {
+  const folder = mkdtempSync(join(tmpdir(), 'pantry-saved-price-'));
+  try {
+    const result = spawnSync(process.execPath, ['--import', 'tsx', '-e', `
+      const assert = require('node:assert/strict');
+      const store = require(${JSON.stringify(resolve('src/lib/db/sqlite.ts'))});
+      const requirement = {ingredientId:'black-beans-canned',quantity:15,unit:'oz',quantityBasisVersion:'canned-net-contents-v1'};
+      const dish = {id:'synthetic',pantryRequirements:[requirement],pantryPricing:{rows:[{observation:{quoteId:'SYNTH_QUOTE'}}]}};
+      for (const id of ['owner-a','owner-b']) store.upsertUserProfileToSqlite({id,email:id+'@example.test',displayName:id,provider:'google',createdAtIso:'2026-11-09',updatedAtIso:'2026-11-09',isCloudBacked:false});
+      const saved = store.replaceUserSavedRecipesInSqlite('owner-a',[dish]);
+      assert.equal(saved[0].pantryPricing,undefined);
+      assert.deepEqual(saved[0].pantryRequirements,[requirement]);
+      assert.equal(saved[0].savedInLibrary,true);
+      assert.equal(dish.pantryPricing.rows[0].observation.quoteId,'SYNTH_QUOTE');
+      assert.deepEqual(store.getUserSavedRecipesFromSqlite('owner-b'),[]);
+      const {DatabaseSync}=require('node:sqlite');
+      const db=new DatabaseSync(process.env.PANTRYBOT_SQLITE_PATH);
+      const raw=db.prepare('SELECT dish_json FROM user_saved_recipes WHERE user_id=?').get('owner-a');
+      assert(!raw.dish_json.includes('SYNTH_QUOTE'));
+      db.close();
+    `], { encoding: 'utf8', env: { ...process.env, PANTRYBOT_SQLITE_PATH: join(folder, 'isolated.sqlite') } });
+    expect(result.status, result.stderr).toBe(0);
+  } finally { rmSync(folder, { recursive: true, force: true }); }
+}, 15000);

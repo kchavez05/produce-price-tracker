@@ -70,6 +70,9 @@ export interface StaplePriceRow {
   quoteId?: string;
   admissionRuleVersion?: string;
   stockUnconfirmed?: boolean;
+  /** Exact selected evidence for the internal adapter; never recovered by ambiguous IDs. */
+  selectedQuote?: StaplePriceQuote;
+  selectedAdmission?: StaplePriceAdmission;
 }
 
 interface Fraction { numerator: bigint; denominator: bigint }
@@ -233,6 +236,7 @@ export function evaluateStaplePrices(requirements: readonly StaplePriceRequireme
     if (observed) {
       exact.push(observed.cost);
       return { ...row, basis: 'OBSERVED', allocatedCents: 0, quoteId: observed.quote.id,
+        selectedQuote: { ...observed.quote }, selectedAdmission: { ...observed.admission },
         admissionRuleVersion: observed.admission.ruleVersion, stockUnconfirmed: observed.quote.stockLevel === undefined };
     }
     const staticPrice = context.staticPrices.get(requirement.ingredientId);

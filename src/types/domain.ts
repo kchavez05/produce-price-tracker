@@ -335,6 +335,7 @@ export interface RecommendedDish {
   pantryCoverage?: import('@/types/pantry').PantryCoverage;
   additionalCostEstimateComplete?: boolean;
   missingPriceIngredientIds?: string[];
+  pantryPricing?: import('@/types/pantry').PantryPricing;
 }
 
 export interface AggregatedShoppingItem {
@@ -385,6 +386,7 @@ export interface AggregatedShoppingItem {
 }
 
 export interface StoreTripComparison {
+  includesStaticPantryEstimates?: boolean;
   additionalCostEstimateComplete?: boolean;
   missingPriceIngredientIds?: string[];
   optimalSplitTotal: number;

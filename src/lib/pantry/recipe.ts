@@ -1,8 +1,9 @@
+import { createPantryPriceContext, PantryPriceContext } from './pricing';
 import { requiresExactOffer } from './exact-offer';
 import { recipeAvailableIngredientIds, recipePantryIngredientId, recipeUseRequirementName } from './recipe-identity';
 import { matchedRecipeRequirement, recipeCommodity, recipeUseForRequirement, resolveRecipeUse, recipeIngredientExcluded } from './recipe-use';
 import { MatchedSlotIngredient, RecommendedDish, ScoredCommodity } from '@/types/domain';
-import { PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
+import { PantryPriceDetail, PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { normalizePantryName, pantryCatalog } from './model';
 import { evaluatePantryRequirementsByIds } from './requirements';
 
@@ -26,26 +27,28 @@ export function recipePantryRequirements(dish: RecommendedDish): PantryRequireme
   return [...structured, ...text.map(unpricedRecipeText)];
 }
 
-export function pantryShoppingNeeds(requirements: readonly PantryRequirement[], availableIds: readonly string[]): PantryShoppingNeed[] {
-  const combined = new Map<string, PantryRequirement>();
-  const available = new Set(recipeAvailableIngredientIds(availableIds));
-  for (const original of requirements) {
-    const requirement = { ...original, ingredientId: recipePantryIngredientId(original.ingredientId) };
-    if (requirement.optional || available.has(requirement.ingredientId)) continue;
-    const key = `${requirement.ingredientId}\u0000${requirement.unit}`;
+/** Group display quantities, but sum authoritative recipe cents without repricing. */
+export function aggregatePantryPriceDetails(rows: readonly PantryPriceDetail[]): PantryShoppingNeed[] {
+  const combined = new Map<string, PantryShoppingNeed>();
+  for (const row of rows) {
+    if (row.priceBasis === 'OPTIONAL' || row.priceBasis === 'ON_HAND') continue;
+    // Keep unpriced quantities separate so a partial known subtotal cannot disappear.
+    const key = JSON.stringify([row.ingredientId, row.unit, row.quantityBasisVersion ?? '', row.estimatedCost === null]);
     const existing = combined.get(key);
-    const quantity = (existing?.quantity ?? 0) + requirement.quantity;
-    combined.set(key, { ...requirement, quantity: Number.isFinite(quantity) && quantity <= Number.MAX_SAFE_INTEGER
-      ? Number(quantity.toFixed(4)) : 1, ...(Number.isFinite(quantity) && quantity <= Number.MAX_SAFE_INTEGER ? {} : { unit: '' }) });
+    const quantity = (existing?.quantity ?? 0) + row.quantity;
+    const allocatedCents = row.allocatedCents === null ? null : (existing?.priceDetails ?? []).reduce((sum, detail) => sum + (detail.allocatedCents ?? 0), row.allocatedCents);
+    if (allocatedCents !== null && !Number.isSafeInteger(allocatedCents)) throw new RangeError('Shopping price exceeds the supported range');
+    const cost = allocatedCents === null ? null : allocatedCents / 100;
+    combined.set(key, { ...row, quantity: Number.isFinite(quantity) && quantity <= Number.MAX_SAFE_INTEGER ? Number(quantity.toFixed(4)) : 1,
+      ...(Number.isFinite(quantity) && quantity <= Number.MAX_SAFE_INTEGER ? {} : { unit: '' }), ingredientName: pantryRequirementName(row),
+      estimatedCost: cost, priceBasis: existing && existing.priceBasis !== row.priceBasis ? 'MIXED' : row.priceBasis,
+      priceDetails: [...(existing?.priceDetails ?? []), row] });
   }
-  return [...combined.values()].map((requirement) => {
-    const price = pantryCatalog.get(requirement.ingredientId)?.staticPrice;
-    const known = Boolean(price && price.unit === requirement.unit && finiteNonnegative(requirement.quantity));
-    const cost = known ? price!.usdPerUnit * requirement.quantity : null;
-    const estimatedCost = cost !== null && Number.isFinite(cost) ? Number(cost.toFixed(2)) : null;
-    return { ...requirement, ingredientName: pantryRequirementName(requirement), estimatedCost,
-      priceBasis: estimatedCost === null ? 'UNPRICED' as const : 'STATIC_ESTIMATE' as const };
-  });
+  return [...combined.values()];
+}
+
+export function pantryShoppingNeeds(requirements: readonly PantryRequirement[], availableIds: readonly string[], context: PantryPriceContext = createPantryPriceContext()): PantryShoppingNeed[] {
+  return aggregatePantryPriceDetails(evaluatePantryRequirementsByIds(requirements, availableIds, context).pricing.rows);
 }
 
 /** Derive current availability/cost; never mutate inventory or the saved recipe. */
@@ -54,6 +57,7 @@ export function applyPantryToRecipe(
   availableIds: readonly string[],
   commodities: readonly ScoredCommodity[],
   explicitRequirements?: readonly PantryRequirement[],
+  context: PantryPriceContext = createPantryPriceContext(),
 ): RecommendedDish {
   const available = new Set(recipeAvailableIngredientIds(availableIds));
   const prices = new Map(commodities.map((commodity) => [commodity.ingredient.id, commodity]));
@@ -84,7 +88,7 @@ export function applyPantryToRecipe(
     const ingredientId = recipeIngredientExcluded(dish.id, requirement.ingredientId) ? `unmapped:recipe:${dish.id}:${requirement.ingredientId}` : requirement.ingredientId.startsWith('recipe-use:') && !recipeUseForRequirement(dish, requirement.ingredientId)
       ? `unmapped:${requirement.ingredientId}` : recipePantryIngredientId(requirement.ingredientId);
     const price = pantryCatalog.get(ingredientId)?.staticPrice;
-    const usable = finiteNonnegative(requirement.quantity) && typeof requirement.unit === 'string' &&
+    const usable = finiteNonnegative(requirement.quantity) && requirement.quantity <= Number.MAX_SAFE_INTEGER && typeof requirement.unit === 'string' &&
       (!price || Number.isFinite(requirement.quantity * price.usdPerUnit) && requirement.quantity * price.usdPerUnit * 100 <= Number.MAX_SAFE_INTEGER / Math.max(1, sourceRequirements.length));
     return { ...requirement, ingredientId, quantity: usable ? requirement.quantity : 1, unit: usable ? requirement.unit : '' };
   });
@@ -115,12 +119,13 @@ export function applyPantryToRecipe(
       dealType: commodity.bestOffer.dealType, dealConditions: commodity.bestOffer.dealConditions,
       unitCost: commodity.bestOffer.normalizedPricePerUnit, slotCost, regularSlotCost });
   }
-  const pantry = evaluatePantryRequirementsByIds(requirements, [...available]);
-  const coverage = evaluatePantryRequirementsByIds([...marketRequirements, ...requirements], [...available]);
+  const pantry = evaluatePantryRequirementsByIds(requirements, [...available], context);
+  const coverage = evaluatePantryRequirementsByIds([...marketRequirements, ...requirements], [...available], context);
   const servings = typeof dish.servings === 'number' && Number.isFinite(dish.servings) && dish.servings > 0 ? dish.servings : 6;
   const totalBatchCost = Number((storeCost + pantry.estimatedAdditionalCost).toFixed(2));
   const regularBatchCost = Number((regularStoreCost + pantry.estimatedAdditionalCost).toFixed(2));
   return { ...dish, servings, matchedIngredients: matched, pantryRequirements: requirements,
+    pantryPricing: pantry.pricing,
     pantryStaples: requirements.map(formatPantryRequirement), estimatedPantryCost: pantry.estimatedAdditionalCost,
     totalBatchCost, regularBatchCost, totalBatchSavings: Number(Math.max(0, regularBatchCost - totalBatchCost).toFixed(2)),
     costPerServing: Number((totalBatchCost / servings).toFixed(2)), poweredByFreezerCount: 0,

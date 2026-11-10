@@ -1,6 +1,7 @@
+import { createPantryPriceContext, PantryPriceContext, pricePantryRequirements } from './pricing';
 import { recipeAvailableIngredientIds, recipePantryIngredientId } from './recipe-identity';
 import { PantryEntry, PantryRequirement } from '@/types/pantry';
-import { pantryCatalog, availablePantryIngredientIds } from './model';
+import { availablePantryIngredientIds } from './model';
 
 /**
  * Uses exact identities and reviewed one-hop coverage with explicit No precedence. Optional quantities/dates on the user's
@@ -9,22 +10,22 @@ import { pantryCatalog, availablePantryIngredientIds } from './model';
 export function evaluatePantryRequirements(
   requirements: readonly PantryRequirement[],
   entries: readonly PantryEntry[],
+  context: PantryPriceContext = createPantryPriceContext(),
 ) {
-  return evaluatePantryRequirementsByIds(requirements, availablePantryIngredientIds(entries));
+  return evaluatePantryRequirementsByIds(requirements, availablePantryIngredientIds(entries), context);
 }
 
-export function evaluatePantryRequirementsByIds(requirements: readonly PantryRequirement[], availableIds: readonly string[]) {
+export function evaluatePantryRequirementsByIds(requirements: readonly PantryRequirement[], availableIds: readonly string[], context: PantryPriceContext = createPantryPriceContext()) {
   requirements = requirements.map((r) => ({ ...r, ingredientId: recipePantryIngredientId(r.ingredientId) }));
   const available = new Set(recipeAvailableIngredientIds(availableIds));
   const requiredIds = new Set<string>();
   const optionalIds = new Set<string>();
   const needToBuy: PantryRequirement[] = [];
   const unpricedIngredientIds = new Set<string>();
-  let estimatedCents = 0;
 
   // An identity appearing in required and optional slots counts as required only.
   for (const requirement of requirements) {
-    if (!Number.isFinite(requirement.quantity) || requirement.quantity < 0) {
+    if (!Number.isFinite(requirement.quantity) || requirement.quantity < 0 || requirement.quantity > Number.MAX_SAFE_INTEGER) {
       throw new Error('Recipe quantities must be finite and nonnegative');
     }
     if (!requirement.optional) requiredIds.add(requirement.ingredientId);
@@ -34,17 +35,9 @@ export function evaluatePantryRequirementsByIds(requirements: readonly PantryReq
   for (const requirement of requirements) {
     if (requirement.optional || available.has(requirement.ingredientId)) continue;
     needToBuy.push({ ...requirement });
-    const price = pantryCatalog.get(requirement.ingredientId)?.staticPrice;
-    if (!price || price.unit !== requirement.unit) {
-      unpricedIngredientIds.add(requirement.ingredientId);
-      continue;
-    }
-    const cents = price.usdPerUnit * requirement.quantity * 100;
-    if (!Number.isFinite(cents) || cents > Number.MAX_SAFE_INTEGER - estimatedCents) {
-      throw new Error('Recipe cost exceeds the supported range');
-    }
-    estimatedCents += cents;
   }
+  const pricing = pricePantryRequirements(requirements, available, context);
+  for (const row of pricing.rows) if (row.priceBasis === 'UNPRICED') unpricedIngredientIds.add(row.ingredientId);
 
   return {
     requiredCount: requiredIds.size,
@@ -52,9 +45,10 @@ export function evaluatePantryRequirementsByIds(requirements: readonly PantryReq
     optionalCount: optionalIds.size,
     availableOptionalCount: [...optionalIds].filter((id) => available.has(id)).length,
     needToBuy,
-    estimatedAdditionalCost: Math.round(estimatedCents) / 100,
+    estimatedAdditionalCost: pricing.total,
     estimateComplete: unpricedIngredientIds.size === 0,
     unpricedIngredientIds: [...unpricedIngredientIds],
-    priceBasis: 'STATIC_ESTIMATE' as const,
+    pricing,
+    priceBasis: pricing.rows.some((row) => row.priceBasis === 'OBSERVED') ? 'OBSERVED' as const : 'STATIC_ESTIMATE' as const,
   };
 }
