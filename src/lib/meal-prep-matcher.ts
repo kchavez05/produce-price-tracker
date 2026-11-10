@@ -355,7 +355,7 @@ export function rankMealPrepDishes(
       const scaled = options?.pantryMode && Number.isFinite(saved.servings) && saved.servings > 0 ? targetServings / saved.servings : 1;
       const current = options?.pantryMode ? applyPantryToRecipe({ ...saved, servings: targetServings,
         matchedIngredients: (Array.isArray(saved.matchedIngredients) ? saved.matchedIngredients : []).map((ingredient) => ({ ...ingredient, quantityUsed: ingredient.quantityUsed * scaled })),
-        pantryRequirements: recipePantryRequirements(saved).map((requirement) => ({ ...requirement, quantity: Number((requirement.quantity * scaled).toFixed(4)) })),
+        pantryRequirements: recipePantryRequirements(saved).map((requirement) => ({ ...requirement, quantity: requirement.quantity * scaled })),
         pantryStaples: [],
       }, [...onHandSet], scoredCommodities, undefined, pantryPriceContext) : saved;
       evaluated.push({

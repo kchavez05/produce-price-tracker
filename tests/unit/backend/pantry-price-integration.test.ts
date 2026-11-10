@@ -110,11 +110,24 @@ describe('shared current / saved / shopping price context', () => {
     const ranked = rankMealPrepDishes([], [], [], 8, { pantryMode: true, savedRecipes: [saved], pantryPriceContext: context() });
     const current = ranked.allRankedDishes.find((dish) => dish.id === saved.id)!;
     expect(current.servings).toBe(8);
-    expect(current.pantryRequirements![0].quantity).toBe(2.6667);
+    expect(current.pantryRequirements![0].quantity).toBe(2 * (8 / 6));
     expect(current.estimatedPantryCost).toBe(.4);
     expect(shopping([current]).tripComparison.estimatedPantryTotal).toBe(.4);
     expect(JSON.stringify(saved)).toBe(before);
     expect(frozen).not.toBe(before);
+  });
+
+  it('preserves saved quantity precision when servings and static prices are unchanged', () => {
+    const snapshot = context({ observedPricingEnabled: false });
+    const saved = applyPantryToRecipe(oilDish(2.02499), [], [], undefined, snapshot);
+    const before = JSON.stringify(saved);
+    const current = rankMealPrepDishes([], [], [], saved.servings, { pantryMode: true, savedRecipes: [saved], pantryPriceContext: snapshot })
+      .allRankedDishes.find((dish) => dish.id === saved.id)!;
+    expect(current.pantryRequirements![0].quantity).toBe(2.02499);
+    expect(current.estimatedPantryCost).toBe(.4);
+    expect(current.pantryPricing!.rows[0].allocatedCents).toBe(saved.pantryPricing!.rows[0].allocatedCents);
+    expect(shopping([current], snapshot).tripComparison.estimatedPantryTotal).toBe(.4);
+    expect(JSON.stringify(saved)).toBe(before);
   });
 
   it.each<Partial<PantryPriceContext>>([
