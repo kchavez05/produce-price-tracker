@@ -56,6 +56,12 @@ describe('offline barcode feasibility audit', () => {
     expect(result.status, result.stderr).toBe(0);
     expect(JSON.parse(result.stdout)).toEqual(fixtures.map((fixture: { expected: { status: string; key: string | null } }) => [fixture.expected.status, fixture.expected.key]));
   });
+  it('hashes source files without the newer hashlib.file_digest helper', () => {
+    const file = join(input, 'food.csv');
+    const result = spawnSync(python, ['-B', '-c', `import importlib.util,hashlib,sys; hasattr(hashlib,'file_digest') and delattr(hashlib,'file_digest'); s=importlib.util.spec_from_file_location('audit',sys.argv[1]); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); print(m.digest(m.Path(sys.argv[2])))`, script, file], { encoding: 'utf8' });
+    expect(result.status, result.stderr).toBe(0);
+    expect(result.stdout.trim()).toBe(createHash('sha256').update(readFileSync(file)).digest('hex'));
+  });
   it('holds revision ties, invalid dates and newest discontinued records without resurrecting old rows', () => {
     const result = run(); expect(result.status, result.stderr).toBe(0);
     expect(report()).toMatchObject({ status: 'proposal_only_not_runtime_or_approved_mapping', branded_rows: 9,

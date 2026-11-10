@@ -19,8 +19,11 @@ FIELDS = {
 
 
 def digest(path):
+    result = hashlib.sha256()
     with path.open('rb') as stream:
-        return hashlib.file_digest(stream, 'sha256').hexdigest()
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            result.update(chunk)
+    return result.hexdigest()
 
 
 def code_status(code):
@@ -220,9 +223,9 @@ if __name__ == '__main__':
     parser.add_argument('--samples', type=Path)
     args = parser.parse_args()
     try:
-        cutoff = datetime.date.fromisoformat(args.snapshot)
-        if cutoff.isoformat() != args.snapshot:
+        if not re.fullmatch(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', args.snapshot):
             raise ValueError('Snapshot must use YYYY-MM-DD')
+        cutoff = datetime.date.fromisoformat(args.snapshot)
         expected = json.loads(args.expected_manifest.read_text())['source_manifest'] if args.expected_manifest else None
         print(json.dumps(audit(args.input, args.output, cutoff, expected, args.samples), indent=2))
     except (ValueError, OSError, sqlite3.Error, csv.Error) as error:
