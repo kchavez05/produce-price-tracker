@@ -169,11 +169,11 @@ flowchart LR
 - **Screen-by-screen redesign and polish:** Dashboard, Virtual Pantry, account and sign-in, Data Explorer, legal and docs pages; WCAG AA pass, mobile responsiveness and performance budget.
 - Pre-release builds (`v2.0.0-beta.N`) may be previewed on `develop` before the production release.
 
-**Sequencing:** Starts after v1.6.2 and v1.7 so the sign-in flows ship on the current UI and are redesigned once. UI-only: the zero-key offline fallbacks and the sync and session-ownership boundaries stay unchanged. Native iOS/iPadOS follows as v2.x on the same tokens and module structure; public launch and later features stay on the later horizon below (the native version numbers in the linked wiki page are being re-slotted).
+**Sequencing:** Starts after v1.6.2 and v1.7 so the sign-in flows ship on the current UI and are redesigned once. UI-only: the zero-key offline fallbacks and the sync and session-ownership boundaries stay unchanged. Native iOS/iPadOS follows as v2.x on the same tokens and module structure; public launch and later features stay on the later horizon below (see the linked wiki page for the native version numbers).
 
 ---
 
-## 📱 Horizon 2 & 3: Native iOS / Android & Feature Expansion (`v1.5` – `v3.0`)
+## 📱 Horizon 2 & 3: Redesign, Native iOS / iPadOS / Android & Feature Expansion (`v2.0` – `v3.0`)
 
 For the long-term mobile architecture (Turborepo + Expo React Native), native hardware features (Camera Shelf-Tag OCR, iOS Live Activities, Push Alerts), Virtual Freezer arbitrage loop, and nationwide store expansion, see:
 * **[North Star Strategy: Native iOS/Android Roadmap & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)**
