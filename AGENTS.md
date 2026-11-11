@@ -2,15 +2,15 @@
 
 ## 1. Branching & Environment Architecture
 
-Never commit or push directly to `main` or `develop`. All changes must flow through Pull Requests with passing CI and Codex code review:
+Never commit or push directly to `main` or `develop`. All changes must flow through Pull Requests with passing CI and code review (Claude):
 
 ```
 feature/* | fix/* | chore/* | docs/*
         │
-        ▼  (PR + CI Quality Gate + Codex Code Review)
+        ▼  (PR + CI Quality Gate + Claude Code Review)
      develop   ──► Vercel Preview / Staging Environment
         │
-        ▼  (Release PR + CI Quality Gate + Codex Code Review)
+        ▼  (Release PR + CI Quality Gate + Claude Code Review)
       main     ──► Vercel Production Environment (pantrybot.dev)
 ```
 
@@ -55,13 +55,14 @@ git push -u origin <branch-name>
 gh pr create --base develop --head <branch-name> --title "<title>" --body "<summary>"
 ```
 
-### Step 4: CI Quality Gate & Codex Code Review
+### Step 4: CI Quality Gate & Claude Code Review
 Every PR targeting `develop` must pass:
 1. **GitHub Actions CI (`CI Quality Gate / Typecheck, Lint & Build`)**: Defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml).
 2. **Vercel Preview Deployment**: Confirms the preview build succeeds.
-3. **Codex Code Review**:
-   * Enable Codex code review for this repository in Codex settings. Configure automatic review and its trigger as desired; use a manual request when an automatic latest-head review has not started. See [`docs/code-review.md`](./docs/code-review.md).
-   * Prefer the GitHub API/CLI for requesting reviews, monitoring checks, and inspecting comments. Request a review with a PR comment containing `@codex review` (for example, `gh pr comment <number> --body '@codex review'`). Check for an existing automatic review before requesting another. Wait for a completed assessment of the latest head before merging; a request or eyes reaction alone is not completion. Inspect both review submissions and bot completion comments, plus all inline threads.
+3. **Claude Code Review**:
+   * **Prerequisite:** the Claude GitHub app must be installed on the repo (`/install-github-app` from the `claude` CLI). Until it is, a local `/code-review --comment` run on the PR head counts as the completed review.
+   * Review runs through the Claude GitHub app / `claude-code-action` (automatic or on an `@claude` mention) and/or a local `/code-review --comment` pass before merge. Use a manual request when an automatic latest-head review has not started. See [`docs/code-review.md`](./docs/code-review.md).
+   * Prefer the GitHub API/CLI for requesting reviews, monitoring checks, and inspecting comments. Request a review with a PR comment mentioning Claude (for example, `gh pr comment <number> --body '@claude review the latest head against AGENTS.md and docs/code-review.md'`). Check for an existing automatic review before requesting another. Wait for a completed assessment of the latest head before merging; a request or eyes reaction alone is not completion. Inspect both review submissions and bot completion comments, plus all inline threads.
    * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and fix all actionable P0/P1/P2 findings on the feature branch before merging.
    * After pushing fixes (or explaining why a suggestion is skipped), **reply to each review comment thread** with a brief summary/commit SHA and **mark the review thread as resolved**:
 ```bash
@@ -79,7 +80,7 @@ gh api graphql -f query='
 ```
 
 ### Step 5: Merge into `develop` & Clean Up
-Once CI checks are green and Codex code review feedback is addressed:
+Once CI checks are green and Claude code review feedback is addressed:
 * Merge the feature PR into `develop` (via the GitHub UI or `gh pr merge`).
 * Record the PR/SHA and supported acceptance evidence on its issue. Public-feature issues stay open in **Awaiting release** until production acceptance passes; default-off or unverified work is not shipped. Internal research/process work can close when its explicit deliverable is accepted. Keep blocker/dependency and next-action information current. Closing keywords on PRs to `develop` do not maintain these issue states automatically.
 * Switch back to `develop`, pull the latest changes, and delete the feature branch:
@@ -103,7 +104,7 @@ When cutting a release (`vX.Y.Z`) to production (`main`), complete every item in
 gh pr create --base main --head develop --title "Release vX.Y.Z: <Milestone Title>" --body-file docs/releases/vX.Y.Z.md
 ```
    * [ ] Verify **CI Quality Gate (`Typecheck, Lint & Build`)** and **Vercel Preview** succeed.
-   * [ ] Complete **Codex** review of the latest head (request or re-request via the API-first workflow above), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
+   * [ ] Complete **Claude** review of the latest head (request or re-request via the API-first workflow above), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
 3. **Merge to `main` & Sync `develop`**
    * [ ] Merge the Release PR into `main` (triggering the production deployment to [pantrybot.dev](https://pantrybot.dev)).
    * [ ] Before publishing the GitHub Release/tag, verify the intended main commit has a **Ready production deployment**, confirm its live version and complete the required production acceptance checks. Attach dated evidence and explicit limits; a Preview build or pending deployment is not production verification. A failed/pending deployment or unmet production gate blocks publication.
