@@ -33,6 +33,8 @@ Released November 8, 2026, v1.6.1 expands the pantry catalog before speech entry
 
 ## Quick Start
 
+Use Node.js 22.22.2+ on the Node 22 line, or 24.15.0+ on the Node 24 line (the current SDK/test dependencies exclude older Node releases). `.nvmrc` pins the tested Node 22 runtime; CI uses Node 22.
+
 ```bash
 npm install
 npm run dev
