@@ -60,6 +60,7 @@ Every PR targeting `develop` must pass:
 1. **GitHub Actions CI (`CI Quality Gate / Typecheck, Lint & Build`)**: Defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml).
 2. **Vercel Preview Deployment**: Confirms the preview build succeeds.
 3. **Claude Code Review**:
+   * **Prerequisite:** the Claude GitHub app must be installed on the repo (`/install-github-app` from the `claude` CLI). Until it is, a local `/code-review --comment` run on the PR head counts as the completed review.
    * Review runs through the Claude GitHub app / `claude-code-action` (automatic or on an `@claude` mention) and/or a local `/code-review --comment` pass before merge. Use a manual request when an automatic latest-head review has not started. See [`docs/code-review.md`](./docs/code-review.md).
    * Prefer the GitHub API/CLI for requesting reviews, monitoring checks, and inspecting comments. Request a review with a PR comment mentioning Claude (for example, `gh pr comment <number> --body '@claude review the latest head against AGENTS.md and docs/code-review.md'`). Check for an existing automatic review before requesting another. Wait for a completed assessment of the latest head before merging; a request or eyes reaction alone is not completion. Inspect both review submissions and bot completion comments, plus all inline threads.
    * Inspect all review comments (via the GitHub web UI, `gh pr view --comments`, or `gh api repos/{owner}/{repo}/pulls/<pr-number>/comments`) and fix all actionable P0/P1/P2 findings on the feature branch before merging.

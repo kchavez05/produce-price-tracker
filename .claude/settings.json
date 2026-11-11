@@ -17,11 +17,21 @@
       "Bash(gh pr diff:*)"
     ],
     "deny": [
-      "Bash(git push origin main:*)",
-      "Bash(git push origin develop:*)",
-      "Bash(git push --force:*)",
+      "Bash(git push* main)",
+      "Bash(git push*:main)",
+      "Bash(git push*/main)",
+      "Bash(git push* develop)",
+      "Bash(git push*:develop)",
+      "Bash(git push*/develop)",
+      "Bash(git push*--force*)",
+      "Bash(git push* -f*)",
       "Read(./.env)",
-      "Read(./.env.local)"
+      "Read(./.env.local)",
+      "Read(./.env.*.local)",
+      "Read(./.env.production*)",
+      "Read(./.env.development*)",
+      "Read(./.env.test*)",
+      "Read(./.env.vercel*)"
     ]
   }
 }
