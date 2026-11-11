@@ -93,7 +93,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const ai = new GoogleGenAI({ apiKey });
+    // Preserve the existing endpoint contract across the SDK 3 default-version change.
+    const ai = new GoogleGenAI({ apiKey, apiVersion: 'v1beta' });
 
     const freezerIds = new Set(
       (dashboard.freezerInventory || []).map((f) => f.canonicalIngredientId)
