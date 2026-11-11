@@ -24,6 +24,11 @@ feature/* | fix/* | chore/* | docs/*
 
 Whenever implementing a feature, bugfix, chore, or documentation update, follow these steps in order:
 
+### Step 0: Locate the Tracked Work
+Before feature, bug, research/decision or release implementation, find or create its GitHub issue, confirm an owner and acceptance criteria, assign the agreed release milestone (or Backlog), and add it to the [roadmap project](https://github.com/users/kchavez05/projects/1). Read the linked specification and existing decisions; do not infer approval from a board status. Planned releases need a milestone and release parent with linked work items before implementation starts. Use GitHub issue numbers, not a separate Ticket numbering scheme.
+
+Follow [`docs/issue-release-tracking.md`](./docs/issue-release-tracking.md). Maintain issue evidence, blockers and next action plus project Status at task start, PR/decision review, develop merge, blocker changes and verified release. Routine internal docs/dependency maintenance can reference the relevant release tracker or explain a concrete maintenance exception in the PR; automated Dependabot PRs do not require one issue per package.
+
 ### Step 1: Create a Feature Branch from `develop`
 ```bash
 git checkout develop
@@ -44,7 +49,7 @@ npm run build
 ```
 
 ### Step 3: Push & Open a Pull Request to `develop`
-Push the branch to `origin` and open a PR targeting `develop`:
+Push the branch to `origin` and open a PR targeting `develop`. Reference its issue/release parent and update the issue with the PR URL, remaining gates and In Review status:
 ```bash
 git push -u origin <branch-name>
 gh pr create --base develop --head <branch-name> --title "<title>" --body "<summary>"
@@ -76,6 +81,7 @@ gh api graphql -f query='
 ### Step 5: Merge into `develop` & Clean Up
 Once CI checks are green and Codex code review feedback is addressed:
 * Merge the feature PR into `develop` (via the GitHub UI or `gh pr merge`).
+* Record the PR/SHA and supported acceptance evidence on its issue. Public-feature issues stay open in **Awaiting release** until production acceptance passes; default-off or unverified work is not shipped. Internal research/process work can close when its explicit deliverable is accepted. Keep blocker/dependency and next-action information current. Closing keywords on PRs to `develop` do not maintain these issue states automatically.
 * Switch back to `develop`, pull the latest changes, and delete the feature branch:
 ```bash
 git checkout develop
@@ -112,7 +118,7 @@ git merge --ff-only main && git push origin develop
 gh release create vX.Y.Z --target main --title "vX.Y.Z — <Milestone Title>" --notes-file docs/releases/vX.Y.Z.md
 git fetch --tags
 ```
-   * [ ] Verify all milestone issues are closed and close the GitHub Milestone:
+   * [ ] Attach production verification and release/tag evidence, close feature issues whose acceptance passes, and mark them Done. Resolve any remaining committed scope through implementation or an explicit approved scope revision. Close the release parent and GitHub Milestone only after the release checklist and required outcomes are complete:
 ```bash
 gh api repos/{owner}/{repo}/milestones/<milestone-number> -X PATCH -f state="closed"
 ```

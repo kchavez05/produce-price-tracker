@@ -1,0 +1,42 @@
+name: Bug report
+description: Capture a reproducible problem and its acceptance criteria.
+labels: [bug]
+projects: [kchavez05/1]
+assignees: [kchavez05]
+body:
+  - type: input
+    id: release
+    attributes:
+      label: Affected version and target release
+      description: Include the affected version; use Backlog if the fix release is undecided.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction and expected behavior
+      description: Include steps, actual/expected results, browser/device and relevant sanitized evidence. Never include secrets or personal inventory.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Define the corrected behavior and regression/production checks as appropriate.
+      placeholder: '- [ ] Reproduction now produces the expected result'
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and blockers
+      description: Link related issues and missing prerequisites, or state None known.
+    validations:
+      required: true
+  - type: textarea
+    id: status
+    attributes:
+      label: Current status and next action
+      value: 'Backlog — confirm the reproduction, scope and release before implementation.'
+    validations:
+      required: true

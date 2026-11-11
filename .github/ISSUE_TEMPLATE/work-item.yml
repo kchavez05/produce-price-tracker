@@ -1,0 +1,51 @@
+name: Feature or work item
+description: Plan a scoped outcome with acceptance criteria and release ownership.
+labels: [enhancement]
+projects: [kchavez05/1]
+assignees: [kchavez05]
+body:
+  - type: input
+    id: release
+    attributes:
+      label: Target release or Backlog
+      description: A release assignment needs maintainer agreement; agents also set the actual milestone.
+      value: Backlog
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome and scope boundaries
+      description: Explain the result, why it matters and what this issue excludes.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Use checkboxes and include production acceptance for public features.
+      placeholder: '- [ ] Observable result and required verification evidence'
+    validations:
+      required: true
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Approved specifications and decisions
+      description: Link accepted requirements and record unresolved decisions separately.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and blockers
+      description: Link prerequisite issues, name the missing fact/access/decision, or state None known.
+    validations:
+      required: true
+  - type: textarea
+    id: status
+    attributes:
+      label: Current status and next action
+      description: Distinguish implemented, enabled and production-verified; link PRs and evidence as work progresses.
+      value: 'Backlog — triage scope, acceptance criteria and release before implementation.'
+    validations:
+      required: true
