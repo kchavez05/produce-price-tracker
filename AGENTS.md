@@ -94,7 +94,7 @@ git push origin --delete <branch-name>
 When cutting a release (`vX.Y.Z`) to production (`main`), complete every item in this checklist:
 
 1. **Pre-Release Documentation & Version Bump (on `develop` via PR)**
-   * [ ] Bump `"version": "X.Y.Z"` in [`package.json`](./package.json).
+   * [ ] Bump `"version": "X.Y.Z"` in [`package.json`](./package.json) and the top-level/root package metadata in [`package-lock.json`](./package-lock.json); keep applicable OpenAPI source/exports aligned.
    * [ ] Create detailed release notes in [`docs/releases/vX.Y.Z.md`](./docs/releases/).
    * [ ] Update [`CHANGELOG.md`](./CHANGELOG.md), [`ROADMAP.md`](./ROADMAP.md), [`README.md`](./README.md), and [`docs/wiki/`](./docs/wiki/) to reflect the new version and completed milestone tickets.
 2. **Open & Verify the Release PR (`develop` → `main`)**
@@ -106,6 +106,7 @@ gh pr create --base main --head develop --title "Release vX.Y.Z: <Milestone Titl
    * [ ] Complete **Codex** review of the latest head (request or re-request via the API-first workflow above), fix all actionable P0/P1/P2 findings via a PR to `develop`, reply to every review comment with the fixing commit SHA, and mark all review threads as **Resolved**.
 3. **Merge to `main` & Sync `develop`**
    * [ ] Merge the Release PR into `main` (triggering the production deployment to [pantrybot.dev](https://pantrybot.dev)).
+   * [ ] Before publishing the GitHub Release/tag, verify the intended main commit has a **Ready production deployment**, confirm its live version and complete the required production acceptance checks. Attach dated evidence and explicit limits; a Preview build or pending deployment is not production verification. A failed/pending deployment or unmet production gate blocks publication.
    * [ ] Pull `main` and fast-forward `develop` if any merge/hotfix commits landed on `main`:
 ```bash
 git checkout main && git pull origin main

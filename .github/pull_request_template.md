@@ -21,8 +21,9 @@
 - [ ] Codex review completed for the latest head; all actionable review threads replied to and marked Resolved
 
 ## Release Checklist *(Only for `develop` → `main` Release PRs)*
-- [ ] Version bumped in `package.json`
+- [ ] Version aligned in `package.json`, lockfile top-level/root metadata and applicable OpenAPI exports
 - [ ] Release notes added in `docs/releases/vX.Y.Z.md`
 - [ ] `CHANGELOG.md`, `ROADMAP.md`, `README.md`, and `docs/wiki/` updated
+- [ ] Before GitHub publication: Exact production commit is Ready, live version confirmed and required production acceptance evidenced
 - [ ] Post-merge: Attach production acceptance evidence and close verified feature issues/release parent before milestone closure
 - [ ] Post-merge: Publish GitHub Release (`gh release create vX.Y.Z --target main --notes-file docs/releases/vX.Y.Z.md`) and close GitHub Milestone

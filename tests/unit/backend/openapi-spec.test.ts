@@ -1,8 +1,14 @@
 import packageInfo from '../../../package.json';
+import lockInfo from '../../../package-lock.json';
 import { describe, it, expect } from 'vitest';
 import { PANTRYBOT_OPENAPI_SPEC } from '@/lib/openapi/spec';
 
 describe('unit: OpenAPI 3.1.0 Specification', () => {
+  it('keeps lockfile release metadata aligned with the package version', () => {
+    expect(lockInfo.version).toBe(packageInfo.version);
+    expect(lockInfo.packages[''].version).toBe(packageInfo.version);
+  });
+
   it('has valid OpenAPI 3.1.0 root metadata and servers', () => {
     expect(PANTRYBOT_OPENAPI_SPEC.openapi).toBe('3.1.0');
     expect(PANTRYBOT_OPENAPI_SPEC.info.title).toBe('PantryBot API');

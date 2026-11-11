@@ -6,6 +6,10 @@ This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to 
 
 Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.6.2 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/8) and [release tracker #645](https://github.com/kchavez05/produce-price-tracker/issues/645) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
 
+## Historical release records
+
+Closed retrospective milestones now record published releases v1.3.1–v1.6.1 without reconstructing their implementation tickets. The [November 11 release audit](docs/releases/retrospective-audit-2026-11-11.md) indexes their original publications, release PRs, verified gates and recorded gaps. These records do not certify undocumented checks retroactively.
+
 ## v1.5.1 — Data Explorer & Score Transparency
 
 Delivered a public data explorer with price charts and weekly patterns, exact score explanations, ingredient grouping rationale, and a first-class raw-data view with source JSON and filtered exports. See the [approved specification](docs/specs/data-explorer-and-score-transparency.md). Policy decisions and operational constraints are recorded in the [explorer guide](docs/data-explorer.md).
