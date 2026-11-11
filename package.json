@@ -21,7 +21,9 @@
     "catalog:fdc": "node --import tsx scripts/import-fdc-catalog.ts",
     "catalog:curate": "node --import tsx scripts/curate-catalog.ts",
     "catalog:build": "node --import tsx scripts/build-cooking-catalog.ts",
-    "catalog:audit-release": "node --import tsx scripts/audit-release-catalog.ts"
+    "catalog:audit-release": "node --import tsx scripts/audit-release-catalog.ts",
+    "barcode:prepare-deployment": "node --import tsx scripts/prepare-barcode-deployment.mts",
+    "barcode:verify-deployment": "node --import tsx scripts/verify-barcode-deployment.mts"
   },
   "dependencies": {
     "@google/genai": "3.0.0",

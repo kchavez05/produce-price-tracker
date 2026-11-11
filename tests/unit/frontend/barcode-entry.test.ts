@@ -144,3 +144,15 @@ describe('capture reuses typed confirmation', () => {
     await render([], 'B', ['olive-oil'], true); expect(camera.cleanup).toHaveBeenCalledOnce(); expect(save).not.toHaveBeenCalled();
   });
 });
+
+describe('shared ingress throttling', () => {
+  it('recovers from a platform non-JSON 429 while honoring Retry-After and keeping manual selection', async () => {
+    vi.mocked(fetch).mockResolvedValue(new Response('<html>platform rate limit</html>', { status: 429, headers: { 'Content-Type': 'text/html', 'Retry-After': '2' } }));
+    await render(); await lookup();
+    expect(container.textContent).toContain('Too many lookups'); expect(button('Look up product').disabled).toBe(true);
+    await run(() => button('Choose ingredient manually').click());
+    await input('Find a cooking ingredient', 'olive oil'); await run(() => button('Choose Olive oil').click());
+    expect(save).not.toHaveBeenCalled();
+    await run(() => button('Confirm addition').click()); expect(save).toHaveBeenCalledOnce();
+  });
+});

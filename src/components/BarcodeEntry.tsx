@@ -103,6 +103,9 @@ export default function BarcodeEntry({ cameraEnabled = false, entries, acceptedC
       if (response.status === 429 && mounted.current && generation.current === active) {
         const seconds = Number(response.headers.get('Retry-After') || 60);
         setRetryUntil(Date.now() + (Number.isFinite(seconds) ? Math.min(3600, Math.max(1, seconds)) : 60) * 1000);
+        setResult({ status: 'THROTTLED', message: 'Too many lookups. Wait briefly or choose an ingredient manually.' });
+        void response.body?.cancel().catch(() => {});
+        return;
       }
       const raw = await response.text();
       const next = raw.length <= 16384 ? parseResponse(JSON.parse(raw)) : null;
