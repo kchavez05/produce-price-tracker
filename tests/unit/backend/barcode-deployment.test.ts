@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { mkdtemp, mkdir, readFile, readdir, rm, stat, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -54,6 +55,25 @@ describe('pinned deployment delivery', () => {
     await expect(copyPinnedArtifact(directory, directory, expected)).rejects.toThrow();
     await expect(prepareBarcodeDeployment(directory, directory, path.join(directory, 'bundle'))).rejects.toThrow('outside');
     expect(await readFile(path.join(directory, 'index.sqlite'), 'utf8')).toBe('immutable fixture');
+  });
+  it('archives committed source, excludes local secrets and admits the pair in the disposable upload', async () => {
+    const { directory, expected } = await fixture();
+    const repo = path.join(directory, 'repo'); await mkdir(repo);
+    await writeFile(path.join(repo, '.gitignore'), '/data/fdc-barcode-index/\n.env*\n');
+    await writeFile(path.join(repo, 'vercel.json'), JSON.stringify({ crons: [] }));
+    await writeFile(path.join(repo, 'tracked.txt'), 'reviewed source');
+    execFileSync('git', ['init', '-q', repo]);
+    execFileSync('git', ['add', '.gitignore', 'vercel.json', 'tracked.txt'], { cwd: repo });
+    execFileSync('git', ['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'fixture'], { cwd: repo });
+    await writeFile(path.join(repo, '.env.local'), 'SECRET=never upload');
+    await writeFile(path.join(repo, 'untracked.sqlite'), 'private inventory');
+    const target = await prepareBarcodeDeployment(repo, directory, path.join(directory, 'bundle'), expected);
+    expect(await readdir(target)).not.toContain('.env.local'); expect(await readdir(target)).not.toContain('untracked.sqlite');
+    expect(await readFile(path.join(target, 'tracked.txt'), 'utf8')).toBe('reviewed source');
+    expect(await readFile(path.join(target, '.gitignore'), 'utf8')).not.toContain('/data/fdc-barcode-index/');
+    expect(await readFile(path.join(repo, '.gitignore'), 'utf8')).toContain('/data/fdc-barcode-index/');
+    expect(JSON.parse(await readFile(path.join(target, 'vercel.json'), 'utf8')).buildCommand).toContain('barcode:verify-deployment');
+    expect((await readdir(path.join(target, 'data/fdc-barcode-index'))).sort()).toEqual(['index.sqlite', 'manifest.json']);
   });
   it('requires the reviewed pin by default rather than accepting a new self-signed artifact', async () => {
     const { directory } = await fixture(); await expect(verifyPinnedArtifact(directory)).rejects.toThrow();

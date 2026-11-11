@@ -39,18 +39,18 @@ function completed(child: ReturnType<typeof spawn>) {
     child.once('exit', (code) => code === 0 ? resolve() : reject(new Error('Source archive command failed')));
   });
 }
-export async function prepareBarcodeDeployment(repository: string, artifact: string, output: string) {
+export async function prepareBarcodeDeployment(repository: string, artifact: string, output: string, expected: ArtifactPin = pin) {
   const root = await realpath(repository);
   const parent = await realpath(path.dirname(path.resolve(output)));
   const target = path.join(parent, path.basename(output));
   if (target === root || target.startsWith(root + path.sep)) throw new Error('Deployment output must be outside the repository');
-  await verifyPinnedArtifact(artifact);
+  await verifyPinnedArtifact(artifact, expected);
   await mkdir(target); // Refuse existing destinations, including symlinks.
   const archive = spawn('git', ['archive', '--format=tar', 'HEAD'], { cwd: root, stdio: ['ignore', 'pipe', 'inherit'] });
   const extract = spawn('tar', ['-xf', '-', '-C', target], { stdio: ['pipe', 'ignore', 'inherit'] });
   await Promise.all([completed(archive), completed(extract), pipeline(archive.stdout!, extract.stdin!)]);
   await mkdir(path.join(target, 'data'), { recursive: true });
-  await copyPinnedArtifact(artifact, path.join(target, 'data/fdc-barcode-index'));
+  await copyPinnedArtifact(artifact, path.join(target, 'data/fdc-barcode-index'), expected);
   const config = JSON.parse(await readFile(path.join(target, 'vercel.json'), 'utf8'));
   config.buildCommand = 'npm run barcode:verify-deployment && npm run build';
   await writeFile(path.join(target, 'vercel.json'), JSON.stringify(config, null, 2) + '\n');
