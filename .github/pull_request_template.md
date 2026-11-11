@@ -18,7 +18,7 @@
 - [ ] `npm run lint` passes
 - [ ] `npm run build` succeeds without errors
 - [ ] Graceful fallback verified when optional API keys are omitted
-- [ ] Claude review completed for the latest head; all actionable review threads replied to and marked Resolved
+- [ ] Claude review round completed and addressed; all actionable review threads replied to and marked Resolved
 
 ## Release Checklist *(Only for `develop` → `main` Release PRs)*
 - [ ] Version aligned in `package.json`, lockfile top-level/root metadata and applicable OpenAPI exports
