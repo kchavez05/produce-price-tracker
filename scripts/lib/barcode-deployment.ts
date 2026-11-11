@@ -52,7 +52,7 @@ export async function prepareBarcodeDeployment(repository: string, artifact: str
   await mkdir(path.join(target, 'data'), { recursive: true });
   await copyPinnedArtifact(artifact, path.join(target, 'data/fdc-barcode-index'), expected);
   const config = JSON.parse(await readFile(path.join(target, 'vercel.json'), 'utf8'));
-  config.buildCommand = 'npm run barcode:verify-deployment && npm run build';
+  config.buildCommand = 'npm run barcode:verify-deployment && npm run build && npm run barcode:verify-trace';
   await writeFile(path.join(target, 'vercel.json'), JSON.stringify(config, null, 2) + '\n');
   // The bundle contains only tracked source and the finalized pair. Vercel also reads
   // .gitignore, so remove only this artifact exclusion inside the disposable bundle.
