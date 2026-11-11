@@ -10,7 +10,7 @@
 - [ ] `npm run lint` passes
 - [ ] `npm run build` succeeds without errors
 - [ ] Graceful fallback verified when optional API keys are omitted
-- [ ] Copilot review completed; all actionable review threads replied to and marked Resolved
+- [ ] Codex review completed for the latest head; all actionable review threads replied to and marked Resolved
 
 ## Release Checklist *(Only for `develop` → `main` Release PRs)*
 - [ ] Version bumped in `package.json`
