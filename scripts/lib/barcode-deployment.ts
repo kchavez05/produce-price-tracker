@@ -54,10 +54,13 @@ export async function prepareBarcodeDeployment(repository: string, artifact: str
   const config = JSON.parse(await readFile(path.join(target, 'vercel.json'), 'utf8'));
   config.buildCommand = 'npm run barcode:verify-deployment && npm run build';
   await writeFile(path.join(target, 'vercel.json'), JSON.stringify(config, null, 2) + '\n');
-  // Override the archived .gitignore for CLI upload, without uploading local databases/env files.
+  // The bundle contains only tracked source and the finalized pair. Vercel also reads
+  // .gitignore, so remove only this artifact exclusion inside the disposable bundle.
+  const ignorePath = path.join(target, '.gitignore');
+  const ignore = await readFile(ignorePath, 'utf8');
+  await writeFile(ignorePath, ignore.split('\n').filter((line) => line.trim() !== '/data/fdc-barcode-index/').join('\n'));
   await writeFile(path.join(target, '.vercelignore'), [
-    '.git', '.claude', '.env*', '.vercel', 'node_modules', '.next', 'data/**',
-    '!data/fdc-barcode-index/', '!data/fdc-barcode-index/index.sqlite', '!data/fdc-barcode-index/manifest.json', '',
+    '.git', '.claude', '.env*', '.vercel', 'node_modules', '.next', 'data/*.sqlite', 'data/*.sqlite-*', 'data/runtime-cache.json', '',
   ].join('\n'));
   return target;
 }
