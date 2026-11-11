@@ -38,7 +38,7 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 4. **[OpenAPI 3.1 & Swagger UI Console](./OpenAPI-and-Swagger-Documentation.md)**
    * Production OpenAPI 3.1 REST specification (`/api/openapi.json`), interactive Swagger UI testing console (`/docs`), and endpoint documentation across all 8 backend API domains.
 5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
-   * Milestones (`v0.1` PoC through `v1.3` User Accounts & Cloud Sync, and upcoming `v1.5+` native mobile tickets).
+   * Historical milestones, active v1.6.2 scope and future mobile plans.
 6. **[Release Notes (`docs/releases/`)](../releases/)**
    * **[v1.6.0 — Virtual Pantry](../releases/v1.6.0.md)**
    * **[v1.5.1 — Data Explorer & Score Transparency](../releases/v1.5.1.md)**
@@ -69,12 +69,16 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 * **Weekly Circular Cycle:** Wednesday 12:01 AM – Tuesday 11:59 PM Local Time
 * **Primary Meal Prep Output:** 3 batch dishes × 4/6/8 scalable servings each = **12–24 reheatable meals/week**
 
-## v1.4.1 release candidate
+## v1.4.1 release record
 
 Current planning cycles, verified live prices, explicit estimates and refresh audit status are documented in [weekly refresh operations](../weekly-refresh.md). See [v1.4.1 release notes](../releases/v1.4.1.md) for the complete scope, including the previously reviewed account and cloud-sync fixes.
 
-## Staged Virtual Pantry implementation
+## Virtual Pantry implementation and release history
 
-See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer path is retained for compatibility/flag-off operation; the v1.6.0 and v1.6.1 production records document pantry activation.
 
 The approved [USDA catalog ingestion standards](../specs/usda-catalog-ingestion.md) define recurring source review and a compact cooking-ingredient catalog, including optional varieties and safe updates. Candidate records remain separate from published search choices.
+
+## Release planning and retrospective evidence
+
+Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2) and [tracking workflow](../issue-release-tracking.md) for live work. The [November 11 retrospective audit](../releases/retrospective-audit-2026-11-11.md) links the backfilled v1.3.1–v1.6.1 milestones and distinguishes verified release gates from historical evidence gaps.

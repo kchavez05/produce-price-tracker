@@ -55,9 +55,11 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 
 ## Documentation, Wiki & Release Notes
 
+Historical publications, backfilled milestones and release-process findings are indexed in the [November 11 retrospective audit](docs/releases/retrospective-audit-2026-11-11.md).
+
 Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.6.2 release issue #645](https://github.com/kchavez05/produce-price-tracker/issues/645). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
 
-* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
+* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.2 scope and long-term mobile plans.
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
   * [v1.6.1 — Pantry Catalog Expansion](./docs/releases/v1.6.1.md)

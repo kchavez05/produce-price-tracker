@@ -1,0 +1,705 @@
+{
+  "auditedOn": "2026-11-11",
+  "scope": "Published releases v1.3.1 through v1.6.1; historical requirements and retained evidence, not a fresh functional certification",
+  "auditIssue": 656,
+  "operationalFollowup": 657,
+  "records": [
+    {
+      "tag": "v1.3.1",
+      "publishedAt": "2026-10-19T22:45:27Z",
+      "publicationDateDenver": "2026-10-19",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.3.1",
+      "tagCommit": "e81edba826399b99c3e47be73863af73904239dd",
+      "milestone": {
+        "number": 9,
+        "title": "v1.3.1",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/9"
+      },
+      "releasePr": {
+        "number": 538,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/538",
+        "head": "817561e556011db21b9f22803f2ea5f0d0cd74b4",
+        "mergedAt": "2026-10-19T22:45:16Z",
+        "mergeCommit": "e81edba826399b99c3e47be73863af73904239dd"
+      },
+      "versions": {
+        "package": "1.3.1",
+        "lock": "1.3.1",
+        "lockRoot": "1.3.1",
+        "schemas": {
+          "public/openapi.json": null,
+          "docs/openapi.json": null
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-19T22:45:04Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-19T22:44:58Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "final_head_not_evidenced",
+        "reviews": [
+          {
+            "author": "gemini-code-assist",
+            "commit": "db9870aecf144111f3978194a8065722d2a625f4",
+            "submittedAt": "2026-10-19T22:23:54Z"
+          },
+          {
+            "author": "gemini-code-assist",
+            "commit": "db9870aecf144111f3978194a8065722d2a625f4",
+            "submittedAt": "2026-10-19T22:25:59Z"
+          }
+        ],
+        "completionStates": [],
+        "receipts": [],
+        "unresolvedThreadsAtAuditStart": 0
+      },
+      "production": {
+        "deploymentId": "dpl_5yVMjRieWDaC1nGj87EAWcL7uXMq",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-10-19T22:45:51.388000Z",
+        "readyBeforePublication": false,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      }
+    },
+    {
+      "tag": "v1.4.0",
+      "publishedAt": "2026-10-19T23:13:50Z",
+      "publicationDateDenver": "2026-10-19",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.4.0",
+      "tagCommit": "6019e88e883798d7c02ca568d38e401fdd424643",
+      "milestone": {
+        "number": 10,
+        "title": "v1.4.0",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/10"
+      },
+      "releasePr": {
+        "number": 543,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/543",
+        "head": "12259f652323e8b916e770be9b5d09a39512a36f",
+        "mergedAt": "2026-10-19T23:13:38Z",
+        "mergeCommit": "6019e88e883798d7c02ca568d38e401fdd424643"
+      },
+      "versions": {
+        "package": "1.4.0",
+        "lock": "1.3.1",
+        "lockRoot": "1.3.1",
+        "schemas": {
+          "public/openapi.json": "1.4.0",
+          "docs/openapi.json": "1.4.0"
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-19T23:12:59Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-19T23:12:23Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "completed_after_merge",
+        "reviews": [
+          {
+            "author": "gemini-code-assist",
+            "commit": "12259f652323e8b916e770be9b5d09a39512a36f",
+            "submittedAt": "2026-10-19T23:17:35Z"
+          },
+          {
+            "author": "gemini-code-assist",
+            "commit": "12259f652323e8b916e770be9b5d09a39512a36f",
+            "submittedAt": "2026-10-19T23:20:15Z"
+          }
+        ],
+        "completionStates": [],
+        "receipts": [],
+        "unresolvedThreadsAtAuditStart": 2
+      },
+      "production": {
+        "deploymentId": "dpl_AhZ5hNSU7Ecdi9jhW4dDfXQghhrT",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-10-19T23:14:39.468000Z",
+        "readyBeforePublication": false,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      }
+    },
+    {
+      "tag": "v1.4.1",
+      "publishedAt": "2026-10-28T15:39:14Z",
+      "publicationDateDenver": "2026-10-28",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.4.1",
+      "tagCommit": "7bd97523cd2a33013466af71fde9ffa84f0c88f7",
+      "milestone": {
+        "number": 11,
+        "title": "v1.4.1",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/11"
+      },
+      "releasePr": {
+        "number": 561,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/561",
+        "head": "a9716e87d0dadd0f10bcc1b76457fdac2b101ab9",
+        "mergedAt": "2026-10-27T23:52:49Z",
+        "mergeCommit": "7bd97523cd2a33013466af71fde9ffa84f0c88f7"
+      },
+      "versions": {
+        "package": "1.4.1",
+        "lock": "1.4.1",
+        "lockRoot": "1.4.1",
+        "schemas": {
+          "public/openapi.json": "1.4.1",
+          "docs/openapi.json": "1.4.1"
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-27T23:52:41Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-27T23:52:16Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "final_head_not_evidenced",
+        "reviews": [
+          {
+            "author": "chatgpt-codex-connector",
+            "commit": "ed315511ceb8ec5824c22a4932bc1a153e5ea06d",
+            "submittedAt": "2026-10-27T23:11:38Z"
+          },
+          {
+            "author": "gemini-code-assist",
+            "commit": "ed315511ceb8ec5824c22a4932bc1a153e5ea06d",
+            "submittedAt": "2026-10-27T23:12:53Z"
+          }
+        ],
+        "completionStates": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/561#issuecomment-6455833880",
+            "state": {
+              "code_review": {
+                "commit_sha": "ed315511ceb8ec5824c22a4932bc1a153e5ea06d",
+                "has_any_findings": true,
+                "has_unresolved_findings": true,
+                "status": "completed"
+              },
+              "security_review": {
+                "commit_sha": null,
+                "has_any_findings": null,
+                "has_unresolved_findings": null,
+                "status": null
+              }
+            },
+            "recordedTimes": [
+              "2026-10-27T23:11:40.708160Z"
+            ]
+          }
+        ],
+        "receipts": [],
+        "unresolvedThreadsAtAuditStart": 0
+      },
+      "production": {
+        "deploymentId": "dpl_C1VvcoyR3w1WqTZi5eavTAzv9c3V",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-10-27T23:53:32.264000Z",
+        "readyBeforePublication": true,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      }
+    },
+    {
+      "tag": "v1.5.0",
+      "publishedAt": "2026-10-28T21:15:29Z",
+      "publicationDateDenver": "2026-10-28",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.5.0",
+      "tagCommit": "128740f22a6400ee3670e6a7ad0ae6d1527605e6",
+      "milestone": {
+        "number": 12,
+        "title": "v1.5.0",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/12"
+      },
+      "releasePr": {
+        "number": 567,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/567",
+        "head": "7bb064d1c4fa3fe7315fc734be94194615d1fc88",
+        "mergedAt": "2026-10-28T21:13:49Z",
+        "mergeCommit": "128740f22a6400ee3670e6a7ad0ae6d1527605e6"
+      },
+      "versions": {
+        "package": "1.5.0",
+        "lock": "1.5.0",
+        "lockRoot": "1.5.0",
+        "schemas": {
+          "public/openapi.json": "1.5.0",
+          "docs/openapi.json": "1.5.0"
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-28T21:08:44Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-28T21:08:29Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "verified_final_head_before_merge",
+        "reviews": [
+          {
+            "author": "chatgpt-codex-connector",
+            "commit": "aa43738f6e49184575beac47bfd689fde721336e",
+            "submittedAt": "2026-10-28T20:49:51Z"
+          }
+        ],
+        "completionStates": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/567#issuecomment-6480293148",
+            "state": {
+              "code_review": {
+                "commit_sha": "7bb064d1c4fa3fe7315fc734be94194615d1fc88",
+                "has_any_findings": false,
+                "has_unresolved_findings": false,
+                "status": "completed"
+              },
+              "security_review": {
+                "commit_sha": null,
+                "has_any_findings": null,
+                "has_unresolved_findings": null,
+                "status": null
+              }
+            },
+            "recordedTimes": [
+              "2026-10-28T21:10:35.246677Z"
+            ]
+          }
+        ],
+        "receipts": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/567#issuecomment-6480770950",
+            "commitPrefix": "7bb064d1c4",
+            "createdAt": "2026-10-28T21:10:33Z"
+          }
+        ],
+        "unresolvedThreadsAtAuditStart": 0
+      },
+      "production": {
+        "deploymentId": "dpl_6oXWajhgzxoMXB43AenwasfgQZE2",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-10-28T21:15:00.660000Z",
+        "readyBeforePublication": true,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      }
+    },
+    {
+      "tag": "v1.5.1",
+      "publishedAt": "2026-10-29T15:04:02Z",
+      "publicationDateDenver": "2026-10-29",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.5.1",
+      "tagCommit": "55ee93fdc51fa51cda9a7d5768549546f9f98222",
+      "milestone": {
+        "number": 13,
+        "title": "v1.5.1",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/13"
+      },
+      "releasePr": {
+        "number": 572,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/572",
+        "head": "ca27c99eb9270f0a1ba1fbdd8bddf5f1da336447",
+        "mergedAt": "2026-10-29T15:02:14Z",
+        "mergeCommit": "55ee93fdc51fa51cda9a7d5768549546f9f98222"
+      },
+      "versions": {
+        "package": "1.5.1",
+        "lock": "1.5.1",
+        "lockRoot": "1.5.1",
+        "schemas": {
+          "public/openapi.json": "1.5.1",
+          "docs/openapi.json": "1.5.1"
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-29T15:00:20Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-28T22:49:07Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "verified_final_head_before_merge",
+        "reviews": [],
+        "completionStates": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/572#issuecomment-6500178118",
+            "state": {
+              "code_review": {
+                "commit_sha": "ca27c99eb9270f0a1ba1fbdd8bddf5f1da336447",
+                "has_any_findings": false,
+                "has_unresolved_findings": false,
+                "status": "completed"
+              },
+              "security_review": {
+                "commit_sha": null,
+                "has_any_findings": null,
+                "has_unresolved_findings": null,
+                "status": null
+              }
+            },
+            "recordedTimes": [
+              "2026-10-29T15:01:22.285265Z"
+            ]
+          }
+        ],
+        "receipts": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/572#issuecomment-6500250321",
+            "commitPrefix": "ca27c99eb9",
+            "createdAt": "2026-10-29T15:01:21Z"
+          }
+        ],
+        "unresolvedThreadsAtAuditStart": 0
+      },
+      "production": {
+        "deploymentId": "dpl_2uDymTbmZE7kP4jt7zGTzE8fayX8",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-10-29T15:03:14.547000Z",
+        "readyBeforePublication": true,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      }
+    },
+    {
+      "tag": "v1.5.2",
+      "publishedAt": "2026-10-29T16:06:40Z",
+      "publicationDateDenver": "2026-10-29",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.5.2",
+      "tagCommit": "a92331a1c28380710b78e98cd408225973bfffc1",
+      "milestone": {
+        "number": 14,
+        "title": "v1.5.2",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/14"
+      },
+      "releasePr": {
+        "number": 574,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/574",
+        "head": "0c95d5f58668b6a2ee26e6fe7c7a0b5072ecb99d",
+        "mergedAt": "2026-10-29T16:04:30Z",
+        "mergeCommit": "a92331a1c28380710b78e98cd408225973bfffc1"
+      },
+      "versions": {
+        "package": "1.5.2",
+        "lock": "1.5.2",
+        "lockRoot": "1.5.2",
+        "schemas": {
+          "public/openapi.json": "1.5.2",
+          "docs/openapi.json": "1.5.2"
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-29T16:03:51Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-29T16:03:02Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "verified_final_head_before_merge",
+        "reviews": [],
+        "completionStates": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/574#issuecomment-6501769836",
+            "state": {
+              "code_review": {
+                "commit_sha": "0c95d5f58668b6a2ee26e6fe7c7a0b5072ecb99d",
+                "has_any_findings": false,
+                "has_unresolved_findings": false,
+                "status": "completed"
+              },
+              "security_review": {
+                "commit_sha": null,
+                "has_any_findings": null,
+                "has_unresolved_findings": null,
+                "status": null
+              }
+            },
+            "recordedTimes": [
+              "2026-10-29T16:03:39.991221Z"
+            ]
+          }
+        ],
+        "receipts": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/574#issuecomment-6501805527",
+            "commitPrefix": "0c95d5f586",
+            "createdAt": "2026-10-29T16:03:38Z"
+          }
+        ],
+        "unresolvedThreadsAtAuditStart": 0
+      },
+      "production": {
+        "deploymentId": "dpl_Hw5RgvyCAmNDtKBUommh6MmTDfcD",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-10-29T16:05:25.793000Z",
+        "readyBeforePublication": true,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      }
+    },
+    {
+      "tag": "v1.6.0",
+      "publishedAt": "2026-10-31T13:02:11Z",
+      "publicationDateDenver": "2026-10-31",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.6.0",
+      "tagCommit": "c2ff026a0fa73765d8ffa6a6aeaf2488825a8956",
+      "milestone": {
+        "number": 15,
+        "title": "v1.6.0",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/15"
+      },
+      "releasePr": {
+        "number": 591,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/591",
+        "head": "8567722faf0ce5d0e82302d4d62cba20d37769e7",
+        "mergedAt": "2026-10-30T21:02:17Z",
+        "mergeCommit": "c2ff026a0fa73765d8ffa6a6aeaf2488825a8956"
+      },
+      "versions": {
+        "package": "1.6.0",
+        "lock": "1.6.0",
+        "lockRoot": "1.6.0",
+        "schemas": {
+          "public/openapi.json": "1.6.0",
+          "docs/openapi.json": "1.6.0"
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-30T21:01:46Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-10-30T21:01:38Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "verified_final_head_before_merge",
+        "reviews": [
+          {
+            "author": "chatgpt-codex-connector",
+            "commit": "d57cf43065abdd3ed0d35ec26399dfdddbf326d0",
+            "submittedAt": "2026-10-30T20:54:02Z"
+          }
+        ],
+        "completionStates": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/591#issuecomment-6533221053",
+            "state": {
+              "code_review": {
+                "commit_sha": "8567722faf0ce5d0e82302d4d62cba20d37769e7",
+                "has_any_findings": false,
+                "has_unresolved_findings": false,
+                "status": "completed"
+              },
+              "security_review": {
+                "commit_sha": null,
+                "has_any_findings": null,
+                "has_unresolved_findings": null,
+                "status": null
+              }
+            },
+            "recordedTimes": [
+              "2026-10-30T21:01:38.725428Z"
+            ]
+          }
+        ],
+        "receipts": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/591#issuecomment-6533376245",
+            "commitPrefix": "8567722faf",
+            "createdAt": "2026-10-30T21:01:37Z"
+          }
+        ],
+        "unresolvedThreadsAtAuditStart": 0
+      },
+      "production": {
+        "deploymentId": "dpl_F1jr3dqYBYkVKxgPtLDz7WWvHveE",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-10-30T21:03:25.525000Z",
+        "readyBeforePublication": true,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      }
+    },
+    {
+      "tag": "v1.6.1",
+      "publishedAt": "2026-11-08T19:36:46Z",
+      "publicationDateDenver": "2026-11-08",
+      "releaseUrl": "https://github.com/kchavez05/produce-price-tracker/releases/tag/v1.6.1",
+      "tagCommit": "3a542d8ff35eaf6ce85a6084a10c6cbfce7b62ef",
+      "milestone": {
+        "number": 16,
+        "title": "v1.6.1",
+        "state": "closed",
+        "html_url": "https://github.com/kchavez05/produce-price-tracker/milestone/16"
+      },
+      "releasePr": {
+        "number": 615,
+        "url": "https://github.com/kchavez05/produce-price-tracker/pull/615",
+        "head": "3319fc1d1dd80dbf8696aadb6879466121c317f7",
+        "mergedAt": "2026-11-08T19:18:04Z",
+        "mergeCommit": "d9982b30160eb9f273795eedf12bab6679524d28"
+      },
+      "versions": {
+        "package": "1.6.1",
+        "lock": "1.6.1",
+        "lockRoot": "1.6.1",
+        "schemas": {
+          "public/openapi.json": "1.6.1",
+          "docs/openapi.json": "1.6.1"
+        }
+      },
+      "checks": [
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-11-08T19:14:02Z"
+        },
+        {
+          "name": "Typecheck, Lint & Build",
+          "conclusion": "SUCCESS",
+          "completedAt": "2026-11-08T19:13:48Z"
+        }
+      ],
+      "previewSuccess": true,
+      "review": {
+        "assessment": "verified_final_head_before_merge",
+        "reviews": [
+          {
+            "author": "chatgpt-codex-connector",
+            "commit": "3f49f211903b8d438a90d847b256bb0757d23d91",
+            "submittedAt": "2026-11-08T15:45:15Z"
+          }
+        ],
+        "completionStates": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/615#issuecomment-6723338076",
+            "state": {
+              "code_review": {
+                "commit_sha": "3319fc1d1dd80dbf8696aadb6879466121c317f7",
+                "has_any_findings": false,
+                "has_unresolved_findings": false,
+                "status": "completed"
+              },
+              "security_review": {
+                "commit_sha": null,
+                "has_any_findings": null,
+                "has_unresolved_findings": null,
+                "status": null
+              }
+            },
+            "recordedTimes": [
+              "2026-11-08T19:14:56.480373Z"
+            ]
+          }
+        ],
+        "receipts": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/615#issuecomment-6723370442",
+            "commitPrefix": "b3a58784f2",
+            "createdAt": "2026-11-08T15:29:43Z"
+          },
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/615#issuecomment-6725779577",
+            "commitPrefix": "1306c1a9f8",
+            "createdAt": "2026-11-08T19:07:07Z"
+          },
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/615#issuecomment-6725888018",
+            "commitPrefix": "3319fc1d1d",
+            "createdAt": "2026-11-08T19:14:55Z"
+          }
+        ],
+        "unresolvedThreadsAtAuditStart": 0
+      },
+      "production": {
+        "deploymentId": "dpl_CQM5rnCiyBFY87TL7iZzwuxq8MqT",
+        "target": "production",
+        "state": "READY",
+        "readyAt": "2026-11-08T19:34:50.422000Z",
+        "readyBeforePublication": true,
+        "sourceProjectId": "prj_Wsdf9H7QLU5yggxDU1thOJt1KtAC"
+      },
+      "tagFollowupPr": {
+        "number": 620,
+        "head": "c65c44c1dfbe17ad1ffdf01ea0af0fcdca62c739",
+        "mergedAt": "2026-11-08T19:33:55Z",
+        "checks": [
+          {
+            "name": "Typecheck, Lint & Build",
+            "conclusion": "SUCCESS",
+            "completedAt": "2026-11-08T19:33:45Z"
+          },
+          {
+            "name": "Typecheck, Lint & Build",
+            "conclusion": "SUCCESS",
+            "completedAt": "2026-11-08T19:33:19Z"
+          }
+        ],
+        "receipts": [
+          {
+            "url": "https://github.com/kchavez05/produce-price-tracker/pull/620#issuecomment-6726085086",
+            "commitPrefix": "c65c44c1df",
+            "createdAt": "2026-11-08T19:32:28Z"
+          }
+        ]
+      }
+    }
+  ]
+}
