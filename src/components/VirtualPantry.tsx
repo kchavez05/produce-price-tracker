@@ -9,6 +9,7 @@ import { PantryEntry, PantryEntryInput, PantryMutation, PantryMutationResult, Pa
 interface Props {
   owner?: PantryOwner | null;
   barcodeEnabled?: boolean;
+  cameraEnabled?: boolean;
   entries: readonly PantryEntry[];
   acceptedCatalogIds: readonly string[];
   status: 'Loading' | 'Saved' | 'Pending sync' | 'Couldn’t sync — Retry';
@@ -91,7 +92,7 @@ export default function VirtualPantry(props: Props) {
     </div>
     {props.barcodeEnabled && props.owner ? <div className="mt-3">
       <button ref={barcodeTrigger} type="button" className={button} onClick={() => setBarcodeOpen(true)} disabled={props.status === 'Loading'}>Enter barcode</button>
-      {barcodeOpen ? <BarcodeEntry key={props.owner} entries={props.entries} acceptedCatalogIds={props.acceptedCatalogIds} onSave={props.onSave}
+      {barcodeOpen ? <BarcodeEntry cameraEnabled={props.cameraEnabled} key={props.owner} entries={props.entries} acceptedCatalogIds={props.acceptedCatalogIds} onSave={props.onSave}
         onClose={() => { setBarcodeOpen(false); barcodeTrigger.current?.focus(); }} /> : null}
     </div> : null}
     <div className="mt-3 flex flex-wrap items-center gap-3 text-sm" role="status" aria-live="polite">

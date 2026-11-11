@@ -9,6 +9,13 @@ import type { BarcodeLookupResult } from '@/types/barcode';
 import { validateBarcode } from '@/lib/barcodes/validation';
 
 let root: Root; let container: HTMLDivElement;
+const camera = vi.hoisted(() => ({ capture: null as null | ((code: string, format: 'UPC_A' | 'EAN_13') => void), cleanup: vi.fn() }));
+vi.mock('@/components/BarcodeCamera', async () => {
+  const { useEffect } = await import('react');
+  return { default: (props: { onCapture: (code: string, format: 'UPC_A' | 'EAN_13') => void }) => {
+    camera.capture = props.onCapture; useEffect(() => () => camera.cleanup(), []); return null;
+  } };
+});
 const save = vi.fn().mockResolvedValue(undefined); const close = vi.fn();
 const code = '011110118134';
 const found = (): BarcodeLookupResult => {
@@ -21,7 +28,7 @@ const found = (): BarcodeLookupResult => {
 const existing: PantryEntry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: false, quantity: 0, unit: 'tbsp', location: 'FRIDGE', useByDate: '2000-01-01', revision: 7, updatedAtIso: '' };
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 async function run(action: () => unknown) { await act(async () => { await action(); await settle(); }); }
-async function render(entries: PantryEntry[] = [], owner = 'A', acceptedCatalogIds = ['olive-oil', 'avocado-oil']) { await run(() => root.render(createElement(BarcodeEntry, { key: owner, entries, acceptedCatalogIds, onSave: save, onClose: close }))); }
+async function render(entries: PantryEntry[] = [], owner = 'A', acceptedCatalogIds = ['olive-oil', 'avocado-oil'], cameraEnabled = false) { await run(() => root.render(createElement(BarcodeEntry, { key: owner, cameraEnabled, entries, acceptedCatalogIds, onSave: save, onClose: close }))); }
 function button(label: string) { const found = [...container.querySelectorAll('button')].find((item) => item.textContent === label); if (!found) throw new Error(`Missing ${label}`); return found; }
 async function input(label: string, value: string) { await run(() => { const field = [...container.querySelectorAll('label')].find((item) => item.textContent === label)!; const element = document.getElementById(field.htmlFor) as HTMLInputElement;
   Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(element, value); element.dispatchEvent(new Event('input', { bubbles: true })); }); }
@@ -108,5 +115,32 @@ describe('typed barcode review and confirmation', () => {
     expect(save).not.toHaveBeenCalled();
     await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
     expect(fetch).toHaveBeenCalledOnce();
+  });
+});
+
+describe('capture reuses typed confirmation', () => {
+  it('is default off and never mounts capture or requests lookup merely by opening', async () => {
+    await render(); expect(container.textContent).not.toContain('Scan barcode'); expect(fetch).not.toHaveBeenCalled();
+  });
+  it('fills digits with the actual format, stops capture and requires lookup then confirmation', async () => {
+    await render([existing], 'A', ['olive-oil'], true);
+    await run(() => button('Scan barcode').click());
+    await run(() => camera.capture!(code, 'UPC_A'));
+    expect(camera.cleanup).toHaveBeenCalled(); expect(fetch).not.toHaveBeenCalled(); expect(save).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(container.querySelector('input'));
+    await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
+    expect(JSON.parse(vi.mocked(fetch).mock.calls[0][1]!.body as string)).toEqual({ barcode: code, format: 'UPC_A' });
+    expect(save).not.toHaveBeenCalled(); await run(() => button('Confirm addition').click()); expect(save).toHaveBeenCalledOnce();
+  });
+  it('opening capture cancels an outstanding lookup; changed code and owner unmount capture', async () => {
+    let resolve!: (response: Response) => void;
+    vi.mocked(fetch).mockReturnValue(new Promise((done) => { resolve = done; }));
+    await render([], 'A', ['olive-oil'], true); await lookup();
+    const signal = vi.mocked(fetch).mock.calls[0][1]!.signal!;
+    await run(() => button('Scan barcode').click()); expect(signal.aborted).toBe(true);
+    await run(() => resolve(Response.json(found()))); expect(container.textContent).not.toContain('Product: EXTRA');
+    camera.cleanup.mockClear(); await input('Printed barcode digits', '036000291452'); expect(camera.cleanup).toHaveBeenCalledOnce();
+    await run(() => button('Scan barcode').click()); camera.cleanup.mockClear();
+    await render([], 'B', ['olive-oil'], true); expect(camera.cleanup).toHaveBeenCalledOnce(); expect(save).not.toHaveBeenCalled();
   });
 });
