@@ -1,13 +1,15 @@
 'use client';
 
+import BarcodeCamera from '@/components/BarcodeCamera';
 import { FormEvent, useEffect, useId, useRef, useState } from 'react';
 import { validateBarcode } from '@/lib/barcodes/validation';
 import { BarcodeAddition, prepareBarcodeAddition } from '@/lib/barcodes/confirmation';
 import { activeCookingIngredients, pantryCatalog, searchPantryCatalog } from '@/lib/pantry/model';
-import type { BarcodeLookupResult, BarcodeProduct, BarcodeSuggestion } from '@/types/barcode';
+import type { BarcodeFormat, BarcodeLookupResult, BarcodeProduct, BarcodeSuggestion } from '@/types/barcode';
 import type { PantryEntry, PantryEntryInput, PantrySaveIntent } from '@/types/pantry';
 
 interface Props {
+  cameraEnabled?: boolean;
   entries: readonly PantryEntry[];
   acceptedCatalogIds: readonly string[];
   onSave: (input: PantryEntryInput, id?: string, intent?: PantrySaveIntent) => Promise<void>;
@@ -35,7 +37,7 @@ function parseResponse(value: unknown): BarcodeLookupResult | null {
   return null;
 }
 
-export default function BarcodeEntry({ entries, acceptedCatalogIds, onSave, onClose }: Props) {
+export default function BarcodeEntry({ cameraEnabled = false, entries, acceptedCatalogIds, onSave, onClose }: Props) {
   const id = useId();
   const codeField = useRef<HTMLInputElement>(null);
   const searchField = useRef<HTMLInputElement>(null);
@@ -45,6 +47,8 @@ export default function BarcodeEntry({ entries, acceptedCatalogIds, onSave, onCl
   const saving = useRef(false);
   const operation = useRef<BarcodeAddition | null>(null);
   const [code, setCode] = useState('');
+  const [format, setFormat] = useState<BarcodeFormat>('MANUAL');
+  const [cameraOpen, setCameraOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<BarcodeLookupResult | null>(null);
   const [product, setProduct] = useState<BarcodeProduct | null>(null);
@@ -71,7 +75,7 @@ export default function BarcodeEntry({ entries, acceptedCatalogIds, onSave, onCl
     const timer = window.setTimeout(() => setRetryUntil(0), Math.max(0, retryUntil - Date.now()));
     return () => window.clearTimeout(timer);
   }, [retryUntil]);
-  function invalidate() { generation.current++; controller.current?.abort(); controller.current = null; setLoading(false); }
+  function invalidate() { setCameraOpen(false); generation.current++; controller.current?.abort(); controller.current = null; setLoading(false); }
   function reset() { invalidate(); operation.current = null; setLocked(false); setConfirmed(false); setResult(null); setProduct(null); setSelection(null); setReviewing(false); setQuery(''); setCustomName(''); setError(null); }
   function choose(input: PantryEntryInput, suggestion = false) {
     if (locked) return;
@@ -86,8 +90,8 @@ export default function BarcodeEntry({ entries, acceptedCatalogIds, onSave, onCl
   }
   async function lookup(event: FormEvent) {
     event.preventDefault(); if (locked || retryUntil > Date.now()) return;
-    reset();
-    const validation = validateBarcode(code);
+    setCameraOpen(false); reset();
+    const validation = validateBarcode(code, format);
     if (!validation.ok) { setResult({ status: validation.status, message: validation.message }); return; }
     if (typeof navigator !== 'undefined' && !navigator.onLine) { setResult({ status: 'OFFLINE', message: 'Product lookup needs a connection. Choose an ingredient manually.' }); return; }
     const active = ++generation.current;
@@ -95,7 +99,7 @@ export default function BarcodeEntry({ entries, acceptedCatalogIds, onSave, onCl
     const timeout = window.setTimeout(() => request.abort(), 2000);
     try {
       const response = await fetch('/api/pantry/barcode-lookup', { method: 'POST', cache: 'no-store', credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' }, signal: request.signal, body: JSON.stringify({ barcode: code, format: 'MANUAL' }) });
+        headers: { 'Content-Type': 'application/json' }, signal: request.signal, body: JSON.stringify({ barcode: code, format }) });
       if (response.status === 429 && mounted.current && generation.current === active) {
         const seconds = Number(response.headers.get('Retry-After') || 60);
         setRetryUntil(Date.now() + (Number.isFinite(seconds) ? Math.min(3600, Math.max(1, seconds)) : 60) * 1000);
@@ -128,10 +132,14 @@ export default function BarcodeEntry({ entries, acceptedCatalogIds, onSave, onCl
   return <section aria-labelledby={`${id}-title`} className="mt-4 rounded-xl border border-sky-200 bg-sky-50/50 p-4" onKeyDown={(event) => { if (event.key === 'Escape') { invalidate(); onClose(); } }}>
     <div className="flex items-center justify-between gap-3"><h3 id={`${id}-title`} className="font-bold">Enter barcode</h3><button type="button" className={button} onClick={() => { invalidate(); onClose(); }}>{locked ? 'Close review' : 'Cancel'}</button></div>
     <p className="mt-2 text-sm">Look up a packaged product, then review and confirm a cooking ingredient. Nothing is added by lookup.</p>
+    {cameraEnabled && !locked ? <button type="button" className={`${button} mt-3`} onClick={() => { reset(); setCameraOpen(true); }}>Scan barcode</button> : null}
+    {cameraEnabled && cameraOpen && !locked ? <BarcodeCamera onTyped={() => { setCameraOpen(false); codeField.current?.focus(); }} onCapture={(digits, capturedFormat) => {
+      reset(); setCode(digits); setFormat(capturedFormat); setCameraOpen(false); codeField.current?.focus();
+    }} /> : null}
     <form className="mt-3" onSubmit={(event) => void lookup(event)} noValidate>
       <label htmlFor={`${id}-code`} className="text-sm font-semibold">Printed barcode digits</label>
       <input ref={codeField} id={`${id}-code`} className={field} inputMode="numeric" autoComplete="off" maxLength={64} value={code} disabled={locked}
-        onChange={(event) => { reset(); setCode(event.target.value); }} />
+        onChange={(event) => { setCameraOpen(false); reset(); setFormat('MANUAL'); setCode(event.target.value); }} />
       <button type="submit" className={`${button} mt-2`} disabled={loading || locked || retryUntil > Date.now()}>Look up product</button>
     </form>
     <div role="status" aria-live="polite" className="mt-3 text-sm">{loading ? 'Looking up the product…' : confirmed ? 'Ingredient marked Yes. The pantry status above shows saved or pending sync.' : result?.status === 'FOUND' ? 'Product found. Review the product and cooking ingredient before confirming.' : null}</div>
