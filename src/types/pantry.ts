@@ -91,3 +91,6 @@ export type PantryMutation = {
 export type PantryMutationResult =
   | { status: 'applied'; mutationId: string; entry: PantryEntry }
   | { status: 'conflict'; mutationId: string; reason: 'revision' | 'identity'; current: PantryEntry | null };
+
+/** An explicitly reviewed operation may retain its identity/revision across confirmation retries. */
+export interface PantrySaveIntent { mutationId: string; expectedRevision: number }

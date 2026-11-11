@@ -224,4 +224,37 @@ describe('pantry client persistence and ownership', () => {
     await run(() => client.resolve(client.conflicts[0].mutation.mutationId, 'mine'));
     expect(server.get(owner)?.entries[0]).toMatchObject({ quantity: 3, revision: 4 });
   });
+  it('reuses a reviewed offline operation and never duplicates its queued write', async () => {
+    await render('alice'); offline = true;
+    const input = { ingredientId: 'olive-oil', displayName: 'Olive oil', available: true };
+    const intent = { mutationId: 'reviewed-stable-id', expectedRevision: 0 };
+    await run(() => client.save(input, 'barcode-oil', intent));
+    await run(() => client.save(input, 'barcode-oil', intent));
+    expect(JSON.parse(localStorage.getItem(pantryQueueKey('account:alice'))!)).toHaveLength(1);
+    expect(client.entries.filter((entry) => entry.id === 'barcode-oil')).toHaveLength(1);
+    offline = false; await run(() => client.retry());
+    expect(server.get('account:alice')!.entries.filter((entry) => entry.id === 'barcode-oil')).toHaveLength(1);
+    expect(localStorage.getItem(pantryQueueKey('account:alice'))).toBeNull();
+  });
+  it('keeps the reviewed revision when the remote entry changes before confirmation', async () => {
+    const entry: PantryEntry = { id: 'reviewed-oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: false, quantity: 0, revision: 3, updatedAtIso: now };
+    server.set('account:alice', { ...empty('account:alice'), legacyMigrationVersion: 1, entries: [entry] });
+    await render('alice');
+    server.set('account:alice', { ...server.get('account:alice')!, entries: [{ ...entry, quantity: 8, revision: 4 }] });
+    await run(() => client.save({ ...entry, available: true }, entry.id, { mutationId: 'reviewed-stale', expectedRevision: 3 }));
+    expect(server.get('account:alice')!.entries[0]).toMatchObject({ available: false, quantity: 8, revision: 4 });
+    expect(client.conflicts[0]).toMatchObject({ mutation: { expectedRevision: 3 }, conflict: { reason: 'revision' } });
+  });
+  it('fences a reviewed callback after an owner switch and retains its original pending operation', async () => {
+    await render('alice'); offline = true;
+    const originalSave = client.save;
+    const input = { ingredientId: 'olive-oil', displayName: 'Alice oil', available: true };
+    const intent = { mutationId: 'owner-bound-reviewed', expectedRevision: 0 };
+    await run(() => originalSave(input, 'alice-barcode', intent));
+    offline = false; owner = 'account:bob'; await render('bob');
+    await expect(run(() => originalSave(input, 'alice-barcode', intent))).rejects.toThrow('current pantry');
+    expect(server.get('account:bob')!.entries).toEqual([]);
+    expect(localStorage.getItem(pantryQueueKey('account:alice'))).toContain('owner-bound-reviewed');
+  });
+
 });

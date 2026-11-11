@@ -13,32 +13,32 @@
 
 ## Review Workflow
 
-Use GitHub Copilot Code Review for PRs targeting `develop` and `main`. Wait for a completed review of the latest head, address actionable P0/P1/P2 findings (or equivalent severity), reply with the fixing commit or a reason for skipping a suggestion, and resolve each thread before merging. A review request alone is not a completed review. Keep the existing CI, Vercel Preview, and release gates.
+Use Codex Code Review for PRs targeting `develop` and `main`. The maintainer restored this provider on November 11, 2026, after Copilot review quota was exhausted. Existing Copilot findings still need resolution; changing providers does not waive any finding. Wait for a completed Codex assessment of the latest head, address actionable P0/P1/P2 findings (or equivalent severity), reply with the fixing commit or a reason for skipping a suggestion, and resolve each thread before merging. A request alone is not a completed review. Keep the existing CI, Vercel Preview, release gates, and separately required approvals.
 
-Prefer the GitHub connector or `gh`/REST API for review requests, re-reviews, CI/Preview monitoring, comments and thread resolution. Request the reviewer login `copilot-pull-request-reviewer[bot]`; `Copilot` is the display name and is not a reliable reviewer identifier for this operation. The API path was verified against PR #628 on November 9, 2026. Use the browser's **Reviewers → Copilot → Request** only if API access is unavailable or the request fails. [GitHub documents REST support](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/copilot-code-review).
+Prefer the GitHub connector or `gh`/REST API for review requests, CI/Preview monitoring, comments and thread resolution. Codex is requested through a PR comment, rather than the Copilot reviewer API:
 
 ```bash
-# Request or re-request Copilot after pushing the intended head.
-gh api repos/{owner}/{repo}/pulls/{pr-number}/requested_reviewers \
-  --method POST -f 'reviewers[]=copilot-pull-request-reviewer[bot]' --silent
+# After pushing the intended head, first check whether an automatic review started.
+# If none has started, request one review through the GitHub API/CLI.
+gh pr comment <pr-number> --repo <owner>/<repo> --body '@codex review'
 ```
 
-Verify a new `review_requested` event in the issue timeline or a completed Copilot review. Do not rely solely on HTTP success or the requested-reviewer list, which may omit Copilot. After follow-up commits, request a re-review unless automatic review of new pushes is enabled. Keep the PR open if Copilot reports missing access, quota, or setup; a missing review is not approval. Copilot comments are not, by default, approving reviews; preserve any separately configured required approvals.
+Inspect Codex bot activity (normally `chatgpt-codex-connector[bot]`), submitted reviews, completion comments and inline threads. A successful comment API response or eyes reaction only confirms submission/acknowledgment. Require an explicit completed assessment for the current head; inspect review commit IDs or completion permalinks and timing against the head. If a comment's head association is unclear, do not infer completion. Missing access, quota errors and setup prompts are not reviews. After follow-up commits, wait for an automatic latest-head review or request one if none started; avoid duplicate requests while a review is active.
 
-Keep monitoring output compact: use `gh pr checks`, or query `headRefOid`, review author/state/commit, and check name/status/conclusion with `gh pr view --json ... --jq ...`. Store routine watch output locally or suppress unchanged results; fetch full logs or comment bodies only when a failure or finding needs investigation. Verify the completed review's commit matches the current head and inspect unresolved threads before merging. API monitoring does not relax any review, CI, Preview, or release gate.
+Keep monitoring output compact: use `gh pr checks`, or query `headRefOid`, review author/state/commit, and check name/status/conclusion with `gh pr view --json ... --jq ...`. Store routine watch output locally or suppress unchanged results; fetch full logs or comment bodies only when a failure or finding needs investigation. Inspect unresolved threads before merging. API monitoring does not relax any review, CI, Preview, or release gate.
 
 ### Automatic review setup
 
-1. With repository admin access, create or edit an active branch ruleset targeting `develop` and `main`. Enable **Automatically request Copilot code review** and **Review new pushes**. Leave existing protections and required checks intact.
-2. If GitHub blocks rulesets for this private repository under the current plan, eligible PR authors can enable **Automatic Copilot code review** and **Review new pushes** in their personal Copilot code-review settings. This is account-wide and applies to their eligible PRs in other repositories as well; it is not repository-wide enforcement. Otherwise request Copilot manually on each PR and after every push.
-3. Verify a completed Copilot review on a PR before relying on automation. Copilot code-review access is required; organization policies may also apply.
-4. Disable automatic Codex reviews for this repository in Codex settings to finish the provider switch. Do not uninstall the GitHub integration or remove repository access needed for other Codex work.
+1. Keep this GitHub repository connected to Codex. Enable code review for it in Codex settings.
+2. Configure **Automatic review** and **Review trigger** under the applicable repository/personal preferences. Verify the configured trigger covers the intended PR event; otherwise use the manual comment above.
+3. Disable automatic Copilot reviews for this repository where configured, so both providers do not consume review quota. Account-level Copilot preferences may affect other repositories; do not change those broader settings without authorization.
+4. Verify an actual completed Codex assessment on the latest PR head before relying on automation. Leave existing branch protections, CI checks and required approvals intact.
 
-These settings are configured outside the repository; editing these instructions does not enable or disable either service. Verify the live settings and a completed review rather than assuming this documentation enforces automation.
+These settings live outside the repository. Editing instructions does not enable or disable either service. The maintainer handles re-enabling Codex in settings; check actual PR activity to verify access.
 
-Repository-wide Copilot guidance lives in [`.github/copilot-instructions.md`](../.github/copilot-instructions.md), with shared workflow and architecture context in [`AGENTS.md`](../AGENTS.md).
+Repository-wide Codex review rules live in [`AGENTS.md`](../AGENTS.md), alongside shared workflow and architecture context. The review criteria above and session boundaries below remain applicable.
 
-See GitHub's [configuration guide](https://docs.github.com/en/copilot/how-tos/copilot-on-github/set-up-copilot/configure-code-review) and [manual review and re-review guide](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/copilot-code-review).
+See the official [Codex GitHub review documentation](https://learn.chatgpt.com/docs/third-party/github) for setup, the `@codex review` trigger, automatic reviews and `AGENTS.md` rules.
 
 ## Session and Sync Boundaries
 
