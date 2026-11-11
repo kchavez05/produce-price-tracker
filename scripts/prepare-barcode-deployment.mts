@@ -1,0 +1,12 @@
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { prepareBarcodeDeployment } from './lib/barcode-deployment';
+const [artifact, output, ...extra] = process.argv.slice(2);
+if (!artifact || !output || extra.length) throw new Error('Usage: npm run barcode:prepare-deployment -- /operator/artifact /new/output');
+const root = execFileSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' }).trim();
+if (execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' }).trim()) throw new Error('Commit or preserve working changes before packaging HEAD');
+const sha = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+const directory = await prepareBarcodeDeployment(root, artifact, output);
+await writeFile(path.join(directory, 'deployment/source-commit.json'), JSON.stringify({ commit: sha, target: 'preview' }) + '\n');
+console.log(JSON.stringify({ directory, commit: sha, target: 'preview', activation: 'disabled' }));
