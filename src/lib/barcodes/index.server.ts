@@ -46,7 +46,8 @@ export async function openBarcodeIndex(directory: string) {
   const filename = path.join(directory, 'index.sqlite');
   if ((await stat(filename)).size !== manifest.artifactBytes) throw new Error('Barcode artifact size changed');
   const digest = createHash('sha256');
-  for await (const chunk of createReadStream(filename)) digest.update(chunk);
+  // Bound memory while avoiding thousands of small reads on a cold deployed file.
+  for await (const chunk of createReadStream(filename, { highWaterMark: 1024 * 1024 })) digest.update(chunk);
   if (digest.digest('hex') !== manifest.artifactSha256) throw new Error('Barcode artifact digest changed');
   const db = new DatabaseSync(filename, { readOnly: true, enableForeignKeyConstraints: true, allowExtension: false });
   try {
