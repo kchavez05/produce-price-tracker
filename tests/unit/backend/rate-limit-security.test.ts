@@ -65,8 +65,11 @@ describe('rate-limit-security: checkRateLimit', () => {
       const admitted = Array.from({ length: 5000 }, (_, i) => bounded(req, 'barcode-lookup', 1, 60_000, `client-${i}`)).filter((result) => result.allowed);
       expect(admitted.length).toBeGreaterThan(0); expect(admitted.length).toBeLessThanOrEqual(5000);
       const iteration = vi.spyOn(Map.prototype, Symbol.iterator);
-      const rejected = Array.from({ length: 100 }, (_, i) => bounded(req, 'barcode-lookup', 1, 60_000, `extra-${i}`));
-      const scans = iteration.mock.calls.length; iteration.mockRestore();
+      let rejected: ReturnType<typeof bounded>[] = []; let scans = 0;
+      try {
+        rejected = Array.from({ length: 100 }, (_, i) => bounded(req, 'barcode-lookup', 1, 60_000, `extra-${i}`));
+        scans = iteration.mock.calls.length;
+      } finally { iteration.mockRestore(); }
       expect(scans).toBe(0);
       for (const result of rejected) expect(result).toMatchObject({ allowed: false, remaining: 0, resetInSeconds: 60 });
       expect(bounded(req, 'barcode-lookup', 1, 60_000, 'client-0').allowed).toBe(false);

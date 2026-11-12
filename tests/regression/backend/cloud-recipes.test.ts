@@ -96,4 +96,16 @@ describe('cloud saved-recipe persistence', () => {
     expect((await response.json()).recipes[0]).not.toHaveProperty('pantryPricing');
     expect(dish.pantryPricing?.rows[0].observation?.quoteId).toBe('untrusted-stale-quote');
   });
+  it('strips derived pricing when hydrating an existing cloud row without rewriting that remote row', async () => {
+    const dish = pricedDish();
+    cloud.recipes = [{ id: dish.id, user_id: profile.id, dish_json: dish }];
+    const result = await loadUserSyncPayload();
+    expect(result.savedRecipes).toMatchObject([{ id: dish.id, title: dish.title }]);
+    expect(result.savedRecipes[0]).not.toHaveProperty('pantryPricing');
+    expect(cloud.calls).not.toContain('user_saved_recipes:upsert');
+    expect(cloud.recipes[0].dish_json).toHaveProperty('pantryPricing');
+    // The fallback mirror is clean too; a later cloud outage cannot restore it.
+    cloud.failTable = 'user_saved_recipes';
+    expect((await loadUserSyncPayload()).savedRecipes[0]).not.toHaveProperty('pantryPricing');
+  });
 });

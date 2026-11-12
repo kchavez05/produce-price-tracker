@@ -45,6 +45,8 @@ export function getClientIp(request: NextRequest): string {
 
 /**
  * Enforces an in-memory fixed-window rate limit per IP and route scope.
+ * Use a fixed policy per trusted scope. At capacity, Retry-After describes the
+ * next available identity slot, not a fresh caller's request allowance.
  */
 export function checkRateLimit(
   request: NextRequest,

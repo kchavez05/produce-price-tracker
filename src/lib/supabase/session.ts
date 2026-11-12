@@ -35,6 +35,7 @@ import {
 } from '@/types/domain';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import { PantryError } from '@/lib/pantry/mutations';
+import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
 
 interface SupabasePreferencesRow {
   user_id: string;
@@ -273,7 +274,7 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
 
           const recipeRows = (recipesRes.data || []) as SupabaseSavedRecipeRow[];
           const savedRecipes: RecommendedDish[] = recipeRows.map(
-            (r) => r.dish_json
+            (r) => withoutDerivedPantryPricing(r.dish_json)
           );
 
           // Mirror to local SQLite cache

@@ -46,8 +46,8 @@ export async function prepareBarcodeDeployment(repository: string, artifact: str
   const target = path.join(parent, path.basename(output));
   if (target === root || target.startsWith(root + path.sep)) throw new Error('Deployment output must be outside the repository');
   await verifyPinnedArtifact(artifact, expected);
-  await mkdir(target); // Refuse existing destinations, including symlinks.
   const commit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+  await mkdir(target); // Refuse existing destinations, including symlinks.
   const archive = spawn('git', ['archive', '--format=tar', commit], { cwd: root, stdio: ['ignore', 'pipe', 'inherit'] });
   const extract = spawn('tar', ['-xf', '-', '-C', target], { stdio: ['pipe', 'ignore', 'inherit'] });
   await Promise.all([completed(archive), completed(extract), pipeline(archive.stdout!, extract.stdin!)]);
