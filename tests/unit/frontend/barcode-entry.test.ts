@@ -116,6 +116,43 @@ describe('typed barcode review and confirmation', () => {
     await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
     expect(fetch).toHaveBeenCalledOnce();
   });
+  it('accepts a lookup between two and 2.5 seconds and clears its abort timer', async () => {
+    await render(); await input('Printed barcode digits', code);
+    vi.useFakeTimers();
+    try {
+      vi.mocked(fetch).mockImplementation((_url, init) => new Promise((resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true });
+        window.setTimeout(() => resolve(Response.json(found())), 2200);
+      }));
+      await act(async () => { container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+      const signal = vi.mocked(fetch).mock.calls[0][1]!.signal!;
+      await act(async () => { await vi.advanceTimersByTimeAsync(2200); });
+      expect(container.textContent).toContain('Product: EXTRA VIRGIN OLIVE OIL');
+      expect(container.textContent).not.toContain('Lookup could not connect or complete');
+      expect(button('Look up product').disabled).toBe(false);
+      await act(async () => { await vi.advanceTimersByTimeAsync(1000); });
+      expect(signal.aborted).toBe(false); expect(save).not.toHaveBeenCalled();
+    } finally { vi.useRealTimers(); }
+  });
+  it('aborts a stalled lookup at 2.5 seconds and retains manual selection without writes', async () => {
+    await render(); await input('Printed barcode digits', code);
+    vi.useFakeTimers();
+    try {
+      vi.mocked(fetch).mockImplementation((_url, init) => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true });
+      }));
+      await act(async () => { container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); });
+      const signal = vi.mocked(fetch).mock.calls[0][1]!.signal!;
+      await act(async () => { await vi.advanceTimersByTimeAsync(2499); });
+      expect(signal.aborted).toBe(false);
+      await act(async () => { await vi.advanceTimersByTimeAsync(1); });
+      expect(signal.aborted).toBe(true);
+      expect(container.textContent).toContain('Lookup could not connect or complete');
+    } finally { vi.useRealTimers(); }
+    await run(() => button('Choose ingredient manually').click());
+    await input('Find a cooking ingredient', 'olive oil'); await run(() => button('Choose Olive oil').click());
+    expect(button('Confirm addition').disabled).toBe(false); expect(save).not.toHaveBeenCalled();
+  });
 });
 
 describe('capture reuses typed confirmation', () => {

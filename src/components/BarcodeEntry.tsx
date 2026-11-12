@@ -96,7 +96,7 @@ export default function BarcodeEntry({ cameraEnabled = false, entries, acceptedC
     if (typeof navigator !== 'undefined' && !navigator.onLine) { setResult({ status: 'OFFLINE', message: 'Product lookup needs a connection. Choose an ingredient manually.' }); return; }
     const active = ++generation.current;
     const request = new AbortController(); controller.current = request; setLoading(true);
-    const timeout = window.setTimeout(() => request.abort(), 2000);
+    const timeout = window.setTimeout(() => request.abort(), 2500);
     try {
       const response = await fetch('/api/pantry/barcode-lookup', { method: 'POST', cache: 'no-store', credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' }, signal: request.signal, body: JSON.stringify({ barcode: code, format }) });
