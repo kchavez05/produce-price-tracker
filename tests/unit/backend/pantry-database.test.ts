@@ -25,9 +25,9 @@ beforeAll(async () => {
     create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
     grant usage on schema auth to authenticated;`);
   await db.exec(readFileSync('supabase/migrations/20261019000000_v1_3_multi_tenant_rls_schema.sql', 'utf8'));
-  await db.exec(readFileSync('supabase/migrations/20261029171953_virtual_pantry_persistence.sql', 'utf8'));
-  await db.exec(readFileSync('supabase/migrations/20261029211728_pantry_staple_catalog.sql', 'utf8'));
-  await db.exec(readFileSync('supabase/migrations/20261030173404_reviewed_cooking_catalog.sql', 'utf8'));
+  await db.exec(readFileSync('supabase/migrations/20261030204602_virtual_pantry_persistence.sql', 'utf8'));
+  await db.exec(readFileSync('supabase/migrations/20261030204612_pantry_staple_catalog.sql', 'utf8'));
+  await db.exec(readFileSync('supabase/migrations/20261030204614_reviewed_cooking_catalog.sql', 'utf8'));
   await db.exec('grant select,insert,update,delete on public.users, public.user_preferences, public.user_freezer_items, public.user_saved_recipes to authenticated');
   await db.query('insert into auth.users(id,email) values($1,$3),($2,$3)', [alice, bob, 'fixture@example.test']);
 }, 20000);
@@ -45,7 +45,7 @@ describe('pantry database storage boundaries', () => {
     await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(72);
-    const migration = readFileSync('supabase/migrations/20261031143749_pantry_legumes_grains_flours.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153507_pantry_legumes_grains_flours.sql', 'utf8');
     await db.exec(migration);
     await asUser(charlie);
     const applied = await rpc('mutate', mutation);
@@ -72,7 +72,7 @@ describe('pantry database storage boundaries', () => {
     await expect(rpc('mutate', vegetable)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(101);
-    const migration = readFileSync('supabase/migrations/20261106155015_pantry_vegetables_aromatics.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153510_pantry_vegetables_aromatics.sql', 'utf8');
     await db.exec(migration); await db.exec(migration);
     await asUser(owner);
     expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(existing);
@@ -101,7 +101,7 @@ describe('pantry database storage boundaries', () => {
     for (const mutation of mutations) await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(111);
-    const migration = readFileSync('supabase/migrations/20261106161943_pantry_staples_proteins.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153514_pantry_staples_proteins.sql', 'utf8');
     await db.exec(migration); await db.exec(migration);
     await asUser(owner);
     expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(existing);
@@ -130,7 +130,7 @@ describe('pantry database storage boundaries', () => {
     for (const mutation of mutations) await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(134);
-    const migration = readFileSync('supabase/migrations/20261106170650_pantry_spice_forms.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153517_pantry_spice_forms.sql', 'utf8');
     await db.exec(migration); await db.exec(migration);
     await asUser(owner);
     for (const mutation of mutations) {
@@ -153,7 +153,7 @@ describe('pantry database storage boundaries', () => {
     for (const mutation of mutations) await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     expect((await db.query('select id from public.pantry_catalog')).rows).toHaveLength(138);
-    const migration = readFileSync('supabase/migrations/20261106175108_pantry_remaining_vegetables.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153525_pantry_remaining_vegetables.sql', 'utf8');
     await db.exec(migration); await db.exec(migration);
     await asUser(owner);
     for (const mutation of mutations) {
@@ -165,7 +165,7 @@ describe('pantry database storage boundaries', () => {
     expect(saved.entries.find((r) => r.ingredientId === 'broccoli-fresh')?.available).toBe(true);
     expect(saved.entries.find((r) => r.ingredientId === 'cauliflower-fresh')?.available).toBe(false);
     await db.exec('reset role');
-    await db.exec(readFileSync('supabase/migrations/20261106170650_pantry_spice_forms.sql', 'utf8'));
+    await db.exec(readFileSync('supabase/migrations/20261108153517_pantry_spice_forms.sql', 'utf8'));
     await asUser(owner);
     expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(saved.entries);
     await db.query('delete from public.users where id=$1', [owner]);
@@ -182,7 +182,7 @@ describe('pantry database storage boundaries', () => {
     await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     const before = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
-    const migration = readFileSync('supabase/migrations/20261107144458_pantry_market_produce.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153528_pantry_market_produce.sql', 'utf8');
     await db.exec(migration);
     await db.exec(migration);
     const after = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
@@ -197,7 +197,7 @@ describe('pantry database storage boundaries', () => {
     await asUser(owner);
     expect(await rpc('mutate', put({ mutationId: 'produce-no', entryId: 'potatoes', expectedRevision: 1, entry: { ...entry, available: false } }))).toMatchObject({ status: 'applied', entry: { revision: 2, available: false } });
     await db.exec('reset role');
-    await db.exec(readFileSync('supabase/migrations/20261106175108_pantry_remaining_vegetables.sql', 'utf8'));
+    await db.exec(readFileSync('supabase/migrations/20261108153525_pantry_remaining_vegetables.sql', 'utf8'));
     await asUser(owner);
     expect((await rpc<PantryMigrationSnapshot>('read')).entries).toMatchObject([{ ingredientId: 'russet-potatoes-fresh', available: false, revision: 2 }]);
     await db.query('delete from public.users where id=$1', [owner]);
@@ -214,7 +214,7 @@ describe('pantry database storage boundaries', () => {
     await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     const before = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
-    const migration = readFileSync('supabase/migrations/20261107172039_pantry_market_proteins.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153531_pantry_market_proteins.sql', 'utf8');
     await db.exec(migration); await db.exec(migration);
     const after = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
     expect(after).toEqual(expect.arrayContaining(before)); expect(after).toHaveLength(before.length + 28);
@@ -224,7 +224,7 @@ describe('pantry database storage boundaries', () => {
     expect(await rpc('mutate', put({ mutationId: 'protein-cooked', entryId: 'cooked-kielbasa', entry: cooked }))).toMatchObject({ status: 'applied' });
     expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(expect.arrayContaining([expect.objectContaining({ ingredientId: 'kielbasa-raw', available: false }), expect.objectContaining({ ingredientId: 'kielbasa-fully-cooked', available: true, quantity: 0 })]));
     await asUser(bob); expect((await rpc<PantryMigrationSnapshot>('read')).entries.some((r) => r.ingredientId === cooked.ingredientId)).toBe(false);
-    await db.exec('reset role'); await db.exec(readFileSync('supabase/migrations/20261107144458_pantry_market_produce.sql', 'utf8'));
+    await db.exec('reset role'); await db.exec(readFileSync('supabase/migrations/20261108153528_pantry_market_produce.sql', 'utf8'));
     await asUser(owner);
     expect(await rpc('mutate', put({ mutationId: 'protein-after-rollback', entryId: 'raw-kielbasa', expectedRevision: 1, entry: { ...raw, available: true } }))).toMatchObject({ status: 'applied', entry: { revision: 2, ingredientId: 'kielbasa-raw' } });
     await db.query('delete from public.users where id=$1', [owner]); await db.exec('reset role');
@@ -240,7 +240,7 @@ describe('pantry database storage boundaries', () => {
     await expect(rpc('mutate', mutation)).rejects.toThrow('invalid_entry');
     await db.exec('reset role');
     const before = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
-    const migration = readFileSync('supabase/migrations/20261108005922_pantry_market_dairy.sql', 'utf8');
+    const migration = readFileSync('supabase/migrations/20261108153534_pantry_market_dairy.sql', 'utf8');
     await db.exec(migration); await db.exec(migration);
     const after = (await db.query<{ id: string }>('select id from public.pantry_catalog order by id')).rows;
     expect(after).toEqual(expect.arrayContaining(before)); expect(after).toHaveLength(before.length + 23);
@@ -250,7 +250,7 @@ describe('pantry database storage boundaries', () => {
     expect(await rpc('mutate', put({ mutationId: 'dairy-vanilla', entryId: 'vanilla', entry: vanilla }))).toMatchObject({ status: 'applied' });
     expect((await rpc<PantryMigrationSnapshot>('read')).entries).toEqual(expect.arrayContaining([expect.objectContaining({ ingredientId: plain.ingredientId, available: false }), expect.objectContaining({ ingredientId: vanilla.ingredientId, available: true, quantity: 0 })]));
     await asUser(bob); expect((await rpc<PantryMigrationSnapshot>('read')).entries.some((r) => r.ingredientId === vanilla.ingredientId)).toBe(false);
-    await db.exec('reset role'); await db.exec(readFileSync('supabase/migrations/20261107172039_pantry_market_proteins.sql', 'utf8'));
+    await db.exec('reset role'); await db.exec(readFileSync('supabase/migrations/20261108153531_pantry_market_proteins.sql', 'utf8'));
     await asUser(owner);
     expect(await rpc('mutate', put({ mutationId: 'dairy-after-rollback', entryId: 'plain', expectedRevision: 1, entry: { ...plain, available: true } }))).toMatchObject({ status: 'applied', entry: { revision: 2, ingredientId: plain.ingredientId } });
     await db.query('delete from public.users where id=$1', [owner]); await db.exec('reset role');
@@ -307,7 +307,7 @@ describe('pantry database storage boundaries', () => {
     expect(await rpc('mutate', put({ mutationId: 'new-lentils', entryId: 'lentils', entry: { displayName: 'Dried lentils', ingredientId: 'lentils-dried', available: true } }))).toMatchObject({ status: 'applied' });
     // A presentation rollback never deletes accepted database IDs. Reapply is idempotent.
     await db.exec('reset role');
-    await db.exec(readFileSync('supabase/migrations/20261030173404_reviewed_cooking_catalog.sql', 'utf8'));
+    await db.exec(readFileSync('supabase/migrations/20261030204614_reviewed_cooking_catalog.sql', 'utf8'));
     await asUser(alice);
     expect(await rpc('mutate', put({ mutationId: 'edit-after-rollback', entryId: 'lentils', expectedRevision: 1, entry: { displayName: 'Dried lentils', ingredientId: 'lentils-dried', available: false, quantity: 0 } }))).toMatchObject({ status: 'applied', entry: { revision: 2, ingredientId: 'lentils-dried' } });
     const after = await rpc<PantryMigrationSnapshot>('read');

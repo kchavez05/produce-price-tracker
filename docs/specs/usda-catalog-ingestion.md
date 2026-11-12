@@ -125,7 +125,7 @@ Each run follows the same stages. Re-running discovery is authorized maintenance
 5. **Generate a proposal and diff.** Compare with the last published catalog and the previous discovery run. Report additions, source revisions, changed links/labels/aliases/forms, proposed groupings, exclusions, unresolved discrepancies, and lifecycle changes separately. No new item is approved simply because USDA added it.
 6. **Review.** A maintainer approves cooking relevance, granularity, display choices, aliases, dietary implications, and identity/recipe links. Record decisions and reasons in a version-controlled ledger. A code review bot supplements this product review; it cannot establish cooking equivalence.
 7. **Build and verify.** Compile only approved entries/links into a compact versioned catalog. Validate the full snapshot, migrations, search examples, existing inventory references, offline operation, and catalog/browser size changes.
-8. **Publish and observe.** Follow the repository PR/CI/Codex workflow, stage against an isolated database, verify the identified version, then use the normal release workflow for Production. Record which catalog version each environment serves.
+8. **Publish and observe.** Follow the repository PR/CI/Claude review workflow, stage against an isolated database, verify the identified version, then use the normal release workflow for Production. Record which catalog version each environment serves.
 
 Discovery/review outputs MUST be deterministic for identical input files, rules, and prior decisions. Retrieval/run timestamps belong in a separate audit envelope so they do not change the content hash of an otherwise identical catalog. Raw files, generated candidate pools, and API keys must remain outside the browser bundle and Git history; keep compact reports, rules, decision ledgers, tests, and manifests in version control.
 
@@ -177,7 +177,7 @@ Before the first curated catalog activates, and on each applicable subsequent re
 7. Existing ingredient IDs, private custom items, pending mutations, tombstones, account isolation, exports/deletion, and old-client compatibility survive the update and rollback tests.
 8. Public output includes only approved catalog records. No research samples, unreviewed candidates, private custom names, secrets, fabricated prices, or inferred dietary certifications enter it.
 9. Diff reports separate source-row growth from user-visible choices; a maintainer reviews primary-result counts and bundle-size changes. A larger source dump alone cannot justify more search results.
-10. The PR records product curation approval, exceptions, catalog/migration compatibility, local typecheck/lint/unit/smoke/build results, green CI/Preview, completed Codex review, isolated staging verification, and rollback evidence. Production also follows the release checklist and regression gate in `AGENTS.md`.
+10. The PR records product curation approval, exceptions, catalog/migration compatibility, local typecheck/lint/unit/smoke/build results, green CI/Preview, completed Claude review, isolated staging verification, and rollback evidence. Production also follows the release checklist and regression gate in `AGENTS.md`.
 
 ## 12. Implementation sequence and current gap
 

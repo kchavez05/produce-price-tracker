@@ -1,4 +1,4 @@
-# Retired in favor of Codex Code Review; see AGENTS.md and docs/code-review.md.
+# Retired in favor of Claude Code Review; see AGENTS.md and docs/code-review.md.
 # Gemini Code Assist GitHub App Configuration
 # Documentation: https://developers.google.com/gemini-code-assist/docs/customize-gemini-behavior-github
 have_fun: false

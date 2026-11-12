@@ -187,7 +187,7 @@ Use semantic table headers, labeled filters, keyboard-operable tabs and point al
 - CSV filters/order match the table across page boundaries; formula-like strings remain inert. JSON matches the audited stored public representation of the selected version. Revisions remain inspectable and snapshot pagination stays stable under concurrent ingestion.
 - Public read/export routes deny access to personal data and non-allowlisted fields, enforce limits, and make no upstream provider calls or mutations. Test unauthorized database browser-role access remains denied.
 - Keyless demonstration, cloud outage, partial sources, empty history, mobile layout, keyboard operation, and table alternatives work as specified.
-- Before pushing: run typecheck, lint, unit tests, smoke tests, and production build. Run regression tests for the release PR to main. Require CI, Vercel preview, completed Codex review, and resolved actionable review feedback under the repository workflow.
+- Before pushing: run typecheck, lint, unit tests, smoke tests, and production build. Run regression tests for the release PR to main. Require CI, Vercel preview, completed Claude review, and resolved actionable review feedback under the repository workflow.
 
 ## Implementation references
 

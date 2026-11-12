@@ -5,9 +5,9 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.2] - Unreleased
+## [1.6.2] - 2026-11-12
 
-Release candidate; production activation/acceptance and GitHub publication remain pending. See [candidate notes](docs/releases/v1.6.2.md) and the [rollout plan](docs/releases/v1.6.2-rollout.md).
+Released to production November 12. The maintainer attested that production is functioning as expected; itemized production receipts (regional WAF rule, artifact-bearing deployment, bounded runtime results) are not recorded and are not claimed. See [release notes](docs/releases/v1.6.2.md) and the [rollout plan](docs/releases/v1.6.2-rollout.md).
 
 ### Added
 - Typed UPC-A/EAN-13 product lookup, source attribution, generic ingredient review/correction and explicit pantry confirmation.

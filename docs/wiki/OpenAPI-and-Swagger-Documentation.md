@@ -1,4 +1,4 @@
-> v1.6.2 candidate: package/lockfile/OpenAPI metadata is aligned at 1.6.2; this identifies the candidate build, not production availability. The barcode endpoint and price-basis schemas are included. See [candidate notes](../releases/v1.6.2.md); regenerate both exports with `npm run openapi:export`.
+> v1.6.2: package/lockfile/OpenAPI metadata is aligned at 1.6.2 and production `/openapi.json` reported 1.6.2 on November 12, 2026; this does not by itself establish barcode feature activation. The barcode endpoint and price-basis schemas are included. See [candidate notes](../releases/v1.6.2.md); regenerate both exports with `npm run openapi:export`.
 
 > v1.6.1 is live: package and OpenAPI versions are synchronized. All 222 hosted IDs are installed, and production authenticated API and guest-browser verification pass. See the [release notes](../releases/v1.6.1.md).
 

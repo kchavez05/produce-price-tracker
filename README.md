@@ -1,12 +1,12 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.2` release candidate)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.2`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
 
-## v1.6.2 — Barcode entry and static staple estimates (candidate)
+## v1.6.2 — Barcode entry and static staple estimates
 
-Prepared for release; production activation and publication are pending. Typed UPC-A/EAN-13 lookup and deliberate local camera capture share product review, ingredient correction and explicit pantry confirmation. Existing static/unpriced staple estimates now use one evaluator across current/saved recipes and shopping. New live store API pricing is deferred to [multi-store scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689); existing market discovery is preserved.
+Released November 12, 2026; the maintainer attested that production is functioning as expected. Typed UPC-A/EAN-13 lookup and deliberate local camera capture share product review, ingredient correction and explicit pantry confirmation. Existing static/unpriced staple estimates now use one evaluator across current/saved recipes and shopping. New live store API pricing is deferred to [multi-store scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689); existing market discovery is preserved.
 
-The maintainer reported limited iOS Safari scanning/key-entry smoke tests and explicitly accepted the unrun remainder of #649’s pre-release matrix. Full Android, account/second-client and accessibility results are not claimed. See the [verification acceptance](docs/research/v1.6.2-barcode-verification-acceptance.md), [candidate release notes](docs/releases/v1.6.2.md), and [rollout plan](docs/releases/v1.6.2-rollout.md). Production barcode controls remain gated by artifact delivery, production enforcement and acceptance.
+The maintainer reported limited iOS Safari scanning/key-entry smoke tests and explicitly accepted the unrun remainder of #649’s pre-release matrix. Full Android, account/second-client and accessibility results are not claimed. See the [verification acceptance](docs/research/v1.6.2-barcode-verification-acceptance.md), [candidate release notes](docs/releases/v1.6.2.md), and [rollout plan](docs/releases/v1.6.2-rollout.md). Itemized production receipts are not recorded; the barcode artifact, production enforcement and acceptance gates in the rollout plan are not claimed as individually verified.
 
 ## v1.6.0 — Virtual Pantry
 
@@ -70,7 +70,7 @@ v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API p
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.2 scope and long-term mobile plans.
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
-  * [v1.6.2 — Barcode Entry & Static Staple Estimates (candidate)](./docs/releases/v1.6.2.md)
+  * [v1.6.2 — Barcode Entry & Static Staple Estimates](./docs/releases/v1.6.2.md)
   * [v1.6.1 — Pantry Catalog Expansion](./docs/releases/v1.6.1.md)
   * [v1.6.0 — Virtual Pantry](./docs/releases/v1.6.0.md)
   * [v1.5.2 — Data Clarity & Active Markets](./docs/releases/v1.5.2.md)
