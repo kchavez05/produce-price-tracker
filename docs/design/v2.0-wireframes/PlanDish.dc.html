@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plan dish detail wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:60px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:17px;font-weight:700;margin:0}
+.body{flex:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.muted{color:#595959;font-size:13px}
+a{text-decoration:none}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+.sec{font-size:14px;font-weight:700;color:#595959;margin-top:2px}
+.tbl{display:flex;flex-direction:column;border:1px solid #cfcfcf;border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;align-items:center;min-height:46px;padding:0 14px;border-bottom:1px solid #e4e4e4;font-size:14px;gap:8px}
+.tr:last-child{border-bottom:0}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa}
+.btn{min-height:48px;padding:0 20px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <a class="back" href="Plan.dc.html">Plan</a>
+    <h1 class="ttl">Dish Detail</h1>
+    <span style="min-width:60px"></span>
+  </div>
+  <div class="body">
+    <div class="row"><h2 style="margin:0;font-size:22px">Chicken and White Bean Stew</h2><span class="tag">$1.40/srv</span></div>
+    <div class="muted">6 servings &middot; 32g protein &middot; 410 cal per serving &middot; Dutch oven</div>
+    <div class="sec">Ingredients</div>
+    <div class="tbl">
+      <div class="tr"><span>Bone-in chicken thighs, 3 lb</span><span class="tag">ALDI $0.99/lb</span></div>
+      <div class="tr"><span>Canned white beans, 3 cans</span><span class="tag">Walmart $0.88</span></div>
+      <div class="tr"><span>Yellow onions, 2 lb</span><span class="tag">King Soopers $0.79/lb</span></div>
+      <div class="tr"><span>Olive oil</span><span class="tag">At Home</span></div>
+      <div class="tr"><span>Salt</span><span class="tag">At Home</span></div>
+    </div>
+    <div class="sec">Method</div>
+    <div class="card"><span class="muted">Steps appear here.</span></div>
+    <div class="row" style="margin-top:auto">
+      <a class="btn pri" style="flex:1" href="ShopTrip.dc.html">Add Missing to Trip</a>
+      <button type="button" class="btn">Save</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

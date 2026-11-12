@@ -27,14 +27,15 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
 .row{display:flex;align-items:center;gap:8px}
 .muted{color:#595959;font-size:13px}
 .seg{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
-.seg>span{flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;gap:6px;color:#333}
-.seg>span.on{background:#1f1f1f;color:#fff}
+.seg>*{flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;gap:6px;color:#333}
+.seg>.on{background:#1f1f1f;color:#fff}
+a{text-decoration:none}
 .seg .badge{font-size:11px;line-height:18px;padding:0 6px;border-radius:9px;font-weight:600}
 .chips{display:flex;gap:8px;flex:none}
 .chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;white-space:nowrap;background:#fff;font-family:inherit}
 .chip.on{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
 .badge{font-size:12px;background:#e4e4e4;border-radius:10px;padding:2px 8px;color:#333}
-.seg>span.on .badge{background:#555;color:#fff}
+.seg>.on .badge{background:#555;color:#fff}
 .ph{background:#e4e4e4;border-radius:6px}
 .tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
 .price{font-size:22px;font-weight:800}
@@ -44,22 +45,22 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
 <div class="scr">
   <div class="top">
     <div class="logo">PantryBot</div>
-    <button type="button" class="avatar" aria-label="Account and settings">Acct</button>
+    <a class="avatar" href="Settings.dc.html" aria-label="Account and settings">Acct</a>
   </div>
   <div class="body">
     <h1 class="sr">Shop</h1>
     <div class="row" style="justify-content:space-between">
       <div class="muted">Mead, CO &middot; 6 stores</div>
-      <button type="button" class="link">Change in Settings</button>
+      <a class="link" href="Settings.dc.html">Change in Settings</a>
     </div>
     <div class="row" style="justify-content:space-between;margin-top:-8px">
       <div class="muted">Ad cycle Nov 11&ndash;17 &middot; updated 3:21 PM</div>
       <button type="button" class="link">Details</button>
     </div>
     <div class="seg">
-      <span class="on">Deals</span>
-      <span>Trip <span class="badge" style="flex:none;min-height:0;font-weight:500">8</span></span>
-      <span>Radar</span>
+      <a class="on" href="Main.dc.html">Deals</a>
+      <a href="ShopTrip.dc.html">Trip <span class="badge">8</span></a>
+      <a href="ShopRadar.dc.html">Radar</a>
     </div>
     <div class="chips">
       <button type="button" class="chip on">All</button>
@@ -73,12 +74,12 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
     </div>
     <div class="card">
       <div class="row" style="justify-content:space-between"><span class="tag">King Soopers</span><span class="badge">-54% off</span></div>
-      <b style="font-size:16px">Shredded Cheese (Cheddar, Jack)</b>
+      <a href="ShopDetail.dc.html" style="font-size:16px;font-weight:700;color:#1f1f1f;min-height:44px;display:flex;align-items:center">Shredded Cheese (Cheddar, Jack)</a>
       <div class="row" style="align-items:baseline"><span class="price">$2.58</span><span class="muted">/lb &middot; was $5.58</span></div>
       <div class="muted">Beats Sam's Club bulk by 30%</div>
       <div class="ph" style="height:36px" role="img" aria-label="6-week price history chart placeholder"></div>
       <div class="row">
-        <button type="button" class="btn pri" style="flex:1">Add to trip</button>
+        <a class="btn pri" style="flex:1" href="ShopTrip.dc.html">Add to trip</a>
         <button type="button" class="btn quiet">Have it</button>
       </div>
     </div>
@@ -89,9 +90,9 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
     </div>
   </div>
   <div class="tabbar">
-    <div class="tab on"><div class="ico"></div>Shop</div>
-    <div class="tab"><div class="ico"></div>Pantry</div>
-    <div class="tab"><div class="ico"></div>Plan</div>
+    <a class="tab on" href="Main.dc.html"><div class="ico"></div>Shop</a>
+    <a class="tab" href="Pantry.dc.html"><div class="ico"></div>Pantry</a>
+    <a class="tab" href="Plan.dc.html"><div class="ico"></div>Plan</a>
   </div>
 </div>
 </x-dc>

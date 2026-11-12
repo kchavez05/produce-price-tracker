@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shop deal detail wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:60px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:17px;font-weight:700;margin:0}
+.body{flex:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.muted{color:#595959;font-size:13px}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+.badge{font-size:12px;background:#e4e4e4;border-radius:10px;padding:2px 8px;color:#333}
+.price{font-size:34px;font-weight:800}
+.sec{font-size:14px;font-weight:700;color:#595959}
+.ph{background:#e4e4e4;border-radius:8px}
+.tbl{display:flex;flex-direction:column;border:1px solid #cfcfcf;border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;align-items:center;min-height:46px;padding:0 14px;border-bottom:1px solid #e4e4e4;font-size:14px}
+.tr:last-child{border-bottom:0}
+.btn{min-height:48px;padding:0 20px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.btn.quiet{border-color:#cfcfcf;color:#595959;font-weight:500}
+a{text-decoration:none}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <a class="back" href="Main.dc.html">Deals</a>
+    <h1 class="ttl">Deal Detail</h1>
+    <span style="min-width:60px"></span>
+  </div>
+  <div class="body">
+    <div class="row"><span class="tag">King Soopers</span><span class="badge">-54% off</span></div>
+    <h2 style="margin:0;font-size:22px">Shredded Cheese (Cheddar, Jack)</h2>
+    <div class="row" style="justify-content:flex-start;align-items:baseline"><span class="price">$2.58</span><span class="muted">/lb &middot; was $5.58 &middot; Member card</span></div>
+    <div class="sec">6-Week Price History</div>
+    <div class="ph" style="height:110px" role="img" aria-label="Six-week price history chart placeholder"></div>
+    <div class="sec">Club and Store Comparison</div>
+    <div class="tbl">
+      <div class="tr"><span>Sam's Club bulk</span><b>$3.68/lb</b></div>
+      <div class="tr"><span>Costco bulk</span><b>$3.55/lb</b></div>
+      <div class="tr"><span>Safeway</span><b>$4.29/lb</b></div>
+    </div>
+    <div class="row" style="margin-top:auto">
+      <a class="btn pri" style="flex:1" href="ShopTrip.dc.html">Add to Trip</a>
+      <button type="button" class="btn quiet">Have It</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

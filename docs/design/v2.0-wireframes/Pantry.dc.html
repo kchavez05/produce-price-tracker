@@ -27,6 +27,7 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
 .chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;white-space:nowrap;background:#fff;font-family:inherit}
 .chip.on{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a{text-decoration:none}
 .search{min-height:44px;border:1px solid #6b6b6b;border-radius:10px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:#595959;flex:1;background:#fff;font-family:inherit}
 .item{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:56px;border-bottom:1px solid #e4e4e4}
 .yn{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
@@ -39,14 +40,14 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
 <div class="scr">
   <div class="top">
     <div class="logo">PantryBot</div>
-    <button type="button" class="avatar" aria-label="Account and settings">Acct</button>
+    <a class="avatar" href="Settings.dc.html" aria-label="Account and settings">Acct</a>
   </div>
   <div class="body">
     <h1 class="sr">Pantry</h1>
     <div class="row">
       <button type="button" class="search" style="text-align:left">Search or add an ingredient</button>
-      <button type="button" class="btn" aria-label="Add by scanning a barcode">Scan</button>
-      <button type="button" class="btn" aria-label="Add by voice">Voice</button>
+      <a class="btn" href="PantryScan.dc.html" aria-label="Add by scanning a barcode">Scan</a>
+      <a class="btn" href="PantryVoice.dc.html" aria-label="Add by voice">Voice</a>
     </div>
     <div class="card" style="background:#f0f0f0">
       <div class="muted">Optional. Tell PantryBot what you already have and Shop and Plan skip it. Nothing here is required.</div>
@@ -58,7 +59,7 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
       <button type="button" class="chip">Stocked up</button>
     </div>
     <div class="sec">Staples</div>
-    <div class="item"><span>Olive oil</span><div class="yn"><span class="on">Yes</span><span>No</span></div></div>
+    <div class="item"><a href="PantryDetail.dc.html" style="flex:1;min-height:44px;display:flex;align-items:center;color:#1f1f1f">Olive oil</a><div class="yn"><span class="on">Yes</span><span>No</span></div></div>
     <div class="item"><span>Salt</span><div class="yn"><span class="on">Yes</span><span>No</span></div></div>
     <div class="item"><span>Dry basmati rice</span><div class="yn"><span>Yes</span><span class="on">No</span></div></div>
     <div class="sec">Stocked Up From Deals</div>
@@ -66,9 +67,9 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
     <div class="stat">Saved on this device &middot; Sign in to sync across devices</div>
   </div>
   <div class="tabbar">
-    <div class="tab"><div class="ico"></div>Shop</div>
-    <div class="tab on"><div class="ico"></div>Pantry</div>
-    <div class="tab"><div class="ico"></div>Plan</div>
+    <a class="tab" href="Main.dc.html"><div class="ico"></div>Shop</a>
+    <a class="tab on" href="Pantry.dc.html"><div class="ico"></div>Pantry</a>
+    <a class="tab" href="Plan.dc.html"><div class="ico"></div>Plan</a>
   </div>
 </div>
 </x-dc>
