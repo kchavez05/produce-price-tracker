@@ -20,7 +20,7 @@ A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) pr
 
 Released November 8, 2026, v1.6.1 expands the pantry catalog before speech entry. The approved batches compile to 222 identities in catalog `2026-11-07.4`, with 175 source-linked identities, 85 independent market counterpart associations and 63 scoped recipe uses. The [produce](docs/research/v1.6.1-market-produce-review.md), [protein](docs/research/v1.6.1-market-protein-review.md) and [dairy](docs/research/v1.6.1-market-dairy-review.md) batches close the 18 reviewed coverage gaps. All 35 market groups have counterpart paths; the [market completion plan](docs/specs/v1.6.1-market-coverage.md) records the four implemented offer-qualification rules and five explicitly approved release scope boundaries. The [final local audit](docs/research/v1.6.1-release-audit.md) passes. All eight hosted migrations are installed and all 222 accepted IDs are verified. Production authenticated API and guest-browser verification pass, with disposable test data cleaned up. See the [v1.6.1 release notes](docs/releases/v1.6.1.md).
 
-## Key Features (`v1.6.1`)
+## Existing Features (released `v1.6.1` baseline)
 
 * **Public Data Explorer & Score Transparency:** Explore stored USDA and store price history, inspect score arithmetic and ingredient groupings, and download raw source JSON or filtered CSV. Available through **Explore the data** in the footer; see the [explorer guide](docs/data-explorer.md).
 

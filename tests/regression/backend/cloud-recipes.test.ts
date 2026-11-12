@@ -39,6 +39,8 @@ vi.mock('@/lib/supabase/server', () => ({
 import { persistUserSyncState, loadUserSyncPayload } from '@/lib/supabase/session';
 import { upsertUserProfileToSqlite, resetSqliteTestInstance } from '@/lib/db/sqlite';
 import { createMockDish } from 'tests/test-utils';
+import { NextRequest } from 'next/server';
+import { POST as saveRecipe } from '@/app/api/saved-recipes/route';
 const profile = { id: 'cloud-user', email: '', displayName: 'Tester', provider: 'google' as const,
   createdAtIso: '', updatedAtIso: '', isCloudBacked: true };
 describe('cloud saved-recipe persistence', () => {
@@ -62,5 +64,36 @@ describe('cloud saved-recipe persistence', () => {
     cloud.failTable = 'user_saved_recipes';
     await expect(persistUserSyncState({ profile, savedRecipes: [createMockDish()] })).rejects.toThrow('Cloud sync failed');
     expect(cloud.calls).not.toContain('user_saved_recipes:delete');
+  });
+  const pricedDish = () => createMockDish({ id: 'priced', pantryPricing: {
+    rows: [{ ingredientId: 'olive-oil', quantity: 1, unit: 'tbsp', requirementKey: 'synthetic',
+      allocatedCents: 1, estimatedCost: .01, priceBasis: 'OBSERVED', observation: {
+        source: 'KROGER_PRODUCTION', quoteId: 'untrusted-stale-quote', productId: 'synthetic-product', itemId: 'synthetic-item',
+        locationId: 'synthetic-store', observedAtIso: '2000-01-01T00:00:00Z', packagePrice: 4,
+        packageAmount: '16', packageUnit: 'fl oz', sourceSizeLabel: '16 fl oz', ruleVersion: 'synthetic', stockUnconfirmed: true,
+      } }], total: .01, includesStaticEstimates: false, incompleteEstimate: false,
+    evaluatedAtIso: '2000-01-01T00:00:00Z', marketId: 'synthetic', selectedLocationIds: ['synthetic-store'],
+  } });
+  it.each([false, true])('strips client-derived pricing before the cloud upsert in mergeMode=%s', async (mergeMode) => {
+    const dish = pricedDish(); const original = JSON.stringify(dish);
+    const result = await persistUserSyncState({ profile, savedRecipes: [dish], mergeMode });
+    expect(cloud.calls).toContain('user_saved_recipes:upsert');
+    expect(cloud.recipes).toMatchObject([{ id: dish.id, user_id: profile.id, dish_json: { title: dish.title, savedInLibrary: true } }]);
+    expect(cloud.recipes[0].dish_json).not.toHaveProperty('pantryPricing');
+    expect(result.savedRecipes[0]).not.toHaveProperty('pantryPricing');
+    expect((await loadUserSyncPayload()).savedRecipes[0]).not.toHaveProperty('pantryPricing');
+    expect(JSON.stringify(dish)).toBe(original);
+  });
+  it('strips derived pricing from a direct saved-recipes POST before cloud storage and response', async () => {
+    const dish = pricedDish();
+    const response = await saveRecipe(new NextRequest('http://localhost/api/saved-recipes', {
+      method: 'POST', headers: { host: 'localhost', origin: 'http://localhost', 'content-type': 'application/json' },
+      body: JSON.stringify({ dish }),
+    }));
+    expect(response.status).toBe(200);
+    expect(cloud.calls).toContain('user_saved_recipes:upsert');
+    expect(cloud.recipes[0].dish_json).not.toHaveProperty('pantryPricing');
+    expect((await response.json()).recipes[0]).not.toHaveProperty('pantryPricing');
+    expect(dish.pantryPricing?.rows[0].observation?.quoteId).toBe('untrusted-stale-quote');
   });
 });

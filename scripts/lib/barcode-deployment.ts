@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { chmod, copyFile, lstat, mkdir, readFile, realpath, writeFile } from 'node:fs/promises';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
 import pin from '../../deployment/barcode-artifact.json';
@@ -39,14 +39,16 @@ function completed(child: ReturnType<typeof spawn>) {
     child.once('exit', (code) => code === 0 ? resolve() : reject(new Error('Source archive command failed')));
   });
 }
-export async function prepareBarcodeDeployment(repository: string, artifact: string, output: string, expected: ArtifactPin = pin) {
+export async function prepareBarcodeDeployment(repository: string, artifact: string, output: string, expected: ArtifactPin = pin, deploymentTarget: 'preview' | 'production' = 'preview') {
+  if (deploymentTarget !== 'preview' && deploymentTarget !== 'production') throw new Error('Invalid deployment target');
   const root = await realpath(repository);
   const parent = await realpath(path.dirname(path.resolve(output)));
   const target = path.join(parent, path.basename(output));
   if (target === root || target.startsWith(root + path.sep)) throw new Error('Deployment output must be outside the repository');
   await verifyPinnedArtifact(artifact, expected);
   await mkdir(target); // Refuse existing destinations, including symlinks.
-  const archive = spawn('git', ['archive', '--format=tar', 'HEAD'], { cwd: root, stdio: ['ignore', 'pipe', 'inherit'] });
+  const commit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+  const archive = spawn('git', ['archive', '--format=tar', commit], { cwd: root, stdio: ['ignore', 'pipe', 'inherit'] });
   const extract = spawn('tar', ['-xf', '-', '-C', target], { stdio: ['pipe', 'ignore', 'inherit'] });
   await Promise.all([completed(archive), completed(extract), pipeline(archive.stdout!, extract.stdin!)]);
   await mkdir(path.join(target, 'data'), { recursive: true });
@@ -62,5 +64,7 @@ export async function prepareBarcodeDeployment(repository: string, artifact: str
   await writeFile(path.join(target, '.vercelignore'), [
     '.git', '.claude', '.env*', '.vercel', 'node_modules', '.next', 'data/*.sqlite', 'data/*.sqlite-*', 'data/runtime-cache.json', '',
   ].join('\n'));
+  await mkdir(path.join(target, 'deployment'), { recursive: true });
+  await writeFile(path.join(target, 'deployment/source-commit.json'), JSON.stringify({ commit, target: deploymentTarget }) + '\n');
   return target;
 }

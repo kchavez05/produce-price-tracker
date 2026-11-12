@@ -60,7 +60,7 @@ describe('pinned deployment delivery', () => {
     await expect(prepareBarcodeDeployment(directory, directory, path.join(directory, 'bundle'))).rejects.toThrow('outside');
     expect(await readFile(path.join(directory, 'index.sqlite'), 'utf8')).toBe('immutable fixture');
   });
-  it('archives committed source, excludes local secrets and admits the pair in the disposable upload', async () => {
+  it.each([undefined, 'production'] as const)('archives exact committed source and records target %s without activation or local secrets', async (deploymentTarget) => {
     const { directory, expected } = await fixture();
     const repo = path.join(directory, 'repo'); await mkdir(repo);
     await writeFile(path.join(repo, '.gitignore'), '/data/fdc-barcode-index/\n.env*\n');
@@ -71,7 +71,10 @@ describe('pinned deployment delivery', () => {
     execFileSync('git', ['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'fixture'], { cwd: repo });
     await writeFile(path.join(repo, '.env.local'), 'SECRET=never upload');
     await writeFile(path.join(repo, 'untracked.sqlite'), 'private inventory');
-    const target = await prepareBarcodeDeployment(repo, directory, path.join(directory, 'bundle'), expected);
+    const target = await prepareBarcodeDeployment(repo, directory, path.join(directory, 'bundle'), expected, deploymentTarget);
+    expect(JSON.parse(await readFile(path.join(target, 'deployment/source-commit.json'), 'utf8'))).toEqual({
+      commit: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repo, encoding: 'utf8' }).trim(), target: deploymentTarget ?? 'preview',
+    });
     expect(await readdir(target)).not.toContain('.env.local'); expect(await readdir(target)).not.toContain('untracked.sqlite');
     expect(await readFile(path.join(target, 'tracked.txt'), 'utf8')).toBe('reviewed source');
     expect(await readFile(path.join(target, '.gitignore'), 'utf8')).not.toContain('/data/fdc-barcode-index/');
@@ -81,5 +84,12 @@ describe('pinned deployment delivery', () => {
   });
   it('requires the reviewed pin by default rather than accepting a new self-signed artifact', async () => {
     const { directory } = await fixture(); await expect(verifyPinnedArtifact(directory)).rejects.toThrow();
+  });
+  it('rejects an invalid runtime target before creating a bundle', async () => {
+    const { directory, expected } = await fixture();
+    // Deliberately exercise JavaScript/CLI input outside the typed union.
+    const invalid = 'staging' as 'preview';
+    await expect(prepareBarcodeDeployment(directory, directory, path.join(directory, 'invalid'), expected, invalid)).rejects.toThrow('Invalid deployment target');
+    expect(await readdir(directory)).not.toContain('invalid');
   });
 });

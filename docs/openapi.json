@@ -3087,16 +3087,22 @@
             "type": "string"
           },
           "brandName": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "brandOwner": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "packageLabel": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "marketCountry": {
             "type": "string"
@@ -3106,12 +3112,16 @@
             "format": "date"
           },
           "modifiedDate": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "availableDate": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "snapshotDate": {
             "type": "string",
@@ -3186,8 +3196,10 @@
                 "$ref": "#/components/schemas/BarcodeProduct"
               },
               "suggestion": {
-                "type": "object",
-                "nullable": true,
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "properties": {
                   "ingredientId": {
                     "type": "string"
@@ -3313,9 +3325,11 @@
                 "type": "string"
               },
               "allocatedCents": {
-                "type": "integer",
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "minimum": 0,
-                "nullable": true,
                 "description": "Authoritative integer recipe allocation."
               },
               "priceBasis": {
@@ -3329,8 +3343,10 @@
                 ]
               },
               "estimatedCost": {
-                "type": "number",
-                "nullable": true,
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "description": "Allocated USD recipe cents; null means unpriced."
               },
               "observation": {
