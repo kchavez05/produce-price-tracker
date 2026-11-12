@@ -1,3 +1,5 @@
+> v1.6.2 release candidate: barcode entry/camera and shared static/unpriced staple estimates. Production rollout/publication are pending. See [candidate notes](../releases/v1.6.2.md), [rollout plan](../releases/v1.6.2-rollout.md) and the [accepted verification limits](../research/v1.6.2-barcode-verification-acceptance.md).
+
 # PantryBot Wiki
 
 > v1.6.1 was released November 8, 2026 with 222 reviewed ingredients. The [final audit](../research/v1.6.1-release-audit.md) passes locally; all eight hosted migrations and 222 IDs are verified. Production independent-session/API and guest-browser verification pass; disposable test data is cleaned up. See the [release notes](../releases/v1.6.1.md).
