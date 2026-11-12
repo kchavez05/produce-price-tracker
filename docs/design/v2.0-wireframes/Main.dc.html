@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shop wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:12px}
+.logo{font-weight:700;font-size:18px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.avatar{width:44px;height:44px;border-radius:50%;background:#e4e4e4;border:1px solid #6b6b6b;display:flex;align-items:center;justify-content:center;font-size:11px;color:#333}
+.body{flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:12px}
+.tabbar{height:84px;border-top:1px solid #cfcfcf;display:flex;background:#f7f7f7;flex:none}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#595959}
+.tab.on{color:#111;font-weight:700}
+.ico{width:24px;height:24px;border:2px solid currentColor;border-radius:6px;box-sizing:border-box}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa;display:flex;flex-direction:column;gap:8px;flex:none}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.btn.quiet{border-color:#cfcfcf;color:#595959;font-weight:500}
+.row{display:flex;align-items:center;gap:8px}
+.muted{color:#595959;font-size:13px}
+.seg{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
+.seg>span{flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;gap:6px;color:#333}
+.seg>span.on{background:#1f1f1f;color:#fff}
+.seg .badge{font-size:11px;line-height:18px;padding:0 6px;border-radius:9px;font-weight:600}
+.chips{display:flex;gap:8px;flex:none}
+.chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;white-space:nowrap;background:#fff;font-family:inherit}
+.chip.on{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.badge{font-size:12px;background:#e4e4e4;border-radius:10px;padding:2px 8px;color:#333}
+.seg>span.on .badge{background:#555;color:#fff}
+.ph{background:#e4e4e4;border-radius:6px}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+.price{font-size:22px;font-weight:800}
+.link{min-height:44px;display:flex;align-items:center;font-size:13px;color:#1d4ed8;text-decoration:underline;font-family:inherit;background:none;border:0;padding:0}
+</style>
+</helmet>
+<div class="scr">
+  <div class="top">
+    <div class="logo">PantryBot</div>
+    <button type="button" class="avatar" aria-label="Account and settings">Acct</button>
+  </div>
+  <div class="body">
+    <h1 class="sr">Shop</h1>
+    <div class="row" style="justify-content:space-between">
+      <div class="muted">Mead, CO &middot; 6 stores</div>
+      <button type="button" class="link">Change in Settings</button>
+    </div>
+    <div class="row" style="justify-content:space-between;margin-top:-8px">
+      <div class="muted">Ad cycle Nov 11&ndash;17 &middot; updated 3:21 PM</div>
+      <button type="button" class="link">Details</button>
+    </div>
+    <div class="seg">
+      <span class="on">Deals</span>
+      <span>Trip <span class="badge" style="flex:none;min-height:0;font-weight:500">8</span></span>
+      <span>Radar</span>
+    </div>
+    <div class="chips">
+      <button type="button" class="chip on">All</button>
+      <button type="button" class="chip">Meat</button>
+      <button type="button" class="chip">Produce</button>
+      <button type="button" class="chip">Dairy</button>
+    </div>
+    <div class="card" style="background:#f0f0f0">
+      <div class="row" style="justify-content:space-between"><b style="font-size:14px">Stock-Up Alert</b><span class="tag">-54%</span></div>
+      <div class="muted">Deepest 6-week low: cheese at King Soopers. Buy 2, freeze 1.</div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><span class="tag">King Soopers</span><span class="badge">-54% off</span></div>
+      <b style="font-size:16px">Shredded Cheese (Cheddar, Jack)</b>
+      <div class="row" style="align-items:baseline"><span class="price">$2.58</span><span class="muted">/lb &middot; was $5.58</span></div>
+      <div class="muted">Beats Sam's Club bulk by 30%</div>
+      <div class="ph" style="height:36px" role="img" aria-label="6-week price history chart placeholder"></div>
+      <div class="row">
+        <button type="button" class="btn pri" style="flex:1">Add to trip</button>
+        <button type="button" class="btn quiet">Have it</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><span class="tag">Safeway</span><span class="badge">-46% off</span></div>
+      <b style="font-size:16px">Butter (1 lb Quarters)</b>
+      <div class="row" style="align-items:baseline"><span class="price">$2.99</span><span class="muted">/lb</span></div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <div class="tab on"><div class="ico"></div>Shop</div>
+    <div class="tab"><div class="ico"></div>Pantry</div>
+    <div class="tab"><div class="ico"></div>Plan</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
