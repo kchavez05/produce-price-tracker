@@ -119,7 +119,22 @@ export async function resolveCurrentUserProfile(): Promise<{
             isCloudBacked: true,
           };
 
-          // Mirror in local SQLite for fast local resilience
+          // Auth identities can outlive their application profile (for example
+          // after account-data deletion). Reconcile only this verified identity
+          // through its RLS client before any inventory reads. DO NOTHING keeps
+          // concurrent loads safe and never overwrites existing profile/children
+          // or replays local preferences into the cloud.
+          try {
+            const result = await supabase.from('users').upsert({
+              id: profile.id, email: profile.email, display_name: profile.displayName,
+              avatar_url: profile.avatarUrl ?? null, provider: profile.provider,
+            }, { onConflict: 'id', ignoreDuplicates: true });
+            if (result.error) throw new Error('Profile creation was not acknowledged');
+          } catch {
+            throw new PantryError('storage_unavailable', 503, 'Couldn’t prepare this account. Retry when connected.');
+          }
+
+          // Mirror only after the cloud acknowledges the application profile.
           upsertUserProfileToSqlite(profile);
 
           return {
@@ -128,7 +143,10 @@ export async function resolveCurrentUserProfile(): Promise<{
             supabaseConfigured: true,
           };
         }
-      } catch {
+      } catch (error) {
+        // A verified account with a failed cloud write must never become a
+        // successful local/guest session or acknowledge pending inventory edits.
+        if (error instanceof PantryError) throw error;
         // Fall through to local cookie check
       }
     }
