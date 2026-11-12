@@ -1,4 +1,4 @@
-> v1.6.2 release candidate: barcode entry/camera and shared static/unpriced staple estimates. Production rollout/publication are pending. See [candidate notes](../releases/v1.6.2.md), [rollout plan](../releases/v1.6.2-rollout.md) and the [accepted verification limits](../research/v1.6.2-barcode-verification-acceptance.md).
+> v1.6.2 was released November 12, 2026: barcode entry/camera and shared static/unpriced staple estimates. The maintainer attested production is functioning as expected; itemized production receipts are not recorded. See [release notes](../releases/v1.6.2.md), [rollout plan](../releases/v1.6.2-rollout.md) and the [accepted verification limits](../research/v1.6.2-barcode-verification-acceptance.md).
 
 # PantryBot Wiki
 

@@ -1,4 +1,4 @@
-> v1.6.2 candidate: [release notes](../releases/v1.6.2.md) and [rollout plan](../releases/v1.6.2-rollout.md). The [November 12 #649 acceptance](../research/v1.6.2-barcode-verification-acceptance.md) accepts reduced pre-release verification based on limited maintainer-reported iOS Safari smoke tests; the unrun remainder is not recorded as passed. Production acceptance is still pending.
+> v1.6.2 (released November 12, 2026): [release notes](../releases/v1.6.2.md) and [rollout plan](../releases/v1.6.2-rollout.md). The [November 12 #649 acceptance](../research/v1.6.2-barcode-verification-acceptance.md) accepts reduced pre-release verification based on limited maintainer-reported iOS Safari smoke tests; the unrun remainder is not recorded as passed. The maintainer attested production is functioning as expected; itemized production receipts are not recorded.
 
 # Virtual Pantry
 
