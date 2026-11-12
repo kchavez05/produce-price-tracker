@@ -1,0 +1,36 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-11-11T23:00:00Z" },
+  "title": "PantryBot v2.0 Wireframes",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 390, "h": 844, "title": "Shop" },
+    "Pantry.dc.html": { "x": 470, "y": 0, "w": 390, "h": 844, "title": "Pantry" },
+    "Plan.dc.html": { "x": 940, "y": 0, "w": 390, "h": 844, "title": "Plan" },
+    "Settings.dc.html": { "x": 1410, "y": 0, "w": 390, "h": 844, "title": "Account and Settings" },
+    "Onboarding.dc.html": { "x": 1880, "y": 0, "w": 390, "h": 844, "title": "First-Run Setup" },
+    "IpadShop.dc.html": { "x": 0, "y": 1800, "w": 1194, "h": 834, "title": "iPad Shop (Landscape)" },
+    "IpadPantry.dc.html": { "x": 1274, "y": 1800, "w": 1194, "h": 834, "title": "iPad Pantry (Landscape)" },
+    "IpadPlan.dc.html": { "x": 2548, "y": 1800, "w": 1194, "h": 834, "title": "iPad Plan (Landscape)" },
+    "IpadSettings.dc.html": { "x": 0, "y": 2934, "w": 1194, "h": 834, "title": "iPad Account and Settings (Landscape)" },
+    "IpadShopPortrait.dc.html": { "x": 1274, "y": 2934, "w": 834, "h": 1194, "title": "iPad Shop (Portrait)" }
+  },
+  "order": ["Main.dc.html", "Pantry.dc.html", "Plan.dc.html", "Settings.dc.html", "Onboarding.dc.html", "IpadShop.dc.html", "IpadPantry.dc.html", "IpadPlan.dc.html", "IpadSettings.dc.html", "IpadShopPortrait.dc.html"],
+  "notes": {
+    "title": { "x": 0, "y": -260, "text": "V2.0 iPhone Wireframes, Round 1", "kind": "title1", "maxW": 2270 },
+    "shop": { "x": 0, "y": 884, "w": 390, "fill": "blue", "text": "Shop: the home tab. Top of screen is deals, not setup. ZIP and stores are a read-only line that links to Settings. The long ad-cycle notice becomes one freshness line. Trip (shopping list) and Radar are sections of Shop. 'Have it' is a quiet secondary action, never required." },
+    "pantry": { "x": 470, "y": 884, "w": 390, "fill": "green", "text": "Pantry: its own destination. Add by search, scan (v1.6.2) or voice (version TBD). Nothing is required: the banner says so. Yes/No per ingredient, as in v1.6.0. Sync status stays visible but quiet." },
+    "pantry-idea": { "x": 470, "y": 1100, "w": 390, "fill": "gray", "text": "Idea, post-MVP: keep the first choice a plain Yes/No. After choosing Yes, optionally drill down to 'Have Lots' or 'Have a Little' via long press, +/- buttons or multi-press. Amount never blocks the Yes." },
+    "plan": { "x": 940, "y": 884, "w": 390, "fill": "orange", "text": "Plan: works with no pantry data. Pantry-aware savings show as an optional hint that can be dismissed. Preferences are a summary chip that opens an editor. AI chef shows a sign-in state for guests (v1.7)." },
+    "settings": { "x": 1410, "y": 884, "w": 390, "fill": "purple", "text": "Account and Settings: opened from the header avatar on every tab. Location and stores live here only (no per-trip override). Also holds preferences, sync, AI sign-in, notifications and links to Data Explorer, API docs and legal." },
+    "onboarding": { "x": 1880, "y": 884, "w": 390, "fill": "teal", "text": "First Run: ZIP and stores, once. Skippable, with the current default applied. Guests keep it on the device and it syncs after sign-in. A second skippable step covers dietary and macro preferences." },
+    "ipad-title": { "x": 0, "y": 1540, "text": "V2.0 iPad Wireframes, Round 1", "kind": "title1", "maxW": 3742 },
+    "ipad-shop": { "x": 0, "y": 2674, "w": 390, "fill": "blue", "text": "iPad Shop (landscape): sidebar for Shop, Pantry and Plan, with the account at the bottom. Deals list on the left, the selected deal's detail on the right. Same content and the same quiet 'Have It' as iPhone; the detail pane is where price history and club benchmarks get room." },
+    "ipad-pantry": { "x": 1274, "y": 2674, "w": 390, "fill": "green", "text": "iPad Pantry (landscape): ingredient list on the left, optional details on the right. The detail pane shows where the ingredient is used in this week's plan, never as a requirement. Scan and Voice entries sit beside search." },
+    "ipad-plan": { "x": 2548, "y": 2674, "w": 390, "fill": "orange", "text": "iPad Plan (landscape): dishes on the left, the selected dish on the right with ingredients tagged 'At Home' or priced from Shop. 'Add Missing to Trip' is the single primary action." },
+    "ipad-settings": { "x": 0, "y": 3808, "w": 390, "fill": "purple", "text": "iPad Account and Settings: a centered form sheet over the current screen instead of a full-screen page. Same sections and order as iPhone." },
+    "ipad-portrait": { "x": 1274, "y": 4168, "w": 390, "fill": "gray", "text": "iPad Shop (portrait): the sidebar collapses to an icon rail so the deals list keeps the width, shown as a two-column grid. Tapping a deal opens its detail as a sheet. The iPad mini uses this layout." }
+  },
+  "designSystems": []
+}

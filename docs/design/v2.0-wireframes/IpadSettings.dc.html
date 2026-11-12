@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>iPad Account and settings wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:1194px;height:834px;box-sizing:border-box;background:#fff;display:flex;overflow:hidden;border:1px solid #cfcfcf;position:relative}
+.side{width:240px;flex:none;background:#f3f3f3;border-right:1px solid #cfcfcf;display:flex;flex-direction:column;padding:20px 12px;gap:6px;box-sizing:border-box}
+.logo{font-weight:700;font-size:20px;padding:0 8px 16px}
+.nav{min-height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:10px;font-size:16px;color:#333;border:0;background:none;font-family:inherit;text-align:left;width:100%}
+.nav.on{background:#1f1f1f;color:#fff;font-weight:700}
+.ico{width:22px;height:22px;border:2px solid currentColor;border-radius:6px;box-sizing:border-box;flex:none}
+.bg{flex:1;padding:24px;display:flex;flex-direction:column;gap:12px}
+.ph{background:#e4e4e4;border-radius:10px}
+.dim{position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.sheet{width:560px;height:700px;background:#fff;border-radius:16px;border:1px solid #6b6b6b;display:flex;flex-direction:column;overflow:hidden}
+.nv{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e4e4e4;flex:none}
+.close{min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:18px;font-weight:700}
+.bd{flex:1;overflow:hidden;padding:12px 20px;display:flex;flex-direction:column;gap:4px}
+.avatar{width:56px;height:56px;border-radius:50%;background:#e4e4e4;border:1px solid #6b6b6b;display:flex;align-items:center;justify-content:center;font-size:11px;color:#333;flex:none}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #1f1f1f;background:#1f1f1f;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff;font-family:inherit}
+.sec{font-size:14px;font-weight:700;color:#595959;margin-top:10px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;border-bottom:1px solid #e4e4e4;font-size:15px;background:none;border-left:0;border-right:0;border-top:0;font-family:inherit;color:#1f1f1f;text-align:left;width:100%}
+.val{font-size:13px;color:#595959}
+.row{display:flex;align-items:center;gap:12px}
+.muted{color:#595959;font-size:13px}
+</style>
+</helmet>
+<div class="scr">
+  <div class="side">
+    <div class="logo">PantryBot</div>
+    <button type="button" class="nav on"><span class="ico"></span>Shop</button>
+    <button type="button" class="nav"><span class="ico"></span>Pantry</button>
+    <button type="button" class="nav"><span class="ico"></span>Plan</button>
+  </div>
+  <div class="bg">
+    <div class="ph" style="height:60px"></div>
+    <div class="ph" style="height:140px"></div>
+    <div class="ph" style="height:140px"></div>
+  </div>
+  <div class="dim">
+    <div class="sheet" role="dialog" aria-label="Account and settings">
+      <div class="nv">
+        <span style="width:44px"></span>
+        <h1 class="ttl" style="margin:0">Account and Settings</h1>
+        <button type="button" class="close">Done</button>
+      </div>
+      <div class="bd">
+        <div class="row" style="padding:4px 0">
+          <div class="avatar">Guest</div>
+          <div style="flex:1"><b>Guest</b><div class="muted">Saved on this device</div></div>
+          <button type="button" class="btn">Sign in</button>
+        </div>
+        <div class="sec">Shopping</div>
+        <button type="button" class="item"><span>Location</span><span class="val">Mead, CO 80542</span></button>
+        <button type="button" class="item"><span>My stores</span><span class="val">6 selected</span></button>
+        <div class="sec">Meal Prep</div>
+        <button type="button" class="item"><span>Dietary, macros, cookware</span><span class="val">Any</span></button>
+        <button type="button" class="item"><span>Default servings</span><span class="val">6</span></button>
+        <div class="sec">Account</div>
+        <button type="button" class="item"><span>Sync status</span><span class="val">Device only</span></button>
+        <button type="button" class="item"><span>AI features</span><span class="val">Sign in to access</span></button>
+        <button type="button" class="item"><span>Weekly digest</span><span class="val">Preview</span></button>
+        <div class="sec">About</div>
+        <button type="button" class="item"><span>Data Explorer, API docs, privacy and terms</span><span class="val">Open</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
