@@ -12,6 +12,7 @@ function json(value: BarcodeLookupResult, status = 200, extra: Record<string, st
   return new NextResponse(body, { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'private, no-store', ...extra } });
 }
 export async function POST(request: NextRequest) {
+  const requestStarted = performance.now();
   if (!verifySameOrigin(request)) return json({ status: 'INVALID', message: 'A same-origin request is required.' }, 403);
   if (process.env.PANTRYBOT_PANTRY_ENABLED !== 'true' || process.env.PANTRYBOT_BARCODE_LOOKUP_ENABLED !== 'true') return json({ status: 'DISABLED', message: 'Product lookup is not enabled. Ingredient search and custom entry remain available.' }, 503);
   // In-process throttling is supplementary. Public activation needs deployed shared enforcement.
@@ -38,7 +39,11 @@ export async function POST(request: NextRequest) {
     const body = input as Record<string, unknown>;
     const validated = validateBarcode(body.barcode, body.format === undefined ? 'MANUAL' : body.format);
     if (!validated.ok) return json({ status: validated.status, message: validated.message }, 400);
+    const lookupStarted = performance.now();
     const result = await lookupConfiguredBarcode(validated.barcode);
-    return json(result, result.status === 'SERVICE_UNAVAILABLE' ? 503 : 200);
+    // Numeric timings distinguish index initialization/query work from time outside
+    // this handler. They contain no barcode, identity, or per-request identifier.
+    const timing = `barcode_lookup;dur=${(performance.now() - lookupStarted).toFixed(1)}, barcode_handler;dur=${(performance.now() - requestStarted).toFixed(1)}`;
+    return json(result, result.status === 'SERVICE_UNAVAILABLE' ? 503 : 200, { 'Server-Timing': timing });
   } catch { return json({ status: 'SERVICE_UNAVAILABLE', message: 'Lookup could not complete. Choose an ingredient manually.' }, 503); }
 }

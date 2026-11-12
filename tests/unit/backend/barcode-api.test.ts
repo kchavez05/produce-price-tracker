@@ -27,6 +27,15 @@ describe('bounded keyless public-product lookup API', () => {
     expect(response.status).toBe(200); expect(response.headers.get('Cache-Control')).toBe('private, no-store');
     expect(lookup).toHaveBeenCalledWith({ original: ' 036000291452 ', digits: '036000291452', key: '00036000291452', format: 'MANUAL' });
   });
+  it('exposes only numeric handler/lookup timing for a recoverable index failure', async () => {
+    lookup.mockResolvedValueOnce({ status: 'SERVICE_UNAVAILABLE', message: 'Unavailable.' });
+    const response = await POST(request({ barcode: '036000291452' }));
+    expect(response.status).toBe(503);
+    expect(response.headers.get('Cache-Control')).toBe('private, no-store');
+    const timing = response.headers.get('Server-Timing');
+    expect(timing).toMatch(/^barcode_lookup;dur=\d+\.\d, barcode_handler;dur=\d+\.\d$/);
+    expect(timing).not.toContain('036000291452');
+  });
   it('blocks cross-origin traffic and throttles a single IP', async () => {
     expect((await POST(request({ barcode: '036000291452' }, { origin: 'https://other.test' }))).status).toBe(403);
     let response!: Response;
