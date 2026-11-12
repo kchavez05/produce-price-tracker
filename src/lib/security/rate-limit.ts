@@ -5,8 +5,21 @@ interface RateLimitBucket {
   resetAtMs: number;
 }
 
-const rateLimitStore = new Map<string, RateLimitBucket>();
-const MAX_BUCKETS = 5000;
+// Scopes are application-owned, never request/account-derived. Reserve capacity
+// for every route within the existing 5,000-bucket process budget so one route
+// cannot consume authentication or another route's slots.
+const scopes = [
+  'auth-callback', 'weekly-preview', 'weekly-manual', 'dashboard',
+  'api-ai-meal-plan', 'ai-account', 'market-health', 'api-pantry',
+  'api-recipes-write', 'api-freezer-write', 'api-account-export', 'api-account-auth',
+  'api-account-delete', 'api-sync-get', 'api-sync-post', 'barcode-lookup',
+  'data-download', 'data-read',
+] as const;
+type RateLimitScope = typeof scopes[number];
+const MAX_BUCKETS_PER_SCOPE = Math.floor(5000 / scopes.length);
+const rateLimitStore = new Map<RateLimitScope, { buckets: Map<string, RateLimitBucket>; nextExpiryMs: number }>(
+  scopes.map((scope) => [scope, { buckets: new Map(), nextExpiryMs: Infinity }])
+);
 
 export interface RateLimitResult {
   allowed: boolean;
@@ -32,10 +45,12 @@ export function getClientIp(request: NextRequest): string {
 
 /**
  * Enforces an in-memory fixed-window rate limit per IP and route scope.
+ * Use a fixed policy per trusted scope. At capacity, Retry-After describes the
+ * next available identity slot, not a fresh caller's request allowance.
  */
 export function checkRateLimit(
   request: NextRequest,
-  scope: string,
+  scope: RateLimitScope,
   limit = 30,
   windowMs = 60_000,
   identity?: string
@@ -43,28 +58,33 @@ export function checkRateLimit(
   const now = Date.now();
 
   const ip = identity ?? getClientIp(request);
-  const key = `${scope}:${ip}`;
-  const existing = rateLimitStore.get(key);
+  const store = rateLimitStore.get(scope);
+  if (!store) return { allowed: false, limit, remaining: 0, resetInSeconds: Math.max(1, Math.ceil(windowMs / 1000)) };
+  const existing = store.buckets.get(ip);
 
   if (!existing || existing.resetAtMs <= now) {
-    if (!existing && rateLimitStore.size >= MAX_BUCKETS) {
-      let earliestReset = now + windowMs;
-      for (const [bucketKey, bucket] of rateLimitStore) {
-        if (bucket.resetAtMs <= now) rateLimitStore.delete(bucketKey);
-        else earliestReset = Math.min(earliestReset, bucket.resetAtMs);
+    if (!existing && store.buckets.size >= MAX_BUCKETS_PER_SCOPE) {
+      // At capacity, do not rescan until an expiry can actually free a slot.
+      if (store.nextExpiryMs <= now) {
+        store.nextExpiryMs = Infinity;
+        for (const [bucketKey, bucket] of store.buckets) {
+          if (bucket.resetAtMs <= now) store.buckets.delete(bucketKey);
+          else store.nextExpiryMs = Math.min(store.nextExpiryMs, bucket.resetAtMs);
+        }
       }
       // Keep active clients' counters; new identities fail closed at capacity.
       // Evict only expired buckets, so rotating identities cannot reset throttled clients.
-      if (rateLimitStore.size >= MAX_BUCKETS) return {
+      if (store.buckets.size >= MAX_BUCKETS_PER_SCOPE) return {
         allowed: false, limit, remaining: 0,
-        resetInSeconds: Math.max(1, Math.ceil((earliestReset - now) / 1000)),
+        resetInSeconds: Math.max(1, Math.ceil((store.nextExpiryMs - now) / 1000)),
       };
     }
     const nextBucket: RateLimitBucket = {
       count: 1,
       resetAtMs: now + windowMs,
     };
-    rateLimitStore.set(key, nextBucket);
+    store.buckets.set(ip, nextBucket);
+    store.nextExpiryMs = Math.min(store.nextExpiryMs, nextBucket.resetAtMs);
     return {
       allowed: true,
       limit,

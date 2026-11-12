@@ -1454,8 +1454,8 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       BarcodeProduct: {
         type: 'object', properties: {
           source: { type: 'string', enum: ['USDA_FDC_BRANDED'] }, fdcId: { type: 'string' }, originalBarcode: { type: 'string' }, description: { type: 'string' },
-          brandName: { type: 'string', nullable: true }, brandOwner: { type: 'string', nullable: true }, packageLabel: { type: 'string', nullable: true },
-          marketCountry: { type: 'string' }, publicationDate: { type: 'string', format: 'date' }, modifiedDate: { type: 'string', nullable: true }, availableDate: { type: 'string', nullable: true },
+          brandName: { type: ['string', 'null'] }, brandOwner: { type: ['string', 'null'] }, packageLabel: { type: ['string', 'null'] },
+          marketCountry: { type: 'string' }, publicationDate: { type: 'string', format: 'date' }, modifiedDate: { type: ['string', 'null'] }, availableDate: { type: ['string', 'null'] },
           snapshotDate: { type: 'string', format: 'date' }, sourceUrl: { type: 'string', format: 'uri' },
         }, required: ['source', 'fdcId', 'originalBarcode', 'description', 'brandName', 'brandOwner', 'packageLabel', 'marketCountry', 'publicationDate', 'modifiedDate', 'availableDate', 'snapshotDate', 'sourceUrl'],
       },
@@ -1465,7 +1465,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       BarcodeLookupResult: {
         oneOf: [
           { type: 'object', properties: { status: { type: 'string', enum: ['FOUND'] }, barcode: { $ref: '#/components/schemas/ValidatedBarcode' }, product: { $ref: '#/components/schemas/BarcodeProduct' },
-            suggestion: { type: 'object', nullable: true, properties: { ingredientId: { type: 'string' }, ruleId: { type: 'string' } }, required: ['ingredientId', 'ruleId'] } }, required: ['status', 'barcode', 'product', 'suggestion'] },
+            suggestion: { type: ['object', 'null'], properties: { ingredientId: { type: 'string' }, ruleId: { type: 'string' } }, required: ['ingredientId', 'ruleId'] } }, required: ['status', 'barcode', 'product', 'suggestion'] },
           { type: 'object', properties: { status: { type: 'string', enum: ['AMBIGUOUS_PRODUCT'] }, barcode: { $ref: '#/components/schemas/ValidatedBarcode' }, products: { type: 'array', maxItems: 5, items: { $ref: '#/components/schemas/BarcodeProduct' } }, matchCount: { type: 'integer', minimum: 2 } }, required: ['status', 'barcode', 'products', 'matchCount'] },
           { type: 'object', properties: { status: { type: 'string', enum: ['INVALID', 'UNSUPPORTED', 'NOT_FOUND', 'DISCONTINUED', 'SOURCE_DATE_HOLD', 'DISABLED', 'SERVICE_UNAVAILABLE', 'THROTTLED'] }, message: { type: 'string' } }, required: ['status', 'message'] },
         ], discriminator: { propertyName: 'status' },
@@ -1480,9 +1480,9 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       PantryPriceDetail: {
         allOf: [{ $ref: '#/components/schemas/PantryRequirement' }, {
           type: 'object', properties: {
-            requirementKey: { type: 'string' }, allocatedCents: { type: 'integer', minimum: 0, nullable: true, description: 'Authoritative integer recipe allocation.' },
+            requirementKey: { type: 'string' }, allocatedCents: { type: ['integer', 'null'], minimum: 0, description: 'Authoritative integer recipe allocation.' },
             priceBasis: { type: 'string', enum: ['OBSERVED', 'STATIC_ESTIMATE', 'UNPRICED', 'ON_HAND', 'OPTIONAL'] },
-            estimatedCost: { type: 'number', nullable: true, description: 'Allocated USD recipe cents; null means unpriced.' },
+            estimatedCost: { type: ['number', 'null'], description: 'Allocated USD recipe cents; null means unpriced.' },
             observation: { type: 'object', properties: {
               source: { type: 'string', enum: ['KROGER_PRODUCTION'] }, quoteId: { type: 'string' },
               productId: { type: 'string' }, itemId: { type: 'string' }, locationId: { type: 'string' },

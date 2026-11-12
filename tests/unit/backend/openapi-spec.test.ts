@@ -4,6 +4,16 @@ import { describe, it, expect } from 'vitest';
 import { PANTRYBOT_OPENAPI_SPEC } from '@/lib/openapi/spec';
 
 describe('unit: OpenAPI 3.1.0 Specification', () => {
+  it('declares actual nullable barcode and unpriced values with JSON Schema null unions', () => {
+    const schemas = PANTRYBOT_OPENAPI_SPEC.components.schemas;
+    for (const key of ['brandName', 'brandOwner', 'packageLabel', 'modifiedDate', 'availableDate'] as const) {
+      expect(schemas.BarcodeProduct.properties[key].type).toEqual(['string', 'null']);
+    }
+    expect(schemas.BarcodeLookupResult.oneOf[0].properties.suggestion?.type).toEqual(['object', 'null']);
+    expect(schemas.PantryPriceDetail.allOf[1].properties?.allocatedCents.type).toEqual(['integer', 'null']);
+    expect(schemas.PantryPriceDetail.allOf[1].properties?.estimatedCost.type).toEqual(['number', 'null']);
+    expect(JSON.stringify(PANTRYBOT_OPENAPI_SPEC)).not.toContain('"nullable":');
+  });
   it('keeps lockfile release metadata aligned with the package version', () => {
     expect(lockInfo.version).toBe(packageInfo.version);
     expect(lockInfo.packages[''].version).toBe(packageInfo.version);
