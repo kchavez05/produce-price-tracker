@@ -176,7 +176,7 @@ function run() {
     assert(previous.ingredients.every((r) => catalog.ingredients.some((current) => current.id === r.id)), 'Accepted historical identity was removed');
     return { version: view.version, ingredientCount: previous.ingredients.length, exact: true };
   });
-  const migrationFiles = ['20261031143749_pantry_legumes_grains_flours.sql', '20261106155015_pantry_vegetables_aromatics.sql', '20261106161943_pantry_staples_proteins.sql', '20261106170650_pantry_spice_forms.sql', '20261106175108_pantry_remaining_vegetables.sql'];
+  const migrationFiles = ['20261108153507_pantry_legumes_grains_flours.sql', '20261108153510_pantry_vegetables_aromatics.sql', '20261108153514_pantry_staples_proteins.sql', '20261108153517_pantry_spice_forms.sql', '20261108153525_pantry_remaining_vegetables.sql'];
   const migrations = migrationFiles.map((file) => {
     const sql = readFileSync(`supabase/migrations/${file}`, 'utf8');
     const ids = [...sql.matchAll(/\('([a-z0-9-]+)'\)/g)].map((match) => match[1]);
