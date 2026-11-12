@@ -5,7 +5,7 @@ let db: PGlite;
 beforeAll(async () => {
  db = new PGlite();
  await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
- await db.exec(readFileSync('supabase/migrations/20261029154017_active_market_collection.sql','utf8'));
+ await db.exec(readFileSync('supabase/migrations/20261029160115_active_market_collection.sql','utf8'));
 });
 afterAll(async () => { await db.close(); });
 describe('active market scheduler', () => {
