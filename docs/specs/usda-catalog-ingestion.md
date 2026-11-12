@@ -187,7 +187,7 @@ The current importer and [October review report](../research/usda-fdc-2026-10-29
 2. Extend discovery to replay unchanged decisions, report material diffs, and compile approved versioned artifacts.
 3. Curate the initial cooking catalog, starting with Foundation-backed entries and targeted SR/curated gaps. Preserve existing IDs and explicitly approve aliases and source links.
 4. Implement grouped search and optional varieties, the reviewed directional compatibility contract, and update/rollback compatibility tests. These are future behavior; do not enable them by documenting them.
-5. Publish the reviewed generic catalog through the normal environment/release gates. Keep product/barcode lookup and dynamic pricing in v1.6.2.
+5. Publish the reviewed generic catalog through the normal environment/release gates. Keep product/barcode lookup in v1.6.2. The November 12 [scope amendment](../research/v1.6.2-static-pricing-scope-amendment.md) defers new live store API pricing to separate multi-store work; MVP staple estimates remain static/unpriced.
 
 Approval of this spec governs future runs; it does not automatically approve any candidate, source-to-ingredient mapping, or deployment.
 
