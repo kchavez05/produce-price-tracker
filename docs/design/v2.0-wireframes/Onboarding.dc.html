@@ -15,6 +15,7 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
 .steps{font-size:13px;color:#595959;margin-top:24px}
 .h{font-size:26px;font-weight:700;margin:6px 0 4px}
 .muted{color:#595959;font-size:14px}
+a{text-decoration:none;box-sizing:border-box}
 .field{min-height:48px;border:1px solid #6b6b6b;border-radius:10px;padding:0 12px;display:flex;align-items:center;font-size:16px;margin-top:16px;background:#fff;font-family:inherit;width:100%;box-sizing:border-box;color:#1f1f1f}
 label{font-size:13px;font-weight:600;margin-top:20px;display:block}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
@@ -41,8 +42,8 @@ label{font-size:13px;font-weight:600;margin-top:20px;display:block}
     <button type="button" class="chip">Target</button>
   </div>
   <div style="flex:1"></div>
-  <button type="button" class="btn">Continue</button>
-  <button type="button" class="link">Skip for now (uses ZIP 80542 and all stores)</button>
+  <a class="btn" href="OnboardingPrefs.dc.html">Continue</a>
+  <a class="link" href="Main.dc.html">Skip for now (uses ZIP 80542 and all stores)</a>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>

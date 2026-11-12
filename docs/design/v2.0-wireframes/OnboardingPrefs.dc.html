@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>First-run setup step 2 wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf;padding:24px 16px}
+.logo{font-weight:700;font-size:18px}
+.steps{font-size:13px;color:#595959;margin-top:24px}
+.h{font-size:26px;font-weight:700;margin:6px 0 4px}
+.muted{color:#595959;font-size:14px}
+a{text-decoration:none;box-sizing:border-box}
+.sec{font-size:14px;font-weight:700;color:#595959;margin-top:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;background:#fff;font-family:inherit}
+.chip.on{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.btn{min-height:48px;border-radius:10px;border:1px solid #1f1f1f;background:#1f1f1f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;font-family:inherit;width:100%}
+.link{min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#1d4ed8;text-decoration:underline;font-family:inherit;background:none;border:0;width:100%}
+</style>
+</helmet>
+<div class="scr">
+  <div class="logo">PantryBot</div>
+  <div class="steps">Step 2 of 2</div>
+  <h1 class="h">Any Food Preferences?</h1>
+  <div class="muted">Optional. We use these to suggest dishes. Change them anytime in Settings.</div>
+  <div class="sec">Dietary Restrictions</div>
+  <div class="chips">
+    <button type="button" class="chip on">None</button>
+    <button type="button" class="chip">Vegetarian</button>
+    <button type="button" class="chip">Gluten-Free</button>
+    <button type="button" class="chip">Dairy-Free</button>
+    <button type="button" class="chip">Nut-Free</button>
+  </div>
+  <div class="sec">Macro Goal</div>
+  <div class="chips">
+    <button type="button" class="chip on">Any</button>
+    <button type="button" class="chip">High Protein</button>
+    <button type="button" class="chip">Low Carb</button>
+    <button type="button" class="chip">Balanced</button>
+  </div>
+  <div style="flex:1"></div>
+  <a class="btn" href="Main.dc.html">Finish</a>
+  <a class="link" href="Main.dc.html">Skip for Now</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
