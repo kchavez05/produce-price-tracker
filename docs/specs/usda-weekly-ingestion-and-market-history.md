@@ -135,7 +135,7 @@ Support future queries by ingredient, region, store, source period, observation 
 2. **Create storage:** migration adds durable versioned data, deduplication, publication transaction and least-privilege grants. Confirm browser roles cannot read raw tables or invoke publishing; server writes and bounded reads succeed.
 3. **Implement A:** deploy ingestion disabled, run an authenticated controlled batch, verify data and retries, then switch dashboard reads to Supabase and enable Wednesday scheduling. Keep deterministic fallback when keys or cloud storage are unavailable.
 4. **Implement B:** archive live market offers, import only eligible legacy history, switch production history queries to Supabase, and stop treating production SQLite as durable shared storage. Reconcile counts and representative six-week series before retiring old reads.
-5. **Verify rollout:** follow branch/PR/release rules in `AGENTS.md`, with all required local checks, CI, preview and completed Codex review. Production enablement follows the release process. Preserve stored history on rollback; disable ingestion and return to labeled static baselines if necessary, never restore per-request USDA calls.
+5. **Verify rollout:** follow branch/PR/release rules in `AGENTS.md`, with all required local checks, CI, preview and completed Claude review. Production enablement follows the release process. Preserve stored history on rollback; disable ingestion and return to labeled static baselines if necessary, never restore per-request USDA calls.
 
 Acceptance tests must prove:
 
