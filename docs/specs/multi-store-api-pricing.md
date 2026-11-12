@@ -1,0 +1,18 @@
+# Multi-store API pricing — post-MVP planning scope
+
+Status: Backlog; separate scope accepted November 12, 2026 under [#689](https://github.com/kchavez05/produce-price-tracker/issues/689). No release milestone, vendor selection, implementation design or source activation is committed. This document bounds future discovery and delivery; approve the detailed implementation specification and schedule before adapter work starts.
+
+## Outcome and coverage
+
+Integrate qualified current prices from multiple independent retail API providers into consistent recipe and shopping estimates. Kroger/King Soopers is one candidate; multiple banners on the same API do not satisfy multi-provider coverage. Discover at least two independent providers with usable access and target-market coverage. Record inaccessible, unsuitable and rejected candidates rather than assuming public APIs, commercial rights or paid services exist.
+
+Existing MVP static/unpriced estimates and market-discovery behavior remain usable throughout. Preserve the shared evaluator, pantry ownership, saved documents, reviewed food/form/unit boundaries, pinned alternatives and dietary rules. Product lookup by barcode remains a separate USDA identity service and cannot establish a current store price.
+
+## Work packages
+
+1. **Provider qualification — #651.** Establish each API's supported access, locations, currency, regular/conditional price semantics, validity timezone, availability meaning, rate budgets, attribution, display and derived-cost/comparison rights, retention and deletion. Obtain authoritative evidence or provider clarification before each real adapter. Avoid cross-retailer comparisons where a provider's contract does not permit them. Kroger's existing sample, unresolved questions and unsent clarification request are one candidate's historical evidence.
+2. **Shared architecture and adapters — #652.** Review a provider-neutral quote/admission contract that preserves exact source product/item revision, ingredient/form, original package evidence, compatible units, store/market, currency/conditions, observation/effective/expiry times, provenance and rejection reasons. Isolate each provider's credentials, parsing, requests and disable controls. Do not assume the existing Kroger-oriented synthetic evaluator can admit another provider without reviewed changes.
+3. **Operations and integration — #652.** Bound aggregate and per-provider requests, retries/timeouts, parsing and cache growth. Honor contractual retention and throttling. Define expiry/day invalidation, sanitized diagnostics and independent rollback. Apply qualified observations through one context for current/saved recipes and shopping; preserve explicit static/unpriced fallback without inventory writes or silent food substitutions.
+4. **Coverage and release.** Record actual product/form/unit and per-recipe coverage, selected-location filtering, conditional/unconditional prices, stock uncertainty, conversion/rounding/tie behavior and partial gaps for multiple independent providers. Verify owner-safe saved reevaluation, outage/keyless recovery and staged production behavior. Assign a release parent/milestone before implementation; publish only after the applicable provider and production gates pass. If multi-provider delivery is infeasible, request an explicit scope revision.
+
+The accepted MVP deferral is recorded in the [v1.6.2 amendment](../research/v1.6.2-static-pricing-scope-amendment.md). Original pricing packets remain immutable research/foundation evidence; they approve neither new providers nor source access. Provider contact, purchases, partnerships, hosted changes and activation require their applicable authorization.
