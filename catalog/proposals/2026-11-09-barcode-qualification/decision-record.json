@@ -1,0 +1,9 @@
+{
+  "status": "approved_for_implementation",
+  "approvalDate": "2026-11-10",
+  "approvalSource": "maintainer response in chat",
+  "approvalText": "Approve BQ-01–04 as proposed (recommended)",
+  "packetSha256": "f4888a5802f555b2919ed6b2ea6b5b9041876aa918153520c1d0a95299decb00",
+  "approvedDecisions": ["BQ-01", "BQ-02", "BQ-03", "BQ-04"],
+  "scope": "Implementation of the bound barcode proposal. Public lookup and camera activation still require the documented deployment, shared abuse-control and real-device gates. Independent observed-price permissions remain unresolved."
+}

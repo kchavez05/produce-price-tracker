@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>iPad Pantry wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:1194px;height:834px;box-sizing:border-box;background:#fff;display:flex;overflow:hidden;border:1px solid #cfcfcf}
+.side{width:240px;flex:none;background:#f3f3f3;border-right:1px solid #cfcfcf;display:flex;flex-direction:column;padding:20px 12px;gap:6px;box-sizing:border-box}
+.logo{font-weight:700;font-size:20px;padding:0 8px 16px}
+.nav{min-height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:10px;font-size:16px;color:#333;border:0;background:none;font-family:inherit;text-align:left;width:100%}
+.nav.on{background:#1f1f1f;color:#fff;font-weight:700}
+.ico{width:22px;height:22px;border:2px solid currentColor;border-radius:6px;box-sizing:border-box;flex:none}
+.acct{display:flex;align-items:center;gap:10px;min-height:56px;padding:0 8px;border-top:1px solid #cfcfcf;margin-top:auto;border-left:0;border-right:0;border-bottom:0;background:none;font-family:inherit;text-align:left;color:#1f1f1f;width:100%}
+.avatar{width:44px;height:44px;border-radius:50%;background:#e4e4e4;border:1px solid #6b6b6b;display:flex;align-items:center;justify-content:center;font-size:11px;color:#333;flex:none}
+.list{width:380px;flex:none;border-right:1px solid #cfcfcf;padding:20px 16px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box;overflow:hidden}
+.detail{flex:1;padding:24px 28px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box;overflow:hidden}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#f0f0f0;display:flex;flex-direction:column;gap:8px;flex:none}
+.btn{min-height:48px;padding:0 20px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.row{display:flex;align-items:center;gap:8px}
+.muted{color:#595959;font-size:13px}
+.chips{display:flex;gap:8px;flex:none}
+.chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;white-space:nowrap;background:#fff;font-family:inherit}
+.chip.on{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.search{min-height:44px;border:1px solid #6b6b6b;border-radius:10px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:#595959;flex:1;background:#fff;font-family:inherit;text-align:left}
+.item{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:56px;border-bottom:1px solid #e4e4e4;padding:0 8px;border-radius:8px}
+.item.sel{background:#f0f0f0;font-weight:700}
+.yn{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
+.yn span{width:56px;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#333}
+.yn span.on{background:#1f1f1f;color:#fff}
+.sec{font-size:14px;font-weight:700;color:#595959}
+.field{min-height:48px;border:1px solid #6b6b6b;border-radius:10px;padding:0 12px;display:flex;align-items:center;font-size:15px;color:#595959;background:#fff}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a{text-decoration:none}
+</style>
+</helmet>
+<div class="scr">
+  <div class="side">
+    <div class="logo">PantryBot</div>
+    <a class="nav" href="IpadShop.dc.html"><span class="ico"></span>Shop</a>
+    <a class="nav on" href="IpadPantry.dc.html"><span class="ico"></span>Pantry</a>
+    <a class="nav" href="IpadPlan.dc.html"><span class="ico"></span>Plan</a>
+    <a class="acct" href="IpadSettings.dc.html" aria-label="Account and settings"><span class="avatar">Acct</span><span><b style="font-size:14px">Guest</b><br><span class="muted">Account and Settings</span></span></a>
+  </div>
+  <div class="list">
+    <h1 class="sr">Pantry</h1>
+    <div class="row">
+      <button type="button" class="search">Search or add an ingredient</button>
+      <button type="button" class="btn" style="padding:0 14px" aria-label="Add by scanning a barcode">Scan</button>
+      <button type="button" class="btn" style="padding:0 14px" aria-label="Add by voice">Voice</button>
+    </div>
+    <div class="card"><div class="muted">Optional. Tell PantryBot what you already have and Shop and Plan skip it. Nothing here is required.</div></div>
+    <div class="chips">
+      <button type="button" class="chip on">All</button>
+      <button type="button" class="chip">Have</button>
+      <button type="button" class="chip">Out</button>
+      <button type="button" class="chip">Stocked Up</button>
+    </div>
+    <div class="sec">Staples</div>
+    <div class="item sel"><span>Olive oil</span><div class="yn"><span class="on">Yes</span><span>No</span></div></div>
+    <div class="item"><span>Salt</span><div class="yn"><span class="on">Yes</span><span>No</span></div></div>
+    <div class="item"><span>Dry basmati rice</span><div class="yn"><span>Yes</span><span class="on">No</span></div></div>
+    <div class="sec">Stocked Up From Deals</div>
+    <div class="item"><span>Chicken thighs &middot; 3 lb frozen</span><span class="muted">Edit</span></div>
+    <div class="muted">Saved on this device &middot; Sign in to sync</div>
+  </div>
+  <div class="detail">
+    <h2 style="margin:0;font-size:26px">Olive Oil</h2>
+    <div class="row" style="justify-content:space-between">
+      <span class="muted">Do I have this?</span>
+      <div class="yn"><span class="on">Yes</span><span>No</span></div>
+    </div>
+    <div class="sec">Optional Details</div>
+    <div class="field">Quantity (optional)</div>
+    <div class="field">Where it is (optional)</div>
+    <div class="field">Notes (optional)</div>
+    <div class="sec">Used In This Week's Plan</div>
+    <div class="card" style="background:#fafafa"><span style="font-size:14px">Chicken and White Bean Stew, Squash and Lentil Braise</span></div>
+    <div class="sec">Current Deals</div>
+    <div class="card" style="background:#fafafa"><span class="muted">Not on sale at your stores this week.</span></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

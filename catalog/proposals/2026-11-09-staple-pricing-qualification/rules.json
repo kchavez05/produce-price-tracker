@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "status": "proposed_not_approved",
+  "runtimeActive": false,
+  "sourceGates": [
+    "unconditional_regular_USD_semantics",
+    "use_case_attribution_and_content_retention_rights"
+  ],
+  "decisions": [
+    {
+      "id": "PQ-01",
+      "name": "US customary measurement",
+      "proposal": "Use exact same-dimension US customary conversions. Bare oz is mass only when the source establishes mass. No global fo alias. No nutrition-serving-derived package quantity.",
+      "factors": {
+        "tsp_to_mL": "4.92892159375",
+        "tbsp_to_mL": "14.78676478125",
+        "cup_to_mL": "236.5882365",
+        "US_fl_oz_to_mL": "29.5735295625",
+        "oz_to_g": "28.349523125",
+        "lb_to_g": "453.59237"
+      }
+    },
+    {
+      "id": "PQ-02",
+      "name": "Versioned exact product admission",
+      "proposal": "Admit only reviewed product/item revisions and food forms, preserving scoped recipe and dietary requirements. Initial seed references are discovery references, not copied offers or approved runtime mappings.",
+      "scopedUnitException": {
+        "provider": "KROGER_PRODUCTION",
+        "productId": "0005160000004",
+        "label": "15 fo",
+        "normalizedAmount": "15",
+        "normalizedUnit": "US_fl_oz",
+        "manufacturerGTIN14": "00051600000044",
+        "evidenceURL": "https://www.kraftheinz.com/lea-perrins/products/00051600000044-the-original-worcestershire-sauce",
+        "claims": [
+          "manufacturer_gluten_free"
+        ],
+        "limits": "Exact US Original product/size, corroborated source revision only. No broad fo alias or automatic pantry compatibility edge."
+      }
+    },
+    {
+      "id": "PQ-03",
+      "name": "Canned recipe basis",
+      "proposal": "Use labeled unopened-can net contents for the five reviewed canned requirements, not drained food mass. Require explicit recipe requirement basis and source canned-form evidence. Missing/stale saved basis falls back; no yield rule or cooking-method change."
+    },
+    {
+      "id": "PQ-04",
+      "name": "Regular location quote",
+      "proposal": "Only Production location price.regular may become observed pricing after external unconditional USD semantics gate. Never use promo, nationalPrice, regularPerUnitEstimate or promoPerUnitEstimate. Preserve all counterevidence. Unknown conditions/currency are ineligible."
+    },
+    {
+      "id": "PQ-05",
+      "name": "Current quote and store selection",
+      "proposal": "Same America/Denver day, selected verified market/location, effective and unexpired. inStore means sold at location, not guaranteed inventory. Reject explicit out of stock; unknown inventory is disclosed. Select lowest exact compatible allocated unit cost, then newest observation, locationId, productId and itemId ascending. Resolve conflicting revisions first."
+    },
+    {
+      "id": "PQ-06",
+      "name": "Exact allocated costs",
+      "proposal": "Represent money in integer cents and quantities/conversions as bounded rational decimals. Sum exact costs per recipe, round once half-up, reconcile detail cents by largest remainder and stable requirement key. Shopping sums the authoritative allocated recipe rows. No package-checkout claim or invented savings."
+    },
+    {
+      "id": "PQ-07",
+      "name": "Fallback and shared context",
+      "proposal": "Observed then existing exact-unit static then unpriced. Yes removes additional need regardless of quantity. No preserves need. Immutable context includes date, market, locations, offers/revisions, source rules and serving count. Current/saved/shopping reuse the evaluator without inventory or saved-recipe writes."
+    },
+    {
+      "id": "PQ-08",
+      "name": "Operations and retention",
+      "proposal": "No persistent Kroger content cache or new raw quote fixtures absent permitted duration/rights. Request-only processing by default; independently disable observed pricing. Respect provider quota, bounded concurrency/timeouts/backoff, coalesce only if permitted, and keep credentials server-side. Retention/use-case gates remain external."
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://developer.kroger.com/api-products/api/product-api-public",
+      "version": "1.3.0",
+      "accessed": "2026-11-09",
+      "facts": [
+        "Location price differs from nationalPrice; regular differs from promo and per-unit estimates.",
+        "inStore indicates sold there, not in stock; inventory is separate.",
+        "Search is fuzzy; daily public product request limit is 10000."
+      ]
+    },
+    {
+      "url": "https://developer.kroger.com/terms",
+      "accessed": "2026-11-09",
+      "sections": [
+        "4(a)(10)",
+        "5(e)",
+        "6(b)",
+        "8(b)"
+      ],
+      "facts": [
+        "Content-copy/cache limits and use-case constraints require review; software license is not API content permission."
+      ]
+    },
+    {
+      "url": "https://www.unicode.org/cldr/charts/49/supplemental/unit_conversions.html",
+      "accessed": "2026-11-09",
+      "facts": [
+        "US customary volume factors distinguish customary, metric and imperial units."
+      ]
+    },
+    {
+      "url": "https://www.kraftheinz.com/lea-perrins/products/00051600000044-the-original-worcestershire-sauce",
+      "accessed": "2026-11-09",
+      "facts": [
+        "US Original 15 fluid ounce variant and manufacturer gluten-free claim corroborate a narrow proposed exception."
+      ]
+    },
+    {
+      "url": "https://www.mccormick.com/products/thai-kitchen-unsweetened-coconut-milk",
+      "accessed": "2026-11-09",
+      "facts": [
+        "Describes canned unsweetened coconut milk; exact full-fat variant binding remains unverified."
+      ]
+    },
+    {
+      "url": "https://www.campbellsfoodservice.com/product/chicken-broth-6/",
+      "accessed": "2026-11-09",
+      "facts": [
+        "Foodservice example is a different trade item and retains oz labeling; no retail volume override established."
+      ]
+    }
+  ],
+  "headerObservation": {
+    "observedAt": "2026-11-09T23:03:28Z",
+    "endpoint": "Production products search",
+    "httpStatus": 200,
+    "cacheControl": null,
+    "expires": null,
+    "age": null,
+    "payloadRetained": false,
+    "effect": "No positive cache lifetime established."
+  },
+  "coverage": [
+    {
+      "ingredientId": "chicken-broth",
+      "recipeUnit": "cup",
+      "proposal": "hold_volume_evidence",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "ground-cumin",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "mexican-oregano-dried",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "garlic-fresh",
+      "recipeUnit": "clove",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "cornstarch",
+      "recipeUnit": "tbsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "beef-broth",
+      "recipeUnit": "cup",
+      "proposal": "hold_volume_evidence",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "tomato-paste",
+      "recipeUnit": "tbsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "worcestershire-sauce-gluten-free",
+      "recipeUnit": "tbsp",
+      "proposal": "exact_manufacturer_exception_candidate",
+      "seedReferenceProductIds": [
+        "0005160000004"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "worcestershire-sauce",
+      "recipeUnit": "tbsp",
+      "proposal": "exact_manufacturer_exception_candidate",
+      "seedReferenceProductIds": [
+        "0005160000004"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "all-purpose-flour",
+      "recipeUnit": "tbsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "thyme-dried",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "bay-leaf",
+      "recipeUnit": "each",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "garlic-powder",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "onion-powder",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "smoked-paprika",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "olive-oil",
+      "recipeUnit": "tbsp",
+      "proposal": "direct_basis_candidate",
+      "seedReferenceProductIds": [
+        "0001111015145"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "black-beans-canned",
+      "recipeUnit": "oz",
+      "proposal": "canned_net_contents_candidate",
+      "seedReferenceProductIds": [
+        "0001111012118"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "kidney-beans-canned",
+      "recipeUnit": "oz",
+      "proposal": "canned_net_contents_candidate",
+      "seedReferenceProductIds": [
+        "0001111071787",
+        "0001111012109"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "crushed-tomatoes-canned",
+      "recipeUnit": "oz",
+      "proposal": "canned_net_contents_candidate",
+      "seedReferenceProductIds": [
+        "0001111080930",
+        "0002700037909"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "chili-powder",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "apple-cider-vinegar",
+      "recipeUnit": "tbsp",
+      "proposal": "direct_basis_candidate",
+      "seedReferenceProductIds": [
+        "0001111010765"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "whole-grain-mustard",
+      "recipeUnit": "tbsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "dijon-mustard",
+      "recipeUnit": "tbsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "caraway-seeds",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "cannellini-beans-canned",
+      "recipeUnit": "oz",
+      "proposal": "canned_net_contents_candidate",
+      "seedReferenceProductIds": [
+        "0001111012123"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "great-northern-beans-canned",
+      "recipeUnit": "oz",
+      "proposal": "canned_net_contents_candidate",
+      "seedReferenceProductIds": [
+        "0001111012121"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "italian-seasoning",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "red-pepper-flakes",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "curry-powder",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "garam-masala",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "coconut-milk-canned",
+      "recipeUnit": "cup",
+      "proposal": "hold_form_evidence",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "ginger-fresh",
+      "recipeUnit": "tbsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "basmati-rice-dry",
+      "recipeUnit": "cup",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "salt",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "black-pepper",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "avocado-oil",
+      "recipeUnit": "tbsp",
+      "proposal": "direct_basis_candidate",
+      "seedReferenceProductIds": [
+        "0073621170108"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "oregano-dried",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "lime-juice",
+      "recipeUnit": "tbsp",
+      "proposal": "direct_basis_candidate",
+      "seedReferenceProductIds": [
+        "0003619212216"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "coconut-aminos",
+      "recipeUnit": "tbsp",
+      "proposal": "hold_no_instore_sample",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "rosemary-dried",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "lemon-fresh",
+      "recipeUnit": "each",
+      "proposal": "direct_basis_candidate",
+      "seedReferenceProductIds": [
+        "0000000004958"
+      ],
+      "approved": false
+    },
+    {
+      "ingredientId": "dill-dried",
+      "recipeUnit": "tsp",
+      "proposal": "retain_static_conversion_gap",
+      "seedReferenceProductIds": [],
+      "approved": false
+    },
+    {
+      "ingredientId": "orange-juice",
+      "recipeUnit": "cup",
+      "proposal": "direct_basis_candidate",
+      "seedReferenceProductIds": [
+        "0001111015687"
+      ],
+      "approved": false
+    }
+  ]
+}

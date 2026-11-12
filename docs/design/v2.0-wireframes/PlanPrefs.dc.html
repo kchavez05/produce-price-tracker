@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plan preferences wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:60px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:18px;font-weight:700;margin:0}
+.body{flex:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:10px}
+.sec{font-size:14px;font-weight:700;color:#595959;margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;background:#fff;font-family:inherit}
+.chip.on{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.step{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
+.step span{width:56px;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#333}
+.step span.on{background:#1f1f1f;color:#fff}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.muted{color:#595959;font-size:13px}
+a{text-decoration:none;box-sizing:border-box}
+.btn{min-height:48px;border-radius:10px;border:1px solid #1f1f1f;background:#1f1f1f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;font-family:inherit;width:100%}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <a class="back" href="Plan.dc.html">Back</a>
+    <h1 class="ttl">Meal Prep Preferences</h1>
+    <span style="min-width:60px"></span>
+  </div>
+  <div class="body">
+    <div class="row"><div class="sec" style="margin:0">Servings</div><div class="step"><span>4</span><span class="on">6</span><span>8</span></div></div>
+    <div class="sec">Macro Goal</div>
+    <div class="chips">
+      <button type="button" class="chip on">Any</button>
+      <button type="button" class="chip">High Protein</button>
+      <button type="button" class="chip">Low Carb</button>
+      <button type="button" class="chip">Balanced</button>
+    </div>
+    <div class="sec">Dietary Restrictions</div>
+    <div class="chips">
+      <button type="button" class="chip on">None</button>
+      <button type="button" class="chip">Vegetarian</button>
+      <button type="button" class="chip">Gluten-Free</button>
+      <button type="button" class="chip">Dairy-Free</button>
+      <button type="button" class="chip">Nut-Free</button>
+    </div>
+    <div class="sec">Cookware</div>
+    <div class="chips">
+      <button type="button" class="chip on">Any</button>
+      <button type="button" class="chip">Dutch Oven</button>
+      <button type="button" class="chip">Slow Cooker</button>
+      <button type="button" class="chip">Sheet Pan</button>
+    </div>
+    <div class="muted">Changes apply to your next suggestions. Saved on this device until you sign in.</div>
+    <div style="margin-top:auto"><a class="btn" href="Plan.dc.html">Done</a></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

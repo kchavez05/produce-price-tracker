@@ -1,11 +1,15 @@
 'use client';
 
+import BarcodeEntry from '@/components/BarcodeEntry';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { cookingCatalogVariants } from '@/lib/pantry/catalog-search';
 import { normalizePantryName, pantryIdentity, searchPantryCatalog, validatePantryEntry, cookingIngredients, activeCookingIngredients, cookingCompatibility, pantryCatalog } from '@/lib/pantry/model';
-import { PantryEntry, PantryEntryInput, PantryMutation, PantryMutationResult } from '@/types/pantry';
+import { PantryEntry, PantryEntryInput, PantryMutation, PantryMutationResult, PantryOwner, PantrySaveIntent } from '@/types/pantry';
 
 interface Props {
+  owner?: PantryOwner | null;
+  barcodeEnabled?: boolean;
+  cameraEnabled?: boolean;
   entries: readonly PantryEntry[];
   acceptedCatalogIds: readonly string[];
   status: 'Loading' | 'Saved' | 'Pending sync' | 'Couldn’t sync — Retry';
@@ -15,7 +19,7 @@ interface Props {
   importDuplicates: readonly string[];
   guestEntries: readonly PantryEntry[];
   conflicts: readonly { mutation: PantryMutation; conflict?: Extract<PantryMutationResult, { status: 'conflict' }> }[];
-  onSave: (input: PantryEntryInput, id?: string) => Promise<void>;
+  onSave: (input: PantryEntryInput, id?: string, intent?: PantrySaveIntent) => Promise<void>;
   onDelete: (entry: PantryEntry) => Promise<void>;
   onRetry: () => Promise<void>;
   onResolve: (mutationId: string, choice: 'mine' | 'remote') => Promise<void>;
@@ -27,6 +31,8 @@ interface Props {
 const button = 'rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50';
 
 export default function VirtualPantry(props: Props) {
+  const [barcodeOpen, setBarcodeOpen] = useState(false);
+  const barcodeTrigger = useRef<HTMLButtonElement>(null);
   const [query, setQuery] = useState('');
   const [showNo, setShowNo] = useState(false);
   const [editing, setEditing] = useState<PantryEntry | PantryEntryInput | null>(null);
@@ -84,6 +90,11 @@ export default function VirtualPantry(props: Props) {
         <p className="mt-1 text-sm">Do I have this? Mark ingredients Yes or No. Recipes and purchase suggestions leave your inventory unchanged.</p></div>
       <button className={button} onClick={props.onClose} aria-label="Close Virtual Pantry">Close</button>
     </div>
+    {props.barcodeEnabled && props.owner ? <div className="mt-3">
+      <button ref={barcodeTrigger} type="button" className={button} onClick={() => setBarcodeOpen(true)} disabled={props.status === 'Loading'}>Enter barcode</button>
+      {barcodeOpen ? <BarcodeEntry cameraEnabled={props.cameraEnabled} key={props.owner} entries={props.entries} acceptedCatalogIds={props.acceptedCatalogIds} onSave={props.onSave}
+        onClose={() => { setBarcodeOpen(false); barcodeTrigger.current?.focus(); }} /> : null}
+    </div> : null}
     <div className="mt-3 flex flex-wrap items-center gap-3 text-sm" role="status" aria-live="polite">
       <strong>{props.status}</strong>
       {props.guest && <span>Saved on this device. Sign in for cross-device recovery.</span>}

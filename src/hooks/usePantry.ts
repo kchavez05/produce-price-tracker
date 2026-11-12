@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { PantryEntry, PantryEntryInput, PantryMutation, PantryOwner } from '@/types/pantry';
+import { PantryEntry, PantryEntryInput, PantryMutation, PantryOwner, PantrySaveIntent } from '@/types/pantry';
 import { LegacyPantrySource, migrateLegacyPantry, PantryMigrationSnapshot } from '@/lib/pantry/migration';
-import { evaluatePantryMutation, validatePantryMutation } from '@/lib/pantry/mutations';
+import { evaluatePantryMutation, validatePantryMutation, mutationFingerprint } from '@/lib/pantry/mutations';
 import { pantryIdentity, pantryCatalog, canSavePantryIngredient } from '@/lib/pantry/model';
 import { createPantryQueue, PantryAcknowledgment } from '@/lib/pantry/queue';
 import { cachePantrySnapshot, guestPantryKey, mergeAcknowledgedEntry, pantryCacheKey, parsePantrySnapshot, readGuestPantry } from '@/lib/pantry/client-cache';
@@ -189,13 +189,14 @@ export function usePantry(enabled: boolean, accountId: string | null) {
   }, [enabled, accountId, publish, synchronize]);
 
   const visibleOwner = snapshot?.owner === activeOwner.current ? snapshot.owner : null;
-  const write = useCallback(async (input: PantryEntryInput | null, id?: string) => {
+  const write = useCallback(async (input: PantryEntryInput | null, id?: string, intent?: PantrySaveIntent) => {
     const owner = visibleOwner;
     if (!owner || activeOwner.current !== owner || snapshot?.owner !== owner) throw new Error('Wait for the current pantry to load.');
     const existing = id ? snapshot.entries.find((entry) => entry.id === id) : undefined;
     const accepted = owner.startsWith('guest:') ? [...pantryCatalog.keys()] : snapshot.acceptedCatalogIds ?? [];
     if (input && !canSavePantryIngredient(input, existing, accepted)) throw new Error('This ingredient is not ready for this account yet. Reconnect and retry after the catalog update.');
-    const mutation = validatePantryMutation({ mutationId: crypto.randomUUID(), entryId: id ?? crypto.randomUUID(), expectedRevision: existing?.revision ?? 0,
+    if (intent && !id) throw new Error('A reviewed entry ID is required.');
+    const mutation = validatePantryMutation({ mutationId: intent?.mutationId ?? crypto.randomUUID(), entryId: id ?? crypto.randomUUID(), expectedRevision: intent?.expectedRevision ?? existing?.revision ?? 0,
       ...(input ? { operation: 'put', entry: input } : { operation: 'delete' }) }, Boolean(existing && input?.ingredientId === existing.ingredientId));
     if (owner.startsWith('guest:')) {
       await guestLock(async () => {
@@ -208,7 +209,9 @@ export function usePantry(enabled: boolean, accountId: string | null) {
         setGuestEntries(updated.entries); await publish(owner, updated);
       });
     } else {
-      await getQueue().enqueue(owner, mutation);
+      const prior = intent ? (await getQueue().pending(owner)).find((item) => item.mutation.mutationId === intent.mutationId) : undefined;
+      if (prior && mutationFingerprint(prior.mutation) !== mutationFingerprint(mutation)) throw new Error('The confirmed operation changed. Reopen the review.');
+      if (!prior) await getQueue().enqueue(owner, mutation);
       await publish(owner, base.current ?? snapshot);
       void synchronize(owner);
     }
@@ -301,7 +304,7 @@ export function usePantry(enabled: boolean, accountId: string | null) {
   return { acceptedCatalogIds: visibleOwner ? accountId ? snapshot?.acceptedCatalogIds ?? [] : [...pantryCatalog.keys()] : [], owner: visibleOwner, entries: visibleOwner ? snapshot!.entries : noEntries, guestEntries, guest: !accountId, hasLegacyEdits: Boolean(visibleOwner && hasLegacyEdits),
     importDuplicates: importReport?.owner === visibleOwner ? importReport.duplicates : [],
     status: visibleOwner ? status : error ? 'Couldn’t sync — Retry' as Status : 'Loading' as Status, error, conflicts: visibleOwner ? pending : noPending,
-    save: (input: PantryEntryInput, id?: string) => write(input, id), remove: (entry: PantryEntry) => write(null, entry.id),
+    save: (input: PantryEntryInput, id?: string, intent?: PantrySaveIntent) => write(input, id, intent), remove: (entry: PantryEntry) => write(null, entry.id),
     retry: async () => {
       const owner = activeOwner.current;
       if (owner?.startsWith('guest:')) await guestLock(async () => { const guest = readGuestPantry(localStorage); setError(null); await publish(guest.owner, guest); });

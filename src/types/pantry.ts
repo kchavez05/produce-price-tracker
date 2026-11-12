@@ -38,12 +38,40 @@ export interface PantryRequirement {
   quantity: number;
   unit: string;
   optional?: boolean;
+  /** Reviewed recipe quantity basis; missing saved metadata must not imply net contents. */
+  quantityBasisVersion?: string;
+}
+
+export interface PantryPriceDetail extends PantryRequirement {
+  requirementKey: string;
+  /** Authoritative integer allocation; never reconstruct cents from displayed dollars. */
+  allocatedCents: number | null;
+  priceBasis: 'OBSERVED' | 'STATIC_ESTIMATE' | 'UNPRICED' | 'ON_HAND' | 'OPTIONAL';
+  estimatedCost: number | null;
+  observation?: {
+    source: 'KROGER_PRODUCTION'; quoteId: string; productId: string; itemId: string; locationId: string;
+    observedAtIso: string; effectiveAtIso?: string; expiresAtIso?: string;
+    packagePrice: number; packageAmount: string; packageUnit: string; sourceSizeLabel: string;
+    ruleVersion: string; stockUnconfirmed: boolean;
+  };
+}
+
+export interface PantryPricing {
+  rows: PantryPriceDetail[];
+  total: number;
+  includesStaticEstimates: boolean;
+  incompleteEstimate: boolean;
+  evaluatedAtIso: string;
+  marketId: string;
+  selectedLocationIds: string[];
 }
 
 export interface PantryShoppingNeed extends PantryRequirement {
   ingredientName: string;
   estimatedCost: number | null;
-  priceBasis: 'STATIC_ESTIMATE' | 'UNPRICED';
+  priceBasis: 'OBSERVED' | 'STATIC_ESTIMATE' | 'UNPRICED' | 'MIXED';
+  /** Authoritative recipe allocations, retained when quantities are grouped for display. */
+  priceDetails?: PantryPriceDetail[];
 }
 
 export interface PantryCoverage {
@@ -63,3 +91,6 @@ export type PantryMutation = {
 export type PantryMutationResult =
   | { status: 'applied'; mutationId: string; entry: PantryEntry }
   | { status: 'conflict'; mutationId: string; reason: 'revision' | 'identity'; current: PantryEntry | null };
+
+/** An explicitly reviewed operation may retain its identity/revision across confirmation retries. */
+export interface PantrySaveIntent { mutationId: string; expectedRevision: number }

@@ -1,0 +1,797 @@
+{
+  "status": "expected vectors for review; runtime/device vectors are not implemented or verified",
+  "source_code_vectors": "Auditor policy can execute these offline; runtime validation and human formatting remain proposed.",
+  "fixtures": [
+    {
+      "id": "upc-a",
+      "stage": "source_code",
+      "input": {
+        "barcode": "036000291452"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00036000291452"
+      }
+    },
+    {
+      "id": "ean-13",
+      "stage": "source_code",
+      "input": {
+        "barcode": "0036000291452"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00036000291452"
+      }
+    },
+    {
+      "id": "zero-filled-14",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00036000291452"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00036000291452"
+      }
+    },
+    {
+      "id": "bad-check",
+      "stage": "source_code",
+      "input": {
+        "barcode": "036000291453"
+      },
+      "expected": {
+        "status": "bad_check_digit",
+        "key": null
+      }
+    },
+    {
+      "id": "lost-zero",
+      "stage": "source_code",
+      "input": {
+        "barcode": "36000291452"
+      },
+      "expected": {
+        "status": "unsupported_length",
+        "key": null
+      }
+    },
+    {
+      "id": "source-whitespace",
+      "stage": "source_code",
+      "input": {
+        "barcode": " 036000291452"
+      },
+      "expected": {
+        "status": "non_digits",
+        "key": null
+      }
+    },
+    {
+      "id": "source-url",
+      "stage": "source_code",
+      "input": {
+        "barcode": "https://example.test/036000291452"
+      },
+      "expected": {
+        "status": "non_digits",
+        "key": null
+      }
+    },
+    {
+      "id": "unicode-digits",
+      "stage": "source_code",
+      "input": {
+        "barcode": "０３６０００２９１４５２"
+      },
+      "expected": {
+        "status": "non_digits",
+        "key": null
+      }
+    },
+    {
+      "id": "empty",
+      "stage": "source_code",
+      "input": {
+        "barcode": ""
+      },
+      "expected": {
+        "status": "missing",
+        "key": null
+      }
+    },
+    {
+      "id": "eight-digit",
+      "stage": "source_code",
+      "input": {
+        "barcode": "12345670"
+      },
+      "expected": {
+        "status": "deferred_8_digit",
+        "key": null
+      }
+    },
+    {
+      "id": "zero-filled-eight",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00000012345670"
+      },
+      "expected": {
+        "status": "restricted_reserved_or_nonfood",
+        "key": null
+      }
+    },
+    {
+      "id": "packaging-indicator",
+      "stage": "source_code",
+      "input": {
+        "barcode": "10036000291459"
+      },
+      "expected": {
+        "status": "packaging_or_variable_measure",
+        "key": null
+      }
+    },
+    {
+      "id": "variable-measure",
+      "stage": "source_code",
+      "input": {
+        "barcode": "211110123453"
+      },
+      "expected": {
+        "status": "restricted_reserved_or_nonfood",
+        "key": null
+      }
+    },
+    {
+      "id": "internal-code",
+      "stage": "source_code",
+      "input": {
+        "barcode": "411110123457"
+      },
+      "expected": {
+        "status": "restricted_reserved_or_nonfood",
+        "key": null
+      }
+    },
+    {
+      "id": "reserved-prefix",
+      "stage": "source_code",
+      "input": {
+        "barcode": "511110123454"
+      },
+      "expected": {
+        "status": "restricted_reserved_or_nonfood",
+        "key": null
+      }
+    },
+    {
+      "id": "regional-code",
+      "stage": "source_code",
+      "input": {
+        "barcode": "2111101234565"
+      },
+      "expected": {
+        "status": "restricted_reserved_or_nonfood",
+        "key": null
+      }
+    },
+    {
+      "id": "coupon",
+      "stage": "source_code",
+      "input": {
+        "barcode": "9911101234564"
+      },
+      "expected": {
+        "status": "restricted_reserved_or_nonfood",
+        "key": null
+      }
+    },
+    {
+      "id": "all-zeros",
+      "stage": "source_code",
+      "input": {
+        "barcode": "000000000000"
+      },
+      "expected": {
+        "status": "restricted_reserved_or_nonfood",
+        "key": null
+      }
+    },
+    {
+      "id": "typed-outer-spaces",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "barcode": " 036000291452 "
+      },
+      "expected": {
+        "outcome": "valid; preserve original, compare validated digits",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "typed-number",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "barcode": 36000291452
+      },
+      "expected": {
+        "outcome": "invalid; require string",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "typed-internal-separator",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "barcode": "03600-0291452"
+      },
+      "expected": {
+        "outcome": "invalid; digits only",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "typed-too-long",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "barcode": "00000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "outcome": "invalid before lookup",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "camera-upc-e",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "barcode": "12345670",
+        "symbology": "UPC_E"
+      },
+      "expected": {
+        "outcome": "unsupported, typed/search fallback",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "camera-url",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "barcode": "https://example.test/product",
+        "symbology": "QR_CODE"
+      },
+      "expected": {
+        "outcome": "unsupported; no fetch",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "latest-revision",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": [
+          "US older",
+          "US newer"
+        ]
+      },
+      "expected": {
+        "outcome": "select newer publication, preserve history",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "publication-tie",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": [
+          "US same date A",
+          "US same date B"
+        ]
+      },
+      "expected": {
+        "outcome": "ambiguous; no ID tie-break winner",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "newest-discontinued",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": [
+          "US older active",
+          "US newest discontinued"
+        ]
+      },
+      "expected": {
+        "outcome": "discontinued; do not resurrect older",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "wrong-market",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": [
+          "New Zealand only"
+        ]
+      },
+      "expected": {
+        "outcome": "no applicable US product; do not infer market from code",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "unknown-market",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": [
+          "market absent"
+        ]
+      },
+      "expected": {
+        "outcome": "no applicable US product",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "future-source-date",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": [
+          "publication after snapshot cutoff"
+        ]
+      },
+      "expected": {
+        "outcome": "date hold; no automatic suggestion",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "missing-source-date",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": [
+          "no publication date"
+        ]
+      },
+      "expected": {
+        "outcome": "date hold; no automatic suggestion",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "not-in-snapshot",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "records": []
+      },
+      "expected": {
+        "outcome": "not found in dated snapshot; manual correction/custom entry",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "mixed-marinade",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "fdc_id": "2196471"
+      },
+      "expected": {
+        "outcome": "no garlic or lime-juice suggestion/component ownership",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "oil-spray",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "fdc_id": "2629691"
+      },
+      "expected": {
+        "outcome": "no liquid olive-oil suggestion",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "nonfat-yogurt",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "fdc_id": "2340548"
+      },
+      "expected": {
+        "outcome": "proposed plain-nonfat identity only; no whole-milk/vanilla certification",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "stale-rule",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "rule_fdc_id": "2386494",
+        "latest_fdc_id": "2657880"
+      },
+      "expected": {
+        "outcome": "no old rule reuse; exact successor needs its own reviewed rule",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "changed-source-row",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "row_fingerprint": "different"
+      },
+      "expected": {
+        "outcome": "no mapping; review/correction",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "inactive-catalog-id",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "ingredient_active": false
+      },
+      "expected": {
+        "outcome": "no automatic candidate; active catalog/custom selection",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "unknown-package",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "package_weight": ""
+      },
+      "expected": {
+        "outcome": "display missing; do not assign quantity/price",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "contradictory-package",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "fdc_id": "2425696",
+        "package_weight": "2 LBS/90 kg"
+      },
+      "expected": {
+        "outcome": "raw context/warning; no inventory amount or conversion",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "existing-yes",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "available": true,
+        "quantity": 0,
+        "unit": "cup",
+        "useByDate": "2000-01-01"
+      },
+      "expected": {
+        "outcome": "reuse identity and preserve details; no stock increment",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "existing-no",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "available": false
+      },
+      "expected": {
+        "outcome": "show No; only explicit confirmation changes to Yes",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "cancel-review",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "action": "cancel"
+      },
+      "expected": {
+        "outcome": "no pantry mutation",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "lookup-late",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "request_owner": "A",
+        "current_owner": "B"
+      },
+      "expected": {
+        "outcome": "discard response; no cross-owner mutation",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "code-changed",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "old_code": "036000291452",
+        "new_code": "0036000291452"
+      },
+      "expected": {
+        "outcome": "invalidate pending generation even if equivalent",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "double-confirm",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "actions": [
+          "confirm",
+          "confirm"
+        ]
+      },
+      "expected": {
+        "outcome": "one owner-bound mutation/idempotent retry",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "concurrent-edit",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "review_revision": 1,
+        "current_revision": 2
+      },
+      "expected": {
+        "outcome": "existing revision-conflict flow; no silent latest-revision save",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "failed-save",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "save": "offline"
+      },
+      "expected": {
+        "outcome": "existing owner-bound queue remains pending and retryable",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "guest-import",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "guest_entry": "A",
+        "account_entry": "B"
+      },
+      "expected": {
+        "outcome": "explicit import only; existing account identity/details retain precedence",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "custom-entry",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "displayName": "Private mystery food"
+      },
+      "expected": {
+        "outcome": "private custom entry; no inferred recipe coverage",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "service-disabled",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "lookup_enabled": false
+      },
+      "expected": {
+        "outcome": "disabled; manual pantry still usable",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "index-missing",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "index": null
+      },
+      "expected": {
+        "outcome": "service unavailable; not a confirmed product miss",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "index-hash-mismatch",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "index_digest_valid": false
+      },
+      "expected": {
+        "outcome": "service unavailable; no source fallback fetch",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "throttled",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "attempts_per_minute_per_ip": 31
+      },
+      "expected": {
+        "outcome": "429 with Retry-After; no extra retries",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "offline-lookup",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "network": "offline"
+      },
+      "expected": {
+        "outcome": "offline transport state; search/custom fallback; no mutation",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "close-camera",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "event": "close/unmount/hidden/owner change"
+      },
+      "expected": {
+        "outcome": "stop all tracks/decoder and invalidate lookup; deliberate resume",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "late-camera-permission",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "permission_resolves_after_close": true
+      },
+      "expected": {
+        "outcome": "stop acquired stream; never reopen automatically",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "repeat-camera-frames",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "valid_frames": 10
+      },
+      "expected": {
+        "outcome": "pause after first valid decode; one review, no additions",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "camera-denied",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "permission": "denied"
+      },
+      "expected": {
+        "outcome": "accessible error and typed/search fallback",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "lookup-disabled-after-save",
+      "stage": "runtime_or_device_proposal",
+      "input": {
+        "entry_confirmed": true,
+        "lookup_enabled": false
+      },
+      "expected": {
+        "outcome": "preserve pantry and queued updates; static/unpriced recipes remain",
+        "inventory_automatically_changed": false
+      }
+    },
+    {
+      "id": "valid-ns0-upc-02-length-12",
+      "stage": "source_code",
+      "input": {
+        "barcode": "020200170044"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00020200170044"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-02-length-13",
+      "stage": "source_code",
+      "input": {
+        "barcode": "0020200170044"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00020200170044"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-02-length-14",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00020200170044"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00020200170044"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-04-length-12",
+      "stage": "source_code",
+      "input": {
+        "barcode": "041318300512"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00041318300512"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-04-length-13",
+      "stage": "source_code",
+      "input": {
+        "barcode": "0041318300512"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00041318300512"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-04-length-14",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00041318300512"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00041318300512"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-05-length-12",
+      "stage": "source_code",
+      "input": {
+        "barcode": "053000006329"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00053000006329"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-05-length-13",
+      "stage": "source_code",
+      "input": {
+        "barcode": "0053000006329"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00053000006329"
+      }
+    },
+    {
+      "id": "valid-ns0-upc-05-length-14",
+      "stage": "source_code",
+      "input": {
+        "barcode": "00053000006329"
+      },
+      "expected": {
+        "status": "candidate",
+        "key": "00053000006329"
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-10-29",
+  "packetSha256": "f4888a5802f555b2919ed6b2ea6b5b9041876aa918153520c1d0a95299decb00",
+  "mappingSha256": "aeb6f14579202176d4012d5af8e660ec2f538c94ccf7dfb76972885c630e3764",
+  "sourceManifest": {
+    "food.csv": {
+      "bytes": 221920942,
+      "sha256": "05a631600f4aa45f2f317fefab2998be50230548f63f2094868af354278c457c"
+    },
+    "branded_food.csv": {
+      "bytes": 960715079,
+      "sha256": "a68b6ed1ce76182fa4eb7d1730a4fb2b49d2c683ca9d1dfcfc51c1a03c3b7013"
+    }
+  },
+  "artifactSha256": "14ece720b2fed99fee52af9b291a49ef952bad46e058d7f9789cabcee9e298c4",
+  "artifactBytes": 60895232,
+  "builtAtIso": "2026-11-10T15:58:36.236907+00:00",
+  "mappingCount": 16,
+  "productRows": 432347,
+  "lookupKeys": 423460,
+  "storageLayout": "interned-labels-v1",
+  "sourceArtifactSha256": "230298572087b172258da231a39a56f8ee85b7110009331d590a023ab534d163",
+  "logicalContent": {
+    "products": {
+      "columns": [
+        "key",
+        "fdc_id",
+        "raw_code",
+        "description",
+        "owner",
+        "brand",
+        "package",
+        "market",
+        "published",
+        "modified",
+        "available",
+        "discontinued"
+      ],
+      "rows": 432347,
+      "sha256": "d053b3a29a38df7c872bd50d56777c415f869df3d54d616b4487d468c817849f"
+    },
+    "outcomes": {
+      "columns": [
+        "key",
+        "latest",
+        "revisions",
+        "dates_valid",
+        "ties",
+        "discontinued"
+      ],
+      "rows": 423460,
+      "sha256": "a1ae2f99474d2544af93200b784684a5932fdf1f141fd185ac115da94a49a631"
+    },
+    "mappings": {
+      "columns": [
+        "fdc_id",
+        "key",
+        "rule_id",
+        "ingredient_id",
+        "fingerprint"
+      ],
+      "rows": 16,
+      "sha256": "d27f172f9832ec2677336dee8229191a5501644a9329eeb688bc9a42ee5dbefc"
+    },
+    "barcode_metadata": {
+      "columns": [
+        "value"
+      ],
+      "rows": 1,
+      "sha256": "3587786fe573ee6912d9c600772bff08ad64de64b514a4acc9bf41583676010b"
+    }
+  },
+  "compactionSqliteVersion": "3.48.0",
+  "manifestSha256": "f042c05e059d278c1388233d7e1dda5d2de3cb8cc0b76e9b1e1804de390d2c0c"
+}

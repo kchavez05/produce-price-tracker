@@ -1,7 +1,10 @@
 'use client';
 
-import { recipeAvailableIngredientIds, recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
-import { formatPantryRequirement } from '@/lib/pantry/recipe';
+import { createPantryPriceContext, pantryPriceLabel } from '@/lib/pantry/pricing';
+import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
+
+import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
+import { applyPantryToRecipe, formatPantryRequirement } from '@/lib/pantry/recipe';
 
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
 
@@ -87,11 +90,13 @@ import {
 interface Props {
   initialData: DashboardPayload;
   pantryEnabled?: boolean;
+  barcodeEnabled?: boolean;
+  cameraEnabled?: boolean;
   initialAccountId?: string | null;
   initialPrivateRecipes?: RecommendedDish[];
 }
 
-export default function MealPrepDashboard({ initialData, pantryEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
+export default function MealPrepDashboard({ initialData, pantryEnabled = false, barcodeEnabled = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
   const InventoryIcon = pantryEnabled ? DoorOpen : Snowflake;
   const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
@@ -227,7 +232,19 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     }
     return Array.from(set);
   }, [pantryEnabled, pantry.entries, onHandIds, freezerItems]);
-  const effectiveRecipeIds = useMemo(() => new Set(recipeAvailableIngredientIds(effectiveOnHandIds)), [effectiveOnHandIds]);
+  const [priceClock, setPriceClock] = useState(serverData.lastUpdatedIso);
+  useEffect(() => {
+    const refresh = () => setPriceClock(new Date().toISOString());
+    refresh();
+    const timer = window.setInterval(refresh, 60_000);
+    window.addEventListener('focus', refresh);
+    return () => { window.clearInterval(timer); window.removeEventListener('focus', refresh); };
+  }, []);
+  // No live source, contract or admission is configured. One snapshot serves every view.
+  const pantryPriceContext = useMemo(() => createPantryPriceContext({
+    nowIso: priceClock || new Date().toISOString(), marketId: currentZip,
+    selectedLocationIds: [],
+  }), [priceClock, currentZip]);
   const mealContextSignature = JSON.stringify({ available: [...effectiveOnHandIds].sort(), pinned: [...pinnedIds].sort(),
     targetServings, macroGoal, dietary: [...dietaryConstraints].sort(), vessel: applianceFilter,
     stores: [...activeStores].sort(), storeFilter, zip: currentZip });
@@ -237,11 +254,12 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     const ranked = rankMealPrepDishes(serverData.commodities, pinnedIds, effectiveOnHandIds, targetServings, {
       macroGoal, dietaryConstraints, applianceFilter,
       pantryMode: true,
+      pantryPriceContext,
       savedRecipes: savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest) ? savedLibrary.recipes : [],
       now: new Date(serverData.lastUpdatedIso || Date.now()),
     });
     return { ...serverData, ...ranked, freezerInventory: [] };
-  }, [pantryEnabled, serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest]);
+  }, [pantryEnabled, serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest, pantryPriceContext]);
 
   const freezerSummary = useMemo(() => {
     const totalItems = freezerItems.length;
@@ -855,13 +873,13 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       const res = isCurrentlySaved
         ? await fetch(`/api/saved-recipes?id=${encodeURIComponent(dish.id)}`, { method: 'DELETE' })
         : await fetch('/api/saved-recipes', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dish }),
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dish: withoutDerivedPantryPricing(dish) }),
           });
       if (!res.ok) throw new Error('Recipe save failed');
       if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
       setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: !isCurrentlySaved }));
       if (pantryEnabled && requestOwner) setSavedLibrary((previous) => ({ owner: requestOwner,
-        recipes: isCurrentlySaved ? previous.recipes.filter((entry) => entry.id !== dish.id) : [...previous.recipes.filter((entry) => entry.id !== dish.id), { ...dish, savedInLibrary: true }] }));
+        recipes: isCurrentlySaved ? previous.recipes.filter((entry) => entry.id !== dish.id) : [...previous.recipes.filter((entry) => entry.id !== dish.id), { ...withoutDerivedPantryPricing(dish), savedInLibrary: true }] }));
     } catch {
       setAiBannerMessage('Unable to update your saved recipes. Please try again.');
       return;
@@ -1018,8 +1036,11 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     });
   }, [data.commodities, categoryFilter, sortMode]);
 
-  const activeTrio = (pantryEnabled && (customAiOwner.current !== pantry.owner || customAiContext.current !== mealContextSignature)
+  const sourceTrio = (pantryEnabled && (customAiOwner.current !== pantry.owner || customAiContext.current !== mealContextSignature)
     ? null : customAiDishes) || data.recommendedTrio;
+  const activeTrio = useMemo(() => pantryEnabled ? sourceTrio.map((dish) =>
+    applyPantryToRecipe(dish, effectiveOnHandIds, data.commodities, undefined, pantryPriceContext)) : sourceTrio,
+  [pantryEnabled, sourceTrio, effectiveOnHandIds, data.commodities, pantryPriceContext]);
 
   const trioTotals = useMemo(() => {
     const totalBatchCost = activeTrio.reduce((acc, d) => acc + d.totalBatchCost, 0);
@@ -1048,6 +1069,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
         data.zipCode || currentZip,
         activeStores,
         pantryEnabled,
+        pantryPriceContext,
       ),
     [
       activeTrio,
@@ -1057,6 +1079,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       currentZip,
       activeStores,
       pantryEnabled,
+      pantryPriceContext,
     ]
   );
 
@@ -1498,7 +1521,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
           )}
 
           {/* v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage Drawer */}
-          {showFreezerModal && pantryEnabled && <VirtualPantry
+          {showFreezerModal && pantryEnabled && <VirtualPantry owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
             key={pantry.owner ?? `loading:${pantryAccountId ?? 'guest'}`}
             entries={pantry.entries} acceptedCatalogIds={pantry.acceptedCatalogIds} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
             importDuplicates={pantry.importDuplicates}
@@ -2646,7 +2669,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     Your 3-Dish Weekend Meal Prep Plan ({trioTotals.totalServings} Total Meals)
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
-                    {pantryEnabled ? `Recipes in ${data.cityLabel} reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple prices are fixed recipe-use estimates, not package checkout prices.` : `Optimized around this week's lowest $/lb anchors in ${data.cityLabel}, tailored to your Macro & Dietary profile, and powered by $0 Virtual Freezer inventory.`}
+                    {pantryEnabled ? `Recipes in ${data.cityLabel} reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple estimates allocate recipe use; package checkout totals may differ.` : `Optimized around this week's lowest $/lb anchors in ${data.cityLabel}, tailored to your Macro & Dietary profile, and powered by $0 Virtual Freezer inventory.`}
                     {' '}The strongest value match stays; two recipe slots rotate each Wednesday when enough recipes fit your profile. Planning cycle: {data.adCycleLabel}.
                   </p>
 
@@ -3029,6 +3052,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                       {pantryEnabled && dish.pantryCoverage && <p className="mb-3 text-sm font-semibold text-sky-900">
                         You have {dish.pantryCoverage.availableRequiredCount} of {dish.pantryCoverage.requiredCount} required ingredients.
                         {dish.pantryCoverage.optionalCount > 0 && ` Optional: ${dish.pantryCoverage.availableOptionalCount} of ${dish.pantryCoverage.optionalCount} available.`}
+                        {dish.pantryPricing?.includesStaticEstimates && ' Includes static estimates.'}
                         {dish.additionalCostEstimateComplete === false && ' Known subtotal only — additional ingredients have no price.'}
                       </p>}
                       <h4 className="mb-2.5 text-xs font-bold tracking-wider text-slate-500 uppercase">
@@ -3091,9 +3115,17 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
                         <div className="text-xs text-slate-600">
                           <strong className="text-slate-800">
-                            {pantryEnabled ? 'Staples (fixed additional estimate)' : 'Pantry Staples'} (+${dish.estimatedPantryCost.toFixed(2)}):
+                            {pantryEnabled ? 'Staples (recipe-use estimate)' : 'Pantry Staples'} (+${dish.estimatedPantryCost.toFixed(2)}):
                           </strong>{' '}
-                          {pantryEnabled ? (dish.pantryRequirements ?? []).map((requirement) => `${formatPantryRequirement(requirement)} — ${effectiveRecipeIds.has(requirement.ingredientId) ? 'Already have' : requirement.optional ? 'Optional' : 'Need to buy'}`).join(' • ') : dish.pantryStaples.join(' • ')}
+                          {pantryEnabled ? (
+                            <ul className="mt-2 space-y-1">
+                              {(dish.pantryPricing?.rows ?? []).map((row) => (
+                                <li key={row.requirementKey}>
+                                  {formatPantryRequirement(row)} — {row.estimatedCost === null ? '' : `$${row.estimatedCost.toFixed(2)} · `}{pantryPriceLabel(row)}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : dish.pantryStaples.join(' • ')}
                         </div>
                         <button
                           onClick={() =>
@@ -3230,7 +3262,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
                     {shoppingPlan.tripComparison.recommendationDetail}
-                    {pantryEnabled && ' Estimated additional grocery cost assumes marked ingredients are on hand. Staple prices are fixed estimates, separate from store offers.'}
+                    {pantryEnabled && ' Estimated additional grocery cost assumes marked ingredients are on hand. Staple rows identify the price basis; package checkout totals may differ.'}
                     {pantryEnabled && shoppingPlan.tripComparison.additionalCostEstimateComplete === false && ' Known subtotal only — plus ingredients with no price.'}
                   </p>
                 </div>
@@ -3741,11 +3773,12 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 })}
               </div>
 
-              {pantryEnabled && <p className="mt-4 text-xs text-slate-600">Estimated additional grocery cost assumes marked ingredients are on hand. Staple costs use fixed recipe-use estimates, not observed store prices.
+              {pantryEnabled && <p className="mt-4 text-xs text-slate-600">Estimated additional grocery cost assumes marked ingredients are on hand. Staple estimates allocate recipe use; package checkout totals may differ.
+                {shoppingPlan.tripComparison.includesStaticPantryEstimates && ' Includes static estimates.'}
                 {shoppingPlan.tripComparison.additionalCostEstimateComplete === false && ' Known subtotal only — plus unpriced ingredients.'}</p>}
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                  {pantryEnabled ? 'Staples to buy — fixed estimates (Est. $' : 'Pantry & Spice Cabinet Check (Est. $'}
+                  {pantryEnabled ? 'Staples to buy — recipe-use estimates (Est. $' : 'Pantry & Spice Cabinet Check (Est. $'}
                   {shoppingPlan.tripComparison.estimatedPantryTotal.toFixed(2)} total across 3 dishes)
                 </h4>
                 <div className="mt-2.5 flex flex-wrap gap-2">

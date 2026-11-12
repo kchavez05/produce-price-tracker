@@ -1,0 +1,12 @@
+{
+  "browser": "0.2.1",
+  "library": "0.23.0",
+  "esbuild": "0.28.2",
+  "target": [
+    "safari16",
+    "chrome109"
+  ],
+  "minifiedBytes": 485193,
+  "gzipBytes": 125387,
+  "scope": "isolated lazy reader entry; not a measured Next.js chunk or real camera test"
+}

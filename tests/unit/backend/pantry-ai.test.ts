@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NextRequest } from 'next/server';
 import { createMockCommodity, createMockDish, createMockIngredient } from 'tests/test-utils';
-const mocks = vi.hoisted(() => ({ generate: vi.fn(), build: vi.fn(), availability: vi.fn(), profile: vi.fn() }));
+const mocks = vi.hoisted(() => ({ generate: vi.fn(), client: vi.fn(), build: vi.fn(), availability: vi.fn(), profile: vi.fn() }));
 vi.mock('@google/genai', async (original) => ({ ...await original<typeof import('@google/genai')>(),
-  GoogleGenAI: class { models = { generateContent: mocks.generate }; },
+  GoogleGenAI: class { constructor(options: unknown) { mocks.client(options); } models = { generateContent: mocks.generate }; },
 }));
 vi.mock('@/lib/scoring-and-matcher', () => ({ buildDashboardPayload: mocks.build }));
 vi.mock('@/lib/pantry/server', () => ({ readProfilePantryAvailability: mocks.availability }));
@@ -40,6 +40,7 @@ describe('AI pantry contract', () => {
     mocks.generate.mockResolvedValue({ text: JSON.stringify([modelDish]) });
     const result = await (await POST(request({ geminiApiKey: 'client-test-key', onHandIngredientIds: ['olive-oil'] }))).json();
     expect(result.usedAi).toBe(true);
+    expect(mocks.client).toHaveBeenCalledWith({ apiKey: 'client-test-key', apiVersion: 'v1beta' });
     expect(result.dishes[0].matchedIngredients[0]).toMatchObject({ isOnHand: false, unitCost: 1.99, slotCost: 3.98 });
     expect(result.dishes[0].estimatedPantryCost).toBe(.32);
     expect(result.dishes[0].totalBatchCost).toBe(4.30);

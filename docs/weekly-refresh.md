@@ -36,7 +36,7 @@ Flipp requires no key. USDA and Kroger credentials are optional and independentl
 
 1. Run typecheck, lint, unit, smoke, regression and production build checks.
 2. Verify an unrecorded preview and a manual sync in the PR deployment. Check the current cycle, per-item estimate labels, exact offer counts and explicit audit storage mode.
-3. Merge only after CI, Vercel Preview and completed Codex review. Follow the repository release checklist before merging develop into main.
+3. Merge only after CI, Vercel Preview and completed Claude review. Follow the repository release checklist before merging develop into main.
 4. On production, verify cron bearer authentication, run one recorded refresh, and confirm a new audit row and current offer dates. Check the next scheduled execution; historical logs may be outside the hosting plan's retention.
 
 Production investigation on October 27, 2026 confirmed both cron definitions are enabled. Production environment metadata contained no USDA or Kroger credentials. The public Flipp feed returned offers with real timestamp validity windows. The available recent log window contained no cron requests; this does not establish whether last week's jobs ran.

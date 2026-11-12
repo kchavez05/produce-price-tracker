@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shop radar wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:12px}
+.logo{font-weight:700;font-size:18px}
+.avatar{width:44px;height:44px;border-radius:50%;background:#e4e4e4;border:1px solid #6b6b6b;display:flex;align-items:center;justify-content:center;font-size:11px;color:#333}
+.body{flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:10px}
+.tabbar{height:84px;border-top:1px solid #cfcfcf;display:flex;background:#f7f7f7;flex:none}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#595959}
+.tab.on{color:#111;font-weight:700}
+.ico{width:24px;height:24px;border:2px solid currentColor;border-radius:6px;box-sizing:border-box}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa;display:flex;flex-direction:column;gap:6px;flex:none}
+.row{display:flex;align-items:center;gap:8px}
+.muted{color:#595959;font-size:13px}
+.seg{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
+.seg>*{flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#333}
+.seg>.on{background:#1f1f1f;color:#fff}
+.seg .badge{font-size:11px;line-height:18px;padding:0 6px;border-radius:9px;margin-left:6px;font-weight:600}
+.badge{font-size:12px;background:#e4e4e4;border-radius:10px;padding:2px 8px;color:#333}
+.sec{font-size:14px;font-weight:700;color:#595959;margin-top:2px}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+.ph{background:#e4e4e4;border-radius:6px}
+.link{min-height:44px;display:flex;align-items:center;font-size:13px;color:#1d4ed8;text-decoration:underline;font-family:inherit;background:none;border:0;padding:0}
+.tr{display:flex;justify-content:space-between;align-items:center;min-height:44px;border-bottom:1px solid #e4e4e4;font-size:14px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a{text-decoration:none}
+</style>
+</helmet>
+<div class="scr">
+  <div class="top">
+    <div class="logo">PantryBot</div>
+    <a class="avatar" href="Settings.dc.html" aria-label="Account and settings">Acct</a>
+  </div>
+  <div class="body">
+    <h1 class="sr">Shop</h1>
+    <div class="seg"><a href="Main.dc.html">Deals</a><a href="ShopTrip.dc.html">Trip <span class="badge">8</span></a><a class="on" href="ShopRadar.dc.html">Radar</a></div>
+    <div class="sec">Stock-Up Alerts</div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><b style="font-size:15px">Shredded Cheese</b><span class="tag">6-week low</span></div>
+      <div class="muted">King Soopers $2.58/lb &middot; buy 2, freeze 1</div>
+      <div class="ph" style="height:28px" role="img" aria-label="Price trend placeholder"></div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><b style="font-size:15px">Chicken Thighs</b><span class="tag">6-week low</span></div>
+      <div class="muted">ALDI $0.99/lb</div>
+    </div>
+    <div class="sec">Hold Off</div>
+    <div class="card" style="background:#f0f0f0">
+      <div class="row" style="justify-content:space-between"><b style="font-size:15px">Ground Beef</b><span class="tag">Cycle peak</span></div>
+      <div class="muted">$6.49/lb is high this week. Consider pork shoulder at $2.29/lb.</div>
+    </div>
+    <div class="sec">Club vs. Store</div>
+    <div>
+      <div class="tr"><span>Butter</span><span class="muted">Costco $3.40 &middot; Safeway $2.99</span></div>
+      <div class="tr"><span>Cheese</span><span class="muted">Sam's $3.68 &middot; King Soopers $2.58</span></div>
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <span class="muted">USDA movers and data status</span>
+      <button type="button" class="link">Details</button>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab on" href="Main.dc.html"><div class="ico"></div>Shop</a>
+    <a class="tab" href="Pantry.dc.html"><div class="ico"></div>Pantry</a>
+    <a class="tab" href="Plan.dc.html"><div class="ico"></div>Plan</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

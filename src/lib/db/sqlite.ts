@@ -1,3 +1,4 @@
+import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
 import { currentAdCycle } from '@/lib/offer-freshness';
 import { createHash, randomBytes } from 'node:crypto';
 import fs from 'node:fs';
@@ -1321,7 +1322,7 @@ export function replaceUserSavedRecipesInSqlite(
 
     for (const dish of dishes) {
       if (!dish.id) continue;
-      stmt.run(dish.id, userId, JSON.stringify({ ...dish, savedInLibrary: true }), now);
+      stmt.run(dish.id, userId, JSON.stringify({ ...withoutDerivedPantryPricing(dish), savedInLibrary: true }), now);
     }
     db.exec('COMMIT');
   } catch (err) {

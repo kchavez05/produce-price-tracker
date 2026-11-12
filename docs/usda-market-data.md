@@ -77,7 +77,7 @@ Wednesday at 16:00 UTC, `.github/workflows/market-health.yml` checks the sanitiz
 
 ## Deployment and verification
 
-1. Complete local checks and PR CI/Codex review; keep ingestion disabled.
+1. Complete local checks and PR CI/Claude review; keep ingestion disabled.
 2. Apply the additive migration, verify browser-role denial and server writes/reads, and inspect database advisors.
 3. Validate the five definitions using the configured operator USDA key. Perform a controlled recovery ingestion, inspect published versions and normalized values, and repeat to prove idempotency. Seed an initial verified backfill if desired.
 4. Configure USDA_MARS_API_KEY and USDA_INGEST_ENABLED only in production. Preview environments must not run upstream ingestion. Release through develop → main; never bypass the release workflow.

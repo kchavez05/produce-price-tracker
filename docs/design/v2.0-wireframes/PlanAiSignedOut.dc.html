@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plan AI chef signed out wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:60px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:18px;font-weight:700;margin:0}
+.body{flex:1;overflow:hidden;padding:24px 16px;display:flex;flex-direction:column;gap:14px;align-items:stretch}
+.hero{border:1px solid #cfcfcf;border-radius:14px;padding:20px;background:#fafafa;display:flex;flex-direction:column;gap:10px;flex:none}
+.btn{min-height:48px;padding:0 16px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#1f1f1f;font-family:inherit;width:100%}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.muted{color:#595959;font-size:14px}
+a{text-decoration:none;box-sizing:border-box}
+.sec{font-size:14px;font-weight:700;color:#595959;margin-top:8px}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa;display:flex;flex-direction:column;gap:6px;flex:none}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <a class="back" href="Plan.dc.html">Back</a>
+    <h1 class="ttl">AI Chef</h1>
+    <span style="min-width:60px"></span>
+  </div>
+  <div class="body">
+    <div class="hero">
+      <h2 style="margin:0;font-size:20px">Sign In to Use AI Chef</h2>
+      <div class="muted">AI suggestions are free with an account. No API key needed. Your pantry and plans stay private.</div>
+      <button type="button" class="btn pri">Sign In</button>
+      <a class="btn" href="Plan.dc.html">Keep Using Standard Suggestions</a>
+    </div>
+    <div class="sec">Standard Suggestions Still Work</div>
+    <div class="card">
+      <div class="row"><b style="font-size:15px">Chicken and White Bean Stew</b><span class="tag">$1.40/srv</span></div>
+      <div class="muted">32g protein &middot; 3 items from King Soopers</div>
+    </div>
+    <div class="card">
+      <div class="row"><b style="font-size:15px">Squash and Lentil Braise</b><span class="tag">$1.18/srv</span></div>
+      <div class="muted">22g protein &middot; 5 items</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -238,7 +238,7 @@ export function formatShoppingListForClipboard(options: {
   lines.push(`📍 ${cityLabel} (${zipCode}) • Strategy: ${modeLabel}`);
   if (pantryMode) {
     lines.push(`Estimated additional grocery cost: $${activeTotal.toFixed(2)}${tripComparison.additionalCostEstimateComplete === false ? ' known subtotal — plus unpriced ingredients' : ''}`);
-    lines.push('Assumes ingredients marked Yes are on hand. Pantry staples use fixed estimates, not observed store prices.');
+    lines.push('Assumes ingredients marked Yes are on hand. Staple rows identify the price basis; package checkout totals may differ.');
   } else lines.push(`💰 Est. Total: $${activeTotal.toFixed(2)} (Reg $${tripComparison.regularShelfTotal.toFixed(2)} — Save $${Math.max(0, tripComparison.regularShelfTotal - activeTotal).toFixed(2)})`);
   lines.push('');
 
@@ -302,7 +302,7 @@ export function formatShoppingListForClipboard(options: {
 
   if (pantryChecklist.length > 0) {
     lines.push(
-      pantryMode ? `STAPLES TO BUY (fixed estimates: $${tripComparison.estimatedPantryTotal.toFixed(2)}):`
+      pantryMode ? `STAPLES TO BUY (recipe-use estimates: $${tripComparison.estimatedPantryTotal.toFixed(2)}):`
         : `🧂 PANTRY & SPICE CABINET CHECK (Est. $${tripComparison.estimatedPantryTotal.toFixed(2)}):`
     );
     for (const p of pantryChecklist) {

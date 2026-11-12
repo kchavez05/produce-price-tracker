@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pantry scan barcode wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:60px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:18px;font-weight:700;margin:0}
+.body{flex:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:14px}
+.cam{height:260px;border-radius:14px;background:#2b2b2b;display:flex;align-items:center;justify-content:center;flex:none;position:relative}
+.frame{width:240px;height:110px;border:3px solid #fff;border-radius:10px;box-sizing:border-box}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:14px;background:#fafafa;display:flex;flex-direction:column;gap:8px;flex:none}
+.btn{min-height:48px;padding:0 16px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.row{display:flex;align-items:center;gap:8px}
+.muted{color:#595959;font-size:13px}
+a{text-decoration:none}
+.field{min-height:48px;border:1px solid #6b6b6b;border-radius:10px;padding:0 12px;display:flex;align-items:center;font-size:15px;color:#595959;background:#fff;font-family:inherit;text-align:left;flex:1}
+.sec{font-size:14px;font-weight:700;color:#595959}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+.link{min-height:44px;display:flex;align-items:center;font-size:14px;color:#1d4ed8;text-decoration:underline;font-family:inherit;background:none;border:0;padding:0;justify-content:center}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <a class="back" href="Pantry.dc.html">Cancel</a>
+    <h1 class="ttl">Scan Barcode</h1>
+    <span style="min-width:60px"></span>
+  </div>
+  <div class="body">
+    <div class="cam" role="img" aria-label="Camera view placeholder"><div class="frame"></div></div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><span class="muted">Barcode 0 12345 67890 5</span><span class="tag">Matched</span></div>
+      <b style="font-size:17px">Canned Black Beans</b>
+      <div class="muted">Matched to the generic ingredient. Not what you scanned? Change it.</div>
+      <div class="row">
+        <a class="btn pri" style="flex:1" href="Pantry.dc.html">Confirm</a>
+        <button type="button" class="btn">Change Match</button>
+      </div>
+    </div>
+    <div class="sec">No Camera? Type the Barcode</div>
+    <div class="row">
+      <button type="button" class="field">Enter the numbers under the barcode</button>
+      <button type="button" class="btn">Look Up</button>
+    </div>
+    <a class="link" href="Pantry.dc.html">Add Without a Barcode</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

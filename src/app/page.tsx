@@ -18,7 +18,8 @@ export default async function HomePage() {
     onHandIngredientIds,
   });
 
-  return <MealPrepDashboard initialData={initialData} pantryEnabled={pantryEnabled}
+  return <MealPrepDashboard initialData={initialData} pantryEnabled={pantryEnabled} barcodeEnabled={process.env.PANTRYBOT_BARCODE_LOOKUP_ENABLED === 'true'}
+    cameraEnabled={process.env.PANTRYBOT_BARCODE_CAMERA_ENABLED === 'true'}
     initialPrivateRecipes={inventory.savedRecipes}
     initialAccountId={inventory.profile && !inventory.profile.id.startsWith('guest-') ? inventory.profile.id : null} />;
 }

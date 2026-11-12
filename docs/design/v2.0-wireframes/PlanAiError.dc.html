@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plan AI chef service error wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:60px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:18px;font-weight:700;margin:0}
+.body{flex:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:12px}
+.banner{border:2px solid #6b6b6b;border-radius:12px;padding:12px;background:#f0f0f0;display:flex;flex-direction:column;gap:8px;flex:none}
+.field{min-height:72px;border:1px solid #6b6b6b;border-radius:10px;padding:12px;font-size:15px;color:#595959;background:#fff;box-sizing:border-box;flex:none}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa;display:flex;flex-direction:column;gap:6px;flex:none}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.muted{color:#595959;font-size:13px}
+.sec{font-size:14px;font-weight:700;color:#595959}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <button type="button" class="back">Back</button>
+    <h1 class="ttl">AI Chef</h1>
+    <span style="min-width:60px"></span>
+  </div>
+  <div class="body">
+    <div class="banner" role="alert">
+      <b style="font-size:14px">AI Chef Is Unavailable Right Now</b>
+      <div class="muted">We couldn't reach the service. Your standard suggestions below are unchanged.</div>
+      <div class="row"><button type="button" class="btn pri">Try Again</button><button type="button" class="btn">Dismiss</button></div>
+    </div>
+    <div class="field">Describe what you want, like &ldquo;use the chicken thighs&rdquo;</div>
+    <button type="button" class="btn pri" style="min-height:48px;opacity:.6">Suggest Dishes</button>
+    <div class="sec">Standard Suggestions</div>
+    <div class="card">
+      <div class="row"><b style="font-size:15px">Chicken and White Bean Stew</b><span class="tag">$1.40/srv</span></div>
+      <div class="muted">32g protein &middot; 3 items from King Soopers</div>
+    </div>
+    <div class="card">
+      <div class="row"><b style="font-size:15px">Pork and Poblano Casserole</b><span class="tag">$1.62/srv</span></div>
+      <div class="muted">28g protein &middot; 4 items, 1 already at home</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

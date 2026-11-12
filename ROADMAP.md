@@ -2,6 +2,14 @@
 
 This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to a fully automated, cloud-hosted weekend meal-prep companion (`v1.0`).
 
+## Current release tracking
+
+Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.6.2 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/8) and [release tracker #645](https://github.com/kchavez05/produce-price-tracker/issues/645) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
+
+## Historical release records
+
+Closed retrospective milestones now record published releases v1.3.1–v1.6.1 without reconstructing their implementation tickets. The [November 11 release audit](docs/releases/retrospective-audit-2026-11-11.md) indexes their original publications, release PRs, verified gates and recorded gaps. These records do not certify undocumented checks retroactively.
+
 ## v1.5.1 — Data Explorer & Score Transparency
 
 Delivered a public data explorer with price charts and weekly patterns, exact score explanations, ingredient grouping rationale, and a first-class raw-data view with source JSON and filtered exports. See the [approved specification](docs/specs/data-explorer-and-score-transparency.md). Policy decisions and operational constraints are recorded in the [explorer guide](docs/data-explorer.md).
@@ -132,7 +140,8 @@ flowchart LR
 - **Catalog standards:** Approved standards for repeatable USDA ingestion and a curated cooking-ingredient layer with optional varieties, compact search, and stable IDs. See the [approved ingestion spec](docs/specs/usda-catalog-ingestion.md); the initial approved 72-identity catalog, optional varieties, directional coverage, and market-link audits are implemented. Further category batches remain future curation work.
 - **v1.6.1 (released November 8, 2026):** Pantry Catalog Expansion before speech entry. Approved category/provenance, [produce](docs/research/v1.6.1-market-produce-review.md), [protein](docs/research/v1.6.1-market-protein-review.md) and [dairy](docs/research/v1.6.1-market-dairy-review.md) batches compile catalog `2026-11-07.4` with 222 identities, 175 source-linked identities, 85 independent market counterparts and 63 scoped recipe uses. All 35 market groups have counterpart paths. The [market coverage plan](docs/specs/v1.6.1-market-coverage.md) records the four implemented qualification rules and five explicitly approved release scope boundaries. The [final local audit](docs/research/v1.6.1-release-audit.md) passes. Production release is complete; all eight hosted migrations and 222 IDs are verified. Production authenticated API and guest-browser verification pass; disposable test data is cleaned up.
 - **Speech-to-inventory (after catalog expansion; version unassigned):** Dictate, review/correct, and explicitly confirm additions.
-- **v1.6.2 (planned):** Barcode scanning with mapping to generic ingredients and user confirmation/correction, plus dynamic pantry-staple pricing (v1.6.0 uses fixed estimates).
+- **v1.6.2 (release candidate; scope amended November 12, 2026):** Barcode scanning/typed entry, generic ingredient review/correction and explicit confirmation, with shared static/unpriced staple estimates. New live store API pricing is outside MVP scope under the [approved amendment](docs/research/v1.6.2-static-pricing-scope-amendment.md). The [specification](docs/specs/v1.6.2-barcode-and-staple-pricing.md) retains barcode privacy, ownership, device/account and production gates. Typed lookup, camera and shared evaluation are merged to develop; public barcode activation/production acceptance remain pending. The maintainer accepted limited iOS Safari scanning/key-entry evidence and the unrun #649 pre-release matrix; see the [verification acceptance](docs/research/v1.6.2-barcode-verification-acceptance.md). Existing market-discovery behavior is preserved. [Candidate notes](docs/releases/v1.6.2.md) and [rollout plan](docs/releases/v1.6.2-rollout.md) track the remaining release gates.
+- **Post-MVP — Multi-store API pricing (unscheduled):** [Scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689) includes multiple independent retail APIs, per-provider access/permissions and price semantics, provider-neutral adapters, actual product/recipe coverage and consistent current/saved/shopping costs. [Planning scope](docs/specs/multi-store-api-pricing.md); #651/#652 move to Backlog outside the v1.6.2 milestone. No provider access or activation is implied.
 
 ---
 
@@ -150,7 +159,22 @@ flowchart LR
 
 ---
 
-## 📱 Horizon 2 & 3: Native iOS / Android & Feature Expansion (`v1.5` – `v3.0`)
+## Planned v2.0 — UI Redesign
+
+**Goal:** Replace the single-dashboard homepage with three mobile-first workflow modules (Shop, Pantry, Plan) on a shared design system, as the first step toward the native apps, without changing pricing, scoring, sync, or account-ownership behavior. Targets iPhone and iPad first; desktop web is lowest priority.
+
+- **Discovery, mockups and design brief:** UI/UX audit, key flows, and clickable mockups reviewed and approved before any implementation (approved 2026-11-12). See the [specification](docs/specs/v2.0-ui-redesign.md).
+- **Foundations:** Design tokens (Tailwind v4 `@theme`), typography, spacing, dark mode, and shared UI primitives.
+- **UI test and accessibility infrastructure:** Component tests, browser smoke and visual checks, and automated accessibility checks, assigned to CI tiers. Deferred from earlier releases so tests are not written against screens being replaced.
+- **Dashboard decomposition:** Split the monolithic `MealPrepDashboard` into feature components with behavior-preserving tests.
+- **Screen-by-screen redesign and polish:** Dashboard, Virtual Pantry, account and sign-in, Data Explorer, legal and docs pages; WCAG AA pass, mobile responsiveness and performance budget.
+- Pre-release builds (`v2.0.0-beta.N`) may be previewed on `develop` before the production release.
+
+**Sequencing:** Starts after v1.6.2 and v1.7 so the sign-in flows ship on the current UI and are redesigned once. UI-only: the zero-key offline fallbacks and the sync and session-ownership boundaries stay unchanged. Native iOS/iPadOS follows as v2.x on the same tokens and module structure; public launch and later features stay on the later horizon below (see the linked wiki page for the native version numbers).
+
+---
+
+## 📱 Horizon 2 & 3: Redesign, Native iOS / iPadOS / Android & Feature Expansion (`v2.0` – `v3.0`)
 
 For the long-term mobile architecture (Turborepo + Expo React Native), native hardware features (Camera Shelf-Tag OCR, iOS Live Activities, Push Alerts), Virtual Freezer arbitrage loop, and nationwide store expansion, see:
 * **[North Star Strategy: Native iOS/Android Roadmap & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)**

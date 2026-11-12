@@ -41,7 +41,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
   openapi: '3.1.0',
   info: {
     title: 'PantryBot API',
-    version: '1.6.1',
+    version: '1.6.2',
     description:
       'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages Virtual Pantry availability, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
@@ -110,6 +110,24 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     },
   ],
   paths: {
+    '/api/pantry/barcode-lookup': {
+      post: {
+        tags: ['Virtual Pantry'], operationId: 'lookupPantryBarcode', summary: 'Look up a packaged product in the approved USDA snapshot',
+        description: 'Default-off, bounded non-AI lookup for guests and accounts. Returns public product evidence and a separate reviewed suggestion; never changes inventory or infers package quantities/prices. Public activation requires a verified artifact and shared rate enforcement. Offline is a client transport state.',
+        requestBody: { required: true, content: { 'application/json': { schema: {
+          type: 'object', additionalProperties: false, required: ['barcode'], properties: {
+            barcode: { type: 'string', minLength: 1, maxLength: 64, description: 'Original ASCII barcode text, including leading zeros. Outer ASCII spaces allowed for manual entry. Total request body at most 256 bytes.' },
+            format: { type: 'string', enum: ['MANUAL', 'UPC_A', 'EAN_13'], default: 'MANUAL' },
+          },
+        } } } },
+        responses: {
+          '200': { description: 'Found, ambiguous or an explicit snapshot miss/hold; no pantry mutation.', content: { 'application/json': { schema: { $ref: '#/components/schemas/BarcodeLookupResult' } } } },
+          '400': { description: 'Invalid or unsupported barcode/request.' }, '403': { description: 'Cross-origin request rejected.' },
+          '413': { description: 'Request exceeds 256 bytes.' }, '429': { description: 'Throttled; honor Retry-After.' },
+          '503': { description: 'Disabled, missing/unverified artifact or service failure. Manual entry remains available.' },
+        },
+      },
+    },
     '/api/pantry': {
       get: {
         tags: ['Virtual Pantry'], operationId: 'getPrivatePantry', summary: 'Read the current private pantry and legacy migration source',
@@ -1433,11 +1451,55 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           'isUserPinned',
         ],
       },
+      BarcodeProduct: {
+        type: 'object', properties: {
+          source: { type: 'string', enum: ['USDA_FDC_BRANDED'] }, fdcId: { type: 'string' }, originalBarcode: { type: 'string' }, description: { type: 'string' },
+          brandName: { type: ['string', 'null'] }, brandOwner: { type: ['string', 'null'] }, packageLabel: { type: ['string', 'null'] },
+          marketCountry: { type: 'string' }, publicationDate: { type: 'string', format: 'date' }, modifiedDate: { type: ['string', 'null'] }, availableDate: { type: ['string', 'null'] },
+          snapshotDate: { type: 'string', format: 'date' }, sourceUrl: { type: 'string', format: 'uri' },
+        }, required: ['source', 'fdcId', 'originalBarcode', 'description', 'brandName', 'brandOwner', 'packageLabel', 'marketCountry', 'publicationDate', 'modifiedDate', 'availableDate', 'snapshotDate', 'sourceUrl'],
+      },
+      ValidatedBarcode: { type: 'object', properties: {
+        original: { type: 'string' }, digits: { type: 'string' }, key: { type: 'string', minLength: 14, maxLength: 14 }, format: { type: 'string', enum: ['MANUAL', 'UPC_A', 'EAN_13'] },
+      }, required: ['original', 'digits', 'key', 'format'] },
+      BarcodeLookupResult: {
+        oneOf: [
+          { type: 'object', properties: { status: { type: 'string', enum: ['FOUND'] }, barcode: { $ref: '#/components/schemas/ValidatedBarcode' }, product: { $ref: '#/components/schemas/BarcodeProduct' },
+            suggestion: { type: ['object', 'null'], properties: { ingredientId: { type: 'string' }, ruleId: { type: 'string' } }, required: ['ingredientId', 'ruleId'] } }, required: ['status', 'barcode', 'product', 'suggestion'] },
+          { type: 'object', properties: { status: { type: 'string', enum: ['AMBIGUOUS_PRODUCT'] }, barcode: { $ref: '#/components/schemas/ValidatedBarcode' }, products: { type: 'array', maxItems: 5, items: { $ref: '#/components/schemas/BarcodeProduct' } }, matchCount: { type: 'integer', minimum: 2 } }, required: ['status', 'barcode', 'products', 'matchCount'] },
+          { type: 'object', properties: { status: { type: 'string', enum: ['INVALID', 'UNSUPPORTED', 'NOT_FOUND', 'DISCONTINUED', 'SOURCE_DATE_HOLD', 'DISABLED', 'SERVICE_UNAVAILABLE', 'THROTTLED'] }, message: { type: 'string' } }, required: ['status', 'message'] },
+        ], discriminator: { propertyName: 'status' },
+      },
       PantryRequirement: {
         type: 'object', properties: {
           ingredientId: { type: 'string', description: 'Exact pantry identity or a reviewed recipe-use requirement ID. Recipe-use IDs represent alternatives within a specific recipe slot and cannot be stored as pantry inventory.' }, displayName: { type: 'string' },
           quantity: { type: 'number', minimum: 0 }, unit: { type: 'string' }, optional: { type: 'boolean' },
+          quantityBasisVersion: { type: 'string', description: 'Reviewed use basis, including canned-net-contents-v1 for labeled unopened can contents. Missing saved basis never implies net contents.' },
         }, required: ['ingredientId', 'quantity', 'unit'],
+      },
+      PantryPriceDetail: {
+        allOf: [{ $ref: '#/components/schemas/PantryRequirement' }, {
+          type: 'object', properties: {
+            requirementKey: { type: 'string' }, allocatedCents: { type: ['integer', 'null'], minimum: 0, description: 'Authoritative integer recipe allocation.' },
+            priceBasis: { type: 'string', enum: ['OBSERVED', 'STATIC_ESTIMATE', 'UNPRICED', 'ON_HAND', 'OPTIONAL'] },
+            estimatedCost: { type: ['number', 'null'], description: 'Allocated USD recipe cents; null means unpriced.' },
+            observation: { type: 'object', properties: {
+              source: { type: 'string', enum: ['KROGER_PRODUCTION'] }, quoteId: { type: 'string' },
+              productId: { type: 'string' }, itemId: { type: 'string' }, locationId: { type: 'string' },
+              observedAtIso: { type: 'string', format: 'date-time' }, effectiveAtIso: { type: 'string', format: 'date-time' }, expiresAtIso: { type: 'string', format: 'date-time' },
+              packagePrice: { type: 'number' }, packageAmount: { type: 'string' }, packageUnit: { type: 'string' },
+              sourceSizeLabel: { type: 'string' }, ruleVersion: { type: 'string' }, stockUnconfirmed: { type: 'boolean' },
+            }, required: ['source', 'quoteId', 'productId', 'itemId', 'locationId', 'observedAtIso', 'packagePrice', 'packageAmount', 'packageUnit', 'sourceSizeLabel', 'ruleVersion', 'stockUnconfirmed'] },
+          }, required: ['requirementKey', 'allocatedCents', 'priceBasis', 'estimatedCost'],
+        }],
+      },
+      PantryPricing: {
+        type: 'object', description: 'Derived current recipe-use pricing. Discarded before saving recipes; live provider activation remains disabled.',
+        properties: {
+          rows: { type: 'array', items: { $ref: '#/components/schemas/PantryPriceDetail' } }, total: { type: 'number' },
+          includesStaticEstimates: { type: 'boolean' }, incompleteEstimate: { type: 'boolean' },
+          evaluatedAtIso: { type: 'string', format: 'date-time' }, marketId: { type: 'string' }, selectedLocationIds: { type: 'array', items: { type: 'string' } },
+        }, required: ['rows', 'total', 'includesStaticEstimates', 'incompleteEstimate', 'evaluatedAtIso', 'marketId', 'selectedLocationIds'],
       },
       RecommendedDish: {
         type: 'object',
@@ -1474,13 +1536,14 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             example: ['Beef broth', 'Olive oil', 'Salt & pepper'],
           },
           pantryRequirements: { type: 'array', items: { $ref: '#/components/schemas/PantryRequirement' }, description: 'Explicit batch-use staple requirements in staged pantry mode; legacy free text remains unpriced.' },
+          pantryPricing: { $ref: '#/components/schemas/PantryPricing' },
           pantryCoverage: { type: 'object', properties: {
             requiredCount: { type: 'integer' }, availableRequiredCount: { type: 'integer' },
             optionalCount: { type: 'integer' }, availableOptionalCount: { type: 'integer' },
           } },
           additionalCostEstimateComplete: { type: 'boolean', description: 'False means totals are known subtotals plus unpriced ingredients.' },
           missingPriceIngredientIds: { type: 'array', items: { type: 'string' } },
-          estimatedPantryCost: { type: 'number', example: 2.5, description: 'Fixed USD recipe-use estimate for uncovered required staples in pantry mode; never an observed store offer.' },
+          estimatedPantryCost: { type: 'number', example: 2.5, description: 'USD recipe-use estimate for uncovered required staples; allocated row basis is reported in pantryPricing. Live provider activation remains disabled.' },
           totalBatchCost: { type: 'number', example: 14.85 },
           regularBatchCost: { type: 'number', example: 23.4 },
           totalBatchSavings: { type: 'number', example: 8.55 },
@@ -1628,7 +1691,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
       KingSoopersLocation: {
         type: 'object',
         properties: {
-          locationId: { type: 'string', example: '62000116' },
+          locationId: { type: 'string', example: '62000105' },
           name: { type: 'string', example: 'King Soopers Firestone' },
           address: { type: 'string', example: '6110 Firestone Blvd' },
           city: { type: 'string', example: 'Firestone' },

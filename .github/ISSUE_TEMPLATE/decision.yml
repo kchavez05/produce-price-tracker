@@ -1,0 +1,48 @@
+name: Research or decision
+description: Track a concrete decision or external qualification gate.
+labels: [question]
+projects: [kchavez05/1]
+assignees: [kchavez05]
+body:
+  - type: input
+    id: release
+    attributes:
+      label: Target release or Backlog
+      value: Backlog
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question and required outcome
+      description: State the decision or provider fact needed, its owner and what work depends on it.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and existing approvals
+      description: Link research, authoritative sources and accepted decision records. Identify proposals and uncertainties explicitly.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Completion criteria
+      description: Define the evidence or accepted decision that resolves this issue.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and blockers
+      description: Link affected/prerequisite issues and name the responsible party or missing access.
+    validations:
+      required: true
+  - type: textarea
+    id: status
+    attributes:
+      label: Current status and next action
+      value: 'Backlog — identify the specific decision owner and evidence-gathering step.'
+    validations:
+      required: true

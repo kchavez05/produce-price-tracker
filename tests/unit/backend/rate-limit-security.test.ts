@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { NextRequest } from 'next/server';
 import {
   checkRateLimit,
@@ -45,7 +45,7 @@ describe('rate-limit-security: checkRateLimit', () => {
     const req = createMockRequest({
       headers: { 'x-real-ip': '10.0.0.1' },
     });
-    const scope = 'unit-test-allow';
+    const scope = 'dashboard';
 
     const r1 = checkRateLimit(req, scope, 5, 10_000);
     expect(r1.allowed).toBe(true);
@@ -56,11 +56,37 @@ describe('rate-limit-security: checkRateLimit', () => {
     expect(r2.remaining).toBe(3);
   });
 
+  it('caps distinct identities without evicting active counters and recovers after expiry', async () => {
+    vi.resetModules();
+    const { checkRateLimit: bounded } = await import('@/lib/security/rate-limit');
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(10_000);
+    const req = createMockRequest({});
+    try {
+      const admitted = Array.from({ length: 5000 }, (_, i) => bounded(req, 'barcode-lookup', 1, 60_000, `client-${i}`)).filter((result) => result.allowed);
+      expect(admitted.length).toBeGreaterThan(0); expect(admitted.length).toBeLessThanOrEqual(5000);
+      const iteration = vi.spyOn(Map.prototype, Symbol.iterator);
+      let rejected: ReturnType<typeof bounded>[] = []; let scans = 0;
+      try {
+        rejected = Array.from({ length: 100 }, (_, i) => bounded(req, 'barcode-lookup', 1, 60_000, `extra-${i}`));
+        scans = iteration.mock.calls.length;
+      } finally { iteration.mockRestore(); }
+      expect(scans).toBe(0);
+      for (const result of rejected) expect(result).toMatchObject({ allowed: false, remaining: 0, resetInSeconds: 60 });
+      expect(bounded(req, 'barcode-lookup', 1, 60_000, 'client-0').allowed).toBe(false);
+      // A saturated public scope cannot consume another route's client slots.
+      expect(bounded(req, 'auth-callback', 2, 60_000, 'legitimate-client').allowed).toBe(true);
+      expect(bounded(req, 'api-account-auth', 2, 60_000, 'legitimate-client').allowed).toBe(true);
+      clock.mockReturnValue(70_001);
+      expect(bounded(req, 'barcode-lookup', 1, 60_000, 'new-client').allowed).toBe(true);
+      expect(bounded(req, 'barcode-lookup', 1, 60_000, 'client-0').allowed).toBe(true);
+    } finally { clock.mockRestore(); }
+  });
+
   it('blocks requests once limit is exceeded', () => {
     const req = createMockRequest({
       headers: { 'x-real-ip': '10.0.0.2' },
     });
-    const scope = 'unit-test-block';
+    const scope = 'api-account-delete';
 
     for (let i = 0; i < 3; i++) {
       checkRateLimit(req, scope, 3, 10_000);

@@ -4,14 +4,14 @@ import { KingSoopersLocation, StoreOffer } from '@/types/domain';
 
 export const MEAD_KING_SOOPERS_LOCATIONS: KingSoopersLocation[] = [
   {
-    locationId: '62000116',
+    locationId: '62000105',
     name: 'King Soopers Marketplace (Firestone)',
     address: '6110 Firestone Blvd',
     city: 'Firestone, CO 80504',
     distanceMiles: 3.8,
   },
   {
-    locationId: '62000080',
+    locationId: '62000102',
     name: 'King Soopers (Longmont Pace St)',
     address: '1611 Pace St',
     city: 'Longmont, CO 80504',
@@ -25,7 +25,7 @@ export const MEAD_KING_SOOPERS_LOCATIONS: KingSoopersLocation[] = [
     distanceMiles: 6.8,
   },
   {
-    locationId: '62000102',
+    locationId: '62000080',
     name: 'King Soopers (Longmont Hover St)',
     address: '995 S Hover St',
     city: 'Longmont, CO 80501',

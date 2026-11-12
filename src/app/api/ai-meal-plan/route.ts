@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Sign in with a verified account or supply your own Gemini key.' }, { status: 401 });
       }
       // Account-level limit also prevents bypass by changing client IPs.
-      const accountRate = checkRateLimit(request, `ai-account:${profile.id}`, 10, 60_000, profile.id);
+      const accountRate = checkRateLimit(request, 'ai-account', 10, 60_000, profile.id);
       if (!accountRate.allowed) {
         return NextResponse.json({ error: 'Meal-plan quota reached' }, {
           status: 429, headers: { 'Retry-After': String(accountRate.resetInSeconds) },
@@ -93,7 +93,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const ai = new GoogleGenAI({ apiKey });
+    // Preserve the existing endpoint contract across the SDK 3 default-version change.
+    const ai = new GoogleGenAI({ apiKey, apiVersion: 'v1beta' });
 
     const freezerIds = new Set(
       (dashboard.freezerInventory || []).map((f) => f.canonicalIngredientId)

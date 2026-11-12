@@ -1,0 +1,138 @@
+{
+  "baseline": "No pantry Yes; six servings; default dietary/pinned selection",
+  "scenarios": [
+    {
+      "recipeId": "cheesy-chicken-broccoli-potato-casserole",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [
+        "olive-oil"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "olive-oil"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "colorado-pork-green-chile-stew",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [],
+      "possibleReviewedAlternativeIds": [],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "dutch-oven-beef-chuck-pot-roast-stew",
+      "defaultRequiredSlots": 6,
+      "proposedDefaultObservedIds": [
+        "worcestershire-sauce-gluten-free"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "worcestershire-sauce",
+        "worcestershire-sauce-gluten-free"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "golden-chicken-butternut-squash-curry-braise",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [],
+      "possibleReviewedAlternativeIds": [],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "high-protein-sausage-egg-sweet-potato-breakfast-casserole",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [
+        "olive-oil"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "olive-oil"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "instant-pot-pork-carnitas-cabbage-peppers-skillet",
+      "defaultRequiredSlots": 7,
+      "proposedDefaultObservedIds": [],
+      "possibleReviewedAlternativeIds": [
+        "orange-juice"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "keto-caveman-beef-chuck-mushroom-cauliflower-braise",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [
+        "worcestershire-sauce-gluten-free"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "worcestershire-sauce",
+        "worcestershire-sauce-gluten-free"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "kielbasa-cabbage-apple-potato-braise",
+      "defaultRequiredSlots": 4,
+      "proposedDefaultObservedIds": [
+        "apple-cider-vinegar"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "apple-cider-vinegar"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "sheet-pan-fajita-chicken-thighs-peppers-sweet-potato",
+      "defaultRequiredSlots": 6,
+      "proposedDefaultObservedIds": [
+        "lime-juice",
+        "olive-oil"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "avocado-oil",
+        "lime-juice",
+        "olive-oil"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "sheet-pan-salmon-asparagus-brussels-potato-roast",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [
+        "lemon-fresh",
+        "olive-oil"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "lemon-fresh",
+        "olive-oil"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "southwest-sweet-potato-ground-beef-chili-bake",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [
+        "black-beans-canned",
+        "crushed-tomatoes-canned"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "black-beans-canned",
+        "crushed-tomatoes-canned",
+        "kidney-beans-canned"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    },
+    {
+      "recipeId": "tuscan-sausage-white-bean-spinach-potato-stew",
+      "defaultRequiredSlots": 5,
+      "proposedDefaultObservedIds": [
+        "cannellini-beans-canned"
+      ],
+      "possibleReviewedAlternativeIds": [
+        "cannellini-beans-canned",
+        "great-northern-beans-canned"
+      ],
+      "allCandidatePricesConditionalOnSourceAndRuleApproval": true
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>iPad Plan wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:1194px;height:834px;box-sizing:border-box;background:#fff;display:flex;overflow:hidden;border:1px solid #cfcfcf}
+.side{width:240px;flex:none;background:#f3f3f3;border-right:1px solid #cfcfcf;display:flex;flex-direction:column;padding:20px 12px;gap:6px;box-sizing:border-box}
+.logo{font-weight:700;font-size:20px;padding:0 8px 16px}
+.nav{min-height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:10px;font-size:16px;color:#333;border:0;background:none;font-family:inherit;text-align:left;width:100%}
+.nav.on{background:#1f1f1f;color:#fff;font-weight:700}
+.ico{width:22px;height:22px;border:2px solid currentColor;border-radius:6px;box-sizing:border-box;flex:none}
+.acct{display:flex;align-items:center;gap:10px;min-height:56px;padding:0 8px;border-top:1px solid #cfcfcf;margin-top:auto;border-left:0;border-right:0;border-bottom:0;background:none;font-family:inherit;text-align:left;color:#1f1f1f;width:100%}
+.avatar{width:44px;height:44px;border-radius:50%;background:#e4e4e4;border:1px solid #6b6b6b;display:flex;align-items:center;justify-content:center;font-size:11px;color:#333;flex:none}
+.list{width:380px;flex:none;border-right:1px solid #cfcfcf;padding:20px 16px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box;overflow:hidden}
+.detail{flex:1;padding:24px 28px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box;overflow:hidden}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa;display:flex;flex-direction:column;gap:8px;flex:none}
+.card.sel{border:2px solid #1f1f1f;background:#fff}
+.btn{min-height:48px;padding:0 20px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.btn.quiet{border-color:#cfcfcf;color:#595959;font-weight:500}
+.row{display:flex;align-items:center;gap:8px}
+.muted{color:#595959;font-size:13px}
+.step{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
+.step span{width:48px;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#333}
+.step span.on{background:#1f1f1f;color:#fff}
+.chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;white-space:nowrap;background:#fff;font-family:inherit}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+.hint{border:1px dashed #6b6b6b;border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none;font-size:13px;color:#333}
+.sec{font-size:14px;font-weight:700;color:#595959}
+.tbl{display:flex;flex-direction:column;border:1px solid #cfcfcf;border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 14px;border-bottom:1px solid #e4e4e4;font-size:14px}
+.tr:last-child{border-bottom:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a{text-decoration:none}
+</style>
+</helmet>
+<div class="scr">
+  <div class="side">
+    <div class="logo">PantryBot</div>
+    <a class="nav" href="IpadShop.dc.html"><span class="ico"></span>Shop</a>
+    <a class="nav" href="IpadPantry.dc.html"><span class="ico"></span>Pantry</a>
+    <a class="nav on" href="IpadPlan.dc.html"><span class="ico"></span>Plan</a>
+    <a class="acct" href="IpadSettings.dc.html" aria-label="Account and settings"><span class="avatar">Acct</span><span><b style="font-size:14px">Guest</b><br><span class="muted">Account and Settings</span></span></a>
+  </div>
+  <div class="list">
+    <h1 class="sr">Plan</h1>
+    <div class="row" style="justify-content:space-between">
+      <span class="muted">Servings</span>
+      <div class="step"><span>4</span><span class="on">6</span><span>8</span></div>
+    </div>
+    <button type="button" class="chip" style="justify-content:space-between">Any macros &middot; No restrictions &middot; Edit preferences</button>
+    <div class="hint"><span>Mark what you have in Pantry to lower the cost.</span><button type="button" class="btn quiet" style="min-height:44px;padding:0 14px" aria-label="Dismiss hint">Hide</button></div>
+    <div class="card sel">
+      <div class="row" style="justify-content:space-between"><b style="font-size:16px">Chicken and White Bean Stew</b><span class="tag">$1.40/srv</span></div>
+      <div class="muted">32g protein &middot; 3 items from King Soopers</div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><b style="font-size:16px">Pork and Poblano Casserole</b><span class="tag">$1.62/srv</span></div>
+      <div class="muted">28g protein &middot; 4 items, 1 already at home</div>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><b style="font-size:16px">Squash and Lentil Braise</b><span class="tag">$1.18/srv</span></div>
+      <div class="muted">22g protein &middot; 5 items</div>
+    </div>
+    <div class="row" style="justify-content:space-between;border:1px solid #cfcfcf;border-radius:12px;padding:8px 12px;flex:none">
+      <span style="font-size:14px">Ask AI Chef</span>
+      <button type="button" class="btn quiet" style="min-height:44px;padding:0 14px">Sign in to use</button>
+    </div>
+  </div>
+  <div class="detail">
+    <div class="row" style="justify-content:space-between"><h2 style="margin:0;font-size:26px">Chicken and White Bean Stew</h2><span class="tag">$1.40/srv</span></div>
+    <div class="muted">6 servings &middot; 32g protein &middot; 410 cal per serving &middot; Dutch oven</div>
+    <div class="sec">Ingredients</div>
+    <div class="tbl">
+      <div class="tr"><span>Bone-in chicken thighs, 3 lb</span><span class="tag">ALDI $0.99/lb</span></div>
+      <div class="tr"><span>Canned white beans, 3 cans</span><span class="tag">Walmart $0.88 each</span></div>
+      <div class="tr"><span>Yellow onions, 2 lb</span><span class="tag">King Soopers $0.79/lb</span></div>
+      <div class="tr"><span>Olive oil</span><span class="tag">At Home</span></div>
+      <div class="tr"><span>Salt</span><span class="tag">At Home</span></div>
+    </div>
+    <div class="sec">Method</div>
+    <div class="card"><span class="muted">Steps appear here.</span></div>
+    <div class="row" style="margin-top:auto">
+      <button type="button" class="btn pri" style="flex:1">Add Missing to Trip</button>
+      <button type="button" class="btn">Save</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

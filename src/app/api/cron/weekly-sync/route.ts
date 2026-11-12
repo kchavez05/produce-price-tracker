@@ -124,7 +124,7 @@ async function executeWeeklySync(
       ``,
       `## 2. Store Trip Cost Optimizer`,
       `- **Optimal 2-Store Split:** $${tripComparison.optimalSplitTotal.toFixed(2)} (Saves $${(tripComparison.regularShelfTotal - tripComparison.optimalSplitTotal).toFixed(2)} vs. regular shelf)`,
-      `- **King Soopers 1-Stop (#62000116 Firestone):** $${tripComparison.kingSoopersOnlyTotal.toFixed(2)}`,
+      `- **King Soopers 1-Stop:** $${tripComparison.kingSoopersOnlyTotal.toFixed(2)}`,
       `- **Safeway 1-Stop (1632 Main St Longmont):** $${tripComparison.safewayOnlyTotal.toFixed(2)}`,
       `- **Verdict:** ${tripComparison.recommendationHeadline} — ${tripComparison.recommendationDetail}`,
       ``,

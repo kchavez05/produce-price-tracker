@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pantry ingredient detail wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:60px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.ttl{font-size:17px;font-weight:700;margin:0}
+.body{flex:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.muted{color:#595959;font-size:13px}
+a{text-decoration:none}
+.sec{font-size:14px;font-weight:700;color:#595959;margin-top:4px}
+.yn{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none}
+.yn span{width:64px;min-height:48px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:#333}
+.yn span.on{background:#1f1f1f;color:#fff}
+.field{min-height:48px;border:1px solid #6b6b6b;border-radius:10px;padding:0 12px;display:flex;align-items:center;font-size:15px;color:#595959;background:#fff}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa;font-size:14px}
+.link{min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#595959;text-decoration:underline;font-family:inherit;background:none;border:0;width:100%;margin-top:auto}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <a class="back" href="Pantry.dc.html">Pantry</a>
+    <h1 class="ttl">Olive Oil</h1>
+    <span style="min-width:60px"></span>
+  </div>
+  <div class="body">
+    <div class="row"><span style="font-size:16px">Do I have this?</span><div class="yn"><span class="on">Yes</span><span>No</span></div></div>
+    <div class="sec">Optional Details</div>
+    <div class="field">Quantity (optional)</div>
+    <div class="field">Where it is (optional)</div>
+    <div class="field">Notes (optional)</div>
+    <div class="sec">Used In This Week's Plan</div>
+    <div class="card">Chicken and White Bean Stew, Squash and Lentil Braise</div>
+    <div class="sec">Current Deals</div>
+    <div class="card"><span class="muted">Not on sale at your stores this week.</span></div>
+    <a class="link" href="Pantry.dc.html">Remove From Pantry</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

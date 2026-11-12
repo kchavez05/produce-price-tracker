@@ -1,6 +1,12 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.1`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.2` release candidate)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
+
+## v1.6.2 — Barcode entry and static staple estimates (candidate)
+
+Prepared for release; production activation and publication are pending. Typed UPC-A/EAN-13 lookup and deliberate local camera capture share product review, ingredient correction and explicit pantry confirmation. Existing static/unpriced staple estimates now use one evaluator across current/saved recipes and shopping. New live store API pricing is deferred to [multi-store scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689); existing market discovery is preserved.
+
+The maintainer reported limited iOS Safari scanning/key-entry smoke tests and explicitly accepted the unrun remainder of #649’s pre-release matrix. Full Android, account/second-client and accessibility results are not claimed. See the [verification acceptance](docs/research/v1.6.2-barcode-verification-acceptance.md), [candidate release notes](docs/releases/v1.6.2.md), and [rollout plan](docs/releases/v1.6.2-rollout.md). Production barcode controls remain gated by artifact delivery, production enforcement and acceptance.
 
 ## v1.6.0 — Virtual Pantry
 
@@ -14,7 +20,7 @@ A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) pr
 
 Released November 8, 2026, v1.6.1 expands the pantry catalog before speech entry. The approved batches compile to 222 identities in catalog `2026-11-07.4`, with 175 source-linked identities, 85 independent market counterpart associations and 63 scoped recipe uses. The [produce](docs/research/v1.6.1-market-produce-review.md), [protein](docs/research/v1.6.1-market-protein-review.md) and [dairy](docs/research/v1.6.1-market-dairy-review.md) batches close the 18 reviewed coverage gaps. All 35 market groups have counterpart paths; the [market completion plan](docs/specs/v1.6.1-market-coverage.md) records the four implemented offer-qualification rules and five explicitly approved release scope boundaries. The [final local audit](docs/research/v1.6.1-release-audit.md) passes. All eight hosted migrations are installed and all 222 accepted IDs are verified. Production authenticated API and guest-browser verification pass, with disposable test data cleaned up. See the [v1.6.1 release notes](docs/releases/v1.6.1.md).
 
-## Key Features (`v1.6.1`)
+## Existing Features (released `v1.6.1` baseline)
 
 * **Public Data Explorer & Score Transparency:** Explore stored USDA and store price history, inspect score arithmetic and ingredient groupings, and download raw source JSON or filtered CSV. Available through **Explore the data** in the footer; see the [explorer guide](docs/data-explorer.md).
 
@@ -32,6 +38,8 @@ Released November 8, 2026, v1.6.1 expands the pantry catalog before speech entry
 * **1-Tap Curbside Cart Bridge & Checklist Export:** Deep links directly into **Walmart Grocery**, **Target Drive Up**, **Kroger**, **Safeway**, **Sprouts**, **ALDI**, and **Instacart** search, plus 1-tap **Apple Notes / Google Keep** aisle-grouped checklists and a printable kitchen slip.
 
 ## Quick Start
+
+Use Node.js 22.22.2+ on the Node 22 line, or 24.15.0+ on the Node 24 line (the current SDK/test dependencies exclude older Node releases). `.nvmrc` pins the tested Node 22 runtime; CI uses Node 22.
 
 ```bash
 npm install
@@ -53,9 +61,16 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 
 ## Documentation, Wiki & Release Notes
 
-* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Milestones (`v0.1` through `v1.3`) and upcoming native mobile roadmap (`v1.5+`).
+Historical publications, backfilled milestones and release-process findings are indexed in the [November 11 retrospective audit](docs/releases/retrospective-audit-2026-11-11.md).
+
+Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.6.2 release issue #645](https://github.com/kchavez05/produce-price-tracker/issues/645). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
+
+v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API pricing is deferred to [multi-store scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689), covering multiple independent retail APIs. See the [approved scope amendment](docs/research/v1.6.2-static-pricing-scope-amendment.md). Existing market-discovery integrations are preserved; barcode device/account and production acceptance remain required.
+
+* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.2 scope and long-term mobile plans.
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.6.2 — Barcode Entry & Static Staple Estimates (candidate)](./docs/releases/v1.6.2.md)
   * [v1.6.1 — Pantry Catalog Expansion](./docs/releases/v1.6.1.md)
   * [v1.6.0 — Virtual Pantry](./docs/releases/v1.6.0.md)
   * [v1.5.2 — Data Clarity & Active Markets](./docs/releases/v1.5.2.md)
