@@ -5,6 +5,25 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.2] - Unreleased
+
+Release candidate; production activation/acceptance and GitHub publication remain pending. See [candidate notes](docs/releases/v1.6.2.md) and the [rollout plan](docs/releases/v1.6.2-rollout.md).
+
+### Added
+- Typed UPC-A/EAN-13 product lookup, source attribution, generic ingredient review/correction and explicit pantry confirmation.
+- Deliberate local camera capture with pause/resume, lifecycle cleanup and typed/manual fallback; no camera-frame upload or automatic inventory addition.
+- Pinned read-only USDA barcode artifact delivery, integrity/trace checks, recoverable ingress throttling and six connected barcode/pantry smoke cases.
+
+### Changed
+- Share static/unpriced staple calculations across current recipes, saved reevaluation and shopping; preserve Yes/No ownership, optional details and exact-unit boundaries.
+- Defer new live store API pricing to unscheduled multi-provider scope #689; preserve existing market discovery.
+- Correct King Soopers location identities, update reviewed dependencies/security overrides, group routine Dependabot updates, and document the Claude review and issue/release workflow.
+- Keep v2.0 wireframes/specifications as planning documents; no v2.0 UI ships through those documents.
+
+### Verification and rollout
+- Maintainer accepts limited iOS Safari scanning/key-entry smoke evidence and the unrun remainder of the original #649 pre-release matrix. Unrun Android/account/accessibility cases are not recorded as passed.
+- Production barcode controls remain gated by the pinned artifact, production-scoped regional rate limit and exact production acceptance. No release/tag has been published by this preparation.
+
 ## [1.6.1] - 2026-11-08
 
 ### Added

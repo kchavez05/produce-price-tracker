@@ -1,4 +1,5 @@
 import React from 'react';
+import { version } from '../../package.json';
 import Link from 'next/link';
 import { ChefHat, ShieldCheck, Mail, FileText, Lock, BookOpen } from 'lucide-react';
 
@@ -24,7 +25,7 @@ export default function AppFooter() {
             </span>
             <span className="hidden rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 border border-emerald-200 md:inline-flex items-center gap-1">
               <ShieldCheck className="h-3 w-3 text-emerald-600" />
-              v1.6.0 Virtual Pantry
+              v{version} Virtual Pantry
             </span>
           </div>
 
