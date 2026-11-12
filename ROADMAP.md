@@ -162,7 +162,7 @@ flowchart LR
 
 **Goal:** Replace the single-dashboard homepage with three mobile-first workflow modules (Shop, Pantry, Plan) on a shared design system, as the first step toward the native apps, without changing pricing, scoring, sync, or account-ownership behavior. Targets iPhone and iPad first; desktop web is lowest priority.
 
-- **Discovery, mockups and design brief:** UI/UX audit, key flows, and clickable mockups reviewed and approved before any implementation. See the [draft specification](docs/specs/v2.0-ui-redesign.md).
+- **Discovery, mockups and design brief:** UI/UX audit, key flows, and clickable mockups reviewed and approved before any implementation (approved 2026-11-12). See the [specification](docs/specs/v2.0-ui-redesign.md).
 - **Foundations:** Design tokens (Tailwind v4 `@theme`), typography, spacing, dark mode, and shared UI primitives.
 - **UI test and accessibility infrastructure:** Component tests, browser smoke and visual checks, and automated accessibility checks, assigned to CI tiers. Deferred from earlier releases so tests are not written against screens being replaced.
 - **Dashboard decomposition:** Split the monolithic `MealPrepDashboard` into feature components with behavior-preserving tests.
