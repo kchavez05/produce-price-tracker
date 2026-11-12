@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { copyPinnedArtifact, prepareBarcodeDeployment, verifyPinnedArtifact } from '../../../scripts/lib/barcode-deployment';
 import pin from '../../../deployment/barcode-artifact.json';
+import originalPin from '../../../deployment/barcode-artifact-v1.json';
 import { BARCODE_MAPPING_DIGEST, BARCODE_PACKET_DIGEST, BARCODE_SOURCE_MANIFEST } from '@/lib/barcodes/approved';
 const folders: string[] = [];
 const hash = (data: string) => createHash('sha256').update(data).digest('hex');
@@ -20,7 +21,10 @@ afterEach(async () => { for (const directory of folders.splice(0)) await rm(dire
 describe('pinned deployment delivery', () => {
   it('pins the qualified source and exact release artifact independently of supplied files', () => {
     expect(pin.packetSha256).toBe(BARCODE_PACKET_DIGEST); expect(pin.mappingSha256).toBe(BARCODE_MAPPING_DIGEST);
-    expect(pin.sourceManifest).toEqual(BARCODE_SOURCE_MANIFEST); expect(pin.artifactBytes).toBe(115613696);
+    expect(pin.sourceManifest).toEqual(BARCODE_SOURCE_MANIFEST); expect(pin.artifactBytes).toBe(60895232);
+    expect(pin.sourceArtifactSha256).toBe(originalPin.artifactSha256);
+    expect(pin.logicalContent.products.rows).toBe(originalPin.productRows);
+    expect(pin.logicalContent.outcomes.rows).toBe(originalPin.lookupKeys);
     expect(pin.mappingCount).toBe(16);
   });
   it('copies only the finalized pair as read-only, leaving raw/operator extras out', async () => {
