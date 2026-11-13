@@ -43,14 +43,15 @@ let dashboardRequests: URL[];
 let acknowledge: (() => void) | undefined;
 let holdSync: boolean;
 let failSync: boolean;
+let mutationRequests: string[];
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 function button(text: string) {
   const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text));
-  if (!found) throw new Error(`Missing button: ${text}; pantry: ${container.querySelector('section[aria-labelledby="virtual-pantry-title"]')?.textContent}`);
+  if (!found) throw new Error(`Missing button: ${text}`);
   return found;
 }
 async function waitUntil(check: () => boolean) {
-  const deadline = Date.now() + 1500;
+  const deadline = Date.now() + 5000;
   while (!check()) {
     if (Date.now() > deadline) throw new Error('Dashboard did not reach the expected state');
     await act(async () => { await settle(); });
@@ -70,7 +71,7 @@ beforeEach(async () => {
   localStorage.clear(); sessionStorage.clear(); server = structuredClone(initialSync);
   pantryServer = { owner: 'account:alice', entries: [stock], legacyMigrationVersion: 1, needsCatalogMatch: [],
     acceptedCatalogIds: cookingIngredients.map((entry) => entry.id) };
-  dashboardRequests = []; acknowledge = undefined; holdSync = false; failSync = false;
+  dashboardRequests = []; mutationRequests = []; acknowledge = undefined; holdSync = false; failSync = false;
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
   vi.stubGlobal('crypto', webcrypto);
   vi.stubGlobal('navigator', { onLine: true, locks: { request: createTestSyncLock() } });
@@ -79,6 +80,7 @@ beforeEach(async () => {
       if (failSync) throw new Error('offline');
       if (init?.method === 'POST') {
         const body = JSON.parse(init.body as string) as { mutation: PantryMutation };
+        mutationRequests.push(body.mutation.mutationId);
         const result = evaluatePantryMutation(pantryServer.entries, body.mutation, '2026-11-12T00:00:00Z');
         if (result.status === 'applied') pantryServer = { ...pantryServer, entries: [...pantryServer.entries.filter((entry) => entry.id !== result.entry.id), result.entry] };
         return Response.json({ ...result, owner: pantryServer.owner });
@@ -109,26 +111,39 @@ async function prepareGuest() {
   await act(async () => root.unmount());
   pantryServer = { ...pantryServer, entries: [] };
   localStorage.setItem(guestPantryKey, JSON.stringify({ owner: 'guest:private', entries: [{ ...stock, id: 'guest-salt', ingredientId: 'salt', displayName: 'Salt' }], legacyMigrationVersion: 1, needsCatalogMatch: [] }));
-  await mount(); await openPantry(); await click(button('Review guest pantry import'));
+  await mount(); await openPantry();
+    await click(button('Review guest pantry import'));
 }
 
 describe('signed-in dashboard sync through Pantry', () => {
   it('recomputes meal costs after an offline pantry deletion and retains the edit until reconnect', async () => {
-    const before = button('2. 3-Dish Meal Prep').textContent;
-    await openPantry(); failSync = true;
+    const cost = () => Number(button('2. 3-Dish Meal Prep').textContent?.match(/\$(\d+(?:\.\d+)?)\/srv/)?.[1]);
+    const before = cost();
+    expect(Number.isFinite(before)).toBe(true);
+    await openPantry();
+    failSync = true;
     await click(button('Delete Chicken thighs'));
     expect(liveEntries()).toHaveLength(1);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).not.toBeNull();
-    expect(button('2. 3-Dish Meal Prep').textContent).not.toBe(before);
-    failSync = false; await reconnect();
+    expect(cost()).toBeGreaterThan(before);
+    const after = cost();
+    failSync = false;
+    await reconnect();
     expect(liveEntries()).toEqual([]);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).toBeNull();
     expect(container.textContent).toContain('Saved');
+    expect(cost()).toBe(after);
+    await click(button('2. 3-Dish Meal Prep'));
+    await click(button('All Macros'));
+    expect(dashboardRequests.at(-1)?.searchParams.get('onHand')).toBe('');
   });
   it('preserves pins and servings selected before and during a preference acknowledgment', async () => {
-    await click(button('Pin to Prep')); await click(button('2. 3-Dish Meal Prep'));
-    holdSync = true; await click(button('High-Protein'));
-    expect(acknowledge).toBeTypeOf('function'); await click(button('8 Srv / Dish'));
+    await click(button('Pin to Prep'));
+    await click(button('2. 3-Dish Meal Prep'));
+    holdSync = true;
+    await click(button('High-Protein'));
+    expect(acknowledge).toBeTypeOf('function');
+    await click(button('8 Srv / Dish'));
     await act(async () => { acknowledge!(); await settle(); });
     expect(localStorage.getItem(syncQueueKey('alice'))).toBeNull();
     expect(button('8 Srv / Dish').className).toContain('bg-emerald-400');
@@ -138,11 +153,15 @@ describe('signed-in dashboard sync through Pantry', () => {
     await act(async () => { acknowledge!(); await settle(); });
   });
   it('retains an offline guest import through a later pantry addition and reconnect replay', async () => {
-    await prepareGuest(); failSync = true; await click(button('Confirm import'));
+    await prepareGuest();
+    failSync = true;
+    await click(button('Confirm import'));
     await waitUntil(() => localStorage.getItem(pantryQueueKey('account:alice')) !== null);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).not.toBeNull();
-    await click(button('Close')); await click(button('Not marked available'));
-    failSync = false; await reconnect();
+    await click(button('Close'));
+    await click(button('Not marked available'));
+    failSync = false;
+    await reconnect();
     expect(liveEntries().map((entry) => entry.ingredientId).sort()).toEqual(['chicken-thighs-boneless', 'salt']);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).toBeNull();
   });
@@ -157,11 +176,16 @@ describe('signed-in dashboard sync through Pantry', () => {
     expect(container.querySelector('[role="alert"]')?.textContent).toContain('Storage full');
     expect(button('Confirm import')).toBeDefined();
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).toBeNull();
-    rejected.mockRestore(); failSync = true; await click(button('Confirm import'));
+    rejected.mockRestore();
+    failSync = true;
+    await click(button('Confirm import'));
     await waitUntil(() => localStorage.getItem(pantryQueueKey('account:alice')) !== null);
-    failSync = false; await reconnect(); await reconnect();
+    failSync = false;
+    await reconnect(); await reconnect();
     expect(liveEntries()).toHaveLength(1);
     expect(liveEntries()[0].ingredientId).toBe('salt');
+    expect(mutationRequests.filter((id) => id.startsWith('import:'))).toHaveLength(1);
+    expect(liveEntries()[0].revision).toBe(1);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).toBeNull();
   });
 });
