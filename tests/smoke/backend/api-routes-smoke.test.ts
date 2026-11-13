@@ -61,38 +61,11 @@ describe('smoke: API Route Handlers happy-path', () => {
     expect(Array.isArray(data.locations)).toBe(true);
   });
 
-  it('GET & POST /api/freezer reads and creates virtual freezer inventory', async () => {
-    const getRes1 = await getFreezer();
-    expect(getRes1.status).toBe(200);
-    const initial = await getRes1.json();
-    expect(Array.isArray(initial.items)).toBe(true);
-
-    const postReq = createRequest('http://localhost:3000/api/freezer', {
-      method: 'POST',
-      body: {
-        item: {
-          id: 'smoke-freezer-001',
-          canonicalIngredientId: 'ground-beef-80-20',
-          ingredientName: 'Ground Beef (80/20)',
-          category: 'PROTEIN',
-          quantityLbOrDoz: 3.0,
-          unit: 'lb',
-          purchasePricePerUnit: 3.49,
-          regularPricePerUnit: 4.99,
-          totalCostBasis: 10.47,
-          estimatedSavings: 4.5,
-          store: 'KING_SOOPERS',
-          storeBanner: 'King Soopers',
-          purchasedAtIso: new Date().toISOString(),
-        },
-      },
-    });
-
-    const postRes = await postFreezer(postReq);
-    expect(postRes.status).toBe(200);
-    const postData = await postRes.json();
-    expect(postData.saved).toBeDefined();
-    expect(postData.saved.canonicalIngredientId).toBe('ground-beef-80-20');
+  it('retired GET & POST /api/freezer reads and creates virtual freezer inventory', async () => {
+    expect((await getFreezer(new Request('http://localhost:3000/api/freezer'))).status).toBe(410);
+    const response = await postFreezer(createRequest('http://localhost:3000/api/freezer', { method: 'POST', body: { item: {} } }));
+    expect(response.status).toBe(410);
+    expect(await response.json()).toMatchObject({ code: 'freezer_retired', replacement: '/api/pantry' });
   });
 
   it('GET & POST /api/saved-recipes saves and retrieves recipe blueprints', async () => {

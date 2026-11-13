@@ -23,8 +23,8 @@ const initialSync: UserSyncPayload = {
   profile: { id: 'alice', email: '', displayName: 'Alice', provider: 'google', isCloudBacked: false, createdAtIso: '', updatedAtIso: '' },
   preferences: { userId: 'alice', defaultZip: '80542', favoriteStoreIds: ['KING_SOOPERS'], macroGoal: 'ANY',
     dietaryConstraints: [], vesselArchetype: 'ANY', targetServings: 6, pinnedIngredientIds: [],
-    onHandIngredientIds: [], updatedAtIso: '' },
-  freezerItems: [], savedRecipes: [], storageMode: 'SQLITE_LOCAL_FALLBACK', supabaseConfigured: false, syncedAtIso: '',
+    updatedAtIso: '' },
+  savedRecipes: [], storageMode: 'SQLITE_LOCAL_FALLBACK', supabaseConfigured: false, syncedAtIso: '',
 };
 const dish = createMockDish({ id: 'meal' });
 const initialData: DashboardPayload = {

@@ -5,10 +5,10 @@ import {
 } from '@/lib/supabase/session';
 import { checkRateLimit, verifySameOrigin } from '@/lib/security/rate-limit';
 import { PantryError } from '@/lib/pantry/mutations';
+import { hasLegacyInventoryFields } from '@/lib/pantry/legacy-sync';
 import {
-  FreezerItem,
   RecommendedDish,
-  UserPreferences,
+  SyncedUserPreferences,
 } from '@/types/domain';
 
 export async function GET(request: NextRequest) {
@@ -70,8 +70,7 @@ export async function POST(request: NextRequest) {
     let body: {
       userId?: string;
       mutationId?: string;
-      preferences?: Partial<UserPreferences>;
-      freezerItems?: FreezerItem[];
+      preferences?: Partial<SyncedUserPreferences>;
       savedRecipes?: RecommendedDish[];
       mergeMode?: boolean;
     };
@@ -93,12 +92,10 @@ export async function POST(request: NextRequest) {
     if (body.userId !== undefined && body.userId !== profile.id) {
       return NextResponse.json({ error: 'Sync account changed; sign in to the original account to retry.' }, { status: 409 });
     }
+    if (hasLegacyInventoryFields(body)) return NextResponse.json({ code: 'pantry_upgrade_required', error: 'Reload to manage inventory in Virtual Pantry. Older pending edits must be reviewed; they have not been saved.' }, { status: 426 });
     const updated = await persistUserSyncState({
       profile,
       preferences: body.preferences,
-      freezerItems: Array.isArray(body.freezerItems)
-        ? body.freezerItems
-        : undefined,
       savedRecipes: Array.isArray(body.savedRecipes)
         ? body.savedRecipes
         : undefined,

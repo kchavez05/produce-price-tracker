@@ -602,13 +602,15 @@ export interface UserPreferences {
   updatedAtIso: string;
 }
 
+/** Current sync contract; older availability selections are recovery/export data. */
+export type SyncedUserPreferences = Omit<UserPreferences, 'onHandIngredientIds'>;
+
 export interface UserSyncPayload {
   authenticated: boolean;
   storageMode: CloudStorageMode;
   supabaseConfigured: boolean;
   profile: UserProfile | null;
-  preferences: UserPreferences | null;
-  freezerItems: FreezerItem[];
+  preferences: SyncedUserPreferences | null;
   savedRecipes: RecommendedDish[];
   syncedAtIso: string;
 }

@@ -1,11 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createSyncQueue, syncQueueKey, prepareSyncMutation, mergeFreezerItems, parseGuestFreezer } from '@/lib/sync/queue';
+import { createSyncQueue, syncQueueKey, prepareSyncMutation } from '@/lib/sync/queue';
+import { parseGuestFreezer } from '@/lib/pantry/legacy-sync';
 import { UserSyncPayload } from '@/types/domain';
 import { createTestSyncLock } from 'tests/sync-lock';
 
 const payload: UserSyncPayload = {
   authenticated: true, profile: { id: 'alice', email: '', displayName: 'Alice', provider: 'google', isCloudBacked: false, createdAtIso: '', updatedAtIso: '' },
-  preferences: null, freezerItems: [], savedRecipes: [], storageMode: 'SQLITE_LOCAL_FALLBACK', supabaseConfigured: false, syncedAtIso: '',
+  preferences: null, savedRecipes: [], storageMode: 'SQLITE_LOCAL_FALLBACK', supabaseConfigured: false, syncedAtIso: '',
 };
 function setup() {
   const data = new Map<string, string>();
@@ -18,7 +19,7 @@ function setup() {
 describe('durable account-scoped sync queue', () => {
   it('hydrates without Web Locks while refusing unsafe queue writes and replay', async () => {
     const { storage, queue } = setup();
-    await queue.enqueue('alice', { freezerItems: [] });
+    await queue.enqueue('alice', { preferences: { defaultZip: '80542' } });
     vi.stubGlobal('navigator', {});
     try {
       const browserQueue = createSyncQueue(storage);
@@ -62,7 +63,7 @@ describe('durable account-scoped sync queue', () => {
 
   it('never sends another account’s queue and rejects mismatched acknowledgments', async () => {
     const { storage, queue } = setup();
-    await queue.enqueue('alice', { freezerItems: [] });
+    await queue.enqueue('alice', { preferences: { defaultZip: '80542' } });
     const send = vi.fn().mockResolvedValue(payload);
     await queue.flush('bob', send);
     expect(send).not.toHaveBeenCalled();
@@ -70,14 +71,22 @@ describe('durable account-scoped sync queue', () => {
     expect(storage.getItem(syncQueueKey('alice'))).not.toBeNull();
   });
 
-  it('turns guest merges into replacement snapshots so retries cannot accumulate stock twice', () => {
-    const item = { id: 'one', canonicalIngredientId: 'beef', ingredientName: 'Beef', category: 'PROTEIN' as const,
-      quantityLbOrDoz: 2, unit: 'lb' as const, purchasePricePerUnit: 2, regularPricePerUnit: 4,
-      totalCostBasis: 4, estimatedSavings: 4, store: 'KING_SOOPERS' as const, storeBanner: '', purchasedAtIso: '' };
-    const mutation = prepareSyncMutation({ freezerItems: [{ ...item, quantityLbOrDoz: 3 }], mergeMode: true }, { ...payload, freezerItems: [item] });
+  it('turns preference merges into retry-safe replacement snapshots', () => {
+    const mutation = prepareSyncMutation({ preferences: { pinnedIngredientIds: ['rice'] }, mergeMode: true }, payload);
     expect(mutation.mergeMode).toBe(false);
-    expect(mutation.freezerItems?.[0].quantityLbOrDoz).toBe(5);
-    expect(mutation.freezerItems?.[0].totalCostBasis).toBe(10);
+    expect(mutation.preferences?.pinnedIngredientIds).toEqual(['rice']);
+  });
+
+  it('preserves older inventory queues verbatim without sending or acknowledging them', async () => {
+    const { storage, queue } = setup();
+    const raw = JSON.stringify([{ userId: 'alice', mutationId: 'older', freezerItems: [], preferences: { onHandIngredientIds: ['rice'] } }]);
+    storage.setItem(syncQueueKey('alice'), raw);
+    const send = vi.fn().mockResolvedValue(payload);
+    await queue.overlay(payload);
+    expect(await queue.flush('alice', send)).toBeNull();
+    expect(send).not.toHaveBeenCalled();
+    expect(storage.getItem(syncQueueKey('alice'))).toBe(raw);
+    expect(() => queue.enqueue('alice', JSON.parse(raw)[0])).toThrow('Virtual Pantry');
   });
 
   it.each(['{invalid', 'null', '{}', '[null]'])('recovers malformed storage %s without discarding the original bytes', async (raw) => {
@@ -159,13 +168,10 @@ describe('durable account-scoped sync queue', () => {
     expect(storage.getItem(syncQueueKey('alice'))).toBeNull();
   });
 
-  it('removes depleted stock and validates guest cache values before merging', () => {
+  it('validates archived guest cache values before recovery', () => {
     const item = { id: 'one', canonicalIngredientId: 'beef', ingredientName: 'Beef', category: 'PROTEIN' as const,
       quantityLbOrDoz: 2, unit: 'lb' as const, purchasePricePerUnit: 2, regularPricePerUnit: 4,
       totalCostBasis: 4, estimatedSavings: 4, store: 'KING_SOOPERS' as const, storeBanner: '', purchasedAtIso: '' };
-    expect(mergeFreezerItems([item], [{ ...item, quantityLbOrDoz: -2 }])).toEqual([]);
-    expect(mergeFreezerItems([item], [{ ...item, quantityLbOrDoz: -3 }])).toEqual([]);
-    expect(mergeFreezerItems([], [{ ...item, quantityLbOrDoz: -1 }])).toEqual([]);
     for (const raw of ['null', '{}', '{invalid', '[null, {}]']) expect(parseGuestFreezer(raw)).toEqual([]);
     expect(parseGuestFreezer(JSON.stringify([item, null]))).toEqual([item]);
   });
