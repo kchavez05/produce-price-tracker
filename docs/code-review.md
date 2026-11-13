@@ -29,16 +29,23 @@ Keep monitoring output compact: use `gh pr checks`, or query `headRefOid`, revie
 
 ### Automatic review setup
 
-The Claude GitHub app is installed and hosted review is live. A local `/code-review --comment` run against the PR head is the completed review only when the hosted job cannot run (app unavailable, quota exhausted, or the workflow-validation skip below); do not wait for a hosted reply that cannot arrive.
+The Claude GitHub app is installed and hosted review is live. A local `/code-review --comment` run against the PR head is the completed review only when the hosted job cannot run (app unavailable, quota exhausted, or one of the failure modes below); do not wait for a hosted reply that cannot arrive.
 
 1. The Claude GitHub app must stay installed on this repository (`/install-github-app` in Claude Code) so `claude-code-action` can review PRs and respond to `@claude` mentions.
 2. Configure the workflow trigger (opened and ready-for-review only, non-draft) and verify it covers the intended PR event; otherwise use the manual comment above.
 3. Disable automatic Codex and Copilot reviews for this repository where configured, so providers do not duplicate or consume quota. Do not change broader account-level preferences without authorization.
 4. Verify an actual completed Claude assessment on the latest PR head before relying on automation. Leave existing branch protections, CI checks and required approvals intact.
 
-### Workflow-validation skip (false green)
+### Hosted review failure modes (false green)
 
-`claude-code-action` refuses to run when the PR's `.github/workflows/claude-code-review.yml` differs from the default branch (`main`). The job then reports `success` with no review. Because workflow edits reach `main` only through a release (or a dedicated sync PR), any PR that edits `claude-code-review.yml` is unreviewed by the hosted job, and PRs to `develop` stay affected until `main` catches up. The job's fallback step posts a "no assessment was recorded" comment and a warning annotation, naming this cause when the file differs from `main`. Treat that comment as a missing review: run `/code-review --comment` locally on the head, or `@claude review` after the files match. A green `claude-review` check alone is never proof of review; look for a `claude[bot]` "Code review" comment.
+The `claude-review` job can report `success` while no review exists. Two causes have been observed (runs 43490104081 and 43489370396, November 2026):
+
+1. **Workflow-validation skip.** `claude-code-action` exchanges the job's OIDC token with an Anthropic endpoint that checks the workflow file against the default branch (`main`); the check runs server-side and its exact rule is not public. The action logs "Skipping action due to workflow validation" and exits green without retrying.
+   * Expected: the PR's `claude-code-review.yml` differs from `main`. Workflow edits reach `main` only through a release (or a dedicated sync PR), so a PR that edits it, or any PR to `develop` while `develop` is ahead of `main` on that file, is unreviewed by the hosted job.
+   * Intermittent: PR #734 hit the skip with the file identical on `main`, `develop` and the head; a re-run of the same job passed validation. Re-run the job before concluding anything.
+2. **Silent no-op.** The earlier `code-review` plugin launched an async agent and the action ended the session first (anthropics/claude-code-action#1646), so most runs finished in about 10 seconds with no comment. The workflow now uses a plain prompt with background tasks disabled to avoid this; if a hosted run again ends in a few turns without a `claude[bot]` comment, treat it as this mode.
+
+The job's fallback step posts a "no assessment was recorded" comment and a warning annotation. It names the cause when the file differs from `main`, or when the action exited before running Claude despite matching files. Treat that comment as a missing review. The reliable path is a PR comment `@claude review the latest head against AGENTS.md and docs/code-review.md`: `claude.yml` runs from the default-branch workflow file for comment events, so it is not subject to the skip and does not depend on the PR's workflow edits. A local `/code-review --comment` run on the head also counts. A green `claude-review` check alone is never proof of review; look for a `claude[bot]` "Code review" comment.
 
 These settings live outside the repository. Editing instructions does not enable or disable any service; check actual PR activity to verify access.
 
