@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { atomicJson, audioBytes, jobs, Ledger, loadPacket, object, projection, readJson, redact, ROOT, sha, STATE, type Fixture, type Job, type ObjectValue, type Packet } from './core.mjs';
-import { credentialPresence, Providers, type Result, type TextSpec } from './providers.mjs';
+import { credentialPresence, Providers, safeFailureDetails, type Result, type TextSpec } from './providers.mjs';
 import { recipeChecks, speechScore } from './scoring.mjs';
 import { exportReview, receipts, report } from './report.mjs';
 
@@ -47,7 +47,7 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
   const secrets = ['GEMINI_API_KEY','GOOGLE_API_KEY','OPENAI_API_KEY','ANTHROPIC_API_KEY','DEEPGRAM_API_KEY'].map(name => process.env[name] ?? '').filter(Boolean);
   ledger.reserve(job.key,job.bound,remaining,runnerHash());
   const stages: Result[] = []; let dispatched = false; let started = 0; let firstUpload = 0; let firstUploadEnd: number | undefined; let preflightMs = 0;
-  let text = ''; let failure: string | null = null; let parsed: unknown = null;
+  let text = ''; let failure: string | null = null; let parsed: unknown = null; let failureDetails: ObjectValue | null = null;
   let firstPaidDispatch = 0; let timer: ReturnType<typeof setTimeout> | undefined; let controller: AbortController | undefined;
   let boundViolation = false;
   let countFailed = false;
@@ -92,7 +92,8 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
     }
     text = redact(text,secrets);
     parsed = JSON.parse(text);
-  } catch {
+  } catch (error) {
+    failureDetails=safeFailureDetails(error);
     failure = boundViolation ? 'observed_billable_bound_violation' : dispatched ? 'provider_or_usage_uncertain' : countFailed ? stages.length ? 'preflight_failed_after_paid_stage' : 'preflight_failed' : stages.length ? 'output_invalid' : 'preflight_failed';
   } finally { clearTimeout(timer); }
   const elapsed = performance.now() - started;
@@ -102,7 +103,7 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
   const completionMs = valid ? (job.task === 'recipe' ? finished - firstPaidDispatch : finished - (firstUploadEnd ?? firstPaidDispatch + firstUpload)) : null;
   const cost = stages.reduce((sum,stage) => sum+stage.cost,0);
   const receipt: Receipt = { job, packetHash:packet.hash, runnerHash:runnerHash(), startedAt:new Date(Date.now()-elapsed).toISOString(), completed:valid,
-    completionMs, elapsedMs:elapsed, preflightMs, firstUploadMs:firstUpload, failure,
+    completionMs, elapsedMs:elapsed, preflightMs, firstUploadMs:firstUpload, failure, failureDetails,
     text, proposal:parsed, score, usage:stages.map(stage => ({ model:stage.model, ...stage.usage, costMicroUsd:stage.cost, ...stage.timing })),
     costMicroUsd:dispatched ? null : cost, retainedReservationMicroUsd:dispatched ? job.bound : 0,
     schemaSha256:sha(JSON.stringify(job.task === 'recipe' ? packet.recipeSchema : packet.speechSchema)), humanReviewRequired:job.task === 'recipe' };
