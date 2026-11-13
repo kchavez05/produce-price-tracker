@@ -96,7 +96,8 @@ export function applyPantryToRecipe(
   const marketRequirements: PantryRequirement[] = [];
   let storeCost = 0;
   let regularStoreCost = 0;
-  for (const ingredient of sourceMatched) {
+  for (const sourceIngredient of sourceMatched) {
+    const { fromVirtualFreezer: _retired, ...ingredient } = sourceIngredient ?? {};
     if (!ingredient || typeof ingredient.ingredientId !== 'string') { requirements.push(unpricedRecipeText('Unmapped recipe ingredient')); continue; }
     const commodity = recipeCommodity(dish, ingredient, prices.get(ingredient.ingredientId));
     const validQuantity = finiteNonnegative(ingredient.quantityUsed);
@@ -114,7 +115,7 @@ export function applyPantryToRecipe(
       ? commodity.bestOffer.regularPricePerUnit : commodity.bestOffer.normalizedPricePerUnit;
     const regularSlotCost = isOnHand || ingredient.optional ? 0 : Number((ingredient.quantityUsed * regularUnit).toFixed(2));
     storeCost += slotCost; regularStoreCost += regularSlotCost;
-    matched.push({ ...ingredient, ingredientName: requirement.displayName ?? ingredient.ingredientName, isOnHand, fromVirtualFreezer: false, store: commodity.bestOffer.store,
+    matched.push({ ...ingredient, ingredientName: requirement.displayName ?? ingredient.ingredientName, isOnHand, store: commodity.bestOffer.store,
       rawDealText: isOnHand ? 'Already have' : (resolveRecipeUse(dish, ingredient) || requiresExactOffer(ingredient.ingredientId)) ? `${commodity.bestOffer.rawTitle} — ${commodity.bestOffer.rawPriceText}` : commodity.bestOffer.rawPriceText,
       dealType: commodity.bestOffer.dealType, dealConditions: commodity.bestOffer.dealConditions,
       unitCost: commodity.bestOffer.normalizedPricePerUnit, slotCost, regularSlotCost });
@@ -124,11 +125,12 @@ export function applyPantryToRecipe(
   const servings = typeof dish.servings === 'number' && Number.isFinite(dish.servings) && dish.servings > 0 ? dish.servings : 6;
   const totalBatchCost = Number((storeCost + pantry.estimatedAdditionalCost).toFixed(2));
   const regularBatchCost = Number((regularStoreCost + pantry.estimatedAdditionalCost).toFixed(2));
-  return { ...dish, servings, matchedIngredients: matched, pantryRequirements: requirements,
+  const { poweredByFreezerCount: _retired, ...currentDish } = dish;
+  return { ...currentDish, servings, matchedIngredients: matched, pantryRequirements: requirements,
     pantryPricing: pantry.pricing,
     pantryStaples: requirements.map(formatPantryRequirement), estimatedPantryCost: pantry.estimatedAdditionalCost,
     totalBatchCost, regularBatchCost, totalBatchSavings: Number(Math.max(0, regularBatchCost - totalBatchCost).toFixed(2)),
-    costPerServing: Number((totalBatchCost / servings).toFixed(2)), poweredByFreezerCount: 0,
+    costPerServing: Number((totalBatchCost / servings).toFixed(2)),
     pantryCoverage: { requiredCount: coverage.requiredCount, availableRequiredCount: coverage.availableRequiredCount,
       optionalCount: coverage.optionalCount, availableOptionalCount: coverage.availableOptionalCount },
     additionalCostEstimateComplete: pantry.estimateComplete,

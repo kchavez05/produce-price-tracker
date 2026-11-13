@@ -12,7 +12,6 @@ function handleError(error: unknown) {
     : json({ error: 'Couldn’t sync — Retry', code: 'storage_unavailable' }, 503);
 }
 function guard(request: NextRequest) {
-  if (process.env.PANTRYBOT_PANTRY_ENABLED !== 'true') return json({ error: 'Virtual Pantry is not enabled yet.', code: 'not_enabled' }, 503);
   const rate = checkRateLimit(request, 'api-pantry', 90, 60_000);
   if (!rate.allowed) return NextResponse.json({ error: 'Try again shortly.' }, { status: 429, headers: { 'Retry-After': String(rate.resetInSeconds), 'Cache-Control': 'private, no-store' } });
   return null;

@@ -96,7 +96,7 @@ export default function VirtualPantry(props: Props) {
         onClose={() => { setBarcodeOpen(false); barcodeTrigger.current?.focus(); }} /> : null}
     </div> : null}
     <div className="mt-3 flex flex-wrap items-center gap-3 text-sm" role="status" aria-live="polite">
-      <strong>{props.status}</strong>
+      <strong>{props.hasLegacyEdits && props.status === 'Saved' ? 'Older edits need review' : props.status}</strong>
       {props.guest && <span>Saved on this device. Sign in for cross-device recovery.</span>}
       {props.status === 'Couldn’t sync — Retry' && <button className={button} onClick={() => void perform(props.onRetry)}>Retry sync</button>}
     </div>

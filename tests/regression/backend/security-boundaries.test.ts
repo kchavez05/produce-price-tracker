@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import { NextRequest } from 'next/server';
-import { POST as postFreezer, PATCH as patchFreezer } from '@/app/api/freezer/route';
+import { POST as postPantry } from '@/app/api/pantry/route';
 import { POST as postSync } from '@/app/api/sync/route';
 import { POST as postAccount, DELETE as deleteAccount } from '@/app/api/account/route';
 import { resetSqliteTestInstance } from '@/lib/db/sqlite';
@@ -32,23 +32,9 @@ describe('regression: security-boundaries & CSRF protection', () => {
     resetSqliteTestInstance();
   });
 
-  it('rejects cross-origin POST /api/freezer with 403 Forbidden', async () => {
-    const req = createCrossOriginRequest('http://pantrybot.dev/api/freezer', 'POST', {
-      item: { id: 'test' },
-    });
-    const res = await postFreezer(req);
-    expect(res.status).toBe(403);
-    const data = await res.json();
-    expect(data.error).toContain('Forbidden');
-  });
-
-  it('rejects cross-origin PATCH /api/freezer with 403 Forbidden', async () => {
-    const req = createCrossOriginRequest('http://pantrybot.dev/api/freezer', 'PATCH', {
-      id: 'test',
-      quantityLbOrDoz: 1,
-    });
-    const res = await patchFreezer(req);
-    expect(res.status).toBe(403);
+  it('rejects cross-origin POST /api/pantry with 403 Forbidden', async () => {
+    const req = createCrossOriginRequest('http://pantrybot.dev/api/pantry', 'POST', { action: 'mutate' });
+    expect((await postPantry(req)).status).toBe(403);
   });
 
   it('rejects cross-origin POST /api/sync with 403 Forbidden', async () => {

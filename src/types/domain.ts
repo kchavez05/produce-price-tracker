@@ -232,7 +232,7 @@ export interface ScoredCommodity {
   cycleSignal?: CycleSignalMetadata;
   /** Wholesale Club (Costco & Sam's Club) bulk unit comparison (v1.2 Ticket #25) */
   clubBenchmark?: WholesaleClubComparison;
-  /** Multi-week Virtual Freezer Arbitrage prompt ("Buy 2: Prep 1, Freeze 1") (v1.2 Ticket #21) */
+  /** Multi-week stock-up purchase suggestion ("Buy 2: Prep 1, Freeze 1") (v1.2 Ticket #21) */
   arbitragePrompt?: ArbitragePrompt;
 }
 
@@ -293,11 +293,12 @@ export interface MatchedSlotIngredient {
   dealType: DealType;
   dealConditions?: string;
   unitCost: number;
-  /** Out-of-pocket cost ($0.00 if marked On-Hand in Freezer/Pantry) */
+  /** Out-of-pocket cost ($0.00 if explicitly available in Pantry) */
   slotCost: number;
   regularSlotCost: number;
   isUserPinned: boolean;
   isOnHand?: boolean;
+  /** Historical saved-recipe metadata only; never inventory evidence. */
   fromVirtualFreezer?: boolean;
   optional?: boolean;
 }
@@ -330,6 +331,7 @@ export interface RecommendedDish {
   reheatTip: string;
   aiGenerated?: boolean;
   savedInLibrary?: boolean;
+  /** Historical saved-recipe metadata only; current evaluation removes it. */
   poweredByFreezerCount?: number;
   pantryRequirements?: import('@/types/pantry').PantryRequirement[];
   pantryCoverage?: import('@/types/pantry').PantryCoverage;
@@ -466,7 +468,6 @@ export interface DashboardPayload {
   selectedKingSoopersLocationId: string;
   availableStores?: AvailableStoreInfo[];
   activeStores?: StoreChain[];
-  freezerInventory?: FreezerItem[];
   commodities: ScoredCommodity[];
   splurgeAlerts: ScoredCommodity[];
   recommendedTrio: RecommendedDish[];
@@ -602,13 +603,15 @@ export interface UserPreferences {
   updatedAtIso: string;
 }
 
+/** Current sync contract; older availability selections are recovery/export data. */
+export type SyncedUserPreferences = Omit<UserPreferences, 'onHandIngredientIds'>;
+
 export interface UserSyncPayload {
   authenticated: boolean;
   storageMode: CloudStorageMode;
   supabaseConfigured: boolean;
   profile: UserProfile | null;
-  preferences: UserPreferences | null;
-  freezerItems: FreezerItem[];
+  preferences: SyncedUserPreferences | null;
   savedRecipes: RecommendedDish[];
   syncedAtIso: string;
 }

@@ -116,11 +116,15 @@ describe('unit: OpenAPI 3.1.0 Specification', () => {
     expect(security.VercelCronBearer.scheme).toBe('bearer');
   });
 
-  it('ensures all operations specify at least a 200 response and valid summaries', () => {
+  it('documents successful active operations and explicit retired endpoint responses', () => {
     for (const [pathStr, pathItem] of Object.entries(PANTRYBOT_OPENAPI_SPEC.paths)) {
       for (const [method, operation] of Object.entries(pathItem)) {
         expect(operation.summary, `${method.toUpperCase()} ${pathStr} missing summary`).toBeTruthy();
-        expect(operation.responses['200'], `${method.toUpperCase()} ${pathStr} missing 200 response`).toBeDefined();
+        if (pathStr === '/api/freezer') {
+          expect(operation).toHaveProperty('deprecated', true);
+          expect(operation.responses).toHaveProperty('410');
+          expect(operation.responses).not.toHaveProperty('200');
+        } else expect(operation.responses).toHaveProperty('200');
         expect(operation.tags.length, `${method.toUpperCase()} ${pathStr} missing tags`).toBeGreaterThan(0);
       }
     }

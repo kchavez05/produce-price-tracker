@@ -1,6 +1,10 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.2`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.3`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
+
+## v1.6.3 — Pantry access repair and Freezer retirement
+
+Release v1.6.3 is tracked by [#722](https://github.com/kchavez05/produce-price-tracker/issues/722). Repairs signed-in identities missing their application profile (#712) and makes Pantry the sole inventory path (#700). Deprecated Freezer requests return 410 and old sync inventory fields return 426 without acknowledgment; migration, queued-edit recovery, original storage and export/delete remain. Production acceptance and publication receipts are maintained on that tracker. See [release notes](docs/releases/v1.6.3.md).
 
 ## v1.6.2 — Barcode entry and static staple estimates
 
@@ -12,7 +16,7 @@ The maintainer reported limited iOS Safari scanning/key-entry smoke tests and ex
 
 Virtual Pantry records explicit Yes/No availability with optional quantity, location, unit, and date. It supports custom ingredients, private guest use, explicit account import, and revision-checked account sync. Recipes and shopping needs use boolean availability; quantity and dates never deduct or limit coverage. Buying or cooking does not change inventory. Staples have fixed USD recipe-use estimates; missing prices remain explicit.
 
-Hosted activation requires the three base pantry migrations and eight v1.6.1 accepted-ID migrations, isolated staging verification, and `PANTRYBOT_PANTRY_ENABLED=true`. The default remains off for unmigrated installations. Local manual/guest pantry use needs no account or API key. See the [release notes](docs/releases/v1.6.0.md), [rollout guide](docs/usda-catalog-integration.md), and [Virtual Pantry guide](docs/wiki/Virtual-Pantry.md).
+v1.6.3 uses Virtual Pantry as its only inventory path; install all additive Pantry migrations before deploying. Local guest use needs no account or API key. `/api/freezer` returns 410 and old inventory sync writes return 426. Original records remain available through the migration bridge and account export. This retirement is included in v1.6.3; see [#700](https://github.com/kchavez05/produce-price-tracker/issues/700) and the [Pantry guide](docs/wiki/Virtual-Pantry.md).
 
 A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) prepares Foundation/SR Legacy ingredients and a coverage report for review. It does not activate catalog changes. The [curation ledger and staging command](catalog/README.md) prepare compact review choices without activating unapproved data. The approved [ingestion standards](docs/specs/usda-catalog-ingestion.md) define cooking relevance, compact search results, recurring refreshes, and publication gates.
 
@@ -31,7 +35,7 @@ Released November 8, 2026, v1.6.1 expands the pantry catalog before speech entry
 * **Developer Platform, OpenAPI 3.1 & Interactive Swagger UI:** Standardized **OpenAPI 3.1.0** specification (`/api/openapi.json`) and embedded interactive **Swagger UI** console ([`/docs`](https://pantrybot.dev/docs)) with live route testing, tag filters, and typed schemas across 8 backend API route domains.
 * **User Accounts, SSO & Cross-Device Cloud Sync:** Optional 1-click **Sign in with Google** and **Sign in with Apple** via Supabase Auth + PostgreSQL Row-Level Security (RLS) (with automatic zero-key SQLite multi-tenant fallback). Syncs ZIP code, preferred stores, macro/dietary goals, cooking vessels, Virtual Pantry entries, and saved recipes across devices with explicit reviewed guest pantry import, 1-click JSON export, and self-serve GDPR/CCPA account deletion.
 * **6-Vendor Supermarket Ecosystem + Nationwide ZIP Support:** Compares weekly circular deals and digital loyalty coupons across **Kroger** (King Soopers, Ralphs, Fred Meyer, Fry's), **Albertsons** (Safeway, Vons, Jewel-Osco), **ALDI**, **Walmart**, **Target**, and **Sprouts Farmers Market** for any 5-digit US ZIP code.
-* **Virtual Pantry:** Mark ingredients Yes/No with optional details, compact cooking-ingredient search, optional varieties, and custom items. Recipes show distinct required coverage and estimated additional grocery costs. Available ingredients leave shopping needs; purchases and cooking never mutate inventory. Legacy freezer records are preserved for migration and compatibility.
+* **Virtual Pantry:** Mark ingredients Yes/No with optional details, compact cooking-ingredient search, optional varieties, and custom items. Recipes show distinct required coverage and estimated additional grocery costs. Available ingredients leave shopping needs; purchases and cooking never mutate inventory. Legacy freezer records are preserved for migration, recovery and export.
 * **Dietary, Macro & Cooking Vessel Personalization:** Customize **Macro Goals** (`High-Protein 40g+`, `Low-Carb / Keto`, `Calorie-Conscious <460 kcal`, `Balanced`), **Dietary Rules** (`Gluten-Free`, `Dairy-Free`, `Nut-Free`, `Pescatarian`) with automatic ingredient slot adaptation, and **Cooking Vessels** (`Slow Cooker / Instant Pot`, `Sheet-Pan / 9x13`, `Dutch Oven`, `Skillet`).
 * **Wholesale Club Price Normalizer (Costco & Sam's Club):** Benchmarks supermarket unit prices (`$/lb`, `$/doz`) against **Costco (Kirkland Signature)** and **Sam's Club (Member's Mark)** bulk baselines (`🏆 Beats Costco/Sam's Bulk -X%`).
 * **Observed price signals:** Distinguishes verified six-week lows, deep regular-price discounts, and insufficient history. Missing observations stay gaps; short histories do not establish recurring cycles or forecasts.
@@ -63,13 +67,14 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 
 Historical publications, backfilled milestones and release-process findings are indexed in the [November 11 retrospective audit](docs/releases/retrospective-audit-2026-11-11.md).
 
-Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.6.2 release issue #645](https://github.com/kchavez05/produce-price-tracker/issues/645). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
+Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.6.3 release issue #722](https://github.com/kchavez05/produce-price-tracker/issues/722). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
 
 v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API pricing is deferred to [multi-store scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689), covering multiple independent retail APIs. See the [approved scope amendment](docs/research/v1.6.2-static-pricing-scope-amendment.md). Existing market-discovery integrations are preserved; barcode device/account and production acceptance remain required.
 
-* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.2 scope and long-term mobile plans.
+* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.3 scope and long-term mobile plans.
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.6.3 — Pantry Access Repair & Freezer Retirement](./docs/releases/v1.6.3.md)
   * [v1.6.2 — Barcode Entry & Static Staple Estimates](./docs/releases/v1.6.2.md)
   * [v1.6.1 — Pantry Catalog Expansion](./docs/releases/v1.6.1.md)
   * [v1.6.0 — Virtual Pantry](./docs/releases/v1.6.0.md)
@@ -85,7 +90,7 @@ v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API p
   * [v1.0.0 — Production Launch (`pantrybot.dev`)](./docs/releases/v1.0.0.md)
 * **[Wiki Home (`docs/wiki/Home.md`)](./docs/wiki/Home.md)**
   * [Architecture & Data Pipeline](./docs/wiki/Architecture-and-Data-Pipeline.md)
-  * [Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine](./docs/wiki/Scoring-and-Meal-Prep-Engine.md)
+  * [Scoring, Pantry Availability & 3-Dish Meal Prep Engine](./docs/wiki/Scoring-and-Meal-Prep-Engine.md)
   * [API Keys & Developer Setup Guide](./docs/wiki/API-Keys-and-Local-Setup.md)
   * [OpenAPI 3.1 & Swagger UI Console](./docs/wiki/OpenAPI-and-Swagger-Documentation.md) (Interactive console live at [`/docs`](https://pantrybot.dev/docs))
   * [North Star: Native iOS/Android & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)

@@ -108,7 +108,7 @@ describe('approved dairy market integration', () => {
     const example = cases.offerCases.find((c) => c.marketIngredientId === row.marketIngredientId && c.allowedRecipeFoodIds.includes(pantryId))!; expect(example).toBeDefined();
     const quote = market(use, [[example.title, 2, 'KING_SOOPERS']]), input = dish([use]), before = JSON.stringify(input);
     const owned = applyPantryToRecipe(input, positive(pantryId), [quote]); expect(owned.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 1 }); expect(owned.totalBatchCost).toBe(0);
-    expect(buildShoppingListAndStoreComparison([owned], [quote], positive(pantryId), '80542', ['KING_SOOPERS'], true).items).toHaveLength(0);
+    expect(buildShoppingListAndStoreComparison([owned], [quote], positive(pantryId), '80542', ['KING_SOOPERS']).items).toHaveLength(0);
     expect(applyPantryToRecipe(input, [], [quote]).totalBatchCost).toBe(4);
     const no = availablePantryIngredientIds([entry(pantryId), entry(pantryId, false)]); expect(applyPantryToRecipe(input, no, [quote]).totalBatchCost).toBe(4);
     const unpriced = applyPantryToRecipe(input, [], []); expect(unpriced.additionalCostEstimateComplete).toBe(false); expect(applyPantryToRecipe(unpriced, [], [quote]).totalBatchCost).toBe(4); expect(JSON.stringify(input)).toBe(before);
@@ -119,20 +119,20 @@ describe('approved dairy market integration', () => {
     const quotes = breakfastUses.map((u) => market(u, [[u.slotKey === 'cheddar_top' ? 'Natural Cheddar Cheese Block' : 'Plain Cottage Cheese', 2, 'KING_SOOPERS']]));
     const available = positive(...ids), result = applyPantryToRecipe(input, available, quotes);
     expect(result.pantryCoverage).toMatchObject({ requiredCount: 2, availableRequiredCount: ids.length }); expect(result.totalBatchCost).toBe(2 - ids.length);
-    const shopping = buildShoppingListAndStoreComparison([result], quotes, available, '80542', ['KING_SOOPERS'], true); expect(shopping.items).toHaveLength(2 - ids.length);
+    const shopping = buildShoppingListAndStoreComparison([result], quotes, available, '80542', ['KING_SOOPERS']); expect(shopping.items).toHaveLength(2 - ids.length);
     for (const u of breakfastUses) expect(shopping.items.some((i) => i.ingredientId === recipeUseRequirementId(u))).toBe(!ids.includes(u.pantryIngredientIds[0]));
     expect(JSON.stringify(input)).toBe(original);
   });
   it('keeps the conjunction through actual ranking, saved unpriced needs, variant No and dairy-free adaptation', () => {
     const quotes = breakfastUses.map((u) => market(u, [[u.slotKey === 'cheddar_top' ? 'Natural Cheddar Cheese Block' : 'Plain Cottage Cheese', 2, 'KING_SOOPERS']]));
-    const ranked = rankMealPrepDishes(quotes, [], [], 6, { pantryMode: true }).allRankedDishes.find((r) => r.id === breakfast)!;
+    const ranked = rankMealPrepDishes(quotes, [], [], 6, {}).allRankedDishes.find((r) => r.id === breakfast)!;
     expect(ranked.matchedIngredients.filter((i) => ['Plain Cottage Cheese', 'Shredded Cheddar'].includes(i.slotLabel))).toHaveLength(2);
     for (const u of breakfastUses) expect(ranked.matchedIngredients.find((i) => i.slotLabel === u.slotLabel)?.quantityUsed).toBe(0.5);
-    for (const servings of [4,8]) { const scaled = rankMealPrepDishes(quotes, [], [], servings, { pantryMode: true }).allRankedDishes.find((r) => r.id === breakfast)!; for (const u of breakfastUses) expect(scaled.matchedIngredients.find((i) => i.slotLabel === u.slotLabel)?.quantityUsed).toBe(Number((0.5 * servings / 6).toFixed(2))); }
+    for (const servings of [4,8]) { const scaled = rankMealPrepDishes(quotes, [], [], servings, {}).allRankedDishes.find((r) => r.id === breakfast)!; for (const u of breakfastUses) expect(scaled.matchedIngredients.find((i) => i.slotLabel === u.slotLabel)?.quantityUsed).toBe(Number((0.5 * servings / 6).toFixed(2))); }
     const input = dish(breakfastUses, 0.5), unpriced = applyPantryToRecipe(input, [], []); expect(unpriced.pantryRequirements).toHaveLength(2); expect(new Set(unpriced.pantryRequirements!.map((r) => r.ingredientId)).size).toBe(2);
     expect(applyPantryToRecipe(unpriced, positive('cottage-cheese-plain-2-percent'), quotes).pantryCoverage).toMatchObject({ requiredCount: 2, availableRequiredCount: 1 });
     const ids = availablePantryIngredientIds([entry('cottage-cheese-plain-2-percent'), entry('cottage-cheese-plain', false), entry('cheddar-cheese')]); expect(applyPantryToRecipe(input, ids, quotes).pantryCoverage!.availableRequiredCount).toBe(1);
-    const adapted = rankMealPrepDishes(quotes, [], [], 6, { pantryMode: true, dietaryConstraints: ['DAIRY_FREE'] }).allRankedDishes.find((r) => r.id === breakfast)!;
+    const adapted = rankMealPrepDishes(quotes, [], [], 6, { dietaryConstraints: ['DAIRY_FREE'] }).allRankedDishes.find((r) => r.id === breakfast)!;
     expect(adapted.matchedIngredients.some((i) => breakfastUses.some((u) => u.slotLabel === i.slotLabel))).toBe(false);
   });
   it.each<StoreChain>(['KING_SOOPERS', 'SAFEWAY', 'ALDI', 'WALMART', 'TARGET', 'SPROUTS'])('recovers exact original dairy offers before selection at %s', (store) => {
@@ -141,7 +141,7 @@ describe('approved dairy market integration', () => {
     expect(scopedRecipeCommodity(use, quote)!.bestOffer.rawTitle).toBe('Plain Whole Milk Greek Yogurt');
     const scored = scoreAllCommodities(quote.recipeOffers!, store, {}, [store], {}); expect(scored[0].recipeOffers).toHaveLength(2);
     const result = applyPantryToRecipe(dish([use]), [], scored); expect(result.totalBatchCost).toBe(6);
-    const shopping = buildShoppingListAndStoreComparison([result], scored, [], '80542', [store], true); expect(shopping.items[0].storePricing?.[store]?.ingredientName).toBe('Plain Whole Milk Greek Yogurt');
+    const shopping = buildShoppingListAndStoreComparison([result], scored, [], '80542', [store]); expect(shopping.items[0].storePricing?.[store]?.ingredientName).toBe('Plain Whole Milk Greek Yogurt');
   });
   it('retains selected stores, dairy nouns, explicit hot fat requirements and unpriced rejected siblings', () => {
     const use = dairyUses.find((u) => u.marketIngredientId === 'greek-yogurt-tub')!;

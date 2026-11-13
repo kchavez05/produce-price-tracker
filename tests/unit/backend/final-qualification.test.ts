@@ -54,24 +54,24 @@ describe('approved final qualification and release scope integration', () => {
     const q=quote(id,[[no,1,store],[yes,3,store]],[store]), scored=scoreAllCommodities(q.recipeOffers!,store,{},[store],{});
     expect(scored).toHaveLength(1);expect(scored[0].bestOffer.rawTitle).toBe(yes);expect(scored[0].recipeOffers).toHaveLength(1);
     const input=dish(id),out=applyPantryToRecipe(input,[],[q]); expect(out.totalBatchCost).toBe(6);expect(out.matchedIngredients[0].rawDealText).toContain(yes);
-    const shopping=buildShoppingListAndStoreComparison([out],[q],[],'80542',[store],true);expect(shopping.items[0].storePricing?.[store]?.ingredientName).toBe(yes);expect(shopping.items[0].optimalTotalCost).toBe(6);
+    const shopping=buildShoppingListAndStoreComparison([out],[q],[],'80542',[store]);expect(shopping.items[0].storePricing?.[store]?.ingredientName).toBe(yes);expect(shopping.items[0].optimalTotalCost).toBe(6);
   });
   it.each(proposal.exactRecipeExclusions)('blocks stale matched and literal requirements for $recipeId / $pantryIngredientId', (r) => {
     const title=cases.offerCases.find((c) => c.marketIngredientId===r.pantryIngredientId&&c.admit)!.title,q=quote(r.pantryIngredientId,[[title,2,'KING_SOOPERS']]);
     const input=dish(r.pantryIngredientId,r.recipeId,r.slotLabel), literal={...input,matchedIngredients:[],pantryRequirements:[{ingredientId:r.pantryIngredientId,displayName:ingredient(r.pantryIngredientId).name,quantity:2,unit:'lb'}]};
-    for(const stale of [input,literal,{...input,aiGenerated:true},{...literal,steps:['Edited custom instructions']}]) { const out=applyPantryToRecipe(stale,owned(r.pantryIngredientId),[q]);expect(out.pantryCoverage!.availableRequiredCount).toBe(0);expect(out.additionalCostEstimateComplete).toBe(false);expect(out.matchedIngredients).toHaveLength(0);const shopping=buildShoppingListAndStoreComparison([out],[q],owned(r.pantryIngredientId),'80542',['KING_SOOPERS'],true);expect(shopping.pantryNeeds.some((n) => n.estimatedCost===null)).toBe(true); }
+    for(const stale of [input,literal,{...input,aiGenerated:true},{...literal,steps:['Edited custom instructions']}]) { const out=applyPantryToRecipe(stale,owned(r.pantryIngredientId),[q]);expect(out.pantryCoverage!.availableRequiredCount).toBe(0);expect(out.additionalCostEstimateComplete).toBe(false);expect(out.matchedIngredients).toHaveLength(0);const shopping=buildShoppingListAndStoreComparison([out],[q],owned(r.pantryIngredientId),'80542',['KING_SOOPERS']);expect(shopping.pantryNeeds.some((n) => n.estimatedCost===null)).toBe(true); }
     expect(applyPantryToRecipe({...input,id:'separate-private-recipe'},owned(r.pantryIngredientId),[q]).pantryCoverage!.availableRequiredCount).toBe(1);
   });
   it.each(proposal.recipeCandidateDecisions.filter((r) => r.action === 'retain-exact'))('preserves quote-independent exact ownership for $recipeId / $slotKey', (r) => {
     const blueprint = MEAL_PREP_BLUEPRINTS.find((b) => b.id === r.recipeId)!, slot = blueprint.slots.find((s) => s.slotKey === r.slotKey)!;
     const macroGoal = !slot.candidateIngredientIds.includes(r.marketIngredientId) ? 'LOW_CARB_KETO' as const : 'ANY' as const;
-    const yes = rankMealPrepDishes([], [r.marketIngredientId], owned(r.marketIngredientId), 6, { pantryMode: true, macroGoal }).allRankedDishes.find((d) => d.id === r.recipeId)!;
+    const yes = rankMealPrepDishes([], [r.marketIngredientId], owned(r.marketIngredientId), 6, {  macroGoal }).allRankedDishes.find((d) => d.id === r.recipeId)!;
     expect(yes.pantryRequirements!.some((need) => need.ingredientId === r.marketIngredientId)).toBe(true);
     expect(yes.pantryCoverage![r.optional ? 'availableOptionalCount' : 'availableRequiredCount']).toBeGreaterThan(0);
     expect(yes.pantryRequirements!.some((need) => need.ingredientId === `unmapped:${r.recipeId}:${r.slotKey}`)).toBe(false);
-    const no = rankMealPrepDishes([], [r.marketIngredientId], owned(r.marketIngredientId, true), 6, { pantryMode: true, macroGoal }).allRankedDishes.find((d) => d.id === r.recipeId)!;
+    const no = rankMealPrepDishes([], [r.marketIngredientId], owned(r.marketIngredientId, true), 6, {  macroGoal }).allRankedDishes.find((d) => d.id === r.recipeId)!;
     expect(no.pantryCoverage![r.optional ? 'availableOptionalCount' : 'availableRequiredCount']).toBe(0);
-    expect(buildShoppingListAndStoreComparison([yes], [], owned(r.marketIngredientId), '80542', ['KING_SOOPERS'], true).pantryNeeds.some((need) => need.ingredientId === r.marketIngredientId)).toBe(false);
+    expect(buildShoppingListAndStoreComparison([yes], [], owned(r.marketIngredientId), '80542', ['KING_SOOPERS']).pantryNeeds.some((need) => need.ingredientId === r.marketIngredientId)).toBe(false);
   });
   it('keeps selected stores and cached direct prices from manufacturing a quote', () => {
     for(const id of EXACT_OFFER_IDS) {
@@ -85,10 +85,10 @@ describe('approved final qualification and release scope integration', () => {
   it('keeps unqualified legacy shopping prices and excluded owned slots unavailable', () => {
     const id='chicken-breast-boneless', q=quote(id,[['Fresh Chicken Breast',1,'KING_SOOPERS']]);
     const legacy={...dish(id),pantryRequirements:undefined};
-    const shopping=buildShoppingListAndStoreComparison([legacy],[q],[],'80542',['KING_SOOPERS'],false);
+    const shopping=buildShoppingListAndStoreComparison([legacy],[q],[],'80542',['KING_SOOPERS']);
     expect(shopping.items).toHaveLength(0);expect(shopping.pantryNeeds[0].estimatedCost).toBeNull();expect(shopping.tripComparison.additionalCostEstimateComplete).toBe(false);
     const row=proposal.exactRecipeExclusions[0], bad={...dish(row.pantryIngredientId,row.recipeId,row.slotLabel),pantryRequirements:undefined};bad.matchedIngredients[0].isOnHand=true;
-    const blocked=buildShoppingListAndStoreComparison([bad],[],[row.pantryIngredientId],'80542',['KING_SOOPERS'],false);expect(blocked.items).toHaveLength(0);expect(blocked.pantryNeeds[0].ingredientId).toContain('unmapped:');
+    const blocked=buildShoppingListAndStoreComparison([bad],[],[row.pantryIngredientId],'80542',['KING_SOOPERS']);expect(blocked.items).toHaveLength(0);expect(blocked.pantryNeeds[0].ingredientId).toContain('unmapped:');
   });
   it('does not promote historical group benchmarks, source overrides or club prices into exact-food savings', () => {
     for(const id of EXACT_OFFER_IDS) {

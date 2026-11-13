@@ -262,6 +262,27 @@ describe('pantry database storage boundaries', () => {
     await expect(rpc('read')).rejects.toThrow('permission denied');
     await db.exec('reset role');
   });
+  it('recovers a missing profile through RLS without replacing existing profile or pantry data', async () => {
+    const owner = '00000000-0000-4000-8000-000000000712';
+    await db.query('insert into auth.users(id,email) values($1,$2)', [owner, 'orphan@example.test']);
+    await db.query('delete from public.users where id=$1', [owner]);
+    await asUser(owner);
+    await expect(rpc('read')).rejects.toThrow('session_required');
+    const insert = (id: string, name: string) => db.query(
+      'insert into public.users(id,email,display_name,provider) values($1,$2,$3,$4) on conflict(id) do nothing',
+      [id, 'orphan@example.test', name, 'google'],
+    );
+    await insert(owner, 'Recovered profile');
+    const source = await rpc<PantryMigrationSnapshot>('read');
+    await rpc('migrate', { source: source.legacySource, entries: [] });
+    await rpc('mutate', put());
+    const before = await rpc<PantryMigrationSnapshot>('read');
+    await insert(owner, 'Must not overwrite');
+    expect((await db.query<{ display_name: string }>('select display_name from public.users where id=$1', [owner])).rows[0].display_name).toBe('Recovered profile');
+    expect(await rpc('read')).toEqual(before);
+    await expect(insert(alice, 'Forged owner')).rejects.toThrow('row-level security');
+    await db.exec('reset role');
+  });
   it('migrates atomically and refuses an outdated source snapshot', async () => {
     await asUser(alice);
     const before = await rpc<PantryMigrationSnapshot>('read');

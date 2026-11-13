@@ -167,7 +167,8 @@ describe('cart-exporter: formatShoppingListForClipboard', () => {
     expect(text).toContain('Mead, CO (80542)');
     expect(text).toContain('PRE-FLIGHT DIGITAL COUPONS TO CLIP');
     expect(text).toContain('MEAT, POULTRY & SEAFOOD COUNTER');
-    expect(text).toContain('PULL FROM VIRTUAL FREEZER / PANTRY');
-    expect(text).toContain('PANTRY & SPICE CABINET CHECK');
+    expect(text).toContain('ALREADY HAVE (omitted from shopping needs)');
+    expect(text).toContain('known subtotal — plus unpriced ingredients');
+    expect(text).toContain('STAPLES TO BUY');
   });
 });

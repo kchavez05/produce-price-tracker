@@ -1,9 +1,6 @@
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import {
   getSqliteDatabaseStats,
-  getFreezerItemsFromSqlite,
-  upsertFreezerItemToSqlite,
-  deleteFreezerItemFromSqlite,
   getSavedRecipesFromSqlite,
   saveRecipeToSqlite,
   deleteSavedRecipeFromSqlite,
@@ -11,7 +8,6 @@ import {
   getRecentSyncRunsFromSqlite,
   resetSqliteTestInstance,
 } from '@/lib/db/sqlite';
-import { FreezerItem } from '@/types/domain';
 import { createMockDish } from 'tests/test-utils';
 
 describe('smoke: sqlite-health & schema initialization', () => {
@@ -30,35 +26,6 @@ describe('smoke: sqlite-health & schema initialization', () => {
     expect(stats.totalUsdaSnapshotRows).toBeGreaterThan(0);
     expect(stats.trackedWeeksCount).toBeGreaterThan(0);
     expect(stats.dbPath).toContain(':memory:');
-  });
-
-  it('supports freezer items CRUD operations in-memory', () => {
-    const testItem: FreezerItem = {
-      id: 'test-smoke-chicken-001',
-      canonicalIngredientId: 'chicken-thighs-boneless',
-      ingredientName: 'Boneless Chicken Thighs',
-      category: 'PROTEIN',
-      quantityLbOrDoz: 4.5,
-      unit: 'lb',
-      purchasePricePerUnit: 1.99,
-      regularPricePerUnit: 4.49,
-      totalCostBasis: 8.96,
-      estimatedSavings: 11.25,
-      store: 'KING_SOOPERS',
-      storeBanner: 'King Soopers',
-      purchasedAtIso: new Date().toISOString(),
-    };
-
-    upsertFreezerItemToSqlite(testItem);
-
-    const items = getFreezerItemsFromSqlite();
-    const found = items.find((f) => f.id === testItem.id);
-    expect(found).toBeDefined();
-    expect(found?.quantityLbOrDoz).toBe(4.5);
-
-    deleteFreezerItemFromSqlite(testItem.id);
-    const afterDelete = getFreezerItemsFromSqlite();
-    expect(afterDelete.some((f) => f.id === testItem.id)).toBe(false);
   });
 
   it('supports saved recipes persistence and deletion in-memory', () => {

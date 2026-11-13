@@ -52,7 +52,7 @@ describe('approved vegetable recipe-use integration', () => {
     expect(result.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: example.covered ? 1 : 0 });
     expect(result.totalBatchCost).toBe(example.covered || !example.priceAdmissible ? 0 : 4);
     expect(result.additionalCostEstimateComplete).toBe(example.covered || example.priceAdmissible);
-    const shopping = buildShoppingListAndStoreComparison([result], [commodity], example.positivePantryIds, '80542', ['KING_SOOPERS'], true);
+    const shopping = buildShoppingListAndStoreComparison([result], [commodity], example.positivePantryIds, '80542', ['KING_SOOPERS']);
     expect(shopping.items.length).toBe(!example.covered && example.priceAdmissible ? 1 : 0);
     expect(shopping.pantryNeeds.length).toBe(!example.covered && !example.priceAdmissible ? 1 : 0);
     expect(shopping.tripComparison.additionalCostEstimateComplete).toBe(example.covered || example.priceAdmissible);
@@ -67,7 +67,7 @@ describe('approved vegetable recipe-use integration', () => {
       const result = applyPantryToRecipe(dish(use), available, []);
       expect(result.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 1 });
       expect(result.additionalCostEstimateComplete).toBe(true);
-      expect(buildShoppingListAndStoreComparison([result], [], available, '80542', undefined, true).pantryNeeds).toEqual([]);
+      expect(buildShoppingListAndStoreComparison([result], [], available, '80542', undefined).pantryNeeds).toEqual([]);
     }
     expect(applyPantryToRecipe(dish(useFor('cauliflower')), ['broccoli-fresh'], []).pantryCoverage?.availableRequiredCount).toBe(0);
     const synthetic = recipeUseRequirementId(use);
@@ -82,7 +82,7 @@ describe('approved vegetable recipe-use integration', () => {
     commodity.kingSoopersOffer = commodity.bestOffer;
     const result = applyPantryToRecipe(input, [], [commodity]);
     expect(result.matchedIngredients[0]).toMatchObject({ store: 'SAFEWAY', unitCost: 3, slotCost: 6, ingredientName: 'Fresh spinach' });
-    const shopping = buildShoppingListAndStoreComparison([result], [commodity], [], '80542', ['KING_SOOPERS', 'SAFEWAY'], true);
+    const shopping = buildShoppingListAndStoreComparison([result], [commodity], [], '80542', ['KING_SOOPERS', 'SAFEWAY']);
     expect(shopping.items[0]).toMatchObject({ optimalStore: 'SAFEWAY', optimalTotalCost: 6 });
     expect(shopping.items[0].storePricing?.KING_SOOPERS?.rawDealText).toContain('Price unavailable');
     expect(shopping.tripComparison.singleStoreRankings?.find((r) => r.store === 'KING_SOOPERS')?.verifiedItemCount).toBe(0);
@@ -105,7 +105,7 @@ describe('approved vegetable recipe-use integration', () => {
     expect(commodities[0].storeOffers?.KING_SOOPERS?.rawTitle).toBe('Fresh kale');
     const result = applyPantryToRecipe(dish(use), [], commodities);
     expect(result.matchedIngredients[0]).toMatchObject({ store: expectedStore, unitCost: expectedPrice, slotCost: 2 * expectedPrice });
-    const ranked = rankMealPrepDishes(commodities, [], [], 6, { pantryMode: true }).allRankedDishes.find((r) => r.id === use.recipeId)!;
+    const ranked = rankMealPrepDishes(commodities, [], [], 6, {}).allRankedDishes.find((r) => r.id === use.recipeId)!;
     expect(ranked.matchedIngredients.find((r) => r.ingredientId === use.marketIngredientId)?.store).toBe(expectedStore);
   });
 
@@ -118,7 +118,7 @@ describe('approved vegetable recipe-use integration', () => {
       const result = applyPantryToRecipe(dish(use), [], commodities);
       expect(result.matchedIngredients).toEqual([]);
       expect(result.additionalCostEstimateComplete).toBe(false);
-      const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
+      const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS']);
       expect(shopping.items).toEqual([]);
       expect(shopping.pantryNeeds).toHaveLength(1);
       // Old cached commodities retain their selected best-offer store, even if
@@ -131,7 +131,7 @@ describe('approved vegetable recipe-use integration', () => {
   it('does not aggregate broad and exact uses of the same market group or copy tomato/tomatillo prices', () => {
     const either = useFor('greens'), exact = useFor('spinach');
     const commodity = market(either, [['Fresh kale', 1, 'KING_SOOPERS'], ['Fresh spinach', 3, 'SAFEWAY']]);
-    const shopping = buildShoppingListAndStoreComparison([dish(either), dish(exact)], [commodity], [], '80542', ['KING_SOOPERS', 'SAFEWAY'], true);
+    const shopping = buildShoppingListAndStoreComparison([dish(either), dish(exact)], [commodity], [], '80542', ['KING_SOOPERS', 'SAFEWAY']);
     expect(shopping.items).toHaveLength(2);
     expect(new Set(shopping.items.map((r) => r.ingredientId)).size).toBe(2);
     expect(shopping.tripComparison.optimalSplitTotal).toBe(8);
@@ -158,13 +158,13 @@ describe('approved vegetable recipe-use integration', () => {
     const repeated = applyPantryToRecipe({ ...empty, pantryRequirements: [empty.pantryRequirements![0], { ...empty.pantryRequirements![0], quantity: 3 }] }, [], [commodity]);
     expect(repeated.totalBatchCost).toBe(10);
     expect(repeated.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 0 });
-    expect(buildShoppingListAndStoreComparison([repeated], [commodity], [], '80542', ['KING_SOOPERS'], true).items[0].totalQuantityNeeded).toBe(5);
+    expect(buildShoppingListAndStoreComparison([repeated], [commodity], [], '80542', ['KING_SOOPERS']).items[0].totalQuantityNeeded).toBe(5);
     const removed = applyPantryToRecipe(repriced, [], []);
     expect(removed.missingPriceIngredientIds).toEqual([recipeUseRequirementId(use)]);
     const owned = applyPantryToRecipe(removed, ['spinach-fresh'], []);
     expect(owned.additionalCostEstimateComplete).toBe(true);
     expect(owned.pantryCoverage?.availableRequiredCount).toBe(1);
-    const shopping = buildShoppingListAndStoreComparison([owned], [], [], '80542', ['KING_SOOPERS'], true);
+    const shopping = buildShoppingListAndStoreComparison([owned], [], [], '80542', ['KING_SOOPERS']);
     expect(shopping.pantryNeeds).toHaveLength(1);
     expect(shopping.tripComparison.additionalCostEstimateComplete).toBe(false);
   });
@@ -209,7 +209,7 @@ describe('approved vegetable recipe-use integration', () => {
     expect(result.matchedIngredients[0]).toMatchObject({ ingredientId: 'carrots-whole-baby', store: 'KING_SOOPERS', unitCost: 0.75, slotCost: 1.5 });
     expect(result.matchedIngredients[0].rawDealText).toContain('Kroger Whole or Peeled Baby Carrots');
     expect(result.additionalCostEstimateComplete).toBe(true);
-    const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
+    const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS']);
     expect(shopping.items[0]).toMatchObject({ optimalStore: 'KING_SOOPERS', optimalUnitCost: 0.75, optimalTotalCost: 1.5 });
     expect(shopping.pantryNeeds).toEqual([]);
   });
@@ -230,7 +230,7 @@ describe('approved vegetable recipe-use integration', () => {
     const use = useFor('mushrooms');
     const commodities = scoreAllCommodities(ALL_WEEKLY_BASELINE_OFFERS, 'KING_SOOPERS', {}, ['KING_SOOPERS'], {});
     const result = applyPantryToRecipe(dish(use), [], commodities);
-    const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS'], true);
+    const shopping = buildShoppingListAndStoreComparison([result], commodities, [], '80542', ['KING_SOOPERS']);
     const title = shopping.items[0].storePricing!.KING_SOOPERS!.ingredientName!;
     expect(title).toContain('Kroger Whole or Sliced Baby Bella / White Mushrooms');
     const links = getItemCurbsideLinks('KING_SOOPERS', title, '80542');
@@ -244,12 +244,12 @@ describe('approved vegetable recipe-use integration', () => {
     const either = useFor('greens'), commodity = market(either, [['Fresh spinach', 2, 'KING_SOOPERS']]);
     const all = CANONICAL_INGREDIENTS.map((ingredient) => ingredient.id === commodity.ingredient.id ? commodity : createMockCommodity({ ingredient }));
     const ids = ['kale-fresh'];
-    const ranked = rankMealPrepDishes(all, [], ids, 6, { pantryMode: true }).allRankedDishes;
+    const ranked = rankMealPrepDishes(all, [], ids, 6, {}).allRankedDishes;
     const tuscan = ranked.find((r) => r.id === either.recipeId)!;
     expect(tuscan.matchedIngredients.find((r) => r.ingredientId === either.marketIngredientId)?.isOnHand).toBe(true);
     const curry = ranked.find((r) => r.id === useFor('spinach').recipeId)!;
     expect(curry.matchedIngredients.find((r) => r.ingredientId === either.marketIngredientId)?.isOnHand).not.toBe(true);
-    const without = rankMealPrepDishes([], [], ids, 6, { pantryMode: true }).allRankedDishes.find((r) => r.id === either.recipeId)!;
+    const without = rankMealPrepDishes([], [], ids, 6, {}).allRankedDishes.find((r) => r.id === either.recipeId)!;
     expect(without.pantryRequirements?.find((r) => r.ingredientId === recipeUseRequirementId(either))).toBeDefined();
     expect(without.pantryCoverage!.availableRequiredCount).toBeGreaterThan(0);
   });
@@ -267,13 +267,13 @@ describe('approved vegetable recipe-use integration', () => {
     const use = scopedRecipeUses.find((r) => r.recipeId === 'sheet-pan-salmon-asparagus-brussels-potato-roast' && r.slotKey === 'green_veg' && r.marketIngredientId === 'broccoli-cauliflower')!;
     const brussels = createMockCommodity({ ingredient: CANONICAL_INGREDIENTS.find((r) => r.id === 'brussels-sprouts')!,
       bestOffer: createMockOffer({ canonicalIngredientId: 'brussels-sprouts', normalizedPricePerUnit: 3 }) });
-    const rank = (priced: boolean, pinned: string[] = []) => rankMealPrepDishes(priced ? [brussels] : [], pinned, ['broccoli-fresh'], 6, { pantryMode: true })
+    const rank = (priced: boolean, pinned: string[] = []) => rankMealPrepDishes(priced ? [brussels] : [], pinned, ['broccoli-fresh'], 6, {})
       .allRankedDishes.find((r) => r.id === use.recipeId)!;
     const result = rank(true);
     expect(result.totalBatchCost).toBe(rank(false).totalBatchCost);
     expect(result.matchedIngredients.some((r) => r.ingredientId === 'brussels-sprouts')).toBe(false);
     expect(result.pantryRequirements?.find((r) => r.ingredientId === recipeUseRequirementId(use))).toBeDefined();
-    const shopping = buildShoppingListAndStoreComparison([result], [brussels], ['broccoli-fresh'], '80542', ['KING_SOOPERS'], true);
+    const shopping = buildShoppingListAndStoreComparison([result], [brussels], ['broccoli-fresh'], '80542', ['KING_SOOPERS']);
     expect(shopping.items.some((r) => r.ingredientId === 'brussels-sprouts')).toBe(false);
     expect(shopping.pantryNeeds.some((r) => r.ingredientId === recipeUseRequirementId(use))).toBe(false);
     expect(rank(true, ['brussels-sprouts']).matchedIngredients.find((r) => r.ingredientId === 'brussels-sprouts')?.slotCost).toBe(5.25);

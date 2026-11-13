@@ -5,6 +5,19 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] - 2026-11-13
+
+Deployment, production acceptance and publication receipts: [#722](https://github.com/kchavez05/produce-price-tracker/issues/722). See [release notes](docs/releases/v1.6.3.md).
+
+### Fixed
+- Include attributable account sync recovery in browser exports and clear that account’s recovery copies on explicit account deletion.
+- Repair a missing application profile from the verified signed-in session without overwriting existing data or acknowledging failed storage writes (#712).
+
+### Changed
+- Make Virtual Pantry the only inventory, matching and shopping path; retire legacy Freezer UI/writers and the Pantry rollout flag (#700).
+- Return 410 from `/api/freezer` and reject old inventory sync fields with 426 without acknowledgment. Preserve owner-bound queued edits for explicit recovery while ordinary preferences continue syncing.
+- Retain original storage, migration archives and data-rights export/delete; update current docs and OpenAPI. No Stage 3 storage deletion or v2.0 UI implementation.
+
 ## [1.6.2] - 2026-11-12
 
 Released to production November 12. The maintainer attested that production is functioning as expected; itemized production receipts (regional WAF rule, artifact-bearing deployment, bounded runtime results) are not recorded and are not claimed. See [release notes](docs/releases/v1.6.2.md) and the [rollout plan](docs/releases/v1.6.2-rollout.md).

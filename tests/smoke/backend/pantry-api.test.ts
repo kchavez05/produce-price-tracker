@@ -32,10 +32,9 @@ function signIn(id: string) {
 describe('private pantry API in keyless mode', () => {
   beforeEach(() => { clientNumber += 1; vi.stubEnv('PANTRYBOT_SQLITE_PATH', ':memory:'); vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', ''); vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'true'); cookieJar.clear(); resetSqliteTestInstance(); });
   afterEach(() => { resetSqliteTestInstance(); vi.unstubAllEnvs(); });
-  it('keeps rollout disabled by default and rejects malformed/cross-origin requests', async () => {
-    vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'false');
-    expect((await GET(req(undefined, 'GET'))).status).toBe(503);
-    vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'true');
+  it('works without a rollout flag and rejects malformed/cross-origin requests', async () => {
+    vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', '');
+    expect((await GET(req(undefined, 'GET'))).status).toBe(200);
     expect((await POST(new NextRequest('http://localhost/api/pantry', { method: 'POST', headers: { host: 'localhost', origin: 'https://elsewhere.test' } }))).status).toBe(403);
     expect((await POST(req([]))).status).toBe(400);
   });
@@ -80,6 +79,20 @@ describe('private pantry API in keyless mode', () => {
     for (const [key, value] of tokens) cookieJar.set(key, value);
     expect((await read()).entries).toHaveLength(1);
   });
+  it('rejects retired fields before migration and leaves preferences and sources unchanged', async () => {
+    signIn('alice');
+    for (const retired of [{ freezerItems: [] }, { freezerItems: null }, { preferences: { onHandIngredientIds: [] } }, { preferences: { onHandIngredientIds: null } }]) {
+      const response = await sync(req({ ...retired, preferences: { defaultZip: '10001', ...('preferences' in retired ? retired.preferences : {}) } }, 'POST', '/api/sync'));
+      expect(response.status).toBe(426);
+      expect(await response.json()).toMatchObject({ code: 'pantry_upgrade_required' });
+    }
+    const { getUserPreferencesFromSqlite } = await import('@/lib/db/sqlite');
+    expect(getUserPreferencesFromSqlite('alice').defaultZip).toBe('80542');
+    const { GET: readSync } = await import('@/app/api/sync/route');
+    const state = await (await readSync(req(undefined, 'GET', '/api/sync'))).json();
+    expect(state).not.toHaveProperty('freezerItems');
+    expect(state.preferences).not.toHaveProperty('onHandIngredientIds');
+  });
   it('preserves legacy data and fences old writes without blocking unrelated preferences', async () => {
     signIn('alice');
     upsertUserPreferencesToSqlite({ ...getDefaultUserPreferences('alice'), onHandIngredientIds: ['ground-turkey'] });
@@ -91,7 +104,7 @@ describe('private pantry API in keyless mode', () => {
     expect((await sync(req({ preferences: { defaultZip: '10001' } }, 'POST', '/api/sync'))).status).toBe(200);
     const archived = await (await exportAccount(req(undefined, 'GET', '/api/account'))).json();
     expect(archived.virtualPantry.legacySource.freezerItems[0].id).toBe('old-lot');
-    expect((await freezer(req({ item: archived.virtualPantry.legacySource.freezerItems[0] }))).status).toBe(426);
+    expect((await freezer(req({ item: archived.virtualPantry.legacySource.freezerItems[0] }))).status).toBe(410);
     expect((await read()).entries).toHaveLength(2);
   });
   it('keeps stale edits pending for explicit resolution and protects account identity', async () => {
@@ -107,6 +120,18 @@ describe('private pantry API in keyless mode', () => {
     expect((await POST(req(body))).status).toBe(409);
     expect((await read()).entries).toEqual([]);
     expect((await POST(req({ ...body, owner: 'account:bob' }))).status).toBe(200);
+  });
+  it('rejects a stale account deletion fence without deleting the verified account', async () => {
+    signIn('alice');
+    const stale = req(undefined, 'DELETE', '/api/account');
+    stale.headers.set('x-pantrybot-account-id', 'bob');
+    expect((await deleteAccount(stale)).status).toBe(409);
+    const { getUserProfileFromSqlite } = await import('@/lib/db/sqlite');
+    expect(getUserProfileFromSqlite('alice')?.id).toBe('alice');
+    const current = req(undefined, 'DELETE', '/api/account');
+    current.headers.set('x-pantrybot-account-id', 'alice');
+    expect((await deleteAccount(current)).status).toBe(200);
+    expect(getUserProfileFromSqlite('alice')).toBeNull();
   });
   it('does not acknowledge edits before migration, validates values, and deletes all pantry data with the account', async () => {
     signIn('alice');
@@ -132,7 +157,7 @@ describe('private pantry API in keyless mode', () => {
       const available = await readProfilePantryAvailability(inventory.profile);
       expect(available).toEqual(['olive-oil']);
       const commodities = CANONICAL_INGREDIENTS.map((ingredient) => createMockCommodity({ ingredient }));
-      const dishes = rankMealPrepDishes(commodities, [], available, 6, { pantryMode: true }).allRankedDishes;
+      const dishes = rankMealPrepDishes(commodities, [], available, 6, {}).allRankedDishes;
       const dish = dishes.find((item) => item.pantryRequirements?.some((requirement) => requirement.ingredientId === 'olive-oil'))!;
       expect(dish.pantryCoverage!.availableRequiredCount).toBeGreaterThan(0);
       const shopping = buildShoppingListAndStoreComparison([dish], commodities, available);

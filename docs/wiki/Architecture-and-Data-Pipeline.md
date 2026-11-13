@@ -32,8 +32,8 @@ flowchart LR
     L2 --> Norm
     L3 --> Norm
     L4 --> Norm
-    Norm --> DB[("SQLite History &\nVirtual Freezer DB")]
-    DB --> Score["Scoring, Cycle Signals,\nFreezer Arbitrage & 3-Dish Engine"]
+    Norm --> DB[("SQLite History &\nPrivate Pantry DB")]
+    DB --> Score["Scoring, Cycle Signals,\nPantry Availability & 3-Dish Engine"]
 ```
 
 ### Layer 1: 6-Vendor Local Store Actuals (`src/lib/connectors/flipp.ts` & `src/data/store-registry.ts`)
@@ -77,7 +77,7 @@ PantryBot uses Node's built-in `node:sqlite` (`DatabaseSync`) stored at `data/me
 1. **`weekly_price_history`:** Stores multi-week normalized price snapshots per ingredient and store, powering 6-week sparklines and **6-Week Cycle Floor vs. Peak (`sixWeekLow`, `sixWeekHigh`, `sixWeekMedian`)** signals.
 2. **`sync_runs`:** Audit log of weekly Flipp + Kroger + USDA sync executions.
 3. **`saved_recipes`:** User-bookmarked meal-prep blueprints and custom Gemini AI recipes (`/api/saved-recipes`).
-4. **`freezer_inventory` (`v1.2`):** Persistent **Virtual Freezer** table (`/api/freezer` `GET`, `POST`, `PATCH`, `DELETE`) storing banked freezer items (`canonical_ingredient_id`, `quantity_lb`, `purchase_price_per_unit`, `regular_price_per_unit`, `store`, `added_date_iso`, `notes`) for multi-week protein arbitrage.
+4. **Legacy inventory tables:** Retained without active Freezer writers. Owner-scoped original lots remain available to the migration bridge and data-rights export/delete. The old global `freezer_inventory` table is kept intact for recovery and never served as shared personal inventory. Current local Pantry uses owner-scoped entries, revisions, receipts and migration archives.
 
 ---
 
@@ -91,4 +91,4 @@ Every `StoreOffer` is classified into one of four redemption mechanics so the sh
 
 ## Staged Virtual Pantry implementation
 
-See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. Stage 2 removes the flag-off path and writers; storage removal stays separate. These changes await production release.

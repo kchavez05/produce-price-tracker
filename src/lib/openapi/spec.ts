@@ -41,7 +41,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
   openapi: '3.1.0',
   info: {
     title: 'PantryBot API',
-    version: '1.6.2',
+    version: '1.6.3',
     description:
       'PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam\'s Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages Virtual Pantry availability, and provides cross-device cloud synchronization with PostgreSQL RLS.',
     termsOfService: '/terms',
@@ -66,7 +66,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     },
   ],
   tags: [
-    { name: 'Virtual Pantry', description: 'Private boolean inventory with revision-checked writes. Requires PANTRYBOT_PANTRY_ENABLED=true and installed additive pantry migrations.' },
+    { name: 'Virtual Pantry', description: 'Private boolean inventory with revision-checked writes. Requires installed additive pantry migrations.' },
     { name: 'Data Explorer', description: 'Public read-only market history, raw rows, source reports, grouping rationale, and score transparency.' },
     {
       name: 'Dashboard & Deals',
@@ -81,7 +81,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     {
       name: 'Legacy Inventory',
       description:
-        'Legacy purchase/quantity records retained for compatibility and migration. Migrated owners must use Virtual Pantry; unsupported legacy writes return 426.',
+        'Retired operations return 410 Gone. Original purchase records remain available through migration and account export.',
     },
     {
       name: 'Saved Recipes',
@@ -362,266 +362,44 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     },
     '/api/freezer': {
       get: {
-        tags: ['Legacy Inventory'],
-        summary: 'Get virtual freezer inventory',
-        description:
-          'Retrieves banked freezer items for the active user session or private guest session.',
-        operationId: 'getFreezerItems',
-        responses: {
-          '200': {
-            description: 'Current virtual freezer inventory list',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    items: {
-                      type: 'array',
-                      items: { $ref: '#/components/schemas/FreezerItem' },
-                    },
-                  },
-                  required: ['items'],
-                },
-              },
-            },
-          },
-          '500': {
-            description: 'Failed to read virtual freezer inventory',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-        },
+        tags: ['Legacy Inventory'], deprecated: true,
+        summary: 'Retired Virtual Freezer endpoint', operationId: 'getFreezerItems',
+        description: 'Returns 410 Gone without reading or changing inventory. Reload PantryBot and use /api/pantry. Retained for at least one release after retirement.',
+        responses: { '410': { description: 'freezer_retired; replacement: /api/pantry',
+          content: { 'application/json': { schema: { type: 'object', properties: {
+            code: { type: 'string', enum: ['freezer_retired'] }, error: { type: 'string' }, replacement: { type: 'string', enum: ['/api/pantry'] },
+          }, required: ['code', 'error', 'replacement'] } } },
+        } },
       },
       post: {
-        tags: ['Legacy Inventory'],
-        summary: 'Bank or add an item to the virtual freezer',
-        description:
-          'Legacy contract. Saves or merges a purchase record for owners who have not migrated. Migrated owners receive 426 pantry_upgrade_required and must use /api/pantry; legacy quantities cannot overwrite boolean availability.',
-        operationId: 'upsertFreezerItem',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  item: { $ref: '#/components/schemas/FreezerItem' },
-                },
-                required: ['item'],
-              },
-            },
-          },
-        },
-        responses: {
-          '200': {
-            description: 'Freezer item saved successfully',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    saved: { $ref: '#/components/schemas/FreezerItem' },
-                    items: {
-                      type: 'array',
-                      items: { $ref: '#/components/schemas/FreezerItem' },
-                    },
-                  },
-                  required: ['saved', 'items'],
-                },
-              },
-            },
-          },
-          '400': {
-            description: 'Missing required item payload or invalid JSON',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '426': { description: 'pantry_upgrade_required: this owner migrated; reload and use /api/pantry.' },
-          '403': {
-            description: 'Forbidden cross-origin request',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '429': {
-            description: 'Rate limit exceeded for freezer mutations',
-            headers: {
-              'Retry-After': {
-                schema: { type: 'string' },
-                description: 'Seconds to wait before retrying',
-              },
-            },
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '500': {
-            description: 'Failed to save virtual freezer item',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-        },
+        tags: ['Legacy Inventory'], deprecated: true,
+        summary: 'Retired Virtual Freezer endpoint', operationId: 'upsertFreezerItem',
+        description: 'Returns 410 Gone without reading or changing inventory. Reload PantryBot and use /api/pantry. Retained for at least one release after retirement.',
+        responses: { '410': { description: 'freezer_retired; replacement: /api/pantry',
+          content: { 'application/json': { schema: { type: 'object', properties: {
+            code: { type: 'string', enum: ['freezer_retired'] }, error: { type: 'string' }, replacement: { type: 'string', enum: ['/api/pantry'] },
+          }, required: ['code', 'error', 'replacement'] } } },
+        } },
       },
       patch: {
-        tags: ['Legacy Inventory'],
-        summary: 'Update freezer item quantity',
-        description:
-          'Modifies remaining quantity in lbs or dozens, recalculating cost basis and estimated savings.',
-        operationId: 'updateFreezerItemQuantity',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  id: { type: 'string', example: 'frz-ground-beef-80-20-1729350000' },
-                  quantityLbOrDoz: { type: 'number', example: 1.5 },
-                },
-                required: ['id', 'quantityLbOrDoz'],
-              },
-            },
-          },
-        },
-        responses: {
-          '200': {
-            description: 'Item quantity updated successfully',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    updated: {
-                      anyOf: [
-                        { $ref: '#/components/schemas/FreezerItem' },
-                        { type: 'null' },
-                      ],
-                    },
-                    items: {
-                      type: 'array',
-                      items: { $ref: '#/components/schemas/FreezerItem' },
-                    },
-                  },
-                  required: ['items'],
-                },
-              },
-            },
-          },
-          '400': {
-            description: 'Missing id or invalid quantity',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '426': { description: 'pantry_upgrade_required: quantity writes cannot overwrite migrated pantry availability.' },
-          '403': {
-            description: 'Forbidden cross-origin request',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '429': {
-            description: 'Rate limit exceeded',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '500': {
-            description: 'Failed to update virtual freezer item',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-        },
+        tags: ['Legacy Inventory'], deprecated: true,
+        summary: 'Retired Virtual Freezer endpoint', operationId: 'updateFreezerItemQuantity',
+        description: 'Returns 410 Gone without reading or changing inventory. Reload PantryBot and use /api/pantry. Retained for at least one release after retirement.',
+        responses: { '410': { description: 'freezer_retired; replacement: /api/pantry',
+          content: { 'application/json': { schema: { type: 'object', properties: {
+            code: { type: 'string', enum: ['freezer_retired'] }, error: { type: 'string' }, replacement: { type: 'string', enum: ['/api/pantry'] },
+          }, required: ['code', 'error', 'replacement'] } } },
+        } },
       },
       delete: {
-        tags: ['Legacy Inventory'],
-        summary: 'Remove item from virtual freezer',
-        description: 'Deletes a virtual freezer item by ID.',
-        operationId: 'deleteFreezerItem',
-        parameters: [
-          {
-            name: 'id',
-            in: 'query',
-            required: true,
-            description: 'Virtual freezer item ID to delete',
-            schema: { type: 'string' },
-          },
-        ],
-        responses: {
-          '200': {
-            description: 'Item removed successfully',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    ok: { type: 'boolean', example: true },
-                    items: {
-                      type: 'array',
-                      items: { $ref: '#/components/schemas/FreezerItem' },
-                    },
-                  },
-                  required: ['ok', 'items'],
-                },
-              },
-            },
-          },
-          '400': {
-            description: 'Missing freezer item id parameter',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '426': { description: 'pantry_upgrade_required: delete the entry through /api/pantry with its latest revision.' },
-          '403': {
-            description: 'Forbidden cross-origin request',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '429': {
-            description: 'Rate limit exceeded',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-          '500': {
-            description: 'Failed to delete virtual freezer item',
-            content: {
-              'application/json': {
-                schema: { $ref: '#/components/schemas/ErrorResponse' },
-              },
-            },
-          },
-        },
+        tags: ['Legacy Inventory'], deprecated: true,
+        summary: 'Retired Virtual Freezer endpoint', operationId: 'deleteFreezerItem',
+        description: 'Returns 410 Gone without reading or changing inventory. Reload PantryBot and use /api/pantry. Retained for at least one release after retirement.',
+        responses: { '410': { description: 'freezer_retired; replacement: /api/pantry',
+          content: { 'application/json': { schema: { type: 'object', properties: {
+            code: { type: 'string', enum: ['freezer_retired'] }, error: { type: 'string' }, replacement: { type: 'string', enum: ['/api/pantry'] },
+          }, required: ['code', 'error', 'replacement'] } } },
+        } },
       },
     },
     '/api/saved-recipes': {
@@ -843,7 +621,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['Cloud Sync'],
         summary: 'Load synchronized user profile and state',
         description:
-          'Loads cloud-synchronized preferences, virtual freezer inventory, and saved recipes for the current user profile or local guest session.',
+          'Loads non-inventory preferences and saved recipes for the verified account. Personal inventory is available only through /api/pantry.',
         operationId: 'getUserSyncState',
         responses: {
           '200': {
@@ -876,7 +654,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['Cloud Sync'],
         summary: 'Persist user sync updates',
         description:
-          'Persists updated preferences, freezer inventory, or saved recipes to PostgreSQL with Row-Level Security (or local guest SQLite store).',
+          'Persists non-inventory preferences and saved recipes for the verified account. The presence of retired freezerItems or preferences.onHandIngredientIds returns 426 without acknowledging the update.',
         operationId: 'persistUserSyncState',
         requestBody: {
           required: true,
@@ -889,10 +667,6 @@ export const PANTRYBOT_OPENAPI_SPEC = {
                   preferences: {
                     type: 'object',
                     description: 'Partial user preferences to update',
-                  },
-                  freezerItems: {
-                    type: 'array',
-                    items: { $ref: '#/components/schemas/FreezerItem' },
                   },
                   savedRecipes: {
                     type: 'array',
@@ -910,7 +684,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         },
         responses: {
           '409': { description: 'Queued update belongs to a different account' },
-          '426': { description: 'pantry_upgrade_required: migrated owners must update inventory through /api/pantry; unrelated preferences and saved recipes remain supported.' },
+          '426': { description: 'pantry_upgrade_required: all owners must update inventory through /api/pantry; unrelated preferences and saved recipes remain supported.' },
           '200': {
             description: 'Updated sync state returned',
             content: {
@@ -1434,7 +1208,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           regularSlotCost: { type: 'number', example: 10.98 },
           isUserPinned: { type: 'boolean', example: false },
           isOnHand: { type: 'boolean', example: false },
-          fromVirtualFreezer: { type: 'boolean', example: false },
+          fromVirtualFreezer: { type: 'boolean', deprecated: true, description: 'Historical saved-recipe metadata; never current availability evidence.' },
         },
         required: [
           'slotLabel',
@@ -1556,7 +1330,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           reheatTip: { type: 'string', example: 'Reheat on stovetop with 2 tbsp water.' },
           aiGenerated: { type: 'boolean', example: false },
           savedInLibrary: { type: 'boolean', example: false },
-          poweredByFreezerCount: { type: 'number', example: 1 },
+          poweredByFreezerCount: { type: 'number', deprecated: true, description: 'Historical saved-recipe metadata; removed by current evaluation.' },
         },
         required: [
           'id',
@@ -1847,6 +1621,40 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           'updatedAtIso',
         ],
       },
+      SyncedUserPreferences: {
+        type: 'object',
+        properties: {
+          userId: { type: 'string', example: 'usr-google-demo-80542' },
+          defaultZip: { type: 'string', example: '80542' },
+          favoriteStoreIds: {
+            type: 'array',
+            items: { $ref: '#/components/schemas/StoreChain' },
+          },
+          macroGoal: { $ref: '#/components/schemas/MacroGoal' },
+          dietaryConstraints: {
+            type: 'array',
+            items: { $ref: '#/components/schemas/DietaryConstraint' },
+          },
+          vesselArchetype: { $ref: '#/components/schemas/CookingVesselArchetype' },
+          targetServings: { type: 'number', enum: [4, 6, 8] },
+          pinnedIngredientIds: {
+            type: 'array',
+            items: { type: 'string' },
+          },
+          updatedAtIso: { type: 'string' },
+        },
+        required: [
+          'userId',
+          'defaultZip',
+          'favoriteStoreIds',
+          'macroGoal',
+          'dietaryConstraints',
+          'vesselArchetype',
+          'targetServings',
+          'pinnedIngredientIds',
+          'updatedAtIso',
+        ],
+      },
       UserSyncPayload: {
         type: 'object',
         properties: {
@@ -1865,13 +1673,9 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           },
           preferences: {
             anyOf: [
-              { $ref: '#/components/schemas/UserPreferences' },
+              { $ref: '#/components/schemas/SyncedUserPreferences' },
               { type: 'null' },
             ],
-          },
-          freezerItems: {
-            type: 'array',
-            items: { $ref: '#/components/schemas/FreezerItem' },
           },
           savedRecipes: {
             type: 'array',
@@ -1885,7 +1689,6 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           'supabaseConfigured',
           'profile',
           'preferences',
-          'freezerItems',
           'savedRecipes',
           'syncedAtIso',
         ],

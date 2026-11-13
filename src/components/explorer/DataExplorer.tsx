@@ -1082,7 +1082,7 @@ function ScorePanel({
           </div>
           <div className="ex-definition">
             <dt>
-              Freezer suggestion:{' '}
+              Stock-up suggestion:{' '}
               {c.arbitragePrompt?.eligible ? 'eligible' : 'not eligible'}
             </dt>
             <dd>

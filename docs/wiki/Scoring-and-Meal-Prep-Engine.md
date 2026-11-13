@@ -2,7 +2,7 @@
 
 > v1.5.1 update: The [Data Explorer](https://pantrybot.dev/data?tab=score) exposes the shared 55/35/10 scoring calculation and its inputs. Verified-history scoring uses a neutral market-signal score of 60/100 (six weighted points), not measured wholesale momentum. Six-week-low badges require six observed local weeks and a price within $0.05 of the observed low with at least 32% off regular price; discount-only cases receive a separate label. The [explorer guide](../data-explorer.md) supersedes conflicting historical descriptions below.
 
-# Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine
+# Scoring, Pantry Availability & 3-Dish Meal Prep Engine
 
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
 
@@ -42,15 +42,11 @@ Using longitudinal SQLite price history (`sixWeekLow`, `sixWeekHigh`, `sixWeekMe
 
 ---
 
-## 3. Persistent Virtual Freezer & Multi-Week Arbitrage (`v1.2`)
+## 3. Pantry availability and stock-up suggestions
 
-1. **Arbitrage Prompt Detection (`computeArbitragePrompt`):**
-   * Whenever a freezer-friendly protein or produce item hits a deep discount ($\ge 38\%$ off, `💎 Splurge`, or `STOCK_UP_6WK_LOW`), PantryBot renders a **`"❄️ Buy 2: Prep 1, Freeze 1"`** button calculating the recommended batch poundage (`3 lbs` for proteins, `2 lbs` for produce/dairy) and locked-in savings vs. regular price.
-2. **Zero-Cost Recipe Substitution:**
-   * Items banked in the **Virtual Freezer** (`/api/freezer` + `localStorage`) are automatically merged into `onHandIngredientIds`.
-   * Any recipe slot using a Virtual Freezer ingredient drops its out-of-pocket cost to **`$0.00`**, boosts the blueprint's recommendation score, and tags the dish with **`"❄️ Powered by Virtual Freezer ($0 Stock)"`**.
+Stock-up prompts identify purchase opportunities; clicking opens Pantry for explicit review. They never add quantities, deduct inventory or record banked savings. Recipe availability comes only from private Pantry entries marked Yes. Available requirements cost $0 additional and leave shopping needs, while recipe quantities remain visible under “Make sure you have.” Quantity, dates and storage location never change Yes/No. Missing prices remain unpriced; an owned ingredient does not imply a sufficient quantity.
 
----
+Stage 2 removes Freezer inputs and flags from ranking, AI context and shopping. Historical saved recipe metadata is ignored and removed from current evaluation. Original purchase records remain in the migration/archive/export path; storage deletion is a separate future stage.
 
 ## 4. Personalized Nutrition, Dietary & Cooking Vessel Engine (`v1.2`)
 
@@ -69,4 +65,4 @@ Using longitudinal SQLite price history (`sixWeekLow`, `sixWeekHigh`, `sixWeekMe
 
 ## Staged Virtual Pantry implementation
 
-See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. Stage 2 has no flag-off path. Retirement awaits release; prior version notes remain historical.

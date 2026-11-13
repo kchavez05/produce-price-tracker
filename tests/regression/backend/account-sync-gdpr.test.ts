@@ -1,3 +1,4 @@
+import { cookieJar } from 'tests/support/cookies';
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import {
   upsertUserProfileToSqlite,
@@ -6,6 +7,8 @@ import {
   getUserFreezerItemsFromSqlite,
   getUserSavedRecipesFromSqlite,
   resetSqliteTestInstance,
+  replaceUserFreezerItemsInSqlite,
+  createLocalSession,
 } from '@/lib/db/sqlite';
 import {
   persistUserSyncState,
@@ -13,6 +16,7 @@ import {
   purgeUserAccountAndData,
 } from '@/lib/supabase/session';
 import { FreezerItem, UserProfile } from '@/types/domain';
+import { LOCAL_SESSION_COOKIE_NAME } from '@/lib/supabase/config';
 import { createMockDish } from 'tests/test-utils';
 
 describe('regression: account-sync-gdpr lifecycle', () => {
@@ -42,7 +46,8 @@ describe('regression: account-sync-gdpr lifecycle', () => {
     expect(loadedProfile).toBeDefined();
     expect(loadedProfile?.email).toBe(testProfile.email);
 
-    // 2. Guest-to-Account Sync & Merge
+    cookieJar.set(LOCAL_SESSION_COOKIE_NAME, createLocalSession(testProfile.id));
+    // 2. Seed retained historical purchase records for export coverage.
     const guestFreezer: FreezerItem[] = [
       {
         id: 'frz-merge-1',
@@ -68,6 +73,7 @@ describe('regression: account-sync-gdpr lifecycle', () => {
       appliance: 'DUTCH_OVEN',
     });
 
+    replaceUserFreezerItemsInSqlite(testProfile.id, guestFreezer);
     const synced = await persistUserSyncState({
       profile: testProfile,
       preferences: {
@@ -75,13 +81,13 @@ describe('regression: account-sync-gdpr lifecycle', () => {
         macroGoal: 'HIGH_PROTEIN',
         targetServings: 6,
       },
-      freezerItems: guestFreezer,
       savedRecipes: [guestRecipe],
       mergeMode: true,
     });
 
     expect(synced.preferences?.macroGoal).toBe('HIGH_PROTEIN');
-    expect(synced.freezerItems.length).toBe(1);
+    expect(synced).not.toHaveProperty('freezerItems');
+    expect(synced.preferences).not.toHaveProperty('onHandIngredientIds');
     expect(synced.savedRecipes.length).toBe(1);
 
     // Verify stored in user-scoped SQLite tables
@@ -98,7 +104,7 @@ describe('regression: account-sync-gdpr lifecycle', () => {
     expect(archive.schemaVersion).toBe('1.3.0');
     expect(archive.application).toBe('PantryBot (pantrybot.dev)');
     expect(archive.profile.id).toBe(testProfile.id);
-    expect(archive.virtualFreezerInventory.length).toBeGreaterThanOrEqual(0);
+    expect(archive.virtualFreezerInventory).toEqual(guestFreezer);
     expect(archive.savedMealPrepRecipes.length).toBeGreaterThanOrEqual(0);
 
     // 4. GDPR Right to Be Forgotten (Account & Data Purge)

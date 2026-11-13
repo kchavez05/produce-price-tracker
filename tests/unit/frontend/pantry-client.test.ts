@@ -42,10 +42,7 @@ beforeEach(() => {
     const body = JSON.parse(init.body as string);
     if (url === '/api/sync') {
       if (body.userId !== owner.slice('account:'.length)) return Response.json({}, { status: 409 });
-      const current = server.get(owner)!;
-      server.set(owner, { ...current, legacySource: { ...current.legacySource!,
-        freezerItems: body.freezerItems ?? current.legacySource!.freezerItems,
-        onHandIngredientIds: body.preferences?.onHandIngredientIds ?? current.legacySource!.onHandIngredientIds } });
+      if ('freezerItems' in body || 'onHandIngredientIds' in (body.preferences ?? {})) return Response.json({ code: 'pantry_upgrade_required' }, { status: 426 });
       return Response.json({ profile: { id: body.userId } });
     }
     if (body.owner !== owner) return Response.json({ code: 'owner_changed' }, { status: 409 });
@@ -188,6 +185,26 @@ describe('pantry client persistence and ownership', () => {
     expect(client.entries).toHaveLength(1);
     expect(client.entries[0].available).toBe(false);
   });
+  it('exports only attributable account sync recovery and pending records', () => {
+    const key = syncQueueKey('alice');
+    const owned = { userId: 'alice', mutationId: 'old', freezerItems: [], preferences: { onHandIngredientIds: ['olive-oil'] } };
+    const foreign = { ...owned, userId: 'bob' };
+    localStorage.setItem(key, JSON.stringify([owned, foreign, { ...foreign, owner: 'account:alice' }, { ...owned, owner: 'account:bob' }]));
+    localStorage.setItem(`${key}:recovery:one`, JSON.stringify([owned, foreign]));
+    localStorage.setItem(`${syncQueueKey('bob')}:recovery:one`, JSON.stringify([foreign]));
+    const exported = pantryBrowserExport(localStorage, 'account:alice');
+    expect(exported[key]).toEqual([owned]);
+    expect(exported[`${key}:recovery:one`]).toEqual([owned]);
+    expect(exported).not.toHaveProperty(`${syncQueueKey('bob')}:recovery:one`);
+    expect(pantryBrowserExport(localStorage, 'guest:cookie')).toEqual({});
+    expect(JSON.parse(localStorage.getItem(key)!)).toHaveLength(4);
+  });
+  it.each(['{invalid', '{}', '[null]'])('keeps unattributable recovery private and intact: %s', raw => {
+    const key = `${syncQueueKey('alice')}:recovery:unknown`;
+    localStorage.setItem(key, raw);
+    expect(pantryBrowserExport(localStorage, 'account:alice')).toEqual({});
+    expect(localStorage.getItem(key)).toBe(raw);
+  });
   it('refuses a foreign cache and preserves its bytes before a successful retry', async () => {
     const foreign = JSON.stringify({ ...empty('account:alice'), entries: [{ displayName: 'Private', available: true, id: 'private', revision: 1, updatedAtIso: now }] });
     localStorage.setItem(pantryCacheKey('account:bob'), foreign);
@@ -199,12 +216,19 @@ describe('pantry client persistence and ownership', () => {
     expect(Object.keys(localStorage).some((key) => key.startsWith(`${pantryCacheKey(owner)}:recovery:`) && localStorage.getItem(key) === foreign)).toBe(true);
     expect(JSON.stringify(pantryBrowserExport(localStorage, owner))).not.toContain('Private');
   });
-  it('finishes this account’s legacy queue before migration', async () => {
+  it('migrates the archived baseline while preserving pending older edits for explicit recovery', async () => {
     server.set(owner, { ...empty(owner), legacyMigrationVersion: undefined });
-    localStorage.setItem(syncQueueKey('alice'), JSON.stringify([{ userId: 'alice', mutationId: 'older', preferences: { onHandIngredientIds: ['ground-turkey'] } }]));
+    const raw = JSON.stringify([{ userId: 'alice', mutationId: 'older', preferences: { onHandIngredientIds: ['ground-turkey'] } }]);
+    localStorage.setItem(syncQueueKey('alice'), raw);
     await render('alice');
+    expect(localStorage.getItem(syncQueueKey('alice'))).toBe(raw);
+    expect(client.entries).toEqual([]);
+    expect(client.hasLegacyEdits).toBe(true);
+    await run(() => client.importLegacy());
     expect(localStorage.getItem(syncQueueKey('alice'))).toBeNull();
     expect(client.entries).toMatchObject([{ ingredientId: 'ground-turkey', available: true }]);
+    await run(() => client.retry());
+    expect(client.entries).toHaveLength(1);
   });
   it('preserves an older offline snapshot after another device migrated, requiring conflict choices', async () => {
     const old = { id: 'lot', canonicalIngredientId: 'ground-turkey', ingredientName: 'Turkey', category: 'PROTEIN' as const, quantityLbOrDoz: 2, unit: 'lb' as const, purchasePricePerUnit: 2, regularPricePerUnit: 4, totalCostBasis: 4, estimatedSavings: 4, store: 'KING_SOOPERS' as const, storeBanner: 'KS', purchasedAtIso: now, notes: 'Original purchase' };

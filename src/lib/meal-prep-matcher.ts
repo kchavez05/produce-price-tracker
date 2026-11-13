@@ -12,7 +12,7 @@ import { CookingVesselArchetype, DietaryConstraint, MacroGoal, MatchedSlotIngred
 
 /**
  * Evaluates all modular Stew, Braise, Chili, Curry, Sheet-Pan, and Casserole blueprints
- * against current local deals, user-pinned ingredient IDs, on-hand/freezer IDs (Ticket #8 & #21),
+ * against current local deals, user-pinned ingredient IDs, private Pantry availability IDs,
  * target serving scaler 4/6/8 (Ticket #9), saved library recipes (Ticket #10),
  * and Dietary Preferences, Macro Goals & Cooking Vessel Archetypes (Ticket #22).
  */
@@ -25,10 +25,8 @@ export function rankMealPrepDishes(
     macroGoal?: MacroGoal;
     dietaryConstraints?: DietaryConstraint[];
     applianceFilter?: CookingVesselArchetype;
-    freezerIngredientIds?: string[];
     savedRecipes?: RecommendedDish[];
     now?: Date;
-    pantryMode?: boolean;
     pantryPriceContext?: PantryPriceContext;
   }
 ): {
@@ -45,12 +43,8 @@ export function rankMealPrepDishes(
   const dietaryConstraints: DietaryConstraint[] = options?.dietaryConstraints || [];
   const applianceFilter: CookingVesselArchetype = options?.applianceFilter || 'ANY';
   const pantryPriceContext = options?.pantryPriceContext ?? createPantryPriceContext({ nowIso: (options?.now ?? new Date()).toISOString() });
-  const freezerSet = new Set(options?.pantryMode ? [] : options?.freezerIngredientIds || []);
   const pinnedSet = new Set(pinnedIngredientIds);
-  const onHandSet = new Set([
-    ...(options?.pantryMode ? recipeAvailableIngredientIds(onHandIngredientIds) : onHandIngredientIds),
-    ...(options?.pantryMode ? [] : options?.freezerIngredientIds || []),
-  ]);
+  const onHandSet = new Set(recipeAvailableIngredientIds(onHandIngredientIds));
 
   const savedDishesRaw = options?.savedRecipes || [];
   const savedIdsSet = new Set(savedDishesRaw.map((d) => d.id));
@@ -58,7 +52,7 @@ export function rankMealPrepDishes(
   const evaluated: RecommendedDish[] = [];
 
   for (const blueprint of MEAL_PREP_BLUEPRINTS) {
-    if (options?.pantryMode && dietaryConstraints.includes('NUT_FREE') && !blueprint.dietaryTags?.includes('NUT_FREE')) continue;
+    if (dietaryConstraints.includes('NUT_FREE') && !blueprint.dietaryTags?.includes('NUT_FREE')) continue;
     // Check strict dietary constraint compatibility (Ticket #22)
     const needsPescatarian = dietaryConstraints.includes('VEGETARIAN_PESCATARIAN');
     const needsDairyFree = dietaryConstraints.includes('DAIRY_FREE');
@@ -94,7 +88,6 @@ export function rankMealPrepDishes(
     let scoreSum = 0;
     let pinnedHits = 0;
     let onHandHits = 0;
-    let poweredByFreezerCount = 0;
     const adaptationNotes: string[] = [];
     const missingRequirements = [];
 
@@ -132,10 +125,10 @@ export function rankMealPrepDishes(
           return { marketIngredientId: id, ingredientId: id, displayName: pantryCatalog.get(id)?.name ?? id };
         }
       };
-      const ownedWithoutCommodity = options?.pantryMode ? activeCandidateIds
+      const ownedWithoutCommodity = activeCandidateIds
         .map(reviewedRequirement)
         .filter((requirement) => requirement && !commodityMap.has(requirement.marketIngredientId) && onHandSet.has(requirement.ingredientId))
-        .sort((a, b) => Number(Boolean(b && pinnedSet.has(b.marketIngredientId))) - Number(Boolean(a && pinnedSet.has(a.marketIngredientId))))[0] : undefined;
+        .sort((a, b) => Number(Boolean(b && pinnedSet.has(b.marketIngredientId))) - Number(Boolean(a && pinnedSet.has(a.marketIngredientId))))[0];
       const hasPricedPin = activeCandidateIds.some((id) => commodityMap.has(id) && pinnedSet.has(id));
       if (ownedWithoutCommodity && (pinnedSet.has(ownedWithoutCommodity.marketIngredientId) || !hasPricedPin)) {
         missingRequirements.push({ ingredientId: ownedWithoutCommodity.ingredientId, displayName: ownedWithoutCommodity.displayName,
@@ -146,31 +139,29 @@ export function rankMealPrepDishes(
 
       const usablePrices = new Set<string>();
       const candidateAvailabilityId = (id: string) => {
-        const use = options?.pantryMode ? recipeUseForSlot(blueprint.id, slot.label, id) : undefined;
+        const use = recipeUseForSlot(blueprint.id, slot.label, id);
         return use ? recipeUseRequirementId(use) : id;
       };
       const candidates = activeCandidateIds
         .map((id) => commodityMap.get(id))
         .filter((c): c is ScoredCommodity => Boolean(c))
         .map((candidate) => {
-          const use = options?.pantryMode ? recipeUseForSlot(blueprint.id, slot.label, candidate.ingredient.id) : undefined;
+          const use = recipeUseForSlot(blueprint.id, slot.label, candidate.ingredient.id);
           const priced = use ? scopedRecipeCommodity(use, candidate) : candidate;
           if (priced) usablePrices.add(candidate.ingredient.id);
           return priced ?? { ...candidate, valueScore: 0 };
         });
 
       if (candidates.length === 0) {
-        if (options?.pantryMode) {
-          const requirements = activeCandidateIds.map(reviewedRequirement).filter((requirement) => Boolean(requirement));
-          const requirement = requirements.find((r) => r && onHandSet.has(r.ingredientId)) ?? requirements[0];
-          missingRequirements.push({ ingredientId: requirement?.ingredientId ?? `unmapped:${blueprint.id}:${slot.slotKey}`,
-            displayName: requirement?.displayName ?? slot.label, quantity: Number((slot.quantityRequired * scaleFactor).toFixed(2)), unit: requirement ? 'lb' : '',
-            ...(slot.optional ? { optional: true } : {}) });
-        }
+        const requirements = activeCandidateIds.map(reviewedRequirement).filter((requirement) => Boolean(requirement));
+        const requirement = requirements.find((r) => r && onHandSet.has(r.ingredientId)) ?? requirements[0];
+        missingRequirements.push({ ingredientId: requirement?.ingredientId ?? `unmapped:${blueprint.id}:${slot.slotKey}`,
+          displayName: requirement?.displayName ?? slot.label, quantity: Number((slot.quantityRequired * scaleFactor).toFixed(2)), unit: requirement ? 'lb' : '',
+          ...(slot.optional ? { optional: true } : {}) });
         continue;
       }
 
-      // Sort candidates: Pinned first, then On-Hand in Freezer/Pantry ($0 marginal cost), then highest valueScore
+      // Sort candidates: Pinned first, then available in Pantry ($0 marginal cost), then highest valueScore
       candidates.sort((a, b) => {
         const aPinned = pinnedSet.has(a.ingredient.id) ? 1 : 0;
         const bPinned = pinnedSet.has(b.ingredient.id) ? 1 : 0;
@@ -179,7 +170,7 @@ export function rankMealPrepDishes(
         const aOnHand = onHandSet.has(candidateAvailabilityId(a.ingredient.id)) ? 1 : 0;
         const bOnHand = onHandSet.has(candidateAvailabilityId(b.ingredient.id)) ? 1 : 0;
         if (aOnHand !== bOnHand) return bOnHand - aOnHand;
-        if (options?.pantryMode && usablePrices.has(a.ingredient.id) !== usablePrices.has(b.ingredient.id)) return usablePrices.has(a.ingredient.id) ? -1 : 1;
+        if (usablePrices.has(a.ingredient.id) !== usablePrices.has(b.ingredient.id)) return usablePrices.has(a.ingredient.id) ? -1 : 1;
 
         return b.valueScore - a.valueScore;
       });
@@ -187,19 +178,17 @@ export function rankMealPrepDishes(
       const chosen = candidates[0];
       const isUserPinned = pinnedSet.has(chosen.ingredient.id);
       const isOnHand = onHandSet.has(candidateAvailabilityId(chosen.ingredient.id));
-      const fromVirtualFreezer = freezerSet.has(chosen.ingredient.id);
       if (isUserPinned) pinnedHits += 1;
       if (isOnHand) onHandHits += 1;
-      if (fromVirtualFreezer) poweredByFreezerCount += 1;
 
       const scaledQty = Number((slot.quantityRequired * scaleFactor).toFixed(2));
       const rawSlotCost = Number(
         (chosen.bestOffer.normalizedPricePerUnit * scaledQty).toFixed(2)
       );
-      // Ticket #8 & #21: If item is already On-Hand in Virtual Freezer/Pantry, marginal out-of-pocket cost is $0.00!
+      // If an ingredient is explicitly available in Pantry, marginal out-of-pocket cost is $0.00!
       const slotCost = isOnHand ? 0 : rawSlotCost;
       const regularSlotCost = Number(
-        (options?.pantryMode && isOnHand ? 0 : chosen.bestOffer.regularPricePerUnit * scaledQty).toFixed(2)
+        (isOnHand ? 0 : chosen.bestOffer.regularPricePerUnit * scaledQty).toFixed(2)
       );
 
       storeIngredientCost += slotCost;
@@ -213,11 +202,7 @@ export function rankMealPrepDishes(
         quantityUsed: scaledQty,
         unit: chosen.ingredient.standardUnit,
         store: chosen.bestOffer.store,
-        rawDealText: options?.pantryMode && isOnHand ? 'Already have' : fromVirtualFreezer
-          ? `❄️ From Virtual Freezer ($0 out-of-pocket • Banked val $${rawSlotCost.toFixed(2)})`
-          : isOnHand
-            ? `❄️ In Freezer/Pantry ($0 out-of-pocket • Store val $${rawSlotCost.toFixed(2)})`
-            : chosen.bestOffer.rawPriceText,
+        rawDealText: isOnHand ? 'Already have' : chosen.bestOffer.rawPriceText,
         dealType: chosen.bestOffer.dealType,
         dealConditions: chosen.bestOffer.dealConditions,
         unitCost: chosen.bestOffer.normalizedPricePerUnit,
@@ -225,7 +210,6 @@ export function rankMealPrepDishes(
         regularSlotCost,
         isUserPinned,
         isOnHand,
-        fromVirtualFreezer,
         ...(slot.optional ? { optional: true } : {}),
       });
     }
@@ -266,9 +250,9 @@ export function rankMealPrepDishes(
       macroBadges.push('🥛 Dairy-Free');
     }
 
-    const pantryRequirements = options?.pantryMode ? selectRecipeStaples(blueprint.id, [...onHandSet], targetServings, dietaryConstraints, pinnedIngredientIds).concat(missingRequirements) : undefined;
-    const stapleEstimate = pantryRequirements ? evaluatePantryRequirementsByIds(pantryRequirements, [...onHandSet], pantryPriceContext) : null;
-    const scaledPantryCost = stapleEstimate?.estimatedAdditionalCost ?? Number((blueprint.estimatedPantryCost * scaleFactor).toFixed(2));
+    const pantryRequirements = selectRecipeStaples(blueprint.id, [...onHandSet], targetServings, dietaryConstraints, pinnedIngredientIds).concat(missingRequirements);
+    const stapleEstimate = evaluatePantryRequirementsByIds(pantryRequirements, [...onHandSet], pantryPriceContext);
+    const scaledPantryCost = stapleEstimate.estimatedAdditionalCost;
     const totalBatchCost = Number(
       (storeIngredientCost + scaledPantryCost).toFixed(2)
     );
@@ -284,7 +268,7 @@ export function rankMealPrepDishes(
       matchedIngredients.length > 0 ? scoreSum / matchedIngredients.length : 50;
     const costEfficiencyBonus = Math.max(0, (3.25 - costPerServing) * 14);
     const pinnedBonus = pinnedHits * 25;
-    const onHandBonus = (onHandHits + (stapleEstimate?.availableRequiredCount ?? 0)) * 30;
+    const onHandBonus = (onHandHits + stapleEstimate.availableRequiredCount) * 30;
 
     let profileBonus = 0;
     if (macroGoal === 'HIGH_PROTEIN' && adjustedMacros.proteinGrams >= 40) {
@@ -323,8 +307,8 @@ export function rankMealPrepDishes(
       freezerFriendly: blueprint.freezerFriendly,
       flavorProfile: blueprint.flavorProfile,
       macrosPerServing: adjustedMacros,
-      dietaryTags: Array.from(activeDietaryTags).filter((tag) => tag !== 'GLUTEN_FREE' || !pantryRequirements?.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
-      macroBadges: macroBadges.filter((badge) => badge !== '🌾 Gluten-Free' || !pantryRequirements?.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
+      dietaryTags: Array.from(activeDietaryTags).filter((tag) => tag !== 'GLUTEN_FREE' || !pantryRequirements.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
+      macroBadges: macroBadges.filter((badge) => badge !== '🌾 Gluten-Free' || !pantryRequirements.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
       adaptationNote:
         adaptationNotes.length > 0 ? adaptationNotes.join(' • ') : undefined,
       matchedIngredients,
@@ -339,25 +323,24 @@ export function rankMealPrepDishes(
       reheatTip: blueprint.reheatTip,
       aiGenerated: false,
       savedInLibrary: savedIdsSet.has(blueprint.id),
-      poweredByFreezerCount,
     };
-    const current = options?.pantryMode ? applyPantryToRecipe(dish, [...onHandSet], scoredCommodities, pantryRequirements, pantryPriceContext) : dish;
-    if (options?.pantryMode) current.dishMatchScore = Math.round(dishMatchScore - costEfficiencyBonus +
+    const current = applyPantryToRecipe(dish, [...onHandSet], scoredCommodities, pantryRequirements, pantryPriceContext);
+    current.dishMatchScore = Math.round(dishMatchScore - costEfficiencyBonus +
       (current.additionalCostEstimateComplete === false ? 0 : Math.max(0, (3.25 - current.costPerServing) * 14)));
     evaluated.push(current);
   }
 
   // Merge any custom AI-generated recipes saved into SQLite (Ticket #10)
   for (const saved of savedDishesRaw) {
-    if (options?.pantryMode && (dietaryConstraints.some((constraint) => !saved.dietaryTags?.includes(constraint)) ||
+    if ((dietaryConstraints.some((constraint) => !saved.dietaryTags?.includes(constraint)) ||
       (applianceFilter !== 'ANY' && saved.vesselArchetype !== applianceFilter))) continue;
     if (!evaluated.some((e) => e.id === saved.id)) {
-      const scaled = options?.pantryMode && Number.isFinite(saved.servings) && saved.servings > 0 ? targetServings / saved.servings : 1;
-      const current = options?.pantryMode ? applyPantryToRecipe({ ...saved, servings: targetServings,
+      const scaled = Number.isFinite(saved.servings) && saved.servings > 0 ? targetServings / saved.servings : 1;
+      const current = applyPantryToRecipe({ ...saved, servings: targetServings,
         matchedIngredients: (Array.isArray(saved.matchedIngredients) ? saved.matchedIngredients : []).map((ingredient) => ({ ...ingredient, quantityUsed: ingredient.quantityUsed * scaled })),
         pantryRequirements: recipePantryRequirements(saved).map((requirement) => ({ ...requirement, quantity: requirement.quantity * scaled })),
         pantryStaples: [],
-      }, [...onHandSet], scoredCommodities, undefined, pantryPriceContext) : saved;
+      }, [...onHandSet], scoredCommodities, undefined, pantryPriceContext);
       evaluated.push({
         ...current,
         savedInLibrary: true,

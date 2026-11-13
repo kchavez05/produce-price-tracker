@@ -1,4 +1,5 @@
-> v1.6.0: After installing the pantry migrations, set `PANTRYBOT_PANTRY_ENABLED=true` to use Virtual Pantry. Local guest entry and deterministic recipes need no keys. See the [pantry guide](Virtual-Pantry.md) and [rollout guide](../usda-catalog-integration.md).
+> Current branch: Virtual Pantry is the only inventory path and has no rollout flag. Install its additive migrations before deployment. Local guests and deterministic recipes need no keys. See [Virtual Pantry](Virtual-Pantry.md).
+
 
 # API Keys & Developer Setup Guide
 
