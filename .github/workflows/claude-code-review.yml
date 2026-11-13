@@ -66,6 +66,7 @@ jobs:
           OUTCOME: ${{ steps.claude-review.outcome }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           WORKFLOW_PATH: .github/workflows/claude-code-review.yml
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
@@ -83,12 +84,15 @@ jobs:
             exit 0
           fi
           # claude-code-action silently skips (and the job stays green) when this workflow
-          # file differs from the default branch. Name that cause when it applies.
+          # file differs from the default branch, and the step outcome cannot tell a skip
+          # from other failures. So report the likely cause, never assert it.
           cause=""
           default_sha=$(gh api "repos/$REPO/contents/$WORKFLOW_PATH?ref=$DEFAULT_BRANCH" --jq .sha 2>/dev/null || true)
-          head_sha=$(git rev-parse "HEAD:$WORKFLOW_PATH" 2>/dev/null || true)
-          if [ -n "$default_sha" ] && [ "$default_sha" != "$head_sha" ]; then
-            cause="This PR's \`$WORKFLOW_PATH\` differs from \`$DEFAULT_BRANCH\`, and claude-code-action skips itself in that case, so the workflow is not validated until the change reaches \`$DEFAULT_BRANCH\`. Use a local \`/code-review --comment\` run on this head instead of waiting."
+          pr_sha=$(gh api "repos/$REPO/contents/$WORKFLOW_PATH?ref=$PR_HEAD_SHA" --jq .sha 2>/dev/null || true)
+          if [ -z "$default_sha" ] || [ -z "$pr_sha" ]; then
+            cause="Could not compare \`$WORKFLOW_PATH\` with \`$DEFAULT_BRANCH\` (API lookup failed), so the cause is unknown."
+          elif [ "$default_sha" != "$pr_sha" ]; then
+            cause="Likely cause: this PR head's \`$WORKFLOW_PATH\` differs from \`$DEFAULT_BRANCH\`, and claude-code-action skips itself in that case, so the workflow is not validated until the change reaches \`$DEFAULT_BRANCH\`. Use a local \`/code-review --comment\` run on this head instead of waiting."
           fi
           echo "::warning title=No Claude review recorded::claude[bot] posted nothing for this head (step outcome: $OUTCOME). ${cause}"
           gh pr comment "$PR" --repo "$REPO" --body "## Code review
