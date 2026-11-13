@@ -43,7 +43,7 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
   if (!fixture) throw new Error('Unknown fixture');
   const clip = job.task === 'speech' ? audioBytes(packet,job.fixture,audioDirectory) : undefined;
   const secrets = ['GEMINI_API_KEY','GOOGLE_API_KEY','OPENAI_API_KEY','ANTHROPIC_API_KEY','DEEPGRAM_API_KEY'].map(name => process.env[name] ?? '').filter(Boolean);
-  ledger.reserve(job.key,job.bound,remaining);
+  ledger.reserve(job.key,job.bound,remaining,runnerHash());
   const stages: Result[] = []; let dispatched = false; let started = 0; let firstUpload = 0; let firstUploadEnd: number | undefined; let preflightMs = 0;
   let text = ''; let failure: string | null = null; let parsed: unknown = null;
   let firstPaidDispatch = 0; let timer: ReturnType<typeof setTimeout> | undefined; let controller: AbortController | undefined;
@@ -91,7 +91,7 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
     text = redact(text,secrets);
     parsed = JSON.parse(text);
   } catch {
-    failure = boundViolation ? 'observed_billable_bound_violation' : dispatched ? 'provider_or_usage_uncertain' : countFailed ? 'preflight_failed' : stages.length ? 'output_invalid' : 'preflight_failed';
+    failure = boundViolation ? 'observed_billable_bound_violation' : dispatched ? 'provider_or_usage_uncertain' : countFailed ? stages.length ? 'preflight_failed_after_paid_stage' : 'preflight_failed' : stages.length ? 'output_invalid' : 'preflight_failed';
   } finally { clearTimeout(timer); }
   const elapsed = performance.now() - started;
   const score = job.task === 'recipe' ? recipeChecks(parsed,fixture,packet) : { ...speechScore(parsed,fixture,packet) };
@@ -120,6 +120,13 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
 export async function main(argv: string[]): Promise<void> {
   const packet = loadPacket(); const schedule = jobs(packet);
   const option = (flag: string) => { const index = argv.indexOf(flag); return index < 0 ? undefined : argv[index+1]; };
+  if (option('--acknowledge-uncertain')) {
+    const evidence=option('--evidence'); if (!evidence || !argv.includes('--bound-confirmed')) throw new Error('Billing audit evidence and confirmed charge bound required');
+    const ledger=new Ledger(STATE,packet.hash);
+    try { ledger.acknowledgeUncertain(option('--acknowledge-uncertain')!,evidence,true); console.log(JSON.stringify({ action:'audited_full_bound_retained',exposureUsd:ledger.exposure()/1_000_000,apiCallsMade:0 })); }
+    finally { ledger.close(); }
+    return;
+  }
   if (argv.includes('--summary') || option('--export-review')) {
     const results=receipts(packet);
     if (option('--export-review')) exportReview(packet,results,resolve(option('--export-review')!));
@@ -141,13 +148,17 @@ export async function main(argv: string[]): Promise<void> {
   }
   const qualificationPath = option('--qualification'); const audioDirectory = option('--audio-dir');
   if (!qualificationPath || !audioDirectory) throw new Error('--run requires --qualification and --audio-dir');
-  requireQualified(packet,object(readJson(resolve(qualificationPath))));
+  const qualification=object(readJson(resolve(qualificationPath)));
+  requireQualified(packet,qualification);
   // Verify every approved byte before opening the budget or dispatching anything.
   for (const fixture of packet.speech) audioBytes(packet,fixture.id,audioDirectory);
   const frozenRunnerHash=runnerHash();
-  const ledger = new Ledger(STATE,sha(`${packet.hash}:${frozenRunnerHash}`));
+  // Budget identity survives reviewed runner fixes. Each reservation and receipt
+  // retains its exact runner hash; the qualified current code cannot replay keys.
+  const ledger = new Ledger(STATE,packet.hash);
   try {
     ledger.assertRunnable();
+    if (Date.parse(String(qualification.checkedOn))<=ledger.latestAuditTime()) throw new Error('Renew qualification after the billing audit');
     const providers = new Providers();
     for (const job of schedule) {
       if (runnerHash()!==frozenRunnerHash) throw new Error('Runner changed during execution');
@@ -157,7 +168,7 @@ export async function main(argv: string[]): Promise<void> {
       const remaining = schedule.filter(item=>item.key!==job.key && !prior.some(entry=>entry.key===item.key)).reduce((sum,item)=>sum+item.bound,400_000);
       const receipt = await executeJob(packet,job,ledger,remaining,audioDirectory,providers);
       console.log(JSON.stringify({ key:job.key, completed:receipt.completed, failure:receipt.failure, exposureUsd:ledger.exposure()/1_000_000 }));
-      if (receipt.failure === 'provider_or_usage_uncertain' || receipt.failure === 'observed_billable_bound_violation' || receipt.failure === 'preflight_failed') throw new Error('Request requires audit or renewed qualification');
+      if (['provider_or_usage_uncertain','observed_billable_bound_violation','preflight_failed','preflight_failed_after_paid_stage'].includes(String(receipt.failure))) throw new Error('Request requires audit or renewed qualification');
     }
   } finally { ledger.close(); }
 }

@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
-import { audioBytes, CAP, jobs, Ledger, loadPacket, micros, object, projection, providerSchema, redact, schemaErrors, type ObjectValue } from '../../../scripts/ai-spike-731/core.mjs';
+import { audioBytes, CAP, jobs, Ledger, loadPacket, micros, object, projection, providerSchema, redact, schemaErrors, sha, type ObjectValue } from '../../../scripts/ai-spike-731/core.mjs';
 import { credentialPresence, Providers, transport, type TextSpec, type Transport } from '../../../scripts/ai-spike-731/providers.mjs';
 import { recipeChecks, speechScore, summarize } from '../../../scripts/ai-spike-731/scoring.mjs';
 import { executeJob, qualificationTemplate, requireQualified } from '../../../scripts/ai-spike-731/run.mjs';
@@ -92,6 +92,26 @@ describe('persisted global budget and restart protection', () => {
     expect(()=>new Ledger(path,'different-packet')).toThrow('identity');
     expect(JSON.parse(readFileSync(resolve(path,'ledger.json'),'utf8')).packet).toBe(packet.hash);
   });
+  it('retains all charges across reviewed runner revisions without rebinding the budget', () => {
+    const path=directory(); const first=new Ledger(path,packet.hash);
+    first.reserve('old',100,0,'a'.repeat(64)); first.settle('old',80,{}); first.close();
+    const next=new Ledger(path,packet.hash);
+    try {
+      next.reserve('new',100,0,'b'.repeat(64)); next.settle('new',90,{});
+      expect(next.exposure()).toBe(170); expect(next.entries().map(entry=>entry.runnerHash)).toEqual(['a'.repeat(64),'b'.repeat(64)]);
+    } finally { next.close(); }
+  });
+  it('audits uncertain work at its full bound without refund or replay', () => {
+    const ledger=new Ledger(directory(),packet.hash); ledger.reserve('timeout',1000,0); ledger.uncertain('timeout',{});
+    try {
+      expect(()=>ledger.acknowledgeUncertain('timeout','',true)).toThrow('audit evidence');
+      expect(()=>ledger.acknowledgeUncertain('timeout','private receipt',false)).toThrow('audit evidence');
+      ledger.acknowledgeUncertain('timeout','2026-11-13 private billing receipt: charge <= bound',true);
+      expect(ledger.exposure()).toBe(1000); expect(ledger.latestAuditTime()).toBeGreaterThan(0);
+      expect(()=>ledger.reserve('timeout',1000,0)).toThrow('never replay');
+      ledger.reserve('next',100,0); ledger.settle('next',50,{}); expect(ledger.exposure()).toBe(1050);
+    } finally { ledger.close(); }
+  });
 });
 
 describe('schema and scoring honesty', () => {
@@ -150,6 +170,12 @@ describe('schema and scoring honesty', () => {
     expect(row).not.toHaveProperty('job'); expect(row).not.toHaveProperty('target'); expect(row).not.toHaveProperty('cost');
     expect(row.businessRulesPassed).toBeNull(); expect(String(row.reviewId)).not.toContain(job.target);
   });
+  it('does not repair nonfinite raw speech output through JSON receipt serialization', () => {
+    const job=jobs(packet).find(item=>item.task==='speech' && item.fixture==='S01')!;
+    const row={ job,completed:false,completionMs:null,score:{ schemaValid:false },proposal:proposal('olive-oil'),text:'{"status":"proposal","items":[{"ingredientId":"olive-oil","displayName":"oil","available":true,"quantity":1e400,"unit":"cup"}],"reviewRequired":[]}' };
+    const target=(report(packet,[row]).targets as ObjectValue[]).find(item=>item.target===job.target)!;
+    expect(target.fn).toBe(75); expect(target.tp).toBe(0);
+  });
 });
 
 describe('dispatch transaction and receipts', () => {
@@ -196,6 +222,19 @@ describe('dispatch transaction and receipts', () => {
       expect(receipt.completed).toBe(false); expect(receipt.failure).toBe('output_invalid'); expect(ledger.exposure()).toBe(80);
     } finally { ledger.close(); }
   });
+  it('identifies a failed extraction preflight after paid transcription without hiding its charge', async () => {
+    const path=directory(); const bytes=Buffer.from('synthetic test fixture'); writeFileSync(resolve(path,'S01.wav'),bytes);
+    const testPacket={ ...packet,audio:[{ id:'S01',filename:'S01.wav',sha256:sha(bytes),durationSeconds:2 }] };
+    const speechJob=jobs(packet).find(item=>item.target==='openai-transcribe-luna' && item.fixture==='S01')!;
+    const ledger=new Ledger(path,packet.hash); const provider=fakeProvider();
+    vi.spyOn(provider,'transcribe').mockResolvedValue({ text:'Add olive oil',model:'gpt-transcribe',cost:4500,timing:{ uploadMs:1,totalMs:2 },usage:{ audioSeconds:2 } });
+    vi.spyOn(provider,'count').mockRejectedValue(new Error('count quota'));
+    try {
+      const receipt=await executeJob(testPacket,speechJob,ledger,0,path,provider,resolve(path,'results'));
+      expect(receipt.failure).toBe('preflight_failed_after_paid_stage'); expect(ledger.exposure()).toBe(4500); expect(receipt.costMicroUsd).toBe(4500);
+      expect(ledger.entries()[0].state).toBe('settled');
+    } finally { ledger.close(); }
+  });
 });
 
 describe('provider wire contracts without external calls', () => {
@@ -203,7 +242,7 @@ describe('provider wire contracts without external calls', () => {
     vi.stubEnv('OPENAI_API_KEY','fake-local-test');
     const calls: {url:string;body:ObjectValue}[] = [];
     const fetcher: Transport = async (input,init) => {
-      const request = new Request(input,init); const body=object(await request.json()); calls.push({ url:request.url,body });
+      const request = new Request(input,init); expect(request.headers.get('authorization')).toBe('Bearer fake-local-test'); const body=object(await request.json()); calls.push({ url:request.url,body });
       return new Response(JSON.stringify(request.url.endsWith('input_tokens') ? { input_tokens:100 } : { model:'gpt-6-luna',status:'completed',usage:{ input_tokens:100,output_tokens:20 },output:[{ content:[{ type:'output_text',text:'{}' }] }] }),{ status:200 });
     };
     const provider = new Providers(fetcher); await provider.count(spec('openai'),AbortSignal.timeout(1000));
@@ -214,7 +253,7 @@ describe('provider wire contracts without external calls', () => {
   it('uses the real Gemini SDK with one attempt, bounded output and JSON schema', async () => {
     vi.stubEnv('GEMINI_API_KEY','fake-local-test'); const calls: ObjectValue[]=[];
     const fetcher: Transport = async (input,init) => {
-      const request=new Request(input,init); calls.push(object(await request.json()));
+      const request=new Request(input,init); expect(request.headers.get('x-goog-api-key')).toBe('fake-local-test'); calls.push(object(await request.json()));
       return new Response(JSON.stringify({ modelVersion:'gemini-3.5-flash-lite',candidates:[{ content:{ role:'model',parts:[{ text:'{}' }] } }],usageMetadata:{ promptTokenCount:100,candidatesTokenCount:20,thoughtsTokenCount:0 } }),{ status:200,headers:{ 'content-type':'application/json' } });
     };
     const result=await new Providers(fetcher).generate(spec('google'),AbortSignal.timeout(1000));
@@ -238,9 +277,11 @@ describe('provider wire contracts without external calls', () => {
     expect(object(object(calls[0].generateContentRequest).generationConfig).responseJsonSchema).toBeDefined();
   });
   it('preserves Anthropic count/generation schema settings and records usage', async () => {
-    vi.stubEnv('ANTHROPIC_API_KEY','fake-local-test'); const calls:ObjectValue[]=[];
+    vi.stubEnv('ANTHROPIC_API_KEY','fake-local-test'); vi.stubEnv('ANTHROPIC_WORKSPACE_ID','wrkspc_test731'); const calls:ObjectValue[]=[];
     const fetcher: Transport = async (input,init) => {
-      const request=new Request(input,init); const body=object(await request.json()); calls.push(body);
+      const request=new Request(input,init);
+      expect(request.headers.get('authorization')).toBe('Bearer fake-local-test'); expect(request.headers.get('anthropic-version')).toBe('2026-10-21'); expect(request.headers.get('anthropic-workspace-id')).toBe('wrkspc_test731');
+      const body=object(await request.json()); calls.push(body);
       return new Response(JSON.stringify(request.url.endsWith('count_tokens') ? { input_tokens:50 } : { model:'claude-haiku-5-5',usage:{ input_tokens:50,cache_read_input_tokens:25,output_tokens:10 },content:[{ type:'text',text:'{}' }],stop_reason:'end_turn' }),{ status:200 });
     };
     const provider=new Providers(fetcher); await provider.count(spec('anthropic'),AbortSignal.timeout(1000)); const result=await provider.generate(spec('anthropic'),AbortSignal.timeout(1000));
@@ -248,7 +289,7 @@ describe('provider wire contracts without external calls', () => {
   });
   it('opts out of Deepgram model improvement and retains duration-charge allowance', async () => {
     vi.stubEnv('DEEPGRAM_API_KEY','fake-local-test'); let url='';
-    const fetcher: Transport = async input => { url=String(input); return new Response(JSON.stringify({ results:{ channels:[{ alternatives:[{ transcript:'Add onions' }] }] } }),{ status:200 }); };
+    const fetcher: Transport = async (input,init) => { url=String(input); expect(new Request(input,init).headers.get('authorization')).toBe('Token fake-local-test'); return new Response(JSON.stringify({ results:{ channels:[{ alternatives:[{ transcript:'Add onions' }] }] } }),{ status:200 }); };
     const result=await new Providers(fetcher).transcribe('deepgram',Buffer.from('synthetic'),3,'transcribe',AbortSignal.timeout(1000));
     expect(url).toContain('mip_opt_out=true'); expect(result.cost).toBe(10_000); expect(result.usage.accounting).toBe('qualified-opt-out-duration-upper-bound');
   });

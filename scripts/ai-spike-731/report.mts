@@ -71,7 +71,11 @@ export function report(packet: Packet, results: Receipt[], reviews: ObjectValue[
       for (const job of planned) {
         const receipt=observed.find(row=>row.job.key===job.key);
         const fixture=packet.speech.find(row=>row.id===job.fixture)!;
-        const score=speechScore(receipt?.proposal ?? null,fixture,packet);
+        // The original redacted text is authoritative. JSON serialization of a
+        // parsed nonfinite number would otherwise repair Infinity to null.
+        let raw: unknown=null;
+        try { if (typeof receipt?.text==='string') raw=JSON.parse(receipt.text); } catch { /* Invalid output remains a miss. */ }
+        const score=speechScore(raw,fixture,packet);
         tp+=score.tp; fp+=score.fp; fn+=score.fn; correct+=score.quantityCorrect; quantityTotal+=score.quantityTotal; critical+=score.critical.length; exact+=Number(score.taskValid);
       }
       const precision=tp+fp ? tp/(tp+fp) : 0; const recall=tp+fn ? tp/(tp+fn) : 0; const quantityAccuracy=quantityTotal ? correct/quantityTotal : 0;
@@ -81,7 +85,8 @@ export function report(packet: Packet, results: Receipt[], reviews: ObjectValue[
         decisionComplete:complete });
     }
   }
-  return { issue:731,packetHash:packet.hash,observedAttempts:results.length,plannedAttempts:allJobs.length,targets,
-    decisionComplete:targets.every(target=>target.decisionComplete===true),winner:null,
+  const runnerVersions=[...new Set(results.map(result=>String(result.runnerHash)))];
+  return { issue:731,packetHash:packet.hash,observedAttempts:results.length,plannedAttempts:allJobs.length,targets,runnerVersions,
+    mixedRunnerVersions:runnerVersions.length>1,decisionComplete:targets.every(target=>target.decisionComplete===true) && runnerVersions.length<=1,winner:null,
     costProjection:'Pending complete measured receipts, account-rate/rounding qualification and joint $25 envelope analysis; no winner is inferred automatically.' };
 }

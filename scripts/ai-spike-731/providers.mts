@@ -19,6 +19,10 @@ function key(provider: Provider): string {
   if (!value?.trim()) throw new Error(`Missing ${KEY_NAMES[provider]}`);
   return value.trim();
 }
+function anthropicHeaders(): Record<string,string> {
+  const workspace=process.env.ANTHROPIC_WORKSPACE_ID?.trim();
+  return { authorization:`Bearer ${key('anthropic')}`,'anthropic-version':'2026-10-21',...(workspace ? { 'anthropic-workspace-id':workspace } : {}) };
+}
 const HOSTS = new Set(['generativelanguage.googleapis.com','api.openai.com','api.anthropic.com','api.deepgram.com']);
 export type Transport = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
 
@@ -118,7 +122,7 @@ export class Providers {
       const result = await jsonResponse(this.fetcher, 'https://api.openai.com/v1/responses/input_tokens', this.openaiBody(spec), { authorization:`Bearer ${key('openai')}` }, signal);
       count = integer(result.input_tokens);
     } else {
-      const result = await jsonResponse(this.fetcher, 'https://api.anthropic.com/v1/messages/count_tokens', this.anthropicBody(spec), { authorization:`Bearer ${key('anthropic')}`, 'anthropic-version':'2026-10-21' }, signal);
+      const result = await jsonResponse(this.fetcher, 'https://api.anthropic.com/v1/messages/count_tokens', this.anthropicBody(spec), anthropicHeaders(), signal);
       count = integer(result.input_tokens);
     }
     if (count > spec.maxInput) throw new Error('Input exceeds approved token bound; no generation dispatched');
@@ -130,6 +134,7 @@ export class Providers {
       const result = await this.google().models.generateContent({ model:spec.model, contents:this.googleContents(spec), config:{ systemInstruction:spec.system, responseMimeType:'application/json', responseJsonSchema:providerSchema(spec.schema), maxOutputTokens:spec.maxOutput, thinkingConfig:{ thinkingBudget:0 }, candidateCount:1, abortSignal:signal } });
       const usage = result.usageMetadata;
       if (!usage) throw new Error('Missing usage');
+      if (integer(usage.toolUsePromptTokenCount ?? 0)>0) throw new Error('Unexpected billable tool use');
       const input = integer(usage.promptTokenCount);
       const output = integer(usage.candidatesTokenCount) + integer(usage.thoughtsTokenCount ?? 0);
       return { text:result.text ?? '', inputTokens:input, outputTokens:output, model:result.modelVersion ?? spec.model, cost:billable(input,output,spec), timing:this.latest, usage:{ inputTokens:input, outputTokens:output } };
@@ -141,7 +146,7 @@ export class Providers {
       const text = Array.isArray(result.output) ? result.output.map(block => textBlocks(object(block).content, 'output_text')).join('') : '';
       return { text, inputTokens:input, outputTokens:output, model:typeof result.model === 'string' ? result.model : spec.model, cost:billable(input,output,spec), timing:this.latest, usage:{ inputTokens:input, outputTokens:output, status:result.status } };
     }
-    const result = await jsonResponse(this.fetcher, 'https://api.anthropic.com/v1/messages', { ...this.anthropicBody(spec), max_tokens:spec.maxOutput }, { authorization:`Bearer ${key('anthropic')}`, 'anthropic-version':'2026-10-21' }, signal);
+    const result = await jsonResponse(this.fetcher, 'https://api.anthropic.com/v1/messages', { ...this.anthropicBody(spec), max_tokens:spec.maxOutput }, anthropicHeaders(), signal);
     const usage = object(result.usage); const input = integer(usage.input_tokens) + integer(usage.cache_read_input_tokens ?? 0); const output = integer(usage.output_tokens);
     if (usage.service_tier !== undefined && usage.service_tier !== 'standard') throw new Error('Unexpected billable service tier');
     // No cache writes are requested. Unexpected cache accounting requires an audit.
@@ -153,6 +158,7 @@ export class Providers {
     if (provider === 'google') {
       const result = await this.google().models.generateContent({ model:'gemini-3.5-transcribe', contents:[{ role:'user', parts:[{ text:instruction },{ inlineData:{ mimeType:'audio/wav', data:audio.toString('base64') } }] }], config:{ maxOutputTokens:512, thinkingConfig:{ thinkingBudget:0 }, candidateCount:1, abortSignal:signal } });
       if (!result.usageMetadata) throw new Error('Missing usage');
+      if (integer(result.usageMetadata.toolUsePromptTokenCount ?? 0)>0) throw new Error('Unexpected billable tool use');
       const input = integer(result.usageMetadata.promptTokenCount);
       const output = integer(result.usageMetadata.candidatesTokenCount) + integer(result.usageMetadata.thoughtsTokenCount ?? 0);
       return { text:result.text ?? '', inputTokens:input, outputTokens:output, model:result.modelVersion ?? 'gemini-3.5-transcribe', timing:this.latest, cost:micros((input*2+output*12)/1_000_000), usage:{ inputTokens:input, outputTokens:output } };

@@ -102,8 +102,8 @@ export function audioBytes(packet: Packet, fixture: string, directory: string): 
   return { bytes, seconds: clip.durationSeconds };
 }
 
-interface Entry { key: string; bound: number; state: 'pending' | 'settled' | 'uncertain'; cost: number; receipt?: ObjectValue }
-interface LedgerState { issue: number; packet: string; entries: Entry[]; halted: boolean; activeMs: number }
+interface Entry { key: string; bound: number; state: 'pending' | 'settled' | 'uncertain'; cost: number; runnerHash?: string; receipt?: ObjectValue }
+interface LedgerState { issue: number; packet: string; entries: Entry[]; halted: boolean; activeMs: number; audits: ObjectValue[] }
 export class Ledger {
   private path: string;
   private lock: string;
@@ -116,7 +116,8 @@ export class Ledger {
     // Lock is held for the entire process, including network calls. Crash locks are never auto-cleared.
     mkdirSync(this.lock, { mode: 0o700 });
     try {
-      this.data = existsSync(this.path) ? readJson(this.path) as LedgerState : { issue: 731, packet, entries: [], halted: false, activeMs:0 };
+      atomicJson(resolve(this.lock,'owner.json'),{ pid:process.pid,startedAt:new Date().toISOString() });
+      this.data = existsSync(this.path) ? readJson(this.path) as LedgerState : { issue: 731, packet, entries: [], halted: false, activeMs:0, audits:[] };
       if (this.data.issue !== 731 || this.data.packet !== packet || !Array.isArray(this.data.entries) || typeof this.data.halted !== 'boolean') throw new Error('Ledger identity drift');
       for (const entry of this.data.entries) {
         integer(entry.bound); integer(entry.cost);
@@ -126,12 +127,15 @@ export class Ledger {
       }
       if (new Set(this.data.entries.map(entry => entry.key)).size !== this.data.entries.length) throw new Error('Duplicate ledger entry');
       this.baseActiveMs = integer(this.data.activeMs);
+      this.data.audits ??= [];
+      if (!Array.isArray(this.data.audits)) throw new Error('Corrupt audit history');
       if (this.exposure() > CAP) this.data.halted = true;
       this.persist();
     } catch (error) { rmSync(this.lock, { recursive: true }); throw error; }
   }
   close(): void { this.persist(); rmSync(this.lock, { recursive: true }); }
   activeMs(): number { return this.baseActiveMs + Math.ceil(performance.now() - this.opened); }
+  latestAuditTime(): number { return this.data.audits.reduce((latest,event)=>Math.max(latest,Date.parse(String(event.at)) || 0),0); }
   private persist(): void { this.data.activeMs = this.activeMs(); atomicJson(this.path, this.data); }
   entries(): readonly Entry[] { return structuredClone(this.data.entries); }
   halt(): void { this.data.halted = true; this.persist(); }
@@ -139,13 +143,14 @@ export class Ledger {
     if (this.data.halted || this.data.entries.some(entry => entry.state !== 'settled')) throw new Error('Ledger halted or uncertain; audit before continuing');
   }
   exposure(): number { return this.data.entries.reduce((sum, entry) => sum + (entry.state === 'settled' ? entry.cost : entry.bound), 0); }
-  reserve(key: string, bound: number, remainingCommitment: number): void {
+  reserve(key: string, bound: number, remainingCommitment: number, runnerHash?: string): void {
     integer(bound); integer(remainingCommitment);
     this.assertRunnable();
     if (!bound) throw new Error('Empty billable bound');
     if (this.data.entries.some(entry => entry.key === key)) throw new Error('Run identity already reserved; never replay');
     if (this.exposure() + bound + remainingCommitment > CAP) throw new Error('Cap or remaining committed coverage would be exceeded');
-    this.data.entries.push({ key, bound, state: 'pending', cost: 0 }); this.persist();
+    if (runnerHash !== undefined && !/^[a-f0-9]{64}$/.test(runnerHash)) throw new Error('Invalid runner identity');
+    this.data.entries.push({ key, bound, state: 'pending', cost: 0, runnerHash }); this.persist();
   }
   settle(key: string, cost: number, receipt: ObjectValue): void {
     integer(cost);
@@ -160,6 +165,17 @@ export class Ledger {
     const entry = this.data.entries.find(item => item.key === key);
     if (!entry || entry.state !== 'pending') throw new Error('No pending reservation');
     entry.state = 'uncertain'; entry.receipt = receipt; this.data.halted = true; this.persist();
+  }
+  acknowledgeUncertain(key: string, evidence: string, boundConfirmed: boolean): void {
+    if (!boundConfirmed || !evidence.trim()) throw new Error('Dated billing audit evidence and bound confirmation required');
+    const entry=this.data.entries.find(item=>item.key===key);
+    if (!entry || !['pending','uncertain'].includes(entry.state)) throw new Error('No unresolved reservation for audit');
+    const previousState=entry.state;
+    // No refund and no replay: the entire reserved maximum becomes settled exposure.
+    entry.cost=entry.bound; entry.state='settled';
+    this.data.audits.push({ key,at:new Date().toISOString(),action:'retain_full_reserved_charge',previousState,evidence });
+    this.data.halted=this.data.entries.some(item=>item.state!=='settled' || item.cost>item.bound) || this.exposure()>CAP;
+    this.persist();
   }
 }
 
