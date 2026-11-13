@@ -43,6 +43,7 @@ def main():
     validate()
     cases = json.loads((HERE / 'speech.json').read_text())['cases']
     voices = subprocess.run(['/usr/bin/say', '-v', '?'], check=True, capture_output=True, text=True).stdout
+    # Only the two pinned single-word voice names are supported here.
     installed = {line.split()[0] for line in voices.splitlines() if line.strip()}
     required = {case['audio']['voice'] for case in cases if case['audio']['voice']}
     if not required <= installed:

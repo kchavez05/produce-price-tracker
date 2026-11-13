@@ -76,9 +76,21 @@
       "stages": [
         "gemini-3.5-flash-lite audio-to-proposal"
       ],
-      "reservationUsdPerAttempt": 0.004,
+      "reservationUsdPerAttempt": 0.0041,
       "boundStatus": "provisional",
-      "source": "https://aistudio.google.com/docs/models/gemini-3.5-flash-lite"
+      "source": "https://aistudio.google.com/docs/models/gemini-3.5-flash-lite",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "billing": {
+        "kind": "audio-and-text-tokens",
+        "audioTokensPerSecondCeiling": 32,
+        "maxTextInputTokens": 4000,
+        "inputUsdPerMillion": 0.3,
+        "maxBillableOutputTokens": 1024,
+        "outputUsdPerMillion": 2.5,
+        "assumptionSource": "https://aistudio.google.com/docs/audio#technical-details",
+        "rateSource": "https://aistudio.google.com/docs/pricing#gemini-3.5-flash-lite"
+      }
     },
     {
       "id": "google-transcribe-luna",
@@ -86,9 +98,29 @@
         "gemini-3.5-transcribe",
         "gpt-6-luna extraction"
       ],
-      "reservationUsdPerAttempt": 0.011,
+      "reservationUsdPerAttempt": 0.0095,
       "boundStatus": "provisional",
-      "source": "https://aistudio.google.com/docs/pricing#gemini-3.5-transcribe"
+      "source": "https://aistudio.google.com/docs/pricing#gemini-3.5-transcribe",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "extraction": {
+        "model": "gpt-6-luna",
+        "maxInputTokens": 4000,
+        "maxBillableOutputTokens": 1024,
+        "inputUsdPerMillion": 0.1,
+        "outputUsdPerMillion": 0.5,
+        "source": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+      },
+      "billing": {
+        "kind": "audio-and-text-tokens",
+        "audioTokensPerSecondCeiling": 32,
+        "maxTextInputTokens": 256,
+        "inputUsdPerMillion": 2,
+        "maxBillableOutputTokens": 512,
+        "outputUsdPerMillion": 12,
+        "assumptionSource": "https://aistudio.google.com/docs/pricing#gemini-3.5-transcribe",
+        "caveat": "Published transcribe example uses 25 audio tokens/sec. Reserve 32 and instruction-token overhead at the audio input rate conservatively; verify actual API accounting and output bounds before execution."
+      }
     },
     {
       "id": "openai-transcribe-luna",
@@ -96,9 +128,27 @@
         "gpt-transcribe",
         "gpt-6-luna extraction"
       ],
-      "reservationUsdPerAttempt": 0.011,
+      "reservationUsdPerAttempt": 0.0055,
       "boundStatus": "provisional",
-      "source": "https://developers.openai.com/api/docs/models/gpt-transcribe"
+      "source": "https://developers.openai.com/api/docs/models/gpt-transcribe",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "extraction": {
+        "model": "gpt-6-luna",
+        "maxInputTokens": 4000,
+        "maxBillableOutputTokens": 1024,
+        "inputUsdPerMillion": 0.1,
+        "outputUsdPerMillion": 0.5,
+        "source": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+      },
+      "billing": {
+        "kind": "duration",
+        "audioUsdPerMinuteCeiling": 0.0045,
+        "minimumBilledSecondsCeiling": 60,
+        "billingIncrementSecondsCeiling": 60,
+        "assumptionSource": "https://developers.openai.com/api/docs/models/gpt-transcribe",
+        "caveat": "Published rate is per audio minute. One-minute minimum/rounding is a conservative planning allowance, not a claim of actual account rounding; verify no higher minimum or other billable stage."
+      }
     },
     {
       "id": "deepgram-luna",
@@ -106,9 +156,27 @@
         "nova-3 monolingual prerecorded, mip_opt_out=true",
         "gpt-6-luna extraction"
       ],
-      "reservationUsdPerAttempt": 0.005,
+      "reservationUsdPerAttempt": 0.011,
       "boundStatus": "provisional",
-      "source": "https://deepgram.com/pricing"
+      "source": "https://deepgram.com/pricing",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "extraction": {
+        "model": "gpt-6-luna",
+        "maxInputTokens": 4000,
+        "maxBillableOutputTokens": 1024,
+        "inputUsdPerMillion": 0.1,
+        "outputUsdPerMillion": 0.5,
+        "source": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+      },
+      "billing": {
+        "kind": "duration",
+        "audioUsdPerMinuteCeiling": 0.01,
+        "minimumBilledSecondsCeiling": 60,
+        "billingIncrementSecondsCeiling": 60,
+        "assumptionSource": "https://deepgram.com/pricing",
+        "caveat": "0.01/min is a provisional acceptance ceiling for opted-out usage, not the advertised or verified opted-out price. Qualify the account at or below this rate and rounding bound before dispatch; otherwise revise the estimate."
+      }
     }
   ],
   "speechExtractionLimits": {

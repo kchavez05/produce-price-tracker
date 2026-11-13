@@ -47,9 +47,13 @@
             "minimum": 0
           },
           "unit": {
-            "type": [
-              "string",
-              "null"
+            "enum": [
+              null,
+              "lb",
+              "cup",
+              "tbsp",
+              "clove",
+              "can"
             ]
           },
           "available": {

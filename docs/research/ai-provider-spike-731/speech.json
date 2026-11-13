@@ -386,7 +386,9 @@
           "rice: ask which type and form; do not silently choose"
         ],
         "status": "needs_review",
-        "committedWrites": 0
+        "committedWrites": 0,
+        "maxProposedItems": 0,
+        "catalogProposalPolicy": "Any proposed item in items fails, even if also flagged for review. Clarification/custom-name text belongs only in reviewRequired."
       }
     },
     {
@@ -410,7 +412,9 @@
           "Moon dust seven three one seasoning: propose custom name for review; no catalog ID"
         ],
         "status": "needs_review",
-        "committedWrites": 0
+        "committedWrites": 0,
+        "maxProposedItems": 0,
+        "catalogProposalPolicy": "Any proposed item in items fails, even if also flagged for review. Clarification/custom-name text belongs only in reviewRequired."
       }
     },
     {
@@ -432,7 +436,8 @@
         "excludedIngredientIds": [],
         "reviewRequired": [],
         "status": "no_change",
-        "committedWrites": 0
+        "committedWrites": 0,
+        "maxProposedItems": 0
       }
     },
     {
@@ -454,7 +459,8 @@
         "excludedIngredientIds": [],
         "reviewRequired": [],
         "status": "no_change",
-        "committedWrites": 0
+        "committedWrites": 0,
+        "maxProposedItems": 0
       }
     },
     {
@@ -478,7 +484,13 @@
           "Audio is not intelligible: ask to repeat, with no catalog addition"
         ],
         "status": "needs_review",
-        "committedWrites": 0
+        "committedWrites": 0,
+        "maxProposedItems": 0,
+        "acceptedStatuses": [
+          "needs_review",
+          "no_change"
+        ],
+        "statusRationale": "Noise-only input contains no intelligible speech. Empty transcript with no_change is acceptable; needs_review may ask for repetition. Neither may propose items."
       }
     },
     {

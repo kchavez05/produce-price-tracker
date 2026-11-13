@@ -57,6 +57,10 @@ def validate():
             else:
                 expected = case['expected']
                 references += [x['ingredientId'] for x in expected['items']] + expected['excludedIngredientIds']
+                if case['id'] in ('S13','S14','S15','S16','S17'):
+                    require(expected['maxProposedItems'] == 0, f"{case['id']}: no-add oracle missing")
+                if case['id'] == 'S17':
+                    require(set(expected['acceptedStatuses']) == {'no_change','needs_review'}, 'noise status equivalence missing')
                 require(expected['committedWrites'] == 0, f"{case['id']}: unexpected writes")
                 require(not set(x['ingredientId'] for x in expected['items']) & set(expected['excludedIngredientIds']), f"{case['id']}: contradictory speech oracle")
                 require(len(set(x['ingredientId'] for x in expected['items'])) == len(expected['items']), f"{case['id']}: duplicate expected item")
@@ -74,11 +78,40 @@ def validate():
     require(config['execution']['automaticRetries'] == 0, 'unbudgeted automatic retries')
     require(config['spikeApiCapUsd'] == 10 and config['reference']['apiCapUsd'] == 25, 'approved ceiling drift')
     require(config['reference']['recipeRequests'] == config['reference']['speechMinutes'] == 1000, 'reference workload drift')
+    prompts = load('prompts.json')
+    require(len(prompts['tuning']['recipeExamples']) == len(prompts['tuning']['speechScripts']) == 2, 'tuning sample count drift')
+    require(not set(prompts['tuning']['speechScripts']) & {case['transcript'] for case in datasets['speech']['cases']}, 'scored speech leaked into tuning')
+    require(not {x['prompt'] for x in prompts['tuning']['recipeExamples']} & {case['prompt'] for case in datasets['recipes']['cases']}, 'scored recipe leaked into tuning')
+    require('expected' in prompts['requestProjection']['neverSend'], 'oracle disclosure guard missing')
+    manifest = load('audio-manifest.json')
+    require({x['id'] for x in manifest['clips']} == {x['id'] for x in datasets['speech']['cases']} and len(manifest['clips']) == 20, 'audio manifest coverage drift')
+    require(all(0 < x['durationSeconds'] <= 30 for x in manifest['clips']), 'audio duration invalid')
     recipe_costs = {}
     for candidate in config['recipes']:
         per_call = (usd(candidate['maxInputTokens']) * usd(candidate['inputUsdPerMillion']) + usd(candidate['maxBillableOutputTokens']) * usd(candidate['outputUsdPerMillion'])) / 1_000_000
         recipe_costs[candidate['id']] = per_call * 120
-    speech_costs = {p['id']: usd(p['reservationUsdPerAttempt']) * 60 for p in config['speechPipelines']}
+    speech_costs = {}
+    speech_bounds = {}
+    for pipeline in config['speechPipelines']:
+        billing = pipeline['billing']
+        seconds = usd(pipeline['audioSecondsMax'])
+        require(seconds == 30 and pipeline['accountBoundsVerified'] is False, 'draft audio/account bounds changed')
+        if billing['kind'] == 'audio-and-text-tokens':
+            input_tokens = seconds * usd(billing['audioTokensPerSecondCeiling']) + usd(billing['maxTextInputTokens'])
+            bound = (input_tokens * usd(billing['inputUsdPerMillion']) + usd(billing['maxBillableOutputTokens']) * usd(billing['outputUsdPerMillion'])) / 1_000_000
+        else:
+            require(billing['kind'] == 'duration', 'unsupported speech billing model')
+            increment = usd(billing['billingIncrementSecondsCeiling'])
+            require(increment > 0, 'invalid billing increment')
+            billed_seconds = max(usd(billing['minimumBilledSecondsCeiling']), usd(math.ceil(seconds / increment)) * increment)
+            bound = billed_seconds / 60 * usd(billing['audioUsdPerMinuteCeiling'])
+        if 'extraction' in pipeline:
+            extraction = pipeline['extraction']
+            bound += (usd(extraction['maxInputTokens']) * usd(extraction['inputUsdPerMillion']) + usd(extraction['maxBillableOutputTokens']) * usd(extraction['outputUsdPerMillion'])) / 1_000_000
+        reservation = usd(pipeline['reservationUsdPerAttempt'])
+        require(reservation >= bound, f"{pipeline['id']}: speech reservation below derived planning bound")
+        speech_bounds[pipeline['id']] = float(bound)
+        speech_costs[pipeline['id']] = reservation * 60
     primary = sum(cost for key, cost in recipe_costs.items() if next(c for c in config['recipes'] if c['id'] == key)['role'] == 'primary')
     control = sum(recipe_costs.values()) - primary
     total = sum(recipe_costs.values()) + sum(speech_costs.values()) + usd(config['ancillaryReserveUsd'])
@@ -91,12 +124,14 @@ def validate():
         'scoredRecipeCallsPrimary': 360, 'scoredRecipeCallsOptionalControl': 120,
         'scoredSpeechPipelineAttempts': 240,
         'recipeReservationUsd': {key: float(value) for key, value in recipe_costs.items()},
+        'speechDerivedPerAttemptBoundUsd': speech_bounds,
         'speechReservationUsd': {key: float(value) for key, value in speech_costs.items()},
         'primaryRecipeReservationUsd': float(primary), 'optionalControlReservationUsd': float(control),
         'ancillaryReservationUsd': config['ancillaryReserveUsd'], 'totalPlanningReservationUsd': float(total),
         'unallocatedUsd': float(usd(config['spikeApiCapUsd']) - total),
+        'audioPreparation': {'clips':20, 'totalSeconds':round(sum(x['durationSeconds'] for x in manifest['clips']),6), 'apiSpendUsd':0, 'checks':'Local generation manifest validated; WAV bytes were separately checked at preparation time.', 'listeningReview':'pending owner/reviewer; not claimed'},
         'warning': 'Planning envelope only: all billable bounds, account access, audio bytes and final plan approval must be verified before paid execution.',
-        'inputSha256': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest() for name in ['recipes.json','speech.json','candidates.json','recipe-output.schema.json','speech-output.schema.json']},
+        'inputSha256': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest() for name in ['recipes.json','speech.json','candidates.json','recipe-output.schema.json','speech-output.schema.json','prompts.json','audio-manifest.json','validate.py','prepare_audio.py']},
     }
     return report
 
