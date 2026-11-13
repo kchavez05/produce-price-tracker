@@ -251,8 +251,8 @@ export function rankMealPrepDishes(
     }
 
     const pantryRequirements = selectRecipeStaples(blueprint.id, [...onHandSet], targetServings, dietaryConstraints, pinnedIngredientIds).concat(missingRequirements);
-    const stapleEstimate = pantryRequirements ? evaluatePantryRequirementsByIds(pantryRequirements, [...onHandSet], pantryPriceContext) : null;
-    const scaledPantryCost = stapleEstimate?.estimatedAdditionalCost ?? Number((blueprint.estimatedPantryCost * scaleFactor).toFixed(2));
+    const stapleEstimate = evaluatePantryRequirementsByIds(pantryRequirements, [...onHandSet], pantryPriceContext);
+    const scaledPantryCost = stapleEstimate.estimatedAdditionalCost;
     const totalBatchCost = Number(
       (storeIngredientCost + scaledPantryCost).toFixed(2)
     );
@@ -268,7 +268,7 @@ export function rankMealPrepDishes(
       matchedIngredients.length > 0 ? scoreSum / matchedIngredients.length : 50;
     const costEfficiencyBonus = Math.max(0, (3.25 - costPerServing) * 14);
     const pinnedBonus = pinnedHits * 25;
-    const onHandBonus = (onHandHits + (stapleEstimate?.availableRequiredCount ?? 0)) * 30;
+    const onHandBonus = (onHandHits + stapleEstimate.availableRequiredCount) * 30;
 
     let profileBonus = 0;
     if (macroGoal === 'HIGH_PROTEIN' && adjustedMacros.proteinGrams >= 40) {
@@ -307,8 +307,8 @@ export function rankMealPrepDishes(
       freezerFriendly: blueprint.freezerFriendly,
       flavorProfile: blueprint.flavorProfile,
       macrosPerServing: adjustedMacros,
-      dietaryTags: Array.from(activeDietaryTags).filter((tag) => tag !== 'GLUTEN_FREE' || !pantryRequirements?.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
-      macroBadges: macroBadges.filter((badge) => badge !== '🌾 Gluten-Free' || !pantryRequirements?.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
+      dietaryTags: Array.from(activeDietaryTags).filter((tag) => tag !== 'GLUTEN_FREE' || !pantryRequirements.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
+      macroBadges: macroBadges.filter((badge) => badge !== '🌾 Gluten-Free' || !pantryRequirements.some((requirement) => ['all-purpose-flour', 'whole-wheat-flour', 'worcestershire-sauce'].includes(requirement.ingredientId))),
       adaptationNote:
         adaptationNotes.length > 0 ? adaptationNotes.join(' • ') : undefined,
       matchedIngredients,

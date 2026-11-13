@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     // Preserve the existing endpoint contract across the SDK 3 default-version change.
     const ai = new GoogleGenAI({ apiKey, apiVersion: 'v1beta' });
 
-    const combinedOnHand = new Set(onHandIngredientIds);
+    const onHandSet = new Set(onHandIngredientIds);
 
     const topDealsContext = dashboard.commodities.slice(0, 18).map((c) => ({
       ingredientId: c.ingredient.id,
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
       dealType: c.bestOffer.dealType,
       dealConditions: c.bestOffer.dealConditions,
       isUserPinned: pinnedIngredientIds.includes(c.ingredient.id),
-      isOnHand: combinedOnHand.has(c.ingredient.id),
+      isOnHand: onHandSet.has(c.ingredient.id),
     }));
 
     const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in ${cityLabel} (${zipCode}) shopping at local supermarkets.

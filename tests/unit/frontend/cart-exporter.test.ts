@@ -168,6 +168,7 @@ describe('cart-exporter: formatShoppingListForClipboard', () => {
     expect(text).toContain('PRE-FLIGHT DIGITAL COUPONS TO CLIP');
     expect(text).toContain('MEAT, POULTRY & SEAFOOD COUNTER');
     expect(text).toContain('ALREADY HAVE (omitted from shopping needs)');
+    expect(text).toContain('known subtotal — plus unpriced ingredients');
     expect(text).toContain('STAPLES TO BUY');
   });
 });

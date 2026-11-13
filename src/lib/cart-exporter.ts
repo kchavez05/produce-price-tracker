@@ -235,7 +235,7 @@ export function formatShoppingListForClipboard(options: {
 
   lines.push(`🛒 PANTRYBOT WEEKEND SHOPPING CHECKLIST`);
   lines.push(`📍 ${cityLabel} (${zipCode}) • Strategy: ${modeLabel}`);
-  lines.push(`Estimated additional grocery cost: $${activeTotal.toFixed(2)}${tripComparison.additionalCostEstimateComplete === false ? ' known subtotal — plus unpriced ingredients' : ''}`);
+  lines.push(`Estimated additional grocery cost: $${activeTotal.toFixed(2)}${tripComparison.additionalCostEstimateComplete !== true ? ' known subtotal — plus unpriced ingredients' : ''}`);
   lines.push('Assumes ingredients marked Yes are on hand. Staple rows identify the price basis; package checkout totals may differ.');
   lines.push('');
 
