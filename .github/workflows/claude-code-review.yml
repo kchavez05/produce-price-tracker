@@ -72,12 +72,14 @@ jobs:
           set -euo pipefail
           since="${STARTED:-1970-01-01T00:00:00Z}"
           bot='claude[bot]'
-          issue_comments=$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
-            --jq "[.[] | select(.user.login==\"$bot\" and .created_at >= \"$since\")] | length" | awk '{s+=$1} END{print s+0}')
-          reviews=$(gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
-            --jq "[.[] | select(.user.login==\"$bot\" and .submitted_at >= \"$since\")] | length" | awk '{s+=$1} END{print s+0}')
-          inline=$(gh api "repos/$REPO/pulls/$PR/comments" --paginate \
-            --jq "[.[] | select(.user.login==\"$bot\" and .created_at >= \"$since\")] | length" | awk '{s+=$1} END{print s+0}')
+          count_bot() { # $1 = REST path, $2 = timestamp field
+            gh api "$1" --paginate \
+              --jq "[.[] | select(.user.login==\"$bot\" and .$2 >= \"$since\")] | length" \
+              | awk '{s+=$1} END{print s+0}'
+          }
+          issue_comments=$(count_bot "repos/$REPO/issues/$PR/comments" created_at)
+          reviews=$(count_bot "repos/$REPO/pulls/$PR/reviews" submitted_at)
+          inline=$(count_bot "repos/$REPO/pulls/$PR/comments" created_at)
           total=$(( ${issue_comments:-0} + ${reviews:-0} + ${inline:-0} ))
           if [ "$total" -gt 0 ]; then
             echo "claude[bot] posted $total item(s) on this PR; no fallback needed."
