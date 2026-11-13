@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "issue": 731,
+  "status": "draft-not-authorized-for-paid-execution",
+  "sourceCheckedOn": "2026-11-13",
+  "scoredRepeats": 3,
+  "spikeApiCapUsd": 10,
+  "ancillaryReserveUsd": 0.4,
+  "reference": {
+    "recipeRequests": 1000,
+    "speechMinutes": 1000,
+    "apiCapUsd": 25,
+    "speechClipMeanSeconds": 15,
+    "alternateSpeechClipMeanSeconds": [
+      5,
+      30
+    ]
+  },
+  "recipes": [
+    {
+      "id": "google-lite",
+      "provider": "google",
+      "model": "gemini-3.5-flash-lite",
+      "inputUsdPerMillion": 0.3,
+      "outputUsdPerMillion": 2.5,
+      "maxInputTokens": 8000,
+      "maxBillableOutputTokens": 6000,
+      "role": "primary",
+      "accountAccess": "unverified",
+      "billableBounds": "must-verify-before-dispatch",
+      "capabilitySource": "https://aistudio.google.com/docs/models/gemini-3.5-flash-lite"
+    },
+    {
+      "id": "openai-luna",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "inputUsdPerMillion": 0.1,
+      "outputUsdPerMillion": 0.5,
+      "maxInputTokens": 8000,
+      "maxBillableOutputTokens": 6000,
+      "role": "primary",
+      "accountAccess": "unverified",
+      "billableBounds": "must-verify-before-dispatch",
+      "capabilitySource": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
+    {
+      "id": "claude-haiku",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "inputUsdPerMillion": 0.1,
+      "outputUsdPerMillion": 0.5,
+      "maxInputTokens": 8000,
+      "maxBillableOutputTokens": 6000,
+      "role": "primary",
+      "accountAccess": "unverified",
+      "billableBounds": "must-verify-before-dispatch",
+      "capabilitySource": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+    },
+    {
+      "id": "openai-terra-control",
+      "provider": "openai",
+      "model": "gpt-6.1-terra",
+      "inputUsdPerMillion": 1,
+      "outputUsdPerMillion": 5,
+      "maxInputTokens": 8000,
+      "maxBillableOutputTokens": 6000,
+      "role": "optional-quality-control",
+      "accountAccess": "unverified",
+      "billableBounds": "must-verify-before-dispatch",
+      "capabilitySource": "https://developers.openai.com/api/docs/models/gpt-6.1-terra"
+    }
+  ],
+  "speechPipelines": [
+    {
+      "id": "google-direct",
+      "stages": [
+        "gemini-3.5-flash-lite audio-to-proposal"
+      ],
+      "reservationUsdPerAttempt": 0.0041,
+      "boundStatus": "provisional",
+      "source": "https://aistudio.google.com/docs/models/gemini-3.5-flash-lite",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "billing": {
+        "kind": "audio-and-text-tokens",
+        "audioTokensPerSecondCeiling": 32,
+        "maxTextInputTokens": 4000,
+        "inputUsdPerMillion": 0.3,
+        "maxBillableOutputTokens": 1024,
+        "outputUsdPerMillion": 2.5,
+        "assumptionSource": "https://aistudio.google.com/docs/audio#technical-details",
+        "rateSource": "https://aistudio.google.com/docs/pricing#gemini-3.5-flash-lite"
+      }
+    },
+    {
+      "id": "google-transcribe-luna",
+      "stages": [
+        "gemini-3.5-transcribe",
+        "gpt-6-luna extraction"
+      ],
+      "reservationUsdPerAttempt": 0.0095,
+      "boundStatus": "provisional",
+      "source": "https://aistudio.google.com/docs/pricing#gemini-3.5-transcribe",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "extraction": {
+        "model": "gpt-6-luna",
+        "maxInputTokens": 4000,
+        "maxBillableOutputTokens": 1024,
+        "inputUsdPerMillion": 0.1,
+        "outputUsdPerMillion": 0.5,
+        "source": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+      },
+      "billing": {
+        "kind": "audio-and-text-tokens",
+        "audioTokensPerSecondCeiling": 32,
+        "maxTextInputTokens": 256,
+        "inputUsdPerMillion": 2,
+        "maxBillableOutputTokens": 512,
+        "outputUsdPerMillion": 12,
+        "assumptionSource": "https://aistudio.google.com/docs/pricing#gemini-3.5-transcribe",
+        "caveat": "Published transcribe example uses 25 audio tokens/sec. Reserve 32 and instruction-token overhead at the audio input rate conservatively; verify actual API accounting and output bounds before execution."
+      }
+    },
+    {
+      "id": "openai-transcribe-luna",
+      "stages": [
+        "gpt-transcribe",
+        "gpt-6-luna extraction"
+      ],
+      "reservationUsdPerAttempt": 0.0055,
+      "boundStatus": "provisional",
+      "source": "https://developers.openai.com/api/docs/models/gpt-transcribe",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "extraction": {
+        "model": "gpt-6-luna",
+        "maxInputTokens": 4000,
+        "maxBillableOutputTokens": 1024,
+        "inputUsdPerMillion": 0.1,
+        "outputUsdPerMillion": 0.5,
+        "source": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+      },
+      "billing": {
+        "kind": "duration",
+        "audioUsdPerMinuteCeiling": 0.0045,
+        "minimumBilledSecondsCeiling": 60,
+        "billingIncrementSecondsCeiling": 60,
+        "assumptionSource": "https://developers.openai.com/api/docs/models/gpt-transcribe",
+        "caveat": "Published rate is per audio minute. One-minute minimum/rounding is a conservative planning allowance, not a claim of actual account rounding; verify no higher minimum or other billable stage."
+      }
+    },
+    {
+      "id": "deepgram-luna",
+      "stages": [
+        "nova-3 monolingual prerecorded, mip_opt_out=true",
+        "gpt-6-luna extraction"
+      ],
+      "reservationUsdPerAttempt": 0.011,
+      "boundStatus": "provisional",
+      "source": "https://deepgram.com/pricing",
+      "audioSecondsMax": 30,
+      "accountBoundsVerified": false,
+      "extraction": {
+        "model": "gpt-6-luna",
+        "maxInputTokens": 4000,
+        "maxBillableOutputTokens": 1024,
+        "inputUsdPerMillion": 0.1,
+        "outputUsdPerMillion": 0.5,
+        "source": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+      },
+      "billing": {
+        "kind": "duration",
+        "audioUsdPerMinuteCeiling": 0.01,
+        "minimumBilledSecondsCeiling": 60,
+        "billingIncrementSecondsCeiling": 60,
+        "assumptionSource": "https://deepgram.com/pricing",
+        "caveat": "0.01/min is a provisional acceptance ceiling for opted-out usage, not the advertised or verified opted-out price. Qualify the account at or below this rate and rounding bound before dispatch; otherwise revise the estimate."
+      }
+    }
+  ],
+  "speechExtractionLimits": {
+    "maxInputTokens": 4000,
+    "maxBillableOutputTokens": 1024
+  },
+  "execution": {
+    "concurrency": 1,
+    "automaticRetries": 0,
+    "recipeDeadlineSeconds": 45,
+    "speechDeadlineSeconds": 15,
+    "tuningCallsPerPrimaryRecipeModel": 2,
+    "tuningCallsPerSpeechPipeline": 2,
+    "timeboxHours": 8,
+    "paidCallsEnabled": false
+  },
+  "exclusions": [
+    {
+      "candidate": "gemini-2.5-flash",
+      "reason": "Existing implementation reference only; Google announces automatic rerouting December 1, 2026. Do not assume the old identifier preserves behavior.",
+      "source": "https://aistudio.google.com/docs/deprecations#gemini-2.5-flash-models"
+    },
+    {
+      "candidate": "gpt-4o-mini-transcribe",
+      "reason": "Initial shortlist used this model, but current model page labels it Deprecated. Use GPT-Transcribe for the proposed forward-looking comparison; verify lifecycle/access before execution.",
+      "source": "https://developers.openai.com/api/docs/models/gpt-4o-mini-transcribe"
+    },
+    {
+      "candidate": "claude native audio transcription",
+      "reason": "Reviewed model documentation does not establish native speech transcription. Claude remains a recipe candidate; it could be a later extraction candidate if warranted.",
+      "source": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Spike 731 recipe proposal, not the production API",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "explanation",
+    "dishes"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "ok",
+        "needs_clarification"
+      ]
+    },
+    "explanation": {
+      "type": "string"
+    },
+    "dishes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "servings",
+          "style",
+          "appliance",
+          "prepTimeMinutes",
+          "cookTimeMinutes",
+          "ingredients",
+          "steps",
+          "reheatTip"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "servings": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "style": {
+            "enum": [
+              "STEW_BRAISE",
+              "CHILI_SOUP",
+              "CASSEROLE_BAKE",
+              "CURRY_SKILLET"
+            ]
+          },
+          "appliance": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prepTimeMinutes": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cookTimeMinutes": {
+            "type": "number",
+            "minimum": 0
+          },
+          "ingredients": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ingredientId",
+                "displayName",
+                "quantity",
+                "unit",
+                "optional"
+              ],
+              "properties": {
+                "ingredientId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "displayName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "quantity": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "unit": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "optional": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "reheatTip": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "maxItems": 3
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "dishes": {
+            "minItems": 3
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "dishes": {
+            "maxItems": 0
+          },
+          "explanation": {
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}
