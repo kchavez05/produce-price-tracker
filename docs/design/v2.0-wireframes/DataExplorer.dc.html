@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Data Explorer mobile wireframe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f}
+.scr{width:390px;height:844px;box-sizing:border-box;background:#fff;display:flex;flex-direction:column;overflow:hidden;border:1px solid #cfcfcf;position:relative}
+.nav{display:flex;align-items:center;gap:8px;padding:12px 8px;border-bottom:1px solid #e4e4e4;flex:none}
+.back{min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:14px;font-weight:600;color:#1d4ed8;font-family:inherit}
+.title{font-size:18px;font-weight:700;flex:1}
+.body{flex:1;overflow:hidden;padding:12px 16px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:8px}
+.muted{color:#595959;font-size:13px}
+.field{min-height:44px;border:1px solid #6b6b6b;border-radius:10px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;font-size:15px;background:#fff;font-family:inherit;color:#1f1f1f;box-sizing:border-box;width:100%}
+.lbl{font-size:13px;font-weight:600;color:#333;margin-bottom:4px;display:block}
+.chips{display:flex;gap:8px;overflow:hidden;flex:none}
+.chip{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid #6b6b6b;display:flex;align-items:center;font-size:14px;color:#333;white-space:nowrap;background:#fff;font-family:inherit}
+.chip.on{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.card{border:1px solid #cfcfcf;border-radius:12px;padding:12px;background:#fafafa;display:flex;flex-direction:column;gap:8px}
+.tag{font-size:12px;font-weight:700;border:1px solid #6b6b6b;border-radius:6px;padding:2px 8px;color:#333}
+.badge{font-size:12px;background:#e4e4e4;border-radius:10px;padding:2px 8px;color:#333}
+.ph{background:#e4e4e4;border-radius:8px}
+.sec{font-size:14px;font-weight:700;color:#595959}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #6b6b6b;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#1f1f1f;font-family:inherit}
+.btn.pri{background:#1f1f1f;color:#fff;border-color:#1f1f1f}
+.link{min-height:44px;display:flex;align-items:center;font-size:13px;color:#1d4ed8;text-decoration:underline;font-family:inherit;background:none;border:0;padding:0}
+.tr{display:flex;justify-content:space-between;align-items:center;min-height:44px;border-bottom:1px solid #e4e4e4;font-size:14px}
+.dim{position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end}
+.sheet{width:100%;background:#fff;border-radius:16px 16px 0 0;border:1px solid #6b6b6b;padding:12px 16px 20px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px}
+.grab{width:40px;height:5px;border-radius:3px;background:#cfcfcf;align-self:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a{text-decoration:none}
+</style>
+</helmet>
+<div class="scr">
+  <div class="nav">
+    <a class="back" href="Settings.dc.html">Back</a>
+    <h1 class="title" style="margin:0">Data Explorer</h1>
+    <a class="back" href="DataExplorerFilters.dc.html">Filters</a>
+  </div>
+  <div class="body">
+    <div>
+      <span class="lbl">Ingredient</span>
+      <button type="button" class="field"><span>Shredded Cheese (Cheddar, Jack)</span><span class="muted">Change</span></button>
+    </div>
+    <div class="muted">ZIP 80542 &middot; Nov 1&ndash;Nov 13 &middot; All observed stores</div>
+    <nav class="chips" aria-label="Data explorer views">
+      <a class="chip on" href="DataExplorer.dc.html" aria-current="page">Price History</a>
+      <a class="chip" href="DataExplorer.dc.html">Explain This Score</a>
+      <a class="chip" href="DataExplorer.dc.html">Catalog</a>
+      <a class="chip" href="DataExplorer.dc.html">Raw Data</a>
+      <a class="chip" href="DataExplorer.dc.html">Sources</a>
+    </nav>
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><b style="font-size:15px">Price History</b><span class="badge">Demonstration</span></div>
+      <div class="muted">Deterministic example prices. USDA reports are unavailable in this mode.</div>
+    </div>
+    <div class="ph" style="height:180px" role="img" aria-label="Price history chart placeholder"></div>
+    <div class="sec">Latest Observations</div>
+    <div>
+      <div class="tr"><span>King Soopers</span><b>$2.58/lb</b></div>
+      <div class="tr"><span>Safeway</span><b>$4.29/lb</b></div>
+      <div class="tr"><span>Costco bulk</span><b>$3.55/lb</b></div>
+    </div>
+    <div class="row">
+      <button type="button" class="btn" style="flex:1">Export CSV</button>
+      <button type="button" class="btn" style="flex:1">View Source JSON</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
