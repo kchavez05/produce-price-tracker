@@ -31,12 +31,28 @@ describe('durable account-scoped sync queue', () => {
       expect(storage.getItem(syncQueueKey('alice'))).not.toBeNull();
     } finally { vi.unstubAllGlobals(); }
   });
-  it('purges only the deleted account queue and recovery namespace', () => {
-    const { storage, data } = setup();
+  it('purges only the deleted account queue and recovery namespace', async () => {
+    const { storage, data, lock } = setup();
     for (const key of [syncQueueKey('alice'), `${syncQueueKey('alice')}:recovery:one`, `${syncQueueKey('alice')}:recovery:two`, syncQueueKey('bob'), `${syncQueueKey('bob')}:recovery:one`, syncQueueKey('alice-other')]) storage.setItem(key, 'private data');
-    clearSyncQueue(storage, 'alice');
+    await clearSyncQueue(storage, 'alice', lock);
     expect([...data.keys()]).toEqual([syncQueueKey('bob'), `${syncQueueKey('bob')}:recovery:one`, syncQueueKey('alice-other')]);
   });
+  it('waits for in-flight replay before purging every recovery copy it may create', async () => {
+    const { storage, data, lock, queue } = setup();
+    storage.setItem(syncQueueKey('alice'), JSON.stringify([{ userId: 'alice', mutationId: 'old', freezerItems: [], preferences: { defaultZip: '11111' } }]));
+    await queue.enqueue('alice', { preferences: { defaultZip: '22222' } });
+    let started!: () => void;
+    let acknowledge!: (value: UserSyncPayload) => void;
+    const sending = new Promise<void>(resolve => { started = resolve; });
+    const replay = queue.flush('alice', () => new Promise<UserSyncPayload>(resolve => { acknowledge = resolve; started(); }));
+    await sending;
+    const purging = clearSyncQueue(storage, 'alice', lock);
+    expect(storage.getItem(syncQueueKey('alice'))).not.toBeNull();
+    acknowledge(payload);
+    await Promise.all([replay, purging]);
+    expect([...data.keys()]).toEqual([]);
+  });
+
   it('retains failed HTTP requests and network failures across reloads, then clears after acknowledgment', async () => {
     const { storage, queue, lock } = setup();
     await queue.enqueue('alice', { preferences: { defaultZip: '80542' } });

@@ -121,6 +121,18 @@ describe('private pantry API in keyless mode', () => {
     expect((await read()).entries).toEqual([]);
     expect((await POST(req({ ...body, owner: 'account:bob' }))).status).toBe(200);
   });
+  it('rejects a stale account deletion fence without deleting the verified account', async () => {
+    signIn('alice');
+    const stale = req(undefined, 'DELETE', '/api/account');
+    stale.headers.set('x-pantrybot-account-id', 'bob');
+    expect((await deleteAccount(stale)).status).toBe(409);
+    const { getUserProfileFromSqlite } = await import('@/lib/db/sqlite');
+    expect(getUserProfileFromSqlite('alice')?.id).toBe('alice');
+    const current = req(undefined, 'DELETE', '/api/account');
+    current.headers.set('x-pantrybot-account-id', 'alice');
+    expect((await deleteAccount(current)).status).toBe(200);
+    expect(getUserProfileFromSqlite('alice')).toBeNull();
+  });
   it('does not acknowledge edits before migration, validates values, and deletes all pantry data with the account', async () => {
     signIn('alice');
     const body = { owner: 'account:alice', action: 'mutate', mutation: { mutationId: 'm1', entryId: 'entry', operation: 'put', expectedRevision: 0, entry: { displayName: 'Oil', available: true } } };

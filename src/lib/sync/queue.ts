@@ -27,12 +27,18 @@ export function syncQueueKey(userId: string): string {
 }
 
 /** Explicit account deletion removes its active queue and every recovery copy. */
-export function clearSyncQueue(storage: Pick<Storage, 'key' | 'length' | 'removeItem'>, userId: string): void {
+export async function clearSyncQueue(storage: Pick<Storage, 'key' | 'length' | 'removeItem'>, userId: string, lock: SyncLock = browserLock): Promise<void> {
   const prefix = syncQueueKey(userId);
-  for (let index = storage.length - 1; index >= 0; index--) {
-    const key = storage.key(index);
-    if (key === prefix || key?.startsWith(`${prefix}:recovery:`)) storage.removeItem(key);
-  }
+  const purge = () => {
+    for (let index = storage.length - 1; index >= 0; index--) {
+      const key = storage.key(index);
+      if (key === prefix || key?.startsWith(`${prefix}:recovery:`)) storage.removeItem(key);
+    }
+  };
+  // This context cannot enqueue/replay without Web Locks, so synchronous purge
+  // remains safe and available for explicit data deletion there.
+  if (lock === browserLock && (typeof navigator === 'undefined' || !navigator.locks)) return purge();
+  await lock(`${prefix}:replay`, () => lock(`${prefix}:storage`, purge));
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
