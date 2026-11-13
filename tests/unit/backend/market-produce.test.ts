@@ -79,7 +79,7 @@ describe('approved market produce integration', () => {
     const covered = applyPantryToRecipe(input, available, [market]);
     expect(covered.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 1 });
     expect(covered.totalBatchCost).toBe(0);
-    expect(buildShoppingListAndStoreComparison([covered], [market], available, '80542', ['KING_SOOPERS'], true).items).toHaveLength(0);
+    expect(buildShoppingListAndStoreComparison([covered], [market], available, '80542', ['KING_SOOPERS']).items).toHaveLength(0);
     const needed = applyPantryToRecipe(input, [], [market]);
     expect(needed.totalBatchCost).toBe(4); expect(needed.pantryCoverage!.availableRequiredCount).toBe(0);
     const denied = applyPantryToRecipe(input, availablePantryIngredientIds([entry(row.pantryIngredientIds[0]), entry(row.pantryIngredientIds[0], false)]), [market]);
@@ -124,7 +124,7 @@ describe('approved market produce integration', () => {
     const admitted = scopedRecipeCommodity(use, market)!;
     expect(admitted.bestOffer.rawTitle).toBe('Russet potatoes'); expect(admitted.bestOffer.normalizedPricePerUnit).toBe(2);
     const result = applyPantryToRecipe(dish(use), [], [market]);
-    const shopping = buildShoppingListAndStoreComparison([result], [market], [], '80542', [store], true);
+    const shopping = buildShoppingListAndStoreComparison([result], [market], [], '80542', [store]);
     expect(shopping.items[0].ingredientName).toContain('potato');
     expect(shopping.items[0].storePricing?.[store]?.ingredientName).toBe('Russet potatoes');
     expect(cleanSearchQueryForIngredient(admitted.bestOffer.rawTitle)).toBe('Russet potatoes');

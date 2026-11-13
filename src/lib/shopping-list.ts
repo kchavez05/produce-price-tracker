@@ -16,7 +16,7 @@ import {
 import { PantryPriceDetail, PantryRequirement, PantryShoppingNeed } from '@/types/pantry';
 import { recipeAvailableIngredientIds, recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { aggregatePantryPriceDetails, applyPantryToRecipe, formatPantryRequirement, pantryShoppingNeeds } from '@/lib/pantry/recipe';
-import { recipeCommodity, resolveRecipeUse, matchedRecipeRequirement, recipeIngredientExcluded } from '@/lib/pantry/recipe-use';
+import { recipeCommodity, resolveRecipeUse } from '@/lib/pantry/recipe-use';
 import { recipeUseRequirementId } from '@/lib/pantry/recipe-identity';
 
 export function buildShoppingListAndStoreComparison(
@@ -25,7 +25,6 @@ export function buildShoppingListAndStoreComparison(
   onHandIngredientIds: string[] = [],
   zipCode: string = '80542',
   activeStoresList?: StoreChain[],
-  pantryMode = activeDishes.some((dish) => Array.isArray(dish.pantryRequirements)),
   priceContext: PantryPriceContext = createPantryPriceContext(),
 ): {
   items: AggregatedShoppingItem[];
@@ -35,42 +34,24 @@ export function buildShoppingListAndStoreComparison(
 } {
   const context = activeStoresList?.length && !activeStoresList.includes('KING_SOOPERS')
     ? createPantryPriceContext({ ...priceContext, observedPricingEnabled: false }) : priceContext;
-  const legacyRequirements: PantryRequirement[] = [];
-  if (!pantryMode) {
-    const source = new Map(commodities.map((c) => [c.ingredient.id, c]));
-    activeDishes = activeDishes.map((dish) => ({ ...dish, matchedIngredients: dish.matchedIngredients.flatMap((item) => {
-      if (!requiresExactOffer(item.ingredientId) && !recipeIngredientExcluded(dish.id,item.ingredientId)) return [item];
-      const excluded = recipeIngredientExcluded(dish.id,item.ingredientId);
-      if (!excluded && (item.isOnHand || onHandIngredientIds.includes(item.ingredientId))) return [item];
-      const qualified = recipeCommodity(dish,item,source.get(item.ingredientId));
-      if (!qualified || !Number.isFinite(item.quantityUsed) || item.quantityUsed < 0) {
-        legacyRequirements.push(matchedRecipeRequirement(dish,item));
-        return [];
-      }
-      return [{ ...item, store: qualified.bestOffer.store, unitCost: qualified.bestOffer.normalizedPricePerUnit,
-        slotCost: Number((item.quantityUsed * qualified.bestOffer.normalizedPricePerUnit).toFixed(2)),
-        rawDealText: `${qualified.bestOffer.rawTitle} — ${qualified.bestOffer.rawPriceText}` }];
-    }) }));
-  }
+
   commodities = commodities.flatMap((c) => { const qualified = qualifiedExactCommodity(c); return qualified ? [qualified] : []; });
   // Project only reviewed recipe uses. Store prices retain their original offer provenance;
   // separate scopes cannot aggregate into a cheaper, incompatible vegetable requirement.
-  if (pantryMode) {
-    const original = new Map(commodities.map((c) => [c.ingredient.id, c]));
-    const scoped = new Map<string, ScoredCommodity>();
-    activeDishes = activeDishes.map((input) => {
-      const dish = applyPantryToRecipe(input, onHandIngredientIds, commodities, undefined, context);
-      return { ...dish, matchedIngredients: dish.matchedIngredients.map((ingredient) => {
-        const use = resolveRecipeUse(dish, ingredient);
-        const commodity = recipeCommodity(dish, ingredient, original.get(ingredient.ingredientId));
-        if (!use || !commodity) return ingredient;
-        const id = recipeUseRequirementId(use);
-        scoped.set(id, { ...commodity, ingredient: { ...commodity.ingredient, id, name: use.displayName } });
-        return { ...ingredient, ingredientId: id, ingredientName: use.displayName };
-      }) };
-    });
-    commodities = [...commodities, ...scoped.values()];
-  }
+  const original = new Map(commodities.map((c) => [c.ingredient.id, c]));
+  const scoped = new Map<string, ScoredCommodity>();
+  activeDishes = activeDishes.map((input) => {
+    const dish = applyPantryToRecipe(input, onHandIngredientIds, commodities, undefined, context);
+    return { ...dish, matchedIngredients: dish.matchedIngredients.map((ingredient) => {
+      const use = resolveRecipeUse(dish, ingredient);
+      const commodity = recipeCommodity(dish, ingredient, original.get(ingredient.ingredientId));
+      if (!use || !commodity) return ingredient;
+      const id = recipeUseRequirementId(use);
+      scoped.set(id, { ...commodity, ingredient: { ...commodity.ingredient, id, name: use.displayName } });
+      return { ...ingredient, ingredientId: id, ingredientName: use.displayName };
+    }) };
+  });
+  commodities = [...commodities, ...scoped.values()];
   const commodityMap = new Map<string, ScoredCommodity>();
   for (const c of commodities) {
     commodityMap.set(c.ingredient.id, c);
@@ -82,7 +63,7 @@ export function buildShoppingListAndStoreComparison(
       (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
     return Boolean(offer && offer.source !== 'CURATED_FALLBACK');
   }
-  const onHandSet = new Set(pantryMode ? recipeAvailableIngredientIds(onHandIngredientIds) : onHandIngredientIds);
+  const onHandSet = new Set(recipeAvailableIngredientIds(onHandIngredientIds));
 
   const activeStores: StoreChain[] =
     activeStoresList && activeStoresList.length > 0
@@ -97,17 +78,12 @@ export function buildShoppingListAndStoreComparison(
   const missingScopedStorePrices = new Set<string>();
 
   for (const dish of activeDishes) {
-    if (pantryMode) {
-      priceRows.push(...(dish.pantryPricing?.rows ?? []));
-    } else {
-      estimatedPantryTotal += dish.estimatedPantryCost || 0;
-      for (const p of dish.pantryStaples || []) pantrySet.add(p);
-    }
+    priceRows.push(...(dish.pantryPricing?.rows ?? []));
 
     for (const slotIng of dish.matchedIngredients) {
-      const isOnHand = pantryMode ? onHandSet.has(slotIng.ingredientId) : Boolean(slotIng.isOnHand || onHandSet.has(slotIng.ingredientId));
-      if (pantryMode && (isOnHand || slotIng.optional)) continue;
-      if (pantryMode && (!commodityMap.has(slotIng.ingredientId) || !Number.isFinite(slotIng.quantityUsed) || slotIng.quantityUsed < 0 ||
+      const isOnHand = onHandSet.has(slotIng.ingredientId);
+      if (isOnHand || slotIng.optional) continue;
+      if ((!commodityMap.has(slotIng.ingredientId) || !Number.isFinite(slotIng.quantityUsed) || slotIng.quantityUsed < 0 ||
         commodityMap.get(slotIng.ingredientId)?.ingredient.standardUnit !== slotIng.unit)) {
         requirements.push({ ingredientId: recipePantryIngredientId(slotIng.ingredientId), displayName: slotIng.ingredientName,
           quantity: Number.isFinite(slotIng.quantityUsed) && slotIng.quantityUsed >= 0 ? slotIng.quantityUsed : 1,
@@ -179,18 +155,18 @@ export function buildShoppingListAndStoreComparison(
           (chain === 'SAFEWAY' ? scored?.safewayOffer : undefined);
 
         const unitCost = offer?.normalizedPricePerUnit ?? slotIng.unitCost;
-        const scopedEstimate = pantryMode && (slotIng.ingredientId.startsWith('recipe-use:') || requiresExactOffer(slotIng.ingredientId)) && !offer;
+        const scopedEstimate = (slotIng.ingredientId.startsWith('recipe-use:') || requiresExactOffer(slotIng.ingredientId)) && !offer;
         if (scopedEstimate && activeStores.includes(chain)) missingScopedStorePrices.add(slotIng.ingredientId);
         const totalCost = isOnHand
           ? 0
           : Number((slotIng.quantityUsed * unitCost).toFixed(2));
 
         storePricing[chain] = {
-          ...(pantryMode && (slotIng.ingredientId.startsWith('recipe-use:') || requiresExactOffer(slotIng.ingredientId)) ? { ingredientName: (offer ?? scored?.bestOffer)?.rawTitle } : {}),
+          ...((slotIng.ingredientId.startsWith('recipe-use:') || requiresExactOffer(slotIng.ingredientId)) ? { ingredientName: (offer ?? scored?.bestOffer)?.rawTitle } : {}),
           unitCost,
           totalCost,
           rawDealText: isOnHand
-            ? '❄️ Already On-Hand in Freezer/Pantry ($0.00 out-of-pocket)'
+            ? 'Already have in Pantry ($0.00 additional)'
             : scopedEstimate ? `Price unavailable at this store; estimate from ${slotIng.store}` : offer?.rawPriceText || slotIng.rawDealText,
           dealType: scopedEstimate ? 'SHELF_OR_MEMBER' : offer?.dealType || slotIng.dealType,
           dealConditions: scopedEstimate ? undefined : offer?.dealConditions || slotIng.dealConditions,
@@ -254,22 +230,20 @@ export function buildShoppingListAndStoreComparison(
     }
   }
 
-  const extraNeeds = (requirements.length || legacyRequirements.length) ? pantryShoppingNeeds([...requirements, ...legacyRequirements], [...onHandSet], context) : [];
+  const extraNeeds = requirements.length ? pantryShoppingNeeds(requirements, [...onHandSet], context) : [];
   const pantryNeeds = aggregatePantryPriceDetails([...priceRows, ...extraNeeds.flatMap((need) => need.priceDetails ?? [])]);
-  if (pantryMode) {
-    const allocatedCents = pantryNeeds.flatMap((need) => need.priceDetails ?? []).reduce((sum, row) => sum + (row.allocatedCents ?? 0), 0);
-    if (!Number.isSafeInteger(allocatedCents)) throw new RangeError('Shopping price exceeds the supported range');
-    estimatedPantryTotal = allocatedCents / 100;
-    for (const need of pantryNeeds) {
-      // Basis groups are intentionally separate. Keep their checklist/checkbox labels distinct.
-      const hasBasisPeer = pantryNeeds.some((other) => other.ingredientId === need.ingredientId && other.unit === need.unit && other.quantityBasisVersion !== need.quantityBasisVersion);
-      const basisLabel = need.quantityBasisVersion === 'canned-net-contents-v1' ? 'Unopened can contents'
-        : need.quantityBasisVersion ? `Quantity basis: ${need.quantityBasisVersion}` : hasBasisPeer ? 'Quantity basis not recorded' : '';
-      const labels = [...new Set(need.priceDetails?.map(pantryPriceLabel) ?? [])].join('; ');
-      pantrySet.add(`${formatPantryRequirement(need)}${basisLabel ? ` — ${basisLabel}` : ''} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} ${labels || 'recipe-use estimate'}`}`);
-    }
+  const allocatedCents = pantryNeeds.flatMap((need) => need.priceDetails ?? []).reduce((sum, row) => sum + (row.allocatedCents ?? 0), 0);
+  if (!Number.isSafeInteger(allocatedCents)) throw new RangeError('Shopping price exceeds the supported range');
+  estimatedPantryTotal = allocatedCents / 100;
+  for (const need of pantryNeeds) {
+    // Basis groups are intentionally separate. Keep their checklist/checkbox labels distinct.
+    const hasBasisPeer = pantryNeeds.some((other) => other.ingredientId === need.ingredientId && other.unit === need.unit && other.quantityBasisVersion !== need.quantityBasisVersion);
+    const basisLabel = need.quantityBasisVersion === 'canned-net-contents-v1' ? 'Unopened can contents'
+      : need.quantityBasisVersion ? `Quantity basis: ${need.quantityBasisVersion}` : hasBasisPeer ? 'Quantity basis not recorded' : '';
+    const labels = [...new Set(need.priceDetails?.map(pantryPriceLabel) ?? [])].join('; ');
+    pantrySet.add(`${formatPantryRequirement(need)}${basisLabel ? ` — ${basisLabel}` : ''} — ${need.estimatedCost === null ? 'price unavailable' : `$${need.estimatedCost.toFixed(2)} ${labels || 'recipe-use estimate'}`}`);
   }
-  if (!pantryMode) for (const need of pantryNeeds) pantrySet.add(`${formatPantryRequirement(need)} — price unavailable`);
+
   const missingPriceIngredientIds = [...new Set([...pantryNeeds.filter((need) => need.estimatedCost === null).map((need) => need.ingredientId), ...missingScopedStorePrices])];
   const items = Array.from(itemMap.values()).sort((a, b) => {
     if (a.isOnHand !== b.isOnHand) return a.isOnHand ? 1 : -1;
@@ -405,7 +379,7 @@ export function buildShoppingListAndStoreComparison(
     pantryChecklist: Array.from(pantrySet),
     pantryNeeds,
     tripComparison: {
-      ...((pantryMode || legacyRequirements.length > 0) ? { additionalCostEstimateComplete: missingPriceIngredientIds.length === 0, missingPriceIngredientIds, includesStaticPantryEstimates: pantryNeeds.some((need) => need.priceBasis === 'STATIC_ESTIMATE' || need.priceBasis === 'MIXED') } : {}),
+      additionalCostEstimateComplete: missingPriceIngredientIds.length === 0, missingPriceIngredientIds, includesStaticPantryEstimates: pantryNeeds.some((need) => need.priceBasis === 'STATIC_ESTIMATE' || need.priceBasis === 'MIXED'),
       optimalSplitTotal,
       kingSoopersOnlyTotal,
       safewayOnlyTotal,

@@ -64,7 +64,7 @@ export default function TermsAndConditionsPage() {
             </h2>
             <p className="mt-2">
               PantryBot is an informational grocery price comparison, Virtual
-              Freezer tracking, and weekend batch meal-prep planning companion. The
+              Pantry availability tracking, and weekend batch meal-prep planning companion. The
               Service aggregates publicly advertised weekly supermarket circulars,
               USDA commodity reports, and wholesale club unit price baselines to
               estimate batch recipe costs and store basket totals.

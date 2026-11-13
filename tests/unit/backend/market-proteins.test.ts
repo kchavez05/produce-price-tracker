@@ -70,7 +70,7 @@ describe('approved protein market integration', () => {
     const quote = market(use, [[example.title, 2, 'KING_SOOPERS']]), input = dish(use), before = JSON.stringify(input);
     const owned = applyPantryToRecipe(input, positive(pantryId), [quote]);
     expect(owned.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 1 }); expect(owned.totalBatchCost).toBe(0);
-    expect(buildShoppingListAndStoreComparison([owned], [quote], positive(pantryId), '80542', ['KING_SOOPERS'], true).items).toHaveLength(0);
+    expect(buildShoppingListAndStoreComparison([owned], [quote], positive(pantryId), '80542', ['KING_SOOPERS']).items).toHaveLength(0);
     const priced = applyPantryToRecipe(input, [], [quote]); expect(priced.totalBatchCost).toBe(4);
     const no = availablePantryIngredientIds([entry(pantryId), entry(pantryId, false)]); expect(applyPantryToRecipe(input, no, [quote]).totalBatchCost).toBe(4);
     const unknown = applyPantryToRecipe(input, [], []); expect(unknown.additionalCostEstimateComplete).toBe(false); expect(applyPantryToRecipe(unknown, [], [quote]).totalBatchCost).toBe(4);
@@ -108,7 +108,7 @@ describe('approved protein market integration', () => {
     expect(scopedRecipeCommodity(use, quote)!.bestOffer.rawTitle).toBe('Raw Italian pork sausage');
     const scored = scoreAllCommodities(quote.recipeOffers!, store, {}, [store], {}); expect(scored[0].recipeOffers).toHaveLength(2);
     const result = applyPantryToRecipe(dish(use), [], scored); expect(result.totalBatchCost).toBe(4);
-    const shopping = buildShoppingListAndStoreComparison([result], scored, [], '80542', [store], true); expect(shopping.items[0].storePricing?.[store]?.ingredientName).toBe('Raw Italian pork sausage');
+    const shopping = buildShoppingListAndStoreComparison([result], scored, [], '80542', [store]); expect(shopping.items[0].storePricing?.[store]?.ingredientName).toBe('Raw Italian pork sausage');
     expect(cleanSearchQueryForIngredient('Raw Italian pork sausage')).toContain('sausage');
   });
   it('keeps selected stores, prepared products, contradictory labels and brand words from manufacturing a quote', () => {
@@ -161,7 +161,7 @@ describe('approved protein market integration', () => {
     expect(selected.bestOffer.rawTitle).toBe(meat); expect(selected.bestOffer.normalizedPricePerUnit).toBe(3);
     const recipe = applyPantryToRecipe(dish(use), [], [quote]); expect(recipe.totalBatchCost).toBe(6);
     expect(recipe.matchedIngredients[0].rawDealText).toContain(meat);
-    const shopping = buildShoppingListAndStoreComparison([recipe], [quote], [], '80542', ['KING_SOOPERS'], true);
+    const shopping = buildShoppingListAndStoreComparison([recipe], [quote], [], '80542', ['KING_SOOPERS']);
     expect(shopping.items[0].storePricing?.KING_SOOPERS?.ingredientName).toBe(meat);
     expect(shopping.items[0].optimalTotalCost).toBe(6); expect(JSON.stringify(quote)).toBe(original);
   });

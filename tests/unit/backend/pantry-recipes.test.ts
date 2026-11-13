@@ -18,7 +18,7 @@ import { formatShoppingListForClipboard } from '@/lib/cart-exporter';
 import { createMockCommodity, createMockDish } from 'tests/test-utils';
 
 const commodities = CANONICAL_INGREDIENTS.map((ingredient) => createMockCommodity({ ingredient }));
-const ranked = (ids: string[] = [], servings = 6) => rankMealPrepDishes(commodities, [], ids, servings, { pantryMode: true }).allRankedDishes;
+const ranked = (ids: string[] = [], servings = 6) => rankMealPrepDishes(commodities, [], ids, servings).allRankedDishes;
 const oilDish = () => createMockDish({ pantryStaples: [], pantryRequirements: [{ ingredientId: 'olive-oil', quantity: 3, unit: 'tbsp' }] });
 
 describe('pantry recipe and shopping integration', () => {
@@ -136,6 +136,21 @@ describe('pantry recipe and shopping integration', () => {
     expect(availablePantryIngredientIds([{ ...whole, ingredientId: 'cardamom-pods' }])).toEqual(['cardamom-pods']);
     expect(availablePantryIngredientIds([whole])).not.toContain('cilantro-fresh');
   });
+  it('ignores historical Freezer metadata and never mutates saved recipes', () => {
+    const commodity = commodities.find((r) => r.ingredient.id === 'chicken-thighs-boneless')!;
+    const dish = createMockDish({ pantryStaples: [], pantryRequirements: [], poweredByFreezerCount: 9, matchedIngredients: [{
+      slotLabel: 'Protein', ingredientId: commodity.ingredient.id, ingredientName: commodity.ingredient.name, quantityUsed: 2,
+      unit: commodity.ingredient.standardUnit, store: commodity.bestOffer.store, rawDealText: 'Old banked stock', dealType: commodity.bestOffer.dealType,
+      unitCost: 0, slotCost: 0, regularSlotCost: 0, isUserPinned: false, isOnHand: true, fromVirtualFreezer: true,
+    }] });
+    const original = JSON.stringify(dish);
+    const evaluated = applyPantryToRecipe(dish, [], commodities);
+    expect(evaluated.matchedIngredients[0]).toMatchObject({ isOnHand: false });
+    expect(evaluated.totalBatchCost).toBeGreaterThan(0);
+    expect(evaluated).not.toHaveProperty('poweredByFreezerCount');
+    expect(evaluated.matchedIngredients[0]).not.toHaveProperty('fromVirtualFreezer');
+    expect(JSON.stringify(dish)).toBe(original);
+  });
   it('covers market onion cards, zeroes costs, and omits shopping needs using fresh pantry onions', () => {
     const commodity = commodities.find((r) => r.ingredient.id === 'yellow-white-onions')!;
     const slot = { slotLabel: 'Cooking onions', ingredientId: commodity.ingredient.id, ingredientName: commodity.ingredient.name, quantityUsed: 2, unit: commodity.ingredient.standardUnit,
@@ -153,14 +168,14 @@ describe('pantry recipe and shopping integration', () => {
     const structured = applyPantryToRecipe(createMockDish({ pantryStaples: [], pantryRequirements: [{ ingredientId: 'yellow-white-onions', quantity: 2, unit: 'lb' }] }), ids, commodities);
     expect(structured.pantryRequirements?.[0].ingredientId).toBe('onions-fresh');
     expect(structured.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 1 });
-    expect(buildShoppingListAndStoreComparison([covered], commodities, ids, '80542', undefined, true).items).toEqual([]);
+    expect(buildShoppingListAndStoreComparison([covered], commodities, ids, '80542', undefined).items).toEqual([]);
     for (const entries of [[{ ...onion, available: false }], [{ ...onion, deletedAtIso: '2026-10-30' }], [{ ...onion, ingredientId: undefined }], [{ ...onion, ingredientId: 'onion-powder' }]]) {
       const missingIds = availablePantryIngredientIds(entries);
       const missing = applyPantryToRecipe(covered, missingIds, commodities);
       expect(missing.matchedIngredients[0].isOnHand).toBe(false);
       expect(missing.totalBatchCost).toBeCloseTo(commodity.bestOffer.normalizedPricePerUnit * 2);
       expect(missing.pantryCoverage).toMatchObject({ requiredCount: 1, availableRequiredCount: 0 });
-      expect(buildShoppingListAndStoreComparison([missing], commodities, missingIds, '80542', undefined, true).items[0].ingredientId).toBe('yellow-white-onions');
+      expect(buildShoppingListAndStoreComparison([missing], commodities, missingIds, '80542', undefined).items[0].ingredientId).toBe('yellow-white-onions');
     }
     // Market IDs alone and a matching custom display name never imply ownership.
     expect(applyPantryToRecipe(dish, ['yellow-white-onions'], commodities).matchedIngredients[0].isOnHand).toBe(false);
@@ -194,7 +209,7 @@ describe('pantry recipe and shopping integration', () => {
     expect(current.estimatedPantryCost).toBe(powderCost);
     expect(current.totalBatchCost).toBeCloseTo(freshCost + powderCost);
     expect(current.pantryCoverage).toMatchObject({ requiredCount: 2, availableRequiredCount: count });
-    const plan = buildShoppingListAndStoreComparison([current], commodities, available, '80542', undefined, true);
+    const plan = buildShoppingListAndStoreComparison([current], commodities, available, '80542', undefined);
     expect(plan.items.some((r) => r.ingredientId === 'yellow-white-onions')).toBe(!fresh);
     expect(plan.pantryNeeds.some((r) => r.ingredientId === 'onion-powder')).toBe(!powder);
     expect(JSON.stringify([dish, entries])).toBe(original);
@@ -205,13 +220,13 @@ describe('pantry recipe and shopping integration', () => {
       { ingredientId: 'yellow-white-onions', quantity: 1, unit: 'lb', optional: true },
     ], ['onions-fresh']);
     expect(result).toMatchObject({ requiredCount: 1, availableRequiredCount: 1, optionalCount: 0, needToBuy: [] });
-    const rankedOnions = rankMealPrepDishes(commodities, ['yellow-white-onions'], ['onions-fresh'], 6, { pantryMode: true }).allRankedDishes;
+    const rankedOnions = rankMealPrepDishes(commodities, ['yellow-white-onions'], ['onions-fresh'], 6, {}).allRankedDishes;
     const cards = rankedOnions.flatMap((dish) => dish.matchedIngredients).filter((r) => r.ingredientId === 'yellow-white-onions');
     expect(cards.length).toBeGreaterThan(0);
     expect(cards.every((r) => r.isOnHand && r.slotCost === 0)).toBe(true);
     expect(evaluatePantryRequirementsByIds([{ ingredientId: 'russet-yukon-potatoes', quantity: 1, unit: 'lb' }], ['onions-fresh']).availableRequiredCount).toBe(0);
     for (const id of ['chicken-thighs-boneless', 'bell-peppers', 'celery-stalks']) {
-      const dishes = rankMealPrepDishes(commodities, [id], [id], 6, { pantryMode: true }).allRankedDishes;
+      const dishes = rankMealPrepDishes(commodities, [id], [id], 6, {}).allRankedDishes;
       const exactCards = dishes.flatMap((dish) => dish.matchedIngredients).filter((r) => r.ingredientId === id);
       expect(exactCards.length).toBeGreaterThan(0);
       expect(exactCards.every((r) => r.isOnHand && r.slotCost === 0)).toBe(true);
@@ -243,23 +258,23 @@ describe('pantry recipe and shopping integration', () => {
     expect(JSON.stringify(saved)).toBe(snapshot);
     expect(applyPantryToRecipe(current, current.matchedIngredients.map((m) => m.ingredientId), commodities).totalBatchSavings).toBeLessThanOrEqual(current.totalBatchSavings);
     const old = createMockDish({ id: 'old', pantryStaples: ['My private seasoning'], dietaryTags: [] });
-    const savedRank = rankMealPrepDishes(commodities, [], [], 8, { pantryMode: true, savedRecipes: [old] }).allRankedDishes.find((dish) => dish.id === 'old')!;
+    const savedRank = rankMealPrepDishes(commodities, [], [], 8, { savedRecipes: [old] }).allRankedDishes.find((dish) => dish.id === 'old')!;
     const structuredSaved = { ...applyPantryToRecipe(oilDish(), [], commodities), id: 'structured-saved' };
-    const scaledSaved = rankMealPrepDishes(commodities, [], [], 8, { pantryMode: true, savedRecipes: [structuredSaved] }).allRankedDishes.find((dish) => dish.id === 'structured-saved')!;
+    const scaledSaved = rankMealPrepDishes(commodities, [], [], 8, { savedRecipes: [structuredSaved] }).allRankedDishes.find((dish) => dish.id === 'structured-saved')!;
     expect(scaledSaved.pantryRequirements).toHaveLength(1);
     expect(scaledSaved.pantryRequirements![0].quantity).toBe(4);
     expect(scaledSaved.additionalCostEstimateComplete).toBe(true);
     expect(savedRank.additionalCostEstimateComplete).toBe(false);
     expect(savedRank.pantryCoverage?.availableRequiredCount).toBe(0);
-    expect(rankMealPrepDishes(commodities, [], [], 6, { pantryMode: true, dietaryConstraints: ['GLUTEN_FREE'], savedRecipes: [old] }).allRankedDishes.some((dish) => dish.id === 'old')).toBe(false);
+    expect(rankMealPrepDishes(commodities, [], [], 6, { dietaryConstraints: ['GLUTEN_FREE'], savedRecipes: [old] }).allRankedDishes.some((dish) => dish.id === 'old')).toBe(false);
   });
   it('omits available market/staple needs, aggregates amounts, and exports unpriced uncertainty', () => {
     const dish = ranked().find((d) => d.matchedIngredients.some((m) => m.ingredientId === 'chicken-thighs-boneless'))!;
-    const plan = buildShoppingListAndStoreComparison([dish, oilDish(), oilDish()], commodities, ['chicken-thighs-boneless'], '80542', undefined, true);
+    const plan = buildShoppingListAndStoreComparison([dish, oilDish(), oilDish()], commodities, ['chicken-thighs-boneless'], '80542', undefined);
     expect(plan.items.some((item) => item.ingredientId === 'chicken-thighs-boneless')).toBe(false);
     expect(plan.pantryNeeds.find((need) => need.ingredientId === 'olive-oil')!.quantity).toBeGreaterThanOrEqual(6);
     const unknown = applyPantryToRecipe(createMockDish({ pantryStaples: ['Unmapped spice'] }), [], commodities);
-    const uncertain = buildShoppingListAndStoreComparison([unknown], commodities, [], '80542', undefined, true);
+    const uncertain = buildShoppingListAndStoreComparison([unknown], commodities, [], '80542', undefined);
     expect(uncertain.tripComparison.additionalCostEstimateComplete).toBe(false);
     expect(uncertain.pantryNeeds[0].estimatedCost).toBeNull();
     const text = formatShoppingListForClipboard({ ...uncertain, items: [], activeTrio: [unknown], zipCode: '80542', cityLabel: 'Test', tripMode: 'SPLIT' });
@@ -272,7 +287,7 @@ describe('pantry recipe and shopping integration', () => {
     expect(owned.tripComparison.optimalSplitTotal).toBe(0);
   });
   it('does not hide missing market slots or unsupported units behind a complete estimate', () => {
-    expect(rankMealPrepDishes([], [], [], 6, { pantryMode: true }).allRankedDishes.every((dish) => !dish.additionalCostEstimateComplete)).toBe(true);
+    expect(rankMealPrepDishes([], [], [], 6, {}).allRankedDishes.every((dish) => !dish.additionalCostEstimateComplete)).toBe(true);
     const dish = applyPantryToRecipe(createMockDish({ pantryRequirements: [{ ingredientId: 'olive-oil', quantity: 2, unit: 'bottle' }] }), [], commodities);
     expect(dish.additionalCostEstimateComplete).toBe(false);
     expect(dish.totalBatchCost).toBe(0);

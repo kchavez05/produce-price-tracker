@@ -145,7 +145,7 @@ describe('private pantry API in keyless mode', () => {
       const available = await readProfilePantryAvailability(inventory.profile);
       expect(available).toEqual(['olive-oil']);
       const commodities = CANONICAL_INGREDIENTS.map((ingredient) => createMockCommodity({ ingredient }));
-      const dishes = rankMealPrepDishes(commodities, [], available, 6, { pantryMode: true }).allRankedDishes;
+      const dishes = rankMealPrepDishes(commodities, [], available, 6, {}).allRankedDishes;
       const dish = dishes.find((item) => item.pantryRequirements?.some((requirement) => requirement.ingredientId === 'olive-oil'))!;
       expect(dish.pantryCoverage!.availableRequiredCount).toBeGreaterThan(0);
       const shopping = buildShoppingListAndStoreComparison([dish], commodities, available);

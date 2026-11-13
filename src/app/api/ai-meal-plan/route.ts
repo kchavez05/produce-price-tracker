@@ -68,7 +68,6 @@ export async function POST(request: NextRequest) {
       ? onHandIngredientIds.filter((id) => typeof id === 'string' && pantryCatalog.has(id))
       : await readProfilePantryAvailability(inventory.profile);
     const dashboard = await buildDashboardPayload({
-      freezerInventory: [],
       savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter,
@@ -95,10 +94,7 @@ export async function POST(request: NextRequest) {
     // Preserve the existing endpoint contract across the SDK 3 default-version change.
     const ai = new GoogleGenAI({ apiKey, apiVersion: 'v1beta' });
 
-    const freezerIds = new Set(
-      (dashboard.freezerInventory || []).map((f) => f.canonicalIngredientId)
-    );
-    const combinedOnHand = new Set([...onHandIngredientIds, ...freezerIds]);
+    const combinedOnHand = new Set(onHandIngredientIds);
 
     const topDealsContext = dashboard.commodities.slice(0, 18).map((c) => ({
       ingredientId: c.ingredient.id,

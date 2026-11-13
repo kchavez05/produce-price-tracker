@@ -2873,7 +2873,8 @@
           },
           "fromVirtualFreezer": {
             "type": "boolean",
-            "example": false
+            "deprecated": true,
+            "description": "Historical saved-recipe metadata; never current availability evidence."
           }
         },
         "required": [
@@ -3457,7 +3458,8 @@
           },
           "poweredByFreezerCount": {
             "type": "number",
-            "example": 1
+            "deprecated": true,
+            "description": "Historical saved-recipe metadata; removed by current evaluation."
           }
         },
         "required": [

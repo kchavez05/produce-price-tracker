@@ -1,6 +1,8 @@
+> Current branch after #700 Stage 2: Pantry has no rollout flag. Production activation is already verified; retirement awaits release. Install additive migrations before deploying. Keep original storage and migration/export support. The deployment order below records the historical initial catalog rollout.
+
 # Cooking catalog integration
 
-The app now compiles reviewed catalog `2026-11-06.3`: 138 accepted identities across the initial catalog, the 29-addition legumes/grains/flours batch, ten-addition vegetables/aromatics batch, 23-addition staples/proteins batch, and four distinct spice forms with shared general USDA references. Eleven existing identities received provenance updates. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. The feature remains behind `PANTRYBOT_PANTRY_ENABLED`; this implementation does not enable hosted environments or apply hosted migrations.
+The app now compiles reviewed catalog `2026-11-06.3`: 138 accepted identities across the initial catalog, the 29-addition legumes/grains/flours batch, ten-addition vegetables/aromatics batch, 23-addition staples/proteins batch, and four distinct spice forms with shared general USDA references. Eleven existing identities received provenance updates. The single approved red dried → general dried compatibility rule is unchanged. Catalog `2026-10-30.1` remains the exact prior 72-identity rollback view. This historical catalog batch did not itself enable hosted environments or apply hosted migrations.
 
 ## Runtime behavior
 
@@ -18,7 +20,7 @@ Cache and queue readers preserve well-formed unfamiliar catalog IDs instead of f
 
 Clients from before this compatibility implementation may refuse a newer snapshot. Their original bytes remain preserved, but they must reload to a compatibility-capable build. Do not roll back to those builds after activating new identities.
 
-## Deployment order
+## Historical initial deployment order
 
 1. Keep `PANTRYBOT_PANTRY_ENABLED=false` on hosted environments while staging. Use an isolated database, never the shared Preview/Production database, for migration/inventory tests.
 2. Install the existing pantry persistence/staple migrations, then `20261030173404_reviewed_cooking_catalog.sql`. The new migration only inserts three accepted IDs with `ON CONFLICT DO NOTHING`; it changes no grants, policies, account rows, or inventory.

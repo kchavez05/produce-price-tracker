@@ -192,22 +192,20 @@ describe('shopping-list-optimizer: buildShoppingListAndStoreComparison', () => {
     expect(chickenItem?.optimalTotalCost).toBe(Number((3.5 * 1.99).toFixed(2)));
   });
 
-  it('handles Virtual Freezer / On-Hand zero-cost out-of-pocket substitution', () => {
+  it('omits explicitly available Pantry ingredients from shopping needs', () => {
     // Pass chicken-thighs-boneless as onHand
     const { items, tripComparison } = buildShoppingListAndStoreComparison(
-      [dish1],
+      [{ ...dish1, matchedIngredients: dish1.matchedIngredients.slice(0, 1), pantryStaples: [], pantryRequirements: [] }],
       [mockCommodityChicken, mockCommodityCarrots],
       ['chicken-thighs-boneless']
     );
 
     const chickenItem = items.find((i) => i.ingredientId === 'chicken-thighs-boneless');
-    expect(chickenItem?.isOnHand).toBe(true);
-    expect(chickenItem?.optimalTotalCost).toBe(0);
-    expect(chickenItem?.storePricing?.KING_SOOPERS?.totalCost).toBe(0);
-    expect(chickenItem?.storePricing?.SAFEWAY?.totalCost).toBe(0);
+    expect(chickenItem).toBeUndefined();
 
-    // Only carrots ($0.88) should be in the total
-    expect(tripComparison.optimalSplitTotal).toBe(0.88);
+    expect(items).toEqual([]);
+    expect(tripComparison.optimalSplitTotal).toBe(0);
+    expect(tripComparison.additionalCostEstimateComplete).toBe(true);
   });
 
   it('calculates single-store rankings and optimal 2-store split recommendation', () => {

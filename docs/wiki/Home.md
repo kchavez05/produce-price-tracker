@@ -20,7 +20,7 @@ Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Track
 
 PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bulk baselines (Costco & Sam's Club)**, and **hyper-local supermarket weekly circulars (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, and Sprouts)** to answer one practical question every weekend:
 
-> *"What are the highest-value proteins, produce, and dairy items in my ZIP code right now, which cycle-low meats should I bank in my Virtual Freezer (`Buy 2: Prep 1, Freeze 1`), and what 3 reheatable batch meals should I cook this weekend to hit my macro/dietary goals under $2.00/serving?"*
+> *"What are the highest-value proteins, produce, and dairy items in my ZIP code right now, which sale ingredients should I buy after checking my Virtual Pantry, and what 3 reheatable batch meals should I cook this weekend to hit my macro/dietary goals under $2.00/serving?"*
 
 ---
 
@@ -29,10 +29,10 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 1. **[Architecture & Data Pipeline](./Architecture-and-Data-Pipeline.md)**
    * How the 4-layer ingestion and benchmarking pipeline merges Flipp weekly circulars across 6 supermarket chains, the Kroger Official Developer API, USDA MyMarketNews (MARS v1.2), and the Wholesale Club Bulk Price Normalizer (Costco Kirkland & Sam's Club Member's Mark).
    * How the Canonical Ingredient Engine normalizes messy ad units (`ea`, `oz`, `5 lb bag`) into standard `$/lb` and `$/doz`.
-   * How Supabase PostgreSQL (with Row-Level Security) and SQLite persist user accounts, preferences, 6-week historical price trends, custom recipes, and the **Persistent Virtual Freezer**.
-2. **[Scoring, Virtual Freezer Arbitrage & 3-Dish Meal Prep Engine](./Scoring-and-Meal-Prep-Engine.md)**
+   * How Supabase PostgreSQL (with Row-Level Security) and SQLite persist user accounts, preferences, 6-week historical price trends, custom recipes, and the **private Virtual Pantry**.
+2. **[Scoring, Pantry Availability & 3-Dish Meal Prep Engine](./Scoring-and-Meal-Prep-Engine.md)**
    * Mathematical breakdown of the **Workhorse Value Score (0–100)**, **6-Week Cycle Floor vs. Peak Signals**, and **Wholesale Club Benchmarks**.
-   * How the **Multi-Week Arbitrage Engine (`"❄️ Buy 2: Prep 1, Freeze 1"`)** and **Virtual Freezer `$0.00` Substitution** work.
+   * How the **Multi-Week Arbitrage Engine (`"❄️ Buy 2: Prep 1, Freeze 1"`)** and **explicit Pantry availability** work.
    * How **Macro Goals (`High-Protein`, `Low-Carb / Keto`, `Calorie-Conscious`)**, **Dietary Rules (`Gluten-Free`, `Dairy-Free`, `Nut-Free`, `Pescatarian`)**, and **Cooking Vessel Archetypes (`Slow Cooker / Instant Pot`, `Sheet-Pan / 9x13`, `Dutch Oven`, `Skillet`)** dynamically adapt recipe slots.
    * How the **1-Tap Curbside Cart Bridge & Multi-Store Exporter** connects to Walmart, Target, Kroger, Safeway, Sprouts, ALDI, Instacart, and Apple Notes / Google Keep.
 3. **[API Keys & Developer Setup Guide](./API-Keys-and-Local-Setup.md)**
@@ -77,7 +77,7 @@ Current planning cycles, verified live prices, explicit estimates and refresh au
 
 ## Virtual Pantry implementation and release history
 
-See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer path is retained for compatibility/flag-off operation; the v1.6.0 and v1.6.1 production records document pantry activation.
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. Stage 2 retires the quantity-based Freezer UI and writers, retaining original storage for migration, recovery and export. This branch awaits release; historical production records describe activation separately.
 
 The approved [USDA catalog ingestion standards](../specs/usda-catalog-ingestion.md) define recurring source review and a compact cooking-ingredient catalog, including optional varieties and safe updates. Candidate records remain separate from published search choices.
 

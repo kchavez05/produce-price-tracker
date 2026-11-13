@@ -9,7 +9,6 @@ export default async function HomePage() {
   const inventory = await loadInventoryState();
   const onHandIngredientIds = await readProfilePantryAvailability(inventory.profile).catch(() => []);
   const initialData = await buildDashboardPayload({
-    freezerInventory: [],
     savedRecipes: inventory.savedRecipes,
     zipCode: '80542',
     storeFilter: 'ALL',

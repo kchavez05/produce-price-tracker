@@ -11,7 +11,7 @@ interface RateLimitBucket {
 const scopes = [
   'auth-callback', 'weekly-preview', 'weekly-manual', 'dashboard',
   'api-ai-meal-plan', 'ai-account', 'market-health', 'api-pantry',
-  'api-recipes-write', 'api-freezer-write', 'api-account-export', 'api-account-auth',
+  'api-recipes-write', 'api-account-export', 'api-account-auth',
   'api-account-delete', 'api-sync-get', 'api-sync-post', 'barcode-lookup',
   'data-download', 'data-read',
 ] as const;
