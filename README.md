@@ -1,6 +1,10 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.2`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.3`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
+
+## v1.6.3 — Pantry access repair and Freezer retirement
+
+Release candidate for November 13, 2026, tracked by [#722](https://github.com/kchavez05/produce-price-tracker/issues/722). Repairs signed-in identities missing their application profile (#712) and makes Pantry the sole inventory path (#700). Deprecated Freezer requests return 410 and old sync inventory fields return 426 without acknowledgment; migration, queued-edit recovery, original storage and export/delete remain. Production acceptance and publication are pending. See [release notes](docs/releases/v1.6.3.md).
 
 ## v1.6.2 — Barcode entry and static staple estimates
 
@@ -12,7 +16,7 @@ The maintainer reported limited iOS Safari scanning/key-entry smoke tests and ex
 
 Virtual Pantry records explicit Yes/No availability with optional quantity, location, unit, and date. It supports custom ingredients, private guest use, explicit account import, and revision-checked account sync. Recipes and shopping needs use boolean availability; quantity and dates never deduct or limit coverage. Buying or cooking does not change inventory. Staples have fixed USD recipe-use estimates; missing prices remain explicit.
 
-Virtual Pantry is the only inventory path in this branch; install all additive Pantry migrations before deploying. Local guest use needs no account or API key. `/api/freezer` returns 410 and old inventory sync writes return 426. Original records remain available through the migration bridge and account export. This retirement is awaiting a production release; see [#700](https://github.com/kchavez05/produce-price-tracker/issues/700) and the [Pantry guide](docs/wiki/Virtual-Pantry.md).
+The v1.6.3 candidate uses Virtual Pantry as its only inventory path; install all additive Pantry migrations before deploying. Local guest use needs no account or API key. `/api/freezer` returns 410 and old inventory sync writes return 426. Original records remain available through the migration bridge and account export. This retirement is in the v1.6.3 release candidate; see [#700](https://github.com/kchavez05/produce-price-tracker/issues/700) and the [Pantry guide](docs/wiki/Virtual-Pantry.md).
 
 A reproducible [USDA candidate catalog importer](docs/usda-pantry-catalog.md) prepares Foundation/SR Legacy ingredients and a coverage report for review. It does not activate catalog changes. The [curation ledger and staging command](catalog/README.md) prepare compact review choices without activating unapproved data. The approved [ingestion standards](docs/specs/usda-catalog-ingestion.md) define cooking relevance, compact search results, recurring refreshes, and publication gates.
 
@@ -63,13 +67,14 @@ To enable optional live integrations, copy `.env.example` to `.env.local`:
 
 Historical publications, backfilled milestones and release-process findings are indexed in the [November 11 retrospective audit](docs/releases/retrospective-audit-2026-11-11.md).
 
-Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.6.2 release issue #645](https://github.com/kchavez05/produce-price-tracker/issues/645). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
+Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.6.3 release issue #722](https://github.com/kchavez05/produce-price-tracker/issues/722). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
 
 v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API pricing is deferred to [multi-store scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689), covering multiple independent retail APIs. See the [approved scope amendment](docs/research/v1.6.2-static-pricing-scope-amendment.md). Existing market-discovery integrations are preserved; barcode device/account and production acceptance remain required.
 
-* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.2 scope and long-term mobile plans.
+* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.3 scope and long-term mobile plans.
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.6.3 — Pantry Access Repair & Freezer Retirement](./docs/releases/v1.6.3.md)
   * [v1.6.2 — Barcode Entry & Static Staple Estimates](./docs/releases/v1.6.2.md)
   * [v1.6.1 — Pantry Catalog Expansion](./docs/releases/v1.6.1.md)
   * [v1.6.0 — Virtual Pantry](./docs/releases/v1.6.0.md)

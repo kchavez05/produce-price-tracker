@@ -1,10 +1,12 @@
+> v1.6.3 candidate includes signed-in profile repair and Stage 2 retirement. See [release notes](../releases/v1.6.3.md) for API upgrade behavior, verification gates and retained storage. Production acceptance is pending.
+
 > v1.6.2 (released November 12, 2026): [release notes](../releases/v1.6.2.md) and [rollout plan](../releases/v1.6.2-rollout.md). The [November 12 #649 acceptance](../research/v1.6.2-barcode-verification-acceptance.md) accepts reduced pre-release verification based on limited maintainer-reported iOS Safari smoke tests; the unrun remainder is not recorded as passed. The maintainer attested production is functioning as expected; itemized production receipts are not recorded.
 
 # Virtual Pantry
 
 > v1.6.1 was released November 8, 2026 with all 222 hosted IDs installed. Production authenticated API and guest-browser checks pass, with test data cleaned up. See the [release record](../releases/v1.6.1.md) and [production receipt](../../catalog/hosted-readiness/2026-11-08-production-verification.json). The batch paragraphs below retain their historical rollout observations.
 
-Virtual Pantry is the only inventory path after #700's Stage 2 retirement. Install all additive pantry migrations before deploying this code. There is no `PANTRYBOT_PANTRY_ENABLED` gate or flag-off Freezer fallback. Stage 2 remains awaiting release; historical release receipts above describe their own deployed versions.
+Virtual Pantry is the only inventory path after #700's Stage 2 retirement. Install all additive pantry migrations before deploying this code. There is no `PANTRYBOT_PANTRY_ENABLED` gate or flag-off Freezer fallback. Stage 2 is included in the v1.6.3 candidate; historical release receipts above describe their own deployed versions.
 
 `/api/freezer` returns `410 Gone` for all four methods for at least one release. `/api/sync` rejects the presence of `freezerItems` or `preferences.onHandIngredientIds` with `426 pantry_upgrade_required`, including unmigrated accounts; an error never acknowledges those edits. Reload and open Pantry to review older pending edits. Normal preference edits continue syncing, and newer acknowledged preferences supersede their older values. Original inventory records, recovery copies, migration archives and export/delete support remain. Storage removal requires a later, separate approval.
 
