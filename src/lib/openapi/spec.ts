@@ -1208,7 +1208,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           regularSlotCost: { type: 'number', example: 10.98 },
           isUserPinned: { type: 'boolean', example: false },
           isOnHand: { type: 'boolean', example: false },
-          fromVirtualFreezer: { type: 'boolean', example: false },
+          fromVirtualFreezer: { type: 'boolean', deprecated: true, description: 'Historical saved-recipe metadata; never current availability evidence.' },
         },
         required: [
           'slotLabel',
@@ -1330,7 +1330,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
           reheatTip: { type: 'string', example: 'Reheat on stovetop with 2 tbsp water.' },
           aiGenerated: { type: 'boolean', example: false },
           savedInLibrary: { type: 'boolean', example: false },
-          poweredByFreezerCount: { type: 'number', example: 1 },
+          poweredByFreezerCount: { type: 'number', deprecated: true, description: 'Historical saved-recipe metadata; removed by current evaluation.' },
         },
         required: [
           'id',

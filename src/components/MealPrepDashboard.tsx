@@ -219,12 +219,11 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
     const ranked = rankMealPrepDishes(serverData.commodities, pinnedIds, effectiveOnHandIds, targetServings, {
       macroGoal, dietaryConstraints, applianceFilter,
-      pantryMode: true,
       pantryPriceContext,
       savedRecipes: savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest) ? savedLibrary.recipes : [],
       now: new Date(serverData.lastUpdatedIso || Date.now()),
     });
-    return { ...serverData, ...ranked, freezerInventory: [] };
+    return { ...serverData, ...ranked };
   }, [serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest, pantryPriceContext]);
 
   useEffect(() => {
@@ -736,7 +735,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
         effectiveOnHandIds,
         data.zipCode || currentZip,
         activeStores,
-        true,
         pantryPriceContext,
       ),
     [

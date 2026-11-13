@@ -63,7 +63,6 @@ export async function GET(request: NextRequest) {
     const marketClaim = await requestMarket(zipCode);
     const payload = await buildDashboardPayload({
       archiveHistory: Boolean(marketClaim),
-      freezerInventory: [],
       savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter: storeParam,

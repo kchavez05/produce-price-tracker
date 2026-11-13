@@ -21,7 +21,6 @@ import {
   CookingVesselArchetype,
   CycleSignalMetadata,
   DashboardPayload,
-  FreezerItem,
   DietaryConstraint,
   MacroGoal,
   RecommendedDish,
@@ -205,7 +204,7 @@ export function scoreAllCommodities(
       badgeLabel = verifiedPrice ? 'Current price; identity-qualified history unavailable' : 'Historical estimate; identity-qualified comparisons unavailable';
     }
 
-    // Ticket #21: Virtual Freezer Arbitrage Prompt ("Buy 2: Prep 1, Freeze 1")
+    // Stock-up purchase suggestion ("Buy 2: Prep 1, Freeze 1")
     const isFreezableCategory =
       ingredient.category === 'PROTEIN' ||
       ingredient.id === 'butter-salted-unsalted' ||
@@ -358,7 +357,6 @@ export async function resolveCityStateFromZip(zipCode: string): Promise<string> 
 }
 
 export async function buildDashboardPayload(options?: {
-  pantryMode?: boolean;
   archiveHistory?: boolean;
   zipCode?: string;
   storeFilter?: 'ALL' | StoreChain;
@@ -367,7 +365,6 @@ export async function buildDashboardPayload(options?: {
   onHandIngredientIds?: string[];
   targetServings?: number;
   kingSoopersLocationId?: string;
-  freezerInventory?: FreezerItem[];
   savedRecipes?: RecommendedDish[];
   macroGoal?: MacroGoal;
   dietaryConstraints?: DietaryConstraint[];
@@ -406,10 +403,6 @@ export async function buildDashboardPayload(options?: {
   }
 
   const archiveStorage = options?.archiveHistory ? await archiveMarketOffers(liveOffers, zipCode, observedAt) : undefined;
-  const freezerInventory = options?.freezerInventory || [];
-  const freezerIngredientIds = freezerInventory
-    .filter((f) => f.quantityLbOrDoz > 0)
-    .map((f) => f.canonicalIngredientId);
 
   const commodities = scoreAllCommodities(
     combinedOffers,
@@ -429,10 +422,8 @@ export async function buildDashboardPayload(options?: {
       macroGoal: options?.macroGoal,
       dietaryConstraints: options?.dietaryConstraints,
       applianceFilter: options?.applianceFilter,
-      freezerIngredientIds,
       savedRecipes: options?.savedRecipes,
       now: observedAt,
-      pantryMode: options?.pantryMode ?? true,
     }
   );
 
@@ -505,7 +496,6 @@ export async function buildDashboardPayload(options?: {
     selectedKingSoopersLocationId: krogerResult.selectedLocationId,
     availableStores,
     activeStores,
-    freezerInventory,
     commodities,
     splurgeAlerts,
     recommendedTrio,

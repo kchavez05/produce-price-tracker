@@ -14,14 +14,15 @@ const commodity = createMockCommodity({ ingredient: createMockIngredient({ id: '
 beforeEach(() => {
   vi.clearAllMocks(); vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'true'); vi.stubEnv('GEMINI_API_KEY', '');
   mocks.availability.mockResolvedValue(['olive-oil']);
-  mocks.build.mockResolvedValue({ commodities: [commodity], recommendedTrio: [createMockDish()], freezerInventory: [] });
+  mocks.build.mockResolvedValue({ commodities: [commodity], recommendedTrio: [createMockDish()] });
   mocks.profile.mockResolvedValue({ profile: null });
 });
 afterEach(() => vi.unstubAllEnvs());
 describe('AI pantry contract', () => {
   it('uses verified persisted availability for keyless fallback and accepts an explicit optimistic empty override', async () => {
     expect((await POST(request({}))).status).toBe(200);
-    expect(mocks.build).toHaveBeenLastCalledWith(expect.objectContaining({ onHandIngredientIds: ['olive-oil'], freezerInventory: [] }));
+    expect(mocks.build).toHaveBeenLastCalledWith(expect.objectContaining({ onHandIngredientIds: ['olive-oil'] }));
+    expect(mocks.build.mock.lastCall?.[0]).not.toHaveProperty('freezerInventory');
     await POST(request({ onHandIngredientIds: ['unknown-custom-name'] }));
     expect(mocks.build).toHaveBeenLastCalledWith(expect.objectContaining({ onHandIngredientIds: [] }));
   });

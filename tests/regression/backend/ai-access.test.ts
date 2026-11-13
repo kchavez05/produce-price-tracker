@@ -13,7 +13,7 @@ describe('AI generation access and quota', () => {
   beforeEach(() => {
     vi.stubEnv('GEMINI_API_KEY', 'server-test-key');
     vi.clearAllMocks(); mocks.resolve.mockResolvedValue({ profile: null });
-    mocks.dashboard.mockResolvedValue({ commodities: [], freezerInventory: [], recommendedTrio: [] });
+    mocks.dashboard.mockResolvedValue({ commodities: [], recommendedTrio: [] });
     mocks.generate.mockResolvedValue({ text: '[]' });
   });
   afterEach(() => vi.unstubAllEnvs());

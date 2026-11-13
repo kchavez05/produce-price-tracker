@@ -52,7 +52,7 @@ Because we built PantryBot in **TypeScript + Next.js** with strict separation be
 flowchart TD
     subgraph Monorepo["Shared TypeScript Monorepo (Turborepo)"]
         Core["packages/core\n• Domain Types\n• Unit Normalizer ($/lb)\n• Affordability, Cycle & Club Scorer\n• 3-Dish Slot Matcher & Cart Exporter"]
-        API["apps/api (Next.js / Cloud Run)\n• Flipp / Kroger / USDA Ingestion\n• SQLite / Turso Price & Freezer DB\n• Gemini Chef Service\n• Push Notification Workers"]
+        API["apps/api (Next.js / Cloud Run)\n• Flipp / Kroger / USDA Ingestion\n• SQLite / Turso Price & Pantry DB\n• Gemini Chef Service\n• Push Notification Workers"]
         Web["apps/web (Next.js)\n• Desktop & Mobile Web Dashboard\n• SEO Commodity Landing Pages"]
         Mobile["apps/mobile (Expo / React Native)\n• Native iOS App (Swift/UIKit runtime)\n• Native Android App (Kotlin runtime)\n• Camera OCR, Widgets, Push Alerts"]
     end
@@ -74,7 +74,7 @@ flowchart TD
 
 ### Priority #1: Native Push Notifications (APNs & FCM)
 * **Wednesday 7:00 AM ("New Circulars Analyzed"):** Highlights the deepest meat and produce cycle lows across your selected stores as soon as weekly ads drop.
-* **Friday 4:00 PM ("Weekend Prep Reminder"):** Summarizes the 3-dish cost per serving, Virtual Freezer items to thaw, and digital coupons to clip before weekend shopping.
+* **Friday 4:00 PM ("Weekend Prep Reminder"):** Summarizes the 3-dish cost per serving, Pantry ingredients to check, and digital coupons to clip before weekend shopping.
 
 ### Priority #2: In-Aisle Barcode Scanner (UPC & Price Check)
 * Scan any meat, dairy, or produce UPC barcode in the aisle to compare against the 6-week price floor, Costco/Sam's Club bulk unit price, and rival supermarkets.
@@ -84,4 +84,4 @@ flowchart TD
 * **Wednesday Ad-Drop Home Screen Widget:** Displays the week's Top 3 Meat & Produce Cycle Lows on the home screen every Wednesday morning.
 
 ### Priority #4: Receipt Scanning & Realized Savings Tracker
-* Scans paper or digital receipts to track cumulative household grocery savings over time and auto-populate Virtual Freezer inventory.
+* Scans paper or digital receipts to track cumulative household grocery savings over time and suggest Pantry updates for explicit review.

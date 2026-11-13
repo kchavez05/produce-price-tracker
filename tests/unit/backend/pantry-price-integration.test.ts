@@ -28,12 +28,12 @@ const oilDish = (quantity = 2) => createMockDish({ id: 'saved-synthetic-oil', ma
   pantryRequirements: [{ ingredientId: 'olive-oil', quantity, unit: 'tbsp' }] });
 const commodities = CANONICAL_INGREDIENTS.map((ingredient) => createMockCommodity({ ingredient }));
 const shopping = (dishes: ReturnType<typeof oilDish>[], snapshot = context(), ids: string[] = []) =>
-  buildShoppingListAndStoreComparison(dishes, [], ids, '80542', ['KING_SOOPERS'], true, snapshot);
+  buildShoppingListAndStoreComparison(dishes, [], ids, '80542', ['KING_SOOPERS'], snapshot);
 
 describe('shared current / saved / shopping price context', () => {
   it('uses the same observation, allocated rows and labels across all current recipe paths', () => {
     const snapshot = context();
-    const ranked = rankMealPrepDishes(commodities, [], [], 6, { pantryMode: true, pantryPriceContext: snapshot });
+    const ranked = rankMealPrepDishes(commodities, [], [], 6, { pantryPriceContext: snapshot });
     const dishes = ranked.allRankedDishes.filter((dish) => dish.pantryRequirements?.some((r) => r.ingredientId === 'olive-oil'));
     expect(dishes.length).toBeGreaterThan(1);
     for (const dish of dishes) {
@@ -42,7 +42,7 @@ describe('shared current / saved / shopping price context', () => {
         quoteId: quote.id, packagePrice: 4.8, locationId: 'SYNTH_STORE', stockUnconfirmed: true,
       } });
       expect(Math.round(dish.estimatedPantryCost * 100)).toBe(rows.reduce((sum, r) => sum + Math.round((r.estimatedCost ?? 0) * 100), 0));
-      const plan = buildShoppingListAndStoreComparison([dish], commodities, [], '80542', ['KING_SOOPERS'], true, snapshot);
+      const plan = buildShoppingListAndStoreComparison([dish], commodities, [], '80542', ['KING_SOOPERS'], snapshot);
       expect(plan.tripComparison.estimatedPantryTotal).toBe(dish.estimatedPantryCost);
       expect(plan.pantryChecklist.join(' ')).toContain('Observed recipe-use estimate');
       expect(plan.pantryChecklist.join(' ')).toContain('Stock unconfirmed');
@@ -80,7 +80,7 @@ describe('shared current / saved / shopping price context', () => {
 
   it('reselects pinned alternatives and dietary-safe requirements before pricing', () => {
     const ranked = (pins: string[], dietaryConstraints: ('GLUTEN_FREE')[] = []) => rankMealPrepDishes(commodities, pins, [], 6,
-      { pantryMode: true, dietaryConstraints, pantryPriceContext: context() }).allRankedDishes;
+      {  dietaryConstraints, pantryPriceContext: context() }).allRankedDishes;
     const id = 'sheet-pan-fajita-chicken-thighs-peppers-sweet-potato';
     const ordinary = ranked([]).find((dish) => dish.id === id)!;
     const pinned = ranked(['avocado-oil']).find((dish) => dish.id === id)!;
@@ -107,7 +107,7 @@ describe('shared current / saved / shopping price context', () => {
     saved.estimatedPantryCost = 999; saved.totalBatchCost = 999;
     saved.pantryPricing!.rows[0].estimatedCost = 999;
     const before = JSON.stringify(saved);
-    const ranked = rankMealPrepDishes([], [], [], 8, { pantryMode: true, savedRecipes: [saved], pantryPriceContext: context() });
+    const ranked = rankMealPrepDishes([], [], [], 8, { savedRecipes: [saved], pantryPriceContext: context() });
     const current = ranked.allRankedDishes.find((dish) => dish.id === saved.id)!;
     expect(current.servings).toBe(8);
     expect(current.pantryRequirements![0].quantity).toBe(2 * (8 / 6));
@@ -121,7 +121,7 @@ describe('shared current / saved / shopping price context', () => {
     const snapshot = context({ observedPricingEnabled: false });
     const saved = applyPantryToRecipe(oilDish(2.02499), [], [], undefined, snapshot);
     const before = JSON.stringify(saved);
-    const current = rankMealPrepDishes([], [], [], saved.servings, { pantryMode: true, savedRecipes: [saved], pantryPriceContext: snapshot })
+    const current = rankMealPrepDishes([], [], [], saved.servings, { savedRecipes: [saved], pantryPriceContext: snapshot })
       .allRankedDishes.find((dish) => dish.id === saved.id)!;
     expect(current.pantryRequirements![0].quantity).toBe(2.02499);
     expect(current.estimatedPantryCost).toBe(.4);
@@ -149,7 +149,7 @@ describe('shared current / saved / shopping price context', () => {
   });
 
   it('rejects source prices when King Soopers leaves the shopping store pool', () => {
-    const plan = buildShoppingListAndStoreComparison([oilDish()], [], [], '80542', ['SAFEWAY'], true, context());
+    const plan = buildShoppingListAndStoreComparison([oilDish()], [], [], '80542', ['SAFEWAY'], context());
     expect(plan.pantryNeeds[0].priceBasis).toBe('STATIC_ESTIMATE');
   });
 

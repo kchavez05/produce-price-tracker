@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Grocery &amp; Meal-Prep Preferences:</strong> Your selected
                 5-digit US ZIP code (used solely to query regional supermarket
                 circulars), preferred supermarket chains, macro/dietary targets,
-                cooking vessel preferences, and Virtual Pantry inventory items.
+                cooking vessel preferences, and Virtual Pantry inventory items. Original legacy inventory records and migration archives remain available for data export and account deletion.
               </li>
               <li>
                 <strong>Anonymous Guest Mode Data:</strong> If you use PantryBot

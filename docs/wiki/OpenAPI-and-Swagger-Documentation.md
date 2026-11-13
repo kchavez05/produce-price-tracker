@@ -33,7 +33,7 @@ flowchart TD
     end
 
     subgraph Kitchen["Smart Kitchen & Persistence"]
-        F["/api/freezer\n(Virtual Freezer CRUD & Arbitrage)"]
+        F["/api/freezer\n(Retired: 410 Gone)"]
         R["/api/saved-recipes\n(Saved Recipe Library)"]
         S["/api/sync\n(Bidirectional Cloud Sync)"]
     end
@@ -52,12 +52,8 @@ flowchart TD
 * **Query Parameters:** `zipCode` / `zip` (5-digit US ZIP).
 * **Response:** List of supported supermarket banners (King Soopers, Safeway, ALDI, Walmart, Target, Sprouts), loyalty app metadata, and local physical store branches.
 
-### 3. `/api/freezer` (Virtual Freezer CRUD)
-* `GET /api/freezer`: Retrieves active virtual freezer inventory items.
-* `POST /api/freezer`: Upserts a purchased ingredient with automated weighted-average cost basis and estimated savings.
-* `PATCH /api/freezer`: Updates quantity of banked ingredient.
-* `DELETE /api/freezer?id={id}`: Removes an item by ID.
-* *Protected by Origin verification (`verifySameOrigin`) and rate limiting.*
+### 3. `/api/freezer` (retired)
+All GET, POST, PATCH and DELETE requests return `410 Gone` with `code: freezer_retired` and `replacement: /api/pantry`. They read no inventory and perform no mutation. Operations remain deprecated in OpenAPI for at least one release. Use `/api/pantry` for private revision-checked inventory.
 
 ### 4. `/api/saved-recipes` (Saved Recipe Library)
 * `GET /api/saved-recipes`: Retrieves bookmarked recipes and custom AI plans.
@@ -69,8 +65,8 @@ flowchart TD
 * **Zero-Key Offline Resilience:** If `GEMINI_API_KEY` is not detected in `.env.local` or client payload, automatically falls back to deterministic algorithmic scoring without error.
 
 ### 6. `/api/sync` (Cloud Sync Engine)
-* `GET /api/sync`: Loads cloud or local session preferences, freezer items, and saved recipes.
-* `POST /api/sync`: Persists updated user preferences and kitchen state to Supabase PostgreSQL RLS or SQLite local store.
+* `GET /api/sync`: Loads cloud or local session non-inventory preferences and saved recipes.
+* `POST /api/sync`: Persists non-inventory preferences and saved recipes to Supabase PostgreSQL RLS or SQLite local store.
 
 ### 7. `/api/account` (Account Management & GDPR/CCPA)
 * `GET /api/account`: Exports complete machine-readable user data archive (`UserDataExportArchive`) under GDPR right to access.
@@ -90,10 +86,10 @@ flowchart TD
    npm run dev
    ```
 2. Navigate to [http://localhost:3000/docs](http://localhost:3000/docs) in your browser.
-3. Use the **Quick Filter** pills to narrow endpoints by tag (e.g. *Virtual Freezer*, *AI Meal Planner*, *Dashboard & Deals*).
+3. Use the **Quick Filter** pills to narrow endpoints by tag (e.g. *Virtual Pantry*, *AI Meal Planner*, *Dashboard & Deals*).
 4. Click **"Try it out"** on any endpoint to execute queries directly against your local backend.
 5. Inspect request parameters, response headers (such as `Retry-After`), and schema models.
 
 ## Staged Virtual Pantry implementation
 
-See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. The quantity-based freezer behavior above remains the flag-off v1.5.2 path until release.
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. Stage 2 retires Freezer writers and rejects old inventory sync fields with 426 without acknowledgment. Normal preferences continue syncing. Retirement awaits production release.
