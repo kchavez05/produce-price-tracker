@@ -1,6 +1,6 @@
 # AI provider comparison — spike #731
 
-Status: **Draft execution packet, November 13, 2026.** Owner: @kchavez05. [Spike #731](https://github.com/kchavez05/produce-price-tracker/issues/731), [v1.7 planning #730](https://github.com/kchavez05/produce-price-tracker/issues/730). This packet prepares an internal decision; it does not choose a provider, implement speech, or approve v1.7. No paid evaluation has run.
+Status: **Execution plan approved November 13, 2026.** See the [approval record and runner instructions](EXECUTION.md). The preparation text below is retained as the original reviewed packet; approval is recorded separately. Owner: @kchavez05. [Spike #731](https://github.com/kchavez05/produce-price-tracker/issues/731), [v1.7 planning #730](https://github.com/kchavez05/produce-price-tracker/issues/730). This packet prepares an internal decision; it does not choose a provider, implement speech, or approve v1.7. No paid evaluation has run.
 
 ## Approved requirements
 
