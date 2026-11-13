@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createSyncQueue, syncQueueKey, prepareSyncMutation } from '@/lib/sync/queue';
+import { createSyncQueue, syncQueueKey, prepareSyncMutation, clearSyncQueue } from '@/lib/sync/queue';
 import { parseGuestFreezer } from '@/lib/pantry/legacy-sync';
 import { UserSyncPayload } from '@/types/domain';
 import { createTestSyncLock } from 'tests/sync-lock';
@@ -10,7 +10,7 @@ const payload: UserSyncPayload = {
 };
 function setup() {
   const data = new Map<string, string>();
-  const storage = { getItem: (key: string) => data.get(key) ?? null,
+  const storage = { get length() { return data.size; }, key: (index: number) => [...data.keys()][index] ?? null, getItem: (key: string) => data.get(key) ?? null,
     setItem: (key: string, value: string) => { data.set(key, value); }, removeItem: (key: string) => { data.delete(key); } };
   const lock = createTestSyncLock();
   return { data, storage, lock, queue: createSyncQueue(storage, lock) };
@@ -30,6 +30,12 @@ describe('durable account-scoped sync queue', () => {
       expect(send).not.toHaveBeenCalled();
       expect(storage.getItem(syncQueueKey('alice'))).not.toBeNull();
     } finally { vi.unstubAllGlobals(); }
+  });
+  it('purges only the deleted account queue and recovery namespace', () => {
+    const { storage, data } = setup();
+    for (const key of [syncQueueKey('alice'), `${syncQueueKey('alice')}:recovery:one`, `${syncQueueKey('alice')}:recovery:two`, syncQueueKey('bob'), `${syncQueueKey('bob')}:recovery:one`, syncQueueKey('alice-other')]) storage.setItem(key, 'private data');
+    clearSyncQueue(storage, 'alice');
+    expect([...data.keys()]).toEqual([syncQueueKey('bob'), `${syncQueueKey('bob')}:recovery:one`, syncQueueKey('alice-other')]);
   });
   it('retains failed HTTP requests and network failures across reloads, then clears after acknowledgment', async () => {
     const { storage, queue, lock } = setup();
@@ -103,6 +109,9 @@ describe('durable account-scoped sync queue', () => {
     expect(pending[0]).toMatchObject({ mutationId: 'older', freezerItems: [], preferences: { onHandIngredientIds: ['rice'], macroGoal: 'HIGH_PROTEIN' } });
     expect(pending[0].preferences).not.toHaveProperty('defaultZip');
     expect([...data.entries()].some(([key, value]) => key.includes(':recovery:') && value.includes('11111'))).toBe(true);
+    await queue.enqueue('alice', { preferences: { defaultZip: '33333' } });
+    await queue.flush('alice', send);
+    expect([...data.keys()].filter(key => key.includes(':recovery:'))).toHaveLength(1);
   });
 
   it.each(['{invalid', 'null', '{}', '[null]'])('recovers malformed storage %s without discarding the original bytes', async (raw) => {

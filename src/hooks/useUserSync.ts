@@ -12,7 +12,7 @@ import {
   UserSyncPayload,
 } from '@/types/domain';
 
-import { createSyncQueue, prepareSyncMutation, syncQueueKey, SyncMutation } from '@/lib/sync/queue';
+import { createSyncQueue, clearSyncQueue, prepareSyncMutation, syncQueueKey, SyncMutation } from '@/lib/sync/queue';
 import { clearLegacyInventoryCache } from '@/lib/pantry/legacy-sync';
 
 export interface UseUserSyncOptions {
@@ -270,7 +270,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
         if (profile) {
           const { clearPantryQueue } = await import('@/lib/pantry/queue');
           clearPantryQueue(localStorage, `account:${profile.id}`);
-          localStorage.removeItem(syncQueueKey(profile.id));
+          clearSyncQueue(localStorage, profile.id);
         }
         sessionStorage.removeItem('pantrybot_guest_merge_dismissed_v13');
       } catch {

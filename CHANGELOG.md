@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.6.3] - 2026-11-13
 
-Release candidate: [#722](https://github.com/kchavez05/produce-price-tracker/issues/722); production acceptance and publication pending. See [release notes](docs/releases/v1.6.3.md).
+Deployment, production acceptance and publication receipts: [#722](https://github.com/kchavez05/produce-price-tracker/issues/722). See [release notes](docs/releases/v1.6.3.md).
 
 ### Fixed
+- Include attributable account sync recovery in browser exports and clear that account’s recovery copies on explicit account deletion.
 - Repair a missing application profile from the verified signed-in session without overwriting existing data or acknowledging failed storage writes (#712).
 
 ### Changed

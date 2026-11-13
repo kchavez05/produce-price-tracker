@@ -56,7 +56,8 @@ jobs:
       # this job started, say so, so the absence of a comment is never ambiguous. This
       # does NOT claim the code is clean and does not count as a completed review.
       - name: Leave a comment if no review was posted
-        if: always()
+        if: ${{ always() && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}

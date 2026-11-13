@@ -26,6 +26,15 @@ export function syncQueueKey(userId: string): string {
   return `pantrybot_sync_queue_v14:${userId}`;
 }
 
+/** Explicit account deletion removes its active queue and every recovery copy. */
+export function clearSyncQueue(storage: Pick<Storage, 'key' | 'length' | 'removeItem'>, userId: string): void {
+  const prefix = syncQueueKey(userId);
+  for (let index = storage.length - 1; index >= 0; index--) {
+    const key = storage.key(index);
+    if (key === prefix || key?.startsWith(`${prefix}:recovery:`)) storage.removeItem(key);
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
