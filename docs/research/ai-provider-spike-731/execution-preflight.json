@@ -1,7 +1,7 @@
 {
   "issue": 731,
   "packetHash": "ba8771e9e67cff8070b41db691a0ab0806b52998d1378e6e8a5fcb5ccf5b8aa1",
-  "runnerHash": "9654d01b4d495ad4af8c5bcc94be2f083310c684f84c91db74c6d3e13e495025",
+  "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
   "credentials": {
     "google": true,
     "openai": true,
@@ -16,5 +16,5 @@
   "scope": "API counters describe this offline preflight only; inspect the shared ledger for previous exposure",
   "stateDirectory": "data/ai-spike-731/ (shared common checkout)",
   "checkedOn": "2026-11-13",
-  "liveQualification": "Scored run halted after two attempts; ledger exposure 0.018751 USD including full uncertain Google reservation. This offline preflight does not describe lifetime spend. Reviewed fix, dated audit and fresh qualification required before resume."
+  "liveQualification": "Run halted after eight attempts on Google HTTP503; ledger exposure 0.082819 USD includes full uncertain reservation. Transcript adapter fix/review, audit and fresh qualification precede resume. Offline counters are not lifetime spend."
 }

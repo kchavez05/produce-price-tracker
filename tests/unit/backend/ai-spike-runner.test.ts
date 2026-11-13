@@ -259,21 +259,39 @@ describe('dispatch transaction and receipts', () => {
     } finally { ledger.close(); }
   });
   it('identifies a failed extraction preflight after paid transcription without hiding its charge', async () => {
+    vi.stubEnv('OPENAI_API_KEY','fake-local-token');
     const path=directory(); const bytes=Buffer.from('synthetic test fixture'); writeFileSync(resolve(path,'S01.wav'),bytes);
     const testPacket={ ...packet,audio:[{ id:'S01',filename:'S01.wav',sha256:sha(bytes),durationSeconds:2 }] };
     const speechJob=jobs(packet).find(item=>item.target==='openai-transcribe-luna' && item.fixture==='S01')!;
     const ledger=new Ledger(path,packet.hash); const provider=fakeProvider();
-    vi.spyOn(provider,'transcribe').mockResolvedValue({ text:'Add olive oil',model:'gpt-transcribe',cost:4500,timing:{ uploadMs:1,totalMs:2 },usage:{ audioSeconds:2 } });
+    vi.spyOn(provider,'transcribe').mockResolvedValue({ text:'Add olive oil fake-local-token',model:'gpt-transcribe',cost:4500,timing:{ uploadMs:1,totalMs:2 },usage:{ audioSeconds:2 } });
     vi.spyOn(provider,'count').mockRejectedValue(new Error('count quota'));
     try {
       const receipt=await executeJob(testPacket,speechJob,ledger,0,path,provider,resolve(path,'results'));
       expect(receipt.failure).toBe('preflight_failed_after_paid_stage'); expect(ledger.exposure()).toBe(4500); expect(receipt.costMicroUsd).toBe(4500);
+      expect(receipt.transcriptFromProvider).toBe('Add olive oil [REDACTED]');
+      expect(provider.count).toHaveBeenCalledWith(expect.objectContaining({input:expect.objectContaining({transcriptFromProvider:'Add olive oil [REDACTED]'})}),expect.anything());
       expect(ledger.entries()[0].state).toBe('settled');
     } finally { ledger.close(); }
   });
 });
 
 describe('provider wire contracts without external calls', () => {
+  it.each([
+    {parts:[{audioTranscription:{text:'Add carrots.'}},{audioTranscription:{text:'Not frozen.'}},{text:'ignored duplicate'}],text:'Add carrots. Not frozen.'},
+    {parts:[{audioTranscription:{text:''}}],text:''},
+    {parts:[{text:'Add olive oil'}],text:'Add olive oil'},
+  ])('reads Google native transcription parts or explicit plain text: $text', async ({parts,text}) => {
+    vi.stubEnv('GEMINI_API_KEY','fake-local-test');
+    const provider=new Providers(async()=>new Response(JSON.stringify({modelVersion:'gemini-3.5-transcribe',candidates:[{content:{role:'model',parts}}],usageMetadata:{promptTokenCount:100,candidatesTokenCount:10}}),{status:200,headers:{'content-type':'application/json'}}));
+    const result=await provider.transcribe('google',Buffer.from('synthetic'),2,'transcribe',AbortSignal.timeout(1000));
+    expect(result.text).toBe(text);expect(result.cost).toBe(320);
+  });
+  it('refuses missing Google transcript content rather than silently treating it as silence', async () => {
+    vi.stubEnv('GEMINI_API_KEY','fake-local-test');
+    const provider=new Providers(async()=>new Response(JSON.stringify({candidates:[{content:{role:'model',parts:[{audioTranscription:{words:[]}}]}}],usageMetadata:{promptTokenCount:100,candidatesTokenCount:0}}),{status:200,headers:{'content-type':'application/json'}}));
+    await expect(provider.transcribe('google',Buffer.from('synthetic'),2,'transcribe',AbortSignal.timeout(1000))).rejects.toThrow('Missing transcript');
+  });
   it('keeps only safe HTTP status or a fixed category from provider failures', () => {
     expect(safeFailureDetails(Object.assign(new Error('secret vendor body'),{status:400}))).toEqual({kind:'http_error',httpStatus:400});
     expect(safeFailureDetails(new Error('Provider HTTP 429'))).toEqual({kind:'http_error',httpStatus:429});
