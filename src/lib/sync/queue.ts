@@ -103,15 +103,27 @@ export function createSyncQueue(
       let latest: UserSyncPayload | null = null;
       const key = syncQueueKey(userId);
       while (true) {
-        const queued = await lock(`${key}:storage`, () => read(userId)[0]);
+        const queued = await lock(`${key}:storage`, () => read(userId).find((item) => !hasLegacyInventoryFields(item)));
         if (!queued) return latest;
-        if (hasLegacyInventoryFields(queued)) return null;
         if (queued.userId !== userId) throw new Error('Sync queue owner mismatch');
         const updated = await send(queued);
         if (!updated || updated.profile?.id !== userId) return null;
         latest = updated;
         await lock(`${key}:storage`, () => {
-          const remaining = read(userId).filter((item) => item.mutationId !== queued.mutationId);
+          const original = read(userId);
+          const acknowledgedIndex = original.findIndex((item) => item.mutationId === queued.mutationId);
+          // A newer ordinary preference edit can sync while old inventory waits
+          // for review. Do not replay its superseded preference values later.
+          const remaining = original.flatMap((item, index) => {
+            if (item.mutationId === queued.mutationId) return [];
+            if (index >= acknowledgedIndex || !hasLegacyInventoryFields(item) || !item.preferences || !queued.preferences) return [item];
+            const preferences = { ...item.preferences };
+            for (const field of Object.keys(queued.preferences)) delete preferences[field as keyof SyncedUserPreferences];
+            return [{ ...item, preferences }];
+          });
+          if (JSON.stringify(original.filter((item) => item.mutationId !== queued.mutationId)) !== JSON.stringify(remaining)) {
+            storage.setItem(`${key}:recovery:${safeUUID()}`, storage.getItem(key)!);
+          }
           if (remaining.length) storage.setItem(key, JSON.stringify(remaining));
           else storage.removeItem(key);
         });

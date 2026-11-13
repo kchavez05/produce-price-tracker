@@ -89,6 +89,22 @@ describe('durable account-scoped sync queue', () => {
     expect(() => queue.enqueue('alice', JSON.parse(raw)[0])).toThrow('Virtual Pantry');
   });
 
+  it('syncs newer ordinary preferences without acknowledging or later replaying superseded legacy preferences', async () => {
+    const { storage, data, queue } = setup();
+    const raw = JSON.stringify([{ userId: 'alice', mutationId: 'older', freezerItems: [], preferences: { onHandIngredientIds: ['rice'], defaultZip: '11111', macroGoal: 'HIGH_PROTEIN' } }]);
+    storage.setItem(syncQueueKey('alice'), raw);
+    await queue.enqueue('alice', { preferences: { defaultZip: '22222' } });
+    const send = vi.fn().mockResolvedValue(payload);
+    await queue.flush('alice', send);
+    expect(send).toHaveBeenCalledTimes(1);
+    expect(send.mock.calls[0][0].preferences).toEqual({ defaultZip: '22222' });
+    const pending = JSON.parse(storage.getItem(syncQueueKey('alice'))!);
+    expect(pending).toHaveLength(1);
+    expect(pending[0]).toMatchObject({ mutationId: 'older', freezerItems: [], preferences: { onHandIngredientIds: ['rice'], macroGoal: 'HIGH_PROTEIN' } });
+    expect(pending[0].preferences).not.toHaveProperty('defaultZip');
+    expect([...data.entries()].some(([key, value]) => key.includes(':recovery:') && value.includes('11111'))).toBe(true);
+  });
+
   it.each(['{invalid', 'null', '{}', '[null]'])('recovers malformed storage %s without discarding the original bytes', async (raw) => {
     const { data, storage, queue } = setup();
     storage.setItem(syncQueueKey('alice'), raw);
