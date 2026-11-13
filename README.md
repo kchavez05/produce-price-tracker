@@ -56,12 +56,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 The app works **100% out-of-the-box with zero API keys** using the Flipp circular feed, regional store datasets, USDA baselines, Wholesale Club benchmarks, the deterministic 3-Dish Slot Matcher, and local multi-tenant SQLite storage.
 
-To enable optional live integrations, copy `.env.example` to `.env.local`:
+For a fresh setup, copy [`.env.example`](.env.example) to `.env.local`. If Vercel already generated that file, merge the missing entries instead of replacing it. The template covers application and operator settings, including the isolated #731 comparison credentials. Generated Vercel metadata and unused integration aliases are intentionally documented separately.
 
-* **`GEMINI_API_KEY`**: Free-tier key from [Google AI Studio](https://aistudio.google.com/apikey) (`gemini-2.5-flash`). You can also paste this directly in the **API Keys** button in the top navigation bar.
-* **`USDA_MARS_API_KEY`**: Free key from [USDA MyMarketNews](https://mymarketnews.ams.usda.gov/) for live report slugs `3324`, `3228`, `2868`, `2756`, and `2995`.
-* **`KROGER_CLIENT_ID` / `KROGER_CLIENT_SECRET`**: Free credentials from [Kroger Developer Portal](https://developer.kroger.com/) for unadvertised King Soopers/Kroger shelf prices.
-* **`NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`**: Optional free-tier [Supabase](https://supabase.com/dashboard) project credentials for Google/Apple OAuth SSO and PostgreSQL RLS cloud sync.
+See [API keys and local setup](docs/wiki/API-Keys-and-Local-Setup.md) for each variable, the Vercel-export differences, and loading spike-only keys from an ignored `.env.spike.local`. The app's runtime provider remains unchanged; comparison keys do not activate new app integrations.
 
 ## Documentation, Wiki & Release Notes
 
