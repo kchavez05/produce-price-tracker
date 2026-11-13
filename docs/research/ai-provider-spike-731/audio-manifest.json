@@ -1,0 +1,189 @@
+{
+  "issue": 731,
+  "synthetic": true,
+  "uploaded": false,
+  "apiSpendUsd": 0,
+  "generator": "local macOS say/afconvert plus seeded PCM noise",
+  "clips": [
+    {
+      "id": "S01",
+      "filename": "S01.wav",
+      "durationSeconds": 1.076375,
+      "sha256": "dffbed840bf3e99ac6e366223ac341c58c20dc9e3a5103a307a6aa1b06d58209",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 5069.162
+    },
+    {
+      "id": "S02",
+      "filename": "S02.wav",
+      "durationSeconds": 3.336125,
+      "sha256": "2278f56602a0467462d53a967e522b70d37df428d70f6f695f1c4554fc73adce",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 4701.432
+    },
+    {
+      "id": "S03",
+      "filename": "S03.wav",
+      "durationSeconds": 2.1445,
+      "sha256": "f52caeeb7bdee41cd80d0fd976ec148c1a5a84f027ab6ea85ed6d5cac609a899",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 5120.478
+    },
+    {
+      "id": "S04",
+      "filename": "S04.wav",
+      "durationSeconds": 1.812875,
+      "sha256": "b1dc098be144b26ab1d48c38bf771971f1630cb0aa71f6d07c1bdbb61b542545",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 4789.706
+    },
+    {
+      "id": "S05",
+      "filename": "S05.wav",
+      "durationSeconds": 2.516,
+      "sha256": "59420a2d30d3827f87cbb8638972d582fceceff1764dfe14aac344f33bffc8f4",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 4637.729
+    },
+    {
+      "id": "S06",
+      "filename": "S06.wav",
+      "durationSeconds": 2.637125,
+      "sha256": "0ea324d1be00f7aca96ef7d9026862a4bfa978e5feb052be207e52dbd6d8ea5d",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 5287.146
+    },
+    {
+      "id": "S07",
+      "filename": "S07.wav",
+      "durationSeconds": 2.980437,
+      "sha256": "3acde3ec290e8f8027c88ac63c98701a5908b4ee041379364a420ab05c8ea3d7",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 5023.392
+    },
+    {
+      "id": "S08",
+      "filename": "S08.wav",
+      "durationSeconds": 2.393187,
+      "sha256": "81b6b899222d3751d367c151cf5e5655d19861d043f9881e6bab682ba2c0e4c8",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 4567.154
+    },
+    {
+      "id": "S09",
+      "filename": "S09.wav",
+      "durationSeconds": 2.395062,
+      "sha256": "5071f2a12820e06789156976ae4363daefc941d72fb840ae146ec4b498b608c6",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 5073.774
+    },
+    {
+      "id": "S10",
+      "filename": "S10.wav",
+      "durationSeconds": 4.939375,
+      "sha256": "21bcdbe3a69a797a3a83377b489b9c7df9c25140224b47f9ed9a5617bf400dfd",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 4760.456
+    },
+    {
+      "id": "S11",
+      "filename": "S11.wav",
+      "durationSeconds": 4.791563,
+      "sha256": "a9c38100e522a486fb178755b97c6d98ae6cba860b7106f75c7e18b709b0493b",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 4677.931
+    },
+    {
+      "id": "S12",
+      "filename": "S12.wav",
+      "durationSeconds": 3.09225,
+      "sha256": "7f31170de8a3ae15961cb09e6713a4ea67170f66e2d911dc23dd88ca46fa9df3",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 5120.071
+    },
+    {
+      "id": "S13",
+      "filename": "S13.wav",
+      "durationSeconds": 0.866375,
+      "sha256": "7c4cb271ad283ce2767515c9fedeac0ad34cc8c421337b0f0797efa36b31a375",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 4088.793
+    },
+    {
+      "id": "S14",
+      "filename": "S14.wav",
+      "durationSeconds": 2.41625,
+      "sha256": "7bba0b33c8beeaca5729bd205eb7ffc7e651807f4755c7f5778ed5720f5b60f8",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 5237.033
+    },
+    {
+      "id": "S15",
+      "filename": "S15.wav",
+      "durationSeconds": 1.2805,
+      "sha256": "e0744a9ed0fc08e956d240725fdd2413de49b4021267f300e3e5627fc5865a7a",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 5685.447
+    },
+    {
+      "id": "S16",
+      "filename": "S16.wav",
+      "durationSeconds": 2.0,
+      "sha256": "20eaebffe1816e0ffa6f7f854f5ef4ea80d5349faaf0ce1fec1b713e7fde58fa",
+      "voice": null,
+      "effect": "silence",
+      "rms": 0.0
+    },
+    {
+      "id": "S17",
+      "filename": "S17.wav",
+      "durationSeconds": 2.0,
+      "sha256": "efdfb18d19af58ab0204f111b4e12f262e324db862af76ce17febb8120e8de59",
+      "voice": null,
+      "effect": "noise-only",
+      "rms": 1158.586
+    },
+    {
+      "id": "S18",
+      "filename": "S18.wav",
+      "durationSeconds": 3.212625,
+      "sha256": "3c6557c0504bf2db950f0711e5670cca0717693c492f3730027ca101e3e544a9",
+      "voice": "Samantha",
+      "effect": "noise-15db",
+      "rms": 5261.491
+    },
+    {
+      "id": "S19",
+      "filename": "S19.wav",
+      "durationSeconds": 4.162625,
+      "sha256": "65e80ff9d662303d396dfcf49a80207073f5665163396d3c96188e176c454cc7",
+      "voice": "Karen",
+      "effect": "clean",
+      "rms": 4696.071
+    },
+    {
+      "id": "S20",
+      "filename": "S20.wav",
+      "durationSeconds": 4.54575,
+      "sha256": "bda59f59eeda344c0cfb28db436e0029af987128956e2791963fcb2f13fa415a",
+      "voice": "Samantha",
+      "effect": "clean",
+      "rms": 4876.662
+    }
+  ]
+}

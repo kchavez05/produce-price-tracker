@@ -1,0 +1,594 @@
+{
+  "schemaVersion": 1,
+  "issue": 731,
+  "status": "draft-execution-plan",
+  "scoredRepeats": 3,
+  "synthetic": true,
+  "catalogVersion": "2026-11-07.4",
+  "catalogSha256": "fbbf6f2399dc76e3d786d8077df33c2df1bd47e1f35573af3afc109b666c9205",
+  "cases": [
+    {
+      "id": "S01",
+      "category": "single",
+      "transcript": "Add olive oil.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "olive-oil",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S02",
+      "category": "multiple",
+      "transcript": "Add fresh onions, canned chickpeas, and olive oil.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "onions-fresh",
+            "available": true
+          },
+          {
+            "ingredientId": "chickpeas-canned",
+            "available": true
+          },
+          {
+            "ingredientId": "olive-oil",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S03",
+      "category": "quantity",
+      "transcript": "Add two pounds of dry brown rice.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "brown-rice-dry",
+            "available": true,
+            "quantity": 2,
+            "unit": "lb"
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S04",
+      "category": "quantity",
+      "transcript": "Add half a cup of olive oil.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "olive-oil",
+            "available": true,
+            "quantity": 0.5,
+            "unit": "cup"
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S05",
+      "category": "form",
+      "transcript": "Add fresh garlic, not garlic powder.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "garlic-fresh",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [
+          "garlic-powder"
+        ],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S06",
+      "category": "form",
+      "transcript": "Add ground coriander and fresh cilantro.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "coriander-ground",
+            "available": true
+          },
+          {
+            "ingredientId": "cilantro-fresh",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S07",
+      "category": "form",
+      "transcript": "Add whole cardamom pods, not ground cardamom.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "cardamom-pods",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [
+          "cardamom-ground"
+        ],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S08",
+      "category": "form",
+      "transcript": "Add dry chickpeas and canned black beans.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "chickpeas-dried",
+            "available": true
+          },
+          {
+            "ingredientId": "black-beans-canned",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S09",
+      "category": "negation",
+      "transcript": "Do not add milk. Add fresh onions.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "onions-fresh",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [
+          "milk-whole"
+        ],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S10",
+      "category": "correction",
+      "transcript": "Add two pounds of brown rice. Actually make that three pounds of dry brown rice.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "brown-rice-dry",
+            "available": true,
+            "quantity": 3,
+            "unit": "lb"
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S11",
+      "category": "correction",
+      "transcript": "Add fresh ginger. Sorry, not fresh ginger, add ground ginger instead.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "ginger-ground",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [
+          "ginger-fresh"
+        ],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S12",
+      "category": "duplicate",
+      "transcript": "Add olive oil, fresh onions, and olive oil.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "olive-oil",
+            "available": true
+          },
+          {
+            "ingredientId": "onions-fresh",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S13",
+      "category": "ambiguity",
+      "transcript": "Add rice.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [],
+        "excludedIngredientIds": [],
+        "reviewRequired": [
+          "rice: ask which type and form; do not silently choose"
+        ],
+        "status": "needs_review",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S14",
+      "category": "unknown",
+      "transcript": "Add Moon dust seven three one seasoning.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [],
+        "excludedIngredientIds": [],
+        "reviewRequired": [
+          "Moon dust seven three one seasoning: propose custom name for review; no catalog ID"
+        ],
+        "status": "needs_review",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S15",
+      "category": "negation",
+      "transcript": "Do not add anything.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "no_change",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S16",
+      "category": "silence",
+      "transcript": "",
+      "audio": {
+        "generation": "local-deterministic-pcm",
+        "voice": null,
+        "wordsPerMinute": 0,
+        "effect": "silence",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "no_change",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S17",
+      "category": "unintelligible",
+      "transcript": "",
+      "audio": {
+        "generation": "local-deterministic-pcm",
+        "voice": null,
+        "wordsPerMinute": 0,
+        "effect": "noise-only",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [],
+        "excludedIngredientIds": [],
+        "reviewRequired": [
+          "Audio is not intelligible: ask to repeat, with no catalog addition"
+        ],
+        "status": "needs_review",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S18",
+      "category": "noise",
+      "transcript": "Add one pound of fresh onions and two cans of chickpeas.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 170,
+        "effect": "noise-15db",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "onions-fresh",
+            "available": true,
+            "quantity": 1,
+            "unit": "lb"
+          },
+          {
+            "ingredientId": "chickpeas-canned",
+            "available": true,
+            "quantity": 2,
+            "unit": "can"
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S19",
+      "category": "fast",
+      "transcript": "Add fresh garlic, ground ginger, olive oil, and canned black beans.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Karen",
+        "wordsPerMinute": 210,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "garlic-fresh",
+            "available": true
+          },
+          {
+            "ingredientId": "ginger-ground",
+            "available": true
+          },
+          {
+            "ingredientId": "olive-oil",
+            "available": true
+          },
+          {
+            "ingredientId": "black-beans-canned",
+            "available": true
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    },
+    {
+      "id": "S20",
+      "category": "slow",
+      "transcript": "Add three tablespoons of olive oil. Add four cloves of fresh garlic.",
+      "audio": {
+        "generation": "local-macos-say",
+        "voice": "Samantha",
+        "wordsPerMinute": 135,
+        "effect": "clean",
+        "maxDurationSeconds": 30,
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "PCM_S16LE_WAV"
+      },
+      "expected": {
+        "items": [
+          {
+            "ingredientId": "olive-oil",
+            "available": true,
+            "quantity": 3,
+            "unit": "tbsp"
+          },
+          {
+            "ingredientId": "garlic-fresh",
+            "available": true,
+            "quantity": 4,
+            "unit": "clove"
+          }
+        ],
+        "excludedIngredientIds": [],
+        "reviewRequired": [],
+        "status": "proposal",
+        "committedWrites": 0
+      }
+    }
+  ]
+}

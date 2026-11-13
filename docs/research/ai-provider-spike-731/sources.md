@@ -1,0 +1,22 @@
+# Documentary provider screen
+
+Checked November 13, 2026 against the following official pages. These establish published capabilities/terms, not account access, measured PantryBot quality, safe billable bounds or production readiness. Recheck before paid execution; preserve rates/settings used in each receipt. Do not choose from a search snippet or assume an alias is an immutable snapshot.
+
+| Area | Primary source | Finding / remaining check |
+| --- | --- | --- |
+| Google candidate | [Gemini 3.5 Flash-Lite model](https://aistudio.google.com/docs/models/gemini-3.5-flash-lite) | Audio input and structured text output documented; verify exact API/schema and access |
+| Google pricing | [Pricing](https://aistudio.google.com/docs/pricing#gemini-3.5-flash-lite) | Text 0.30/2.50 USD per million input/output tokens; transcribe has separate audio/text accounting; per-minute examples are estimates |
+| Google lifecycle | [Deprecations](https://aistudio.google.com/docs/deprecations#gemini-2.5-flash-models) | Existing Flash identifier automatically routes to the newer Lite model December 1; migration/API compatibility needs its own check |
+| Google privacy | [Paid service terms](https://aistudio.google.com/docs/terms#paid-services) | Billing-linked project treatment differs from free service; logging/retention is not zero; verify actual project status |
+| OpenAI recipe | [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna), [Terra](https://developers.openai.com/api/docs/models/gpt-6.1-terra) | Model pages show standard text input/output 0.10/0.50 and 1.00/5.00 USD per million; structured outputs supported; exact account/model eligibility still unverified |
+| OpenAI speech | [GPT-Transcribe](https://developers.openai.com/api/docs/models/gpt-transcribe), [earlier mini model](https://developers.openai.com/api/docs/models/gpt-4o-mini-transcribe) | The earlier mini page now labels it Deprecated. Propose GPT-Transcribe; establish current price units and billable duration/output bounds before calls |
+| OpenAI privacy | [Data controls](https://developers.openai.com/api/docs/guides/your-data) | Endpoint-specific training, logs and state retention differ; `store:false` is not blanket zero retention |
+| Anthropic recipe | [Haiku 5.5](https://platform.claude.com/docs/en/models/haiku-5-5/overview), [pricing](https://platform.claude.com/docs/en/about-claude/pricing) | 0.10/0.50 USD per million below 100K prompt tokens; tokenizer differs, so compare billed task cost |
+| Anthropic schema | [Structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) | JSON schema support documented; compile the benchmark subset and retain full local validation |
+| Anthropic privacy | [Commercial retention](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data) | Verify actual endpoint retention and applicable exceptions; no presumed zero-retention account |
+| Specialist screen | [Deepgram pricing](https://deepgram.com/pricing), [prerecorded API](https://developers.deepgram.com/docs/pre-recorded-audio) | Nova-3 is relevant to recorded ingredient lists; request opts/rate rounding/access still need verification |
+| Specialist data use | [Deepgram model-improvement controls](https://developers.deepgram.com/docs/the-deepgram-model-improvement-partnership-program) | Explicit model-improvement opt-out documented; verify opted-out price and retention before inclusion |
+
+The specialist advances to a proposed full pipeline because it is a purpose-built recorded-speech alternative and the planning reserve can cover its complete run. No trial credit, signup, billing account, opt-out rate or access is assumed. If access or privacy cannot be qualified, report that candidate as untested with the exact reason; do not replace it or shrink scored coverage silently.
+
+The first screen does not claim exhaustive coverage of open models, hosted inference vendors or other speech services. Self-hosting is excluded from this bounded direct-API experiment because comparable hosting/operations and latency need a separate setup. Higher-tier recipe models beyond the optional Terra control are excluded from this first budgeted matrix; the recommendation must state that limit. Provider SDK adoption, an agent framework and automatic cross-provider failover are not needed to author this packet and remain implementation decisions.

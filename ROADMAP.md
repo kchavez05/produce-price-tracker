@@ -151,6 +151,8 @@ flowchart LR
 
 ## Planned v1.7 — Sign in to Access AI Features
 
+**Planning:** [Readiness #730](https://github.com/kchavez05/produce-price-tracker/issues/730) and [AI provider comparison spike #731](https://github.com/kchavez05/produce-price-tracker/issues/731). The [draft comparison packet](docs/research/ai-provider-spike-731/README.md) carries the agreed budget, fixture counts and quality gates; provider selection and execution-plan approval remain open.
+
 **Goal:** Make app-funded AI assistance standard for all signed-in users, replacing the bring-your-own API key experience. Initial focus: recipe remix and speech-to-inventory (scheduled after pantry catalog expansion).
 
 - Remove the bring-your-own-key input and retire the user-supplied-key request path. Remove previously stored user keys from app-managed browser storage during migration; never upload them.

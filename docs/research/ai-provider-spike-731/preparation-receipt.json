@@ -1,0 +1,73 @@
+{
+  "issue": 731,
+  "validation": "passed",
+  "paidCallsMade": 0,
+  "catalogVersion": "2026-11-07.4",
+  "fixtures": {
+    "recipes": 40,
+    "speech": 20
+  },
+  "categories": {
+    "recipes": {
+      "diet": 8,
+      "availability": 6,
+      "identity": 6,
+      "cost": 6,
+      "remix": 6,
+      "vessel": 4,
+      "robustness": 4
+    },
+    "speech": {
+      "single": 1,
+      "multiple": 1,
+      "quantity": 2,
+      "form": 4,
+      "negation": 2,
+      "correction": 2,
+      "duplicate": 1,
+      "ambiguity": 1,
+      "unknown": 1,
+      "silence": 1,
+      "unintelligible": 1,
+      "noise": 1,
+      "fast": 1,
+      "slow": 1
+    }
+  },
+  "scoredRecipeCallsPrimary": 360,
+  "scoredRecipeCallsOptionalControl": 120,
+  "scoredSpeechPipelineAttempts": 240,
+  "recipeReservationUsd": {
+    "google-lite": 2.088,
+    "openai-luna": 0.456,
+    "claude-haiku": 0.456,
+    "openai-terra-control": 4.56
+  },
+  "speechReservationUsd": {
+    "google-direct": 0.24,
+    "google-transcribe-luna": 0.66,
+    "openai-transcribe-luna": 0.66,
+    "deepgram-luna": 0.3
+  },
+  "primaryRecipeReservationUsd": 3.0,
+  "optionalControlReservationUsd": 4.56,
+  "ancillaryReservationUsd": 0.4,
+  "totalPlanningReservationUsd": 9.82,
+  "unallocatedUsd": 0.18,
+  "warning": "Planning envelope only: all billable bounds, account access, audio bytes and final plan approval must be verified before paid execution.",
+  "inputSha256": {
+    "recipes.json": "05344fe67abb0eaf594e432c558b5278ab7068934a35615bc6ef11f25570ad41",
+    "speech.json": "581c14aeefa27e4054319070e14d84889ca845b9347784354bb13a475a427e50",
+    "candidates.json": "571492c3500a822e916d2f5a800970fd6627a39393f030db2d9e3fd477950e05",
+    "recipe-output.schema.json": "06742d675a086d6331b584caac28296548bde51e06e254aa8591f455a54d929e",
+    "speech-output.schema.json": "75174f42a034658c990cfd2e9a51f12b1c7c355cba5d833a2736ade060c1c71b"
+  },
+  "audioPreparation": {
+    "manifestSha256": "85be70fa0a33262654ab5f09cbfea4c1b6e4efc0010c08dd57fe528756cede64",
+    "clips": 20,
+    "totalSeconds": 54.598999,
+    "apiSpendUsd": 0,
+    "technicalChecks": "all hashes, duration caps, format and expected silence/non-silence verified",
+    "listeningReview": "pending owner/reviewer; not claimed"
+  }
+}
