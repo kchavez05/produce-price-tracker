@@ -1,4 +1,5 @@
-import { FreezerItem, UserPreferences, UserSyncPayload } from '@/types/domain';
+import { SyncedUserPreferences, UserSyncPayload } from '@/types/domain';
+import { hasLegacyInventoryFields, validLegacyQueueFields, withoutLegacyOnHand } from '@/lib/pantry/legacy-sync';
 
 function safeUUID(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -11,12 +12,12 @@ function safeUUID(): string {
   });
 }
 export interface SyncMutation {
-  preferences?: Partial<UserPreferences>;
-  freezerItems?: FreezerItem[];
+  preferences?: Partial<SyncedUserPreferences>;
   mergeMode?: boolean;
 }
 
 interface QueuedMutation extends SyncMutation {
+  [key: string]: unknown;
   userId: string;
   mutationId: string;
 }
@@ -29,56 +30,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function isFreezerItem(value: unknown): value is FreezerItem {
-  if (!isRecord(value)) return false;
-  const textFields = ['id', 'canonicalIngredientId', 'ingredientName', 'category', 'store', 'storeBanner', 'purchasedAtIso'];
-  const numberFields = ['quantityLbOrDoz', 'purchasePricePerUnit', 'regularPricePerUnit', 'totalCostBasis', 'estimatedSavings'];
-  return textFields.every((key) => typeof value[key] === 'string') &&
-    numberFields.every((key) => typeof value[key] === 'number' && Number.isFinite(value[key])) &&
-    (value.unit === 'lb' || value.unit === 'doz') &&
-    (value.notes === undefined || typeof value.notes === 'string');
-}
-
-export function parseGuestFreezer(raw: string | null): FreezerItem[] {
-  try {
-    const parsed: unknown = JSON.parse(raw || '[]');
-    return Array.isArray(parsed) ? parsed.filter(isFreezerItem) : [];
-  } catch {
-    return [];
-  }
-}
-
 function isQueuedMutation(value: unknown, userId: string): value is QueuedMutation {
   return isRecord(value) && value.userId === userId &&
     typeof value.mutationId === 'string' && value.mutationId.length > 0 &&
     (value.preferences === undefined || isRecord(value.preferences)) &&
-    (value.freezerItems === undefined || (Array.isArray(value.freezerItems) && value.freezerItems.every(isFreezerItem))) &&
+    validLegacyQueueFields(value) &&
     (value.mergeMode === undefined || typeof value.mergeMode === 'boolean');
-}
-
-export function mergeFreezerItems(current: FreezerItem[], incomingItems: FreezerItem[]): FreezerItem[] {
-  const byIngredient = new Map(current.map((item) => [item.canonicalIngredientId, item]));
-  for (const incoming of incomingItems) {
-    const existing = byIngredient.get(incoming.canonicalIngredientId);
-    if (!existing) {
-      if (incoming.quantityLbOrDoz > 0) byIngredient.set(incoming.canonicalIngredientId, incoming);
-      continue;
-    }
-    const quantity = existing.quantityLbOrDoz + incoming.quantityLbOrDoz;
-    if (quantity <= 0) {
-      byIngredient.delete(incoming.canonicalIngredientId);
-      continue;
-    }
-    const purchase = (existing.quantityLbOrDoz * existing.purchasePricePerUnit + incoming.quantityLbOrDoz * incoming.purchasePricePerUnit) / quantity;
-    const regular = (existing.quantityLbOrDoz * existing.regularPricePerUnit + incoming.quantityLbOrDoz * incoming.regularPricePerUnit) / quantity;
-    byIngredient.set(incoming.canonicalIngredientId, {
-      ...incoming, id: existing.id, quantityLbOrDoz: quantity,
-      purchasePricePerUnit: purchase, regularPricePerUnit: regular,
-      totalCostBasis: Number((quantity * purchase).toFixed(2)),
-      estimatedSavings: Number(Math.max(0, quantity * (regular - purchase)).toFixed(2)),
-    });
-  }
-  return [...byIngredient.values()];
 }
 
 /** Convert additive guest merges into an absolute snapshot, safe to retry. */
@@ -87,11 +44,9 @@ export function prepareSyncMutation(mutation: SyncMutation, current: UserSyncPay
 
   return {
     ...mutation, mergeMode: false,
-    freezerItems: mutation.freezerItems ? mergeFreezerItems(current.freezerItems, mutation.freezerItems) : undefined,
     preferences: {
       ...mutation.preferences,
       pinnedIngredientIds: [...new Set([...(current.preferences?.pinnedIngredientIds ?? []), ...(mutation.preferences?.pinnedIngredientIds ?? [])])],
-      onHandIngredientIds: [...new Set([...(current.preferences?.onHandIngredientIds ?? []), ...(mutation.preferences?.onHandIngredientIds ?? [])])],
     },
   };
 }
@@ -132,6 +87,7 @@ export function createSyncQueue(
     return valid;
   }
   function enqueue(userId: string, mutation: SyncMutation) {
+    if (hasLegacyInventoryFields(mutation)) throw new Error('Reload to manage inventory in Virtual Pantry. Older edits remain available for recovery.');
     return lock(`${syncQueueKey(userId)}:storage`, () => {
       const pending = read(userId);
       pending.push({ ...mutation, userId, mutationId: safeUUID() });
@@ -147,14 +103,27 @@ export function createSyncQueue(
       let latest: UserSyncPayload | null = null;
       const key = syncQueueKey(userId);
       while (true) {
-        const queued = await lock(`${key}:storage`, () => read(userId)[0]);
+        const queued = await lock(`${key}:storage`, () => read(userId).find((item) => !hasLegacyInventoryFields(item)));
         if (!queued) return latest;
         if (queued.userId !== userId) throw new Error('Sync queue owner mismatch');
         const updated = await send(queued);
         if (!updated || updated.profile?.id !== userId) return null;
         latest = updated;
         await lock(`${key}:storage`, () => {
-          const remaining = read(userId).filter((item) => item.mutationId !== queued.mutationId);
+          const original = read(userId);
+          const acknowledgedIndex = original.findIndex((item) => item.mutationId === queued.mutationId);
+          // A newer ordinary preference edit can sync while old inventory waits
+          // for review. Do not replay its superseded preference values later.
+          const remaining = original.flatMap((item, index) => {
+            if (item.mutationId === queued.mutationId) return [];
+            if (index >= acknowledgedIndex || !hasLegacyInventoryFields(item) || !item.preferences || !queued.preferences) return [item];
+            const preferences = { ...item.preferences };
+            for (const field of Object.keys(queued.preferences)) delete preferences[field as keyof SyncedUserPreferences];
+            return [{ ...item, preferences }];
+          });
+          if (JSON.stringify(original.filter((item) => item.mutationId !== queued.mutationId)) !== JSON.stringify(remaining)) {
+            storage.setItem(`${key}:recovery:${safeUUID()}`, storage.getItem(key)!);
+          }
           if (remaining.length) storage.setItem(key, JSON.stringify(remaining));
           else storage.removeItem(key);
         });
@@ -168,16 +137,14 @@ export function createSyncQueue(
     const userId = payload.profile.id;
     const snapshot = () => read(userId, false).reduce((state, mutation) => ({
       ...state,
-      preferences: state.preferences ? { ...state.preferences, ...mutation.preferences } : null,
-      freezerItems: mutation.freezerItems ?? state.freezerItems,
+      preferences: state.preferences ? { ...state.preferences, ...(mutation.preferences ? withoutLegacyOnHand(mutation.preferences) : {}) } : null,
     }), payload);
     // Reading a storage snapshot needs no replay lock. Never repair storage
     // without that lock, but do not prevent account hydration in HTTP contexts.
     if (lock === browserLock && !navigator.locks) return snapshot();
     return lock(`${syncQueueKey(userId)}:storage`, () => read(userId).reduce((state, mutation) => ({
       ...state,
-      preferences: state.preferences ? { ...state.preferences, ...mutation.preferences } : null,
-      freezerItems: mutation.freezerItems ?? state.freezerItems,
+      preferences: state.preferences ? { ...state.preferences, ...(mutation.preferences ? withoutLegacyOnHand(mutation.preferences) : {}) } : null,
     }), payload));
   }
   return { enqueue, flush, overlay };

@@ -7,7 +7,8 @@ import { evaluatePantryMutation, validatePantryMutation, mutationFingerprint } f
 import { pantryIdentity, pantryCatalog, canSavePantryIngredient } from '@/lib/pantry/model';
 import { createPantryQueue, PantryAcknowledgment } from '@/lib/pantry/queue';
 import { cachePantrySnapshot, guestPantryKey, mergeAcknowledgedEntry, pantryCacheKey, parsePantrySnapshot, readGuestPantry } from '@/lib/pantry/client-cache';
-import { createSyncQueue, parseGuestFreezer, syncQueueKey } from '@/lib/sync/queue';
+import { createSyncQueue, syncQueueKey } from '@/lib/sync/queue';
+import { parseGuestFreezer } from '@/lib/pantry/legacy-sync';
 import { legacyQueueNeedsUpgrade, prepareLegacyQueueUpgrade } from '@/lib/pantry/legacy-queue';
 import { pantryQueueKey } from '@/lib/pantry/queue';
 
@@ -76,9 +77,13 @@ export function usePantry(enabled: boolean, accountId: string | null) {
       }
       let remote = parsePantrySnapshot(received, owner);
       if (!remote.legacyMigrationVersion) {
-        // Finish this owner's old write-before-send queue before fencing the
-        // legacy contract. Failed requests retain the old queue and stop migration.
-        if (localStorage.getItem(syncQueueKey(owner.slice('account:'.length)))) {
+        // Ordinary preferences may finish syncing before migration. Retired
+        // inventory stays queued for explicit recovery below.
+        const olderQueue = localStorage.getItem(syncQueueKey(owner.slice('account:'.length)));
+        // Retired inventory writes cannot be sent to /api/sync. Archive the
+        // server baseline unchanged, retain the original queue, and require
+        // explicit review through the existing revision-aware recovery bridge.
+        if (olderQueue && !legacyQueueNeedsUpgrade(olderQueue)) {
           await createSyncQueue(localStorage).flush(owner.slice('account:'.length), async (mutation) => {
             if (activeOwner.current !== owner) return null;
             const acknowledged = await fetch('/api/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(mutation) });

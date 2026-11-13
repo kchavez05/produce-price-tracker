@@ -6,13 +6,11 @@ import { isSupabaseConfigured, LOCAL_SESSION_COOKIE_NAME, GUEST_SESSION_COOKIE_N
 import {
   deleteUserAccountFromSqlite,
   getDefaultUserPreferences,
-  getUserFreezerItemsFromSqlite,
   getUserPreferencesFromSqlite,
   createLocalSession,
   getLocalSessionProfile,
   revokeLocalSession,
   getUserSavedRecipesFromSqlite,
-  replaceUserFreezerItemsInSqlite,
   replaceUserSavedRecipesInSqlite,
   hasPantryMigrationInSqlite,
   upsertUserPreferencesToSqlite,
@@ -21,10 +19,8 @@ import {
 import {
   AuthProviderType,
   CloudStorageMode,
-  CommodityCategory,
   CookingVesselArchetype,
   DietaryConstraint,
-  FreezerItem,
   MacroGoal,
   RecommendedDish,
   StoreChain,
@@ -32,10 +28,12 @@ import {
   UserPreferences,
   UserProfile,
   UserSyncPayload,
+  SyncedUserPreferences,
 } from '@/types/domain';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import { PantryError } from '@/lib/pantry/mutations';
 import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
+import { hasLegacyInventoryFields, withoutLegacyOnHand } from '@/lib/pantry/legacy-sync';
 
 interface SupabasePreferencesRow {
   user_id: string;
@@ -48,24 +46,6 @@ interface SupabasePreferencesRow {
   pinned_ingredient_ids: string[] | null;
   on_hand_ingredient_ids: string[] | null;
   updated_at: string;
-}
-
-interface SupabaseFreezerRow {
-  id: string;
-  user_id: string;
-  canonical_ingredient_id: string;
-  ingredient_name: string;
-  category: string;
-  quantity_lb_or_doz: number;
-  unit: string;
-  purchase_price_per_unit: number;
-  regular_price_per_unit: number;
-  total_cost_basis: number;
-  estimated_savings: number;
-  store: string;
-  store_banner: string;
-  purchased_at_iso: string;
-  notes: string | null;
 }
 
 interface SupabaseSavedRecipeRow {
@@ -174,7 +154,6 @@ export async function resolveCurrentUserProfile(): Promise<{
 /** Guest data is private to an opaque browser session, never a shared table. */
 export async function loadInventoryState(createGuest = false, requireCloud = false): Promise<{
   profile: UserProfile | null;
-  freezerItems: FreezerItem[];
   savedRecipes: RecommendedDish[];
 }> {
   const payload = await loadUserSyncPayload(requireCloud);
@@ -196,7 +175,6 @@ export async function loadInventoryState(createGuest = false, requireCloud = fal
   }
   return {
     profile,
-    freezerItems: profile ? getUserFreezerItemsFromSqlite(profile.id) : [],
     savedRecipes: profile ? getUserSavedRecipesFromSqlite(profile.id) : [],
   };
 }
@@ -212,7 +190,6 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
       supabaseConfigured,
       profile: null,
       preferences: null,
-      freezerItems: [],
       savedRecipes: [],
       syncedAtIso: new Date().toISOString(),
     };
@@ -223,17 +200,12 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
     const supabase = await createServerSupabaseClient();
     if (supabase) {
       try {
-        const [prefsRes, freezerRes, recipesRes] = await Promise.all([
+        const [prefsRes, recipesRes] = await Promise.all([
           supabase
             .from('user_preferences')
             .select('*')
             .eq('user_id', profile.id)
             .maybeSingle(),
-          supabase
-            .from('user_freezer_items')
-            .select('*')
-            .eq('user_id', profile.id)
-            .order('purchased_at_iso', { ascending: false }),
           supabase
             .from('user_saved_recipes')
             .select('*')
@@ -241,7 +213,7 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
             .order('updated_at', { ascending: false }),
         ]);
 
-        if (!prefsRes.error && !freezerRes.error && !recipesRes.error) {
+        if (!prefsRes.error && !recipesRes.error) {
           const prefRow = prefsRes.data as SupabasePreferencesRow | null;
           const preferences: UserPreferences = prefRow
             ? {
@@ -272,24 +244,6 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
               }
             : getDefaultUserPreferences(profile.id);
 
-          const freezerRows = (freezerRes.data || []) as SupabaseFreezerRow[];
-          const freezerItems: FreezerItem[] = freezerRows.map((r) => ({
-            id: r.id,
-            canonicalIngredientId: r.canonical_ingredient_id,
-            ingredientName: r.ingredient_name,
-            category: r.category as CommodityCategory,
-            quantityLbOrDoz: Number(r.quantity_lb_or_doz),
-            unit: (r.unit === 'doz' ? 'doz' : 'lb') as 'lb' | 'doz',
-            purchasePricePerUnit: Number(r.purchase_price_per_unit),
-            regularPricePerUnit: Number(r.regular_price_per_unit),
-            totalCostBasis: Number(r.total_cost_basis),
-            estimatedSavings: Number(r.estimated_savings),
-            store: r.store as StoreChain,
-            storeBanner: r.store_banner,
-            purchasedAtIso: r.purchased_at_iso,
-            notes: r.notes || undefined,
-          }));
-
           const recipeRows = (recipesRes.data || []) as SupabaseSavedRecipeRow[];
           const savedRecipes: RecommendedDish[] = recipeRows.map(
             (r) => withoutDerivedPantryPricing(r.dish_json)
@@ -297,7 +251,6 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
 
           // Mirror to local SQLite cache
           upsertUserPreferencesToSqlite(preferences);
-          replaceUserFreezerItemsInSqlite(profile.id, freezerItems);
           replaceUserSavedRecipesInSqlite(profile.id, savedRecipes);
 
           return {
@@ -305,8 +258,7 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
             storageMode: 'SUPABASE_RLS',
             supabaseConfigured: true,
             profile,
-            preferences,
-            freezerItems,
+            preferences: withoutLegacyOnHand(preferences),
             savedRecipes,
             syncedAtIso: new Date().toISOString(),
           };
@@ -322,7 +274,6 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
 
   // SQLite Multi-Tenant Fallback
   const preferences = getUserPreferencesFromSqlite(profile.id);
-  const freezerItems = getUserFreezerItemsFromSqlite(profile.id);
   const savedRecipes = getUserSavedRecipesFromSqlite(profile.id);
 
   return {
@@ -330,8 +281,7 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
     storageMode,
     supabaseConfigured,
     profile,
-    preferences,
-    freezerItems,
+    preferences: withoutLegacyOnHand(preferences),
     savedRecipes,
     syncedAtIso: new Date().toISOString(),
   };
@@ -339,13 +289,12 @@ export async function loadUserSyncPayload(requireCloud = false): Promise<UserSyn
 
 export async function persistUserSyncState(options: {
   profile: UserProfile;
-  preferences?: Partial<UserPreferences>;
-  freezerItems?: FreezerItem[];
+  preferences?: Partial<SyncedUserPreferences>;
   savedRecipes?: RecommendedDish[];
   mergeMode?: boolean;
 }): Promise<UserSyncPayload> {
-  const { profile, preferences, freezerItems, savedRecipes, mergeMode } = options;
-  if ((freezerItems !== undefined || preferences?.onHandIngredientIds !== undefined) && hasPantryMigrationInSqlite(profile.id)) {
+  const { profile, preferences, savedRecipes, mergeMode } = options;
+  if (hasLegacyInventoryFields(options)) {
     throw new PantryError('pantry_upgrade_required', 426, 'Reload to manage inventory in Virtual Pantry.');
   }
   const now = new Date().toISOString();
@@ -354,9 +303,6 @@ export async function persistUserSyncState(options: {
   const currentPrefs = getUserPreferencesFromSqlite(profile.id);
   const incomingPinned = Array.isArray(preferences?.pinnedIngredientIds)
     ? preferences.pinnedIngredientIds
-    : null;
-  const incomingOnHand = Array.isArray(preferences?.onHandIngredientIds)
-    ? preferences.onHandIngredientIds
     : null;
 
   const nextPrefs: UserPreferences = {
@@ -386,76 +332,11 @@ export async function persistUserSyncState(options: {
           ])
         )
       : (incomingPinned ?? currentPrefs.pinnedIngredientIds),
-    onHandIngredientIds: mergeMode
-      ? Array.from(
-          new Set([
-            ...currentPrefs.onHandIngredientIds,
-            ...(incomingOnHand ?? []),
-          ])
-        )
-      : (incomingOnHand ?? currentPrefs.onHandIngredientIds),
+    onHandIngredientIds: currentPrefs.onHandIngredientIds,
     updatedAtIso: now,
   };
 
   upsertUserPreferencesToSqlite(nextPrefs);
-
-  let nextFreezer = getUserFreezerItemsFromSqlite(profile.id);
-  if (Array.isArray(freezerItems)) {
-    if (mergeMode) {
-      const byCanonical = new Map<string, FreezerItem>();
-      for (const existing of nextFreezer) {
-        byCanonical.set(existing.canonicalIngredientId, existing);
-      }
-      for (const incoming of freezerItems) {
-        if (incoming.quantityLbOrDoz <= 0) continue;
-        const match = byCanonical.get(incoming.canonicalIngredientId);
-        if (!match) {
-          byCanonical.set(incoming.canonicalIngredientId, incoming);
-        } else {
-          // Accumulate stock and compute weighted-average unit prices
-          const totalQty = Number(
-            (match.quantityLbOrDoz + incoming.quantityLbOrDoz).toFixed(2)
-          );
-          const weightedPurchasePrice =
-            totalQty > 0
-              ? (match.quantityLbOrDoz * match.purchasePricePerUnit +
-                  incoming.quantityLbOrDoz * incoming.purchasePricePerUnit) /
-                totalQty
-              : 0;
-          const weightedRegularPrice =
-            totalQty > 0
-              ? (match.quantityLbOrDoz * match.regularPricePerUnit +
-                  incoming.quantityLbOrDoz * incoming.regularPricePerUnit) /
-                totalQty
-              : 0;
-          const totalCostBasis = Number(
-            (totalQty * weightedPurchasePrice).toFixed(2)
-          );
-          const estimatedSavings = Number(
-            Math.max(
-              0,
-              totalQty * (weightedRegularPrice - weightedPurchasePrice)
-            ).toFixed(2)
-          );
-          byCanonical.set(incoming.canonicalIngredientId, {
-            ...incoming,
-            id: match.id,
-            quantityLbOrDoz: totalQty,
-            totalCostBasis,
-            estimatedSavings,
-            purchasePricePerUnit: Number(weightedPurchasePrice.toFixed(4)),
-            regularPricePerUnit: Number(weightedRegularPrice.toFixed(4)),
-          });
-        }
-      }
-      nextFreezer = replaceUserFreezerItemsInSqlite(
-        profile.id,
-        Array.from(byCanonical.values())
-      );
-    } else {
-      nextFreezer = replaceUserFreezerItemsInSqlite(profile.id, freezerItems);
-    }
-  }
 
   let nextRecipes = getUserSavedRecipesFromSqlite(profile.id);
   if (savedRecipes) {
@@ -492,26 +373,8 @@ export async function persistUserSyncState(options: {
       favorite_store_ids: nextPrefs.favoriteStoreIds, macro_goal: nextPrefs.macroGoal,
       dietary_constraints: nextPrefs.dietaryConstraints, vessel_archetype: nextPrefs.vesselArchetype,
       target_servings: nextPrefs.targetServings, pinned_ingredient_ids: nextPrefs.pinnedIngredientIds,
-      on_hand_ingredient_ids: nextPrefs.onHandIngredientIds, updated_at: now,
+      updated_at: now,
     }));
-    if (freezerItems) {
-      if (nextFreezer.length > 0) {
-        await check(supabase.from('user_freezer_items').upsert(nextFreezer.map((f) => ({
-          id: f.id, user_id: profile.id, canonical_ingredient_id: f.canonicalIngredientId,
-          ingredient_name: f.ingredientName, category: f.category, quantity_lb_or_doz: f.quantityLbOrDoz,
-          unit: f.unit, purchase_price_per_unit: f.purchasePricePerUnit,
-          regular_price_per_unit: f.regularPricePerUnit, total_cost_basis: f.totalCostBasis,
-          estimated_savings: f.estimatedSavings, store: f.store, store_banner: f.storeBanner,
-          purchased_at_iso: f.purchasedAtIso, notes: f.notes || null, updated_at: now,
-        })), { onConflict: 'user_id,id' }));
-      }
-      const { data } = await check(supabase.from('user_freezer_items').select('id').eq('user_id', profile.id));
-      const activeIds = new Set(nextFreezer.map((f) => f.id));
-      const staleIds = (data || []).map((r: { id: string }) => r.id).filter((id: string) => !activeIds.has(id));
-      if (staleIds.length) {
-        await check(supabase.from('user_freezer_items').delete().eq('user_id', profile.id).in('id', staleIds));
-      }
-    }
     if (savedRecipes) {
       if (nextRecipes.length > 0) {
         await check(supabase.from('user_saved_recipes').upsert(nextRecipes.map((dish) => ({
@@ -535,8 +398,7 @@ export async function persistUserSyncState(options: {
       : 'SQLITE_LOCAL_FALLBACK',
     supabaseConfigured: isSupabaseConfigured(),
     profile,
-    preferences: nextPrefs,
-    freezerItems: nextFreezer,
+    preferences: withoutLegacyOnHand(nextPrefs),
     savedRecipes: nextRecipes,
     syncedAtIso: now,
   };
@@ -545,22 +407,16 @@ export async function persistUserSyncState(options: {
 export async function buildUserDataExportArchive(
   profile: UserProfile
 ): Promise<UserDataExportArchive> {
-  const payload = await loadUserSyncPayload();
-  const preferences =
-    payload.preferences || getDefaultUserPreferences(profile.id);
+  const payload = await loadUserSyncPayload(profile.isCloudBacked);
+  if (payload.profile?.id !== profile.id) throw new PantryError('owner_changed', 409, 'The export account changed. Retry from the original account.');
+  const { legacyInventoryForExport } = await import('@/lib/pantry/legacy-export.server');
+  const legacy = await legacyInventoryForExport(profile);
+  const preferences = { ...(payload.preferences || getDefaultUserPreferences(profile.id)), onHandIngredientIds: legacy.onHandIngredientIds };
 
   let virtualPantry: import('@/lib/pantry/migration').PantryMigrationSnapshot | undefined;
   if (profile.isCloudBacked) {
     const { pantryRpc } = await import('@/lib/pantry/server');
-    try { virtualPantry = await pantryRpc('read'); }
-    catch (error) {
-      // Before the additive migration is installed, legacy exports still work.
-      // Once enabled, fail rather than export an incomplete account archive.
-      if (process.env.PANTRYBOT_PANTRY_ENABLED === 'true') throw error;
-      const client = await createServerSupabaseClient();
-      const probe = client && await client.from('user_pantry_migrations').select('user_id').eq('user_id', profile.id).maybeSingle();
-      if (!probe || (probe.error && !['42P01', 'PGRST205'].includes(probe.error.code)) || probe.data) throw error;
-    }
+    virtualPantry = await pantryRpc('read');
   } else {
     const { readPantryFromSqlite } = await import('@/lib/db/sqlite');
     if (hasPantryMigrationInSqlite(profile.id)) virtualPantry = readPantryFromSqlite(`account:${profile.id}`);
@@ -574,7 +430,7 @@ export async function buildUserDataExportArchive(
       'Strict Minimization (id, email, display_name, and user-configured grocery preferences only)',
     profile,
     preferences,
-    virtualFreezerInventory: payload.freezerItems,
+    virtualFreezerInventory: legacy.freezerItems,
     savedMealPrepRecipes: payload.savedRecipes,
     ...(virtualPantry?.legacyMigrationVersion ? { virtualPantry } : {}),
   };

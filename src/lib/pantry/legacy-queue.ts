@@ -1,7 +1,7 @@
 import { PantryEntry, PantryMutation, PantryOwner } from '@/types/pantry';
 import { LegacyPantrySource, migrateLegacyPantry } from './migration';
 import { pantryIdentity } from './model';
-import { parseGuestFreezer } from '@/lib/sync/queue';
+import { parseGuestFreezer } from './legacy-sync';
 
 export function legacyQueueNeedsUpgrade(raw: string | null): boolean {
   if (!raw) return false;

@@ -5,16 +5,15 @@ import { createBrowserSupabaseClient } from '@/lib/supabase/client';
 import {
   AuthProviderType,
   CloudStorageMode,
-  FreezerItem,
   SyncStatus,
   UserDataExportArchive,
-  UserPreferences,
+  SyncedUserPreferences,
   UserProfile,
   UserSyncPayload,
 } from '@/types/domain';
 
 import { createSyncQueue, prepareSyncMutation, syncQueueKey, SyncMutation } from '@/lib/sync/queue';
-const MERGE_DISMISSED_KEY = 'pantrybot_guest_merge_dismissed_v13';
+import { clearLegacyInventoryCache } from '@/lib/pantry/legacy-sync';
 
 export interface UseUserSyncOptions {
   onCloudStateHydrated?: (payload: UserSyncPayload) => void;
@@ -34,57 +33,14 @@ export function useUserSync(options?: UseUserSyncOptions) {
   }
   const [authenticated, setAuthenticated] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [preferences, setPreferences] = useState<UserPreferences | null>(null);
+  const [preferences, setPreferences] = useState<SyncedUserPreferences | null>(null);
   const [storageMode, setStorageMode] = useState<CloudStorageMode>(
     'SQLITE_LOCAL_FALLBACK'
   );
   const [supabaseConfigured, setSupabaseConfigured] = useState(false);
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('IDLE');
   const [lastSyncedIso, setLastSyncedIso] = useState<string | null>(null);
-  const [hasGuestDataToMerge, setHasGuestDataToMerge] = useState(false);
-  const [guestFreezerCount, setGuestFreezerCount] = useState(0);
   const [authLoading, setAuthLoading] = useState(false);
-
-  const checkLocalGuestData = useCallback((cloudFreezerCount: number) => {
-    try {
-      const dismissed = sessionStorage.getItem(MERGE_DISMISSED_KEY);
-      if (dismissed === 'true') {
-        setHasGuestDataToMerge(false);
-        return;
-      }
-
-      const rawFreezer = localStorage.getItem('pantrybot_virtual_freezer_v12');
-      let localFreezerItems: FreezerItem[] = [];
-      if (rawFreezer) {
-        const parsed = JSON.parse(rawFreezer);
-        if (Array.isArray(parsed)) {
-          localFreezerItems = parsed as FreezerItem[];
-        }
-      }
-
-      const rawOnHand = localStorage.getItem('mead_on_hand_ids_v04');
-      let localOnHandCount = 0;
-      if (rawOnHand) {
-        const parsed = JSON.parse(rawOnHand);
-        if (Array.isArray(parsed)) {
-          localOnHandCount = parsed.length;
-        }
-      }
-
-      const totalLocalCount = localFreezerItems.length + localOnHandCount;
-      setGuestFreezerCount(localFreezerItems.length);
-
-      if (localFreezerItems.length > 0 && cloudFreezerCount === 0) {
-        setHasGuestDataToMerge(true);
-      } else if (totalLocalCount > 0 && cloudFreezerCount === 0) {
-        setHasGuestDataToMerge(true);
-      } else {
-        setHasGuestDataToMerge(false);
-      }
-    } catch {
-      setHasGuestDataToMerge(false);
-    }
-  }, []);
 
   const refreshSyncState = useCallback(async () => {
     try {
@@ -102,18 +58,16 @@ export function useUserSync(options?: UseUserSyncOptions) {
 
       if (payload.authenticated) {
         setSyncStatus(localStorage.getItem(syncQueueKey(payload.profile!.id)) ? 'OFFLINE_QUEUED' : 'SYNCED');
-        checkLocalGuestData(payload.freezerItems.length);
         if (onHydrated) {
           onHydrated(payload);
         }
       } else {
         setSyncStatus('IDLE');
-        setHasGuestDataToMerge(false);
       }
     } catch {
       // Offline or initial fetch skipped
     }
-  }, [checkLocalGuestData, onHydrated]);
+  }, [onHydrated]);
 
   const flushQueue = useCallback(async (userId: string): Promise<UserSyncPayload | null> => {
     if (!navigator.onLine || activeUserRef.current !== userId) return null;
@@ -157,7 +111,6 @@ export function useUserSync(options?: UseUserSyncOptions) {
       if (latest) lastPayloadRef.current = {
         ...latest,
         preferences: latest.preferences ? { ...latest.preferences, ...prepared.preferences } : null,
-        freezerItems: prepared.freezerItems ?? latest.freezerItems,
       };
       setSyncStatus('OFFLINE_QUEUED');
       onQueued?.(prepared);
@@ -236,7 +189,6 @@ export function useUserSync(options?: UseUserSyncOptions) {
           setSupabaseConfigured(payload.supabaseConfigured);
           setLastSyncedIso(payload.syncedAtIso);
           setSyncStatus('SYNCED');
-          checkLocalGuestData(payload.freezerItems.length);
           if (onHydrated) {
             onHydrated(payload);
           }
@@ -245,7 +197,7 @@ export function useUserSync(options?: UseUserSyncOptions) {
         setAuthLoading(false);
       }
     },
-    [checkLocalGuestData, onHydrated]
+    [onHydrated]
   );
 
   const signOut = useCallback(async () => {
@@ -266,19 +218,9 @@ export function useUserSync(options?: UseUserSyncOptions) {
       setProfile(null);
       setPreferences(null);
       setSyncStatus('IDLE');
-      setHasGuestDataToMerge(false);
       window.location.reload();
     } finally {
       setAuthLoading(false);
-    }
-  }, []);
-
-  const dismissGuestMergePrompt = useCallback(() => {
-    setHasGuestDataToMerge(false);
-    try {
-      sessionStorage.setItem(MERGE_DISMISSED_KEY, 'true');
-    } catch {
-      // Ignore
     }
   }, []);
 
@@ -321,18 +263,16 @@ export function useUserSync(options?: UseUserSyncOptions) {
       activeUserRef.current = null;
       let localCleanupComplete = true;
       try {
-        localStorage.removeItem('pantrybot_virtual_freezer_v12');
+        clearLegacyInventoryCache(localStorage, profile?.id);
         localStorage.removeItem('pantrybot_nutrition_profile_v12');
         localStorage.removeItem('pantrybot_active_stores');
         localStorage.removeItem('pantrybot_user_zip');
-        localStorage.removeItem('mead_on_hand_ids_v04');
         if (profile) {
           const { clearPantryQueue } = await import('@/lib/pantry/queue');
           clearPantryQueue(localStorage, `account:${profile.id}`);
           localStorage.removeItem(syncQueueKey(profile.id));
-          localStorage.removeItem(`pantrybot_virtual_freezer_v14:${profile.id}`);
         }
-        sessionStorage.removeItem(MERGE_DISMISSED_KEY);
+        sessionStorage.removeItem('pantrybot_guest_merge_dismissed_v13');
       } catch {
         localCleanupComplete = false;
       }
@@ -342,7 +282,6 @@ export function useUserSync(options?: UseUserSyncOptions) {
       setProfile(null);
       setPreferences(null);
       setSyncStatus('IDLE');
-      setHasGuestDataToMerge(false);
       return localCleanupComplete;
     } catch {
       return false;
@@ -359,13 +298,10 @@ export function useUserSync(options?: UseUserSyncOptions) {
     supabaseConfigured,
     syncStatus,
     lastSyncedIso,
-    hasGuestDataToMerge,
-    guestFreezerCount,
     authLoading,
     signInWithProvider,
     signOut,
     pushCloudSync,
-    dismissGuestMergePrompt,
     exportAccountDataJson,
     deleteAccountAndData,
   };
