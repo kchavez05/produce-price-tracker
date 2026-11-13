@@ -54,7 +54,9 @@ node --import tsx scripts/ai-spike-731/run.mts \
 
 Use the actual unresolved run key and a real non-secret evidence reference. The command sends no API requests, refunds nothing, appends an audit event and never replays the run. It clears the halt only when no other pending/uncertain entries, known overruns or cap violations remain. A missing crash receipt remains missing in reporting; the command does not invent a model response.
 
-4. Refresh qualification after that audit, including any new reviewed runner hash and corrected account facts. The original --run command then skips already-reserved/settled identities and continues the remaining jobs under the same global budget. Qualification dated before the latest audit is refused. Human review/analysis must still account for failed or missing work and mixed code versions; recovery does not certify benchmark comparability.
+4. Refresh qualification after that audit, including any new reviewed runner hash and corrected account facts. Set checkedOn to the actual verification time as a full UTC ISO timestamp with milliseconds (for example, 2026-11-13T19:30:00.000Z); date-only values are refused. The timestamp must post-date the latest audit and be within 24 hours. Same-day requalification is supported. The original --run command then skips already-reserved/settled identities and continues the remaining jobs under the same global budget. Human review/analysis must still account for failed or missing work and mixed code versions; recovery does not certify benchmark comparability.
+
+Failed preflights permanently consume their attempt keys, including failures after paid transcription; audited recovery cannot replace them. Mixed runner versions permanently keep the automatic decisionComplete flag false. They require an explicit human comparability decision in the final record, without changing or hiding the original receipts.
 
 ## Scoring and blinded review
 

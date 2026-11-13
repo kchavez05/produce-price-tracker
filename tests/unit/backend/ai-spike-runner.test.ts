@@ -47,6 +47,23 @@ describe('approved isolated comparison packet', () => {
   it('refuses incomplete qualification even after plan approval', () => {
     expect(()=>requireQualified(packet,qualificationTemplate(packet))).toThrow('Qualification missing');
   });
+  it('requires exact verification timestamps and allows same-day requalification after an audit', () => {
+    for (const name of ['GEMINI_API_KEY','OPENAI_API_KEY','ANTHROPIC_API_KEY','DEEPGRAM_API_KEY']) vi.stubEnv(name,'fake-local-test');
+    const qualification=qualificationTemplate(packet);
+    qualification.runnerReviewEvidence='private completed review'; qualification.audioListeningReviewEvidence='private listening record';
+    for (const target of Object.values(object(qualification.targets))) Object.assign(object(target),{ modelAccessVerified:true,billingAndBoundsVerified:true,privacyVerified:true,tokenCountingFreeAndComplete:true,evidence:['private dated verification'] });
+    const audit=Date.now()-2000;
+    qualification.checkedOn=new Date(audit).toISOString().slice(0,10);
+    expect(()=>requireQualified(packet,qualification,audit)).toThrow('full UTC ISO timestamp');
+    for (const time of [audit-1,audit]) {
+      qualification.checkedOn=new Date(time).toISOString();
+      expect(()=>requireQualified(packet,qualification,audit)).toThrow('after the billing audit');
+    }
+    qualification.checkedOn=new Date(audit+1000).toISOString();
+    expect(()=>requireQualified(packet,qualification,audit)).not.toThrow();
+    qualification.checkedOn=new Date(Date.now()-25*60*60*1000).toISOString();
+    expect(()=>requireQualified(packet,qualification)).toThrow('within 24 hours');
+  });
   it('redacts exact secret values without logging headers', () => { expect(redact('prefix fake-secret suffix',['fake-secret'])).toBe('prefix [REDACTED] suffix'); });
 });
 

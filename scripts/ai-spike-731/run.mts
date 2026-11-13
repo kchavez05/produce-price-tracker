@@ -11,14 +11,16 @@ export function runnerHash(): string {
 }
 export function qualificationTemplate(packet: Packet): ObjectValue {
   return { issue:731, packetHash:packet.hash, runnerHash:runnerHash(), approvedPlan:'docs/research/ai-provider-spike-731/execution-approval.json',
-    runnerReviewEvidence:'', audioListeningReviewEvidence:'', checkedOn:'',
+    runnerReviewEvidence:'', audioListeningReviewEvidence:'', checkedOn:'', checkedOnFormat:'Full UTC ISO timestamp, e.g. 2026-11-13T19:30:00.000Z; record actual verification time',
     targets:Object.fromEntries(jobs(packet).map(job => [job.target, { modelAccessVerified:false, billingAndBoundsVerified:false, privacyVerified:false, tokenCountingFreeAndComplete:false, evidence:[] }])) };
 }
-export function requireQualified(packet: Packet, qualification: ObjectValue): void {
+export function requireQualified(packet: Packet, qualification: ObjectValue, latestAuditTime = 0): void {
   if (qualification.issue !== 731 || qualification.packetHash !== packet.hash || qualification.runnerHash !== runnerHash()) throw new Error('Qualification does not bind this approved packet and runner');
   for (const field of ['runnerReviewEvidence','audioListeningReviewEvidence','checkedOn']) if (typeof qualification[field] !== 'string' || !String(qualification[field]).trim()) throw new Error(`Qualification missing ${field}`);
   const date = Date.parse(String(qualification.checkedOn));
+  if (!Number.isFinite(date) || new Date(date).toISOString() !== qualification.checkedOn) throw new Error('Qualification checkedOn requires a full UTC ISO timestamp');
   if (!Number.isFinite(date) || date > Date.now() + 60_000 || Date.now() - date > 24*60*60*1000) throw new Error('Qualification must be refreshed within 24 hours');
+  if (date <= latestAuditTime) throw new Error('Renew qualification after the billing audit');
   const targets = object(qualification.targets);
   for (const target of new Set(jobs(packet).map(job => job.target))) {
     const record = object(targets[target]);
@@ -158,7 +160,7 @@ export async function main(argv: string[]): Promise<void> {
   const ledger = new Ledger(STATE,packet.hash);
   try {
     ledger.assertRunnable();
-    if (Date.parse(String(qualification.checkedOn))<=ledger.latestAuditTime()) throw new Error('Renew qualification after the billing audit');
+    requireQualified(packet,qualification,ledger.latestAuditTime());
     const providers = new Providers();
     for (const job of schedule) {
       if (runnerHash()!==frozenRunnerHash) throw new Error('Runner changed during execution');
