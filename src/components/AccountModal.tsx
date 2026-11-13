@@ -23,7 +23,6 @@ import {
   Lock,
   Cloud,
   Database,
-  ArrowRightLeft,
 } from 'lucide-react';
 
 interface AccountModalProps {
@@ -36,19 +35,14 @@ interface AccountModalProps {
   syncStatus: SyncStatus;
   lastSyncedIso: string | null;
   authLoading: boolean;
-  hasGuestDataToMerge: boolean;
-  guestFreezerCount: number;
   currentZip: string;
   activeStores: StoreChain[];
   macroGoal: MacroGoal;
   dietaryConstraints: DietaryConstraint[];
   applianceFilter: CookingVesselArchetype;
-  freezerItemCount: number;
-  pantryEnabled?: boolean;
+  pantryItemCount: number;
   onSignIn: (provider: AuthProviderType) => Promise<void>;
   onSignOut: () => Promise<void>;
-  onMergeGuestData: () => Promise<boolean>;
-  onDismissMergePrompt: () => void;
   onForceSync: () => Promise<void>;
   onExportData: () => Promise<boolean>;
   onDeleteAccount: () => Promise<boolean>;
@@ -64,28 +58,20 @@ export default function AccountModal({
   syncStatus,
   lastSyncedIso,
   authLoading,
-  hasGuestDataToMerge,
-  guestFreezerCount,
   currentZip,
   activeStores,
   macroGoal,
   dietaryConstraints,
   applianceFilter,
-  freezerItemCount,
-  pantryEnabled = false,
+  pantryItemCount,
   onSignIn,
   onSignOut,
-  onMergeGuestData,
-  onDismissMergePrompt,
   onForceSync,
   onExportData,
   onDeleteAccount,
 }: AccountModalProps) {
   const [exportSuccess, setExportSuccess] = useState(false);
   const [confirmDeleteStep, setConfirmDeleteStep] = useState(false);
-  const [merging, setMerging] = useState(false);
-  const [mergeError, setMergeError] = useState<string | null>(null);
-  const [statusBanner, setStatusBanner] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -94,23 +80,6 @@ export default function AccountModal({
     if (ok) {
       setExportSuccess(true);
       setTimeout(() => setExportSuccess(false), 3500);
-    }
-  }
-
-  async function handleMergeClick() {
-    setMerging(true);
-    setMergeError(null);
-    try {
-      if (!(await onMergeGuestData())) {
-        setMergeError('Unable to save the guest import locally. Please retry.');
-        return;
-      }
-      setStatusBanner(
-        'Guest inventory is saved locally; account sync will retry if needed.'
-      );
-      setTimeout(() => setStatusBanner(null), 4000);
-    } finally {
-      setMerging(false);
     }
   }
 
@@ -142,7 +111,7 @@ export default function AccountModal({
             <h3 className="font-bold text-sm text-slate-900">
               {authenticated
                 ? 'Account, Cloud Sync & Privacy Controls (v1.3)'
-                : pantryEnabled ? 'Sign In to Sync Your Virtual Pantry & Preferences' : 'Sign In to Sync Your Virtual Freezer & Preferences'}
+                : 'Sign In to Sync Your Virtual Pantry & Preferences'}
             </h3>
             <p className="text-[11px] text-slate-500">
               {authenticated
@@ -160,22 +129,6 @@ export default function AccountModal({
         </button>
       </div>
 
-      {mergeError && <p role="alert" className="mt-3 text-sm font-semibold text-rose-700">{mergeError}</p>}
-      {statusBanner && (
-        <div className="mt-3 flex items-center justify-between rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-2 text-emerald-900 font-semibold">
-          <div className="flex items-center gap-2">
-            <Check className="h-4 w-4 text-emerald-600 shrink-0" />
-            <span>{statusBanner}</span>
-          </div>
-          <button
-            onClick={() => setStatusBanner(null)}
-            className="text-emerald-700 hover:text-emerald-950 font-bold"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
       {!authenticated ? (
         <div className="mt-3 grid gap-4 lg:grid-cols-12">
           {/* SSO Sign-In Buttons */}
@@ -191,7 +144,7 @@ export default function AccountModal({
                 </span>
               </div>
               <p className="mt-1.5 text-[11px] text-slate-600 leading-relaxed">
-                Sign in to back up your <strong>{pantryEnabled ? 'Virtual Pantry' : 'Virtual Freezer'}</strong>,{' '}
+                Sign in to back up your <strong>{'Virtual Pantry'}</strong>,{' '}
                 <strong>My Stores</strong> filter, and{' '}
                 <strong>Macro/Dietary profile</strong> across your phone, tablet,
                 and desktop.
@@ -296,7 +249,7 @@ export default function AccountModal({
                   <span className="font-bold text-emerald-700">✓</span>
                   <span>
                     <strong>PostgreSQL Row-Level Security (RLS):</strong> Every
-                    freezer item and preference row is isolated at the database
+                    pantry entry and preference row is isolated at the database
                     engine layer via <code>auth.uid() = user_id</code>.
                   </span>
                 </li>
@@ -321,47 +274,6 @@ export default function AccountModal({
       ) : (
         <div className="mt-3 space-y-3">
           {/* Guest-to-Account Migration Prompt (Ticket #28) */}
-          {hasGuestDataToMerge && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-300 bg-amber-50 p-3">
-              <div className="flex items-center gap-2.5">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500 text-white shrink-0">
-                  <ArrowRightLeft className="h-4 w-4" />
-                </span>
-                <div>
-                  <div className="font-bold text-amber-950 text-xs">
-                    Local Guest Data Detected on This Device
-                  </div>
-                  <p className="text-[11px] text-amber-900">
-                    We found{' '}
-                    <strong>
-                      {guestFreezerCount > 0
-                        ? `${guestFreezerCount} local Virtual Freezer item(s)`
-                        : 'saved local grocery preferences'}
-                    </strong>{' '}
-                    from your anonymous session. Merge them into your account?
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  disabled={merging}
-                  onClick={handleMergeClick}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-amber-700 disabled:opacity-50 transition"
-                >
-                  <ArrowRightLeft className="h-3.5 w-3.5" />
-                  <span>{merging ? 'Merging...' : 'Merge into Account'}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={onDismissMergePrompt}
-                  className="rounded-lg border border-amber-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-amber-900 hover:bg-amber-100 transition"
-                >
-                  Skip
-                </button>
-              </div>
-            </div>
-          )}
 
           <div className="grid gap-3 lg:grid-cols-12">
             {/* Signed-In Profile Summary */}
@@ -460,10 +372,10 @@ export default function AccountModal({
                   </div>
                   <div className="rounded-lg bg-slate-50 p-2 border border-slate-100">
                     <div className="text-slate-400 text-[10px]">
-                      {pantryEnabled ? 'Virtual Pantry' : 'Virtual Freezer'}
+                      {'Virtual Pantry'}
                     </div>
                     <div className="font-bold text-sky-800">
-                      {freezerItemCount} {pantryEnabled ? 'ingredients' : 'Cut(s) Banked'}
+                      {pantryItemCount} {'ingredients'}
                     </div>
                   </div>
                   <div className="rounded-lg bg-slate-50 p-2 border border-slate-100">

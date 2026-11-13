@@ -3,7 +3,7 @@ import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import { NextRequest } from 'next/server';
 import { POST as account, POST as signIn, DELETE as deleteAccount } from '@/app/api/account/route';
 import { GET as recipes, POST as saveRecipe, DELETE as deleteRecipe } from '@/app/api/saved-recipes/route';
-import { POST as addFreezer } from '@/app/api/freezer/route';
+import { GET as readPantry, POST as writePantry } from '@/app/api/pantry/route';
 import { GET as dashboard } from '@/app/api/dashboard/route';
 import { POST as sync } from '@/app/api/sync/route';
 import { resolveCurrentUserProfile } from '@/lib/supabase/session';
@@ -64,24 +64,25 @@ describe('private session and inventory boundaries', () => {
     expect((await resolveCurrentUserProfile()).profile?.displayName).toBe('New name');
   });
 
-  it('isolates guest recipes and freezer data through dashboard reads and deletes', async () => {
+  it('isolates guest recipes and pantry data through dashboard reads and deletes', async () => {
     expect((await saveRecipe(req('/api/saved-recipes', { dish: createMockDish({ id: 'private-recipe' }) }))).status).toBe(200);
     const ownerToken = cookieJar.get(GUEST_SESSION_COOKIE_NAME)!;
-    await addFreezer(req('/api/freezer', { item: {
-      id: 'private-freezer', canonicalIngredientId: 'ground-beef-80-20', ingredientName: 'Beef', category: 'PROTEIN',
-      quantityLbOrDoz: 2, unit: 'lb', purchasePricePerUnit: 2, regularPricePerUnit: 3,
-      totalCostBasis: 4, estimatedSavings: 2, store: 'KING_SOOPERS', storeBanner: 'KS', purchasedAtIso: new Date().toISOString(),
-    } }));
+    const pantry = await (await readPantry(req('/api/pantry', undefined, 'GET'))).json();
+    expect((await writePantry(req('/api/pantry', { owner: pantry.owner, action: 'migrate' }))).status).toBe(200);
+    expect((await writePantry(req('/api/pantry', { owner: pantry.owner, action: 'mutate', mutation: {
+      mutationId: 'private-pantry-add', entryId: 'private-pantry', expectedRevision: 0, operation: 'put',
+      entry: { displayName: 'Beef', ingredientId: 'ground-beef-80-20', available: true },
+    } }))).status).toBe(200);
     cookieJar.clear();
     expect((await (await recipes()).json()).recipes).toEqual([]);
     await deleteRecipe(req('/api/saved-recipes?id=private-recipe', undefined, 'DELETE'));
     const stranger = await (await dashboard(req('/api/dashboard', undefined, 'GET'))).json();
-    expect(stranger.freezerInventory).toEqual([]);
+    expect((await (await readPantry(req('/api/pantry', undefined, 'GET'))).json()).entries).toEqual([]);
     expect(stranger.allRankedDishes.some((d: { id: string }) => d.id === 'private-recipe')).toBe(false);
     cookieJar.set(GUEST_SESSION_COOKIE_NAME, ownerToken);
     expect((await (await recipes()).json()).recipes).toHaveLength(1);
     const owner = await (await dashboard(req('/api/dashboard', undefined, 'GET'))).json();
-    expect(owner.freezerInventory[0].id).toBe('private-freezer');
+    expect((await (await readPantry(req('/api/pantry', undefined, 'GET'))).json()).entries[0].id).toBe('private-pantry');
     expect(owner.allRankedDishes.some((d: { id: string }) => d.id === 'private-recipe')).toBe(true);
   });
 

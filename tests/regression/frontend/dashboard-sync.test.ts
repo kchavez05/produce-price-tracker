@@ -65,7 +65,7 @@ async function openPantry() {
 }
 async function mount() {
   root = createRoot(container);
-  await act(async () => { root.render(createElement(MealPrepDashboard, { initialData, pantryEnabled: true, initialAccountId: 'alice' })); await settle(); });
+  await act(async () => { root.render(createElement(MealPrepDashboard, { initialData, initialAccountId: 'alice' })); await settle(); });
 }
 beforeEach(async () => {
   localStorage.clear(); sessionStorage.clear(); server = structuredClone(initialSync);

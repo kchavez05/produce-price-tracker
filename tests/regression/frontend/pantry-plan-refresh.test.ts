@@ -33,7 +33,7 @@ function button(text: string) {
   if (!found) throw new Error(`Missing button: ${text}`);
   return found;
 }
-async function render() { await run(() => root.render(createElement(MealPrepDashboard, { initialData: data, pantryEnabled: true }))); }
+async function render() { await run(() => root.render(createElement(MealPrepDashboard, { initialData: data }))); }
 beforeEach(() => {
   pantry.entries = []; localStorage.clear();
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);

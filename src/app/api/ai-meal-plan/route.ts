@@ -64,12 +64,11 @@ export async function POST(request: NextRequest) {
     const cityLabel: string = (body?.cityLabel || 'Local Area').trim();
 
     const inventory = await loadInventoryState();
-    const pantryMode = process.env.PANTRYBOT_PANTRY_ENABLED === 'true';
-    if (pantryMode) onHandIngredientIds = Array.isArray(body?.onHandIngredientIds)
+    onHandIngredientIds = Array.isArray(body?.onHandIngredientIds)
       ? onHandIngredientIds.filter((id) => typeof id === 'string' && pantryCatalog.has(id))
       : await readProfilePantryAvailability(inventory.profile);
     const dashboard = await buildDashboardPayload({
-      freezerInventory: process.env.PANTRYBOT_PANTRY_ENABLED === 'true' ? [] : inventory.freezerItems,
+      freezerInventory: [],
       savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter,
@@ -118,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in ${cityLabel} (${zipCode}) shopping at local supermarkets.
 The user strongly prefers LOW-EFFORT, REHEATABLE BATCH MEALS: stews, slow-cooker braises, Dutch oven chilis, curries, sheet-pan roasts, and 9x13 oven casseroles/bakes over multi-component plated meals.
-We need exactly 3 distinct batch-prep dishes (${targetServings} servings each) that maximize use of the cheapest on-sale ingredients below ${pantryMode ? '(favor available and pinned ingredients when compatible with strict dietary constraints)' : '(and MUST incorporate any ingredients where isUserPinned or isOnHand is true)'}.
+We need exactly 3 distinct batch-prep dishes (${targetServings} servings each) that maximize use of the cheapest on-sale ingredients below (favor available and pinned ingredients when compatible with strict dietary constraints).
 
 Household Nutrition & Cooking Profile (Milestone v1.2):
 - Target Macro Profile: ${macroGoal} ${macroGoal === 'HIGH_PROTEIN' ? '(Target >= 40g protein per serving)' : macroGoal === 'LOW_CARB_KETO' ? '(Target <= 20g net carbs per serving; use cauliflower, cabbage, zucchini, mushrooms, or greens instead of potatoes/beans)' : macroGoal === 'CALORIE_CONSCIOUS' ? '(Target <= 460 kcal per serving)' : '(Balanced macros)'}
@@ -129,7 +128,7 @@ Household Nutrition & Cooking Profile (Milestone v1.2):
 Live ${cityLabel} (${zipCode}) Sale Ingredients JSON:
 ${JSON.stringify(topDealsContext, null, 2)}
 
-${pantryMode ? `Available catalog IDs: ${JSON.stringify(onHandIngredientIds)}. Pantry availability is boolean and does not imply quantity sufficiency. Favor available ingredients only when compatible with strict dietary constraints and the user request. Never deduct inventory. Put every staple in pantryRequirements using an exact catalog ID, quantity for the entire batch, and the listed kitchen unit. Use an unmapped ID and displayName for ingredients outside this catalog; never invent an identity or price. pantryStaples must be empty when pantryRequirements are supplied. Cooking catalog (missing staticPrice means unpriced): ${JSON.stringify(activeCookingIngredients.map(({ id, name, staticPrice }) => ({ id, name, staticPrice })))}` : ''}
+${`Available catalog IDs: ${JSON.stringify(onHandIngredientIds)}. Pantry availability is boolean and does not imply quantity sufficiency. Favor available ingredients only when compatible with strict dietary constraints and the user request. Never deduct inventory. Put every staple in pantryRequirements using an exact catalog ID, quantity for the entire batch, and the listed kitchen unit. Use an unmapped ID and displayName for ingredients outside this catalog; never invent an identity or price. pantryStaples must be empty when pantryRequirements are supplied. Cooking catalog (missing staticPrice means unpriced): ${JSON.stringify(activeCookingIngredients.map(({ id, name, staticPrice }) => ({ id, name, staticPrice })))}`}
 
 Calculate realistic batch costs using the exact normalizedPricePerUnit values provided (set slotCost to 0 if isOnHand is true).`;
 
@@ -250,7 +249,7 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
               'macrosPerServing',
               'estimatedPantryCost',
               'pantryStaples',
-              ...(pantryMode ? ['pantryRequirements'] : []),
+              'pantryRequirements',
               'steps',
               'reheatTip',
               'matchedIngredients',
@@ -312,7 +311,7 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
         aiGenerated: true,
         savedInLibrary: false,
       };
-      return pantryMode ? applyPantryToRecipe(enriched, onHandIngredientIds, dashboard.commodities) : enriched;
+      return applyPantryToRecipe(enriched, onHandIngredientIds, dashboard.commodities);
     });
 
     return NextResponse.json({

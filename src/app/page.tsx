@@ -7,10 +7,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const inventory = await loadInventoryState();
-  const pantryEnabled = process.env.PANTRYBOT_PANTRY_ENABLED === 'true';
-  const onHandIngredientIds = pantryEnabled ? await readProfilePantryAvailability(inventory.profile).catch(() => []) : [];
+  const onHandIngredientIds = await readProfilePantryAvailability(inventory.profile).catch(() => []);
   const initialData = await buildDashboardPayload({
-    freezerInventory: pantryEnabled ? [] : inventory.freezerItems,
+    freezerInventory: [],
     savedRecipes: inventory.savedRecipes,
     zipCode: '80542',
     storeFilter: 'ALL',
@@ -18,7 +17,7 @@ export default async function HomePage() {
     onHandIngredientIds,
   });
 
-  return <MealPrepDashboard initialData={initialData} pantryEnabled={pantryEnabled} barcodeEnabled={process.env.PANTRYBOT_BARCODE_LOOKUP_ENABLED === 'true'}
+  return <MealPrepDashboard initialData={initialData} barcodeEnabled={process.env.PANTRYBOT_BARCODE_LOOKUP_ENABLED === 'true'}
     cameraEnabled={process.env.PANTRYBOT_BARCODE_CAMERA_ENABLED === 'true'}
     initialPrivateRecipes={inventory.savedRecipes}
     initialAccountId={inventory.profile && !inventory.profile.id.startsWith('guest-') ? inventory.profile.id : null} />;

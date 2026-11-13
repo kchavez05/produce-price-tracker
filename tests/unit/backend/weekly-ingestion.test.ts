@@ -30,7 +30,13 @@ describe('weekly ingestion through dashboard scoring', () => {
       expect(new Set(next.recommendedTrio.map((dish) => dish.id)).size).toBe(3);
       expect(next.recommendedTrio.map((dish) => dish.id).sort())
         .not.toEqual(previous.recommendedTrio.map((dish) => dish.id).sort());
-      expect(next.allRankedDishes).toEqual(previous.allRankedDishes);
+      // Pantry estimates record their evaluation time; the recipe content and
+      // prices stay stable while the weekly recommendation selection rotates.
+      const withoutEvaluationTime = (dishes: typeof next.allRankedDishes) => dishes.map((dish) => ({
+        ...dish, ...(dish.pantryPricing ? { pantryPricing: { ...dish.pantryPricing, evaluatedAtIso: '' } } : {}),
+      }));
+      expect(withoutEvaluationTime(next.allRankedDishes)).toEqual(withoutEvaluationTime(previous.allRankedDishes));
+      expect(next.allRankedDishes.every((dish) => dish.pantryPricing?.evaluatedAtIso === new Date(boundary).toISOString())).toBe(true);
       expect(next.commodities.map((item) => item.bestOffer.normalizedPricePerUnit))
         .toEqual(previous.commodities.map((item) => item.bestOffer.normalizedPricePerUnit));
     }

@@ -32,10 +32,9 @@ function signIn(id: string) {
 describe('private pantry API in keyless mode', () => {
   beforeEach(() => { clientNumber += 1; vi.stubEnv('PANTRYBOT_SQLITE_PATH', ':memory:'); vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', ''); vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'true'); cookieJar.clear(); resetSqliteTestInstance(); });
   afterEach(() => { resetSqliteTestInstance(); vi.unstubAllEnvs(); });
-  it('keeps rollout disabled by default and rejects malformed/cross-origin requests', async () => {
-    vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'false');
-    expect((await GET(req(undefined, 'GET'))).status).toBe(503);
-    vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', 'true');
+  it('works without a rollout flag and rejects malformed/cross-origin requests', async () => {
+    vi.stubEnv('PANTRYBOT_PANTRY_ENABLED', '');
+    expect((await GET(req(undefined, 'GET'))).status).toBe(200);
     expect((await POST(new NextRequest('http://localhost/api/pantry', { method: 'POST', headers: { host: 'localhost', origin: 'https://elsewhere.test' } }))).status).toBe(403);
     expect((await POST(req([]))).status).toBe(400);
   });

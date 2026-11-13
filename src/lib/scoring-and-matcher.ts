@@ -432,7 +432,7 @@ export async function buildDashboardPayload(options?: {
       freezerIngredientIds,
       savedRecipes: options?.savedRecipes,
       now: observedAt,
-      pantryMode: options?.pantryMode ?? process.env.PANTRYBOT_PANTRY_ENABLED === 'true',
+      pantryMode: options?.pantryMode ?? true,
     }
   );
 
