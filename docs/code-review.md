@@ -29,12 +29,16 @@ Keep monitoring output compact: use `gh pr checks`, or query `headRefOid`, revie
 
 ### Automatic review setup
 
-Until the app is installed, a local `/code-review --comment` run against the PR head is the completed review; do not wait for a hosted reply that cannot arrive.
+The Claude GitHub app is installed and hosted review is live. A local `/code-review --comment` run against the PR head is the completed review only when the hosted job cannot run (app unavailable, quota exhausted, or the workflow-validation skip below); do not wait for a hosted reply that cannot arrive.
 
-1. Install the Claude GitHub app on this repository (run `/install-github-app` in Claude Code) so `claude-code-action` can review PRs and respond to `@claude` mentions.
+1. The Claude GitHub app must stay installed on this repository (`/install-github-app` in Claude Code) so `claude-code-action` can review PRs and respond to `@claude` mentions.
 2. Configure the workflow trigger (opened and ready-for-review only, non-draft) and verify it covers the intended PR event; otherwise use the manual comment above.
 3. Disable automatic Codex and Copilot reviews for this repository where configured, so providers do not duplicate or consume quota. Do not change broader account-level preferences without authorization.
 4. Verify an actual completed Claude assessment on the latest PR head before relying on automation. Leave existing branch protections, CI checks and required approvals intact.
+
+### Workflow-validation skip (false green)
+
+`claude-code-action` refuses to run when the PR's `.github/workflows/claude-code-review.yml` differs from the default branch (`main`). The job then reports `success` with no review. Because workflow edits reach `main` only through a release (or a dedicated sync PR), any PR that edits `claude-code-review.yml` or `claude.yml` is unreviewed by the hosted job, and PRs to `develop` stay affected until `main` catches up. The job's fallback step posts a "no assessment was recorded" comment and a warning annotation, naming this cause when the file differs from `main`. Treat that comment as a missing review: run `/code-review --comment` locally on the head, or `@claude review` after the files match. A green `claude-review` check alone is never proof of review; look for a `claude[bot]` "Code review" comment.
 
 These settings live outside the repository. Editing instructions does not enable or disable any service; check actual PR activity to verify access.
 
