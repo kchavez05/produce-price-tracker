@@ -64,22 +64,41 @@ jobs:
           PR: ${{ github.event.pull_request.number }}
           STARTED: ${{ steps.review-start.outputs.started }}
           OUTCOME: ${{ steps.claude-review.outcome }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          WORKFLOW_PATH: .github/workflows/claude-code-review.yml
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
           since="${STARTED:-1970-01-01T00:00:00Z}"
           bot='claude[bot]'
-          issue_comments=$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
-            --jq "[.[] | select(.user.login==\"$bot\" and .created_at >= \"$since\")] | length" | paste -sd+ - | bc)
-          reviews=$(gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
-            --jq "[.[] | select(.user.login==\"$bot\" and .submitted_at >= \"$since\")] | length" | paste -sd+ - | bc)
-          inline=$(gh api "repos/$REPO/pulls/$PR/comments" --paginate \
-            --jq "[.[] | select(.user.login==\"$bot\" and .created_at >= \"$since\")] | length" | paste -sd+ - | bc)
+          count_bot() { # $1 = REST path, $2 = timestamp field
+            gh api "$1" --paginate \
+              --jq "[.[] | select(.user.login==\"$bot\" and .$2 >= \"$since\")] | length" \
+              | awk '{s+=$1} END{print s+0}'
+          }
+          issue_comments=$(count_bot "repos/$REPO/issues/$PR/comments" created_at)
+          reviews=$(count_bot "repos/$REPO/pulls/$PR/reviews" submitted_at)
+          inline=$(count_bot "repos/$REPO/pulls/$PR/comments" created_at)
           total=$(( ${issue_comments:-0} + ${reviews:-0} + ${inline:-0} ))
           if [ "$total" -gt 0 ]; then
             echo "claude[bot] posted $total item(s) on this PR; no fallback needed."
             exit 0
           fi
+          # claude-code-action silently skips (and the job stays green) when this workflow
+          # file differs from the default branch, and the step outcome cannot tell a skip
+          # from other failures. So report the likely cause, never assert it.
+          cause=""
+          default_sha=$(gh api "repos/$REPO/contents/$WORKFLOW_PATH?ref=$DEFAULT_BRANCH" --jq .sha 2>/dev/null || true)
+          pr_sha=$(gh api "repos/$REPO/contents/$WORKFLOW_PATH?ref=$PR_HEAD_SHA" --jq .sha 2>/dev/null || true)
+          if [ -z "$default_sha" ] || [ -z "$pr_sha" ]; then
+            cause="Could not compare \`$WORKFLOW_PATH\` with \`$DEFAULT_BRANCH\` (API lookup failed), so the cause is unknown."
+          elif [ "$default_sha" != "$pr_sha" ]; then
+            cause="Likely cause: this PR head's \`$WORKFLOW_PATH\` differs from \`$DEFAULT_BRANCH\`, and claude-code-action skips itself in that case, so the workflow is not validated until the change reaches \`$DEFAULT_BRANCH\`. Use a local \`/code-review --comment\` run on this head instead of waiting."
+          fi
+          echo "::warning title=No Claude review recorded::claude[bot] posted nothing for this head (step outcome: $OUTCOME). ${cause}"
           gh pr comment "$PR" --repo "$REPO" --body "## Code review
 
-          The automated Claude review job finished (step outcome: \`${OUTCOME}\`) without posting a review or comment, so **no assessment was recorded** for this head. This is not a clean result. Request one with \`@claude review the latest head against AGENTS.md and docs/code-review.md\`, or run \`/code-review --comment\` locally. [Job run](${RUN_URL})"
+          The automated Claude review job finished (step outcome: \`${OUTCOME}\`) without posting a review or comment, so **no assessment was recorded** for this head. This is not a clean result. ${cause}
+
+          Request one with \`@claude review the latest head against AGENTS.md and docs/code-review.md\`, or run \`/code-review --comment\` locally. [Job run](${RUN_URL})"
