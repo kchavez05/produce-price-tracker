@@ -369,8 +369,9 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     }
   }
 
-  function handleBuyTwoPrepOneFreezeOne() {
-    setArbitrageToast('This is a purchase suggestion. Update Virtual Pantry explicitly when you want to record an ingredient.');
+  function handleReviewStockUp() {
+    setShowPantry(true);
+    setArbitrageToast('Review your Pantry before stocking up. Record ingredients after purchase.');
   }
 
   async function handleForceCloudSync() {
@@ -1180,7 +1181,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
           )}
 
           {/* Private Virtual Pantry drawer */}
-          {showPantry && true && <VirtualPantry owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
+          {showPantry && <VirtualPantry owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
             key={pantry.owner ?? `loading:${pantryAccountId ?? 'guest'}`}
             entries={pantry.entries} acceptedCatalogIds={pantry.acceptedCatalogIds} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
             importDuplicates={pantry.importDuplicates}
@@ -1695,7 +1696,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                           {item.arbitragePrompt?.eligible && (
                             <button
                               type="button"
-                              onClick={() => handleBuyTwoPrepOneFreezeOne()}
+                              onClick={() => handleReviewStockUp()}
                               className={`w-full flex items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${
                                 'bg-sky-400/25 text-sky-200 border border-sky-400/40 hover:bg-sky-400/40'
                               }`}
@@ -2093,7 +2094,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                       {item.arbitragePrompt?.eligible && (
                         <button
                           type="button"
-                          onClick={() => handleBuyTwoPrepOneFreezeOne()}
+                          onClick={() => handleReviewStockUp()}
                           className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3 py-1.5 text-xs font-bold text-sky-900 hover:bg-sky-100 transition"
                         >
                           <Snowflake className="h-3.5 w-3.5 text-sky-600" />
@@ -3322,7 +3323,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                           {item.arbitragePrompt?.eligible && (
                             <button
                               type="button"
-                              onClick={() => handleBuyTwoPrepOneFreezeOne()}
+                              onClick={() => handleReviewStockUp()}
                               className="shrink-0 rounded-lg bg-sky-600 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-sky-700"
                             >
                               ❄️ Buy 2 / Freeze 1

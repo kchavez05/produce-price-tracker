@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     const prompt = `You are a weekend meal-prep chef and grocery value optimizer for a household in ${cityLabel} (${zipCode}) shopping at local supermarkets.
 The user strongly prefers LOW-EFFORT, REHEATABLE BATCH MEALS: stews, slow-cooker braises, Dutch oven chilis, curries, sheet-pan roasts, and 9x13 oven casseroles/bakes over multi-component plated meals.
-We need exactly 3 distinct batch-prep dishes (${targetServings} servings each) that maximize use of the cheapest on-sale ingredients below ${'(favor available and pinned ingredients when compatible with strict dietary constraints)'}.
+We need exactly 3 distinct batch-prep dishes (${targetServings} servings each) that maximize use of the cheapest on-sale ingredients below (favor available and pinned ingredients when compatible with strict dietary constraints).
 
 Household Nutrition & Cooking Profile (Milestone v1.2):
 - Target Macro Profile: ${macroGoal} ${macroGoal === 'HIGH_PROTEIN' ? '(Target >= 40g protein per serving)' : macroGoal === 'LOW_CARB_KETO' ? '(Target <= 20g net carbs per serving; use cauliflower, cabbage, zucchini, mushrooms, or greens instead of potatoes/beans)' : macroGoal === 'CALORIE_CONSCIOUS' ? '(Target <= 460 kcal per serving)' : '(Balanced macros)'}
@@ -249,7 +249,7 @@ Calculate realistic batch costs using the exact normalizedPricePerUnit values pr
               'macrosPerServing',
               'estimatedPantryCost',
               'pantryStaples',
-              ...(['pantryRequirements']),
+              'pantryRequirements',
               'steps',
               'reheatTip',
               'matchedIngredients',
