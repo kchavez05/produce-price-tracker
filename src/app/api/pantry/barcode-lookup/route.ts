@@ -14,7 +14,7 @@ function json(value: BarcodeLookupResult, status = 200, extra: Record<string, st
 export async function POST(request: NextRequest) {
   const requestStarted = performance.now();
   if (!verifySameOrigin(request)) return json({ status: 'INVALID', message: 'A same-origin request is required.' }, 403);
-  if (process.env.PANTRYBOT_PANTRY_ENABLED !== 'true' || process.env.PANTRYBOT_BARCODE_LOOKUP_ENABLED !== 'true') return json({ status: 'DISABLED', message: 'Product lookup is not enabled. Ingredient search and custom entry remain available.' }, 503);
+  if (process.env.PANTRYBOT_BARCODE_LOOKUP_ENABLED !== 'true') return json({ status: 'DISABLED', message: 'Product lookup is not enabled. Ingredient search and custom entry remain available.' }, 503);
   // In-process throttling is supplementary. Public activation needs deployed shared enforcement.
   if (process.env.NODE_ENV === 'production' && process.env.PANTRYBOT_BARCODE_SHARED_LIMIT_VERIFIED !== 'true') return json({ status: 'SERVICE_UNAVAILABLE', message: 'Product lookup is not configured for public use. Choose an ingredient manually.' }, 503);
   const rate = checkRateLimit(request, 'barcode-lookup', 30, 60_000);

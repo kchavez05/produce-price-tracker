@@ -20,7 +20,6 @@ import {
   DashboardPayload,
   DealType,
   DietaryConstraint,
-  FreezerItem,
   MacroGoal,
   RecommendedDish,
   ScoredCommodity,
@@ -39,7 +38,6 @@ import {
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
 import AccountModal from '@/components/AccountModal';
-import { mergeFreezerItems, parseGuestFreezer } from '@/lib/sync/queue';
 import { useUserSync } from '@/hooks/useUserSync';
 import {
   Sparkles,
@@ -77,9 +75,6 @@ import {
   Copy,
   ExternalLink,
   Printer,
-  Trash2,
-  Plus,
-  Minus,
   Award,
   SlidersHorizontal,
   ArrowLeftRight,
@@ -89,15 +84,13 @@ import {
 
 interface Props {
   initialData: DashboardPayload;
-  pantryEnabled?: boolean;
   barcodeEnabled?: boolean;
   cameraEnabled?: boolean;
   initialAccountId?: string | null;
   initialPrivateRecipes?: RecommendedDish[];
 }
 
-export default function MealPrepDashboard({ initialData, pantryEnabled = false, barcodeEnabled = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
-  const InventoryIcon = pantryEnabled ? DoorOpen : Snowflake;
+export default function MealPrepDashboard({ initialData, barcodeEnabled = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
   const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
   const [activeTab, setActiveTab] = useState<
@@ -109,22 +102,10 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     'VALUE_SCORE' | 'LOWEST_PRICE' | 'BIGGEST_DISCOUNT'
   >('VALUE_SCORE');
   const [pinnedIds, setPinnedIds] = useState<string[]>([]);
-  // v0.4: On-Hand in Freezer/Pantry IDs (Ticket #8) & Target Servings 4/6/8 (Ticket #9)
-  const [onHandIds, setOnHandIds] = useState<string[]>([]);
   const [targetServings, setTargetServings] = useState<4 | 6 | 8>(6);
-  const [legacySavedRecipeIds, setSavedRecipeIds] = useState<Record<string, boolean>>({});
-
-  // v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage state
-  const [freezerItems, setFreezerItems] = useState<FreezerItem[]>(
-    () => pantryEnabled ? [] : initialData.freezerInventory || []
-  );
-  const [showFreezerModal, setShowFreezerModal] = useState(false);
+  const [showPantry, setShowPantry] = useState(false);
   const pantryTrigger = useRef<HTMLButtonElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
-  const [customFreezerIngredientId, setCustomFreezerIngredientId] = useState<string>(
-    initialData.commodities[0]?.ingredient.id || 'pork-shoulder-butt'
-  );
-  const [customFreezerQty, setCustomFreezerQty] = useState<string>('3.0');
 
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
   const [macroGoal, setMacroGoal] = useState<MacroGoal>('ANY');
@@ -198,13 +179,9 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     if (Array.isArray(prefs.pinnedIngredientIds)) {
       setPinnedIds(prefs.pinnedIngredientIds);
     }
-    if (!pantryEnabled && Array.isArray(prefs.onHandIngredientIds)) {
-      setOnHandIds(prefs.onHandIngredientIds);
-    }
-    if (!pantryEnabled) setFreezerItems(payload.freezerItems || []);
+
     setSavedLibrary({ owner: `account:${payload.profile!.id}`, recipes: payload.savedRecipes || [] });
-    setSavedRecipeIds(Object.fromEntries((payload.savedRecipes || []).map((dish) => [dish.id, true])));
-  }, [pantryEnabled]);
+  }, []);
 
   const userSync = useUserSync({
     onCloudStateHydrated: handleCloudHydrated,
@@ -213,25 +190,14 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     },
   });
   const pantryAccountId = userSync.lastSyncedIso !== null ? userSync.profile?.id ?? null : initialAccountId;
-  const pantry = usePantry(pantryEnabled, pantryAccountId);
-  const savedRecipeIds = pantryEnabled
-    ? savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest)
-      ? Object.fromEntries(savedLibrary.recipes.map((dish) => [dish.id, true])) : {}
-    : legacySavedRecipeIds;
+  const pantry = usePantry(true, pantryAccountId);
+  const savedRecipeIds = savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest)
+      ? Object.fromEntries(savedLibrary.recipes.map((dish) => [dish.id, true])) : {};
   const pantryOwnerRef = useRef(pantry.owner);
   pantryOwnerRef.current = pantry.owner;
 
-  // Combine manual onHandIds + any canonicalIngredientId currently in Virtual Freezer
-  const effectiveOnHandIds = useMemo(() => {
-    if (pantryEnabled) return availablePantryIngredientIds(pantry.entries);
-    const set = new Set<string>(onHandIds);
-    for (const f of freezerItems) {
-      if (f.quantityLbOrDoz > 0) {
-        set.add(f.canonicalIngredientId);
-      }
-    }
-    return Array.from(set);
-  }, [pantryEnabled, pantry.entries, onHandIds, freezerItems]);
+  // Availability comes only from the private Pantry.
+  const effectiveOnHandIds = useMemo(() => availablePantryIngredientIds(pantry.entries), [pantry.entries]);
   const [priceClock, setPriceClock] = useState(serverData.lastUpdatedIso);
   useEffect(() => {
     const refresh = () => setPriceClock(new Date().toISOString());
@@ -250,7 +216,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     stores: [...activeStores].sort(), storeFilter, zip: currentZip });
 
   const data = useMemo(() => {
-    if (!pantryEnabled) return serverData;
+
     const ranked = rankMealPrepDishes(serverData.commodities, pinnedIds, effectiveOnHandIds, targetServings, {
       macroGoal, dietaryConstraints, applianceFilter,
       pantryMode: true,
@@ -259,23 +225,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       now: new Date(serverData.lastUpdatedIso || Date.now()),
     });
     return { ...serverData, ...ranked, freezerInventory: [] };
-  }, [pantryEnabled, serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest, pantryPriceContext]);
-
-  const freezerSummary = useMemo(() => {
-    const totalItems = freezerItems.length;
-    const totalWeightLb = freezerItems.reduce((acc, f) => acc + f.quantityLbOrDoz, 0);
-    const totalCostBasis = freezerItems.reduce((acc, f) => acc + f.totalCostBasis, 0);
-    const totalEstimatedSavings = freezerItems.reduce(
-      (acc, f) => acc + f.estimatedSavings,
-      0
-    );
-    return {
-      totalItems,
-      totalWeightLb: totalWeightLb.toFixed(1),
-      totalCostBasis: totalCostBasis.toFixed(2),
-      totalEstimatedSavings: totalEstimatedSavings.toFixed(2),
-    };
-  }, [freezerItems]);
+  }, [serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest, pantryPriceContext]);
 
   useEffect(() => {
     try {
@@ -283,24 +233,6 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       if (savedChecked) setCheckedItems(JSON.parse(savedChecked));
       const savedClipped = localStorage.getItem('mead_clipped_coupons_v03');
       if (savedClipped) setClippedCoupons(JSON.parse(savedClipped));
-
-      let loadedOnHandIds = onHandIds;
-      const savedOnHand = localStorage.getItem('mead_on_hand_ids_v04');
-      if (!pantryEnabled && savedOnHand) {
-        const parsed = JSON.parse(savedOnHand);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setOnHandIds(parsed);
-          loadedOnHandIds = parsed;
-        }
-      }
-
-      const savedFreezer = localStorage.getItem('pantrybot_virtual_freezer_v12');
-      if (!pantryEnabled && savedFreezer) {
-        const parsed = JSON.parse(savedFreezer);
-        if (Array.isArray(parsed) && parsed.length > 0 && freezerItems.length === 0) {
-          setFreezerItems(parsed);
-        }
-      }
 
       let loadedMacroGoal = macroGoal;
       let loadedDietaryConstraints = dietaryConstraints;
@@ -343,7 +275,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
         syncDashboard(
           storeFilter,
           pinnedIds,
-          loadedOnHandIds,
+          effectiveOnHandIds,
           targetServings,
           savedZip,
           loadedActiveStores,
@@ -357,15 +289,6 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  function persistFreezerToLocalStorage(items: FreezerItem[]) {
-    try {
-      const key = userSync.profile ? `pantrybot_virtual_freezer_v14:${userSync.profile.id}` : 'pantrybot_virtual_freezer_v12';
-      localStorage.setItem(key, JSON.stringify(items));
-    } catch {
-      // Ignore
-    }
-  }
 
   function persistProfileToLocalStorage(
     nextMacro: MacroGoal,
@@ -437,7 +360,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       const res = await fetch(`/api/dashboard?${params.toString()}`);
       if (res.ok) {
         const updated: DashboardPayload = await res.json();
-        if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
+        if (pantryOwnerRef.current !== requestOwner) return;
         setData(updated);
         setCurrentZip(updated.zipCode);
       }
@@ -446,245 +369,14 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     }
   }
 
-  async function saveFreezerItem(item: FreezerItem) {
-    if (userSync.authenticated) {
-      const items = mergeFreezerItems(freezerItems, [item]);
-      setFreezerItems(items);
-      persistFreezerToLocalStorage(items);
-      await userSync.pushCloudSync({ freezerItems: items });
-      return;
-    }
-    const res = await fetch('/api/freezer', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ item }),
-    });
-    if (!res.ok) throw new Error('Could not save freezer item');
-    const payload = await res.json();
-    setFreezerItems(payload.items);
-    persistFreezerToLocalStorage(payload.items);
-  }
-
-  // v1.2 Ticket #21: "Buy 2: Prep 1, Freeze 1" 1-Tap Arbitrage Handler
-  async function handleBuyTwoPrepOneFreezeOne(item: ScoredCommodity) {
-    if (pantryEnabled) { setArbitrageToast('This is a purchase suggestion. Update Virtual Pantry explicitly when you want to record an ingredient.'); return; }
-    const qty =
-      item.arbitragePrompt?.recommendedFreezeQty ||
-      Math.max(2.0, Number(item.ingredient.avgEachWeightLb.toFixed(1)));
-    const unitPrice = item.bestOffer.normalizedPricePerUnit;
-    const regPrice = item.bestOffer.regularPricePerUnit;
-    const storeBanner = resolveStoreBanner(item.bestOffer.store, currentZip);
-
-    const newEntry: FreezerItem = {
-      id: `frz-${item.ingredient.id}-${Date.now()}`,
-      canonicalIngredientId: item.ingredient.id,
-      ingredientName: item.ingredient.name,
-      category: item.ingredient.category,
-      quantityLbOrDoz: qty,
-      unit: item.ingredient.standardUnit,
-      purchasePricePerUnit: unitPrice,
-      regularPricePerUnit: regPrice,
-      totalCostBasis: Number((qty * unitPrice).toFixed(2)),
-      estimatedSavings: Number(Math.max(0, qty * (regPrice - unitPrice)).toFixed(2)),
-      store: item.bestOffer.store,
-      storeBanner,
-      purchasedAtIso: new Date().toISOString(),
-      notes: `Buy 2 Arbitrage (${item.bestOffer.rawPriceText})`,
-    };
-
-    // Pin 1st pack to this week's prep
-    const nextPinned = pinnedIds.includes(item.ingredient.id)
-      ? pinnedIds
-      : [...pinnedIds, item.ingredient.id];
-    setPinnedIds(nextPinned);
-
-    try {
-      await saveFreezerItem(newEntry);
-    } catch {
-      setArbitrageToast('Unable to save freezer item. Please try again.');
-      return;
-    }
-
-    setArbitrageToast(
-      `❄️ Arbitrage Locked: Pinned 1 ${item.ingredient.name} to this week's Meal Prep + banked ${qty} ${item.ingredient.standardUnit} in your Virtual Freezer (saved $${newEntry.estimatedSavings.toFixed(2)})!`
-    );
-    setTimeout(() => setArbitrageToast(null), 5000);
-
-    const nextOnHand = Array.from(new Set([...effectiveOnHandIds, item.ingredient.id]));
-    syncDashboard(storeFilter, nextPinned, nextOnHand, targetServings);
-  }
-
-  async function handleAddCustomFreezerItem(e: React.FormEvent) {
-    e.preventDefault();
-    const matched = data.commodities.find(
-      (c) => c.ingredient.id === customFreezerIngredientId
-    );
-    if (!matched) return;
-    const qty = Math.max(0.5, parseFloat(customFreezerQty) || 2.0);
-    const unitPrice = matched.bestOffer.normalizedPricePerUnit;
-    const regPrice = matched.bestOffer.regularPricePerUnit;
-
-    const newEntry: FreezerItem = {
-      id: `frz-${matched.ingredient.id}-${Date.now()}`,
-      canonicalIngredientId: matched.ingredient.id,
-      ingredientName: matched.ingredient.name,
-      category: matched.ingredient.category,
-      quantityLbOrDoz: qty,
-      unit: matched.ingredient.standardUnit,
-      purchasePricePerUnit: unitPrice,
-      regularPricePerUnit: regPrice,
-      totalCostBasis: Number((qty * unitPrice).toFixed(2)),
-      estimatedSavings: Number(Math.max(0, qty * (regPrice - unitPrice)).toFixed(2)),
-      store: matched.bestOffer.store,
-      storeBanner: resolveStoreBanner(matched.bestOffer.store, currentZip),
-      purchasedAtIso: new Date().toISOString(),
-      notes: 'Logged to Virtual Freezer',
-    };
-
-    try {
-      await saveFreezerItem(newEntry);
-    } catch {
-      setArbitrageToast('Unable to save freezer item. Please try again.');
-      return;
-    }
-    const nextOnHand = Array.from(
-      new Set([...effectiveOnHandIds, matched.ingredient.id])
-    );
-    syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
-  }
-
-  async function handleUpdateFreezerQuantity(item: FreezerItem, delta: number) {
-    const nextQty = Number((item.quantityLbOrDoz + delta).toFixed(2));
-    if (nextQty <= 0) {
-      await handleDeleteFreezerItem(item.id, item.canonicalIngredientId);
-      return;
-    }
-    if (userSync.authenticated) {
-      const items = freezerItems.map((f) => f.id === item.id ? {
-        ...f, quantityLbOrDoz: nextQty,
-        totalCostBasis: Number((nextQty * f.purchasePricePerUnit).toFixed(2)),
-        estimatedSavings: Number(Math.max(0, nextQty * (f.regularPricePerUnit - f.purchasePricePerUnit)).toFixed(2)),
-      } : f);
-      setFreezerItems(items);
-      persistFreezerToLocalStorage(items);
-      await userSync.pushCloudSync({ freezerItems: items });
-      return;
-    }
-    try {
-      const res = await fetch('/api/freezer', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: item.id, quantityLbOrDoz: nextQty }),
-      });
-      if (res.ok) {
-        const payload = await res.json();
-        if (Array.isArray(payload.items)) {
-          setFreezerItems(payload.items);
-          persistFreezerToLocalStorage(payload.items);
-          userSync.pushCloudSync({ freezerItems: payload.items });
-        }
-      }
-    } catch {
-      // Ignore
-    }
-    syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
-  }
-
-  async function handleDeleteFreezerItem(id: string, canonicalIngredientId: string) {
-    if (userSync.authenticated) {
-      const items = freezerItems.filter((f) => f.id !== id);
-      const nextOnHand = onHandIds.filter((ingredientId) => ingredientId !== canonicalIngredientId);
-      setFreezerItems(items);
-      setOnHandIds(nextOnHand);
-      setCustomAiDishes(null);
-      persistFreezerToLocalStorage(items);
-      await userSync.pushCloudSync({
-        freezerItems: items,
-        preferences: { onHandIngredientIds: nextOnHand },
-      });
-      const remainingOnHand = [...new Set([
-        ...nextOnHand,
-        ...items.filter((item) => item.quantityLbOrDoz > 0).map((item) => item.canonicalIngredientId),
-      ])];
-      await syncDashboard(storeFilter, pinnedIds, remainingOnHand, targetServings);
-      return;
-    }
-    try {
-      const res = await fetch(`/api/freezer?id=${encodeURIComponent(id)}`, {
-        method: 'DELETE',
-      });
-      if (res.ok) {
-        const payload = await res.json();
-        if (Array.isArray(payload.items)) {
-          setFreezerItems(payload.items);
-          persistFreezerToLocalStorage(payload.items);
-          userSync.pushCloudSync({ freezerItems: payload.items });
-        }
-      }
-    } catch {
-      const remaining = freezerItems.filter((f) => f.id !== id);
-      setFreezerItems(remaining);
-      persistFreezerToLocalStorage(remaining);
-      userSync.pushCloudSync({ freezerItems: remaining });
-    }
-    const nextOnHand = onHandIds.filter((oid) => oid !== canonicalIngredientId);
-    setOnHandIds(nextOnHand);
-    syncDashboard(storeFilter, pinnedIds, nextOnHand, targetServings);
-  }
-
-  // v1.3 Ticket #28: Cloud Sync & Guest-to-Account Migration Handlers
-  async function handleMergeGuestData() {
-    let guestFreezer: FreezerItem[] = [];
-    try {
-      guestFreezer = parseGuestFreezer(localStorage.getItem('pantrybot_virtual_freezer_v12'));
-    } catch { /* Ignore invalid guest cache. */ }
-    let queued = false;
-    await userSync.pushCloudSync({
-      preferences: {
-        defaultZip: currentZip,
-        favoriteStoreIds: activeStores,
-        macroGoal,
-        dietaryConstraints,
-        vesselArchetype: applianceFilter,
-        targetServings,
-        pinnedIngredientIds: pinnedIds,
-        onHandIngredientIds: onHandIds,
-      },
-      freezerItems: guestFreezer,
-      mergeMode: true,
-    }, (prepared) => {
-      queued = true;
-      const mergedFreezer = prepared.mergeMode && prepared.freezerItems
-        ? mergeFreezerItems(freezerItems, prepared.freezerItems)
-        : (prepared.freezerItems ?? freezerItems);
-      setFreezerItems(mergedFreezer);
-      persistFreezerToLocalStorage(mergedFreezer);
-      userSync.dismissGuestMergePrompt();
-    });
-    // Acknowledgments must not overwrite edits made while this request was pending.
-    return queued;
+  function handleBuyTwoPrepOneFreezeOne() {
+    setArbitrageToast('This is a purchase suggestion. Update Virtual Pantry explicitly when you want to record an ingredient.');
   }
 
   async function handleForceCloudSync() {
-    if (pantryEnabled) {
-      await pantry.retry();
-      await userSync.pushCloudSync({ preferences: { defaultZip: currentZip, favoriteStoreIds: activeStores, macroGoal,
-        dietaryConstraints, vesselArchetype: applianceFilter, targetServings, pinnedIngredientIds: pinnedIds } });
-      return;
-    }
-    await userSync.pushCloudSync({
-      preferences: {
-        defaultZip: currentZip,
-        favoriteStoreIds: activeStores,
-        macroGoal,
-        dietaryConstraints,
-        vesselArchetype: applianceFilter,
-        targetServings,
-        pinnedIngredientIds: pinnedIds,
-        onHandIngredientIds: onHandIds,
-      },
-      freezerItems,
-      mergeMode: false,
-    });
+    await pantry.retry();
+    await userSync.pushCloudSync({ preferences: { defaultZip: currentZip, favoriteStoreIds: activeStores, macroGoal,
+      dietaryConstraints, vesselArchetype: applianceFilter, targetServings, pinnedIngredientIds: pinnedIds } });
   }
 
   // v1.2 Ticket #22 Handlers: Macro Goal, Dietary Constraints, Cooking Vessel
@@ -806,40 +498,16 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
   }
 
   function handleToggleOnHand(ingredientId: string) {
-    if (pantryEnabled) {
-      const pantryId = recipePantryIngredientId(ingredientId);
-      const ingredient = pantryCatalog.get(pantryId);
-      if (!ingredient) { setShowFreezerModal(true); setArbitrageToast('Choose the specific ingredient in Virtual Pantry. Grouped deals do not establish an exact ingredient identity.'); return; }
-      const existing = pantry.entries.find((entry) => entry.ingredientId === pantryId);
-      void pantry.save({ ...(existing ?? { ingredientId: pantryId, displayName: ingredient.name }), available: !(existing?.available && !existing.deletedAtIso) }, existing?.id)
-        .catch((error: unknown) => setArbitrageToast(error instanceof Error ? error.message : 'Could not update the pantry.'));
+    const pantryId = recipePantryIngredientId(ingredientId);
+    const ingredient = pantryCatalog.get(pantryId);
+    if (!ingredient) {
+      setShowPantry(true);
+      setArbitrageToast('Choose the specific ingredient in Virtual Pantry. Grouped deals do not establish an exact ingredient identity.');
       return;
     }
-    const inFreezer = freezerItems.find(
-      (f) => f.canonicalIngredientId === ingredientId
-    );
-    if (inFreezer) {
-      handleDeleteFreezerItem(inFreezer.id, ingredientId);
-      return;
-    }
-    const exists = onHandIds.includes(ingredientId);
-    const nextOnHand = exists
-      ? onHandIds.filter((id) => id !== ingredientId)
-      : [...onHandIds, ingredientId];
-    setOnHandIds(nextOnHand);
-    try {
-      localStorage.setItem('mead_on_hand_ids_v04', JSON.stringify(nextOnHand));
-    } catch {
-      // Ignore
-    }
-    setCustomAiDishes(null);
-    const merged = Array.from(
-      new Set([
-        ...nextOnHand,
-        ...freezerItems.map((f) => f.canonicalIngredientId),
-      ])
-    );
-    syncDashboard(storeFilter, pinnedIds, merged, targetServings);
+    const existing = pantry.entries.find((entry) => entry.ingredientId === pantryId);
+    void pantry.save({ ...(existing ?? { ingredientId: pantryId, displayName: ingredient.name }), available: !(existing?.available && !existing.deletedAtIso) }, existing?.id)
+      .catch((error: unknown) => setArbitrageToast(error instanceof Error ? error.message : 'Could not update the pantry.'));
   }
 
   function handleServingsChange(nextServings: 4 | 6 | 8) {
@@ -876,9 +544,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
             method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dish: withoutDerivedPantryPricing(dish) }),
           });
       if (!res.ok) throw new Error('Recipe save failed');
-      if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
-      setSavedRecipeIds((prev) => ({ ...prev, [dish.id]: !isCurrentlySaved }));
-      if (pantryEnabled && requestOwner) setSavedLibrary((previous) => ({ owner: requestOwner,
+      if (pantryOwnerRef.current !== requestOwner) return;
+      if (requestOwner) setSavedLibrary((previous) => ({ owner: requestOwner,
         recipes: isCurrentlySaved ? previous.recipes.filter((entry) => entry.id !== dish.id) : [...previous.recipes.filter((entry) => entry.id !== dish.id), { ...withoutDerivedPantryPricing(dish), savedInLibrary: true }] }));
     } catch {
       setAiBannerMessage('Unable to update your saved recipes. Please try again.');
@@ -911,7 +578,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
         }),
       });
       const result = await res.json();
-      if (pantryEnabled && pantryOwnerRef.current !== requestOwner) return;
+      if (pantryOwnerRef.current !== requestOwner) return;
       if (result.dishes && Array.isArray(result.dishes)) {
         customAiOwner.current = requestOwner;
         customAiContext.current = requestContext;
@@ -1036,11 +703,11 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
     });
   }, [data.commodities, categoryFilter, sortMode]);
 
-  const sourceTrio = (pantryEnabled && (customAiOwner.current !== pantry.owner || customAiContext.current !== mealContextSignature)
+  const sourceTrio = ((customAiOwner.current !== pantry.owner || customAiContext.current !== mealContextSignature)
     ? null : customAiDishes) || data.recommendedTrio;
-  const activeTrio = useMemo(() => pantryEnabled ? sourceTrio.map((dish) =>
-    applyPantryToRecipe(dish, effectiveOnHandIds, data.commodities, undefined, pantryPriceContext)) : sourceTrio,
-  [pantryEnabled, sourceTrio, effectiveOnHandIds, data.commodities, pantryPriceContext]);
+  const activeTrio = useMemo(() => sourceTrio.map((dish) =>
+    applyPantryToRecipe(dish, effectiveOnHandIds, data.commodities, undefined, pantryPriceContext)),
+  [sourceTrio, effectiveOnHandIds, data.commodities, pantryPriceContext]);
 
   const trioTotals = useMemo(() => {
     const totalBatchCost = activeTrio.reduce((acc, d) => acc + d.totalBatchCost, 0);
@@ -1068,7 +735,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
         effectiveOnHandIds,
         data.zipCode || currentZip,
         activeStores,
-        pantryEnabled,
+        true,
         pantryPriceContext,
       ),
     [
@@ -1078,7 +745,6 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
       data.zipCode,
       currentZip,
       activeStores,
-      pantryEnabled,
       pantryPriceContext,
     ]
   );
@@ -1105,7 +771,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
               ? item.safewayTotalCost
               : item.optimalTotalCost);
       const rawDealText = item.isOnHand
-        ? '❄️ Already On-Hand in Virtual Freezer/Pantry ($0.00 out-of-pocket)'
+        ? 'Already have'
         : sp?.rawDealText ??
           (store === 'KING_SOOPERS'
             ? item.kingSoopersRawDealText
@@ -1257,7 +923,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
   return (
     <div className="min-h-screen pb-24">
       {/* Top Header — Two-Tier Navigation Architecture */}
-      <header className={`${pantryEnabled && showFreezerModal ? 'relative' : 'sticky top-0'} z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
+      <header className={`${showPantry ? 'relative' : 'sticky top-0'} z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
         <div className="mx-auto max-w-6xl px-4 py-2.5">
           {/* Tier 1: Primary Brand & Location (Left) + Utilities & User Account (Pinned Top-Right) */}
           <div className="flex items-center justify-between gap-3">
@@ -1294,27 +960,25 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
             {/* Top-Right Utility Controls & User Account CTA */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              {/* v1.2 Ticket #21: Virtual Freezer Drawer Trigger */}
+              {/* Virtual Pantry drawer trigger */}
               <button
                 ref={pantryTrigger}
-                onClick={() => setShowFreezerModal(!showFreezerModal)}
+                onClick={() => setShowPantry(!showPantry)}
                 className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
-                  showFreezerModal
+                  showPantry
                     ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
-                    : freezerItems.length > 0
-                      ? 'border-sky-300 bg-sky-50 text-sky-900 hover:bg-sky-100'
-                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                 }`}
-                title={pantryEnabled ? 'Open Virtual Pantry' : 'Open Virtual Freezer & Multi-Week Protein Arbitrage Inventory'}
+                title={'Open Virtual Pantry'}
               >
-                <InventoryIcon
+                <DoorOpen
                   className={`h-3.5 w-3.5 ${
-                    showFreezerModal ? 'text-white' : 'text-sky-500'
+                    showPantry ? 'text-white' : 'text-sky-500'
                   }`}
                 />
-                <span className="hidden sm:inline">{pantryEnabled ? 'Virtual Pantry' : 'Virtual Freezer'}</span>
-                <span className="sm:hidden">{pantryEnabled ? 'Pantry' : 'Freezer'}</span>
-                <span>({pantryEnabled ? pantry.entries.filter((entry) => entry.available && !entry.deletedAtIso).length : freezerItems.length})</span>
+                <span className="hidden sm:inline">{'Virtual Pantry'}</span>
+                <span className="sm:hidden">{'Pantry'}</span>
+                <span>({pantry.entries.filter((entry) => entry.available && !entry.deletedAtIso).length})</span>
               </button>
 
               <button
@@ -1486,19 +1150,14 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
             syncStatus={userSync.syncStatus}
             lastSyncedIso={userSync.lastSyncedIso}
             authLoading={userSync.authLoading}
-            hasGuestDataToMerge={!pantryEnabled && userSync.hasGuestDataToMerge}
-            guestFreezerCount={userSync.guestFreezerCount}
             currentZip={currentZip}
             activeStores={activeStores}
             macroGoal={macroGoal}
             dietaryConstraints={dietaryConstraints}
             applianceFilter={applianceFilter}
-            freezerItemCount={pantryEnabled ? pantry.entries.filter((entry) => !entry.deletedAtIso).length : freezerItems.length}
-            pantryEnabled={pantryEnabled}
+            pantryItemCount={pantry.entries.filter((entry) => !entry.deletedAtIso).length}
             onSignIn={userSync.signInWithProvider}
             onSignOut={userSync.signOut}
-            onMergeGuestData={handleMergeGuestData}
-            onDismissMergePrompt={userSync.dismissGuestMergePrompt}
             onForceSync={handleForceCloudSync}
             onExportData={userSync.exportAccountDataJson}
             onDeleteAccount={userSync.deleteAccountAndData}
@@ -1508,7 +1167,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
           {arbitrageToast && (
             <div className="mt-2.5 flex items-center justify-between rounded-xl border border-sky-300 bg-sky-950 px-3.5 py-2 text-xs font-semibold text-sky-100 shadow-md">
               <div className="flex items-center gap-2">
-                <InventoryIcon className="h-4 w-4 text-sky-400 shrink-0" />
+                <DoorOpen className="h-4 w-4 text-sky-400 shrink-0" />
                 <span>{arbitrageToast}</span>
               </div>
               <button
@@ -1520,199 +1179,16 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
             </div>
           )}
 
-          {/* v1.2 Ticket #21: Persistent Virtual Freezer & Multi-Week Arbitrage Drawer */}
-          {showFreezerModal && pantryEnabled && <VirtualPantry owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
+          {/* Private Virtual Pantry drawer */}
+          {showPantry && true && <VirtualPantry owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
             key={pantry.owner ?? `loading:${pantryAccountId ?? 'guest'}`}
             entries={pantry.entries} acceptedCatalogIds={pantry.acceptedCatalogIds} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
             importDuplicates={pantry.importDuplicates}
             guestEntries={pantry.guestEntries} conflicts={pantry.conflicts}
             onSave={pantry.save} onDelete={pantry.remove} onRetry={pantry.retry} onResolve={pantry.resolve}
             onImportGuest={pantry.importGuest} onReviewLegacy={pantry.reviewLegacy} onImportLegacy={pantry.importLegacy}
-            onClose={() => { setShowFreezerModal(false); pantryTrigger.current?.focus(); }}
+            onClose={() => { setShowPantry(false); pantryTrigger.current?.focus(); }}
           />}
-          {showFreezerModal && !pantryEnabled && (
-            <div className="mt-3 rounded-xl border border-sky-300 bg-white p-4 shadow-lg text-xs text-slate-700">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-sky-600 text-white">
-                    <Snowflake className="h-4 w-4" />
-                  </span>
-                  <div>
-                    <h3 className="font-bold text-sm text-slate-900">
-                      Virtual Freezer &amp; Multi-Week Arbitrage Inventory (Ticket #21)
-                    </h3>
-                    <p className="text-[11px] text-slate-500">
-                      Stock up on deep 6-week cycle lows (&ldquo;Buy 2: Prep 1, Freeze 1&rdquo;). Any item banked here automatically drops out-of-pocket protein costs to <strong>$0.00</strong> in your 3-Dish Meal-Prep Trio!
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-3 rounded-lg bg-sky-50 px-3 py-1.5 border border-sky-200 text-[11px]">
-                    <span>
-                      Banked: <strong className="text-sky-950">{freezerSummary.totalWeightLb} lbs</strong>
-                    </span>
-                    <span>•</span>
-                    <span>
-                      Basis: <strong className="text-sky-950">${freezerSummary.totalCostBasis}</strong>
-                    </span>
-                    <span>•</span>
-                    <span className="text-emerald-700 font-bold">
-                      Saved ${freezerSummary.totalEstimatedSavings}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => setShowFreezerModal(false)}
-                    className="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-0.5"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-
-              {freezerItems.length === 0 ? (
-                <div className="my-3 rounded-xl border border-dashed border-sky-200 bg-sky-50/40 p-4 text-center text-slate-600">
-                  <p className="font-semibold text-slate-800">
-                    Your Virtual Freezer is currently empty.
-                  </p>
-                  <p className="mt-1 text-[11px] text-slate-500">
-                    Click <strong>&ldquo;❄️ Buy 2: Prep 1, Freeze 1&rdquo;</strong> on any deep cycle-low meat deal below, or log an on-hand freezer item using the quick form below.
-                  </p>
-                </div>
-              ) : (
-                <div className="mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-                  {freezerItems.map((fItem) => (
-                    <div
-                      key={fItem.id}
-                      className="flex flex-col justify-between rounded-xl border border-sky-200 bg-sky-50/40 p-3 shadow-2xs"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between gap-1.5">
-                          {renderStoreBadge(fItem.store)}
-                          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
-                            Saved ${fItem.estimatedSavings.toFixed(2)}
-                          </span>
-                        </div>
-                        <div className="mt-1.5 font-bold text-slate-900 text-xs">
-                          {fItem.ingredientName}
-                        </div>
-                        <div className="mt-1 flex items-baseline justify-between text-[11px] text-slate-600">
-                          <span>
-                            Stock:{' '}
-                            <strong className="text-sky-950">
-                              {fItem.quantityLbOrDoz} {fItem.unit}
-                            </strong>{' '}
-                            (@ ${fItem.purchasePricePerUnit.toFixed(2)}/{fItem.unit})
-                          </span>
-                          <span className="font-bold text-slate-800">
-                            Basis ${fItem.totalCostBasis.toFixed(2)}
-                          </span>
-                        </div>
-                        {fItem.notes && (
-                          <p className="mt-1 text-[10px] text-slate-500">{fItem.notes}</p>
-                        )}
-                      </div>
-
-                      <div className="mt-2.5 flex items-center justify-between border-t border-sky-200/70 pt-2">
-                        <div className="inline-flex items-center gap-1">
-                          <button
-                            type="button"
-                            onClick={() => handleUpdateFreezerQuantity(fItem, -0.5)}
-                            className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
-                            title="Consume 0.5 lb/doz"
-                          >
-                            <Minus className="h-3 w-3" />
-                          </button>
-                          <span className="px-1.5 font-bold text-slate-800">
-                            {fItem.quantityLbOrDoz} {fItem.unit}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => handleUpdateFreezerQuantity(fItem, 0.5)}
-                            className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
-                            title="Add 0.5 lb/doz"
-                          >
-                            <Plus className="h-3 w-3" />
-                          </button>
-                        </div>
-
-                        <div className="flex items-center gap-1.5">
-                          <span className="rounded bg-sky-600 px-2 py-0.5 text-[10px] font-bold text-white">
-                            $0 Prep Active
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleDeleteFreezerItem(
-                                fItem.id,
-                                fItem.canonicalIngredientId
-                              )
-                            }
-                            className="inline-flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-red-50 hover:text-red-600"
-                            title="Thaw & Remove from Freezer"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Quick-Add to Virtual Freezer Form */}
-              <form
-                onSubmit={handleAddCustomFreezerItem}
-                className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3"
-              >
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[11px] font-bold text-slate-700">
-                    Log Item into Virtual Freezer:
-                  </span>
-                  <select
-                    value={customFreezerIngredientId}
-                    onChange={(e) => setCustomFreezerIngredientId(e.target.value)}
-                    className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-900"
-                  >
-                    {data.commodities.map((c) => (
-                      <option key={c.ingredient.id} value={c.ingredient.id}>
-                        {c.ingredient.name} (${c.bestOffer.normalizedPricePerUnit.toFixed(2)}/
-                        {c.ingredient.standardUnit})
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="number"
-                    step="0.5"
-                    min="0.5"
-                    max="30"
-                    value={customFreezerQty}
-                    onChange={(e) => setCustomFreezerQty(e.target.value)}
-                    className="w-20 rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-900"
-                    placeholder="lbs"
-                  />
-                  <button
-                    type="submit"
-                    className="inline-flex items-center gap-1 rounded-lg bg-sky-600 px-3 py-1 text-xs font-bold text-white hover:bg-sky-700"
-                  >
-                    <Plus className="h-3.5 w-3.5" />
-                    <span>Add to Freezer ($0 Prep)</span>
-                  </button>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowFreezerModal(false);
-                    setActiveTab('MEAL_PLAN');
-                  }}
-                  className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:underline"
-                >
-                  <span>View $0 Freezer-Powered Recipes</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
-              </form>
-            </div>
-          )}
 
           {/* Interactive Zip Code / Location Switcher Drawer */}
           {showZipModal && (
@@ -2107,7 +1583,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                   {pinnedIds.length > 0 && `${pinnedIds.length} Pinned`}
                   {pinnedIds.length > 0 && effectiveOnHandIds.length > 0 && ' • '}
                   {effectiveOnHandIds.length > 0 &&
-                    (pantryEnabled ? `${effectiveOnHandIds.length} marked available` : `${effectiveOnHandIds.length} In Freezer/Pantry ($0)`)}
+                    (`${effectiveOnHandIds.length} marked available`)}
                 </span>
                 <button
                   onClick={() => setActiveTab('MEAL_PLAN')}
@@ -2138,7 +1614,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     </span>
                     <div>
                       <h2 className="text-sm font-bold tracking-wide text-amber-300 uppercase">
-                        Splurge Value Alerts &amp; Multi-Week Freezer Arbitrage
+                        Stock-up Value Alerts
                       </h2>
                       <p className="text-xs text-slate-300">
                         Premium roasts, steaks, and seafood at 40–54% off. Use &ldquo;Buy 2: Prep 1, Freeze 1&rdquo; to lock in cycle-floor pricing for future weeks.
@@ -2150,9 +1626,6 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {data.splurgeAlerts.slice(0, 4).map((item) => {
                     const isPinned = pinnedIds.includes(item.ingredient.id);
-                    const inFreezer = freezerItems.some(
-                      (f) => f.canonicalIngredientId === item.ingredient.id
-                    );
                     return (
                       <div
                         key={item.ingredient.id}
@@ -2222,18 +1695,14 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                           {item.arbitragePrompt?.eligible && (
                             <button
                               type="button"
-                              onClick={() => handleBuyTwoPrepOneFreezeOne(item)}
+                              onClick={() => handleBuyTwoPrepOneFreezeOne()}
                               className={`w-full flex items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${
-                                inFreezer
-                                  ? 'bg-sky-500 text-white'
-                                  : 'bg-sky-400/25 text-sky-200 border border-sky-400/40 hover:bg-sky-400/40'
+                                'bg-sky-400/25 text-sky-200 border border-sky-400/40 hover:bg-sky-400/40'
                               }`}
                             >
                               <Snowflake className="h-3 w-3" />
                               <span>
-                                {inFreezer
-                                  ? '✓ Banked in Virtual Freezer (+Add 1)'
-                                  : `Buy 2: Prep 1, Freeze 1 (Save $${item.arbitragePrompt.futureWeekSavings.toFixed(2)})`}
+                                {`Buy 2: Prep 1, Freeze 1 (Save $${item.arbitragePrompt.futureWeekSavings.toFixed(2)})`}
                               </span>
                             </button>
                           )}
@@ -2301,10 +1770,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredCommodities.map((item: ScoredCommodity) => {
                 const isPinned = pinnedIds.includes(item.ingredient.id);
-                const isOnHand = effectiveOnHandIds.includes(pantryEnabled ? recipePantryIngredientId(item.ingredient.id) : item.ingredient.id);
-                const inVirtualFreezer = freezerItems.some(
-                  (f) => f.canonicalIngredientId === item.ingredient.id
-                );
+                const isOnHand = effectiveOnHandIds.includes(recipePantryIngredientId(item.ingredient.id));
                 const { ingredient, bestOffer, kingSoopersOffer, safewayOffer } = item;
 
                 return (
@@ -2609,20 +2075,16 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
                         <button
                           onClick={() => handleToggleOnHand(ingredient.id)}
-                          title={pantryEnabled ? 'Update explicit pantry availability' : 'Mark as already in your Virtual Freezer/Pantry ($0 out-of-pocket cost)'}
+                          title={'Update explicit pantry availability'}
                           className={`flex items-center justify-center gap-1 rounded-xl border px-2.5 py-2 text-xs font-bold transition ${
                             isOnHand
                               ? 'border-sky-500 bg-sky-600 text-white shadow-xs'
                               : 'border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200'
                           }`}
                         >
-                          <InventoryIcon className="h-3.5 w-3.5" />
+                          <DoorOpen className="h-3.5 w-3.5" />
                           <span>
-                            {pantryEnabled ? (isOnHand ? 'Already have' : 'Not marked available') : inVirtualFreezer
-                              ? 'In Freezer ($0)'
-                              : isOnHand
-                                ? 'On-Hand ($0)'
-                                : 'Have at Home'}
+                            {(isOnHand ? 'Already have' : 'Not marked available')}
                           </span>
                         </button>
                       </div>
@@ -2631,7 +2093,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                       {item.arbitragePrompt?.eligible && (
                         <button
                           type="button"
-                          onClick={() => handleBuyTwoPrepOneFreezeOne(item)}
+                          onClick={() => handleBuyTwoPrepOneFreezeOne()}
                           className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3 py-1.5 text-xs font-bold text-sky-900 hover:bg-sky-100 transition"
                         >
                           <Snowflake className="h-3.5 w-3.5 text-sky-600" />
@@ -2669,7 +2131,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     Your 3-Dish Weekend Meal Prep Plan ({trioTotals.totalServings} Total Meals)
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
-                    {pantryEnabled ? `Recipes in ${data.cityLabel} reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple estimates allocate recipe use; package checkout totals may differ.` : `Optimized around this week's lowest $/lb anchors in ${data.cityLabel}, tailored to your Macro & Dietary profile, and powered by $0 Virtual Freezer inventory.`}
+                    {`Recipes in ${data.cityLabel} reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple estimates allocate recipe use; package checkout totals may differ.`}
                     {' '}The strongest value match stays; two recipe slots rotate each Wednesday when enough recipes fit your profile. Planning cycle: {data.adCycleLabel}.
                   </p>
 
@@ -2707,7 +2169,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
 
                 <div className="grid grid-cols-3 gap-3 rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-xs sm:min-w-[360px]">
                   <div>
-                    <div className="text-[11px] text-slate-300 uppercase">{pantryEnabled ? 'Additional / Serving' : 'Cost / Serving'}</div>
+                    <div className="text-[11px] text-slate-300 uppercase">{'Additional / Serving'}</div>
                     <div className="text-xl font-black text-emerald-300">
                       ${trioTotals.avgPerServing}
                     </div>
@@ -2717,7 +2179,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                   </div>
                   <div className="border-x border-white/15 px-2">
                     <div className="text-[11px] text-slate-300 uppercase">
-                      {pantryEnabled ? 'Estimated additional grocery cost' : '3-Dish Out-of-Pocket'}
+                      {'Estimated additional grocery cost'}
                     </div>
                     <div className="text-xl font-black text-white">
                       ${trioTotals.totalBatchCost}
@@ -2727,16 +2189,16 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     </div>
                   </div>
                   <div>
-                    <div className="text-[11px] text-amber-300 uppercase">{pantryEnabled ? 'Price difference' : 'Total Saved'}</div>
+                    <div className="text-[11px] text-amber-300 uppercase">{'Price difference'}</div>
                     <div className="text-xl font-black text-amber-300">
                       ${trioTotals.totalSavings}
                     </div>
-                    <div className="text-[10px] text-emerald-200">{pantryEnabled ? 'purchase prices only' : 'promos + freezer'}</div>
+                    <div className="text-[10px] text-emerald-200">{'purchase prices only'}</div>
                   </div>
                 </div>
               </div>
 
-              {pantryEnabled && activeTrio.some((dish) => dish.additionalCostEstimateComplete === false) && <p className="mt-3 text-sm text-amber-200">Known subtotal only — additional ingredients have no price.</p>}
+              {activeTrio.some((dish) => dish.additionalCostEstimateComplete === false) && <p className="mt-3 text-sm text-amber-200">Known subtotal only — additional ingredients have no price.</p>}
               {/* v1.2 Ticket #22: Dietary Preferences, Macro Goals & Cooking Vessel Archetype Bar */}
               <div className="mt-4 rounded-xl border border-white/15 bg-black/25 p-3.5 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2919,9 +2381,6 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
               {activeTrio.map((dish, index) => {
                 const isExpanded = Boolean(expandedDishIds[dish.id]);
                 const isSaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
-                const hasFreezerPower =
-                  (dish.poweredByFreezerCount && dish.poweredByFreezerCount > 0) ||
-                  dish.matchedIngredients.some((m) => m.fromVirtualFreezer || m.isOnHand);
 
                 return (
                   <div
@@ -2947,12 +2406,6 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                               <span className="inline-flex items-center gap-1 rounded-md bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-900">
                                 <Snowflake className="h-3.5 w-3.5" />
                                 Freezer Friendly
-                              </span>
-                            )}
-                            {!pantryEnabled && hasFreezerPower && (
-                              <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2.5 py-0.5 text-xs font-bold text-white">
-                                <Snowflake className="h-3.5 w-3.5" />
-                                Powered by Virtual Freezer ($0 Stock)
                               </span>
                             )}
                             {dish.aiGenerated && (
@@ -3026,7 +2479,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                           <div className="flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-right">
                             <div>
                               <div className="text-[11px] font-semibold text-emerald-800 uppercase">
-                                {pantryEnabled ? 'Additional / Serving' : 'Per Serving'} ({dish.servings} srv)
+                                {'Additional / Serving'} ({dish.servings} srv)
                               </div>
                               <div className="text-2xl font-black text-emerald-700">
                                 ${dish.costPerServing.toFixed(2)}
@@ -3034,13 +2487,13 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                             </div>
                             <div className="border-l border-emerald-200 pl-3 text-xs text-slate-600">
                               <div>
-                                {pantryEnabled ? 'Additional batch estimate:' : 'Batch:'}{' '}
+                                {'Additional batch estimate:'}{' '}
                                 <strong className="text-slate-900">
                                   ${dish.totalBatchCost.toFixed(2)}
                                 </strong>
                               </div>
                               <div className="text-emerald-700 font-semibold">
-                                {pantryEnabled ? 'Price difference' : 'Save'} ${dish.totalBatchSavings.toFixed(2)}
+                                {'Price difference'} ${dish.totalBatchSavings.toFixed(2)}
                               </div>
                             </div>
                           </div>
@@ -3049,14 +2502,14 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                     </div>
 
                     <div className="p-4 sm:p-5">
-                      {pantryEnabled && dish.pantryCoverage && <p className="mb-3 text-sm font-semibold text-sky-900">
+                      {dish.pantryCoverage && <p className="mb-3 text-sm font-semibold text-sky-900">
                         You have {dish.pantryCoverage.availableRequiredCount} of {dish.pantryCoverage.requiredCount} required ingredients.
                         {dish.pantryCoverage.optionalCount > 0 && ` Optional: ${dish.pantryCoverage.availableOptionalCount} of ${dish.pantryCoverage.optionalCount} available.`}
                         {dish.pantryPricing?.includesStaticEstimates && ' Includes static estimates.'}
                         {dish.additionalCostEstimateComplete === false && ' Known subtotal only — additional ingredients have no price.'}
                       </p>}
                       <h4 className="mb-2.5 text-xs font-bold tracking-wider text-slate-500 uppercase">
-                        {pantryEnabled ? 'Recipe ingredients' : 'On-Sale Store Ingredients Used in This Batch'} ({dish.servings} Servings)
+                        {'Recipe ingredients'} ({dish.servings} Servings)
                       </h4>
                       <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
                         {dish.matchedIngredients.map((ing, i) => (
@@ -3076,10 +2529,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                               </span>
                               {ing.isOnHand ? (
                                 <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-[11px] font-bold text-white">
-                                  <InventoryIcon className="h-3 w-3" />{' '}
-                                  {pantryEnabled ? 'Already have' : ing.fromVirtualFreezer
-                                    ? 'Virtual Freezer ($0)'
-                                    : 'In Freezer/Pantry'}
+                                  <DoorOpen className="h-3 w-3" />{' '}
+                                  {'Already have'}
                                 </span>
                               ) : (
                                 renderStoreBadge(ing.store)
@@ -3090,11 +2541,11 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                             </div>
                             <div className="mt-1 flex items-baseline justify-between">
                               <span className="text-slate-600">
-                                {pantryEnabled ? (ing.isOnHand ? 'Make sure you have:' : ing.optional ? 'Optional:' : 'Need to buy:') : 'Need:'}{' '}
+                                {(ing.isOnHand ? 'Make sure you have:' : ing.optional ? 'Optional:' : 'Need to buy:')}{' '}
                                 <strong>
                                   {ing.quantityUsed} {ing.unit}
                                 </strong>{' '}
-                                {(!pantryEnabled || !ing.isOnHand) && <> (@ ${ing.unitCost.toFixed(2)}/{ing.unit})</>}
+                                {(!ing.isOnHand) && <> (@ ${ing.unitCost.toFixed(2)}/{ing.unit})</>}
                               </span>
                               <span className="text-sm font-extrabold text-emerald-700">
                                 {`$${ing.slotCost.toFixed(2)}`}
@@ -3115,9 +2566,9 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
                         <div className="text-xs text-slate-600">
                           <strong className="text-slate-800">
-                            {pantryEnabled ? 'Staples (recipe-use estimate)' : 'Pantry Staples'} (+${dish.estimatedPantryCost.toFixed(2)}):
+                            {'Staples (recipe-use estimate)'} (+${dish.estimatedPantryCost.toFixed(2)}):
                           </strong>{' '}
-                          {pantryEnabled ? (
+                          {(
                             <ul className="mt-2 space-y-1">
                               {(dish.pantryPricing?.rows ?? []).map((row) => (
                                 <li key={row.requirementKey}>
@@ -3125,7 +2576,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                                 </li>
                               ))}
                             </ul>
-                          ) : dish.pantryStaples.join(' • ')}
+                          )}
                         </div>
                         <button
                           onClick={() =>
@@ -3262,8 +2713,8 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                   </h2>
                   <p className="mt-1 text-xs text-slate-300 sm:text-sm">
                     {shoppingPlan.tripComparison.recommendationDetail}
-                    {pantryEnabled && ' Estimated additional grocery cost assumes marked ingredients are on hand. Staple rows identify the price basis; package checkout totals may differ.'}
-                    {pantryEnabled && shoppingPlan.tripComparison.additionalCostEstimateComplete === false && ' Known subtotal only — plus ingredients with no price.'}
+                    {' Estimated additional grocery cost assumes marked ingredients are on hand. Staple rows identify the price basis; package checkout totals may differ.'}
+                    {shoppingPlan.tripComparison.additionalCostEstimateComplete === false && ' Known subtotal only — plus ingredients with no price.'}
                   </p>
                 </div>
 
@@ -3683,7 +3134,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                           <div className="flex flex-wrap items-center gap-2">
                             {item.isOnHand ? (
                               <span className="inline-flex items-center gap-1 rounded-md bg-sky-600 px-2 py-0.5 text-xs font-bold text-white">
-                                <Snowflake className="h-3 w-3" /> In Virtual Freezer / Pantry ($0)
+                                <Snowflake className="h-3 w-3" /> Already have
                               </span>
                             ) : (
                               renderStoreBadge(item.activeStore)
@@ -3773,12 +3224,12 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 })}
               </div>
 
-              {pantryEnabled && <p className="mt-4 text-xs text-slate-600">Estimated additional grocery cost assumes marked ingredients are on hand. Staple estimates allocate recipe use; package checkout totals may differ.
+              {<p className="mt-4 text-xs text-slate-600">Estimated additional grocery cost assumes marked ingredients are on hand. Staple estimates allocate recipe use; package checkout totals may differ.
                 {shoppingPlan.tripComparison.includesStaticPantryEstimates && ' Includes static estimates.'}
                 {shoppingPlan.tripComparison.additionalCostEstimateComplete === false && ' Known subtotal only — plus unpriced ingredients.'}</p>}
               <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                  {pantryEnabled ? 'Staples to buy — recipe-use estimates (Est. $' : 'Pantry & Spice Cabinet Check (Est. $'}
+                  {'Staples to buy — recipe-use estimates (Est. $'}
                   {shoppingPlan.tripComparison.estimatedPantryTotal.toFixed(2)} total across 3 dishes)
                 </h4>
                 <div className="mt-2.5 flex flex-wrap gap-2">
@@ -3871,7 +3322,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                           {item.arbitragePrompt?.eligible && (
                             <button
                               type="button"
-                              onClick={() => handleBuyTwoPrepOneFreezeOne(item)}
+                              onClick={() => handleBuyTwoPrepOneFreezeOne()}
                               className="shrink-0 rounded-lg bg-sky-600 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-sky-700"
                             >
                               ❄️ Buy 2 / Freeze 1
@@ -4113,7 +3564,7 @@ export default function MealPrepDashboard({ initialData, pantryEnabled = false, 
                 <div className="flex items-center gap-1.5 font-bold text-slate-900">
                   <Info className="h-4 w-4 text-emerald-600" />
                   <span>
-                    {pantryEnabled ? 'Market History, Virtual Pantry & Store Locations' : 'Market History, Virtual Freezer & Store Locations'}
+                    {'Market History, Virtual Pantry & Store Locations'}
                   </span>
                 </div>
                 <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

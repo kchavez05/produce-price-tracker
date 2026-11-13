@@ -58,14 +58,12 @@ export async function GET(request: NextRequest) {
     const targetServings = [4, 6, 8].includes(servingsParam) ? servingsParam : 6;
 
     const inventory = await loadInventoryState();
-    if (process.env.PANTRYBOT_PANTRY_ENABLED === 'true') {
-      onHandIngredientIds = searchParams.has('onHand') ? onHandIngredientIds.filter((id) => pantryCatalog.has(id))
-        : await readProfilePantryAvailability(inventory.profile);
-    }
+    onHandIngredientIds = searchParams.has('onHand') ? onHandIngredientIds.filter((id) => pantryCatalog.has(id))
+      : await readProfilePantryAvailability(inventory.profile);
     const marketClaim = await requestMarket(zipCode);
     const payload = await buildDashboardPayload({
       archiveHistory: Boolean(marketClaim),
-      freezerInventory: process.env.PANTRYBOT_PANTRY_ENABLED === 'true' ? [] : inventory.freezerItems,
+      freezerInventory: [],
       savedRecipes: inventory.savedRecipes,
       zipCode,
       storeFilter: storeParam,
