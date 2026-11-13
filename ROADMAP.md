@@ -4,7 +4,11 @@ This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to 
 
 ## Current release tracking
 
-Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.6.2 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/8) and [release tracker #645](https://github.com/kchavez05/produce-price-tracker/issues/645) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
+Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.6.3 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/18) and [release tracker #722](https://github.com/kchavez05/produce-price-tracker/issues/722) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
+
+## v1.6.3 — Pantry access repair and Freezer retirement
+
+Candidate scope: #712 signed-in application-profile repair and #700 Stage 2 retirement. Implementation is merged to develop; production verification and release publication remain required. Migration, recovery, original storage and data rights remain supported. This is the prerequisite code retirement for v2.0 M3, not a v2.0 UI release. See [release notes](docs/releases/v1.6.3.md).
 
 ## Historical release records
 
