@@ -8,7 +8,7 @@ Use the [current-release board](https://github.com/users/kchavez05/projects/1/vi
 
 ## v1.6.3 — Pantry access repair and Freezer retirement
 
-Candidate scope: #712 signed-in application-profile repair and #700 Stage 2 retirement. Implementation is merged to develop; production verification and release publication remain required. Migration, recovery, original storage and data rights remain supported. This is the prerequisite code retirement for v2.0 M3, not a v2.0 UI release. See [release notes](docs/releases/v1.6.3.md).
+Release scope: #712 signed-in application-profile repair and #700 Stage 2 retirement. Production verification and publication receipts are maintained on release tracker #722. Migration, recovery, original storage and data rights remain supported. This is the prerequisite code retirement for v2.0 M3, not a v2.0 UI release. See [release notes](docs/releases/v1.6.3.md).
 
 ## Historical release records
 

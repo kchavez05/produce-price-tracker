@@ -185,6 +185,26 @@ describe('pantry client persistence and ownership', () => {
     expect(client.entries).toHaveLength(1);
     expect(client.entries[0].available).toBe(false);
   });
+  it('exports only attributable account sync recovery and pending records', () => {
+    const key = syncQueueKey('alice');
+    const owned = { userId: 'alice', mutationId: 'old', freezerItems: [], preferences: { onHandIngredientIds: ['olive-oil'] } };
+    const foreign = { ...owned, userId: 'bob' };
+    localStorage.setItem(key, JSON.stringify([owned, foreign, { ...foreign, owner: 'account:alice' }, { ...owned, owner: 'account:bob' }]));
+    localStorage.setItem(`${key}:recovery:one`, JSON.stringify([owned, foreign]));
+    localStorage.setItem(`${syncQueueKey('bob')}:recovery:one`, JSON.stringify([foreign]));
+    const exported = pantryBrowserExport(localStorage, 'account:alice');
+    expect(exported[key]).toEqual([owned]);
+    expect(exported[`${key}:recovery:one`]).toEqual([owned]);
+    expect(exported).not.toHaveProperty(`${syncQueueKey('bob')}:recovery:one`);
+    expect(pantryBrowserExport(localStorage, 'guest:cookie')).toEqual({});
+    expect(JSON.parse(localStorage.getItem(key)!)).toHaveLength(4);
+  });
+  it.each(['{invalid', '{}', '[null]'])('keeps unattributable recovery private and intact: %s', raw => {
+    const key = `${syncQueueKey('alice')}:recovery:unknown`;
+    localStorage.setItem(key, raw);
+    expect(pantryBrowserExport(localStorage, 'account:alice')).toEqual({});
+    expect(localStorage.getItem(key)).toBe(raw);
+  });
   it('refuses a foreign cache and preserves its bytes before a successful retry', async () => {
     const foreign = JSON.stringify({ ...empty('account:alice'), entries: [{ displayName: 'Private', available: true, id: 'private', revision: 1, updatedAtIso: now }] });
     localStorage.setItem(pantryCacheKey('account:bob'), foreign);

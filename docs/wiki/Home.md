@@ -1,4 +1,4 @@
-> v1.6.3 candidate: signed-in Pantry profile repair and Freezer retirement (#712/#700). Production verification and publication pending; see [release notes](../releases/v1.6.3.md) and [tracker #722](https://github.com/kchavez05/produce-price-tracker/issues/722). Original storage and recovery remain.
+> v1.6.3: signed-in Pantry profile repair and Freezer retirement (#712/#700). Deployment and acceptance receipts are tracked alongside [release notes](../releases/v1.6.3.md) and [tracker #722](https://github.com/kchavez05/produce-price-tracker/issues/722). Original storage and recovery remain.
 
 > v1.6.2 was released November 12, 2026: barcode entry/camera and shared static/unpriced staple estimates. The maintainer attested production is functioning as expected; itemized production receipts are not recorded. See [release notes](../releases/v1.6.2.md), [rollout plan](../releases/v1.6.2-rollout.md) and the [accepted verification limits](../research/v1.6.2-barcode-verification-acceptance.md).
 
@@ -82,7 +82,7 @@ Current planning cycles, verified live prices, explicit estimates and refresh au
 
 ## Virtual Pantry implementation and release history
 
-See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. Stage 2 retires the quantity-based Freezer UI and writers, retaining original storage for migration, recovery and export. The v1.6.3 candidate awaits production acceptance; historical production records describe activation separately.
+See [Virtual Pantry](Virtual-Pantry.md) for the v1.6.0 boolean inventory contract, recipe-use cost assumptions, compatibility fences, and rollout requirements. Stage 2 retires the quantity-based Freezer UI and writers, retaining original storage for migration, recovery and export. The v1.6.3 deployment and acceptance receipts are tracked in #722; historical production records describe activation separately.
 
 The approved [USDA catalog ingestion standards](../specs/usda-catalog-ingestion.md) define recurring source review and a compact cooking-ingredient catalog, including optional varieties and safe updates. Candidate records remain separate from published search choices.
 

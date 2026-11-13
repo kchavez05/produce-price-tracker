@@ -12,7 +12,7 @@ import {
   UserSyncPayload,
 } from '@/types/domain';
 
-import { createSyncQueue, prepareSyncMutation, syncQueueKey, SyncMutation } from '@/lib/sync/queue';
+import { createSyncQueue, clearSyncQueue, prepareSyncMutation, syncQueueKey, SyncMutation } from '@/lib/sync/queue';
 import { clearLegacyInventoryCache } from '@/lib/pantry/legacy-sync';
 
 export interface UseUserSyncOptions {
@@ -252,25 +252,29 @@ export function useUserSync(options?: UseUserSyncOptions) {
   }, []);
 
   const deleteAccountAndData = useCallback(async (): Promise<boolean> => {
+    const userId = profile?.id;
+    if (!userId || activeUserRef.current !== userId) return false;
     setAuthLoading(true);
     try {
       const res = await fetch('/api/account', {
-        method: 'DELETE',
+        method: 'DELETE', headers: { 'x-pantrybot-account-id': userId },
       });
       if (!res.ok) return false;
+      const deleted = await res.json() as { purgedUserId?: string };
+      if (deleted.purgedUserId !== userId) return false;
 
       // Clear local storage keys to complete Right to be Forgotten purge
       activeUserRef.current = null;
       let localCleanupComplete = true;
       try {
-        clearLegacyInventoryCache(localStorage, profile?.id);
+        clearLegacyInventoryCache(localStorage, userId);
         localStorage.removeItem('pantrybot_nutrition_profile_v12');
         localStorage.removeItem('pantrybot_active_stores');
         localStorage.removeItem('pantrybot_user_zip');
-        if (profile) {
+        {
           const { clearPantryQueue } = await import('@/lib/pantry/queue');
-          clearPantryQueue(localStorage, `account:${profile.id}`);
-          localStorage.removeItem(syncQueueKey(profile.id));
+          clearPantryQueue(localStorage, `account:${userId}`);
+          await clearSyncQueue(localStorage, userId);
         }
         sessionStorage.removeItem('pantrybot_guest_merge_dismissed_v13');
       } catch {

@@ -187,6 +187,10 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    // Expected owner is a replay fence, never authentication.
+    const expectedUserId = request.headers.get('x-pantrybot-account-id');
+    if (expectedUserId !== null && expectedUserId !== profile.id) return NextResponse.json({ error: 'The account changed. Retry from the original account.' }, { status: 409 });
+
     await purgeUserAccountAndData(profile);
 
     return NextResponse.json({
