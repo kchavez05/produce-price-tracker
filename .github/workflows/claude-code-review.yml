@@ -24,8 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
-      issues: read
+      # Write access is only for the fallback comment step below.
+      pull-requests: write
+      issues: write
       id-token: write
 
     steps:
@@ -33,6 +34,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
+      - name: Record review start time
+        id: review-start
+        run: echo "started=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
       - name: Run Claude Code Review
         id: claude-review
@@ -46,3 +51,34 @@ jobs:
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
 
+      # The review plugin can exit early (or fail) and leave no trace on the PR, which
+      # looks the same as a review that never ran. If claude[bot] posted nothing since
+      # this job started, say so, so the absence of a comment is never ambiguous. This
+      # does NOT claim the code is clean and does not count as a completed review.
+      - name: Leave a comment if no review was posted
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          STARTED: ${{ steps.review-start.outputs.started }}
+          OUTCOME: ${{ steps.claude-review.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          since="${STARTED:-1970-01-01T00:00:00Z}"
+          bot='claude[bot]'
+          issue_comments=$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
+            --jq "[.[] | select(.user.login==\"$bot\" and .created_at >= \"$since\")] | length" | paste -sd+ - | bc)
+          reviews=$(gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
+            --jq "[.[] | select(.user.login==\"$bot\" and .submitted_at >= \"$since\")] | length" | paste -sd+ - | bc)
+          inline=$(gh api "repos/$REPO/pulls/$PR/comments" --paginate \
+            --jq "[.[] | select(.user.login==\"$bot\" and .created_at >= \"$since\")] | length" | paste -sd+ - | bc)
+          total=$(( ${issue_comments:-0} + ${reviews:-0} + ${inline:-0} ))
+          if [ "$total" -gt 0 ]; then
+            echo "claude[bot] posted $total item(s) on this PR; no fallback needed."
+            exit 0
+          fi
+          gh pr comment "$PR" --repo "$REPO" --body "## Code review
+
+          The automated Claude review job finished (step outcome: \`${OUTCOME}\`) without posting a review or comment, so **no assessment was recorded** for this head. This is not a clean result. Request one with \`@claude review the latest head against AGENTS.md and docs/code-review.md\`, or run \`/code-review --comment\` locally. [Job run](${RUN_URL})"
