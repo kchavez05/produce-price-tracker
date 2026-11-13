@@ -50,13 +50,13 @@ a{text-decoration:none}
       <button type="button" class="field"><span>Shredded Cheese (Cheddar, Jack)</span><span class="muted">Change</span></button>
     </div>
     <div class="muted">ZIP 80542 &middot; Nov 1&ndash;Nov 13 &middot; All observed stores</div>
-    <div class="chips" role="tablist" aria-label="Data explorer views">
-      <span class="chip on" role="tab" aria-selected="true">Price History</span>
-      <span class="chip" role="tab">Explain This Score</span>
-      <span class="chip" role="tab">Catalog</span>
-      <span class="chip" role="tab">Raw Data</span>
-      <span class="chip" role="tab">Sources</span>
-    </div>
+    <nav class="chips" aria-label="Data explorer views">
+      <a class="chip on" href="DataExplorer.dc.html" aria-current="page">Price History</a>
+      <a class="chip" href="DataExplorer.dc.html">Explain This Score</a>
+      <a class="chip" href="DataExplorer.dc.html">Catalog</a>
+      <a class="chip" href="DataExplorer.dc.html">Raw Data</a>
+      <a class="chip" href="DataExplorer.dc.html">Sources</a>
+    </nav>
     <div class="card">
       <div class="row" style="justify-content:space-between"><b style="font-size:15px">Price History</b><span class="badge">Demonstration</span></div>
       <div class="muted">Deterministic example prices. USDA reports are unavailable in this mode.</div>
@@ -66,7 +66,7 @@ a{text-decoration:none}
     <div>
       <div class="tr"><span>King Soopers</span><b>$2.58/lb</b></div>
       <div class="tr"><span>Safeway</span><b>$4.29/lb</b></div>
-      <div class="tr"><span>USDA national</span><b>$3.71/lb</b></div>
+      <div class="tr"><span>Costco bulk</span><b>$3.55/lb</b></div>
     </div>
     <div class="row">
       <button type="button" class="btn" style="flex:1">Export CSV</button>

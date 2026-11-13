@@ -19,7 +19,7 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
 .bg{flex:1;padding:24px;display:flex;flex-direction:column;gap:12px}
 .ph{background:#e4e4e4;border-radius:10px}
 .dim{position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
-.sheet{width:560px;height:700px;background:#fff;border-radius:16px;border:1px solid #6b6b6b;display:flex;flex-direction:column;overflow:hidden}
+.sheet{width:560px;height:800px;background:#fff;border-radius:16px;border:1px solid #6b6b6b;display:flex;flex-direction:column;overflow:hidden}
 .nv{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e4e4e4;flex:none}
 .close{min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;background:none;border:0;font-size:15px;font-weight:600;color:#1d4ed8;font-family:inherit}
 .ttl{font-size:18px;font-weight:700}
@@ -33,6 +33,8 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;color:#1f1f1f
 .muted{color:#595959;font-size:13px}
 a{text-decoration:none}
 .seg{display:flex;border:1px solid #6b6b6b;border-radius:10px;overflow:hidden;flex:none;margin:6px 0}
+.seg>button{border:0;background:none;font-family:inherit;border-radius:0;flex:1;min-height:44px;font-size:14px;font-weight:600;color:#333}
+.seg>button.on{background:#1f1f1f;color:#fff}
 .seg>span{flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#333}
 .seg>span.on{background:#1f1f1f;color:#fff}
 </style>
@@ -69,7 +71,7 @@ a{text-decoration:none}
         <button type="button" class="item"><span>Dietary, macros, cookware</span><span class="val">Any</span></button>
         <button type="button" class="item"><span>Default servings</span><span class="val">6</span></button>
         <div class="sec">Appearance</div>
-        <div class="seg" role="radiogroup" aria-label="Appearance"><span class="on" role="radio" aria-checked="true">System</span><span role="radio" aria-checked="false">Light</span><span role="radio" aria-checked="false">Dark</span></div>
+        <div class="seg" role="group" aria-label="Appearance"><button type="button" class="on" aria-pressed="true">System</button><button type="button" aria-pressed="false">Light</button><button type="button" aria-pressed="false">Dark</button></div>
         <div class="sec">Account</div>
         <button type="button" class="item"><span>Sync status</span><span class="val">Device only</span></button>
         <button type="button" class="item"><span>AI features</span><span class="val">Sign in to access</span></button>
