@@ -17,5 +17,12 @@
     "validate.py": "98867cdf9409c40e1552e8d5cf84489eab065dca51629801b4e29cb523127250",
     "prepare_audio.py": "7985cb05ef162336a7a350d39d408bed590f8185230fa519d58051f53734b444"
   },
-  "scope": "Execution of the approved comparison plan; no subscription purchases, production migration, added spend or release approval."
+  "scope": "Execution of the approved comparison plan; no subscription purchases, production migration, added spend or release approval.",
+  "inputBoundAmendment": {
+    "approvedOn": "2026-11-13",
+    "source": "https://github.com/kchavez05/produce-price-tracker/issues/731#issuecomment-6864431424",
+    "target": "claude-haiku",
+    "maxInputTokens": 9000,
+    "reason": "Owner approved after free counts measured 8297 max across 40 unchanged recipe fixtures. Full reservation 9.778 USD; total cap remains 10 USD."
+  }
 }

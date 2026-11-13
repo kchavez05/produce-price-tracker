@@ -60,10 +60,19 @@ export function loadPacket(): Packet {
   if (sha(catalogBytes) !== recipes.catalogSha256 || sha(catalogBytes) !== speech.catalogSha256) throw new Error('Catalog drift');
   const catalog = object(JSON.parse(catalogBytes.toString('utf8')));
   const config = object(readJson(resolve(PACKET, 'candidates.json')));
+  const models = config.recipes as RecipeCandidate[];
+  const amendment = object(approval.inputBoundAmendment ?? {});
+  if (Object.keys(amendment).length) {
+    if (amendment.target !== 'claude-haiku' || amendment.maxInputTokens !== 9000 ||
+      typeof amendment.source !== 'string' || !/^https:\/\/github\.com\/kchavez05\/produce-price-tracker\/issues\/731#issuecomment-\d+$/.test(amendment.source)) throw new Error('Unapproved input-bound amendment');
+    const claude=models.find(model=>model.id==='claude-haiku');
+    if (!claude || claude.maxInputTokens !== 8000) throw new Error('Input-bound amendment baseline drift');
+    claude.maxInputTokens=9000;
+  }
   // Local packet casts are safe only after the approved byte hashes above match.
   return {
     hash: sha(JSON.stringify(hashes)), recipes: recipes.cases as Fixture[], speech: speech.cases as Fixture[],
-    models: config.recipes as RecipeCandidate[], pipelines: config.speechPipelines as Pipeline[],
+    models, pipelines: config.speechPipelines as Pipeline[],
     prompts: object(readJson(resolve(PACKET, 'prompts.json'))),
     recipeSchema: object(readJson(resolve(PACKET, 'recipe-output.schema.json'))),
     speechSchema: object(readJson(resolve(PACKET, 'speech-output.schema.json'))),
@@ -214,11 +223,17 @@ export function schemaErrors(value: unknown, schema: ObjectValue, path = '$'): s
   }
   return errors;
 }
-export function providerSchema(schema: ObjectValue): ObjectValue {
+export function providerSchema(schema: ObjectValue, provider: 'common' | 'anthropic' = 'common'): ObjectValue {
   // Common provider-supported subset; full local validation retains the conditional constraints.
-  const result = Object.fromEntries(Object.entries(schema).filter(([key]) => !['$schema','title','allOf','if','then','else'].includes(key)).map(([key, value]) => [key,
-    key === 'properties' ? Object.fromEntries(Object.entries(object(value)).map(([name, child]) => [name, providerSchema(object(child))]))
-      : key === 'items' ? providerSchema(object(value)) : value]));
+  const unsupported = (key: string, value: unknown) => provider === 'anthropic' &&
+    (['minimum','maximum','exclusiveMinimum','exclusiveMaximum','multipleOf','minLength','maxLength','maxItems'].includes(key) || key === 'minItems' && value !== 0 && value !== 1);
+  const constraints = Object.entries(schema).filter(([key,value])=>unsupported(key,value));
+  const result = Object.fromEntries(Object.entries(schema).filter(([key,value]) => !['$schema','title','allOf','if','then','else'].includes(key) && !unsupported(key,value)).map(([key, value]) => [key,
+    key === 'properties' ? Object.fromEntries(Object.entries(object(value)).map(([name, child]) => [name, providerSchema(object(child),provider)]))
+      : key === 'items' ? providerSchema(object(value),provider) : value]));
+  // Follow Claude's documented SDK transformation: express unsupported bounds
+  // in descriptions while validating the unchanged original schema locally.
+  if (constraints.length) result.description = [result.description,...constraints.map(([key,value])=>`${key}: ${JSON.stringify(value)}`)].filter(Boolean).join('; ');
   if (!result.type && (result.enum || 'const' in result)) {
     const types = [...new Set(((result.enum ?? [result.const]) as unknown[]).map(value => value === null ? 'null' : typeof value))];
     result.type = types.length === 1 ? types[0] : types;

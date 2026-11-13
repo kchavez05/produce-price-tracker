@@ -27,7 +27,9 @@ describe('approved isolated comparison packet', () => {
     expect(schedule).toHaveLength(720);
     expect(new Set(schedule.map(item=>item.key)).size).toBe(720);
     expect(jobs(packet)).toEqual(schedule);
-    expect(schedule.reduce((sum,item)=>sum+item.bound,400_000)).toBe(9_766_000);
+    expect(schedule.reduce((sum,item)=>sum+item.bound,400_000)).toBe(9_778_000);
+    expect(packet.models.find(model=>model.id==='claude-haiku')?.maxInputTokens).toBe(9000);
+    expect(packet.models.filter(model=>model.id!=='claude-haiku').every(model=>model.maxInputTokens===8000)).toBe(true);
     expect(packet.recipes).toHaveLength(40); expect(packet.speech).toHaveLength(20);
   });
   it('never projects grading oracles or source speech transcripts into provider input', () => {
@@ -132,6 +134,21 @@ describe('persisted global budget and restart protection', () => {
 });
 
 describe('schema and scoring honesty', () => {
+  it('adapts Claude unsupported bounds without weakening original local validation or other providers', () => {
+    const adapted=providerSchema(packet.recipeSchema,'anthropic');
+    const dishes=object(object(adapted.properties).dishes);
+    expect(dishes).not.toHaveProperty('maxItems'); expect(dishes.description).toContain('maxItems: 3');
+    const fields=object(object(dishes.items).properties);
+    expect(fields.servings).not.toHaveProperty('minimum'); expect(object(fields.servings).description).toContain('minimum: 1');
+    expect(fields.title).not.toHaveProperty('minLength');
+    expect(fields.ingredients).toHaveProperty('minItems',1);
+    expect(object(object(providerSchema(packet.recipeSchema).properties).dishes)).toHaveProperty('maxItems',3);
+    const original={type:'array',maxItems:3,items:{type:'number',exclusiveMinimum:0}};
+    expect(schemaErrors([0,1,2,3],original)).not.toEqual([]);
+    expect(providerSchema(original,'anthropic')).not.toHaveProperty('maxItems');
+    expect(object(providerSchema(original,'anthropic').items)).not.toHaveProperty('exclusiveMinimum');
+    expect(providerSchema({type:'array',minItems:3,items:{type:'string'}},'anthropic')).toMatchObject({description:'minItems: 3'});
+  });
   it('validates conditional clarification schemas and rejects nonfinite quantities', () => {
     expect(schemaErrors({ status:'needs_clarification', explanation:'Conflict', dishes:[] },packet.recipeSchema)).toEqual([]);
     expect(schemaErrors({ status:'ok', explanation:'', dishes:[] },packet.recipeSchema)).not.toEqual([]);
@@ -302,6 +319,9 @@ describe('provider wire contracts without external calls', () => {
       return new Response(JSON.stringify(request.url.endsWith('count_tokens') ? { input_tokens:50 } : { model:'claude-haiku-5-5',usage:{ input_tokens:50,cache_read_input_tokens:25,output_tokens:10 },content:[{ type:'text',text:'{}' }],stop_reason:'end_turn' }),{ status:200 });
     };
     const provider=new Providers(fetcher); await provider.count(spec('anthropic'),AbortSignal.timeout(1000)); const result=await provider.generate(spec('anthropic'),AbortSignal.timeout(1000));
+    const wireSchema=object(object(object(calls[0].output_config).format).schema);
+    expect(object(object(wireSchema.properties).dishes)).not.toHaveProperty('maxItems');
+    expect(object(object(wireSchema.properties).dishes).description).toContain('maxItems: 3');
     expect(calls[0].output_config).toEqual(calls[1].output_config); expect(calls[1].max_tokens).toBe(6000); expect(result.outputTokens).toBe(10); expect(result.inputTokens).toBe(75); expect(result.cost).toBe(13);
   });
   it('opts out of Deepgram model improvement and retains duration-charge allowance', async () => {

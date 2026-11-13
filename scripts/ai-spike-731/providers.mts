@@ -98,7 +98,7 @@ export class Providers {
   }
   private anthropicBody(spec: TextSpec): ObjectValue {
     return { model:spec.model, system:spec.system, messages:[{ role:'user', content:JSON.stringify(spec.input) }],
-      output_config:{ effort:'low', format:{ type:'json_schema', schema:providerSchema(spec.schema) } } };
+      output_config:{ effort:'low', format:{ type:'json_schema', schema:providerSchema(spec.schema,'anthropic') } } };
   }
   async count(spec: TextSpec, signal: AbortSignal): Promise<number> {
     let count: number;
