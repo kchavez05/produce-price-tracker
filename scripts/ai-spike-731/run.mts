@@ -48,6 +48,7 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
   ledger.reserve(job.key,job.bound,remaining,runnerHash());
   const stages: Result[] = []; let dispatched = false; let started = 0; let firstUpload = 0; let firstUploadEnd: number | undefined; let preflightMs = 0;
   let text = ''; let failure: string | null = null; let parsed: unknown = null; let failureDetails: ObjectValue | null = null;
+  let transcriptFromProvider: string | null = null;
   let firstPaidDispatch = 0; let timer: ReturnType<typeof setTimeout> | undefined; let controller: AbortController | undefined;
   let boundViolation = false;
   let countFailed = false;
@@ -87,8 +88,8 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
         preflightMs += performance.now()-countStart;
       }
       const signal = startDeadline(); dispatched = true;
-      const transcript = record(await providers.transcribe(provider,clip.bytes,clip.seconds,String(packet.prompts.transcriptionInstruction),signal), provider === 'google' ? 1216 : undefined, provider === 'google' ? 512 : undefined, provider === 'google' ? 'gemini-3.5-transcribe' : provider === 'openai' ? 'gpt-transcribe' : 'nova-3').text;
-      text = (await generate(speechSpec(packet,fixture,transcript))).text;
+      transcriptFromProvider = redact(record(await providers.transcribe(provider,clip.bytes,clip.seconds,String(packet.prompts.transcriptionInstruction),signal), provider === 'google' ? 1216 : undefined, provider === 'google' ? 512 : undefined, provider === 'google' ? 'gemini-3.5-transcribe' : provider === 'openai' ? 'gpt-transcribe' : 'nova-3').text,secrets);
+      text = (await generate(speechSpec(packet,fixture,transcriptFromProvider))).text;
     }
     text = redact(text,secrets);
     parsed = JSON.parse(text);
@@ -104,7 +105,7 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
   const cost = stages.reduce((sum,stage) => sum+stage.cost,0);
   const receipt: Receipt = { job, packetHash:packet.hash, runnerHash:runnerHash(), startedAt:new Date(Date.now()-elapsed).toISOString(), completed:valid,
     completionMs, elapsedMs:elapsed, preflightMs, firstUploadMs:firstUpload, failure, failureDetails,
-    text, proposal:parsed, score, usage:stages.map(stage => ({ model:stage.model, ...stage.usage, costMicroUsd:stage.cost, ...stage.timing })),
+    text, transcriptFromProvider, proposal:parsed, score, usage:stages.map(stage => ({ model:stage.model, ...stage.usage, costMicroUsd:stage.cost, ...stage.timing })),
     costMicroUsd:dispatched ? null : cost, retainedReservationMicroUsd:dispatched ? job.bound : 0,
     schemaSha256:sha(JSON.stringify(job.task === 'recipe' ? packet.recipeSchema : packet.speechSchema)), humanReviewRequired:job.task === 'recipe' };
   const safeReceipt = object(JSON.parse(redact(JSON.stringify(receipt),secrets))) as Receipt;

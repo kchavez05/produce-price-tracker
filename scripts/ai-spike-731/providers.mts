@@ -172,7 +172,13 @@ export class Providers {
       if (integer(result.usageMetadata.toolUsePromptTokenCount ?? 0)>0) throw new Error('Unexpected billable tool use');
       const input = integer(result.usageMetadata.promptTokenCount);
       const output = integer(result.usageMetadata.candidatesTokenCount) + integer(result.usageMetadata.thoughtsTokenCount ?? 0);
-      return { text:result.text ?? '', inputTokens:input, outputTokens:output, model:result.modelVersion ?? 'gemini-3.5-transcribe', timing:this.latest, cost:micros((input*2+output*12)/1_000_000), usage:{ inputTokens:input, outputTokens:output } };
+      const parts=result.candidates?.[0]?.content?.parts ?? [];
+      // The SDK's generic text getter ignores native audioTranscription parts.
+      const transcripts=parts.flatMap(part=>typeof part.audioTranscription?.text==='string' ? [part.audioTranscription.text] : []);
+      const plain=parts.flatMap(part=>typeof part.text==='string' && !part.thought ? [part.text] : []);
+      if (!transcripts.length && !plain.length) throw new Error('Missing transcript');
+      const text=transcripts.length ? transcripts.join(' ') : plain.join('');
+      return { text, inputTokens:input, outputTokens:output, model:result.modelVersion ?? 'gemini-3.5-transcribe', timing:this.latest, cost:micros((input*2+output*12)/1_000_000), usage:{ inputTokens:input, outputTokens:output } };
     }
     if (provider === 'openai') {
       const form = new FormData(); form.set('model','gpt-transcribe'); form.set('file',new Blob([new Uint8Array(audio)], { type:'audio/wav' }),'synthetic.wav'); form.set('response_format','json'); form.set('prompt',instruction);
