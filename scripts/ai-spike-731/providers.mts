@@ -1,5 +1,5 @@
 import { request as httpsRequest } from 'node:https';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import { integer, micros, object, providerSchema, sha, type ObjectValue } from './core.mjs';
 
 export type Provider = 'google' | 'openai' | 'anthropic' | 'deepgram';
@@ -11,6 +11,17 @@ export interface TextSpec {
 }
 export interface Result { text: string; inputTokens?: number; outputTokens?: number; cost: number; timing: Timing; model: string; usage: ObjectValue }
 export const KEY_NAMES = { google: 'GEMINI_API_KEY', openai: 'OPENAI_API_KEY', anthropic: 'ANTHROPIC_API_KEY', deepgram: 'DEEPGRAM_API_KEY' } as const;
+export function safeFailureDetails(error: unknown): ObjectValue {
+  // SDK errors may contain vendor bodies and credentials. Store only a bounded
+  // status or exact locally-known category, never messages or stacks.
+  const message=error instanceof Error ? error.message : '';
+  const match=/^Provider HTTP ([45]\d\d)$/.exec(message);
+  const status=match ? Number(match[1]) : object(error).status;
+  if (typeof status==='number' && Number.isInteger(status) && status>=400 && status<=599) return {kind:'http_error',httpStatus:status};
+  if (message==='Provider transport failed' || message==='Provider response transport failed') return {kind:'transport_failed'};
+  if (message==='Missing usage') return {kind:'missing_usage'};
+  return {kind:'request_or_output_error'};
+}
 export function credentialPresence(env: NodeJS.ProcessEnv = process.env): Record<Provider, boolean> {
   return { google: Boolean(env.GEMINI_API_KEY?.trim() || env.GOOGLE_API_KEY?.trim()), openai: Boolean(env.OPENAI_API_KEY?.trim()), anthropic: Boolean(env.ANTHROPIC_API_KEY?.trim()), deepgram: Boolean(env.DEEPGRAM_API_KEY?.trim()) };
 }
@@ -109,7 +120,7 @@ export class Providers {
       const countRequest = async (contents: ReturnType<Providers['googleContents']>) => {
         const result = await this.google().models.countTokens({ model:spec.model, contents, config:{ abortSignal:signal, httpOptions:{ extraBody:{ contents:undefined, generateContentRequest:{
           model:`models/${spec.model}`,contents,systemInstruction:{ parts:[{ text:spec.system }] },
-          generationConfig:{ responseMimeType:'application/json',responseJsonSchema:providerSchema(spec.schema),maxOutputTokens:spec.maxOutput,thinkingConfig:{ thinkingBudget:0 },candidateCount:1 },
+          generationConfig:{ responseMimeType:'application/json',responseJsonSchema:providerSchema(spec.schema),maxOutputTokens:spec.maxOutput,thinkingConfig:{ thinkingLevel:ThinkingLevel.MINIMAL },candidateCount:1 },
         } } } } });
         return integer(result.totalTokens);
       };
@@ -131,7 +142,7 @@ export class Providers {
   async generate(spec: TextSpec, signal: AbortSignal): Promise<Result> {
     this.latest = { uploadMs:0, totalMs:0 };
     if (spec.provider === 'google') {
-      const result = await this.google().models.generateContent({ model:spec.model, contents:this.googleContents(spec), config:{ systemInstruction:spec.system, responseMimeType:'application/json', responseJsonSchema:providerSchema(spec.schema), maxOutputTokens:spec.maxOutput, thinkingConfig:{ thinkingBudget:0 }, candidateCount:1, abortSignal:signal } });
+      const result = await this.google().models.generateContent({ model:spec.model, contents:this.googleContents(spec), config:{ systemInstruction:spec.system, responseMimeType:'application/json', responseJsonSchema:providerSchema(spec.schema), maxOutputTokens:spec.maxOutput, thinkingConfig:{ thinkingLevel:ThinkingLevel.MINIMAL }, candidateCount:1, abortSignal:signal } });
       const usage = result.usageMetadata;
       if (!usage) throw new Error('Missing usage');
       if (integer(usage.toolUsePromptTokenCount ?? 0)>0) throw new Error('Unexpected billable tool use');
@@ -156,7 +167,7 @@ export class Providers {
   async transcribe(provider: 'google' | 'openai' | 'deepgram', audio: Buffer, seconds: number, instruction: string, signal: AbortSignal): Promise<Result> {
     this.latest = { uploadMs:0, totalMs:0 };
     if (provider === 'google') {
-      const result = await this.google().models.generateContent({ model:'gemini-3.5-transcribe', contents:[{ role:'user', parts:[{ text:instruction },{ inlineData:{ mimeType:'audio/wav', data:audio.toString('base64') } }] }], config:{ maxOutputTokens:512, thinkingConfig:{ thinkingBudget:0 }, candidateCount:1, abortSignal:signal } });
+      const result = await this.google().models.generateContent({ model:'gemini-3.5-transcribe', contents:[{ role:'user', parts:[{ text:instruction },{ inlineData:{ mimeType:'audio/wav', data:audio.toString('base64') } }] }], config:{ maxOutputTokens:512, candidateCount:1, abortSignal:signal } });
       if (!result.usageMetadata) throw new Error('Missing usage');
       if (integer(result.usageMetadata.toolUsePromptTokenCount ?? 0)>0) throw new Error('Unexpected billable tool use');
       const input = integer(result.usageMetadata.promptTokenCount);
@@ -184,7 +195,7 @@ export class Providers {
   async countGoogleTranscription(audio: Buffer, instruction: string, signal: AbortSignal): Promise<number> {
     const result = await this.google().models.countTokens({ model:'gemini-3.5-transcribe',contents:[{ role:'user',parts:[{ text:instruction },{ inlineData:{ mimeType:'audio/wav',data:audio.toString('base64') } }] }],config:{ abortSignal:signal,httpOptions:{ extraBody:{ contents:undefined,generateContentRequest:{
       model:'models/gemini-3.5-transcribe',contents:[{ role:'user',parts:[{ text:instruction },{ inlineData:{ mimeType:'audio/wav',data:audio.toString('base64') } }] }],
-      generationConfig:{ maxOutputTokens:512,thinkingConfig:{ thinkingBudget:0 },candidateCount:1 },
+      generationConfig:{ maxOutputTokens:512,candidateCount:1 },
     } } } } });
     const count = integer(result.totalTokens);
     if (count > 1216) throw new Error('Transcription input exceeds qualified bound');

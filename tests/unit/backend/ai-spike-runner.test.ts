@@ -3,7 +3,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { audioBytes, CAP, jobs, Ledger, loadPacket, micros, object, projection, providerSchema, redact, schemaErrors, sha, type ObjectValue } from '../../../scripts/ai-spike-731/core.mjs';
-import { credentialPresence, Providers, transport, type TextSpec, type Transport } from '../../../scripts/ai-spike-731/providers.mjs';
+import { credentialPresence, Providers, safeFailureDetails, transport, type TextSpec, type Transport } from '../../../scripts/ai-spike-731/providers.mjs';
 import { recipeChecks, speechScore, summarize } from '../../../scripts/ai-spike-731/scoring.mjs';
 import { executeJob, qualificationTemplate, requireQualified } from '../../../scripts/ai-spike-731/run.mjs';
 import { report, reviewQueue } from '../../../scripts/ai-spike-731/report.mjs';
@@ -233,10 +233,12 @@ describe('dispatch transaction and receipts', () => {
   });
   it('retains an uncertain full reservation and never retries', async () => {
     const path=directory(); const ledger=new Ledger(path,packet.hash); const provider=fakeProvider();
-    const generate=vi.spyOn(provider,'generate').mockRejectedValue(new Error('timeout'));
+    const generate=vi.spyOn(provider,'generate').mockRejectedValue(Object.assign(new Error('vendor-body-that-must-stay-private'),{status:400}));
     try {
       const receipt=await executeJob(packet,job,ledger,0,'unused',provider,resolve(path,'results'));
       expect(receipt.failure).toBe('provider_or_usage_uncertain'); expect(generate).toHaveBeenCalledOnce();
+      expect(receipt.failureDetails).toEqual({kind:'http_error',httpStatus:400});
+      expect(JSON.stringify(receipt)).not.toContain('vendor-body-that-must-stay-private');
       expect(ledger.exposure()).toBe(job.bound); expect(ledger.entries()[0].state).toBe('uncertain');
     } finally { ledger.close(); }
   });
@@ -272,6 +274,25 @@ describe('dispatch transaction and receipts', () => {
 });
 
 describe('provider wire contracts without external calls', () => {
+  it('keeps only safe HTTP status or a fixed category from provider failures', () => {
+    expect(safeFailureDetails(Object.assign(new Error('secret vendor body'),{status:400}))).toEqual({kind:'http_error',httpStatus:400});
+    expect(safeFailureDetails(new Error('Provider HTTP 429'))).toEqual({kind:'http_error',httpStatus:429});
+    expect(safeFailureDetails(new Error('fake-key-in-message'))).toEqual({kind:'request_or_output_error'});
+    expect(safeFailureDetails({status:'400',message:'sensitive'})).toEqual({kind:'request_or_output_error'});
+  });
+  it('omits unsupported thinking controls from Google transcription and its count request', async () => {
+    vi.stubEnv('GEMINI_API_KEY','fake-local-test'); const calls:ObjectValue[]=[];
+    const fetcher:Transport=async(input,init)=>{
+      const request=new Request(input,init);calls.push(object(await request.json()));
+      return new Response(JSON.stringify(request.url.endsWith('countTokens') ? {totalTokens:100} : {modelVersion:'gemini-3.5-transcribe',candidates:[{content:{role:'model',parts:[{text:'Add olive oil'}]}}],usageMetadata:{promptTokenCount:100,candidatesTokenCount:4}}),{status:200,headers:{'content-type':'application/json'}});
+    };
+    const provider=new Providers(fetcher);
+    await provider.countGoogleTranscription(Buffer.from('synthetic'),'transcribe',AbortSignal.timeout(1000));
+    await provider.transcribe('google',Buffer.from('synthetic'),2,'transcribe',AbortSignal.timeout(1000));
+    const countConfig=object(object(calls[0].generateContentRequest).generationConfig);
+    expect(countConfig).toEqual({maxOutputTokens:512,candidateCount:1});
+    expect(calls[1].generationConfig).toEqual(countConfig);
+  });
   it('sends OpenAI structured output, store:false and token limits without tools/retries', async () => {
     vi.stubEnv('OPENAI_API_KEY','fake-local-test');
     const calls: {url:string;body:ObjectValue}[] = [];
@@ -291,7 +312,7 @@ describe('provider wire contracts without external calls', () => {
       return new Response(JSON.stringify({ modelVersion:'gemini-3.5-flash-lite',candidates:[{ content:{ role:'model',parts:[{ text:'{}' }] } }],usageMetadata:{ promptTokenCount:100,candidatesTokenCount:20,thoughtsTokenCount:0 } }),{ status:200,headers:{ 'content-type':'application/json' } });
     };
     const result=await new Providers(fetcher).generate(spec('google'),AbortSignal.timeout(1000));
-    expect(calls).toHaveLength(1); expect(calls[0].generationConfig).toMatchObject({ maxOutputTokens:6000,candidateCount:1,responseMimeType:'application/json',thinkingConfig:{ thinkingBudget:0 } });
+    expect(calls).toHaveLength(1); expect(calls[0].generationConfig).toMatchObject({ maxOutputTokens:6000,candidateCount:1,responseMimeType:'application/json',thinkingConfig:{ thinkingLevel:'MINIMAL' } });
     expect(result.text).toBe('{}');
   });
   it('never retries a Gemini provider error', async () => {
