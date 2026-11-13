@@ -44,6 +44,9 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
 5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Historical milestones, current release scope and future mobile plans.
 6. **[Release Notes (`docs/releases/`)](../releases/)**
+   * **[v1.6.3 — Pantry Access Repair & Freezer Retirement](../releases/v1.6.3.md)**
+   * **[v1.6.2 — Barcode Entry & Static Staple Estimates](../releases/v1.6.2.md)**
+   * **[v1.6.1 — Pantry Catalog Expansion](../releases/v1.6.1.md)**
    * **[v1.6.0 — Virtual Pantry](../releases/v1.6.0.md)**
    * **[v1.5.1 — Data Explorer & Score Transparency](../releases/v1.5.1.md)**
    * **[v1.5.0 — Weekly USDA and Durable Market History](../releases/v1.5.0.md)**
