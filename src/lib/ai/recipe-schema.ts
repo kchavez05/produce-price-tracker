@@ -1,0 +1,122 @@
+import type { RecipeJsonSchema } from './types';
+
+// Application-owned response contract; provider adapters translate its syntax.
+export const RECIPE_OUTPUT_SCHEMA: RecipeJsonSchema = {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              title: { type: 'string' },
+              subtitle: { type: 'string' },
+              style: {
+                type: 'string',
+                enum: ['STEW_BRAISE', 'CHILI_SOUP', 'CASSEROLE_BAKE', 'CURRY_SKILLET'],
+              },
+              appliance: { type: 'string' },
+              servings: { type: 'number' },
+              prepTimeMinutes: { type: 'number' },
+              cookTimeMinutes: { type: 'number' },
+              freezerFriendly: { type: 'boolean' },
+              flavorProfile: { type: 'string' },
+              macrosPerServing: {
+                type: 'object',
+                properties: {
+                  calories: { type: 'number' },
+                  proteinGrams: { type: 'number' },
+                  carbsGrams: { type: 'number' },
+                  fatGrams: { type: 'number' },
+                },
+                required: ['calories', 'proteinGrams', 'carbsGrams', 'fatGrams'],
+              },
+              estimatedPantryCost: { type: 'number' },
+              pantryStaples: {
+                type: 'array',
+                items: { type: 'string' },
+              },
+              pantryRequirements: {
+                type: 'array', items: { type: 'object', properties: {
+                  ingredientId: { type: 'string' }, displayName: { type: 'string' },
+                  quantity: { type: 'number' }, unit: { type: 'string' }, optional: { type: 'boolean' },
+                }, required: ['ingredientId', 'quantity', 'unit'] },
+              },
+              steps: {
+                type: 'array',
+                items: { type: 'string' },
+              },
+              reheatTip: { type: 'string' },
+              matchedIngredients: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    slotLabel: { type: 'string' },
+                    ingredientId: { type: 'string' },
+                    ingredientName: { type: 'string' },
+                    quantityUsed: { type: 'number' },
+                    unit: { type: 'string', enum: ['lb', 'doz'] },
+                    store: {
+                      type: 'string',
+                      enum: [
+                        'KING_SOOPERS',
+                        'SAFEWAY',
+                        'ALDI',
+                        'WALMART',
+                        'TARGET',
+                        'SPROUTS',
+                      ],
+                    },
+                    rawDealText: { type: 'string' },
+                    dealType: {
+                      type: 'string',
+                      enum: [
+                        'SHELF_OR_MEMBER',
+                        'DIGITAL_COUPON',
+                        'MULTI_BUY',
+                        'EVERYDAY_LOW',
+                      ],
+                    },
+                    unitCost: { type: 'number' },
+                    slotCost: { type: 'number' },
+                    regularSlotCost: { type: 'number' },
+                    isUserPinned: { type: 'boolean' },
+                    isOnHand: { type: 'boolean' },
+                  },
+                  required: [
+                    'slotLabel',
+                    'ingredientId',
+                    'ingredientName',
+                    'quantityUsed',
+                    'unit',
+                    'store',
+                    'rawDealText',
+                    'dealType',
+                    'unitCost',
+                    'slotCost',
+                    'regularSlotCost',
+                    'isUserPinned',
+                  ],
+                },
+              },
+            },
+            required: [
+              'id',
+              'title',
+              'subtitle',
+              'style',
+              'appliance',
+              'servings',
+              'prepTimeMinutes',
+              'cookTimeMinutes',
+              'freezerFriendly',
+              'flavorProfile',
+              'macrosPerServing',
+              'estimatedPantryCost',
+              'pantryStaples',
+              'pantryRequirements',
+              'steps',
+              'reheatTip',
+              'matchedIngredients',
+            ],
+          },
+        };

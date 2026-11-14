@@ -523,9 +523,9 @@ export const PANTRYBOT_OPENAPI_SPEC = {
     '/api/ai-meal-plan': {
       post: {
         tags: ['AI Meal Planner'],
-        summary: 'Generate custom 3-dish meal prep plan with Gemini AI',
+        summary: 'Generate a custom 3-dish meal-prep plan',
         description:
-          'Calls Google GenAI (`gemini-2.5-flash`) with live store sale items, household dietary constraints, cookware, and macro goals. Server-funded generation requires verified Supabase sign-in. Requests are limited to 10 per minute per IP and, for server-funded calls, per account (per process). Under Zero-Key Offline Resilience, deterministically falls back to algorithmic scoring if no Gemini API key is provided.',
+          'Uses the application-owned recipe provider contract with live sale items, dietary constraints, cookware and macro goals. The compatibility adapter currently uses Google GenAI (`gemini-2.5-flash`); final v1.7 provider selection is pending. The app validates exactly three dishes and recomputes prices/availability. Generation is bounded to 45 seconds and 6000 output tokens, with no automatic retry. Server-funded generation requires verified Supabase sign-in. Transitional limits remain 10 per minute per IP/account per process; shared limits and BYOK retirement are separate v1.7 work. Deterministic suggestions remain available when no provider is configured.',
         operationId: 'generateAiMealPlan',
         requestBody: {
           required: true,
@@ -587,7 +587,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
                   type: 'object',
                   properties: {
                     usedAi: { type: 'boolean', example: false },
-                    message: { type: 'string', example: 'No Gemini API key detected...' },
+                    message: { type: 'string', example: 'AI generation is not configured. Returned standard meal-prep suggestions tailored to your preferences.' },
                     dishes: {
                       type: 'array',
                       items: { $ref: '#/components/schemas/RecommendedDish' },
@@ -599,7 +599,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
             },
           },
           '500': {
-            description: 'Gemini API call or parsing error',
+            description: 'Internal service error; application-owned message only',
             content: {
               'application/json': {
                 schema: {
@@ -607,11 +607,26 @@ export const PANTRYBOT_OPENAPI_SPEC = {
                   properties: {
                     usedAi: { type: 'boolean', example: false },
                     error: { type: 'string' },
+                    code: { type: 'string', enum: ['SERVICE_UNAVAILABLE'] },
                   },
                   required: ['usedAi', 'error'],
                 },
               },
             },
+          },
+          '502': {
+            description: 'Provider unavailable or unusable output; no vendor error details',
+            content: { 'application/json': { schema: { type: 'object', properties: {
+              usedAi: { type: 'boolean', example: false }, error: { type: 'string' },
+              code: { type: 'string', enum: ['PROVIDER_UNAVAILABLE', 'INVALID_RESPONSE'] },
+            }, required: ['usedAi', 'error', 'code'] } } },
+          },
+          '504': {
+            description: 'Generation deadline exceeded; cancellation does not establish zero billing',
+            content: { 'application/json': { schema: { type: 'object', properties: {
+              usedAi: { type: 'boolean', example: false }, error: { type: 'string' },
+              code: { type: 'string', enum: ['TIMEOUT'] },
+            }, required: ['usedAi', 'error', 'code'] } } },
           },
         },
       },
