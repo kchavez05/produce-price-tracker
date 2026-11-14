@@ -24,5 +24,10 @@
     "target": "claude-haiku",
     "maxInputTokens": 9000,
     "reason": "Owner approved after free counts measured 8297 max across 40 unchanged recipe fixtures. Full reservation 9.778 USD; total cap remains 10 USD."
+  },
+  "coverageAmendment": {
+    "target": "google-transcribe-luna",
+    "source": "https://github.com/kchavez05/produce-price-tracker/issues/731#issuecomment-6869349835",
+    "reason": "persistent_http_429"
   }
 }

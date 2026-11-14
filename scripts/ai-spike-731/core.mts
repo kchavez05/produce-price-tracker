@@ -46,6 +46,7 @@ export interface Packet {
   hash: string; recipes: Fixture[]; speech: Fixture[]; models: RecipeCandidate[]; pipelines: Pipeline[];
   prompts: ObjectValue; recipeSchema: ObjectValue; speechSchema: ObjectValue;
   catalog: { id: string; name: string }[]; audio: { id: string; filename: string; sha256: string; durationSeconds: number }[];
+  coverageAmendment?: { target: 'google-transcribe-luna'; source: string; reason: 'persistent_http_429' };
 }
 export function loadPacket(): Packet {
   const approval = object(readJson(resolve(PACKET, 'execution-approval.json')));
@@ -69,10 +70,14 @@ export function loadPacket(): Packet {
     if (!claude || claude.maxInputTokens !== 8000) throw new Error('Input-bound amendment baseline drift');
     claude.maxInputTokens=9000;
   }
+  const coverage = object(approval.coverageAmendment ?? {});
+  if (Object.keys(coverage).length && (coverage.target !== 'google-transcribe-luna' || coverage.reason !== 'persistent_http_429' ||
+    typeof coverage.source !== 'string' || !/^https:\/\/github\.com\/kchavez05\/produce-price-tracker\/issues\/731#issuecomment-\d+$/.test(coverage.source))) throw new Error('Unapproved coverage amendment');
   // Local packet casts are safe only after the approved byte hashes above match.
   return {
     hash: sha(JSON.stringify(hashes)), recipes: recipes.cases as Fixture[], speech: speech.cases as Fixture[],
     models, pipelines: config.speechPipelines as Pipeline[],
+    ...(Object.keys(coverage).length ? { coverageAmendment:coverage as NonNullable<Packet['coverageAmendment']> } : {}),
     prompts: object(readJson(resolve(PACKET, 'prompts.json'))),
     recipeSchema: object(readJson(resolve(PACKET, 'recipe-output.schema.json'))),
     speechSchema: object(readJson(resolve(PACKET, 'speech-output.schema.json'))),
@@ -81,6 +86,8 @@ export function loadPacket(): Packet {
   };
 }
 export interface Job { key: string; task: 'recipe' | 'speech'; target: string; fixture: string; repeat: number; bound: number }
+export function executionScopeHash(packet: Packet): string { return sha(JSON.stringify(packet.coverageAmendment ?? null)); }
+export function executableJobs(packet: Packet): Job[] { return jobs(packet).filter(job=>job.target!==packet.coverageAmendment?.target); }
 export function recipeBound(candidate: RecipeCandidate): number {
   return micros((candidate.maxInputTokens * candidate.inputUsdPerMillion + candidate.maxBillableOutputTokens * candidate.outputUsdPerMillion) / 1_000_000);
 }
