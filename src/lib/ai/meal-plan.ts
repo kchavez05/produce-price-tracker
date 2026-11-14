@@ -22,7 +22,7 @@ export async function generateMealPlan(provider: RecipeProvider, context: Recipe
     if (signal.aborted) throw new AiGenerationError('TIMEOUT');
     const result = await Promise.race([provider.generate({ system: SYSTEM, prompt: buildRecipePrompt(context),
       schema: RECIPE_OUTPUT_SCHEMA, maxOutputTokens: 6_000, signal }), aborted]);
-    const dishes = parseGeneratedDishes(result.text, context.targetServings);
+    const dishes = parseGeneratedDishes(result.text, context.targetServings, new Set(context.dashboard.commodities.map(commodity => commodity.ingredient.id)));
     return dishes.map((dish, index) => {
       const macros = dish.macrosPerServing;
       const macroBadges: string[] = [];

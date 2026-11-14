@@ -54,6 +54,16 @@ describe('provider-independent recipe contract', () => {
     expect(result[0].additionalCostEstimateComplete).toBe(false);
     expect(result[0].missingPriceIngredientIds).toContain('unmapped:seasoning');
   });
+  it('accepts supplied market-slot IDs without treating broad market groups as pantry identities', () => {
+    const dishes = plan();
+    dishes[0].matchedIngredients = [{ slotLabel: 'Vegetables', ingredientId: 'broccoli-cauliflower', ingredientName: 'Broccoli',
+      quantityUsed: 1, unit: 'lb', store: 'SAFEWAY', rawDealText: '', dealType: 'SHELF_OR_MEMBER', unitCost: 0,
+      slotCost: 0, regularSlotCost: 0, isUserPinned: false }];
+    expect(() => parseGeneratedDishes(JSON.stringify(dishes), 6, new Set(['broccoli-cauliflower']))).not.toThrow();
+    expect(() => parseGeneratedDishes(JSON.stringify(dishes), 6, new Set(['ground-turkey']))).toThrow();
+    dishes[0].pantryRequirements = [{ ingredientId: 'broccoli-cauliflower', quantity: 1, unit: 'lb' }];
+    expect(() => parseGeneratedDishes(JSON.stringify(dishes), 6, new Set(['broccoli-cauliflower']))).toThrow();
+  });
   it('does not disclose vendor errors or retry a failed provider', async () => {
     const generate = vi.fn<RecipeProvider['generate']>().mockRejectedValue(new Error('SECRET vendor body'));
     const pending = generateMealPlan({ generate }, context);

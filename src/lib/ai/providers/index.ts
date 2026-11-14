@@ -1,8 +1,10 @@
 import type { RecipeProvider } from '../types';
 import { createGeminiRecipeProvider } from './gemini';
 
-/** Transitional key override is retired by #751; keep it out of the shared service. */
-export function createRecipeProvider(legacyKey = ''): RecipeProvider | null {
-  const key = legacyKey.trim() || process.env.GEMINI_API_KEY?.trim();
+export function isRecipeProviderConfigured(): boolean { return Boolean(process.env.GEMINI_API_KEY?.trim()); }
+
+/** Server-only configuration. Request bodies can never supply provider credentials. */
+export function createRecipeProvider(): RecipeProvider | null {
+  const key = process.env.GEMINI_API_KEY?.trim();
   return key ? createGeminiRecipeProvider(key) : null;
 }

@@ -1,4 +1,5 @@
 import { pantryCatalog } from '@/lib/pantry/model';
+import { CANONICAL_INGREDIENTS } from '@/data/canonical-ingredients';
 import { AiGenerationError } from './errors';
 import { RECIPE_OUTPUT_SCHEMA } from './recipe-schema';
 import type { GeneratedDish, RecipeJsonSchema } from './types';
@@ -14,7 +15,8 @@ function matches(value: unknown, schema: RecipeJsonSchema): boolean {
   return (schema.required ?? []).every(key => Object.hasOwn(record, key)) &&
     Object.entries(schema.properties ?? {}).every(([key, child]) => !Object.hasOwn(record, key) || matches(record[key], child));
 }
-export function parseGeneratedDishes(text: string, targetServings: number): GeneratedDish[] {
+const marketIds = new Set(CANONICAL_INGREDIENTS.map(ingredient => ingredient.id));
+export function parseGeneratedDishes(text: string, targetServings: number, offeredIds: ReadonlySet<string> = marketIds): GeneratedDish[] {
   const invalid = () => { throw new AiGenerationError('INVALID_RESPONSE'); };
   if (typeof text !== 'string' || text.length > 256_000) return invalid();
   let parsed: unknown;
@@ -28,7 +30,7 @@ export function parseGeneratedDishes(text: string, targetServings: number): Gene
     if (!title || titles.has(title) || dish.servings !== targetServings || dish.steps.length === 0) return invalid();
     titles.add(title);
     for (const ingredient of dish.matchedIngredients) {
-      if (!pantryCatalog.has(ingredient.ingredientId) || ingredient.quantityUsed <= 0) return invalid();
+      if (!offeredIds.has(ingredient.ingredientId) || ingredient.quantityUsed <= 0) return invalid();
     }
     for (const ingredient of dish.pantryRequirements) {
       if (ingredient.quantity <= 0 || !pantryCatalog.has(ingredient.ingredientId) &&

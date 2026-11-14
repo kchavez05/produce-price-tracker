@@ -117,10 +117,10 @@ export default function PrivacyPolicyPage() {
               </li>
               <li>
                 <strong>Anonymous Guest Mode Data:</strong> If you use PantryBot
-                without signing in, your preferences, checked shopping list items,
-                and optional user-supplied Gemini API key remain strictly in your
-                browser&apos;s local storage (<code>localStorage</code>).
+                without signing in, your preferences and checked shopping list items
+                remain in your browser&apos;s local storage (<code>localStorage</code>).
               </li>
+              <li><strong>AI assistance:</strong> We do not ask for or accept personal AI API keys. When enabled, AI runs only for a verified signed-in account. Explicit requests send the selected recipe and pantry context to the configured provider. Usage controls record account/request IDs, dates and conservative allowance reservations, without storing prompts, recordings or model outputs in the usage ledger.</li>
             </ul>
           </section>
 
