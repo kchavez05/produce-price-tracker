@@ -1,0 +1,4267 @@
+{
+  "issue": 731,
+  "packetHash": "ba8771e9e67cff8070b41db691a0ab0806b52998d1378e6e8a5fcb5ccf5b8aa1",
+  "ledgerSha256": "0e1ff0610725d7f0c85072209f27e064e44ffce6f2f1bb85f6b2d49a1537a34c",
+  "receipts": [
+    {
+      "key": "recipe:claude-haiku:R01:1",
+      "receiptSha256": "fc8b27736ef67cab37162c6b688e5f5d460bce3dec6e04ab37fcb1f0a79658c9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2900
+    },
+    {
+      "key": "recipe:claude-haiku:R01:2",
+      "receiptSha256": "ca22e71a3d0e31af83839adf78f4abd5365cc190d7884ee1537066b0680172e9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 3209
+    },
+    {
+      "key": "recipe:claude-haiku:R01:3",
+      "receiptSha256": "94aba636b9544238af25b51fa64cf0a33e11c15f9a4d4b52125e63bbbaf21705",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 3232
+    },
+    {
+      "key": "recipe:claude-haiku:R02:1",
+      "receiptSha256": "f097aec21d6c5a775c4e498c667e7229328a9ed21600fe5321571af04c2376a9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2222
+    },
+    {
+      "key": "recipe:claude-haiku:R02:2",
+      "receiptSha256": "a2bd0c6f7baf9a4084f35026eb6e3b3e20b8272cf2ac6c16ce4d172174e6fbd1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2246
+    },
+    {
+      "key": "recipe:claude-haiku:R02:3",
+      "receiptSha256": "592067264395b275bd95762cfed75c72d5c0c175046ba7aadcf9b165db9360ab",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2317
+    },
+    {
+      "key": "recipe:claude-haiku:R03:1",
+      "receiptSha256": "9aa587fe83e434f778dbb366996f29e8b1d59d5693e032250f8770f5dabbb636",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2508
+    },
+    {
+      "key": "recipe:claude-haiku:R03:2",
+      "receiptSha256": "d7e369050010629cd9efbdfb401430814843b65ce5fbd05c2e956ce88e945f2f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2181
+    },
+    {
+      "key": "recipe:claude-haiku:R03:3",
+      "receiptSha256": "0c3053e51a9d8547da929cb9f8107778b02f8a6360a9768881060d796102e6d6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2049
+    },
+    {
+      "key": "recipe:claude-haiku:R04:1",
+      "receiptSha256": "363935d57342fd0098d8290aa1a07a37cdaf2e6635080ed31a00b1c115ae2fa4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2843
+    },
+    {
+      "key": "recipe:claude-haiku:R04:2",
+      "receiptSha256": "422650ac3e89d9a6b587d415effd865ef50600389dce9d6f3e425a7750a19d25",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 3050
+    },
+    {
+      "key": "recipe:claude-haiku:R04:3",
+      "receiptSha256": "a8ce255fdd8194c1741013b0dbd95b9a3ede4ab9d7ad17a70396e43ffe976977",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 3129
+    },
+    {
+      "key": "recipe:claude-haiku:R05:1",
+      "receiptSha256": "0be29af18e5386e6af7b9e27aabd50362c228075f3067b78edec1d8913cf415e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2655
+    },
+    {
+      "key": "recipe:claude-haiku:R05:2",
+      "receiptSha256": "23b09550aa7fe3d20851850d1063aa201aa76c1af3674ed373d3324962880972",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2383
+    },
+    {
+      "key": "recipe:claude-haiku:R05:3",
+      "receiptSha256": "cc4cbeef96a3a3fcb228fc8dc25503af0f338461a20abd692a421afa8b3e5d0e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2217
+    },
+    {
+      "key": "recipe:claude-haiku:R06:1",
+      "receiptSha256": "bcafe915a918b6817c02a96277a70561a952a65cdfce4195e6667282bbc7e932",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2329
+    },
+    {
+      "key": "recipe:claude-haiku:R06:2",
+      "receiptSha256": "8ebaa72b7b8850683a999ab912a6ddac73cbe0dbaf88bf4ba77b19687e6153cb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2266
+    },
+    {
+      "key": "recipe:claude-haiku:R06:3",
+      "receiptSha256": "aa9dbece64ae38f3553d3bb799efed452bd4fa6864151f07dc3e4c81611d09fc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2768
+    },
+    {
+      "key": "recipe:claude-haiku:R07:1",
+      "receiptSha256": "019edec137579c06b256de27b8a832052d55e3af4aaa62549438a3f8498468bc",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2433
+    },
+    {
+      "key": "recipe:claude-haiku:R07:2",
+      "receiptSha256": "5ff83a4740f2e59df5b2588cd5f1d4bc11332694e1b32bc47d6966e24e0a75d4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2860
+    },
+    {
+      "key": "recipe:claude-haiku:R07:3",
+      "receiptSha256": "f8b987ce72a22af111eac01d6a493bb94e4dc3e7936fd424ddb95b4b4e3fa3e9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2479
+    },
+    {
+      "key": "recipe:claude-haiku:R08:1",
+      "receiptSha256": "bf2a3be2843e0fd3d03a48777149fdaddfea17594f830847752e8f9784c8e55f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1153
+    },
+    {
+      "key": "recipe:claude-haiku:R08:2",
+      "receiptSha256": "fea333accf6618761f716b8a91131988c345314dd6b3f283492e193551290381",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1019
+    },
+    {
+      "key": "recipe:claude-haiku:R08:3",
+      "receiptSha256": "4f91a6f9c6ec1a30faef7f2d8037c7edf049762b57632c4ead4e2b52c324944c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2766
+    },
+    {
+      "key": "recipe:claude-haiku:R09:1",
+      "receiptSha256": "747b3938e48b0d90e281499ee4397aa8d58829c4cbb0f1e287f89161cbfc313a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2221
+    },
+    {
+      "key": "recipe:claude-haiku:R09:2",
+      "receiptSha256": "48b69aef9a1cc823b573842ad992f3a372e4208ac3b833e55033d67c5a0053e9",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2191
+    },
+    {
+      "key": "recipe:claude-haiku:R09:3",
+      "receiptSha256": "9a3dee21b6dc041038d212dc6810870fc4280deba6b256c693a7cd2bd49d37d7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2626
+    },
+    {
+      "key": "recipe:claude-haiku:R10:1",
+      "receiptSha256": "b09b210eb7c684bec5c162fb4a3f3179b302bad6a043e23c99954af73cd237bf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2451
+    },
+    {
+      "key": "recipe:claude-haiku:R10:2",
+      "receiptSha256": "996b2eddc7eaefaf75704144687e7b2fa0e2420e3d6ac23736384b46969c881c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2701
+    },
+    {
+      "key": "recipe:claude-haiku:R10:3",
+      "receiptSha256": "9a949ae41efc463ffc2f493a724296b8e55d601d2b29cceef7cdded5847e00fe",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2908
+    },
+    {
+      "key": "recipe:claude-haiku:R11:1",
+      "receiptSha256": "234efadb09e8f8c0674db87b44474984fce73166f2db561c6723d703a1870ff1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2772
+    },
+    {
+      "key": "recipe:claude-haiku:R11:2",
+      "receiptSha256": "29f3537460d9e5dcd0d196a4e75c398416ab47faf573728296a37166ec0a9baa",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2703
+    },
+    {
+      "key": "recipe:claude-haiku:R11:3",
+      "receiptSha256": "ca65ab252e1f26a6fa382a308a56408ff642b07c458f6138ad5a69231446c4ff",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2749
+    },
+    {
+      "key": "recipe:claude-haiku:R12:1",
+      "receiptSha256": "a7de96e88f751d989525c31a9e2a59be47d39b6a0c5499e8d1ccb60b646a0a15",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2017
+    },
+    {
+      "key": "recipe:claude-haiku:R12:2",
+      "receiptSha256": "4d25aeb0abdf089d994694889d045a2559c40b2efc5fd81e433af8eb5618b79c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1954
+    },
+    {
+      "key": "recipe:claude-haiku:R12:3",
+      "receiptSha256": "b64f0a7238ce8573a8be697cf7ad83c527ff7461b43b8eda178b6e4e5f90f183",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2729
+    },
+    {
+      "key": "recipe:claude-haiku:R13:1",
+      "receiptSha256": "14797607ca0b0377ce8bbe9f8562d78b7380638d3a5f446ea1bc84a0d8c5e272",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2126
+    },
+    {
+      "key": "recipe:claude-haiku:R13:2",
+      "receiptSha256": "e81bf1d6092f486d66790cf20ac5cb2a299f9f2f2756deb6be66edfc88d6c209",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2646
+    },
+    {
+      "key": "recipe:claude-haiku:R13:3",
+      "receiptSha256": "0b412b82166f8466c04db17d8f19da06e1a0c499d51756f7394860f4e48a7d29",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2024
+    },
+    {
+      "key": "recipe:claude-haiku:R14:1",
+      "receiptSha256": "971040d4b1377561a65d8b2dbd0aebb56166ad74df14c1e17b49ad270b8f9f23",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2094
+    },
+    {
+      "key": "recipe:claude-haiku:R14:2",
+      "receiptSha256": "a4c948bb8fc77e1dc72261902d6348edd8a4a1ee4cc31e08ce80174f0cf2af66",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2124
+    },
+    {
+      "key": "recipe:claude-haiku:R14:3",
+      "receiptSha256": "6b3ec6b9f95cfde2563af0152057e98ffae1dec6cb456f7b5125945652a36a41",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2042
+    },
+    {
+      "key": "recipe:claude-haiku:R15:1",
+      "receiptSha256": "de87995c5db9be0f2de3a9b08d5454accf2475c0f79af72c77454cf486bd0e4e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2079
+    },
+    {
+      "key": "recipe:claude-haiku:R15:2",
+      "receiptSha256": "96cac8be6628edb3f0d074cd623ef55097fcee1519389774b589c0d9243a4d01",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2177
+    },
+    {
+      "key": "recipe:claude-haiku:R15:3",
+      "receiptSha256": "c09edab330a5bffe87911d4dd676b00619e950609c52962f3595fe08bcad5af5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2374
+    },
+    {
+      "key": "recipe:claude-haiku:R16:1",
+      "receiptSha256": "1d035a5024540b35971ddac29ead4aebfa899f6a75deb1953aa9262568b498b8",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2717
+    },
+    {
+      "key": "recipe:claude-haiku:R16:2",
+      "receiptSha256": "1312c826a71943e2a6be612168c13d74cd7177c15a19332e12ed83cfa1ecca0f",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2636
+    },
+    {
+      "key": "recipe:claude-haiku:R16:3",
+      "receiptSha256": "af107b43407832cb018379ce47cd25e72f7fa2c87cd9bae164497f47c1e38ec9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2892
+    },
+    {
+      "key": "recipe:claude-haiku:R17:1",
+      "receiptSha256": "e998c87b47436a8bc00f56154c889cf0290abb9bbfe3be204f4abdfc541dddc7",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 3218
+    },
+    {
+      "key": "recipe:claude-haiku:R17:2",
+      "receiptSha256": "529faea539342368cb7d93fe849542388a0fa2190333ad83a6fd3ccf3e188cc6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2441
+    },
+    {
+      "key": "recipe:claude-haiku:R17:3",
+      "receiptSha256": "f3fe5777623d7488016f83a1d81fe9a05416d13fad9e7f6cc1cfee747e678666",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2664
+    },
+    {
+      "key": "recipe:claude-haiku:R18:1",
+      "receiptSha256": "38cdf8279e3fd788bf98d2dca55db9bacdfabf2daa477b16470827f2176d5e14",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2886
+    },
+    {
+      "key": "recipe:claude-haiku:R18:2",
+      "receiptSha256": "814ee9b792a1efabf5efbf92484c0b61196ef80bb92411a065e1659e52bd57d0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2660
+    },
+    {
+      "key": "recipe:claude-haiku:R18:3",
+      "receiptSha256": "73076058957a3f74f0726bddc44ee9d1494f7c0af863b8cbb3599e069a1f9c76",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2718
+    },
+    {
+      "key": "recipe:claude-haiku:R19:1",
+      "receiptSha256": "9a1751c4c47ac38792535cf0f44a78e7d467afced94f4003b8f53d126671770a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2466
+    },
+    {
+      "key": "recipe:claude-haiku:R19:2",
+      "receiptSha256": "b844a43019b9bb072913756b86ce7dc654150f54e4ee02b291e12e133aba23c7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2964
+    },
+    {
+      "key": "recipe:claude-haiku:R19:3",
+      "receiptSha256": "1388a8a61f631fa54665fe5b750aa356213d947c6f42e4ce293b65a3bf600f37",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2729
+    },
+    {
+      "key": "recipe:claude-haiku:R20:1",
+      "receiptSha256": "e19a4c913eecbd00b4a68de6bc677ff8146e7b32fdb1d24f0c16d92191171432",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2738
+    },
+    {
+      "key": "recipe:claude-haiku:R20:2",
+      "receiptSha256": "e94135e740235a979a41b31d63e173a724d765ce037abd560a39eeff4889c88f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2742
+    },
+    {
+      "key": "recipe:claude-haiku:R20:3",
+      "receiptSha256": "b2cbfe42fb357eada10d43ce5716a43bc24a4a34cda1f94328c7c46e74cf0a11",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2755
+    },
+    {
+      "key": "recipe:claude-haiku:R21:1",
+      "receiptSha256": "5b37dbb065d7234f84116d02a82edf54e6bd716850a9823c029e9844110d47da",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2184
+    },
+    {
+      "key": "recipe:claude-haiku:R21:2",
+      "receiptSha256": "93d6e821e269e381d28af2cff935cdbee72d06f3f37be4c824ddb48481e08c02",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2201
+    },
+    {
+      "key": "recipe:claude-haiku:R21:3",
+      "receiptSha256": "40cd5fd6ed41f7f1396c0e8f98f21e69f5395b3a22f6733d6974a91b3d59b48e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2220
+    },
+    {
+      "key": "recipe:claude-haiku:R22:1",
+      "receiptSha256": "ed1425ea8b048526dd06dce34e3d1c9c3b683ffe8b3f1cefdd688ef8f1a0c240",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2242
+    },
+    {
+      "key": "recipe:claude-haiku:R22:2",
+      "receiptSha256": "2e5e36f8f19d60f6e08e21639b8e645a16609e3b32264af04b8ecb2bd154efb3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2027
+    },
+    {
+      "key": "recipe:claude-haiku:R22:3",
+      "receiptSha256": "7167f4b1918f6670528c9aabc0eea4382e62986d982eefd66f92f231e26e2659",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2145
+    },
+    {
+      "key": "recipe:claude-haiku:R23:1",
+      "receiptSha256": "8f5b8db5df9153934cbb9916c285b4dc37b4cbffd95b7fa9b47ece9ad61c882e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2123
+    },
+    {
+      "key": "recipe:claude-haiku:R23:2",
+      "receiptSha256": "c65c7f956a107296f77a35b5f7db1f0c142149ef805c14d126fafd57adc12e1d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2099
+    },
+    {
+      "key": "recipe:claude-haiku:R23:3",
+      "receiptSha256": "cddd1469f8ac936263e864b92cb058dfa136e67b61c115e6853c33341843d727",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2102
+    },
+    {
+      "key": "recipe:claude-haiku:R24:1",
+      "receiptSha256": "7030e9c7f9bb6346379750d433a4bceb836fc95aade075afb14ea1f41ad46913",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2674
+    },
+    {
+      "key": "recipe:claude-haiku:R24:2",
+      "receiptSha256": "4c22930126d3da7d4f27f66cc876350ff95407d3bd7a257596efc931c97ab0c9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2621
+    },
+    {
+      "key": "recipe:claude-haiku:R24:3",
+      "receiptSha256": "d78ca4ff54389bb1217200c1ed9dfa990d730dc7195326aa8bb6f2be95223da2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2592
+    },
+    {
+      "key": "recipe:claude-haiku:R25:1",
+      "receiptSha256": "5baaf32a84d2bce9874847613786f897c178444820e8b858d8ade422023bee14",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2092
+    },
+    {
+      "key": "recipe:claude-haiku:R25:2",
+      "receiptSha256": "1d057264b483a3aaf2cec3e5c2679e7b87899ee4128cffdabaa2f5c322c994aa",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2253
+    },
+    {
+      "key": "recipe:claude-haiku:R25:3",
+      "receiptSha256": "2f2b1f1e158fefcf0ec2de7bbdd0bcad146021fbdfb1a3e2f7e8df578a53823c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2766
+    },
+    {
+      "key": "recipe:claude-haiku:R26:1",
+      "receiptSha256": "47de87d0bdee1c827876a43b7b114fa2cfbe49f6aee8fdb89364b9363b4a68d5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2242
+    },
+    {
+      "key": "recipe:claude-haiku:R26:2",
+      "receiptSha256": "d198445a4338c6fa4a214cbae62bde6297f6f5023961cf9c41fd5feae71f5bde",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2471
+    },
+    {
+      "key": "recipe:claude-haiku:R26:3",
+      "receiptSha256": "ce66b95b957e2933b4a6d10b776b09f005938e71c81e97347696249f5a130273",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2673
+    },
+    {
+      "key": "recipe:claude-haiku:R27:1",
+      "receiptSha256": "7db8fe436ed937199146e6970d93efb685fccf977ee9818582f930703f9f0d0c",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2807
+    },
+    {
+      "key": "recipe:claude-haiku:R27:2",
+      "receiptSha256": "1d32bdaa1c4becc4005e8c077bfe97fa6e77b2903535815f29519f40130cc106",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2702
+    },
+    {
+      "key": "recipe:claude-haiku:R27:3",
+      "receiptSha256": "73094a188b453f240924f73048f1806d356d6a092f62cf92fde4bd151e7cd60b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2774
+    },
+    {
+      "key": "recipe:claude-haiku:R28:1",
+      "receiptSha256": "b5a3e9f2f89a20cc8d185aa134da0486cf19bddb52e84141723b68c3e501123d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2965
+    },
+    {
+      "key": "recipe:claude-haiku:R28:2",
+      "receiptSha256": "26c3d2c4b2967340356c6a7e8dfea10150e57e1a071438291de949a98730ce46",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2477
+    },
+    {
+      "key": "recipe:claude-haiku:R28:3",
+      "receiptSha256": "8d3d1c7f7a32129a55472db9e08f3891de22ed693ad86e709330d8c5e5cb479b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2469
+    },
+    {
+      "key": "recipe:claude-haiku:R29:1",
+      "receiptSha256": "0a18704dd613d5ee12df020c932de54e90a1f4f32451536c4f352ef158110633",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2535
+    },
+    {
+      "key": "recipe:claude-haiku:R29:2",
+      "receiptSha256": "3050783086361173d129643c6ba80e0cbd1057150d77bf54d37f57e486158633",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2655
+    },
+    {
+      "key": "recipe:claude-haiku:R29:3",
+      "receiptSha256": "d31126b999dfd3b119e3a94869d5d039ff09262a3dc3ddd0c77929b868557b4b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2104
+    },
+    {
+      "key": "recipe:claude-haiku:R30:1",
+      "receiptSha256": "31c655930a7caa31fc766f3f94ece5e5b1114c5c8b28a988608c9cfd90bf8a86",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2694
+    },
+    {
+      "key": "recipe:claude-haiku:R30:2",
+      "receiptSha256": "001276e91c0e5b1a7a9a931db42e91c25ea94b95f04dd861d3650f88c78a1f05",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2777
+    },
+    {
+      "key": "recipe:claude-haiku:R30:3",
+      "receiptSha256": "d156af221348d838d1113241841159054cdbd7be6ac2aea731762f78e87d552f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2518
+    },
+    {
+      "key": "recipe:claude-haiku:R31:1",
+      "receiptSha256": "4697a418cbbec59a2695bbe56ba75ef95c33541f973608ee4aae1cc2a7034bb7",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2387
+    },
+    {
+      "key": "recipe:claude-haiku:R31:2",
+      "receiptSha256": "60d1c2e7d00e1d52388af2861d940e03d1ef9c21658fae00b3242782779b3e6c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2443
+    },
+    {
+      "key": "recipe:claude-haiku:R31:3",
+      "receiptSha256": "f31794164fc29efb216205fca9d0fa46b358db592bcbd3675837ef927fc11f84",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2367
+    },
+    {
+      "key": "recipe:claude-haiku:R32:1",
+      "receiptSha256": "0cb271454dda82f23d52b76e625e0e9057fe9dfa7d3d2995f49200e914b14c6e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2701
+    },
+    {
+      "key": "recipe:claude-haiku:R32:2",
+      "receiptSha256": "60f8899d0f270216c655ed68856dde3b0ba659dcb154e1be286c1cd93c9d20c3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2707
+    },
+    {
+      "key": "recipe:claude-haiku:R32:3",
+      "receiptSha256": "37870860ed31a9e5a1939c5075d378b3a064e464e4d3967d255c38e870341ec5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2722
+    },
+    {
+      "key": "recipe:claude-haiku:R33:1",
+      "receiptSha256": "1ff3cf13d43011183c69c1d35c4b0b76cc972754d4499388160a0aedd19111e9",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2409
+    },
+    {
+      "key": "recipe:claude-haiku:R33:2",
+      "receiptSha256": "10082d914606d71ae24f193af174d839d5259109dc110d37828712325dbfdee6",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2576
+    },
+    {
+      "key": "recipe:claude-haiku:R33:3",
+      "receiptSha256": "4a871240fa01be18cc305e14f09a2fefdbd0e3eda527b7f1a8e659c867de8b92",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2427
+    },
+    {
+      "key": "recipe:claude-haiku:R34:1",
+      "receiptSha256": "b0e51cf3d6e2f0ccbce0133f299af0fa7366226dec709e8bf5999b9688dd51aa",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2187
+    },
+    {
+      "key": "recipe:claude-haiku:R34:2",
+      "receiptSha256": "0796f46a5ea72403fb8f8a2fb0441a8d1f84434315d6c8454a3d597a5f5c1f52",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2198
+    },
+    {
+      "key": "recipe:claude-haiku:R34:3",
+      "receiptSha256": "a993461f6ba20f2bf919397bc47a286a18b8d0c97e46662fa25b24ee294dbc41",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 2356
+    },
+    {
+      "key": "recipe:claude-haiku:R35:1",
+      "receiptSha256": "d9bb4c3812e57713c65b983dabbae83ff71dbe8c0fdb3d3f2b9717c8be52409c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2238
+    },
+    {
+      "key": "recipe:claude-haiku:R35:2",
+      "receiptSha256": "ddd9a19cef4e1607a9152e564ee6a0022a74b860f061f2269c7fd324d5c81284",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2172
+    },
+    {
+      "key": "recipe:claude-haiku:R35:3",
+      "receiptSha256": "6ffd759e38e567a444f508a607f200ea2792e356a1a503801c8ec14f580b8fb0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2230
+    },
+    {
+      "key": "recipe:claude-haiku:R36:1",
+      "receiptSha256": "a2cd06a8c37076edf64668da2a0c8babb901c802f57889d1e5353bf2ab1e5368",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2859
+    },
+    {
+      "key": "recipe:claude-haiku:R36:2",
+      "receiptSha256": "be85c7d1411669ae1db297221414e7778f82de20340ccfb65f79af490186fcdf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2856
+    },
+    {
+      "key": "recipe:claude-haiku:R36:3",
+      "receiptSha256": "a923fffa50f5c84c18d383454cc287d92cdb801f92d5ceb7f67223bf94f63b92",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2660
+    },
+    {
+      "key": "recipe:claude-haiku:R37:1",
+      "receiptSha256": "4bf6b50e276b6c2ec67b149637793910c60076117be345c6764450f50a80d5c9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2147
+    },
+    {
+      "key": "recipe:claude-haiku:R37:2",
+      "receiptSha256": "2c87d092bea531975c84d5bf204706637d005a21220ae4d37c5fc6a452eb796f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2226
+    },
+    {
+      "key": "recipe:claude-haiku:R37:3",
+      "receiptSha256": "27a3e9b13c9d584ef6c31167b396ad33e665249c5df9ecadbfcd62c8b0584942",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2152
+    },
+    {
+      "key": "recipe:claude-haiku:R38:1",
+      "receiptSha256": "eb67b5db45fba2bbbbba921f345ab2df34651ed02bdaa9fdeefff3fce8e3163b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2812
+    },
+    {
+      "key": "recipe:claude-haiku:R38:2",
+      "receiptSha256": "4f7ac492ba9c76bad0993cbbc784baa32107d680d25ffd897e45abcc8cdb1d1a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2769
+    },
+    {
+      "key": "recipe:claude-haiku:R38:3",
+      "receiptSha256": "75139c9168811658645df64dcdafb4840be5c0b0494a7eea2b49c3c461b0925a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2515
+    },
+    {
+      "key": "recipe:claude-haiku:R39:1",
+      "receiptSha256": "7a538e5b7cda599c3d39b88752ae83e5a2709541bd5e42423c4d864bf99e877e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 886
+    },
+    {
+      "key": "recipe:claude-haiku:R39:2",
+      "receiptSha256": "6f0a8972bc5460e4dc5e655950cf6499ae36c15e7feb690bf67e1bcfbd3b5b26",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 890
+    },
+    {
+      "key": "recipe:claude-haiku:R39:3",
+      "receiptSha256": "4e7b0471d23ff65051cf26652518a3f68b250e9f56f87ed9c787ba18e2383ec5",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 880
+    },
+    {
+      "key": "recipe:claude-haiku:R40:1",
+      "receiptSha256": "df1b1a61cd2fa373094c7f092ae9add13716ef83a52a7074ede78b2c79950491",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2165
+    },
+    {
+      "key": "recipe:claude-haiku:R40:2",
+      "receiptSha256": "bdad832572e1d52d51d657557cdc6ede045e490eb61571fdc810e73aef2c98d4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2150
+    },
+    {
+      "key": "recipe:claude-haiku:R40:3",
+      "receiptSha256": "b8d13ac9690e3049da6d763d21ca18df4cd54714f57fd8ae51339acfb98f72b5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 2171
+    },
+    {
+      "key": "recipe:google-lite:R01:1",
+      "receiptSha256": "4a37c24f4a4a94c8e8dccfd1c741f7401a88ab14bf5ce14948ada4df08b15e30",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6580
+    },
+    {
+      "key": "recipe:google-lite:R01:2",
+      "receiptSha256": "26532e91050b56bab75198151b7a229f5f1f6493f9b87dcb9786012ec6095061",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R01:3",
+      "receiptSha256": "dffa6678c8c1342f08ca35c1c2ec0a719c1cae665ca1cd23a5d26c4541fc1d76",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R02:1",
+      "receiptSha256": "8ca0d6f5bfb04a690c8ab8e11effba4bf70e8891b5c46752fdda01b608f6f081",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6363
+    },
+    {
+      "key": "recipe:google-lite:R02:2",
+      "receiptSha256": "e0ddaa36b58976bbe6469e9d395ed4a2424a1f1596366497389bc0cd58ab7b03",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6943
+    },
+    {
+      "key": "recipe:google-lite:R02:3",
+      "receiptSha256": "bf542d86207fb50e48852fc9a10e9e675467130bcb5dd18fff2afce29c05a760",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6695
+    },
+    {
+      "key": "recipe:google-lite:R03:1",
+      "receiptSha256": "8516208d5224365b08a52441e985f6f4c457af98602d0b60c7b3739e01350841",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6084
+    },
+    {
+      "key": "recipe:google-lite:R03:2",
+      "receiptSha256": "9988b5491d534b19765d50473e06c2c90f40df278dbf46a5366b33a76fd476c3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6139
+    },
+    {
+      "key": "recipe:google-lite:R03:3",
+      "receiptSha256": "152b02083daecd2fa1d651b550c611f144df26551b813f1002105c0fd902121e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6457
+    },
+    {
+      "key": "recipe:google-lite:R04:1",
+      "receiptSha256": "ceb19e207842fb224b6a5c747a93f703cf13f6ce03810d7845382c03828534f1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R04:2",
+      "receiptSha256": "62904290387558666d40e71b97c91f1f026f91dc77654a05b7b7261ce648d9f1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6439
+    },
+    {
+      "key": "recipe:google-lite:R04:3",
+      "receiptSha256": "7090afe3a9891df1da3715de2aae9ed856edbf41e87c0b7f1bc803deb4484ff4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5104
+    },
+    {
+      "key": "recipe:google-lite:R05:1",
+      "receiptSha256": "e182f2f8e5106fa505ab589a2f225da658f3445a15a6baee2bf5a908c9d2bde3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5825
+    },
+    {
+      "key": "recipe:google-lite:R05:2",
+      "receiptSha256": "789748402077ae2282acd56f7a1af4d1d88bb84d667a5773b0a1d694d429b046",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6338
+    },
+    {
+      "key": "recipe:google-lite:R05:3",
+      "receiptSha256": "a8f84e35088fdfa069b0fc46b4ad559b0f1232454394e89297dfc6ba587ab208",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6213
+    },
+    {
+      "key": "recipe:google-lite:R06:1",
+      "receiptSha256": "d12bd7bce88494ebc9d648aec1df1cad37707899fbebe157aa2d7fdc02fe22ac",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6911
+    },
+    {
+      "key": "recipe:google-lite:R06:2",
+      "receiptSha256": "10776d749ef942b213bbe029ada9fe0d5f402bf20ef65fb25bd2f1679967bbbf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6788
+    },
+    {
+      "key": "recipe:google-lite:R06:3",
+      "receiptSha256": "b0801689008e16bf0ac3ada3b220228111a620b04319f97b6c6f097b48657bff",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6633
+    },
+    {
+      "key": "recipe:google-lite:R07:1",
+      "receiptSha256": "fcc8e81ef1dfcc7f4afb0efb43685b04adbb83e380e424446ed5911d34c3332f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5537
+    },
+    {
+      "key": "recipe:google-lite:R07:2",
+      "receiptSha256": "06eb1b4fac6b00f5bfb80e8943cc859adcb994eaaedbb98df0e0f115a060ba30",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5034
+    },
+    {
+      "key": "recipe:google-lite:R07:3",
+      "receiptSha256": "7b4f7806def04d614434b7e2b0230bbbc3852b4b280d69300c260343a5a3ccc2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5867
+    },
+    {
+      "key": "recipe:google-lite:R08:1",
+      "receiptSha256": "389111978be2ce87eabc661d18575ca6543359f715bae0d31c5f11459ab51598",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1288
+    },
+    {
+      "key": "recipe:google-lite:R08:2",
+      "receiptSha256": "19bc61545d252b2a3bbe4f531b78216edee11fb9001ddfdd40d205aeb1ce13a0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1331
+    },
+    {
+      "key": "recipe:google-lite:R08:3",
+      "receiptSha256": "0d204168aff081964509cf0e99e1d5b219b5f132964b70ab6e8f2d1964332a03",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1286
+    },
+    {
+      "key": "recipe:google-lite:R09:1",
+      "receiptSha256": "5b1ba9ccd22c92bfe9950c18413cec9d49778f00a47255778fe8cfcd9cab02c5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6367
+    },
+    {
+      "key": "recipe:google-lite:R09:2",
+      "receiptSha256": "6145f9a9985252f88f999b865a65c991f08a334c74b9dac11362045fb0b3e28d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5937
+    },
+    {
+      "key": "recipe:google-lite:R09:3",
+      "receiptSha256": "97f72fb0ca99a3d079034147daf9bfab33cc67c4f22866824f9c5747ec967722",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5947
+    },
+    {
+      "key": "recipe:google-lite:R10:1",
+      "receiptSha256": "47302712d333c798677b2c20b23e1c0d3e302a9f1ce01b957bcbf44d47b99a6b",
+      "runnerHash": "9654d01b4d495ad4af8c5bcc94be2f083310c684f84c91db74c6d3e13e495025",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R10:2",
+      "receiptSha256": "0972f19add1870469419d0e54e05ee44f8fd6ab54bcd1b90c39517ac98781af7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5952
+    },
+    {
+      "key": "recipe:google-lite:R10:3",
+      "receiptSha256": "50d6da6b4e14e909202e4e9d466e319acc86dc1e2c8e47b12f801534652d76c2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5714
+    },
+    {
+      "key": "recipe:google-lite:R11:1",
+      "receiptSha256": "fef2957eafb30326caaa87075f20b687cad3091d698ee506e638321b8060fa04",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5735
+    },
+    {
+      "key": "recipe:google-lite:R11:2",
+      "receiptSha256": "15cc66cbce18711dbde130a794c3e1ff207d57e6a858adce7dbe021150cbae29",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5497
+    },
+    {
+      "key": "recipe:google-lite:R11:3",
+      "receiptSha256": "466f1f045fe515a83e6cbddbcea5cf633572b99c554317200fadf7669e2e0f50",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5562
+    },
+    {
+      "key": "recipe:google-lite:R12:1",
+      "receiptSha256": "f7c60cecd4988aab1bb8316075f7277c951b7804573fcef8c088b61bf339e4c6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5173
+    },
+    {
+      "key": "recipe:google-lite:R12:2",
+      "receiptSha256": "1bdca9c65d1445109c3c55e121845daa024348285753a65c80936f200478d5ce",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R12:3",
+      "receiptSha256": "90bbd5646ebf9b61a8e7185f5dccc31c6992aa3375a1d8b338c81492660a2293",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5503
+    },
+    {
+      "key": "recipe:google-lite:R13:1",
+      "receiptSha256": "cc7e6c700ba0298856e305f0f2d32cea9b1080ccf797d1d95b67f4e1b08a1f93",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5878
+    },
+    {
+      "key": "recipe:google-lite:R13:2",
+      "receiptSha256": "04e0481fcde7b27de6bc7b0cde740b3ad5032ad63a81e4254749a7f497e6d203",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5336
+    },
+    {
+      "key": "recipe:google-lite:R13:3",
+      "receiptSha256": "d57bd346960526e7515a4b0a4c69d666d1ce7b102350557460b88d453c7b8831",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6061
+    },
+    {
+      "key": "recipe:google-lite:R14:1",
+      "receiptSha256": "dcb42d1c65fc7debd5a86533ef8e444fa984af214d058b71d90193ea75826054",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4656
+    },
+    {
+      "key": "recipe:google-lite:R14:2",
+      "receiptSha256": "6e217abe444b9e461f894740a25a51a7f5022174540a74c2c71424c530dd72b9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4646
+    },
+    {
+      "key": "recipe:google-lite:R14:3",
+      "receiptSha256": "cc640e34aa4e792be0363ea617303ee1feaf78348c5dbdc031eb59e26c016e85",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5221
+    },
+    {
+      "key": "recipe:google-lite:R15:1",
+      "receiptSha256": "d1392f15b9a20c3a80cee3ce2b6b2268ad2c9e3366b72a2ffc3f847e850261a4",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6125
+    },
+    {
+      "key": "recipe:google-lite:R15:2",
+      "receiptSha256": "40ebb710fedeefc8e4d45b51fb29302ffd825cb5f8de74f0cb7e9131b3198531",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6123
+    },
+    {
+      "key": "recipe:google-lite:R15:3",
+      "receiptSha256": "49736dbf4ff7ffc6ad7eec6c3750b1be3dbbc46eb37679757ce6220e246775cd",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6138
+    },
+    {
+      "key": "recipe:google-lite:R16:1",
+      "receiptSha256": "dcc5ba3e9ec3e784d6e29bfcb45c37b49a2f5feaaa6e2a857382fc1fd8c31ebf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6091
+    },
+    {
+      "key": "recipe:google-lite:R16:2",
+      "receiptSha256": "d6a72eb670741badaef35d742c78195f6680d4cc4c8f75edafba6d4ca6952655",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6098
+    },
+    {
+      "key": "recipe:google-lite:R16:3",
+      "receiptSha256": "8ef3124b074681e24440094ef44ad40dac93d612c3bd25233f6266b57a98fdb4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5991
+    },
+    {
+      "key": "recipe:google-lite:R17:1",
+      "receiptSha256": "638d6cd876430e9b495eceb065fd94900a07d645a9f245819745491b992b7506",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5729
+    },
+    {
+      "key": "recipe:google-lite:R17:2",
+      "receiptSha256": "c7bf0e9b6b35bbacc78481e09f98603c8fb52a17cada285714df7a808ec5f658",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5686
+    },
+    {
+      "key": "recipe:google-lite:R17:3",
+      "receiptSha256": "434c801cc2bfe6f8a82ea8e73d24f82bbc0596a158e0e139946de131a50ef5c1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5044
+    },
+    {
+      "key": "recipe:google-lite:R18:1",
+      "receiptSha256": "1398ee3d655f723332e5a8b16178c22242db920315950a342170e947e47fda4e",
+      "runnerHash": "9654d01b4d495ad4af8c5bcc94be2f083310c684f84c91db74c6d3e13e495025",
+      "exposureMicroUsd": 5024
+    },
+    {
+      "key": "recipe:google-lite:R18:2",
+      "receiptSha256": "de87402537001c4d0e5e74a0de92055557523b88cd456025fb16521bf92a74a2",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5254
+    },
+    {
+      "key": "recipe:google-lite:R18:3",
+      "receiptSha256": "f336309ea93fedcffdf27ee1ff731db556b16c4f7cddf3e45e87dc7499c47c18",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4957
+    },
+    {
+      "key": "recipe:google-lite:R19:1",
+      "receiptSha256": "548090bad60964768ccdf41165ea023587063fed68a78abad8aabd671495c33c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6642
+    },
+    {
+      "key": "recipe:google-lite:R19:2",
+      "receiptSha256": "9f80c0c998b5d9f102ba0919d84b2d4dd73fded3129750f58d8a678b4c479231",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6362
+    },
+    {
+      "key": "recipe:google-lite:R19:3",
+      "receiptSha256": "2bcf7dde24351f0c58b7147a504bdc3b4f628ae49c92f6b5ef5524931e0ca177",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6117
+    },
+    {
+      "key": "recipe:google-lite:R20:1",
+      "receiptSha256": "c2945d8a6a657a0411691180dcf26c744cc9a166b6eba4f8a917d375e42e79a7",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5409
+    },
+    {
+      "key": "recipe:google-lite:R20:2",
+      "receiptSha256": "b654e8a8c08dfbad54bc8ef8f157191200ddf6c8ef0d34190f4a666c39fef1b6",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6292
+    },
+    {
+      "key": "recipe:google-lite:R20:3",
+      "receiptSha256": "7c8b0c985c473dad32637d650d043c496fdcecb82f52945cb34b0fd6ad3332ba",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6274
+    },
+    {
+      "key": "recipe:google-lite:R21:1",
+      "receiptSha256": "d8e63f01bffc22398d1cad3bb3710f1157319f1268ab1261cc34c91710afcda2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5584
+    },
+    {
+      "key": "recipe:google-lite:R21:2",
+      "receiptSha256": "fb1fb32eb567908d6fb9e00ab7c2e7bf333fc6a18fb566d693c15da8f2c51180",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4849
+    },
+    {
+      "key": "recipe:google-lite:R21:3",
+      "receiptSha256": "b9303d86be4e838344cac5b7c9e778fb2028e4dff42108f387d7a83b7c1ee45f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R22:1",
+      "receiptSha256": "00239511063bf5d67c53230bce03508c6aba695ae61c62d9015aee2161814591",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6030
+    },
+    {
+      "key": "recipe:google-lite:R22:2",
+      "receiptSha256": "8d34a19e7e2974e19648115b1fed65f69469c66c664388d5912bdedfd2c986b8",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5100
+    },
+    {
+      "key": "recipe:google-lite:R22:3",
+      "receiptSha256": "5d3cf311946101ebb5ea169a2fed9b32630d92ed894bfd20bb3bbb9ddb3c4cad",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5057
+    },
+    {
+      "key": "recipe:google-lite:R23:1",
+      "receiptSha256": "ddf12fcc5913eadfecdbc02790cb5c598f93aace03a028f01f49ffc96f027366",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6152
+    },
+    {
+      "key": "recipe:google-lite:R23:2",
+      "receiptSha256": "98dfdd2763d94b7cf166c0c72d5a5d0d7c5f2a71ed8335bc873d5ea2478f82c0",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6015
+    },
+    {
+      "key": "recipe:google-lite:R23:3",
+      "receiptSha256": "2b227bddb3b7c3b0a1e5e0a6cbd1387972d58a439378685e54326622bfb1a2ab",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5665
+    },
+    {
+      "key": "recipe:google-lite:R24:1",
+      "receiptSha256": "d88bb09ff1738eec8bf6a571f6a7fcf908856a4ea0e461c342fdc3154febc6f8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6370
+    },
+    {
+      "key": "recipe:google-lite:R24:2",
+      "receiptSha256": "9ca5e98f9511582282ed3faef09c72bf61322e73d2220bc39d57eb60e824bb28",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6178
+    },
+    {
+      "key": "recipe:google-lite:R24:3",
+      "receiptSha256": "738e9588ab1d290a95ce6217f5c0100a0fdc83e8f90ede7957aebe778d3af782",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6140
+    },
+    {
+      "key": "recipe:google-lite:R25:1",
+      "receiptSha256": "68c9b20ced293c1cf718f5cd2bca9c6de1c2a249bb490c19bab4a8b6073218c4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R25:2",
+      "receiptSha256": "6eb96dca092a1e34d370b84c831fc827fdb72ea563e277cd4eddf63fc66b2b40",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5472
+    },
+    {
+      "key": "recipe:google-lite:R25:3",
+      "receiptSha256": "dd06a0cf2b7a41565bcb6ea029e04bc7e5fa7be1ea5ad2781d8105cbef6943bb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 3637
+    },
+    {
+      "key": "recipe:google-lite:R26:1",
+      "receiptSha256": "9edd7419eece19dcb45e798ae658ee8b86a489ba9589729d2e9c801b5365ac45",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5773
+    },
+    {
+      "key": "recipe:google-lite:R26:2",
+      "receiptSha256": "9efb8e3b9fb0808e4674b60b12c9a9b4804809fc0c946b78657dfe2792ff705f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5020
+    },
+    {
+      "key": "recipe:google-lite:R26:3",
+      "receiptSha256": "dfbc14af54a0e63c535beb611674d3a31296c6414c2a860c12db28d460cbe457",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5158
+    },
+    {
+      "key": "recipe:google-lite:R27:1",
+      "receiptSha256": "a0bed6407818598da9d4716c67eecc06821cc3c276cf10ebb1460300d1839915",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4762
+    },
+    {
+      "key": "recipe:google-lite:R27:2",
+      "receiptSha256": "796c409b23034d3936f3a8371c963b6bb9e4c294d3a2b84df22e5981d704b7f2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5007
+    },
+    {
+      "key": "recipe:google-lite:R27:3",
+      "receiptSha256": "00374096d73ed33dc6c7dd03f287f788845919b0206442bc59706629b8a7af62",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4875
+    },
+    {
+      "key": "recipe:google-lite:R28:1",
+      "receiptSha256": "2ceacddbedcd0d814df5850dd1ade611278e49354041e5d204b11be17963f7b3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5003
+    },
+    {
+      "key": "recipe:google-lite:R28:2",
+      "receiptSha256": "1133a56795e7595fbf10854acdccd44f43e656ddf712b17f9fc68875e3837241",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4990
+    },
+    {
+      "key": "recipe:google-lite:R28:3",
+      "receiptSha256": "b7fe4dca6c25fc1d68aeaa015c82f44fe765d27c9571388d77146e58480b8281",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5015
+    },
+    {
+      "key": "recipe:google-lite:R29:1",
+      "receiptSha256": "4e2ecdceb7d44a5daf88bdec0607d20fea21c35db4b3f3d009d640a9052882f2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5409
+    },
+    {
+      "key": "recipe:google-lite:R29:2",
+      "receiptSha256": "31bd72a778d646a9013d080b0996be15af1c56a3f5cf7bcf793c57c8f35d63f9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R29:3",
+      "receiptSha256": "19051058a132cef4b6062b63e16ec5b4d8dd216799a8284173ded4f3dfc87050",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5099
+    },
+    {
+      "key": "recipe:google-lite:R30:1",
+      "receiptSha256": "e59df0d20e9f13fe84ce2c8f2efa7408aca227fdcb49ed7a70235d5e61d92c86",
+      "runnerHash": "24565926760027d8bb918a1e4fe013e53d82834d48a2d17fd540b765b90f9d51",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R30:2",
+      "receiptSha256": "39d01e2812a17806c2da63ec00a353b233d7cd0896908957f4b1cf8336492f8d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5484
+    },
+    {
+      "key": "recipe:google-lite:R30:3",
+      "receiptSha256": "82e8775d3a8eaf9fa35a7986368a6375fddae80432f7b4f071c6fe671e31beba",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5492
+    },
+    {
+      "key": "recipe:google-lite:R31:1",
+      "receiptSha256": "a0de2c306a9e19ffa09ab6eb5d676633479aee25d518590ba2a6317328485c3d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5049
+    },
+    {
+      "key": "recipe:google-lite:R31:2",
+      "receiptSha256": "0235b40e8a1aa5607f6cf55b921248114c14bc494de529a1e52213d16333558d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5071
+    },
+    {
+      "key": "recipe:google-lite:R31:3",
+      "receiptSha256": "3e52cacb790755c21a66e5454f272cecf8ca9112acc6bdf3750823b43f226895",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5199
+    },
+    {
+      "key": "recipe:google-lite:R32:1",
+      "receiptSha256": "3a0ac5a860e4a95fb0d80ee1decaf340df9f6b002a4d6e7039762353fc4e7026",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5512
+    },
+    {
+      "key": "recipe:google-lite:R32:2",
+      "receiptSha256": "7e254584970d0acaa922ae14c7f29f66c37dba007873de898aaeab596757dc12",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R32:3",
+      "receiptSha256": "47f6e7cddd9e04a9263fb2dcb66820e131ddb2c463f1f30cfd4eceecf9ad219a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5635
+    },
+    {
+      "key": "recipe:google-lite:R33:1",
+      "receiptSha256": "e8df13a774b249055125fe91a344c45082da63bc4b3312c696e5f380899280ce",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5511
+    },
+    {
+      "key": "recipe:google-lite:R33:2",
+      "receiptSha256": "a28fe401be864ec738fa357d5a6e0f854a1c410a7fbfbe51b050973055f4cb3f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6301
+    },
+    {
+      "key": "recipe:google-lite:R33:3",
+      "receiptSha256": "5bc4c72945e0ae7177d9b1122cafdad8cb8789d78ebed7f8892943caedf74554",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5933
+    },
+    {
+      "key": "recipe:google-lite:R34:1",
+      "receiptSha256": "001fd3ca710220454bb94c479f55830623574c14f5ad54331efbfed070d66772",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6416
+    },
+    {
+      "key": "recipe:google-lite:R34:2",
+      "receiptSha256": "4f974f37051b232857da2b360e0a53da5521d7f04c1941ffe8bfd8b502d90d15",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6401
+    },
+    {
+      "key": "recipe:google-lite:R34:3",
+      "receiptSha256": "d41d5fa61e8c92f10225b7900ec160d6a02c81cff14b4d8c9731782b530d5ec0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 7758
+    },
+    {
+      "key": "recipe:google-lite:R35:1",
+      "receiptSha256": "312f8af58c65711ae196a360e72cb2f4c246b7483f2cb0ef9ee9fdc0ed28a92a",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6026
+    },
+    {
+      "key": "recipe:google-lite:R35:2",
+      "receiptSha256": "3a2d59825f2091e4ce17da680dfa30124b5a09e70691e9159930da272e5b392a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6126
+    },
+    {
+      "key": "recipe:google-lite:R35:3",
+      "receiptSha256": "a2b4b53a5e8bfc5ca34eac094e942a4e5495c0c33c13bab72ede356fdb983592",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 6338
+    },
+    {
+      "key": "recipe:google-lite:R36:1",
+      "receiptSha256": "f0767c9b7f326bacfb180f3abfbce8bc073c5ae4f9f8bc861cf71f3d32fc95bc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:google-lite:R36:2",
+      "receiptSha256": "e68d83d92f432d5ff55ff83bc0e4cf67b6e8e78a7469adcf5f09f148f542aa3a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6828
+    },
+    {
+      "key": "recipe:google-lite:R36:3",
+      "receiptSha256": "b3242d7ff1dd6ffcd141e15876db13c045823cf2fad07ee55ae1dc9777d01fa2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 7153
+    },
+    {
+      "key": "recipe:google-lite:R37:1",
+      "receiptSha256": "aa0d08e956114d1b6ada876e018117685aebc913d6bf582eceb90d72b72416e7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4656
+    },
+    {
+      "key": "recipe:google-lite:R37:2",
+      "receiptSha256": "bf2eddd80ba60477ae4636a7923e928ce86e58bd41d4f1e03f79bf69f80d1398",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 5078
+    },
+    {
+      "key": "recipe:google-lite:R37:3",
+      "receiptSha256": "213e06080907851aa345b5c3def2bd9090493ebe798e12f8aa78a0be3ec54a9b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5571
+    },
+    {
+      "key": "recipe:google-lite:R38:1",
+      "receiptSha256": "35af7cf45a5eb0cf93dba404e6c76bf8d46bb9fefdfe010201a299606a7e4e45",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5267
+    },
+    {
+      "key": "recipe:google-lite:R38:2",
+      "receiptSha256": "4b5a4a89bd59052eea16b4709be5a07970706caf00f2fabd29c1f87e4b94a7be",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5344
+    },
+    {
+      "key": "recipe:google-lite:R38:3",
+      "receiptSha256": "e2a327ff51fc10003b76194ca16fed5f53602ac7941296619755d95cb15d4ca6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 5224
+    },
+    {
+      "key": "recipe:google-lite:R39:1",
+      "receiptSha256": "96835abadb548bc800a94fc727ffb725faef34ade486e0e577407180a38e80dc",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1295
+    },
+    {
+      "key": "recipe:google-lite:R39:2",
+      "receiptSha256": "bb48ca5796b39a4cf44cc1f28a762ad21085e884c4531155add0d4153225619a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1278
+    },
+    {
+      "key": "recipe:google-lite:R39:3",
+      "receiptSha256": "4fde1c3880c8ff584560af6184f702b9fb2aee13d34f21ff1a225f9352a95a97",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1305
+    },
+    {
+      "key": "recipe:google-lite:R40:1",
+      "receiptSha256": "237dd38209f83226852223c088a48b5eef61d02f33113c2020db6c2f0c7cdfed",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6059
+    },
+    {
+      "key": "recipe:google-lite:R40:2",
+      "receiptSha256": "0a752e7455b2ea1d99d8ed5d38ebff40b1dc1e4f05206044e30f86555cdedd3e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 6276
+    },
+    {
+      "key": "recipe:google-lite:R40:3",
+      "receiptSha256": "7bc5b7cc25a864d3359a5e93e43826fd0e2645221d9c281edfa7005fa2a4f325",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 17400
+    },
+    {
+      "key": "recipe:openai-luna:R01:1",
+      "receiptSha256": "f72645eb7f676d7fbe230f734de78f5ed8df9f28c8e1d9e00ee6855e42985ff4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1794
+    },
+    {
+      "key": "recipe:openai-luna:R01:2",
+      "receiptSha256": "6e8cd19f4009b114b1828673b1b9212b251d32ac75b53097289b12ad93170227",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1315
+    },
+    {
+      "key": "recipe:openai-luna:R01:3",
+      "receiptSha256": "6c6af432f84783acf43cd9f6a97913c49d88f2c3e74fd2b55deeda73abaa1767",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1295
+    },
+    {
+      "key": "recipe:openai-luna:R02:1",
+      "receiptSha256": "d975ab666433e0c9777138d9aa072537783c6940cd88627f4f919a8dc445c718",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1424
+    },
+    {
+      "key": "recipe:openai-luna:R02:2",
+      "receiptSha256": "9b24bf98a3778d6f6a16d6313e5758d295d27cb40ebb3c0cfdfa7bd65afdf04c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1464
+    },
+    {
+      "key": "recipe:openai-luna:R02:3",
+      "receiptSha256": "917b3802c3fa0e311d4e57caf603e31bb91eb2f158d633393c95ad4bd6af55e6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1346
+    },
+    {
+      "key": "recipe:openai-luna:R03:1",
+      "receiptSha256": "4cdb34abe98d1ea0611b3e217312f20ada3cabcb0075b39e941ff56724a018de",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1531
+    },
+    {
+      "key": "recipe:openai-luna:R03:2",
+      "receiptSha256": "6c4869775ed847abeab5a1da2e8d8e899cd8ebabdff1110d40c9131cb31987f9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1308
+    },
+    {
+      "key": "recipe:openai-luna:R03:3",
+      "receiptSha256": "027dbd1ff8ca6974abdd5a16b2081e058cc822355aa0328cb89db337e6041bc4",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1265
+    },
+    {
+      "key": "recipe:openai-luna:R04:1",
+      "receiptSha256": "e32de01aaf25b394ae854e8bf1905a1ca5da42a0e8c1e3d9ce66de3c3b3e1510",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1402
+    },
+    {
+      "key": "recipe:openai-luna:R04:2",
+      "receiptSha256": "247952102c73e1a605a99d5bf69b88407d803223efd8612ca2997bc0d21ba579",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1444
+    },
+    {
+      "key": "recipe:openai-luna:R04:3",
+      "receiptSha256": "ece6a173448ec9ecc0bf9a741a3eaec8ef6ef5ff651b6210a2a3ab8ea49b3a03",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1341
+    },
+    {
+      "key": "recipe:openai-luna:R05:1",
+      "receiptSha256": "b0945a85069fbfce8b66e816a4cc4cf810f8300d73e70d072fb2d93497bce285",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1220
+    },
+    {
+      "key": "recipe:openai-luna:R05:2",
+      "receiptSha256": "de986b682118d0978b69a48ef7e341e9c8d7418d271866b26c5ba57574aaaa32",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1247
+    },
+    {
+      "key": "recipe:openai-luna:R05:3",
+      "receiptSha256": "8c83b316188ef04f3a2033a8190c23cd0112c665982141423a2e1e817207e8ee",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1262
+    },
+    {
+      "key": "recipe:openai-luna:R06:1",
+      "receiptSha256": "a950b42672c1fd34ebc4f822d403d36a62686c8fd9cdae44bf091e31fa522319",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1385
+    },
+    {
+      "key": "recipe:openai-luna:R06:2",
+      "receiptSha256": "02bb0a177f97b1c3ad49a7c2be6f7cb31ea52a83dae998ed07f94961d73e4408",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1360
+    },
+    {
+      "key": "recipe:openai-luna:R06:3",
+      "receiptSha256": "8a8b4e46d7edd563169bea873cc41df84bdd5c1abf5e3a23ea5c600163f2ee09",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1468
+    },
+    {
+      "key": "recipe:openai-luna:R07:1",
+      "receiptSha256": "b04a77f8a0cffe13a0ff189ef71b240857970ff085ddba2ad8a6b6b996ad31e7",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1351
+    },
+    {
+      "key": "recipe:openai-luna:R07:2",
+      "receiptSha256": "a5d656e69b364c4a7f7f71b4681802b562e63eeadf4661556d787e377432c0f5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1309
+    },
+    {
+      "key": "recipe:openai-luna:R07:3",
+      "receiptSha256": "23add91aa10fe8d61428d4c6566e89c443f438da4c072d17c6c3ac63cfc1acb3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1288
+    },
+    {
+      "key": "recipe:openai-luna:R08:1",
+      "receiptSha256": "d9e919815b2f83dbd65360fb694d49602d95f2cd0687700408534da631573fb5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1295
+    },
+    {
+      "key": "recipe:openai-luna:R08:2",
+      "receiptSha256": "acc0898a5f139376910865bfe73e77c01185695cd21118414c8dfe66771cd1ce",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1383
+    },
+    {
+      "key": "recipe:openai-luna:R08:3",
+      "receiptSha256": "df5fa3238dbcdfe388ae2d61f9a97502a6f44271396dff9f9a8b2f4268092da6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1390
+    },
+    {
+      "key": "recipe:openai-luna:R09:1",
+      "receiptSha256": "c811260b8bf4c88de2c37b84f892de8f878b8114b2512100626c053689490901",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1277
+    },
+    {
+      "key": "recipe:openai-luna:R09:2",
+      "receiptSha256": "c5bce58a8b6cdc9a7a22cd4ac7fe8ef5296b81d228ac477c7199bd6202bd9469",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1435
+    },
+    {
+      "key": "recipe:openai-luna:R09:3",
+      "receiptSha256": "f4ae5d9bce2586ce65b1c00d45ed81747cc4f0e64ac392b52bd062f71f0d1bf6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1319
+    },
+    {
+      "key": "recipe:openai-luna:R10:1",
+      "receiptSha256": "273b2f8cb751aee64fbd95167cf54a97d279d27194400ce322aac8bc7af67a45",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1284
+    },
+    {
+      "key": "recipe:openai-luna:R10:2",
+      "receiptSha256": "03a7a80a6d66a942a5878c10dafab954ba955a7488fb7193e92ae0fa22a82b31",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1400
+    },
+    {
+      "key": "recipe:openai-luna:R10:3",
+      "receiptSha256": "98b560eb412b5cbae0a823d028438f92c27e880b3974b50e87e2cb2aafcf6d7f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1251
+    },
+    {
+      "key": "recipe:openai-luna:R11:1",
+      "receiptSha256": "b802ec791d12eb8bac8d1d7bdb14272e000cf6a357775c417ff36c86fc0c590b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1270
+    },
+    {
+      "key": "recipe:openai-luna:R11:2",
+      "receiptSha256": "789482c11d8bd9578702035a2cf70452369568836749c29ec9093156bce62c88",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1363
+    },
+    {
+      "key": "recipe:openai-luna:R11:3",
+      "receiptSha256": "199163c21e150136f48ed0ca1a9754ce13d9d217e347964130487b26207de4bd",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1526
+    },
+    {
+      "key": "recipe:openai-luna:R12:1",
+      "receiptSha256": "81f12557c9dea22ba357ffb8dd9ace4f6184fef40b80515bc37577525f484004",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1333
+    },
+    {
+      "key": "recipe:openai-luna:R12:2",
+      "receiptSha256": "bd16e1ab61748c5ba7e133d5775ad515f7a7e079e40d0d22473ca032c6603876",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1454
+    },
+    {
+      "key": "recipe:openai-luna:R12:3",
+      "receiptSha256": "999b533a835b6783a2a3005e1116b46c31b9304455ebe9930d5a01de0ee54bb6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1314
+    },
+    {
+      "key": "recipe:openai-luna:R13:1",
+      "receiptSha256": "37a7781c3d70ae414a5ccbedf68e86d386e9de4bfd15a135b92bd3f717974227",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1384
+    },
+    {
+      "key": "recipe:openai-luna:R13:2",
+      "receiptSha256": "8f295bd98c3aa22b863325ba73d25f83e1b1b8736fd63d216ff8fa1431fdab34",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1249
+    },
+    {
+      "key": "recipe:openai-luna:R13:3",
+      "receiptSha256": "bd263371c70967d78643d2c4bda378058c910fcf07ad857d9b7ee163924c4ffa",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1257
+    },
+    {
+      "key": "recipe:openai-luna:R14:1",
+      "receiptSha256": "eccbfecb3f2421f9aec468aa3187a22e4386788d5efe9e72223406d91eb753ab",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1368
+    },
+    {
+      "key": "recipe:openai-luna:R14:2",
+      "receiptSha256": "6b00884e9449009da1ce66e57ad6f458db2b1b80158e1b6b8076632e3eef5b57",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1300
+    },
+    {
+      "key": "recipe:openai-luna:R14:3",
+      "receiptSha256": "59c04bcb9cd7832f2773c79fb671610a420e0dcc6f235af58407815550848997",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1335
+    },
+    {
+      "key": "recipe:openai-luna:R15:1",
+      "receiptSha256": "6159a542036277917e493827cf8fed5ac7edc3076364feb800ce46d8dbed2915",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1510
+    },
+    {
+      "key": "recipe:openai-luna:R15:2",
+      "receiptSha256": "95da36d84042bf37adbce8f50ecbb0baeb80609d1d54877be0abc53f579be966",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1433
+    },
+    {
+      "key": "recipe:openai-luna:R15:3",
+      "receiptSha256": "20e6ddb254a6783a6870dd7601bd4c3679dd6d1d034447ebc3c294d12371c769",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1480
+    },
+    {
+      "key": "recipe:openai-luna:R16:1",
+      "receiptSha256": "39355bb14a29f5f77e98b1702c38f21abaa557bffe908153554487d821fe60cb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1309
+    },
+    {
+      "key": "recipe:openai-luna:R16:2",
+      "receiptSha256": "61db1387c2d47181387c97535f96d20acad9ba8f12d98e8cf1d06c08928b9e4e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1250
+    },
+    {
+      "key": "recipe:openai-luna:R16:3",
+      "receiptSha256": "08bee04a31fb65eca7c67733fcd7c01cf50f1922a4581e4e1c37eda3f84b66c1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1389
+    },
+    {
+      "key": "recipe:openai-luna:R17:1",
+      "receiptSha256": "3d370d4e3c7caccbe7023ad90b0c8dad1614347cb0a3b02b19ad2fc5d5876c2f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1398
+    },
+    {
+      "key": "recipe:openai-luna:R17:2",
+      "receiptSha256": "786bd6bacf65ca9f8fbd43e0161b3d42b258aa4b9a3a2cab8f31d314f6140f4a",
+      "runnerHash": "9654d01b4d495ad4af8c5bcc94be2f083310c684f84c91db74c6d3e13e495025",
+      "exposureMicroUsd": 1451
+    },
+    {
+      "key": "recipe:openai-luna:R17:3",
+      "receiptSha256": "449422baada6e60887e7dbc9e5c3c44d99981b113cb6f12cd841c498e5bc8dd4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1335
+    },
+    {
+      "key": "recipe:openai-luna:R18:1",
+      "receiptSha256": "f051a12c9c3f4397a6e222544f2eb272ef6f88d98aeafc0a8faeec1817e1e260",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1240
+    },
+    {
+      "key": "recipe:openai-luna:R18:2",
+      "receiptSha256": "038a1e10654a2f6fb7ccc25415813a8a3dc0346c5e4e27b6f73e06309c64fdaf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1288
+    },
+    {
+      "key": "recipe:openai-luna:R18:3",
+      "receiptSha256": "c37551e6af9bb0098c25d51be1a57e7f1c394baa7ccd9ff1f1f574cfc620ebdd",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1255
+    },
+    {
+      "key": "recipe:openai-luna:R19:1",
+      "receiptSha256": "a7458557d3fcb519daa2ef8f3aa10eb9dafce5c5623aa1296eacbfbd1365b8d7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1304
+    },
+    {
+      "key": "recipe:openai-luna:R19:2",
+      "receiptSha256": "951c382dc368da1d32bf851ea128e1a3f93d9e51b43873f021892d3cb0e07ae4",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1380
+    },
+    {
+      "key": "recipe:openai-luna:R19:3",
+      "receiptSha256": "9fe1b7935f472940e821e89a21f75d0b29877018cfd908393a7c5e42ce62efda",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1672
+    },
+    {
+      "key": "recipe:openai-luna:R20:1",
+      "receiptSha256": "e40d616c478c298c7c10603e822c2ebd559cd8ffc97d68e92427308cf1da1bac",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1324
+    },
+    {
+      "key": "recipe:openai-luna:R20:2",
+      "receiptSha256": "1f9f25a4b5024c5ec82d3b0a9001b8a96a9c7a68155d75e2e4dc0caf3301a14d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1172
+    },
+    {
+      "key": "recipe:openai-luna:R20:3",
+      "receiptSha256": "5dec64e0ec44024f768caf194e930f4f91fa5b4b84061650be6a89105afe553a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1373
+    },
+    {
+      "key": "recipe:openai-luna:R21:1",
+      "receiptSha256": "3431336cc2f093ea6fa0f58a2661c954d0dc67d01fca1e794e3076bd44d37eba",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1362
+    },
+    {
+      "key": "recipe:openai-luna:R21:2",
+      "receiptSha256": "cc483d66bb91e559cd09ad50a1f63fce92266fadb7df177c72471d25c6dd997a",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1361
+    },
+    {
+      "key": "recipe:openai-luna:R21:3",
+      "receiptSha256": "57a1209435d49b06da5746adcdc9e7be948e6da0332c4946cd27d17f52357f5a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1304
+    },
+    {
+      "key": "recipe:openai-luna:R22:1",
+      "receiptSha256": "300e2c6dee15be51316262e453bb5089ad9ea338acf6d2db5477d4dbd16256bb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1301
+    },
+    {
+      "key": "recipe:openai-luna:R22:2",
+      "receiptSha256": "8ebb17800e4eb88c550cf6bca5eb42f4033844df3914771561e7625cc5371590",
+      "runnerHash": "9654d01b4d495ad4af8c5bcc94be2f083310c684f84c91db74c6d3e13e495025",
+      "exposureMicroUsd": 1466
+    },
+    {
+      "key": "recipe:openai-luna:R22:3",
+      "receiptSha256": "c182103bb9c8d20876bc0c0df1cc08fe281416c538a99086c3ae27827ad8da64",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1300
+    },
+    {
+      "key": "recipe:openai-luna:R23:1",
+      "receiptSha256": "9d3e426b71914e8b4044c0e5a6710571301c1bc843e751caf867981c1ce47452",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1315
+    },
+    {
+      "key": "recipe:openai-luna:R23:2",
+      "receiptSha256": "82d8f8b6ec2fff88dee854e3cc5ae76678da88767cb2a250102ece927fbe6c89",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1222
+    },
+    {
+      "key": "recipe:openai-luna:R23:3",
+      "receiptSha256": "b60473e82e670a8eb2f5a1b723667be4db7fa9017fb763b73155504aecd310a0",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1431
+    },
+    {
+      "key": "recipe:openai-luna:R24:1",
+      "receiptSha256": "64ee36966f547ba2a014f386a010bda42e838e3297b06546bc97da9a136ea149",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1299
+    },
+    {
+      "key": "recipe:openai-luna:R24:2",
+      "receiptSha256": "92c37b56db9c77b4735df35121ee84dffeef53fa9e194a2739335e048fa6cd52",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1358
+    },
+    {
+      "key": "recipe:openai-luna:R24:3",
+      "receiptSha256": "44ae505cf24c83f5684a65a8b986e26a5ac7783a664f6ec71f8a208c5aed1cf4",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1251
+    },
+    {
+      "key": "recipe:openai-luna:R25:1",
+      "receiptSha256": "9767017a28be2114c16868c750ccb5301894841228ecdd9c3061dcdd727bebfa",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1334
+    },
+    {
+      "key": "recipe:openai-luna:R25:2",
+      "receiptSha256": "2d2f6d9ca836f80ea6776b2e38a2d262b9d96a317365767f737e2eeff0b444ff",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1318
+    },
+    {
+      "key": "recipe:openai-luna:R25:3",
+      "receiptSha256": "79c6eb8fe189e74489cb0bbde2f031f61f50c6c4985c2d48bab1d5bef9a7c147",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1337
+    },
+    {
+      "key": "recipe:openai-luna:R26:1",
+      "receiptSha256": "3d74f530e81c65d5c76c183d56c307b055aff9c3f18f1b28f47f65a6ba86da39",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1349
+    },
+    {
+      "key": "recipe:openai-luna:R26:2",
+      "receiptSha256": "87b9bf2e60a6c3173f2aa046d625064551ba593c633b3cdb425e2bc9840eca5a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1402
+    },
+    {
+      "key": "recipe:openai-luna:R26:3",
+      "receiptSha256": "656c00a1261d3fb0e84d8fdcc51c5228c8767cc85e4d495145db2980d28643d4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1391
+    },
+    {
+      "key": "recipe:openai-luna:R27:1",
+      "receiptSha256": "ba3d9fd5922f001bdddde0c7a33483075307cb72cc0086d2c044a71290bd05a6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1243
+    },
+    {
+      "key": "recipe:openai-luna:R27:2",
+      "receiptSha256": "274dabf063aaf39123453c6b538f3d9299e7635b17d1aa9a6a5b9b112bbd111f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1354
+    },
+    {
+      "key": "recipe:openai-luna:R27:3",
+      "receiptSha256": "779bf7dfeb3b18198835dfb6e1431104a632475dcf121f93892543449c5257b9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1249
+    },
+    {
+      "key": "recipe:openai-luna:R28:1",
+      "receiptSha256": "cf022a7054227826c44910ce069bb01eed1ea252004e856fe25220ed0dc67eed",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1232
+    },
+    {
+      "key": "recipe:openai-luna:R28:2",
+      "receiptSha256": "bf53a7732f117f5743f05b17e26daeb8c69a8929f310e3d8172e4190b862b09c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1182
+    },
+    {
+      "key": "recipe:openai-luna:R28:3",
+      "receiptSha256": "a386de82b9ae9e8a940ee453e82a1ea801c959b4588fdbb550b9ef375cbc08a6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1312
+    },
+    {
+      "key": "recipe:openai-luna:R29:1",
+      "receiptSha256": "95b38e4ec4cc8ffbb48b4307608f9f8324c5ac57a16cd0fe9c62ea150f4b1c13",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1226
+    },
+    {
+      "key": "recipe:openai-luna:R29:2",
+      "receiptSha256": "83d7e9b5424220d672253c68f003bfb45d55454b82fe7778a28da102667cf16c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1214
+    },
+    {
+      "key": "recipe:openai-luna:R29:3",
+      "receiptSha256": "79d79439eb1a8b80ea70abe770a720f9d57c348e78b8a21c6478efe213f6bdf5",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1194
+    },
+    {
+      "key": "recipe:openai-luna:R30:1",
+      "receiptSha256": "c1fe42e284a8de4078026606332f3ffbb5c4a881a28f5546691bafa1dad086e2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1181
+    },
+    {
+      "key": "recipe:openai-luna:R30:2",
+      "receiptSha256": "c7c8cd7151adffd46a5eb42900577c090b73d2e02d19d59686c6076d4d2c7f52",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1197
+    },
+    {
+      "key": "recipe:openai-luna:R30:3",
+      "receiptSha256": "d0db55e073c956a31fc170c55b5a4401bb69577f6acb5ca3c8cad2623a6baddc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1322
+    },
+    {
+      "key": "recipe:openai-luna:R31:1",
+      "receiptSha256": "114c82e07b473ee77d0d1d69288d8927092943e725bd2315f41f752ff5f0809c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1224
+    },
+    {
+      "key": "recipe:openai-luna:R31:2",
+      "receiptSha256": "bfba8739929f204c818431554e14193deb2f3f16c98f823646a4748092a23f05",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1173
+    },
+    {
+      "key": "recipe:openai-luna:R31:3",
+      "receiptSha256": "6715189ff97fb18668e41b78c82db9510b879f1cce67209e46b023b80e29eeac",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1272
+    },
+    {
+      "key": "recipe:openai-luna:R32:1",
+      "receiptSha256": "5624f0a942155cb0aa11143966a8ad1b3373815d3d67566c11ebaeaa1beb34b3",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1245
+    },
+    {
+      "key": "recipe:openai-luna:R32:2",
+      "receiptSha256": "32baa25f1fc0fab7b8ad3e44dbc08e84dfcfb359b123c314388255bc584221b6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1250
+    },
+    {
+      "key": "recipe:openai-luna:R32:3",
+      "receiptSha256": "528fe3f93890704f7955611beeb2616106d29da13d7abc9d6dfab3be0fdf5eee",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1239
+    },
+    {
+      "key": "recipe:openai-luna:R33:1",
+      "receiptSha256": "654771bc848ce589f4fff44316c5c3a31b1c3530972a173207dd7e88f154093e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1197
+    },
+    {
+      "key": "recipe:openai-luna:R33:2",
+      "receiptSha256": "35ab798344cf6a0bc79559cb84feef090ce98e61f1613d801eb0108c6a3ba18b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1238
+    },
+    {
+      "key": "recipe:openai-luna:R33:3",
+      "receiptSha256": "806d231863dbd858c2933d0d52abc44ab5124d221df2cbc0c97392c1676ffc51",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1229
+    },
+    {
+      "key": "recipe:openai-luna:R34:1",
+      "receiptSha256": "d1adfac552e3cf766d3b47663db2ca6ee283fd3f26be5abe97377a33a83a4b2f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1366
+    },
+    {
+      "key": "recipe:openai-luna:R34:2",
+      "receiptSha256": "3cfdddd272850cc5061389ca9661a6c66c8b0d13894aff94b7b7f6619802ee82",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1421
+    },
+    {
+      "key": "recipe:openai-luna:R34:3",
+      "receiptSha256": "04edae8d0952d016bdb282ab7d342407774697770b9d70d5b936d341027b25a6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1441
+    },
+    {
+      "key": "recipe:openai-luna:R35:1",
+      "receiptSha256": "6d28f929b09c744eb003ad6f7d3b3b3b597897563f4a0e5ad59442f661476179",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1334
+    },
+    {
+      "key": "recipe:openai-luna:R35:2",
+      "receiptSha256": "37a10c064ce967a150b29acf6d7238d2cacbabc6cc731050b116cdd4e9fae591",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1322
+    },
+    {
+      "key": "recipe:openai-luna:R35:3",
+      "receiptSha256": "12cb471820eb66cbfc679781a91117c310e2f8cd737e5d6af8dd4b72063f197f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1367
+    },
+    {
+      "key": "recipe:openai-luna:R36:1",
+      "receiptSha256": "afd15729b14b690b56aa3a68b64b45383dc9afddf17f08d159f02bd39cd0b0ff",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1326
+    },
+    {
+      "key": "recipe:openai-luna:R36:2",
+      "receiptSha256": "fb538564fb3115da2eb5bb23bb374a771d3f619b82624bb249f4b49064e940e9",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1555
+    },
+    {
+      "key": "recipe:openai-luna:R36:3",
+      "receiptSha256": "27964af8c2553cec148df0bf21eabcad3bc70bc77f5ca1be380af3b9363d8af8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1388
+    },
+    {
+      "key": "recipe:openai-luna:R37:1",
+      "receiptSha256": "ec1df7e495fc7aa69154ad225586fa76cb0359f90083601d171e1d99ba1108f2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1277
+    },
+    {
+      "key": "recipe:openai-luna:R37:2",
+      "receiptSha256": "252c7bce387091eb3990925119abd8146f3734556386691b603ea9c0259b4c64",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1682
+    },
+    {
+      "key": "recipe:openai-luna:R37:3",
+      "receiptSha256": "373b9ab6e4c2076a02a11faf153bc3b197966797f520eb30c1f96ccc0e259ad7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1268
+    },
+    {
+      "key": "recipe:openai-luna:R38:1",
+      "receiptSha256": "82452a37cc9aa40b0c4fb43e121c917942c69be587ffa316b6de9e7f87d95be7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1229
+    },
+    {
+      "key": "recipe:openai-luna:R38:2",
+      "receiptSha256": "8e78c05f6a6fc8d478205d993a817f35e7a69986fb4d862cf0e7fa3b1c06a273",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1265
+    },
+    {
+      "key": "recipe:openai-luna:R38:3",
+      "receiptSha256": "666b7900297b556a042173ddb27f5182e6dae04798e18b45997160914771b838",
+      "runnerHash": "24565926760027d8bb918a1e4fe013e53d82834d48a2d17fd540b765b90f9d51",
+      "exposureMicroUsd": 1351
+    },
+    {
+      "key": "recipe:openai-luna:R39:1",
+      "receiptSha256": "038d78628935307aeb3eb848a3ddb9f999bfedf89d2df9c0f109a309a2710dcf",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 441
+    },
+    {
+      "key": "recipe:openai-luna:R39:2",
+      "receiptSha256": "7ab6990d78b3cddabd6f24fd71cb0d4b90c3a25ea3f6fb2a6b715782ede1143e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 443
+    },
+    {
+      "key": "recipe:openai-luna:R39:3",
+      "receiptSha256": "a68c2f590c6301e7ef4b9653115845d8d89f69acbe3f61297ad1fe8da6869736",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 441
+    },
+    {
+      "key": "recipe:openai-luna:R40:1",
+      "receiptSha256": "da078960072aa1f190fbe32ad861f8f1f9c0ff0ebeccbdf9dd80539b193fe2a5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1375
+    },
+    {
+      "key": "recipe:openai-luna:R40:2",
+      "receiptSha256": "0b85dabf602e9fbad2442fad6379094e8b125e7628f6669c12b355c96b40536f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1326
+    },
+    {
+      "key": "recipe:openai-luna:R40:3",
+      "receiptSha256": "ae72a31f9fdae4e277901d74c40d0528bc98e1c939dfcbdf790a46c2ec9b54cf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1390
+    },
+    {
+      "key": "recipe:openai-terra-control:R01:1",
+      "receiptSha256": "b5e2a90654ddc16173e48015fc0defb84f5992a4f34ac87c0df1b1986b8d662a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11456
+    },
+    {
+      "key": "recipe:openai-terra-control:R01:2",
+      "receiptSha256": "55a02b57d62c7704012bb5777fa4ee77148ae93b0b783dc3dadafe2e1cf79021",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10916
+    },
+    {
+      "key": "recipe:openai-terra-control:R01:3",
+      "receiptSha256": "891a21aae203b7628ae35f9dc152a8421c41142e42b57233eb7850074b96f96e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 13496
+    },
+    {
+      "key": "recipe:openai-terra-control:R02:1",
+      "receiptSha256": "6305e189404e41a5223f3a99b230a8b0552d5a4e71395a13de1becdcde03996f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10966
+    },
+    {
+      "key": "recipe:openai-terra-control:R02:2",
+      "receiptSha256": "748fe907868bf0f21f1a6feb1169a0bbcba94b26d3cd4ec807903bf81e36844b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11031
+    },
+    {
+      "key": "recipe:openai-terra-control:R02:3",
+      "receiptSha256": "7061a2bd9a9757451a83247182160caf96ba091fc3c000929a22801a8c9b1b62",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11201
+    },
+    {
+      "key": "recipe:openai-terra-control:R03:1",
+      "receiptSha256": "d89c7cf5c4d0f5c3402b663dcb89b336e3bcdd6a4a34b9628cd7bc0023344b5f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10836
+    },
+    {
+      "key": "recipe:openai-terra-control:R03:2",
+      "receiptSha256": "cc6585f24f3235fe0b960b0398e352d845892733fd45c8547029e977c4e8bcd1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11141
+    },
+    {
+      "key": "recipe:openai-terra-control:R03:3",
+      "receiptSha256": "d970cf5073b3e42e01f86d3edf7c908aa9297aef4c54ab2fd18c21279c614461",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11021
+    },
+    {
+      "key": "recipe:openai-terra-control:R04:1",
+      "receiptSha256": "3fb776214a46e6d9b294de66c496c47656b432680c27b75cd860b63b9a3d1f8d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11358
+    },
+    {
+      "key": "recipe:openai-terra-control:R04:2",
+      "receiptSha256": "b7627bd1f2b9e25076b8b43d439a359d28a84fa8b4233a987a60f759c1a750ba",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11078
+    },
+    {
+      "key": "recipe:openai-terra-control:R04:3",
+      "receiptSha256": "34260205109198e10f3f5b186edc1e52456440dd7da9e97c56a491c7e7007961",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10683
+    },
+    {
+      "key": "recipe:openai-terra-control:R05:1",
+      "receiptSha256": "494cbe9fcca642145556066578e883cc26436131b42f9ef95bb2398b3a2a08df",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11310
+    },
+    {
+      "key": "recipe:openai-terra-control:R05:2",
+      "receiptSha256": "4665e725527e174cc6f6d7e09fe59e5da9329f48582adbb815770079c9e167a8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11590
+    },
+    {
+      "key": "recipe:openai-terra-control:R05:3",
+      "receiptSha256": "57029cb5242a1adee9ab01821f14b4d3cf8b1a36e544c132d41bb14d2a8373eb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11230
+    },
+    {
+      "key": "recipe:openai-terra-control:R06:1",
+      "receiptSha256": "db398cb95b98b40bc0085deec86f9c5158288adf7a3e2e120a04163c9212e2bc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11616
+    },
+    {
+      "key": "recipe:openai-terra-control:R06:2",
+      "receiptSha256": "e39c057ae095be36b329c298ab2c24745772cd9e363716dda9c10f6259bfe145",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10741
+    },
+    {
+      "key": "recipe:openai-terra-control:R06:3",
+      "receiptSha256": "d8810ef94ac8f77801fa314d898ffbf2054d6dbafc6b20582d6402271c536caf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11031
+    },
+    {
+      "key": "recipe:openai-terra-control:R07:1",
+      "receiptSha256": "f0055f86eec794d2151974680f78bab08f136eac73a693b6e6954e19da0cd7b2",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11435
+    },
+    {
+      "key": "recipe:openai-terra-control:R07:2",
+      "receiptSha256": "e07a39c4c8db355c00efb0f7aa9f4e21437124a0caa40b74f7e3c6f743d50ab1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10880
+    },
+    {
+      "key": "recipe:openai-terra-control:R07:3",
+      "receiptSha256": "f79270402cccde0a2e057b5453417bd97d899fbb085ca0d4692ec2e011ff9769",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10780
+    },
+    {
+      "key": "recipe:openai-terra-control:R08:1",
+      "receiptSha256": "8d24c3b927633620bb50b89ad0c34c09df85a5141a522286de092abb544b2a26",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10328
+    },
+    {
+      "key": "recipe:openai-terra-control:R08:2",
+      "receiptSha256": "2b2f7f558288a3c02c9c120e8da24a1115d23504c53da76072eeaf7db265fa69",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10428
+    },
+    {
+      "key": "recipe:openai-terra-control:R08:3",
+      "receiptSha256": "53e917c5b094fc131336412e781e5fb86ff30603dbc25d19d20aec9a084f7eb2",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11178
+    },
+    {
+      "key": "recipe:openai-terra-control:R09:1",
+      "receiptSha256": "64888d5768dd06cdd0d8588f6416af4f095d39950559acd85f221a79de690cf1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 12519
+    },
+    {
+      "key": "recipe:openai-terra-control:R09:2",
+      "receiptSha256": "4f81d9085c3ee343af7e45ef81c01e91c0c850e4e13958047cc596e6233a580a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 12374
+    },
+    {
+      "key": "recipe:openai-terra-control:R09:3",
+      "receiptSha256": "666d82897dc02011b7714d2706cd2fe14d37cfdf3c9f9513202f9230dfc55d10",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11774
+    },
+    {
+      "key": "recipe:openai-terra-control:R10:1",
+      "receiptSha256": "0b9bc8cb01c37efcd2c7cbcbe5d44059ce9f9f520d8ec1e3013ffc54dc9d6e15",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 12065
+    },
+    {
+      "key": "recipe:openai-terra-control:R10:2",
+      "receiptSha256": "9c6e82154618c16befc04da33e416ca0f7bab4c722f40441597d2872dd21020d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 12815
+    },
+    {
+      "key": "recipe:openai-terra-control:R10:3",
+      "receiptSha256": "a5d03f014a65fd62aa1301b45cf064d68d204d4a40f5494ab1f7412e285da5d1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 12285
+    },
+    {
+      "key": "recipe:openai-terra-control:R11:1",
+      "receiptSha256": "7fc3ab7b630ae725285fb6ba86bc9345de0908e5f82d5d42c5777fb5f8bba29c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10630
+    },
+    {
+      "key": "recipe:openai-terra-control:R11:2",
+      "receiptSha256": "28912e371b0841412c7bf0c9ffdd9526ad32bd34e7e16d87746ae1031e6a0512",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10945
+    },
+    {
+      "key": "recipe:openai-terra-control:R11:3",
+      "receiptSha256": "a85d0d3cd7b3ba291010c9c3845f188c97298afefd7953958e7c146bfb145fe3",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10795
+    },
+    {
+      "key": "recipe:openai-terra-control:R12:1",
+      "receiptSha256": "de8eb36572240ab0bfa2b2bf5b00df99dbddbf9832f2de5178ddf8b0170b8404",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10751
+    },
+    {
+      "key": "recipe:openai-terra-control:R12:2",
+      "receiptSha256": "df391109a2b21daad3cc4c495f287ba9c910b610af500a72074ff4f0208f50dc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10831
+    },
+    {
+      "key": "recipe:openai-terra-control:R12:3",
+      "receiptSha256": "3d411b0d99101e389cbea95e65b7b4ce8211216093f7613735bf5b1d8596a9cd",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 12036
+    },
+    {
+      "key": "recipe:openai-terra-control:R13:1",
+      "receiptSha256": "11f0ea22b0b9d0f9b7fc26e41a770727aa622e8fef3b57576b7740776b4e4f94",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10424
+    },
+    {
+      "key": "recipe:openai-terra-control:R13:2",
+      "receiptSha256": "d6f8c6aa9a745beabe093eb6abf0bad2c69a3517a092023e19144738d15119bf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9949
+    },
+    {
+      "key": "recipe:openai-terra-control:R13:3",
+      "receiptSha256": "9669b0895b53235c6283d54b08b5af9e4493effc1d8bfb7d9fd3d98dda8a11a3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9864
+    },
+    {
+      "key": "recipe:openai-terra-control:R14:1",
+      "receiptSha256": "4a96d552df7b28b30b6c2fc6c6beaacfb871d64db400af5151902e0c5f1ca41d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 13211
+    },
+    {
+      "key": "recipe:openai-terra-control:R14:2",
+      "receiptSha256": "01f5f34cee817c5a6750b67d41c4562ea94abc71ded43adbd536ca60f270cdd7",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 12091
+    },
+    {
+      "key": "recipe:openai-terra-control:R14:3",
+      "receiptSha256": "33f858bc5fe131e9d2aa215cada338e326b3177cd5cb6a13bde0098ad63868ae",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10711
+    },
+    {
+      "key": "recipe:openai-terra-control:R15:1",
+      "receiptSha256": "b8731d73d2a2183a15c9fe844630737f5c4ff1e5d97a03d4f97baba82a0aa286",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 13396
+    },
+    {
+      "key": "recipe:openai-terra-control:R15:2",
+      "receiptSha256": "4a38b441fbd66f560548a179ac24e6e10d6742f8af5f7b4e2b5e4408eb0e67f6",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 14416
+    },
+    {
+      "key": "recipe:openai-terra-control:R15:3",
+      "receiptSha256": "97ace8380f366ddb15f7c458025dd896287017b0adad568f288f144103269c67",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 13571
+    },
+    {
+      "key": "recipe:openai-terra-control:R16:1",
+      "receiptSha256": "2a3b68e0179ccb2dff72396eb81db1bd0c99c0710e061694430bb320734d9c2a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10185
+    },
+    {
+      "key": "recipe:openai-terra-control:R16:2",
+      "receiptSha256": "b8551b642b98f1760f379fe559a39af62108a55584d326a5dc5cae23d2f2ef4c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9975
+    },
+    {
+      "key": "recipe:openai-terra-control:R16:3",
+      "receiptSha256": "946cbcb041fc831572edfe4514671eb7a14861b89b597e0d74acdaf8efca7892",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10410
+    },
+    {
+      "key": "recipe:openai-terra-control:R17:1",
+      "receiptSha256": "56ae234a0d9d1e1c5205536f31c83c6df91e845d521138f26d2e2bed2b0391cd",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11022
+    },
+    {
+      "key": "recipe:openai-terra-control:R17:2",
+      "receiptSha256": "678290fe2de83fe1e12317a2831aef0dab0c0e857cabcc475d5ff5c8055c0d94",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11302
+    },
+    {
+      "key": "recipe:openai-terra-control:R17:3",
+      "receiptSha256": "22753fce231f74afe568b0eeec26a093040272188867f49d947797c3164c8c87",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11217
+    },
+    {
+      "key": "recipe:openai-terra-control:R18:1",
+      "receiptSha256": "68173a508e98eb41b51e67557678cfee67710012f5b8c479e45015c81aa44f5f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9678
+    },
+    {
+      "key": "recipe:openai-terra-control:R18:2",
+      "receiptSha256": "33d3fc42bbb877f4623ba78b6645817b24614e10ae7bc1bde21cfa4c72a1b0e0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10003
+    },
+    {
+      "key": "recipe:openai-terra-control:R18:3",
+      "receiptSha256": "7cbbee08935fc390fdce14cf4b6fc536811c25d3a03bee0ea3459bf6a2b79033",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9828
+    },
+    {
+      "key": "recipe:openai-terra-control:R19:1",
+      "receiptSha256": "d217df887bf3b44f10540e0a732525dc59b4b102a5f9be73d1fdd872766b31fc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10660
+    },
+    {
+      "key": "recipe:openai-terra-control:R19:2",
+      "receiptSha256": "ddcf9cb76c58eb7021ca37c399ea86f9328c3e0c2df11b138f58aecca74372ad",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 9875
+    },
+    {
+      "key": "recipe:openai-terra-control:R19:3",
+      "receiptSha256": "f4e82fdb9f0ffadbb247ad8f24cdf196ef57bd3a13f8a08224b5e87d0e4a2f04",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10430
+    },
+    {
+      "key": "recipe:openai-terra-control:R20:1",
+      "receiptSha256": "6748bdf44c1f979f395965eb3f36cffbcc0f48e5d02fbabc48d543900542a0ae",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11019
+    },
+    {
+      "key": "recipe:openai-terra-control:R20:2",
+      "receiptSha256": "8d895bc7dec8dc14027c2751c1075b5747d8984dec85ff51b665c9a5944f348a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10844
+    },
+    {
+      "key": "recipe:openai-terra-control:R20:3",
+      "receiptSha256": "ab51772925888b2391fac2deca05e9bbc0ad0c4f75ac4886d81f06858482fb71",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10589
+    },
+    {
+      "key": "recipe:openai-terra-control:R21:1",
+      "receiptSha256": "61bc85bb908166144f4539d26fb6c9f554af81e45825c6f4bd7c2914859bf147",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11081
+    },
+    {
+      "key": "recipe:openai-terra-control:R21:2",
+      "receiptSha256": "ac5d744185126acb01d6dbc8ad45a2276ed9f96694354d6b3f37b35e51ae03ee",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11006
+    },
+    {
+      "key": "recipe:openai-terra-control:R21:3",
+      "receiptSha256": "803a7902926e2da07fd022eaf1496d863164b78c7c3868ddef2d945cbdb05ac3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10931
+    },
+    {
+      "key": "recipe:openai-terra-control:R22:1",
+      "receiptSha256": "2058ddfc609be03eba2aa09e814883f8a0ac0013c0193e025c6e755ace100ab0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11194
+    },
+    {
+      "key": "recipe:openai-terra-control:R22:2",
+      "receiptSha256": "0cca36800ab91d978446c8ad58808d3cbbfc8418c89f8b98c6f64944df565b41",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 12179
+    },
+    {
+      "key": "recipe:openai-terra-control:R22:3",
+      "receiptSha256": "1aeb9cd2af5c055137e79bf887b2dc96ec73168b06840ff02d35de4bdbb52bd7",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10354
+    },
+    {
+      "key": "recipe:openai-terra-control:R23:1",
+      "receiptSha256": "87b5d7211d9f5d9413972d33e18e79ffd21e620fa7249849f043bd0b9efc1048",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 12678
+    },
+    {
+      "key": "recipe:openai-terra-control:R23:2",
+      "receiptSha256": "38fd0a4a83952f193993bf6f3fec6faa539fae0a85e115b6fab10a70e4a53da1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10973
+    },
+    {
+      "key": "recipe:openai-terra-control:R23:3",
+      "receiptSha256": "657637068788b19ac1a8c12fb9356fc3c1863f587fb25db99ff421557837b679",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11443
+    },
+    {
+      "key": "recipe:openai-terra-control:R24:1",
+      "receiptSha256": "6cff5e5c60ff31e5162ca83fe7ccb304f910fdc7200d4cf55e29a0edc27ec3a0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10523
+    },
+    {
+      "key": "recipe:openai-terra-control:R24:2",
+      "receiptSha256": "6b4dadaea460bb6c5c5f78764a06314ccfea0cebe89d262cafc99826d6260ac6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10743
+    },
+    {
+      "key": "recipe:openai-terra-control:R24:3",
+      "receiptSha256": "e6b27d0219ae0db112612d636d84bf50d1b094b3380a9058dbb97aeb8ab5f690",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 13198
+    },
+    {
+      "key": "recipe:openai-terra-control:R25:1",
+      "receiptSha256": "1b39924fe614876d1b06cbf4de20f1a37d607b7d25488a9709200bce71aa3876",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 12592
+    },
+    {
+      "key": "recipe:openai-terra-control:R25:2",
+      "receiptSha256": "272234a83c8d504e9406f2fada400b58665774d67628daa479dc674065f59ff8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10827
+    },
+    {
+      "key": "recipe:openai-terra-control:R25:3",
+      "receiptSha256": "af38e139779c1b81c6f37829f5a2518f1046348d9bc827f5f01dbb83e69deb06",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10187
+    },
+    {
+      "key": "recipe:openai-terra-control:R26:1",
+      "receiptSha256": "2baf80982d8fa1438888c78582978ac4addbaac32f0ff5a3f1528bbdfc9a3526",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10786
+    },
+    {
+      "key": "recipe:openai-terra-control:R26:2",
+      "receiptSha256": "7a4dc57ab7191a1970e60a4ae3471210ad956589cc0191a1b982d2025a96ea07",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11031
+    },
+    {
+      "key": "recipe:openai-terra-control:R26:3",
+      "receiptSha256": "7a84c9e875812a233a19753a50e0a37da2c8244faaa6a5189b4044c078509aca",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11031
+    },
+    {
+      "key": "recipe:openai-terra-control:R27:1",
+      "receiptSha256": "37d501067b2dbabbaeb1afa0477586e4b40c51e6f96383312cd01c4bd2fc94df",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9364
+    },
+    {
+      "key": "recipe:openai-terra-control:R27:2",
+      "receiptSha256": "b786c7ef029c867c26fbf4aaa2be33bb790fc7973d01d77cfb0ea11df611a958",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 9964
+    },
+    {
+      "key": "recipe:openai-terra-control:R27:3",
+      "receiptSha256": "03ded690175fa73a72451e94d81d51074ec1242791a94093eef1d38307a8ec57",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9464
+    },
+    {
+      "key": "recipe:openai-terra-control:R28:1",
+      "receiptSha256": "716ff7c575f78e2691327624c16d0d442b4671f9b04b54786f047c7ea7c7a787",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11162
+    },
+    {
+      "key": "recipe:openai-terra-control:R28:2",
+      "receiptSha256": "b3b242d678f91086cd0622a4293d1512c000ef619b034e303f27097ecbac5efb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10657
+    },
+    {
+      "key": "recipe:openai-terra-control:R28:3",
+      "receiptSha256": "57cd19fcdbb416b3ba44b43620f41f1d2565b6292fee264bc5f4dc0f780012aa",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11137
+    },
+    {
+      "key": "recipe:openai-terra-control:R29:1",
+      "receiptSha256": "f5be73362a946c7a0ae459fcf4da4c2fde1774a2070ee4052a6de0e2efae2a9b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10684
+    },
+    {
+      "key": "recipe:openai-terra-control:R29:2",
+      "receiptSha256": "eb82f6140e25ffacf30bd14d9d85d213299faab7ce1c505cdf81ed5c38c6555a",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10639
+    },
+    {
+      "key": "recipe:openai-terra-control:R29:3",
+      "receiptSha256": "162a096e0452df32b4b103571044cef059236716bf5dc34b3bba18b37a6dcc3c",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 12899
+    },
+    {
+      "key": "recipe:openai-terra-control:R30:1",
+      "receiptSha256": "e8805273293f05fb44a588d3291656b1cb2b907536482439571d89820c55c4c7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10226
+    },
+    {
+      "key": "recipe:openai-terra-control:R30:2",
+      "receiptSha256": "22106ab858415b372b589bc25f36c596f818437308b6a232616db1b2ebe69ead",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10291
+    },
+    {
+      "key": "recipe:openai-terra-control:R30:3",
+      "receiptSha256": "08e410b8ba7a96f740adb3ef6ee7672d5a2fb0ff82003a1858f389b152316aaa",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10386
+    },
+    {
+      "key": "recipe:openai-terra-control:R31:1",
+      "receiptSha256": "0207e6d6005c6034cacd51a1f0a49ff7a54a76618daf738dc7bb46a91a7bbc9d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11165
+    },
+    {
+      "key": "recipe:openai-terra-control:R31:2",
+      "receiptSha256": "b00dabbf1f652c518f17e189898311136242010189e252c2e7f803c319449c35",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9565
+    },
+    {
+      "key": "recipe:openai-terra-control:R31:3",
+      "receiptSha256": "613ac0c825af46d6b572ab8dde6627caa7fd2add79907d507707149785a9b528",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10300
+    },
+    {
+      "key": "recipe:openai-terra-control:R32:1",
+      "receiptSha256": "d4d3fbe4bb37468ecb828835a024f03564f93ab684e229a7dcee98e5fe81eab8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10230
+    },
+    {
+      "key": "recipe:openai-terra-control:R32:2",
+      "receiptSha256": "024b9a984a0ffc8ae3816005273a0a2fe49020de198383a34494f24bb65a31ce",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10185
+    },
+    {
+      "key": "recipe:openai-terra-control:R32:3",
+      "receiptSha256": "bded9a01a0af6c6877bdc3dd8b872833f1688435637c3f527e7d6aaf72ed9fdf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10255
+    },
+    {
+      "key": "recipe:openai-terra-control:R33:1",
+      "receiptSha256": "679a752580346aa5b0194c2b2b4c165f0a8f8ab67fe7f50db904a7ce78486fcd",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10737
+    },
+    {
+      "key": "recipe:openai-terra-control:R33:2",
+      "receiptSha256": "710f258a25fd9a03d0c08a8158f3d00c5404bd264b2afd0a745645e641d56c37",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10282
+    },
+    {
+      "key": "recipe:openai-terra-control:R33:3",
+      "receiptSha256": "477d38f2c65ac8f0ed0008b3e99a53419e82aa864b0902e61415ab0e4eb7e8a1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10832
+    },
+    {
+      "key": "recipe:openai-terra-control:R34:1",
+      "receiptSha256": "1821ab99c93c6d4e3b5ae77fa81f9e69806cee37438b278bf856c167394335be",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11937
+    },
+    {
+      "key": "recipe:openai-terra-control:R34:2",
+      "receiptSha256": "838aa127967067cbc74a48c90b50fa857a66055740f039a4498d49c2ecb53dae",
+      "runnerHash": "9654d01b4d495ad4af8c5bcc94be2f083310c684f84c91db74c6d3e13e495025",
+      "exposureMicroUsd": 38000
+    },
+    {
+      "key": "recipe:openai-terra-control:R34:3",
+      "receiptSha256": "0ac9335cde93ffa9c1e137de6e4c843e897d4b43905b67ffad6ad6ac1b4b54ab",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 13797
+    },
+    {
+      "key": "recipe:openai-terra-control:R35:1",
+      "receiptSha256": "34ee1c9c9e549be2d9eac504a89f4184ec5ae40c59cffbec5ba65b9e2750d08a",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11150
+    },
+    {
+      "key": "recipe:openai-terra-control:R35:2",
+      "receiptSha256": "726c62ab13e4df293dc1b72dcba2bf0cde7b450e7328a8f7f593f97e78a2905b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10640
+    },
+    {
+      "key": "recipe:openai-terra-control:R35:3",
+      "receiptSha256": "4df6280d15f9619d9a9235a425a6188b26cc6ef8eb46cf04199b2c853aceba21",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11125
+    },
+    {
+      "key": "recipe:openai-terra-control:R36:1",
+      "receiptSha256": "74e7b3ecf96519bf973315ddfe2fab79b79e500dcf16f14154432d0dbd616c74",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10161
+    },
+    {
+      "key": "recipe:openai-terra-control:R36:2",
+      "receiptSha256": "0b827bafc6164c103d605915de03bb01e47e64a33b4221847cc63518dfca7707",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 12276
+    },
+    {
+      "key": "recipe:openai-terra-control:R36:3",
+      "receiptSha256": "ae0be625fb8cd5045908716066438a272abd5a6245b5e88a70c62aadcccdf8ab",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10431
+    },
+    {
+      "key": "recipe:openai-terra-control:R37:1",
+      "receiptSha256": "e7eaacca669f8830a915ddd296ae0b2aeeecc80f56e17e6af6d8c0e9b04b6113",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11234
+    },
+    {
+      "key": "recipe:openai-terra-control:R37:2",
+      "receiptSha256": "4736dc2a832b1cb9865f488bb939a16d859952e488082575097f16c15ecc4481",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10354
+    },
+    {
+      "key": "recipe:openai-terra-control:R37:3",
+      "receiptSha256": "ed6f1b2092dca0c35dc35ae6d9325e2ed2ae534c3e9b23dff29af2ab97ffe04d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10439
+    },
+    {
+      "key": "recipe:openai-terra-control:R38:1",
+      "receiptSha256": "ba2cc2a5af3a61e6d01488725be642a79278e68a68a4abc7f3fdd7bd52f0ccc1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10756
+    },
+    {
+      "key": "recipe:openai-terra-control:R38:2",
+      "receiptSha256": "bd9e8cbbe83567cc9af1464e0ce34164ab9c61d55c6210bffe6587bdc79d004b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10601
+    },
+    {
+      "key": "recipe:openai-terra-control:R38:3",
+      "receiptSha256": "9c61cef2ee90e305b47dc8f66079afd2bb9996bc93f7439e5717d8dc9cbec0f6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10011
+    },
+    {
+      "key": "recipe:openai-terra-control:R39:1",
+      "receiptSha256": "2f264b1b3e8a45b7d5d5475c2771a54f6148a6ed86e87d70fb60bf251ee99ef6",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4249
+    },
+    {
+      "key": "recipe:openai-terra-control:R39:2",
+      "receiptSha256": "d005314b5fe9615ceb39ea8f4a783fb98ccec3bbb75133505bc8a561faf6e75b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4249
+    },
+    {
+      "key": "recipe:openai-terra-control:R39:3",
+      "receiptSha256": "67b0062b0fe92b9659dd415ed1633a4f8bfae8c1af7c987c61c29c31e505bc3a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4249
+    },
+    {
+      "key": "recipe:openai-terra-control:R40:1",
+      "receiptSha256": "da4eb27c36262c770869165c5871ff685399eaa1ad987c29c180fca51853aaf6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 11204
+    },
+    {
+      "key": "recipe:openai-terra-control:R40:2",
+      "receiptSha256": "57bf13cf95c89454f380252f5c4ec812832e5d69dc5737d8cf782cf940ed02f7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10909
+    },
+    {
+      "key": "recipe:openai-terra-control:R40:3",
+      "receiptSha256": "6f8ecc6d5bb31299c722ed7ae271f3b5eabfd2a594fad5d532d490939c587041",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 11119
+    },
+    {
+      "key": "speech:deepgram-luna:S01:1",
+      "receiptSha256": "93607dc80f6e6c9d67f667aed2355503559a1ec83d36c7bdac4ded41d3726815",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S01:2",
+      "receiptSha256": "1ac50dbbefc45baa3a5f45cd3e6e913572a6ca084fc39e0d4d54533253ef4d41",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S01:3",
+      "receiptSha256": "cf036b98a0c2988da18ad489e54744547afd899fe77cc7545e6b4bd2315dec90",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S02:1",
+      "receiptSha256": "864d2726de8a91c8cc6fff8642a077eff7ef2d235479a80d80c1dde2d998c520",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10434
+    },
+    {
+      "key": "speech:deepgram-luna:S02:2",
+      "receiptSha256": "e234a12aa3a784439560cefdc1d66649ee18cc4a482b527bcfd7bf7a162aa3f7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10434
+    },
+    {
+      "key": "speech:deepgram-luna:S02:3",
+      "receiptSha256": "5133c44cfaa888f0293007c66abe2a08af6ad92f8ecac4fbf155a435fc56a0b6",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10460
+    },
+    {
+      "key": "speech:deepgram-luna:S03:1",
+      "receiptSha256": "5fb78735aa50d48c8bafe74e060fc42897834bc40d7adac9cb483224f718d501",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10408
+    },
+    {
+      "key": "speech:deepgram-luna:S03:2",
+      "receiptSha256": "1be3384b6d142d1902db333588b47f678b65d534a80711192d1b083f0a6adb11",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10408
+    },
+    {
+      "key": "speech:deepgram-luna:S03:3",
+      "receiptSha256": "b22b1fa13aae905cfde696b4ac44e8b5a53ee1755bba04ecc803678d385b0d8a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10423
+    },
+    {
+      "key": "speech:deepgram-luna:S04:1",
+      "receiptSha256": "d090a94bf589bbe047cc456b5bff740a5e41f828558e5f36580c4a656c1d277e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10408
+    },
+    {
+      "key": "speech:deepgram-luna:S04:2",
+      "receiptSha256": "0f95aa95ae94d59ffb9397a95b7723d3d71e614009a416f4d3f9c9adf60a9a28",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10421
+    },
+    {
+      "key": "speech:deepgram-luna:S04:3",
+      "receiptSha256": "9a7d34efd1194be54d6d8914bd88e38e544437ad31dd46ca3a1a43d71a7d2972",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10416
+    },
+    {
+      "key": "speech:deepgram-luna:S05:1",
+      "receiptSha256": "270e47d22e20f2de1a2d0ffea87760bf5da6b7c69a4f78bff191f8152c53ab45",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S05:2",
+      "receiptSha256": "c32f6cb54ea9d60ab652b03f551d993d6403c5bcfbf5e8312bb68198b900b873",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S05:3",
+      "receiptSha256": "a37b2632e89a168aae90c53628ec95095f69b22882d3591c14d00ce743c9f424",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S06:1",
+      "receiptSha256": "0365d90a7032615e8d478429f03696228d9f3b63ef2c1171b5ae9949f19064a8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10419
+    },
+    {
+      "key": "speech:deepgram-luna:S06:2",
+      "receiptSha256": "4fa77596efb6cc61bbdb30ab5fc4b4e0b6e63cc244dd05b338eb34b119f5aea1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10419
+    },
+    {
+      "key": "speech:deepgram-luna:S06:3",
+      "receiptSha256": "1c3b2d1710300cd5df7c9dae4596a43c1b6805721d7a3b7c2bb1fe0ff2091ad0",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10419
+    },
+    {
+      "key": "speech:deepgram-luna:S07:1",
+      "receiptSha256": "a96c598b3c8629ad746c23aa17f95c9279e5f151f306477af3948290b164e2c6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10409
+    },
+    {
+      "key": "speech:deepgram-luna:S07:2",
+      "receiptSha256": "301cd51cf5d38794ca5b76aacdb035160fa84284090ca60b09720b7ba1b6f507",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10409
+    },
+    {
+      "key": "speech:deepgram-luna:S07:3",
+      "receiptSha256": "99480deb900acbf66be6370824250c66bdf96c4ab392fd2ec232ff4e52c4c4c3",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10409
+    },
+    {
+      "key": "speech:deepgram-luna:S08:1",
+      "receiptSha256": "b12cab3e67c924fcc368726904fe7bf19b1117f5e72ef8c1e4e81b2ee3d67cce",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10423
+    },
+    {
+      "key": "speech:deepgram-luna:S08:2",
+      "receiptSha256": "630160a826a889b9aa3586520e6b42a0cd2e1d9c309654421c3a0ae8a3067a7c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10423
+    },
+    {
+      "key": "speech:deepgram-luna:S08:3",
+      "receiptSha256": "07b747504837dc82e40ee5af8bb4afc8db678d13bbea8f28ae8a08f4fd466d57",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10423
+    },
+    {
+      "key": "speech:deepgram-luna:S09:1",
+      "receiptSha256": "4edd4686dd622d06e0b0c14c67183c1aa5db736b66b003dd12985fa5e93baeed",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10407
+    },
+    {
+      "key": "speech:deepgram-luna:S09:2",
+      "receiptSha256": "f393d64cfd82c7a2a71c4a59e71f8f4ef7d74e634e6a9faf899a129eb1666393",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10407
+    },
+    {
+      "key": "speech:deepgram-luna:S09:3",
+      "receiptSha256": "b7e880230c48eea913239fc48ca61f56a11f1ef4d5ba24574b46814ff6b1f8ff",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10407
+    },
+    {
+      "key": "speech:deepgram-luna:S10:1",
+      "receiptSha256": "8249187f4c9039d1e5953de4a2e563d052b5669c98e21e36b0472ddc671709ef",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10408
+    },
+    {
+      "key": "speech:deepgram-luna:S10:2",
+      "receiptSha256": "31915a614c2ce0b73631453b9fb0baee6cbd7cada165bec4803b9eb2dd6c570a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10408
+    },
+    {
+      "key": "speech:deepgram-luna:S10:3",
+      "receiptSha256": "ba3de37642ba1ca9d5073f779da545ebf0d604678711aebc34d0322ed38cadf7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10408
+    },
+    {
+      "key": "speech:deepgram-luna:S11:1",
+      "receiptSha256": "4dc0216125d835a3fc2d32b678af132295cc573367017adf175f8d5b14215ea9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S11:2",
+      "receiptSha256": "4dac23a17db66fdcf3e2980bfe7bc9c9ec8bf05d64c6d423f05787d614335c1f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S11:3",
+      "receiptSha256": "e362545cf30a86b96c5ef46491422af6d6556dbddeceed8c4ed95870c422defe",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10406
+    },
+    {
+      "key": "speech:deepgram-luna:S12:1",
+      "receiptSha256": "120f4ab6829f5b9ecced472b12677cd410fb4279f450ab024f7514ba11f96ff9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10436
+    },
+    {
+      "key": "speech:deepgram-luna:S12:2",
+      "receiptSha256": "02e11093c64fac27352539961c1817bd46a99e3780f7cd0e7c7d063152e5e31a",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10435
+    },
+    {
+      "key": "speech:deepgram-luna:S12:3",
+      "receiptSha256": "bf862991404a7d22f10e6bd0ab41a4bb34f6268540f92d713814d50425ac85af",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10420
+    },
+    {
+      "key": "speech:deepgram-luna:S13:1",
+      "receiptSha256": "f960202b03b4247c79b0f6ea99389494ede9d5ae7ea076b1909c59b1a4b4c7b7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10426
+    },
+    {
+      "key": "speech:deepgram-luna:S13:2",
+      "receiptSha256": "172047d2c1bb70b17f9adf2bd9f1bd3fb2367e88dded193106646397f98e022f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10436
+    },
+    {
+      "key": "speech:deepgram-luna:S13:3",
+      "receiptSha256": "cd61c9cbc34455d9139500f34445df5d3bd009acc1672db80a6e2177943b003d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10436
+    },
+    {
+      "key": "speech:deepgram-luna:S14:1",
+      "receiptSha256": "5faeeb4af56a0d858f0ddb53267f98829595b5af300cfd4eacc702d38657e842",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10459
+    },
+    {
+      "key": "speech:deepgram-luna:S14:2",
+      "receiptSha256": "f5cdae92c97a822b27d5efe085f10aadb3f1117026446506822bb85aa5d11d18",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10464
+    },
+    {
+      "key": "speech:deepgram-luna:S14:3",
+      "receiptSha256": "97e69fbb146a0e8e130bf17b402aeb2ed50666c808108040adc819b9b14e779b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10443
+    },
+    {
+      "key": "speech:deepgram-luna:S15:1",
+      "receiptSha256": "5a5bb93dfcfafe8545f994d7458d38387d9315bb5305bbebfa3499a2e9990329",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10402
+    },
+    {
+      "key": "speech:deepgram-luna:S15:2",
+      "receiptSha256": "4a72631dd70066134528bef1602aa6c910b5c7f9ffeb6e8e9e12258c9e4f49b8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10393
+    },
+    {
+      "key": "speech:deepgram-luna:S15:3",
+      "receiptSha256": "56f6d8898ad9f9e064f9127b64e0d952c557b6093a09aea6a30c42472e782daa",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10393
+    },
+    {
+      "key": "speech:deepgram-luna:S16:1",
+      "receiptSha256": "a65810f760c2cc0ab3320ab577446643be92fdf6ce0d3807cc7c2da374b779c6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10393
+    },
+    {
+      "key": "speech:deepgram-luna:S16:2",
+      "receiptSha256": "0d79ac32e13a8f383c9a5f097ae12e517606133b47b979fa6232226bf611f771",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10393
+    },
+    {
+      "key": "speech:deepgram-luna:S16:3",
+      "receiptSha256": "ebce6efad54cbd083d35bcf6189f2f2cd08b793cf5e8a03f113381b0d648b7f6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10407
+    },
+    {
+      "key": "speech:deepgram-luna:S17:1",
+      "receiptSha256": "38036f1e2edd039f6c8013148f5c834030c6db1da874e8302bda26d03b484187",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10402
+    },
+    {
+      "key": "speech:deepgram-luna:S17:2",
+      "receiptSha256": "67f26789b74b9bd5532696585a2d7ac22de8cc8d088a9a890bc41578037c9d59",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10393
+    },
+    {
+      "key": "speech:deepgram-luna:S17:3",
+      "receiptSha256": "e31d93ffdc0b6bcee565ab632995d874bf51a21e7e2da5dd009efc7611a5fceb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10393
+    },
+    {
+      "key": "speech:deepgram-luna:S18:1",
+      "receiptSha256": "4f3f7bbcab7d8339b4080a3ddc0ed58be4cc19f97e6d9b5175431e7efb8a89e5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10483
+    },
+    {
+      "key": "speech:deepgram-luna:S18:2",
+      "receiptSha256": "f15d3296956e0ba345c16dffbbcc5dbee70083fd00f208658a979d42f2800476",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10419
+    },
+    {
+      "key": "speech:deepgram-luna:S18:3",
+      "receiptSha256": "41a48fbc0a60d32a7054239b7851f5b525ea3539953e9fd620ff9298814561ee",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10416
+    },
+    {
+      "key": "speech:deepgram-luna:S19:1",
+      "receiptSha256": "c2f1123903419fdfa6800eb6ef469390fc7b54dad3f426ece5d4e2b8e5886b6b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10447
+    },
+    {
+      "key": "speech:deepgram-luna:S19:2",
+      "receiptSha256": "4af69b4732f48e14e7304f809dcabd2a522fdc86f0393ceaf0441e18929fe24a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10478
+    },
+    {
+      "key": "speech:deepgram-luna:S19:3",
+      "receiptSha256": "fb7365786c356ab99fc7551f1a37b40d850929b54d1095d0d8936a8ef02a78f9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10471
+    },
+    {
+      "key": "speech:deepgram-luna:S20:1",
+      "receiptSha256": "30770d20d5c80e3415875922dec2d312e8df6edefe2d021ef41a25bdfab6cd63",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10421
+    },
+    {
+      "key": "speech:deepgram-luna:S20:2",
+      "receiptSha256": "ae9c3595c6836b5afc684efbc584bc697de5597a5cbd5d2b7fba55f592a290d4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 10421
+    },
+    {
+      "key": "speech:deepgram-luna:S20:3",
+      "receiptSha256": "7a4c8f12ee69d470cb47d9652d2254d40df238227a33108f5505d40317ba326b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 10421
+    },
+    {
+      "key": "speech:google-direct:S01:1",
+      "receiptSha256": "170b1aa7bce9d3cbdf75c9b247879d66b2e31925bb992bcc966e116182abdea4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1284
+    },
+    {
+      "key": "speech:google-direct:S01:2",
+      "receiptSha256": "0b3b8a166e113c220cf32ade73d184fb63bc31e14658811cb822d433a4bbe479",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1216
+    },
+    {
+      "key": "speech:google-direct:S01:3",
+      "receiptSha256": "eaf2cbeb8484c4e85d29227cd3617830af9747d3685bb5d0e1966e159b0bd222",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1284
+    },
+    {
+      "key": "speech:google-direct:S02:1",
+      "receiptSha256": "25554358b5d1373ed661650e61ab7dd0243c0cde812d7a4d1d1255e66407feea",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1543
+    },
+    {
+      "key": "speech:google-direct:S02:2",
+      "receiptSha256": "8a8eabaa9de0ba4fef97910dfdf39298318261b839a4c11748033197f9760bbc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1543
+    },
+    {
+      "key": "speech:google-direct:S02:3",
+      "receiptSha256": "08a2455142cee376589255637a56b01af89989ca95fbc5e2b8ca1e3572c2b04c",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1543
+    },
+    {
+      "key": "speech:google-direct:S03:1",
+      "receiptSha256": "c7a1d34f087f07a5b835e3a081788cbc7cf27f9b8733a8034ad6cd651032af5d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1304
+    },
+    {
+      "key": "speech:google-direct:S03:2",
+      "receiptSha256": "ffdbc6ecc5deb2f7427f256cc3b300461f1a5c96e23ccf332fa9a4b798b76f59",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1207
+    },
+    {
+      "key": "speech:google-direct:S03:3",
+      "receiptSha256": "92fa9842eed936c02ad42753c81e37e963fd96b9a47abce288457171c0b23da0",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1207
+    },
+    {
+      "key": "speech:google-direct:S04:1",
+      "receiptSha256": "b84a31e8165dd75aebad028b4998c187acf9c304e89803c587af5cce33de48c0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1299
+    },
+    {
+      "key": "speech:google-direct:S04:2",
+      "receiptSha256": "f8827bc60327fba1aac4085f7b621afc9b412250a4ded94bb1e83e4dd6eb7722",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1299
+    },
+    {
+      "key": "speech:google-direct:S04:3",
+      "receiptSha256": "ed0d311db32a7b552e8291d3eea3f7b1853f0c8cbd4fc2f3fdfe2e90dc70de9d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1299
+    },
+    {
+      "key": "speech:google-direct:S05:1",
+      "receiptSha256": "5b49b0279096575a367f287f32edd3fe0df347e335b02bdaefc8a7205b54888b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1297
+    },
+    {
+      "key": "speech:google-direct:S05:2",
+      "receiptSha256": "9c9c3e29a101cab8ab1fd33f8908a006d08b491f58f11d90bbd8fa616eff31f8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1297
+    },
+    {
+      "key": "speech:google-direct:S05:3",
+      "receiptSha256": "1ff4e54952025b8a0dc03487bf73eee786c89e15a568a779b92c519801c31e38",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1297
+    },
+    {
+      "key": "speech:google-direct:S06:1",
+      "receiptSha256": "14d2871e4324a04a3263d844ae8bdb83ab55061cc38fae520784708c6f7ed2eb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1215
+    },
+    {
+      "key": "speech:google-direct:S06:2",
+      "receiptSha256": "7168ced5706bc7ae59b0c95e08a72bdaef3572dceaa9de2ce51239c6a6b9c85d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1418
+    },
+    {
+      "key": "speech:google-direct:S06:3",
+      "receiptSha256": "0fbc48e5280150164f8018e184a7b8fbeef3ff5678bacd98b340fdb813bf71bb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1260
+    },
+    {
+      "key": "speech:google-direct:S07:1",
+      "receiptSha256": "c1f5b386ba714a395bf038fc366a5610a1aef401d174d71f4c4d993891a1f3a6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1303
+    },
+    {
+      "key": "speech:google-direct:S07:2",
+      "receiptSha256": "0bc6b105772b56a8194726da9bdc786730ec608c24e7361ab12a8c3b226fcc1a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1236
+    },
+    {
+      "key": "speech:google-direct:S07:3",
+      "receiptSha256": "5ea829b86fe9f403378e9e565da6d37d2909f7c0309405f7a5ec64b2e99dbdfc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1303
+    },
+    {
+      "key": "speech:google-direct:S08:1",
+      "receiptSha256": "bed681c2e2229979bb52c8e5fd761c28de5483027bad35717d855116b918adfa",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1326
+    },
+    {
+      "key": "speech:google-direct:S08:2",
+      "receiptSha256": "7180a490068b99b85770a7ab291c18e3fd78661597b1ab5d02f466aec5937a40",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4100
+    },
+    {
+      "key": "speech:google-direct:S08:3",
+      "receiptSha256": "cb09ef05f6fc82c8174e18cf0c1b05c3cbd7976f5b207e41c99af9fd01534d8f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1326
+    },
+    {
+      "key": "speech:google-direct:S09:1",
+      "receiptSha256": "9cb27d39e6c1b58ecf222c624db02d01c4d2e2ec3a24fdecd0ef5724fb967915",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1296
+    },
+    {
+      "key": "speech:google-direct:S09:2",
+      "receiptSha256": "d8acfcce787357110e78b16cf015f7da36b4808656a0bd3341e819c093d1c367",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1296
+    },
+    {
+      "key": "speech:google-direct:S09:3",
+      "receiptSha256": "b8473ff9cf5093b75706403bfc35700f1dc0f8369520039123ea6bd54ac00361",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1296
+    },
+    {
+      "key": "speech:google-direct:S10:1",
+      "receiptSha256": "645da8434ef239141d87d84f08f3ed4b58b4f00f15cb24ef86b559221f7d7d0e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1325
+    },
+    {
+      "key": "speech:google-direct:S10:2",
+      "receiptSha256": "be9e633bfb1db5dd188d17cac040a98a4cd4433424521ea46aa4cf99037d311b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1325
+    },
+    {
+      "key": "speech:google-direct:S10:3",
+      "receiptSha256": "50cc30de251c2b0a7506bbbc951d53aff4ce5bc2f79fca092d2f902c76dc0e1b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1325
+    },
+    {
+      "key": "speech:google-direct:S11:1",
+      "receiptSha256": "956ef7d06587c2a9e3c26e99078fcaf3c7db0f0767d06e758f6b709bfaba25fc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1312
+    },
+    {
+      "key": "speech:google-direct:S11:2",
+      "receiptSha256": "20651a1d3ac05b439dc3bf9709d1035cacfb08e3297e3badeb7d7bf72eba41e8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1312
+    },
+    {
+      "key": "speech:google-direct:S11:3",
+      "receiptSha256": "20996be37ba049d4af06af2218b996ffde4c5abe635c8e2bbb60f852d5cb39c3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1312
+    },
+    {
+      "key": "speech:google-direct:S12:1",
+      "receiptSha256": "4e9403dcc50ae2c2aab84fc89a9ec8a8cbbc2db14a9b6dcd38e22817c58f85bc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1416
+    },
+    {
+      "key": "speech:google-direct:S12:2",
+      "receiptSha256": "a8b1a66b0a4af5f101394b579b6c0b8aa8afa90c24f591cf43fd8a9fe6bcb52f",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1416
+    },
+    {
+      "key": "speech:google-direct:S12:3",
+      "receiptSha256": "631014157bfa71929548888244773d5708dd36f09ff2d78dfcf2c7223fba9498",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1416
+    },
+    {
+      "key": "speech:google-direct:S13:1",
+      "receiptSha256": "bcef74395c0d1a077beac21b7b5dd97fbae73eaec7ec4af2a1c122a4e597b00d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1185
+    },
+    {
+      "key": "speech:google-direct:S13:2",
+      "receiptSha256": "c586b70c2d658e5f5d2485d69c1e88cebd03bab9244aaf7664272939b1df39cc",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1185
+    },
+    {
+      "key": "speech:google-direct:S13:3",
+      "receiptSha256": "55ed7edf5f612c4c2b5d848282c04faad033fab516fc50d038d1c48dd7d16506",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1185
+    },
+    {
+      "key": "speech:google-direct:S14:1",
+      "receiptSha256": "0565f9e6023f65b0bd9b5ee6eb2e210fca67d6fc7ac155b95de8caa2c5f34438",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1201
+    },
+    {
+      "key": "speech:google-direct:S14:2",
+      "receiptSha256": "1bd8726572991647db142373d3ed5eb1cb4a07bdd2622bb6bb6fabacd21a9e89",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1201
+    },
+    {
+      "key": "speech:google-direct:S14:3",
+      "receiptSha256": "4164b0403e531b284ab748c42089ff1777b23fa62ad64ced2955e15c4dae9684",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1211
+    },
+    {
+      "key": "speech:google-direct:S15:1",
+      "receiptSha256": "566f61b60274a1dcb29e3b9f02037f3410f312782a98e87ea00124f4ea00610e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1168
+    },
+    {
+      "key": "speech:google-direct:S15:2",
+      "receiptSha256": "17aef838f4de3e0c71eb66127ebb023ac89941a7d7dc7bb6203cf95f83e0c393",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1168
+    },
+    {
+      "key": "speech:google-direct:S15:3",
+      "receiptSha256": "0d218fcc0cb1c240414178585936c5cf0b52f5c279be50df394ac25406d87673",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1168
+    },
+    {
+      "key": "speech:google-direct:S16:1",
+      "receiptSha256": "dd3c75e95839c4f71932b86a844b975ed295bef7ae5d81d43323a6cf638de7f3",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1173
+    },
+    {
+      "key": "speech:google-direct:S16:2",
+      "receiptSha256": "d7eb161402c54b9d799258d90ad0c9543b11b83ab7d4e1e7f176a2c5ccac819a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1173
+    },
+    {
+      "key": "speech:google-direct:S16:3",
+      "receiptSha256": "47561db93ef59e9cb4776adab7e0618de524ed0ccb8f536a83bc80adb332a41e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1173
+    },
+    {
+      "key": "speech:google-direct:S17:1",
+      "receiptSha256": "32573726e508bdb2e0cfa4655df39764a80e647d25028132cd1d207ad6db4952",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1173
+    },
+    {
+      "key": "speech:google-direct:S17:2",
+      "receiptSha256": "41518810d735edc1ff21fc2c86015122ab6d262c901cb170ba4eaa954e5f0a69",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1173
+    },
+    {
+      "key": "speech:google-direct:S17:3",
+      "receiptSha256": "7cc0403c42855e0a3553b82287917af28d4384e3246d70857ac53e8abfde1c0b",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1173
+    },
+    {
+      "key": "speech:google-direct:S18:1",
+      "receiptSha256": "46de1e45204ffebe07f474a2dd699106eefbafbe9a51dd9c9622f6488ba99ad1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1437
+    },
+    {
+      "key": "speech:google-direct:S18:2",
+      "receiptSha256": "8f7e0ea6f5e6aafa3ceb0bb4406de98f911b4b61867b53f79cca2cc350869b5b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1447
+    },
+    {
+      "key": "speech:google-direct:S18:3",
+      "receiptSha256": "635b99877ad5eccb8fc7ddf7476b717976318e2bde826106a75007b72f0cce2d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1442
+    },
+    {
+      "key": "speech:google-direct:S19:1",
+      "receiptSha256": "2497e2ce3b617a9fe9453e422c6250d5a11b9eb1fae50d1d9835cc63a4790904",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1667
+    },
+    {
+      "key": "speech:google-direct:S19:2",
+      "receiptSha256": "451205d8ba6385795856ebd7a04e27009ed878fa442342a0e54d7e0170b0bdf9",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1667
+    },
+    {
+      "key": "speech:google-direct:S19:3",
+      "receiptSha256": "e5be19dbd26130b9f1fc99321a2c4bfb5654ec686bdaaa88b6715615e52e2ee4",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1667
+    },
+    {
+      "key": "speech:google-direct:S20:1",
+      "receiptSha256": "1d29414b17c9b8eefb3159e16eb2796698e59d0a0f40c8eb24cd6bc970b6de5a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1442
+    },
+    {
+      "key": "speech:google-direct:S20:2",
+      "receiptSha256": "c2496d9178d28718d6e7896da87d68f1825aed7818f2882aa4c64143e3df9e09",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 1442
+    },
+    {
+      "key": "speech:google-direct:S20:3",
+      "receiptSha256": "13dab96fa0320e3043382cb07cfb77a40e4269dfd6775322ad15956ad13e3310",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 1442
+    },
+    {
+      "key": "speech:google-transcribe-luna:S01:1",
+      "receiptSha256": "52db3508821450a0e9f401ddc3f0990207a264f49199f900678d0fe4748fb587",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 592
+    },
+    {
+      "key": "speech:google-transcribe-luna:S01:2",
+      "receiptSha256": "a77991be71d4f47f761175e276308257d01d8fc14974684f292fedb2764b3762",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S01:3",
+      "receiptSha256": "21353ed9f1bcda711859c68f013dea51ad7674559e126a762b88797fbe97a975",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S02:1",
+      "receiptSha256": "4e8b0c8154fc2c8c96c85da8f68023236fde78b5c66f0167024e7b6a23715289",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 818
+    },
+    {
+      "key": "speech:google-transcribe-luna:S02:2",
+      "receiptSha256": "72ae8d1898b6864f6b4bc3143bb5303829eb63c5ded6706212bc7b607034564c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S02:3",
+      "receiptSha256": "c8ba63c7b2ec094ea329bf5a0c8aea767f5c4540ffe8991656e2c8d5df3d0d80",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 835
+    },
+    {
+      "key": "speech:google-transcribe-luna:S03:2",
+      "receiptSha256": "80f8b652bfe83a79329766317bf6cc1c3c29fbdeb04699532b0e3ca338f6f44b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S03:3",
+      "receiptSha256": "29c60b5a271ae3e9d5d68425f5a222a7b18f3bc62c881a50a0726ceb2969e7e7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 708
+    },
+    {
+      "key": "speech:google-transcribe-luna:S04:1",
+      "receiptSha256": "52a9053d3dbf290d947a6cc561638922dd175c62c73c45d6adf0575016569494",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 680
+    },
+    {
+      "key": "speech:google-transcribe-luna:S04:2",
+      "receiptSha256": "ece6f7e2eacc0a033ee98551588640a1ab65dfef9495db0e1b4ce5cd9c7ccd91",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S04:3",
+      "receiptSha256": "ef76b2434d94796912e768bf34dc35347c12aa1d130c3e8141a7b6137d6655f7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S05:1",
+      "receiptSha256": "3a9792af65b69d9b4f54bba0a3fc8478c6c5404264dd7de3e1b37ab7c13c880c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S05:2",
+      "receiptSha256": "75330d834c05a328a888f8eb608a49280006672797caa5d4b579d06bcb42eb12",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 730
+    },
+    {
+      "key": "speech:google-transcribe-luna:S05:3",
+      "receiptSha256": "9c4703d838a2dcc0a33b2a398298932b7a0dfe93ed862d88e31ee14996df7380",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 713
+    },
+    {
+      "key": "speech:google-transcribe-luna:S06:2",
+      "receiptSha256": "59de495ad6517688b844c948295ca7f35733c328d1da8cb6114101a66f4866b6",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 737
+    },
+    {
+      "key": "speech:google-transcribe-luna:S06:3",
+      "receiptSha256": "bafde5280050971d0566fc36b0474ec49fefc19763b66011d9954c34108ef073",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 719
+    },
+    {
+      "key": "speech:google-transcribe-luna:S07:2",
+      "receiptSha256": "ba1ee4ecc9f01ac07d6ff7f3bb2caef121cad9d911a08d1acd45f49c917e5284",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 751
+    },
+    {
+      "key": "speech:google-transcribe-luna:S07:3",
+      "receiptSha256": "08074ec490348988a2d47a2f70a471dce9c0f1a572f315eac1f776d35d42977c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S08:1",
+      "receiptSha256": "576b5309ddae0b0b93b7e4a77fa75673c310bcbe34e278309be07d9bbb231689",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 738
+    },
+    {
+      "key": "speech:google-transcribe-luna:S08:2",
+      "receiptSha256": "4e4a198cd7121e62762aff55d794c63b6d2349923db39dbb4ad324cff8d45191",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 738
+    },
+    {
+      "key": "speech:google-transcribe-luna:S08:3",
+      "receiptSha256": "da2751b296bff28cbf86a969c460f3c3ae4ee41862422d1076f6bac6d6834c89",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S09:1",
+      "receiptSha256": "347b6930d463bf7c78dd8783ff35ec9953c3ee11927b9d9e8b60f1d76fed0416",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S09:2",
+      "receiptSha256": "b5da07e52da15bc8cf459975ed413fbf5b4da9d11f0fb866c0bb0327b94d31d1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S10:1",
+      "receiptSha256": "131883e2c444af4c656e64134357972c1440bfc779f9c704e5092364b32393ae",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 969
+    },
+    {
+      "key": "speech:google-transcribe-luna:S10:2",
+      "receiptSha256": "eac20e0f2974b17d4a7259077173d2f2ad4fdc370348ea4d7a33309186ae3e72",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S10:3",
+      "receiptSha256": "1deb3097c884dbfe0b383e0ecbd48f2b4906ea95d1c46f78e1e081c3aa096c6e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 982
+    },
+    {
+      "key": "speech:google-transcribe-luna:S11:2",
+      "receiptSha256": "8c458ee3feffc92fbbb84e1783a1b0f014c8267226708ae1c0f69bee7c32d32a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 911
+    },
+    {
+      "key": "speech:google-transcribe-luna:S11:3",
+      "receiptSha256": "c9c8f12fde0f757d5890444dac8ce2318692a71c9626d5486c8bb1617ef4c698",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S12:1",
+      "receiptSha256": "f2aff42d57d71abacc450478981bcdaecc7e8f370d2ff659f2b9933ee99ee644",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S12:2",
+      "receiptSha256": "581b63829d26eb9da511db3326eb98b52a6dbbdc41c92a1b142fb1d9c9578f35",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 792
+    },
+    {
+      "key": "speech:google-transcribe-luna:S13:1",
+      "receiptSha256": "14e9204931ca0690dae2858ad08ad22618ff61fb58506bfe39275742a04cc0c4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 601
+    },
+    {
+      "key": "speech:google-transcribe-luna:S14:1",
+      "receiptSha256": "45af233ea492938f694e08b54e28fcd76bce4b236003ceb40220589b09a04ca3",
+      "runnerHash": "9654d01b4d495ad4af8c5bcc94be2f083310c684f84c91db74c6d3e13e495025",
+      "exposureMicroUsd": 727
+    },
+    {
+      "key": "speech:google-transcribe-luna:S14:2",
+      "receiptSha256": "e6c0c0a006399b786117b4ef630978454e8f0d7a97293a4fde18505b173d0778",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 729
+    },
+    {
+      "key": "speech:google-transcribe-luna:S14:3",
+      "receiptSha256": "e276c1a48ef62dd0b11edea0c5fe5153f17415c456736d799a4f20adc92719b9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S15:2",
+      "receiptSha256": "abd6caafca1523331c165c60f23bf096ac41245c1e4696d1e6f84c00291cbe26",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 603
+    },
+    {
+      "key": "speech:google-transcribe-luna:S15:3",
+      "receiptSha256": "d1c24cfb079eaf6a7d300a243e092a1d3e3eed8632ed8b677166166ad87924bf",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 603
+    },
+    {
+      "key": "speech:google-transcribe-luna:S16:1",
+      "receiptSha256": "0512340cff57a7b7d873d1a2c777bc7db9db71146d3938535c878ae479c1701f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S16:2",
+      "receiptSha256": "12ac4f1772d92f7d005d50c1091c442658ce48aba08453489cb297bfe710c1fb",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S16:3",
+      "receiptSha256": "1cb6be09850d59d70dfbcc61a3f7980af4b7f47b8488fc1abe7a598abaaadc8e",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S17:1",
+      "receiptSha256": "98652a639d3e4a6b284bf7a7de0c75d5eb2d56f6b25d122815d77277df2ca48f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S17:2",
+      "receiptSha256": "32084096a130affc408d6a2d7d735ca608f28e165c2a8c97c8e6855f2ea779f0",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S17:3",
+      "receiptSha256": "c25f0828da064d4e87db1df372a4fd7b15d16f1a534eec94c7c7af693330e6e9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S18:1",
+      "receiptSha256": "c69325eca327ccd3d07afdd6cd3f6ba32ff929c2eb6c2a1c1a2e7714abece683",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 812
+    },
+    {
+      "key": "speech:google-transcribe-luna:S18:2",
+      "receiptSha256": "e4414dab18171296c760e689ff2da8bbc2418b89b337dc0009a2b718a4f300d5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 812
+    },
+    {
+      "key": "speech:google-transcribe-luna:S18:3",
+      "receiptSha256": "6d00c2b1fbd7ac3a745dbf97c80150b2ecef5ffb764fb40408da3594939a03a9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 812
+    },
+    {
+      "key": "speech:google-transcribe-luna:S19:1",
+      "receiptSha256": "5e9c05dd6bb8d6abc98ae9da5d47700cf85ce38790a31a860884a09eb896d92d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 944
+    },
+    {
+      "key": "speech:google-transcribe-luna:S19:2",
+      "receiptSha256": "41672da84657319cca554cf8fef7b2f8222a085afe7f75034fa5918a077214b7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 956
+    },
+    {
+      "key": "speech:google-transcribe-luna:S19:3",
+      "receiptSha256": "8c5a67e3a7123f29439a17041e8dd8c494851de5f40aa255fd743f3c5d231bc3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S20:1",
+      "receiptSha256": "7d4d3308b8729143ca5a57b0317568468acec798f2e11bd3dfc1d46c2357651b",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:google-transcribe-luna:S20:2",
+      "receiptSha256": "c63b5d54e8c452393164b56b7c48e921cdf389962c6b9855f24d8a44a0586466",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 9500
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S01:1",
+      "receiptSha256": "6017e705d5c3b8c3bb34a898002044357ef8534af152c266e4f7d8471c588d4d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4906
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S01:2",
+      "receiptSha256": "2ec489e19226e2652a54f9b1fa0066df77e8dba26f4e155662ea26c58de803fe",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4906
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S01:3",
+      "receiptSha256": "5a0bfe872145dd2e7c9d7425bdb9033192e3608b7351dbd2dc619165a74c4277",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4906
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S02:1",
+      "receiptSha256": "cd4b530cea251b954743745d26225fe39c564cb520ff73756a97a521f848fc5d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4952
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S02:2",
+      "receiptSha256": "2b3fc1e19c7b202a71a6f3802fd246e02039c819fb14d74b059f541ba2dddec4",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4934
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S02:3",
+      "receiptSha256": "db99796c77cb8f65385917d169465e913226bfdfa8b6edee9d1178c945e7738a",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4953
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S03:1",
+      "receiptSha256": "8896f3fc07a420d7e8ad8c4bb8d931bc00ca8e5299440533337d6a7eafd88a9f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4908
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S03:2",
+      "receiptSha256": "be0c04814ac3e1b753194d5a400dc676a21e7408331f7c298ab171c1ebe8727f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4924
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S03:3",
+      "receiptSha256": "c41ef7f5875be44440a26ce3eed084720a3498e0bd7d3c16ad2f56160471f9f9",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4922
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S04:1",
+      "receiptSha256": "f5c08c838cdb200b4c2c6ede30f39843527854974321317a65360eda33aeea7d",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4908
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S04:2",
+      "receiptSha256": "e5bca7e28a3c2f090a8af0abb298416f2643648951253715bb8342f4ac03570f",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4908
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S04:3",
+      "receiptSha256": "44fe1b85fcc1a024b52c15e7bf8008de03c10a32ce870e60251ea295bf06389c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4908
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S05:1",
+      "receiptSha256": "cb0a18d91e54d663e2447ae5fcd5cc587e9779c16b585a69348aca75600321fe",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4924
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S05:2",
+      "receiptSha256": "df49a938f77e9722572f8c6c9764a6ccd756aa9b3b64925b7757ea4b715282f3",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4927
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S05:3",
+      "receiptSha256": "d98378bc74d3b887482aea943a60d7d77621bcbedc76a68f3b5d967fa79d3820",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4924
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S06:1",
+      "receiptSha256": "3bc73122c8c0543a413855482d7d46f02d5fc6b73f4b72eaa877995ce4f203e1",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4928
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S06:2",
+      "receiptSha256": "c4880f319d97ed77c2ef74bfc8ed0a8824d9ef5d026f0ffbd388b6d9115af743",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4934
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S06:3",
+      "receiptSha256": "8d6d43afd8e78d85af5e86ec0d8c5d063b2ef80d1db12a3bcac75b0e26789d77",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4919
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S07:1",
+      "receiptSha256": "b2e8b0f5a6574737de48cafa61fc183dabddb3710d2061b8b65c9919224cf2ba",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4909
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S07:2",
+      "receiptSha256": "e03d745bdae162f2d3df6d394bc0f30a5b3e696065982e3896c51ce2d6f9dd39",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4909
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S07:3",
+      "receiptSha256": "6738cac34a8eb90d9ecc2bc8d721b55463503411b5e30156867c1398bbb4e3af",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4924
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S08:1",
+      "receiptSha256": "8d30d43bfb33b45f02c0f6b41290b23d676b45899e57fdaf3ec8085e2d099637",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4963
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S08:2",
+      "receiptSha256": "9efcad3d0dbb18b86cafe89ceaa2175d8ba342ee2e4c1def8c5fb9068dfaa633",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4955
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S08:3",
+      "receiptSha256": "a5a9dbb8595673dabe70d4272c8915f6bf2d58f1b6c3ce4c7b4ccc726cee3135",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4942
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S09:1",
+      "receiptSha256": "421d1bbb5aa329db9789c89ee2fcc998c7d71f00b4afbf0b7b0aea8a34aa7215",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4925
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S09:2",
+      "receiptSha256": "8e5a5ab909a939f0655972233826514be01200b9c1ab1de83cb5ad09c9c61935",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4907
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S09:3",
+      "receiptSha256": "29e0e5e13c49b95cde971557b4f5c1e9ab6e04ec5a96f524efce7f8501522757",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4907
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S10:1",
+      "receiptSha256": "0cc20ef460af7d6e5c9353e64f2ad5b89f17d255b0576e16994dcd75845dd47e",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4908
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S10:2",
+      "receiptSha256": "d5c9fe6d7019765f080be860a08ed40a6dc9546274b16e474e252521aaa72bd1",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4908
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S10:3",
+      "receiptSha256": "14eb024f2dec4f1313211ce93ddc6294a280c9e117e8e62fe1d155f586acd821",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4908
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S11:1",
+      "receiptSha256": "2d948a52d3c926acecdeb5596151de95e2e511e7b0b36715ca4ee3a4e5ee64d3",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4907
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S11:2",
+      "receiptSha256": "98047d71567abb97f1d7c250ef393b169c952bb02bf20c37975d561e4feb1207",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4921
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S11:3",
+      "receiptSha256": "32961e0478f9546f573305ca11ea8ea459d423d1f9244a5bb0064e441b3c3604",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4907
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S12:1",
+      "receiptSha256": "b4c13415e1adfd8a9409ee506822f4c331cc4c67c12f27dc3f4109d8484abc02",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4920
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S12:2",
+      "receiptSha256": "23b1e6b9eb03d9fe840270a9b96d55d74451e876b289d19843c08065b7801355",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4920
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S12:3",
+      "receiptSha256": "2e1eea9b011fdbcfe9a1f1c279622a345b1ad802edaa3402adef823ded17c399",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4933
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S13:1",
+      "receiptSha256": "cdbd3f31e93b03ec926a506d164c95c70c2aa2ed16b245657195ca55087f41c7",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4921
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S13:2",
+      "receiptSha256": "5f9d10fef03f4faed845a5dddb70c7f0a0c132ef8204902036343aa0fad4cd1a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4902
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S13:3",
+      "receiptSha256": "8a6f0ba3db9c8c4327206bba2f336e6f0351c5ea38c66039d60d53179c77db1a",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4930
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S14:1",
+      "receiptSha256": "eb4e35beaddf68e9cb8808f216109dca60cf47f75910df3aa409a92a35d78720",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4905
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S14:2",
+      "receiptSha256": "0a8bc33d5c5986acda37fa088e5dcca1787f9f647ba8f7ec04e744745b731470",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4969
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S14:3",
+      "receiptSha256": "78c447b26cc61b0038ad21e40c8fe0939c3e7dfcfad92cf40c1788b4f5c78efa",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4903
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S15:1",
+      "receiptSha256": "0e2d80de450138e0943782dd0c7ca2fc72d889f0557d43e45f98ced4424467ae",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4893
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S15:2",
+      "receiptSha256": "e6dbc4c3bd69acb2ebdc097632ba80e4cc859db9d77259de5f9bee35669fa520",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4893
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S15:3",
+      "receiptSha256": "259eab92ce0047d65452eb3e175eb97ec21d92f43898897b8c339aa8d6950f15",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4893
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S16:1",
+      "receiptSha256": "6ee91c62bf3c8079b2785e76bf55a00ad1b1587aaeb517cc2b7fafe7bb1e665d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4893
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S16:2",
+      "receiptSha256": "e844ab33d1378d0a48a76dbf4c55d3fdf5f027dfeb9b26afd24cf83c5ea1cb44",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4904
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S16:3",
+      "receiptSha256": "dfd6fa3d3923e4dd7dd666af4d2262094b80abd3778656e964689ee3718a93ee",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4893
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S17:1",
+      "receiptSha256": "c4c6d27d685c271387d76bf04d70e7f58265e1839f5c504e638b69c1207a847c",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4893
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S17:2",
+      "receiptSha256": "f14ab8b44d4cd75dccd8576612b14540c5ba9b7c351727174aea229d6de6ff18",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4901
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S17:3",
+      "receiptSha256": "6398940cf270a3a52c13b66cbeae03749227765fc8e981780562996e1dafb9b8",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4907
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S18:1",
+      "receiptSha256": "ea28decb1f51f83fda124b7178f595aba7f005dd85c30d203fb949867adb8157",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4922
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S18:2",
+      "receiptSha256": "f22ccd6c107b29411030676fe678d829bb6273bb7c1086328217959993e31b46",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4922
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S18:3",
+      "receiptSha256": "5c13b6210b89a9eef5d755779edaf42a32c4048b70cdf7ff8fec2619ea0a17ac",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4943
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S19:1",
+      "receiptSha256": "27173f8b20d800e448c0bd7509a318f23a9d9278590bc89ace5b591a2648fc55",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4970
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S19:2",
+      "receiptSha256": "f507269ef3b1dd231952d27129cc98e0aa3a5f0f796e758f436739c3c17dabf5",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4967
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S19:3",
+      "receiptSha256": "e6900497c3513d5632ed022cee425f645ee7b28d12178104515e56e89f40c373",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4947
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S20:1",
+      "receiptSha256": "c1430c9d405fc11789868bdc81bee51d9a7eab556869caff0b8f53ccd5e7c762",
+      "runnerHash": "2d75226908a79370f72c7cdc9bf8fff349edd5cee56022f948378ca2e59de321",
+      "exposureMicroUsd": 4921
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S20:2",
+      "receiptSha256": "2cc88b923b556ecfbb8a37d47ec04c3c8a1667aa84e4ef52eef44567408c568d",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4921
+    },
+    {
+      "key": "speech:openai-transcribe-luna:S20:3",
+      "receiptSha256": "e8650f7c1bb22f66da1f998218234f0251d825cb531c11383e6701441a648821",
+      "runnerHash": "5b2a794afbdcfc0149ed2bfadc6581b1d55c7ea088f8412d59b6a468e6dd13d0",
+      "exposureMicroUsd": 4938
+    }
+  ]
+}
