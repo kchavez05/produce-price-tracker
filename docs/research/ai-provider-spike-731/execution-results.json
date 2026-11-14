@@ -1,0 +1,1058 @@
+{
+  "issue": 731,
+  "generatedAt": "2026-11-14T02:03:22.797150+00:00",
+  "observedAttempts": 710,
+  "plannedAttempts": 720,
+  "notRun": 10,
+  "conservativeExposureUsd": 3.836903,
+  "ledgerSha256": "0e1ff0610725d7f0c85072209f27e064e44ffce6f2f1bb85f6b2d49a1537a34c",
+  "packetHash": "ba8771e9e67cff8070b41db691a0ab0806b52998d1378e6e8a5fcb5ccf5b8aa1",
+  "coverageAmendment": {
+    "target": "google-transcribe-luna",
+    "source": "https://github.com/kchavez05/produce-price-tracker/issues/731#issuecomment-6869349835",
+    "reason": "persistent_http_429"
+  },
+  "targets": [
+    {
+      "target": "openai-luna",
+      "task": "recipe",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 120,
+      "observedAttempts": 120,
+      "schemaValid": 120,
+      "firstAttemptSchemaRate": 1,
+      "observedP95Ms": null,
+      "p95IncludesFailures": true,
+      "humanReviewPending": true,
+      "decisionComplete": false,
+      "notRun": 0,
+      "reviewed": 0,
+      "rulePass": null,
+      "critical": null,
+      "meanCulinaryIncludingFailures": null,
+      "gatesPass": false,
+      "humanReviewMetricsStatus": "unreviewed; null is not a measured zero"
+    },
+    {
+      "target": "google-lite",
+      "task": "recipe",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 120,
+      "observedAttempts": 120,
+      "schemaValid": 108,
+      "firstAttemptSchemaRate": 0.9,
+      "observedP95Ms": null,
+      "p95IncludesFailures": true,
+      "humanReviewPending": true,
+      "decisionComplete": false,
+      "notRun": 0,
+      "reviewed": 0,
+      "rulePass": null,
+      "critical": null,
+      "meanCulinaryIncludingFailures": null,
+      "gatesPass": false,
+      "humanReviewMetricsStatus": "unreviewed; null is not a measured zero"
+    },
+    {
+      "target": "openai-terra-control",
+      "task": "recipe",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 120,
+      "observedAttempts": 120,
+      "schemaValid": 119,
+      "firstAttemptSchemaRate": 0.9916666666666667,
+      "observedP95Ms": 21417.00675,
+      "p95IncludesFailures": true,
+      "humanReviewPending": true,
+      "decisionComplete": false,
+      "notRun": 0,
+      "reviewed": 0,
+      "rulePass": null,
+      "critical": null,
+      "meanCulinaryIncludingFailures": null,
+      "gatesPass": false,
+      "humanReviewMetricsStatus": "unreviewed; null is not a measured zero"
+    },
+    {
+      "target": "google-transcribe-luna",
+      "task": "speech",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 60,
+      "observedAttempts": 50,
+      "schemaValid": 26,
+      "firstAttemptSchemaRate": 0.43333333333333335,
+      "observedP95Ms": null,
+      "p95IncludesFailures": true,
+      "humanReviewPending": false,
+      "decisionComplete": false,
+      "notRun": 10,
+      "collectionDeferred": true,
+      "tp": 39,
+      "fp": 0,
+      "fn": 36,
+      "precision": 1,
+      "recall": 0.52,
+      "quantityCorrect": 10,
+      "quantityTotal": 21,
+      "quantityAccuracy": 0.47619047619047616,
+      "exactClips": 25,
+      "critical": 0,
+      "gatesPass": false
+    },
+    {
+      "target": "openai-transcribe-luna",
+      "task": "speech",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 60,
+      "observedAttempts": 60,
+      "schemaValid": 60,
+      "firstAttemptSchemaRate": 1,
+      "observedP95Ms": 4316.970792,
+      "p95IncludesFailures": true,
+      "humanReviewPending": false,
+      "decisionComplete": true,
+      "notRun": 0,
+      "collectionDeferred": false,
+      "tp": 72,
+      "fp": 0,
+      "fn": 3,
+      "precision": 1,
+      "recall": 0.96,
+      "quantityCorrect": 21,
+      "quantityTotal": 21,
+      "quantityAccuracy": 1,
+      "exactClips": 57,
+      "critical": 0,
+      "gatesPass": true
+    },
+    {
+      "target": "claude-haiku",
+      "task": "recipe",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 120,
+      "observedAttempts": 120,
+      "schemaValid": 117,
+      "firstAttemptSchemaRate": 0.975,
+      "observedP95Ms": null,
+      "p95IncludesFailures": true,
+      "humanReviewPending": true,
+      "decisionComplete": false,
+      "notRun": 0,
+      "reviewed": 0,
+      "rulePass": null,
+      "critical": null,
+      "meanCulinaryIncludingFailures": null,
+      "gatesPass": false,
+      "humanReviewMetricsStatus": "unreviewed; null is not a measured zero"
+    },
+    {
+      "target": "deepgram-luna",
+      "task": "speech",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 60,
+      "observedAttempts": 60,
+      "schemaValid": 60,
+      "firstAttemptSchemaRate": 1,
+      "observedP95Ms": 3449.0076249999693,
+      "p95IncludesFailures": true,
+      "humanReviewPending": false,
+      "decisionComplete": true,
+      "notRun": 0,
+      "collectionDeferred": false,
+      "tp": 72,
+      "fp": 0,
+      "fn": 3,
+      "precision": 1,
+      "recall": 0.96,
+      "quantityCorrect": 18,
+      "quantityTotal": 21,
+      "quantityAccuracy": 0.8571428571428571,
+      "exactClips": 57,
+      "critical": 0,
+      "gatesPass": false
+    },
+    {
+      "target": "google-direct",
+      "task": "speech",
+      "evaluationStatus": "observed",
+      "expectedAttempts": 60,
+      "observedAttempts": 60,
+      "schemaValid": 59,
+      "firstAttemptSchemaRate": 0.9833333333333333,
+      "observedP95Ms": null,
+      "p95IncludesFailures": true,
+      "humanReviewPending": false,
+      "decisionComplete": true,
+      "notRun": 0,
+      "collectionDeferred": false,
+      "tp": 66,
+      "fp": 3,
+      "fn": 9,
+      "precision": 0.9565217391304348,
+      "recall": 0.88,
+      "quantityCorrect": 19,
+      "quantityTotal": 21,
+      "quantityAccuracy": 0.9047619047619048,
+      "exactClips": 53,
+      "critical": 0,
+      "gatesPass": false
+    }
+  ],
+  "recipeAutomaticChecks": [
+    {
+      "target": "openai-luna",
+      "automaticRulePass": 77,
+      "automaticErrors": {
+        "unknown_catalog_id": 43
+      },
+      "automaticCriticalCases": 0,
+      "humanReviewPending": true
+    },
+    {
+      "target": "google-lite",
+      "automaticRulePass": 96,
+      "automaticErrors": {
+        "$: type": 12,
+        "required_food_or_form": 3,
+        "unknown_catalog_id": 6,
+        "oracle_status_or_count": 3
+      },
+      "automaticCriticalCases": 0,
+      "humanReviewPending": true
+    },
+    {
+      "target": "openai-terra-control",
+      "automaticRulePass": 119,
+      "automaticErrors": {
+        "$: type": 1
+      },
+      "automaticCriticalCases": 0,
+      "humanReviewPending": true
+    },
+    {
+      "target": "claude-haiku",
+      "automaticRulePass": 102,
+      "automaticErrors": {
+        "unknown_catalog_id": 13,
+        "oracle_status_or_count": 2,
+        "$.dishes[2].ingredients[10].quantity: exclusiveMinimum": 2,
+        "$.dishes[1].ingredients[12].quantity: exclusiveMinimum": 1
+      },
+      "automaticCriticalCases": 0,
+      "humanReviewPending": true
+    }
+  ],
+  "failureKinds": {
+    "openai-luna": {},
+    "google-lite": {
+      "503": 11
+    },
+    "openai-terra-control": {
+      "429": 1
+    },
+    "google-transcribe-luna": {
+      "request_or_output_error": 2,
+      "429": 22
+    },
+    "openai-transcribe-luna": {},
+    "claude-haiku": {},
+    "deepgram-luna": {},
+    "google-direct": {
+      "503": 1
+    }
+  },
+  "recipeReferenceCostUsd": {
+    "openai-luna": 1.3137583333333334,
+    "google-lite": 6.69285,
+    "openai-terra-control": 11.1191,
+    "claude-haiku": 2.4300833333333336
+  },
+  "speechExtractionMeanPerObservedClipUsd": {
+    "openai-transcribe-luna": 0.00042025,
+    "deepgram-luna": 0.0004194166666666667
+  },
+  "projectionMethod": "1000 recipe attempts use ledger exposure/120 *1000, including failed charges at full retained bounds. Speech1000 minutes means60000/meanClipSeconds requests. DG uses conservative0.01 USD/min ceiling and documented per-second/no-block billing plus measured mean extractor cost. OpenAI duration scenario uses0.0045 USD/min plus extractor; separate whole-minute-per-clip retained-bound scenario because account rounding is unverified. Google direct uses full0.0041 USD/request reservation bound up to30sec; Google Transcribe partial/unranked has no projection. Same synthetic item/detail distribution assumed across clip lengths; output/input variability and production accounts remain unverified. Additional attempts multiply entire workload cost by1.05/1.10; no retries were executed. These are projections, not spend authorization or final eligible provider pairs.",
+  "projections": [
+    {
+      "recipe": "openai-luna",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 15.033000000000001,
+      "combinedUsd": 16.346758333333334,
+      "additionalAttempts": {
+        "0": 16.346758333333334,
+        "0.05": 17.16409625,
+        "0.1": 17.98143416666667
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 9.543,
+      "combinedUsd": 10.856758333333332,
+      "additionalAttempts": {
+        "0": 10.856758333333332,
+        "0.05": 11.399596249999998,
+        "0.1": 11.942434166666667
+      },
+      "openaiWholeMinuteBoundUsd": 60.356758333333325,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "google-direct",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 49.2,
+      "combinedUsd": 50.513758333333335,
+      "additionalAttempts": {
+        "0": 50.513758333333335,
+        "0.05": 53.039446250000005,
+        "0.1": 55.565134166666674
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": false
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 15.033000000000001,
+      "combinedUsd": 21.72585,
+      "additionalAttempts": {
+        "0": 21.72585,
+        "0.05": 22.812142500000004,
+        "0.1": 23.898435000000003
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 9.543,
+      "combinedUsd": 16.23585,
+      "additionalAttempts": {
+        "0": 16.23585,
+        "0.05": 17.0476425,
+        "0.1": 17.859435
+      },
+      "openaiWholeMinuteBoundUsd": 65.73585,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "google-direct",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 49.2,
+      "combinedUsd": 55.89285,
+      "additionalAttempts": {
+        "0": 55.89285,
+        "0.05": 58.687492500000005,
+        "0.1": 61.48213500000001
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": false
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 15.033000000000001,
+      "combinedUsd": 26.1521,
+      "additionalAttempts": {
+        "0": 26.1521,
+        "0.05": 27.459705000000003,
+        "0.1": 28.767310000000002
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": false
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 9.543,
+      "combinedUsd": 20.6621,
+      "additionalAttempts": {
+        "0": 20.6621,
+        "0.05": 21.695205,
+        "0.1": 22.72831
+      },
+      "openaiWholeMinuteBoundUsd": 70.1621,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "google-direct",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 49.2,
+      "combinedUsd": 60.319100000000006,
+      "additionalAttempts": {
+        "0": 60.319100000000006,
+        "0.05": 63.33505500000001,
+        "0.1": 66.35101000000002
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": false
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 15.033000000000001,
+      "combinedUsd": 17.463083333333334,
+      "additionalAttempts": {
+        "0": 17.463083333333334,
+        "0.05": 18.3362375,
+        "0.1": 19.20939166666667
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 9.543,
+      "combinedUsd": 11.973083333333333,
+      "additionalAttempts": {
+        "0": 11.973083333333333,
+        "0.05": 12.571737500000001,
+        "0.1": 13.170391666666667
+      },
+      "openaiWholeMinuteBoundUsd": 61.47308333333333,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "google-direct",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 49.2,
+      "combinedUsd": 51.63008333333334,
+      "additionalAttempts": {
+        "0": 51.63008333333334,
+        "0.05": 54.21158750000001,
+        "0.1": 56.793091666666676
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": false
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 5,
+      "speechRequests": 12000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 11.677666666666667,
+      "combinedUsd": 12.991425,
+      "additionalAttempts": {
+        "0": 12.991425,
+        "0.05": 13.64099625,
+        "0.1": 14.2905675
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 6.181,
+      "combinedUsd": 7.494758333333333,
+      "additionalAttempts": {
+        "0": 7.494758333333333,
+        "0.05": 7.86949625,
+        "0.1": 8.244234166666667
+      },
+      "openaiWholeMinuteBoundUsd": 20.99475833333333,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "google-direct",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 16.400000000000002,
+      "combinedUsd": 17.713758333333335,
+      "additionalAttempts": {
+        "0": 17.713758333333335,
+        "0.05": 18.599446250000003,
+        "0.1": 19.48513416666667
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 11.677666666666667,
+      "combinedUsd": 18.370516666666667,
+      "additionalAttempts": {
+        "0": 18.370516666666667,
+        "0.05": 19.2890425,
+        "0.1": 20.207568333333334
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 6.181,
+      "combinedUsd": 12.873850000000001,
+      "additionalAttempts": {
+        "0": 12.873850000000001,
+        "0.05": 13.517542500000001,
+        "0.1": 14.161235000000001
+      },
+      "openaiWholeMinuteBoundUsd": 26.373849999999997,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "google-direct",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 16.400000000000002,
+      "combinedUsd": 23.092850000000002,
+      "additionalAttempts": {
+        "0": 23.092850000000002,
+        "0.05": 24.247492500000003,
+        "0.1": 25.402135000000005
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 11.677666666666667,
+      "combinedUsd": 22.796766666666667,
+      "additionalAttempts": {
+        "0": 22.796766666666667,
+        "0.05": 23.936605,
+        "0.1": 25.076443333333334
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 6.181,
+      "combinedUsd": 17.3001,
+      "additionalAttempts": {
+        "0": 17.3001,
+        "0.05": 18.165105,
+        "0.1": 19.03011
+      },
+      "openaiWholeMinuteBoundUsd": 30.800099999999997,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "google-direct",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 16.400000000000002,
+      "combinedUsd": 27.5191,
+      "additionalAttempts": {
+        "0": 27.5191,
+        "0.05": 28.895055000000003,
+        "0.1": 30.271010000000004
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": false
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 11.677666666666667,
+      "combinedUsd": 14.107750000000001,
+      "additionalAttempts": {
+        "0": 14.107750000000001,
+        "0.05": 14.813137500000002,
+        "0.1": 15.518525000000002
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 6.181,
+      "combinedUsd": 8.611083333333333,
+      "additionalAttempts": {
+        "0": 8.611083333333333,
+        "0.05": 9.0416375,
+        "0.1": 9.472191666666667
+      },
+      "openaiWholeMinuteBoundUsd": 22.11108333333333,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "google-direct",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 16.400000000000002,
+      "combinedUsd": 18.830083333333334,
+      "additionalAttempts": {
+        "0": 18.830083333333334,
+        "0.05": 19.771587500000003,
+        "0.1": 20.71309166666667
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 15,
+      "speechRequests": 4000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 10.838833333333334,
+      "combinedUsd": 12.152591666666666,
+      "additionalAttempts": {
+        "0": 12.152591666666666,
+        "0.05": 12.76022125,
+        "0.1": 13.367850833333334
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 5.3405000000000005,
+      "combinedUsd": 6.654258333333334,
+      "additionalAttempts": {
+        "0": 6.654258333333334,
+        "0.05": 6.986971250000001,
+        "0.1": 7.319684166666668
+      },
+      "openaiWholeMinuteBoundUsd": 11.154258333333331,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "google-direct",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": 8.200000000000001,
+      "combinedUsd": 9.513758333333335,
+      "additionalAttempts": {
+        "0": 9.513758333333335,
+        "0.05": 9.989446250000002,
+        "0.1": 10.465134166666669
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-luna",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 1.3137583333333334,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 10.838833333333334,
+      "combinedUsd": 17.531683333333334,
+      "additionalAttempts": {
+        "0": 17.531683333333334,
+        "0.05": 18.4082675,
+        "0.1": 19.28485166666667
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 5.3405000000000005,
+      "combinedUsd": 12.03335,
+      "additionalAttempts": {
+        "0": 12.03335,
+        "0.05": 12.635017500000002,
+        "0.1": 13.236685000000001
+      },
+      "openaiWholeMinuteBoundUsd": 16.53335,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "google-direct",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": 8.200000000000001,
+      "combinedUsd": 14.892850000000001,
+      "additionalAttempts": {
+        "0": 14.892850000000001,
+        "0.05": 15.637492500000002,
+        "0.1": 16.382135
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "google-lite",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 6.69285,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 10.838833333333334,
+      "combinedUsd": 21.957933333333333,
+      "additionalAttempts": {
+        "0": 21.957933333333333,
+        "0.05": 23.05583,
+        "0.1": 24.153726666666667
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 5.3405000000000005,
+      "combinedUsd": 16.459600000000002,
+      "additionalAttempts": {
+        "0": 16.459600000000002,
+        "0.05": 17.282580000000003,
+        "0.1": 18.105560000000004
+      },
+      "openaiWholeMinuteBoundUsd": 20.9596,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "google-direct",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": 8.200000000000001,
+      "combinedUsd": 19.3191,
+      "additionalAttempts": {
+        "0": 19.3191,
+        "0.05": 20.285055,
+        "0.1": 21.25101
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "openai-terra-control",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 11.1191,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "deepgram-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 10.838833333333334,
+      "combinedUsd": 13.268916666666668,
+      "additionalAttempts": {
+        "0": 13.268916666666668,
+        "0.05": 13.932362500000002,
+        "0.1": 14.595808333333336
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "openai-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 5.3405000000000005,
+      "combinedUsd": 7.7705833333333345,
+      "additionalAttempts": {
+        "0": 7.7705833333333345,
+        "0.05": 8.1591125,
+        "0.1": 8.547641666666669
+      },
+      "openaiWholeMinuteBoundUsd": 12.270583333333333,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "google-direct",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": 8.200000000000001,
+      "combinedUsd": 10.630083333333335,
+      "additionalAttempts": {
+        "0": 10.630083333333335,
+        "0.05": 11.161587500000003,
+        "0.1": 11.69309166666667
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": true
+    },
+    {
+      "recipe": "claude-haiku",
+      "speech": "google-transcribe-luna",
+      "meanClipSeconds": 30,
+      "speechRequests": 2000.0,
+      "recipeCostUsd": 2.4300833333333336,
+      "speechCostUsd": null,
+      "combinedUsd": null,
+      "additionalAttempts": {
+        "0": null,
+        "0.05": null,
+        "0.1": null
+      },
+      "openaiWholeMinuteBoundUsd": null,
+      "costOnlyWithin25": null
+    }
+  ],
+  "sources": [
+    "https://deepgram.com/pricing",
+    "https://developers.deepgram.com/docs/the-deepgram-model-improvement-partnership-program",
+    "https://developers.openai.com/api/docs/models/gpt-transcribe"
+  ],
+  "decisionComplete": false,
+  "winner": null,
+  "pending": [
+    "Blinded human recipe rules/dietary and culinary grading",
+    "Explicit mixed-runner comparability assessment",
+    "Account invoice/rounding and opt-out rate reconciliation",
+    "Owner acceptance of provider decision; v1.7 scope remains separate"
+  ]
+}

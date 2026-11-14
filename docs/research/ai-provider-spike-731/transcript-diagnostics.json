@@ -1,0 +1,41 @@
+{
+  "issue": 731,
+  "normalization": "Unicode NFKC + casefold + word tokens; ignore punctuation, preserve number spellings and contractions. No semantic repair.",
+  "limits": "Diagnostic only; primary pantry oracle metrics are separate. No invented transcript for failed/historical rows. Noise/silence without spoken reference and deliberately unintelligible cases are outside aggregate WER. Report coverage beside WER.",
+  "directAudio": "No transcript stage; WER not applicable.",
+  "targets": [
+    {
+      "target": "google-transcribe-luna",
+      "plannedAttempts": 60,
+      "observedReceipts": 50,
+      "transcriptAvailable": 25,
+      "diagnosticCases": 25,
+      "referenceWordsScored": 199,
+      "wordErrors": 19,
+      "wer": 0.09547738693467336,
+      "emptyReferenceInsertions": 0
+    },
+    {
+      "target": "openai-transcribe-luna",
+      "plannedAttempts": 60,
+      "observedReceipts": 60,
+      "transcriptAvailable": 60,
+      "diagnosticCases": 54,
+      "referenceWordsScored": 417,
+      "wordErrors": 9,
+      "wer": 0.02158273381294964,
+      "emptyReferenceInsertions": 0
+    },
+    {
+      "target": "deepgram-luna",
+      "plannedAttempts": 60,
+      "observedReceipts": 60,
+      "transcriptAvailable": 60,
+      "diagnosticCases": 54,
+      "referenceWordsScored": 417,
+      "wordErrors": 12,
+      "wer": 0.02877697841726619,
+      "emptyReferenceInsertions": 0
+    }
+  ]
+}
