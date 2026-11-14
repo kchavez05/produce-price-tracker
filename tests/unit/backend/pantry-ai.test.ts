@@ -22,7 +22,7 @@ beforeEach(() => {
   mocks.build.mockResolvedValue({ commodities: [commodity], recommendedTrio: [createMockDish()] });
   mocks.account.mockRejectedValue(new AiAccessError('AUTH_REQUIRED'));
   mocks.inventory.mockResolvedValue({profile:{id:'00000000-0000-4000-8000-000000000001',isCloudBacked:true},savedRecipes:[]});
-  mocks.reserve.mockResolvedValue({reservationId:'00000000-0000-4000-8000-000000000011',remainingActions:4});
+  mocks.reserve.mockResolvedValue({reservationId:'00000000-0000-4000-8000-000000000011',remainingActions:4,remainingDailyMicroUsd:500});
   mocks.complete.mockResolvedValue(true);
 });
 afterEach(() => vi.unstubAllEnvs());

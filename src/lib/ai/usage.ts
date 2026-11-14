@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { AiAccessError, type AiAccessCode } from './access-errors';
 
 export interface AiUsageBound { adapterKey: string; maximumCostMicroUsd: number }
-export interface AiUsageReservation { reservationId: string; remainingActions: number }
+export interface AiUsageReservation { reservationId: string; remainingActions?: number; remainingDailyMicroUsd: number }
 interface UsageRpc { rpc(name: string, params: Record<string,unknown>): PromiseLike<{data:unknown;error:unknown}> }
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function usageClient(): UsageRpc | null {
@@ -30,9 +30,10 @@ export async function reserveAiUsage(accountId: string, requestId: string, actio
       const retry=typeof result.retryAfterSeconds==='number' && Number.isSafeInteger(result.retryAfterSeconds) && result.retryAfterSeconds>0 && result.retryAfterSeconds<=2_678_400 ? result.retryAfterSeconds : undefined;
       throw new AiAccessError(code ?? 'USAGE_UNAVAILABLE',retry);
     }
-    if (typeof result.reservationId!=='string' || !UUID.test(result.reservationId) || typeof result.remainingActions!=='number' ||
-      !Number.isSafeInteger(result.remainingActions) || result.remainingActions<0) throw new AiAccessError('USAGE_UNAVAILABLE');
-    return {reservationId:result.reservationId,remainingActions:result.remainingActions};
+    if (typeof result.reservationId!=='string' || !UUID.test(result.reservationId) ||
+      (result.remainingActions!==null && (typeof result.remainingActions!=='number' || !Number.isSafeInteger(result.remainingActions) || result.remainingActions<0)) ||
+      typeof result.remainingDailyMicroUsd!=='number' || !Number.isSafeInteger(result.remainingDailyMicroUsd) || result.remainingDailyMicroUsd<0) throw new AiAccessError('USAGE_UNAVAILABLE');
+    return {reservationId:result.reservationId,...(typeof result.remainingActions==='number'?{remainingActions:result.remainingActions}:{}),remainingDailyMicroUsd:result.remainingDailyMicroUsd};
   } catch (error: unknown) {
     if (error instanceof AiAccessError) throw error;
     throw new AiAccessError('USAGE_UNAVAILABLE');

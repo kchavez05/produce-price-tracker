@@ -1,6 +1,7 @@
 'use client';
 
 import BarcodeEntry from '@/components/BarcodeEntry';
+import SpeechPantryEntry from '@/components/SpeechPantryEntry';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { cookingCatalogVariants } from '@/lib/pantry/catalog-search';
 import { normalizePantryName, pantryIdentity, searchPantryCatalog, validatePantryEntry, cookingIngredients, activeCookingIngredients, cookingCompatibility, pantryCatalog } from '@/lib/pantry/model';
@@ -8,6 +9,8 @@ import { PantryEntry, PantryEntryInput, PantryMutation, PantryMutationResult, Pa
 
 interface Props {
   owner?: PantryOwner | null;
+  speechConfigured?: boolean;
+  onAiSignIn?: () => void;
   barcodeEnabled?: boolean;
   cameraEnabled?: boolean;
   entries: readonly PantryEntry[];
@@ -31,6 +34,8 @@ interface Props {
 const button = 'rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50';
 
 export default function VirtualPantry(props: Props) {
+  const [speechOpen, setSpeechOpen] = useState(false);
+  const speechTrigger = useRef<HTMLButtonElement>(null);
   const [barcodeOpen, setBarcodeOpen] = useState(false);
   const barcodeTrigger = useRef<HTMLButtonElement>(null);
   const [query, setQuery] = useState('');
@@ -89,6 +94,14 @@ export default function VirtualPantry(props: Props) {
       <div><h2 ref={heading} tabIndex={-1} id="virtual-pantry-title" className="text-lg font-bold">Virtual Pantry</h2>
         <p className="mt-1 text-sm">Do I have this? Mark ingredients Yes or No. Recipes and purchase suggestions leave your inventory unchanged.</p></div>
       <button className={button} onClick={props.onClose} aria-label="Close Virtual Pantry">Close</button>
+    </div>
+    <div className="mt-3">
+      <button ref={speechTrigger} type="button" className={button} disabled={props.status==='Loading'} onClick={()=>{
+        if(!props.owner?.startsWith('account:')){props.onAiSignIn?.();return;}setSpeechOpen(true);
+      }}>{props.owner?.startsWith('account:')?'Speak pantry ingredients':'Sign in for speech entry'}</button>
+      {speechOpen && props.owner?.startsWith('account:') ? <SpeechPantryEntry key={props.owner} owner={props.owner}
+        configured={props.speechConfigured===true} entries={props.entries} acceptedCatalogIds={props.acceptedCatalogIds} onSave={props.onSave}
+        onClose={()=>{setSpeechOpen(false);speechTrigger.current?.focus();}}/>:null}
     </div>
     {props.barcodeEnabled && props.owner ? <div className="mt-3">
       <button ref={barcodeTrigger} type="button" className={button} onClick={() => setBarcodeOpen(true)} disabled={props.status === 'Loading'}>Enter barcode</button>

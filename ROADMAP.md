@@ -151,7 +151,7 @@ flowchart LR
 
 ## Planned v1.7 — Sign in to Access AI Features
 
-**Build started:** [Release tracker #748](https://github.com/kchavez05/produce-price-tracker/issues/748), milestone v1.7.0, and the [implementation specification](docs/specs/v1.7-ai-access.md) track provider-independent work authorized November 14. [Readiness #730](https://github.com/kchavez05/produce-price-tracker/issues/730) retains scope/policy questions; [provider comparison #731](https://github.com/kchavez05/produce-price-tracker/issues/731) has completed collection and is in human review. The foundation can proceed while the final model, numeric launch funding/limits and speech placement remain open activation/release decisions.
+**Build started:** [Release tracker #748](https://github.com/kchavez05/produce-price-tracker/issues/748), milestone v1.7.0, and the [implementation specification](docs/specs/v1.7-ai-access.md) track provider-independent work authorized November 14. [Readiness #730](https://github.com/kchavez05/produce-price-tracker/issues/730) retains scope/policy questions; [provider comparison #731](https://github.com/kchavez05/produce-price-tracker/issues/731) has completed collection and is in human review. The foundation can proceed while the final model, numeric launch funding/limits remain open activation/release decisions. Speech-to-pantry is included by owner decision and tracked in #753.
 
 **Goal:** Make app-funded AI assistance standard for all signed-in users, replacing the bring-your-own API key experience. Initial focus: recipe remix and speech-to-inventory (scheduled after pantry catalog expansion).
 
@@ -161,7 +161,7 @@ flowchart LR
 - Preserve manual pantry entry and deterministic recipe suggestions for guests and when AI is unavailable.
 - Plan for a future paid entitlement model, but leave billing, subscriptions, and a paywall out of v1.7.
 
-**Sequencing:** v1.6.1 now prioritizes pantry catalog expansion. Speech follows that work with its release number unassigned; barcode scanning remains separately planned for v1.6.2. Define speech's interim access and funding behavior in its own spec; v1.7 standardizes access across AI features. This roadmap entry does not expand the approved v1.6.0 scope.
+**Sequencing:** v1.6.1 now prioritizes pantry catalog expansion. Speech is committed to v1.7 under [#753](https://github.com/kchavez05/produce-price-tracker/issues/753) and its [capture/review specification](docs/specs/v1.7-speech-pantry.md), using the shared sign-in and usage controls. Barcode scanning remains separate v1.6.2 work. This roadmap entry does not expand the approved v1.6.0 scope.
 
 ---
 

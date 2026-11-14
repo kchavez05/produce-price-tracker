@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     const reservation=await reserveAiUsage(accountId,body.requestId,'recipe',provider.usageBound);
     try {
       const dishes=await generateMealPlan(provider,{...body,dashboard,onHandIngredientIds},{signal:request.signal});
-      return NextResponse.json({usedAi:true,message:'Generated a custom 3-dish meal-prep plan!',dishes,remainingAiActions:reservation.remainingActions});
+      return NextResponse.json({usedAi:true,message:'Generated a custom 3-dish meal-prep plan!',dishes,remainingAiActions:reservation.remainingActions,remainingDailyMicroUsd:reservation.remainingDailyMicroUsd});
     } finally { await completeAiUsage(accountId,reservation.reservationId); }
   } catch(error:unknown) {
     if(error instanceof AiAccessError)return NextResponse.json({usedAi:false,code:error.code,error:error.message},

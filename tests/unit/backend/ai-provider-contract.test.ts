@@ -34,7 +34,7 @@ describe('provider-independent recipe contract', () => {
     expect(result[0].matchedIngredients[0]).not.toHaveProperty('optional');
   });
   it.each(['not json', '{}', '[]', JSON.stringify(plan().slice(0, 2)), ' '.repeat(256001)])('rejects incomplete, malformed or oversized output', text => {
-    expect(() => parseGeneratedDishes(text, 6)).toThrow('unusable meal plan');
+    expect(() => parseGeneratedDishes(text, 6)).toThrow('unusable response');
   });
   it.each(['quantity', 'servings', 'identity', 'duplicate', 'nonfinite', 'steps'])('rejects unsafe %s rather than repairing it', kind => {
     const dishes = plan();
@@ -44,7 +44,7 @@ describe('provider-independent recipe contract', () => {
     if (kind === 'duplicate') dishes[1].title = dishes[0].title;
     if (kind === 'nonfinite') dishes[0].macrosPerServing.calories = Infinity;
     if (kind === 'steps') dishes[0].steps = [];
-    expect(() => parseGeneratedDishes(JSON.stringify(dishes), 6)).toThrow('unusable meal plan');
+    expect(() => parseGeneratedDishes(JSON.stringify(dishes), 6)).toThrow('unusable response');
   });
   it('retains explicitly unmapped ingredients as unpriced, without making up catalog IDs', async () => {
     const dishes = plan().map(dish => ({ ...dish, pantryStaples: [], pantryRequirements: [

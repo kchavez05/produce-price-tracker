@@ -525,7 +525,7 @@ export const PANTRYBOT_OPENAPI_SPEC = {
         tags: ['AI Meal Planner'],
         summary: 'Generate a custom 3-dish meal-prep plan',
         description:
-          'Uses the application-owned recipe provider contract with live sale items, dietary constraints, cookware and macro goals. The compatibility adapter currently uses Google GenAI (`gemini-2.5-flash`); final v1.7 provider selection is pending. The app validates exactly three dishes and recomputes prices/availability. Generation is bounded to 45 seconds and 6000 output tokens, with no automatic retry. Server-funded generation requires verified Supabase sign-in. A shared durable ledger admits requests by verified account and reserves a conservative cost bound before dispatch; daily actions and the global monthly budget cover recipes and speech together. Paid generation defaults disabled until policy and adapter bounds are accepted. Personal API keys are rejected, including from stale clients. The 10/minute per-process IP bucket is best-effort ingress protection only. Requests are limited to 65536 bytes. Deterministic suggestions remain available when no provider is configured.',
+          'Uses the application-owned recipe provider contract with live sale items, dietary constraints, cookware and macro goals. The compatibility adapter currently uses Google GenAI (`gemini-2.5-flash`); final v1.7 provider selection is pending. The app validates exactly three dishes and recomputes prices/availability. Generation is bounded to 45 seconds and 6000 output tokens, with no automatic retry. Server-funded generation requires verified Supabase sign-in. A shared durable ledger admits requests by verified account and reserves a conservative cost bound before dispatch; the $5/account/day and $20 shared/month reserved-exposure ceilings cover recipes and speech together (UTC). Paid generation defaults disabled until adapter bounds and hosted verification are accepted. Personal API keys are rejected, including from stale clients. The 10/minute per-process IP bucket is best-effort ingress protection only. Requests are limited to 65536 bytes. Deterministic suggestions remain available when no provider is configured.',
         operationId: 'generateAiMealPlan',
         requestBody: {
           required: true,
@@ -588,7 +588,8 @@ export const PANTRYBOT_OPENAPI_SPEC = {
                 schema: {
                   type: 'object',
                   properties: {
-                    remainingAiActions: { type: 'integer', minimum: 0, description: 'Daily account actions remaining after successful admission; present on AI success only.' },
+                    remainingDailyMicroUsd: { type: 'integer', minimum: 0, description: 'Remaining conservative daily API exposure allowance, in micro-USD; AI success only, not user billing.' },
+                    remainingAiActions: { type: 'integer', minimum: 0, description: 'Remaining optional daily count allowance when configured; omitted when no separate count cap applies.' },
                     usedAi: { type: 'boolean', example: false },
                     message: { type: 'string', example: 'AI generation is not configured. Returned standard meal-prep suggestions tailored to your preferences.' },
                     dishes: {
@@ -631,6 +632,30 @@ export const PANTRYBOT_OPENAPI_SPEC = {
               code: { type: 'string', enum: ['TIMEOUT'] },
             }, required: ['usedAi', 'error', 'code'] } } },
           },
+        },
+      },
+    },
+    '/api/ai-pantry-speech': {
+      post: {
+        tags: ['AI Meal Planner'], summary: 'Prepare a speech-to-pantry review draft', operationId: 'prepareSpeechPantryDraft',
+        description: 'Requires a freshly verified non-anonymous account. Accepts only canonical PCM16 mono 16000 Hz WAV (44-byte header, 0.25–30 seconds; maximum 960044 bytes). Header fields and actual bytes must agree. A single durable reservation covers transcription plus extraction before either stage. Shared recipe/speech ceilings: $5/account/day and $20 total/month in UTC; paid pipeline remains unconfigured pending accepted adapters. One attempt per stage, 60-second overall deadline; failure/cancellation never refunds exposure. Returns suggestions only and never mutates inventory. The user must review/edit and explicitly confirm through the existing owner-bound pantry API. Audio/transcript stay ephemeral and responses use no-store.',
+        parameters: [{ in: 'header', name: 'X-AI-Request-ID', required: false, schema: {type:'string',format:'uuid'}, description: 'Unique attempt ID. Duplicate account/request IDs are never replayed; server generates an ID if omitted.' }],
+        requestBody: { required:true, content: { 'audio/wav': {schema:{type:'string',format:'binary',maxLength:960044}} } },
+        responses: {
+          '200': {description:'Review draft; no pantry writes',content:{'application/json':{schema:{type:'object',required:['transcript','status','proposals'],properties:{
+            transcript:{type:'string',maxLength:8000},status:{type:'string',enum:['PROPOSALS','NO_ADD','UNCLEAR']},
+            remainingDailyMicroUsd:{type:'integer',minimum:0},remainingAiActions:{type:'integer',minimum:0},
+            proposals:{type:'array',maxItems:20,items:{type:'object',required:['spokenText','ingredientId','displayName','quantity','unit'],properties:{
+              spokenText:{type:'string',maxLength:240},ingredientId:{type:['string','null'],description:'Exact pantry catalog identity/form or null for explicit custom-name review'},
+              displayName:{type:'string',maxLength:120},quantity:{type:['number','null'],exclusiveMinimum:0,maximum:1000000},unit:{type:['string','null'],maxLength:40},
+            }}},
+          }}}}},
+          '400':{description:'Invalid WAV, request UUID or oversized body'},'401':{description:'Verified account required'},
+          '403':{description:'Cross-origin request rejected'},'409':{description:'Duplicate attempt, no replay'},
+          '429':{description:'Shared daily/monthly/concurrency or ingress limit; Retry-After gives a retry window'},
+          '502':{description:'Provider failure or invalid output; safe application error only'},
+          '503':{description:'Unconfigured/disabled pipeline, unavailable authentication or usage ledger; no dispatch'},
+          '504':{description:'Overall speech pipeline deadline exceeded'},'500':{description:'Safe unexpected service failure'},
         },
       },
     },
