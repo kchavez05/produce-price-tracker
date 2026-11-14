@@ -151,7 +151,7 @@ flowchart LR
 
 ## Planned v1.7 — Sign in to Access AI Features
 
-**Planning:** [Readiness #730](https://github.com/kchavez05/produce-price-tracker/issues/730) and [AI provider comparison spike #731](https://github.com/kchavez05/produce-price-tracker/issues/731). The [approved comparison packet](docs/research/ai-provider-spike-731/README.md) carries the agreed budget, fixture counts and quality gates; [execution](docs/research/ai-provider-spike-731/EXECUTION.md) and provider selection remain open.
+**Build started:** [Release tracker #748](https://github.com/kchavez05/produce-price-tracker/issues/748), milestone v1.7.0, and the [implementation specification](docs/specs/v1.7-ai-access.md) track provider-independent work authorized November 14. [Readiness #730](https://github.com/kchavez05/produce-price-tracker/issues/730) retains scope/policy questions; [provider comparison #731](https://github.com/kchavez05/produce-price-tracker/issues/731) has completed collection and is in human review. The foundation can proceed while the final model, numeric launch funding/limits and speech placement remain open activation/release decisions.
 
 **Goal:** Make app-funded AI assistance standard for all signed-in users, replacing the bring-your-own API key experience. Initial focus: recipe remix and speech-to-inventory (scheduled after pantry catalog expansion).
 

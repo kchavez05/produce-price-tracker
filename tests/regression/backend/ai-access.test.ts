@@ -1,5 +1,6 @@
 import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest';
 import { NextRequest } from 'next/server';
+import { createMockDish } from 'tests/test-utils';
 const mocks = vi.hoisted(() => ({ resolve: vi.fn(), generate: vi.fn(), dashboard: vi.fn() }));
 vi.mock('@/lib/supabase/session', () => ({ resolveCurrentUserProfile: mocks.resolve, loadInventoryState: async () => ({ freezerItems: [], savedRecipes: [] }) }));
 vi.mock('@/lib/scoring-and-matcher', () => ({ buildDashboardPayload: mocks.dashboard }));
@@ -14,7 +15,7 @@ describe('AI generation access and quota', () => {
     vi.stubEnv('GEMINI_API_KEY', 'server-test-key');
     vi.clearAllMocks(); mocks.resolve.mockResolvedValue({ profile: null });
     mocks.dashboard.mockResolvedValue({ commodities: [], recommendedTrio: [] });
-    mocks.generate.mockResolvedValue({ text: '[]' });
+    mocks.generate.mockResolvedValue({ text: JSON.stringify([0, 1, 2].map(i => createMockDish({ title: `Dish ${i}`, pantryRequirements: [] }))) });
   });
   afterEach(() => vi.unstubAllEnvs());
   it('rejects anonymous and local demo accounts before calling Gemini', async () => {

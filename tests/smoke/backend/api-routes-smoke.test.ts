@@ -119,7 +119,7 @@ describe('smoke: API Route Handlers happy-path', () => {
 
       const data = await res.json();
       expect(data.usedAi).toBe(false);
-      expect(data.message).toContain('No Gemini API key detected');
+      expect(data.message).toContain('Returned standard meal-prep suggestions');
       expect(Array.isArray(data.dishes)).toBe(true);
       expect(data.dishes.length).toBe(3);
     } finally {

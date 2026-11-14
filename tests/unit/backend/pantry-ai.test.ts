@@ -38,14 +38,34 @@ describe('AI pantry contract', () => {
     ], matchedIngredients: [{ slotLabel: 'Protein', ingredientId: 'ground-turkey', ingredientName: 'Ground turkey',
       quantityUsed: 2, unit: 'lb', store: 'SAFEWAY', rawDealText: 'invented', dealType: 'MULTI_BUY',
       unitCost: 999, slotCost: 999, regularSlotCost: 9999, isUserPinned: false, isOnHand: true }] });
-    mocks.generate.mockResolvedValue({ text: JSON.stringify([modelDish]) });
+    mocks.generate.mockResolvedValue({ text: JSON.stringify([0, 1, 2].map(i => ({ ...modelDish, title: `Dish ${i}` }))) });
     const result = await (await POST(request({ geminiApiKey: 'client-test-key', onHandIngredientIds: ['olive-oil'] }))).json();
     expect(result.usedAi).toBe(true);
-    expect(mocks.client).toHaveBeenCalledWith({ apiKey: 'client-test-key', apiVersion: 'v1beta' });
+    expect(mocks.client).toHaveBeenCalledWith({ apiKey: 'client-test-key', apiVersion: 'v1beta', httpOptions: { retryOptions: { attempts: 1 } } });
     expect(result.dishes[0].matchedIngredients[0]).toMatchObject({ isOnHand: false, unitCost: 1.99, slotCost: 3.98 });
     expect(result.dishes[0].estimatedPantryCost).toBe(.32);
     expect(result.dishes[0].totalBatchCost).toBe(4.30);
     expect(result.dishes[0].additionalCostEstimateComplete).toBe(false);
     expect(mocks.generate.mock.calls[0][0].contents).toContain('Available catalog IDs: ["olive-oil"]');
+    expect(mocks.generate.mock.calls[0][0]).toMatchObject({ model: 'gemini-2.5-flash', config: {
+      maxOutputTokens: 6000, responseSchema: { type: 'ARRAY' }, systemInstruction: expect.stringContaining('untrusted data'),
+    } });
+    expect(mocks.generate.mock.calls[0][0].config.abortSignal).toBeInstanceOf(AbortSignal);
+  });
+  it('returns only application-owned errors when a vendor rejects generation', async () => {
+    mocks.generate.mockRejectedValue(new Error('SECRET provider key and response body'));
+    const response = await POST(request({ geminiApiKey: 'client-test-key' }));
+    expect(response.status).toBe(502);
+    const body = await response.json();
+    expect(body.code).toBe('PROVIDER_UNAVAILABLE');
+    expect(body.error).not.toContain('SECRET');
+    expect(body.error).not.toContain('Gemini');
+    expect(mocks.generate).toHaveBeenCalledOnce();
+  });
+  it('rejects malformed provider output instead of returning an empty successful plan', async () => {
+    mocks.generate.mockResolvedValue({ text: '[]' });
+    const response = await POST(request({ geminiApiKey: 'client-test-key' }));
+    expect(response.status).toBe(502);
+    expect(await response.json()).toMatchObject({ usedAi: false, code: 'INVALID_RESPONSE' });
   });
 });
