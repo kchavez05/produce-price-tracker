@@ -85,13 +85,13 @@ import {
 
 interface Props {
   initialData: DashboardPayload;
-  barcodeEnabled?: boolean;
+  barcodeEnabled?: boolean; speechConfigured?: boolean;
   cameraEnabled?: boolean;
   initialAccountId?: string | null;
   initialPrivateRecipes?: RecommendedDish[];
 }
 
-export default function MealPrepDashboard({ initialData, barcodeEnabled = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
+export default function MealPrepDashboard({ initialData, barcodeEnabled = false, speechConfigured = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
   const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
   const [activeTab, setActiveTab] = useState<
@@ -1185,7 +1185,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
           )}
 
           {/* Private Virtual Pantry drawer */}
-          {showPantry && <VirtualPantry owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
+          {showPantry && <VirtualPantry speechConfigured={speechConfigured} onAiSignIn={showAiSignIn} owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
             key={pantry.owner ?? `loading:${pantryAccountId ?? 'guest'}`}
             entries={pantry.entries} acceptedCatalogIds={pantry.acceptedCatalogIds} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
             importDuplicates={pantry.importDuplicates}

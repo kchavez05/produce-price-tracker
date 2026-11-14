@@ -20,7 +20,7 @@ describe('v1.7 AI access and durable-admission integration',()=>{
     mocks.account.mockRejectedValue(new AiAccessError('AUTH_REQUIRED'));
     mocks.dashboard.mockResolvedValue({commodities:[],recommendedTrio:[]});
     mocks.generate.mockResolvedValue({text:JSON.stringify([0,1,2].map(i=>createMockDish({title:`Dish ${i}`,pantryRequirements:[]})))});
-    mocks.reserve.mockResolvedValue({reservationId:'00000000-0000-4000-8000-000000000011',remainingActions:4});mocks.complete.mockResolvedValue(true);
+    mocks.reserve.mockResolvedValue({reservationId:'00000000-0000-4000-8000-000000000011',remainingActions:4,remainingDailyMicroUsd:500});mocks.complete.mockResolvedValue(true);
   });
   afterEach(()=>vi.unstubAllEnvs());
   it('requires verified cloud auth before usage or generation',async()=>{

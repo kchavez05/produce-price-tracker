@@ -39,8 +39,8 @@ describe('verified paid identity',()=>{
 });
 describe('acknowledged shared usage admission',()=>{
   it('requires matching positive bounds and a positively acknowledged durable reservation',async()=>{
-    const rpc=vi.fn().mockResolvedValue({data:{allowed:true,reservationId:requestId,remainingActions:4},error:null});
-    expect(await reserveAiUsage(owner,requestId,'recipe',bound,{rpc})).toEqual({reservationId:requestId,remainingActions:4});
+    const rpc=vi.fn().mockResolvedValue({data:{allowed:true,reservationId:requestId,remainingActions:4,remainingDailyMicroUsd:500},error:null});
+    expect(await reserveAiUsage(owner,requestId,'recipe',bound,{rpc})).toEqual({reservationId:requestId,remainingActions:4,remainingDailyMicroUsd:500});
     expect(rpc).toHaveBeenCalledWith('ai_usage_reserve',expect.objectContaining({p_account_id:owner,p_request_id:requestId,p_maximum_cost_micro_usd:100}));
     await expect(reserveAiUsage(owner,requestId,'recipe',undefined,{rpc})).rejects.toMatchObject({code:'AI_NOT_CONFIGURED'});
     expect(rpc).toHaveBeenCalledOnce();
