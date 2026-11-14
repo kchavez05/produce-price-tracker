@@ -17,7 +17,11 @@ export interface RecipeProviderRequest {
   signal: AbortSignal;
 }
 /** SDK objects, credentials and model identifiers never cross this boundary. */
-export interface RecipeProvider { generate(request: RecipeProviderRequest): Promise<{ text: string }> }
+export interface RecipeProvider {
+  /** Set only after accepted model/rate/input/output bounds; absent means paid access is disabled. */
+  usageBound?: import('./usage').AiUsageBound;
+  generate(request: RecipeProviderRequest): Promise<{ text: string }>;
+}
 export interface RecipeGenerationContext {
   pinnedIngredientIds: string[];
   onHandIngredientIds: string[];

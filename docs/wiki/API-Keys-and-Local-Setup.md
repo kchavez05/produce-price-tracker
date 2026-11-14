@@ -18,12 +18,12 @@ If `.env.local` already exists, **merge missing entries from the template instea
 
 | Variables | Purpose / default |
 | --- | --- |
-| `GEMINI_API_KEY` | Server-funded Gemini recipe generation/remix; absent key preserves deterministic recipes. Verify the provider account's rates and terms; API use is not assumed free. |
+| `GEMINI_API_KEY` | Server-only compatibility adapter credential; absent key preserves deterministic recipes. Paid dispatch also requires verified sign-in, an accepted adapter cost bound and enabled shared policy. See the AI usage runbook; a key alone does not enable paid generation. |
 | `USDA_MARS_API_KEY`, `USDA_INGEST_ENABLED` | Authenticated weekly ingestion and market operator commands. Ingestion defaults off; enable only after its migrations and validation. |
 | `KROGER_CLIENT_ID`, `KROGER_CLIENT_SECRET`, `KROGER_LOCATION_ID` | Existing Kroger market-discovery connector. Default location: `01400100`. These do not provide new live pantry-staple pricing. |
 | `NEXT_PUBLIC_DEFAULT_ZIP` | Default ZIP: `80542`. |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public Supabase URL and client key for cloud auth/sync. These are the exact names the app reads; missing config retains local operation. Install the required migrations before cloud use. |
-| `SUPABASE_SECRET_KEY` | Server-only privileged key for market history, ingestion and refresh audits. Never expose it under `NEXT_PUBLIC_`. |
+| `SUPABASE_SECRET_KEY` | Server-only privileged key for market history, ingestion, refresh audits and durable AI usage controls. Never expose it under `NEXT_PUBLIC_`. |
 | `CRON_SECRET` | Bearer secret for scheduled GET requests. Configure it in the production deployment. |
 | `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION` | Optional rollback to a version retained in `src/data/cooking-catalog.json`. Blank uses the bundled current version. |
 | `PANTRYBOT_BARCODE_LOOKUP_ENABLED`, `PANTRYBOT_BARCODE_CAMERA_ENABLED`, `PANTRYBOT_BARCODE_SHARED_LIMIT_VERIFIED` | Barcode rollout/enforcement flags; all default to `false`. Follow the barcode qualification gates before activation. |
@@ -31,7 +31,7 @@ If `.env.local` already exists, **merge missing entries from the template instea
 | `PANTRYBOT_SQLITE_PATH` | Optional local SQLite path. Blank defaults to `data/mead-price-history.sqlite`; `:memory:` is ephemeral. |
 | `FDC_IMPORT_PYTHON` | Python executable for the offline USDA CSV importer. Blank defaults to `python3` (Python 3.10+). The importer does not automatically load local env files. |
 
-The runtime's Gemini model and access rules are unchanged by the template update. `GOOGLE_API_KEY`, OpenAI, Anthropic and Deepgram credentials below are used only by the isolated comparison runner.
+Personal AI keys are no longer accepted by the UI/API. The compatibility Gemini model remains pending the #731/#752 provider decision; [usage controls](../operations/ai-usage-controls.md) default disabled until the launch policy and adapter bounds are accepted. `GOOGLE_API_KEY`, OpenAI, Anthropic and Deepgram credentials below are used only by the isolated comparison runner.
 
 ## Comparison credentials for spike #731
 

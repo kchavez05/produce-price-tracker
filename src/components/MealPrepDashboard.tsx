@@ -38,7 +38,9 @@ import {
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
 import AccountModal from '@/components/AccountModal';
+import AiMealPlanControls from '@/components/AiMealPlanControls';
 import { useUserSync } from '@/hooks/useUserSync';
+import { aiRetryHint, createAiRequestFence } from '@/lib/ai/client-request';
 import {
   Sparkles,
   TrendingDown,
@@ -59,7 +61,6 @@ import {
   DoorOpen,
   ChevronDown,
   ChevronUp,
-  KeyRound,
   Radar,
   ShoppingBag,
   ArrowRight,
@@ -132,8 +133,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
   // AI Custom Chef state
   const [customPrompt, setCustomPrompt] = useState('');
-  const [geminiApiKey, setGeminiApiKey] = useState('');
-  const [showKeyModal, setShowKeyModal] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiBannerMessage, setAiBannerMessage] = useState<string | null>(null);
   const [customAiDishes, setCustomAiDishes] = useState<RecommendedDish[] | null>(null);
@@ -156,6 +155,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
   // v1.3 Tickets #26 - #30: User Account, Cloud Sync & Privacy Controls state
   const [showAccountModal, setShowAccountModal] = useState(false);
+  const [accountIntent, setAccountIntent] = useState<'account' | 'ai'>('account');
 
   const handleCloudHydrated = useCallback((payload: UserSyncPayload) => {
     if (!payload.authenticated || !payload.preferences) return;
@@ -213,7 +213,19 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
   }), [priceClock, currentZip]);
   const mealContextSignature = JSON.stringify({ available: [...effectiveOnHandIds].sort(), pinned: [...pinnedIds].sort(),
     targetServings, macroGoal, dietary: [...dietaryConstraints].sort(), vessel: applianceFilter,
-    stores: [...activeStores].sort(), storeFilter, zip: currentZip });
+    stores: [...activeStores].sort(), storeFilter, zip: currentZip, customPreference: customPrompt });
+  const aiContextRef = useRef(mealContextSignature);
+  aiContextRef.current = mealContextSignature;
+  const aiRequests = useRef<ReturnType<typeof createAiRequestFence> | null>(null);
+  if (!aiRequests.current) aiRequests.current = createAiRequestFence();
+  const canUseAi = userSync.profile?.isCloudBacked === true && pantry.owner === `account:${userSync.profile.id}`;
+  useEffect(() => {
+    const requests = aiRequests.current;
+    requests?.cancel();
+    setAiLoading(false);
+    setAiBannerMessage(null);
+    return () => { requests?.cancel(); };
+  }, [pantry.owner, mealContextSignature]);
 
   const data = useMemo(() => {
 
@@ -554,46 +566,55 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
   }
 
+  function showAiSignIn() {
+    setAccountIntent('ai');
+    setShowAccountModal(true);
+  }
+
+  function useStandardSuggestions() {
+    aiRequests.current?.cancel();
+    setAiLoading(false);
+    setCustomAiDishes(null);
+    customAiOwner.current = null;
+    customAiContext.current = '';
+    setAiBannerMessage('Using standard meal-prep suggestions.');
+  }
+
   async function handleGenerateAiPlan() {
-    const requestOwner = pantryOwnerRef.current;
-    const requestContext = mealContextSignature;
+    if (!canUseAi) { showAiSignIn(); return; }
+    const ticket = aiRequests.current!.begin(pantryOwnerRef.current, mealContextSignature);
     setAiLoading(true);
     setAiBannerMessage(null);
     try {
       const res = await fetch('/api/ai-meal-plan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          pinnedIngredientIds: pinnedIds,
-          onHandIngredientIds: effectiveOnHandIds,
-          targetServings,
-          customPreference: customPrompt,
-          storeFilter,
-          geminiApiKey,
-          zipCode: currentZip,
-          cityLabel: data.cityLabel,
-          macroGoal,
-          dietaryConstraints,
-          applianceFilter,
-        }),
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ticket.controller.signal,
+        body: JSON.stringify({ requestId: ticket.id, pinnedIngredientIds: pinnedIds, onHandIngredientIds: effectiveOnHandIds,
+          targetServings, customPreference: customPrompt, storeFilter, zipCode: currentZip, cityLabel: data.cityLabel,
+          macroGoal, dietaryConstraints, applianceFilter }),
       });
       const result = await res.json();
-      if (pantryOwnerRef.current !== requestOwner) return;
-      if (result.dishes && Array.isArray(result.dishes)) {
-        customAiOwner.current = requestOwner;
-        customAiContext.current = requestContext;
+      if (!aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) return;
+      if (res.ok && Array.isArray(result.dishes)) {
+        customAiOwner.current = ticket.owner;
+        customAiContext.current = ticket.context;
         setCustomAiDishes(result.dishes);
-        setAiBannerMessage(result.message || 'Updated 3-dish meal prep plan!');
-        if (result.dishes[0]?.id) {
-          setExpandedDishIds({ [result.dishes[0].id]: true });
-        }
-      } else if (result.error) {
-        setAiBannerMessage(result.error);
+        setAiBannerMessage(result.message || 'Updated 3-dish meal-prep plan.');
+        if (result.dishes[0]?.id) setExpandedDishIds({ [result.dishes[0].id]: true });
+      } else {
+        setCustomAiDishes(null);
+        const retry = aiRetryHint(res.headers.get('Retry-After'));
+        setAiBannerMessage((typeof result.error === 'string' ? result.error : 'Unable to generate a meal plan. Standard suggestions remain available.') + retry);
+        if (res.status === 401) showAiSignIn();
       }
     } catch {
-      setAiBannerMessage('Failed to reach AI meal plan endpoint.');
+      if (!aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) return;
+      setCustomAiDishes(null);
+      setAiBannerMessage('Unable to reach AI assistance. Standard suggestions remain available. Try again when connected.');
     } finally {
-      setAiLoading(false);
+      if (aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) {
+        setAiLoading(false);
+        aiRequests.current!.complete(ticket);
+      }
     }
   }
 
@@ -993,22 +1014,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                 <span className="hidden md:inline">Smart Alerts</span>
               </button>
 
-              <button
-                onClick={() => setShowKeyModal(!showKeyModal)}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition ${
-                  showKeyModal
-                    ? 'border-slate-800 bg-slate-800 text-white shadow-xs'
-                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                }`}
-                title="Configure Optional Free Gemini API Key"
-              >
-                <KeyRound
-                  className={`h-3.5 w-3.5 ${
-                    showKeyModal ? 'text-emerald-300' : 'text-emerald-600'
-                  }`}
-                />
-                <span className="hidden lg:inline">API Keys</span>
-              </button>
 
               <span
                 className="hidden h-5 w-px bg-slate-200 sm:inline-block"
@@ -1017,7 +1022,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
               {/* v1.3 Ticket #26 & #29: Top-Right User Account & Cloud Sync Trigger */}
               <button
-                onClick={() => setShowAccountModal(!showAccountModal)}
+                onClick={() => { setAccountIntent('account'); setShowAccountModal(!showAccountModal); }}
                 className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition shadow-2xs ${
                   showAccountModal
                     ? 'border-violet-700 bg-violet-600 text-white'
@@ -1141,6 +1146,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
           {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
           <AccountModal
             isOpen={showAccountModal}
+            intent={accountIntent}
             onClose={() => setShowAccountModal(false)}
             authenticated={userSync.authenticated}
             profile={userSync.profile}
@@ -1480,38 +1486,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                   ))}
                 </div>
               ) : null}
-            </div>
-          )}
-
-          {/* Optional API Key Drawer */}
-          {showKeyModal && (
-            <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50/70 p-3 text-xs text-slate-700">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="font-semibold text-slate-900">
-                    Optional Free-Tier Gemini 2.5 Flash Key (Zero Cost via Google AI Studio)
-                  </p>
-                  <p className="text-slate-600">
-                    The app runs 100% free out-of-the-box using the built-in Stew/Casserole Algorithmic Matcher. Paste a free Gemini key here (or in{' '}
-                    <code className="rounded bg-white px-1 py-0.5">.env.local</code>) to enable custom AI recipe remixing.
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="password"
-                    value={geminiApiKey}
-                    onChange={(e) => setGeminiApiKey(e.target.value)}
-                    placeholder="AIzaSy... (Gemini API Key)"
-                    className="w-56 rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-900 focus:border-emerald-600 focus:outline-none"
-                  />
-                  <button
-                    onClick={() => setShowKeyModal(false)}
-                    className="rounded-lg bg-emerald-600 px-3 py-1.5 font-semibold text-white hover:bg-emerald-700"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
             </div>
           )}
 
@@ -2338,41 +2312,10 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                 </div>
               </div>
 
-              {/* AI Custom Chef Bar */}
-              <div className="mt-4 border-t border-white/15 pt-4">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <input
-                    type="text"
-                    value={customPrompt}
-                    onChange={(e) => setCustomPrompt(e.target.value)}
-                    placeholder="Optional AI Twist: e.g., 'Make 2 slow cooker stews and 1 high-protein sheet-pan roast, extra spicy'..."
-                    className="flex-1 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2 text-xs text-white placeholder:text-slate-400 focus:border-emerald-400 focus:outline-none"
-                  />
-                  <button
-                    onClick={handleGenerateAiPlan}
-                    disabled={aiLoading}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 disabled:opacity-50"
-                  >
-                    {aiLoading ? (
-                      <>
-                        <RefreshCw className="h-4 w-4 animate-spin" />
-                        <span>Generating with Gemini 2.5 Flash...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-4 w-4" />
-                        <span>Remix 3-Dish Plan (Gemini Free Tier)</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+              <AiMealPlanControls canUseAi={canUseAi} loading={aiLoading} prompt={customPrompt} banner={aiBannerMessage}
+                onPromptChange={setCustomPrompt} onGenerate={handleGenerateAiPlan} onSignIn={showAiSignIn}
+                onUseStandard={useStandardSuggestions} />
 
-                {aiBannerMessage && (
-                  <p className="mt-2 rounded-lg bg-white/10 px-3 py-1.5 text-xs text-amber-200">
-                    {aiBannerMessage}
-                  </p>
-                )}
-              </div>
             </section>
 
             {/* The 3 Recommended Batch Dishes */}
