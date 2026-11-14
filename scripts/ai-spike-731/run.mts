@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { atomicJson, audioBytes, jobs, Ledger, loadPacket, object, projection, readJson, redact, ROOT, sha, STATE, type Fixture, type Job, type ObjectValue, type Packet } from './core.mjs';
+import { atomicJson, audioBytes, executableJobs, executionScopeHash, jobs, Ledger, loadPacket, object, projection, readJson, redact, ROOT, sha, STATE, type Fixture, type Job, type ObjectValue, type Packet } from './core.mjs';
 import { credentialPresence, Providers, safeFailureDetails, type Result, type TextSpec } from './providers.mjs';
 import { recipeChecks, speechScore } from './scoring.mjs';
 import { exportReview, receipts, report } from './report.mjs';
@@ -10,19 +10,20 @@ export function runnerHash(): string {
   return sha(['core.mts','providers.mts','scoring.mts','report.mts','run.mts'].map(name => sha(readFileSync(resolve(ROOT,'scripts/ai-spike-731',name)))).join(':'));
 }
 export function qualificationTemplate(packet: Packet): ObjectValue {
-  return { issue:731, packetHash:packet.hash, runnerHash:runnerHash(), approvedPlan:'docs/research/ai-provider-spike-731/execution-approval.json',
+  return { issue:731, packetHash:packet.hash, executionScopeHash:executionScopeHash(packet), runnerHash:runnerHash(), approvedPlan:'docs/research/ai-provider-spike-731/execution-approval.json',
     runnerReviewEvidence:'', audioListeningReviewEvidence:'', checkedOn:'', checkedOnFormat:'Full UTC ISO timestamp, e.g. 2026-11-13T19:30:00.000Z; record actual verification time',
-    targets:Object.fromEntries(jobs(packet).map(job => [job.target, { modelAccessVerified:false, billingAndBoundsVerified:false, privacyVerified:false, tokenCountingFreeAndComplete:false, evidence:[] }])) };
+    targets:Object.fromEntries(executableJobs(packet).map(job => [job.target, { modelAccessVerified:false, billingAndBoundsVerified:false, privacyVerified:false, tokenCountingFreeAndComplete:false, evidence:[] }])) };
 }
 export function requireQualified(packet: Packet, qualification: ObjectValue, latestAuditTime = 0): void {
   if (qualification.issue !== 731 || qualification.packetHash !== packet.hash || qualification.runnerHash !== runnerHash()) throw new Error('Qualification does not bind this approved packet and runner');
+  if (qualification.executionScopeHash !== executionScopeHash(packet)) throw new Error('Qualification does not bind the approved execution scope');
   for (const field of ['runnerReviewEvidence','audioListeningReviewEvidence','checkedOn']) if (typeof qualification[field] !== 'string' || !String(qualification[field]).trim()) throw new Error(`Qualification missing ${field}`);
   const date = Date.parse(String(qualification.checkedOn));
   if (!Number.isFinite(date) || new Date(date).toISOString() !== qualification.checkedOn) throw new Error('Qualification checkedOn requires a full UTC ISO timestamp');
   if (!Number.isFinite(date) || date > Date.now() + 60_000 || Date.now() - date > 24*60*60*1000) throw new Error('Qualification must be refreshed within 24 hours');
   if (date <= latestAuditTime) throw new Error('Renew qualification after the billing audit');
   const targets = object(qualification.targets);
-  for (const target of new Set(jobs(packet).map(job => job.target))) {
+  for (const target of new Set(executableJobs(packet).map(job => job.target))) {
     const record = object(targets[target]);
     for (const flag of ['modelAccessVerified','billingAndBoundsVerified','privacyVerified','tokenCountingFreeAndComplete']) if (record[flag] !== true) throw new Error(`Unqualified ${target}: ${flag}`);
     if (!Array.isArray(record.evidence) || !record.evidence.length || record.evidence.some(item => typeof item !== 'string' || !item.trim())) throw new Error(`Missing evidence for ${target}`);
@@ -41,6 +42,7 @@ function speechSpec(packet: Packet, fixture: Fixture, transcript?: string): Text
 }
 export interface Receipt extends ObjectValue { job: Job; completed: boolean; completionMs: number | null; score: ObjectValue }
 export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remaining: number, audioDirectory: string, providers: Providers, resultsDirectory = resolve(STATE,'results')): Promise<Receipt> {
+  if (job.target === packet.coverageAmendment?.target) throw new Error('Owner-deferred target cannot be dispatched');
   const fixture = (job.task === 'recipe' ? packet.recipes : packet.speech).find(item => item.id === job.fixture);
   if (!fixture) throw new Error('Unknown fixture');
   const clip = job.task === 'speech' ? audioBytes(packet,job.fixture,audioDirectory) : undefined;
@@ -103,7 +105,7 @@ export async function executeJob(packet: Packet, job: Job, ledger: Ledger, remai
   const finished = performance.now();
   const completionMs = valid ? (job.task === 'recipe' ? finished - firstPaidDispatch : finished - (firstUploadEnd ?? firstPaidDispatch + firstUpload)) : null;
   const cost = stages.reduce((sum,stage) => sum+stage.cost,0);
-  const receipt: Receipt = { job, packetHash:packet.hash, runnerHash:runnerHash(), startedAt:new Date(Date.now()-elapsed).toISOString(), completed:valid,
+  const receipt: Receipt = { job, packetHash:packet.hash, coverageAmendment:packet.coverageAmendment ?? null, runnerHash:runnerHash(), startedAt:new Date(Date.now()-elapsed).toISOString(), completed:valid,
     completionMs, elapsedMs:elapsed, preflightMs, firstUploadMs:firstUpload, failure, failureDetails,
     text, transcriptFromProvider, proposal:parsed, score, usage:stages.map(stage => ({ model:stage.model, ...stage.usage, costMicroUsd:stage.cost, ...stage.timing })),
     costMicroUsd:dispatched ? null : cost, retainedReservationMicroUsd:dispatched ? job.bound : 0,
@@ -145,6 +147,7 @@ export async function main(argv: string[]): Promise<void> {
   if (!argv.includes('--run')) {
     const report = { issue:731, packetHash:packet.hash, runnerHash:runnerHash(), credentials:credentialPresence(), apiCallsMade:0, apiSpendUsd:0,
       plannedAttempts:schedule.length, plannedReservationUsd:schedule.reduce((sum,job)=>sum+job.bound,400_000)/1_000_000,
+      executableTargetAttempts:executableJobs(packet).length, coverageAmendment:packet.coverageAmendment ?? null,
       status:'preflight-only; model access, pricing/privacy, billable bounds, runner review and audio listening must be qualified', scope:'API counters describe this offline preflight only; inspect the shared ledger for previous exposure', stateDirectory:STATE };
     if (option('--write-preflight')) atomicJson(resolve(option('--write-preflight')!),report);
     if (option('--write-qualification-template')) atomicJson(resolve(option('--write-qualification-template')!),qualificationTemplate(packet));
@@ -164,7 +167,7 @@ export async function main(argv: string[]): Promise<void> {
     ledger.assertRunnable();
     requireQualified(packet,qualification,ledger.latestAuditTime());
     const providers = new Providers();
-    for (const job of schedule) {
+    for (const job of executableJobs(packet)) {
       if (runnerHash()!==frozenRunnerHash) throw new Error('Runner changed during execution');
       if (ledger.activeMs() > 8*60*60*1000) throw new Error('Approved active execution timebox reached');
       const prior = ledger.entries();

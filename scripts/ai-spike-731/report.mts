@@ -63,7 +63,7 @@ export function report(packet: Packet, results: Receipt[], reviews: ObjectValue[
       });
       const final=summarize(adjusted,planned.length);
       const complete=reviewed===planned.length && observed.length===planned.length;
-      targets.push({ target,task,evaluationStatus:observed.length ? 'observed' : 'not_run',...final,reviewed,rulePass,critical,meanCulinaryIncludingFailures:culinarySum/planned.length,
+      targets.push({ target,task,evaluationStatus:observed.length ? 'observed' : 'not_run',...final,notRun:planned.length-observed.length,reviewed,rulePass,critical,meanCulinaryIncludingFailures:culinarySum/planned.length,
         gatesPass:complete && Number(final.schemaValid)>=118 && rulePass>=114 && critical===0 && typeof final.observedP95Ms==='number' && final.observedP95Ms<=30_000,
         humanReviewPending:!complete,decisionComplete:complete });
     } else {
@@ -80,13 +80,13 @@ export function report(packet: Packet, results: Receipt[], reviews: ObjectValue[
       }
       const precision=tp+fp ? tp/(tp+fp) : 0; const recall=tp+fn ? tp/(tp+fn) : 0; const quantityAccuracy=quantityTotal ? correct/quantityTotal : 0;
       const complete=observed.length===planned.length;
-      targets.push({ target,task,evaluationStatus:observed.length ? 'observed' : 'not_run',...base,tp,fp,fn,precision,recall,quantityCorrect:correct,quantityTotal,quantityAccuracy,exactClips:exact,critical,
+      targets.push({ target,task,evaluationStatus:observed.length ? 'observed' : 'not_run',...base,notRun:planned.length-observed.length,collectionDeferred:target===packet.coverageAmendment?.target,tp,fp,fn,precision,recall,quantityCorrect:correct,quantityTotal,quantityAccuracy,exactClips:exact,critical,
         gatesPass:complete && precision>=0.95 && recall>=0.95 && quantityAccuracy>=0.95 && critical===0 && typeof base.observedP95Ms==='number' && base.observedP95Ms<=8_000,
         decisionComplete:complete });
     }
   }
   const runnerVersions=[...new Set(results.map(result=>String(result.runnerHash)))];
-  return { issue:731,packetHash:packet.hash,observedAttempts:results.length,plannedAttempts:allJobs.length,targets,runnerVersions,
+  return { issue:731,packetHash:packet.hash,coverageAmendment:packet.coverageAmendment ?? null,observedAttempts:results.length,plannedAttempts:allJobs.length,notRun:allJobs.length-results.length,targets,runnerVersions,
     mixedRunnerVersions:runnerVersions.length>1,decisionComplete:targets.every(target=>target.decisionComplete===true) && runnerVersions.length<=1,winner:null,
     costProjection:'Pending complete measured receipts, account-rate/rounding qualification and joint $25 envelope analysis; no winner is inferred automatically.' };
 }

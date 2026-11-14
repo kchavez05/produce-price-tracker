@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
-import { audioBytes, CAP, jobs, Ledger, loadPacket, micros, object, projection, providerSchema, redact, schemaErrors, sha, type ObjectValue } from '../../../scripts/ai-spike-731/core.mjs';
+import { audioBytes, CAP, executableJobs, executionScopeHash, jobs, Ledger, loadPacket, micros, object, projection, providerSchema, redact, schemaErrors, sha, type ObjectValue } from '../../../scripts/ai-spike-731/core.mjs';
 import { credentialPresence, Providers, safeFailureDetails, transport, type TextSpec, type Transport } from '../../../scripts/ai-spike-731/providers.mjs';
 import { recipeChecks, speechScore, summarize } from '../../../scripts/ai-spike-731/scoring.mjs';
 import { executeJob, qualificationTemplate, requireQualified } from '../../../scripts/ai-spike-731/run.mjs';
@@ -38,6 +38,32 @@ describe('approved isolated comparison packet', () => {
     const speech = projection(fixture('S10'),'speech',packet,'provider text');
     expect(speech).toHaveProperty('transcriptFromProvider','provider text');
     expect(speech).not.toHaveProperty('transcript'); expect(speech).not.toHaveProperty('expected');
+  });
+  it('excludes only the approved unavailable target while preserving original denominators and commitment', async () => {
+    expect(executableJobs(packet)).toHaveLength(660);
+    expect(executableJobs(packet).some(job=>job.target==='google-transcribe-luna')).toBe(false);
+    const full={...packet,coverageAmendment:undefined};
+    expect(executableJobs(full)).toHaveLength(720);
+    expect(executionScopeHash(packet)).not.toBe(executionScopeHash(full));
+    const ledger=new Ledger(directory(),packet.hash);
+    try {
+      const job=jobs(packet).find(job=>job.target==='google-transcribe-luna')!;
+      await expect(executeJob(packet,job,ledger,0,'unused',new Providers(),directory())).rejects.toThrow('Owner-deferred');
+      expect(ledger.entries()).toEqual([]);
+    } finally { ledger.close(); }
+    const target=(report(packet,[]).targets as ObjectValue[]).find(row=>row.target==='google-transcribe-luna');
+    expect(target).toMatchObject({expectedAttempts:60,observedAttempts:0,notRun:60,collectionDeferred:true,decisionComplete:false,gatesPass:false});
+  });
+  it('binds qualification to coverage and does not falsely qualify an excluded target', () => {
+    for (const name of ['GEMINI_API_KEY','OPENAI_API_KEY','ANTHROPIC_API_KEY','DEEPGRAM_API_KEY']) vi.stubEnv(name,'fake-local-test');
+    const qualification=qualificationTemplate(packet);
+    expect(object(qualification.targets)).not.toHaveProperty('google-transcribe-luna');
+    qualification.runnerReviewEvidence='completed review'; qualification.audioListeningReviewEvidence='listening record'; qualification.checkedOn=new Date().toISOString();
+    for (const target of Object.values(object(qualification.targets))) Object.assign(object(target),{modelAccessVerified:true,billingAndBoundsVerified:true,privacyVerified:true,tokenCountingFreeAndComplete:true,evidence:['dated verification']});
+    expect(()=>requireQualified(packet,qualification)).not.toThrow();
+    expect(()=>requireQualified({...packet,coverageAmendment:undefined},qualification)).toThrow('execution scope');
+    object(object(qualification.targets)['google-lite']).modelAccessVerified=false;
+    expect(()=>requireQualified(packet,qualification)).toThrow('Unqualified google-lite');
   });
   it('fails on missing or altered audio bytes', () => {
     expect(()=>audioBytes(packet,'S01',directory())).toThrow();
