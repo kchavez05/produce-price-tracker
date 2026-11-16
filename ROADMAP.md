@@ -4,7 +4,11 @@ This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to 
 
 ## Current release tracking
 
-Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.6.3 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/18) and [release tracker #722](https://github.com/kchavez05/produce-price-tracker/issues/722) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
+Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.7.0 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/19) and [release tracker #748](https://github.com/kchavez05/produce-price-tracker/issues/748) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
+
+## v1.7.0 — Sign-in AI and experimental speech entry
+
+Committed scope: provider-neutral recipes #749, verified-account access/BYOK retirement #751, provisional selected adapters #752, durable shared usage controls #664 and experimental speech-to-pantry #753. Production acceptance/publication is #750. The owner accepted unavailable desktop/mobile microphone checks as documented limitations, with real-browser follow-up #760 in Backlog; those tests are not passed. Full culinary review is deferred. See [release notes](docs/releases/v1.7.0.md) and [Preview evidence](docs/research/v1.7-preview-acceptance.md). Public features remain Awaiting release until production outcomes pass.
 
 ## v1.6.3 — Pantry access repair and Freezer retirement
 

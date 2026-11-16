@@ -6,11 +6,13 @@ import { PantryEntry } from '@/types/pantry';
 import { DashboardPayload } from '@/types/domain';
 import { createMockCommodity, createMockDish, createMockIngredient } from 'tests/test-utils';
 const pantry = vi.hoisted(() => ({ entries: [] as PantryEntry[] }));
-vi.mock('@/hooks/usePantry', () => ({ usePantry: () => ({ owner: 'guest:test', entries: pantry.entries, guest: true,
+vi.mock('@/hooks/usePantry', () => ({ usePantry: () => ({ owner: 'account:test', entries: pantry.entries, guest: false,
   guestEntries: [], hasLegacyEdits: false, importDuplicates: [], status: 'Saved', error: null, conflicts: [],
   save: vi.fn(), remove: vi.fn(), retry: vi.fn(), resolve: vi.fn(), importGuest: vi.fn(), reviewLegacy: vi.fn(), importLegacy: vi.fn() }) }));
-vi.mock('@/hooks/useUserSync', () => ({ useUserSync: () => ({ authenticated: false, profile: null, lastSyncedIso: '2026-10-29T12:00:00Z',
-  storageMode: 'SQLITE_LOCAL_FALLBACK', supabaseConfigured: false, syncStatus: 'IDLE', authLoading: false, hasGuestDataToMerge: false,
+vi.mock('@/hooks/useUserSync', () => ({ useUserSync: () => ({ authenticated: true,
+  profile: { id: 'test', email: '', displayName: 'Test account', provider: 'google', isCloudBacked: true, createdAtIso: '', updatedAtIso: '' },
+  lastSyncedIso: '2026-10-29T12:00:00Z',
+  storageMode: 'SUPABASE_RLS', supabaseConfigured: true, syncStatus: 'IDLE', authLoading: false, hasGuestDataToMerge: false,
   guestFreezerCount: 0, signInWithProvider: vi.fn(), signOut: vi.fn(), dismissGuestMergePrompt: vi.fn(), pushCloudSync: vi.fn(),
   exportAccountDataJson: vi.fn(), deleteAccountAndData: vi.fn() }) }));
 import MealPrepDashboard from '@/components/MealPrepDashboard';
@@ -33,7 +35,7 @@ function button(text: string) {
   if (!found) throw new Error(`Missing button: ${text}`);
   return found;
 }
-async function render() { await run(() => root.render(createElement(MealPrepDashboard, { initialData: data }))); }
+async function render() { await run(() => root.render(createElement(MealPrepDashboard, { initialData: data, initialAccountId: 'test' }))); }
 beforeEach(() => {
   pantry.entries = []; localStorage.clear();
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
@@ -45,7 +47,7 @@ describe('pantry availability and the active meal plan', () => {
   it('stops displaying a generated/fallback plan after availability changes without making a new AI request', async () => {
     await render();
     await run(() => button('2. 3-Dish Meal Prep').click());
-    await run(() => button('Remix 3-Dish Plan').click());
+    await run(() => button('Remix 3-dish plan with AI').click());
     expect(container.textContent).toContain(generated.title);
     pantry.entries = [{ id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' }];
     await render();
@@ -56,7 +58,7 @@ describe('pantry availability and the active meal plan', () => {
     pantry.entries = [{ id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '', quantity: 1 }];
     await render();
     await run(() => button('2. 3-Dish Meal Prep').click());
-    await run(() => button('Remix 3-Dish Plan').click());
+    await run(() => button('Remix 3-dish plan with AI').click());
     pantry.entries = [{ ...pantry.entries[0], quantity: 0, useByDate: '2000-01-01', revision: 2 }];
     await render();
     expect(container.textContent).toContain(generated.title);

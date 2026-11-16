@@ -1,6 +1,12 @@
-# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.6.3`)
+# PantryBot — Smart Grocery Deal Tracker, Virtual Pantry & Meal-Prep Optimizer (`v1.7.0`)
 
 A mobile-friendly Next.js Progressive Web App (**PantryBot**, live at [pantrybot.dev](https://pantrybot.dev)) designed for nationwide grocery circular comparison, **Virtual Pantry** availability and meal planning, wholesale club benchmarking, **3-Dish Weekend Meal-Prep Planning**, and privacy-first **Cloud Sync** across devices.
+
+## v1.7.0 — Sign-in AI and experimental speech entry
+
+Release preparation is tracked by [#748](https://github.com/kchavez05/produce-price-tracker/issues/748) and production acceptance/publication by [#750](https://github.com/kchavez05/produce-price-tracker/issues/750). Verified accounts access app-funded recipe generation; guests retain standard suggestions and manual pantry entry. Personal API keys are retired. Provisional recipes use GPT-6.1 Terra, with GPT-Transcribe → GPT-6 Luna for experimental speech drafts and explicit pantry confirmation. Shared controls cap reserved exposure at $5/account/day and $20/month UTC; provider errors and cancellation retain the fixed reservation.
+
+Desktop/mobile microphone capture and browser confirmation remain unverified, explicitly accepted by the owner with speech labeled experimental. Real-browser testing follows in [#760](https://github.com/kchavez05/produce-price-tracker/issues/760). Full culinary review is deferred, and occasional unusable outputs remain possible. See [release notes](docs/releases/v1.7.0.md) for dated evidence and limits; Preview readiness does not establish production activation.
 
 ## v1.6.3 — Pantry access repair and Freezer retirement
 
@@ -58,17 +64,17 @@ The app works **100% out-of-the-box with zero API keys** using the Flipp circula
 
 For a fresh setup, copy [`.env.example`](.env.example) to `.env.local`. If Vercel already generated that file, merge the missing entries instead of replacing it. The template covers application and operator settings, including the isolated #731 comparison credentials. Generated Vercel metadata and unused integration aliases are intentionally documented separately.
 
-See [API keys and local setup](docs/wiki/API-Keys-and-Local-Setup.md) for each variable, the Vercel-export differences, and loading spike-only keys from an ignored `.env.spike.local`. The app's runtime provider remains unchanged; comparison keys do not activate new app integrations.
+See [API keys and local setup](docs/wiki/API-Keys-and-Local-Setup.md) for each variable, the Vercel-export differences, and loading spike-only keys from an ignored `.env.spike.local`. Runtime uses only the server OpenAI credential and accepted durable admission registrations; comparison-only keys do not activate failover. See the [usage runbook](docs/operations/ai-usage-controls.md).
 
 ## Documentation, Wiki & Release Notes
 
 Historical publications, backfilled milestones and release-process findings are indexed in the [November 11 retrospective audit](docs/releases/retrospective-audit-2026-11-11.md).
 
-Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.6.3 release issue #722](https://github.com/kchavez05/produce-price-tracker/issues/722). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
+Track active work on the [release board](https://github.com/users/kchavez05/projects/1/views/2) and [v1.7.0 release issue #748](https://github.com/kchavez05/produce-price-tracker/issues/748). See the [issue and release tracking workflow](docs/issue-release-tracking.md) for status, acceptance and release rules.
 
 v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API pricing is deferred to [multi-store scope #689](https://github.com/kchavez05/produce-price-tracker/issues/689), covering multiple independent retail APIs. See the [approved scope amendment](docs/research/v1.6.2-static-pricing-scope-amendment.md). Existing market-discovery integrations are preserved; barcode device/account and production acceptance remain required.
 
-* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.6.3 scope and long-term mobile plans.
+* **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.7.0 scope and long-term mobile plans.
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
   * [v1.6.3 — Pantry Access Repair & Freezer Retirement](./docs/releases/v1.6.3.md)
