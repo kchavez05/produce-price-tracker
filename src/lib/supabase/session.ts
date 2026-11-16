@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { getSecureCookieOptions } from '@/lib/security/rate-limit';
 import { cookies } from 'next/headers';
 import { createServerSupabaseClient } from './server';
+import { createServerSupabaseAdminClient } from './admin';
 import { isSupabaseConfigured, LOCAL_SESSION_COOKIE_NAME, GUEST_SESSION_COOKIE_NAME } from './config';
 import {
   deleteUserAccountFromSqlite,
@@ -437,16 +438,21 @@ export async function buildUserDataExportArchive(
 }
 
 export async function purgeUserAccountAndData(profile: UserProfile): Promise<void> {
-  // 1. Delete from Supabase RLS tables and sign out if cloud-backed
-  if (profile.isCloudBacked && isSupabaseConfigured()) {
+  // 1. Verify ownership again before privileged deletion. Auth owns the profile,
+  // pantry and personal AI usage cascades; deleting only public.users misses usage.
+  if (profile.isCloudBacked) {
+    if (!isSupabaseConfigured()) throw new Error('Cloud account deletion unavailable');
     const supabase = await createServerSupabaseClient();
-    if (!supabase) throw new Error('Cloud account deletion unavailable');
-    // One parent delete cascades to pantry entries, receipts, archives, and legacy
-    // children. Do not report deletion after a failed cloud write.
-    const deleted = await supabase.from('users').delete().eq('id', profile.id);
-    if (deleted.error) throw new Error('Cloud account deletion failed');
-    const signedOut = await supabase.auth.signOut();
+    const admin = createServerSupabaseAdminClient();
+    if (!supabase || !admin) throw new Error('Cloud account deletion unavailable');
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user || user.id !== profile.id) throw new Error('Cloud account ownership could not be verified');
+    // Revocation precedes hard deletion. Existing JWTs cannot authorize AI because
+    // paid routes freshly verify Auth; RLS children also cascade from this identity.
+    const signedOut = await supabase.auth.signOut({ scope: 'global' });
     if (signedOut.error) throw new Error('Could not revoke the account session');
+    const deleted = await admin.auth.admin.deleteUser(user.id, false);
+    if (deleted.error) throw new Error('Cloud account deletion failed');
   }
 
   // 2. Delete from local SQLite multi-tenant tables
