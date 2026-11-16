@@ -2,6 +2,10 @@
 
 Implementation: #664/#751, release parent #748. This runbook describes a release gate; it does not authorize activation or a paid request.
 
+## Hosted verification status — November 16, 2026
+
+The owner approved using the shared project with paid AI disabled. Both reviewed migrations are installed with source-aligned history; deployed function bodies match the reviewed source. Hosted role/privilege and rollback admission/accounting checks pass. A separate HTTP admission request waited on the shared database lock and then returned DISABLED. Policy remains disabled, no adapters are registered, and no synthetic users, reservations or usage rows remain. See [dated evidence and limits](../research/v1.7-hosted-ai-usage-verification.md). This supersedes the earlier not-yet-installed status, not the activation gates below.
+
 ## Before activation
 
 1. Owner policy, clarified November 14: **$20 shared per UTC month** and **$5 per verified account per UTC day**, combining recipes and speech. The daily/monthly periods follow the original policy question. These cap reserved exposure, not user billing or a guaranteed allocation. No additional daily action-count limit was selected; zero disables that optional count cap. Do not substitute the spike's test cap or comparison scenario.
