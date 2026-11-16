@@ -31,7 +31,7 @@ If `.env.local` already exists, **merge missing entries from the template instea
 | `PANTRYBOT_SQLITE_PATH` | Optional local SQLite path. Blank defaults to `data/mead-price-history.sqlite`; `:memory:` is ephemeral. |
 | `FDC_IMPORT_PYTHON` | Python executable for the offline USDA CSV importer. Blank defaults to `python3` (Python 3.10+). The importer does not automatically load local env files. |
 
-Cloud account deletion also requires the server secret: it freshly verifies the current Auth subject, revokes sessions globally, then deletes that Auth identity so profile/pantry/personal-usage cascades run. Missing configuration or failed revocation/deletion is reported as failure; local account deletion remains keyless.
+Cloud account deletion also requires the server secret: it freshly verifies the current Auth subject, revokes sessions globally, then deletes that Auth identity so profile/pantry/personal-usage cascades run. Missing configuration or failed revocation/deletion is reported as failure; local account deletion remains keyless. If deletion fails after global session revocation, sign in again before retrying.
 
 Personal AI keys are no longer accepted by the UI/API. The owner provisionally selected Terra recipes and GPT-Transcribe → Luna speech on November 16 (#731/#752); [usage controls](../operations/ai-usage-controls.md) default disabled until the launch policy and adapter bounds are accepted. `GEMINI_API_KEY`, `GOOGLE_API_KEY`, Anthropic and Deepgram credentials below are comparison/compatibility credentials; none is a runtime failover. OpenAI credentials are shared with the comparison runner. See [selected adapter evidence and limits](../research/v1.7-selected-provider-integration.md).
 
