@@ -56,3 +56,8 @@ Repository-wide review rules live in [`AGENTS.md`](../AGENTS.md) (imported by `C
 - Read and mutate personal inventory only through an authenticated account or private guest session. Caller-supplied IDs and profile emails are not credentials.
 - Preserve pending changes across failed HTTP responses, network failures, and reloads. Never replay one account's queue under another account, and ensure additive operations cannot duplicate data when retried.
 - Check returned database errors before acknowledging cloud writes. Preserve cached child records when refreshing profile metadata.
+
+## Component Tests and Accessibility
+
+- New jsdom component tests use `tests/helpers/render.ts` (`renderUi`, `expectNoA11yViolations`) instead of repeating the `createRoot` and `act` boilerplate. The file still declares `// @vitest-environment jsdom`. Existing component tests are not migrated.
+- Primitives and screens that gain interactive behavior need a keyboard and screen-reader check plus an axe check. `axe-core` is a dev dependency only; jsdom has no layout, so `color-contrast` is disabled in the helper and contrast is verified by the token contrast unit test (v2.0 M1).
