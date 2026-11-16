@@ -4,55 +4,55 @@
   "rows": [
     {
       "reviewId": "0070345d3b8089a2019dd61d",
-      "businessRulesPassed": null,
-      "criticalDietaryViolation": null,
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
       "grades": {
-        "practicality": null,
-        "methodClarity": null,
-        "quantitiesAndServings": null,
-        "adherence": null,
-        "variety": null
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
       },
-      "reason": ""
+      "reason": "Reviewer: \"5 and passed across the board.\" All three dishes received \"Looks good\" observations."
     },
     {
       "reviewId": "0476d7c32a23e4a2c3eb3662",
-      "businessRulesPassed": null,
-      "criticalDietaryViolation": null,
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
       "grades": {
-        "practicality": null,
-        "methodClarity": null,
-        "quantitiesAndServings": null,
-        "adherence": null,
-        "variety": null
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
       },
-      "reason": ""
+      "reason": "Reviewer: \"5 and passed across the board\". All three dishes received \"Good\" observations."
     },
     {
       "reviewId": "0591d01b50cb537ed2841f39",
-      "businessRulesPassed": null,
-      "criticalDietaryViolation": null,
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
       "grades": {
-        "practicality": null,
-        "methodClarity": null,
-        "quantitiesAndServings": null,
-        "adherence": null,
-        "variety": null
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
       },
-      "reason": ""
+      "reason": "Reviewer confirmed all five scores 5/5 and rules passed, with no critical dietary violation. Separate qualitative concern: dishes 1 and 3 are fine as recipes, but ground coriander feels arbitrarily added rather than integrated into their flavor profiles; recipe selection should suit the required ingredient."
     },
     {
       "reviewId": "059a75233188a87eec7a08de",
-      "businessRulesPassed": null,
-      "criticalDietaryViolation": null,
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
       "grades": {
-        "practicality": null,
-        "methodClarity": null,
-        "quantitiesAndServings": null,
-        "adherence": null,
-        "variety": null
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
       },
-      "reason": ""
+      "reason": "Reviewer: \"Good. Plan 4 5 across the board and adheres to rules.\" Dishes 1 and 2 received \"Good\" observations."
     },
     {
       "reviewId": "071acca0878bcc490066bad3",

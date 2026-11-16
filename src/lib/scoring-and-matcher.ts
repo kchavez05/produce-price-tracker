@@ -1,3 +1,4 @@
+import { isRecipeProviderConfigured } from './ai/providers';
 import { exactOfferAllowed, requiresExactOffer, exactComparisonOffer } from './pantry/exact-offer';
 import { rankMealPrepDishes } from './meal-prep-matcher';
 import { calculateValueScore } from '@/lib/value-score';
@@ -487,7 +488,8 @@ export async function buildDashboardPayload(options?: {
       flippLive: flippCount > 0,
       usdaLive: usdaResult.usdaLive,
       krogerLive: krogerCount > 0,
-      geminiConfigured: Boolean(process.env.GEMINI_API_KEY?.trim()),
+      geminiConfigured: false, // Deprecated compatibility field; Gemini is not a runtime fallback.
+      aiConfigured: isRecipeProviderConfigured(),
       sqlitePersisted: sqliteStats.totalHistoricalOfferRows > 0,
       supabaseConfigured: isSupabaseConfigured(),
     },

@@ -130,8 +130,8 @@ gh api repos/{owner}/{repo}/milestones/<milestone-number> -X PATCH -f state="clo
 ## 3. Code Quality & Architecture Guardrails
 
 Keep code aligned with [`docs/code-review.md`](./docs/code-review.md):
-* **Zero-Key Offline Resilience**: The app must function 100% out-of-the-box without requiring `GEMINI_API_KEY`, `USDA_MARS_API_KEY`, or `KROGER_CLIENT_ID`. Always provide deterministic fallbacks.
-* **Gemini SDK**: Use `@google/genai` (`GoogleGenAI`) with `gemini-2.5-flash`. Never use the legacy `@google/generative-ai` package.
+* **Zero-Key Offline Resilience**: The app must function 100% out-of-the-box without requiring `OPENAI_API_KEY`, `GEMINI_API_KEY`, `USDA_MARS_API_KEY`, or `KROGER_CLIENT_ID`. Always provide deterministic fallbacks.
+* **AI provider selection (#731/#752, November 16, 2026)**: Provisional production models are `gpt-6.1-terra` for recipes and `gpt-transcribe` → `gpt-6-luna` for speech. Use application-owned adapters, bounded requests, durable reservations and no automatic retries or provider failover. The retained Gemini compatibility adapter uses `@google/genai` (`GoogleGenAI`); never introduce legacy `@google/generative-ai`. Selection does not waive billing/retention, hosted control or production acceptance gates.
 * **Strict TypeScript & React Hooks**: Avoid `any`, guard against division-by-zero in unit price/arbitrage calculations, and avoid masking stale closures with `eslint-disable` in React hooks.
 
 

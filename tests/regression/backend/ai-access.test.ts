@@ -8,7 +8,7 @@ vi.mock('@/lib/supabase/session',()=>({loadInventoryState:async()=>({profile:{id
 vi.mock('@/lib/ai/auth',()=>({requireAiAccount:mocks.account}));
 vi.mock('@/lib/ai/usage',()=>({reserveAiUsage:mocks.reserve,completeAiUsage:mocks.complete}));
 vi.mock('@/lib/pantry/server',()=>({readProfilePantryAvailability:async()=>[]}));
-vi.mock('@/lib/ai/providers',()=>({createRecipeProvider:()=>process.env.GEMINI_API_KEY?.trim()?{usageBound:{adapterKey:'test:recipe:v1',maximumCostMicroUsd:100},generate:mocks.generate}:null}));
+vi.mock('@/lib/ai/providers',()=>({createRecipeProvider:()=>process.env.OPENAI_API_KEY?.trim()?{usageBound:{adapterKey:'test:recipe:v1',maximumCostMicroUsd:100},generate:mocks.generate}:null}));
 vi.mock('@/lib/scoring-and-matcher',()=>({buildDashboardPayload:mocks.dashboard}));
 import { POST } from '@/app/api/ai-meal-plan/route';
 function request(ip:string,body:unknown={},origin='http://localhost') {
@@ -16,7 +16,7 @@ function request(ip:string,body:unknown={},origin='http://localhost') {
 }
 describe('v1.7 AI access and durable-admission integration',()=>{
   beforeEach(()=>{
-    vi.clearAllMocks();vi.stubEnv('GEMINI_API_KEY','server-test-key');
+    vi.clearAllMocks();vi.stubEnv('OPENAI_API_KEY','server-test-key');
     mocks.account.mockRejectedValue(new AiAccessError('AUTH_REQUIRED'));
     mocks.dashboard.mockResolvedValue({commodities:[],recommendedTrio:[]});
     mocks.generate.mockResolvedValue({text:JSON.stringify([0,1,2].map(i=>createMockDish({title:`Dish ${i}`,pantryRequirements:[]})))});
@@ -28,7 +28,7 @@ describe('v1.7 AI access and durable-admission integration',()=>{
     expect(mocks.reserve).not.toHaveBeenCalled();expect(mocks.generate).not.toHaveBeenCalled();
   });
   it('keeps keyless suggestions and permanently retires stale personal keys',async()=>{
-    vi.stubEnv('GEMINI_API_KEY','');expect((await POST(request('keyless'))).status).toBe(200);
+    vi.stubEnv('OPENAI_API_KEY','');expect((await POST(request('keyless'))).status).toBe(200);
     expect((await POST(request('old-client',{geminiApiKey:'user-key'}))).status).toBe(400);
     expect(mocks.account).not.toHaveBeenCalled();expect(mocks.generate).not.toHaveBeenCalled();
   });

@@ -1614,7 +1614,7 @@
           "AI Meal Planner"
         ],
         "summary": "Generate a custom 3-dish meal-prep plan",
-        "description": "Uses the application-owned recipe provider contract with live sale items, dietary constraints, cookware and macro goals. The compatibility adapter currently uses Google GenAI (`gemini-2.5-flash`); final v1.7 provider selection is pending. The app validates exactly three dishes and recomputes prices/availability. Generation is bounded to 45 seconds and 6000 output tokens, with no automatic retry. Server-funded generation requires verified Supabase sign-in. A shared durable ledger admits requests by verified account and reserves a conservative cost bound before dispatch; the $5/account/day and $20 shared/month reserved-exposure ceilings cover recipes and speech together (UTC). Paid generation defaults disabled until adapter bounds and hosted verification are accepted. Personal API keys are rejected, including from stale clients. The 10/minute per-process IP bucket is best-effort ingress protection only. Requests are limited to 65536 bytes. Deterministic suggestions remain available when no provider is configured.",
+        "description": "Uses the application-owned recipe provider contract with live sale items, dietary constraints, cookware and macro goals. The owner provisionally selected GPT-6.1 Terra (`gpt-6.1-terra`); full culinary evaluation is deferred. Its adapter wraps/unwraps the application schema for strict structured output and rejects more than 32000 counted input tokens. The app validates exactly three dishes and recomputes prices/availability. Generation is bounded to 45 seconds and 6000 output tokens, with no automatic retry. Server-funded generation requires verified Supabase sign-in. A shared durable ledger admits requests by verified account and reserves a conservative cost bound before dispatch; the $5/account/day and $20 shared/month reserved-exposure ceilings cover recipes and speech together (UTC). Paid generation defaults disabled until adapter bounds and hosted verification are accepted. Personal API keys are rejected, including from stale clients. The 10/minute per-process IP bucket is best-effort ingress protection only. Requests are limited to 65536 bytes. Deterministic suggestions remain available when no provider is configured.",
         "operationId": "generateAiMealPlan",
         "requestBody": {
           "required": true,
@@ -1868,7 +1868,7 @@
         ],
         "summary": "Prepare a speech-to-pantry review draft",
         "operationId": "prepareSpeechPantryDraft",
-        "description": "Requires a freshly verified non-anonymous account. Accepts only canonical PCM16 mono 16000 Hz WAV (44-byte header, 0.25–30 seconds; maximum 960044 bytes). Header fields and actual bytes must agree. A single durable reservation covers transcription plus extraction before either stage. Shared recipe/speech ceilings: $5/account/day and $20 total/month in UTC; paid pipeline remains unconfigured pending accepted adapters. One attempt per stage, 60-second overall deadline; failure/cancellation never refunds exposure. Returns suggestions only and never mutates inventory. The user must review/edit and explicitly confirm through the existing owner-bound pantry API. Audio/transcript stay ephemeral and responses use no-store.",
+        "description": "Requires a freshly verified non-anonymous account. Accepts only canonical PCM16 mono 16000 Hz WAV (44-byte header, 0.25–30 seconds; maximum 960044 bytes). Header fields and actual bytes must agree. A single durable reservation covers transcription plus extraction before either stage. Shared recipe/speech ceilings: $5/account/day and $20 total/month in UTC; the selected pipeline is GPT-Transcribe to GPT-6 Luna, with a 16000-input/2048-output-token extraction cap; paid dispatch remains gated on accepted adapter registration and hosted verification. One attempt per stage, 60-second overall deadline; failure/cancellation never refunds exposure. Returns suggestions only and never mutates inventory. The user must review/edit and explicitly confirm through the existing owner-bound pantry API. Audio/transcript stay ephemeral and responses use no-store.",
         "parameters": [
           {
             "in": "header",
@@ -4082,7 +4082,13 @@
                 "type": "boolean"
               },
               "geminiConfigured": {
-                "type": "boolean"
+                "type": "boolean",
+                "deprecated": true,
+                "description": "Legacy wire field; false because Gemini is not a runtime provider."
+              },
+              "aiConfigured": {
+                "type": "boolean",
+                "description": "Selected recipe provider credential present; does not imply paid access is enabled."
               },
               "sqlitePersisted": {
                 "type": "boolean"

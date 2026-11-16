@@ -60,9 +60,9 @@ All GET, POST, PATCH and DELETE requests return `410 Gone` with `code: freezer_r
 * `POST /api/saved-recipes`: Saves a `RecommendedDish` into the recipe library.
 * `DELETE /api/saved-recipes?id={id}`: Deletes a saved recipe.
 
-### 5. `POST /api/ai-meal-plan` (Gemini AI Meal Planner)
-* Calls Google GenAI (`gemini-2.5-flash`) with live store sale items, nutritional profiles, and dietary constraints.
-* **Zero-Key Offline Resilience:** If `GEMINI_API_KEY` is not detected in `.env.local` or client payload, automatically falls back to deterministic algorithmic scoring without error.
+### 5. `POST /api/ai-meal-plan` (AI Meal Planner)
+* Uses the provisionally accepted GPT-6.1 Terra adapter with live store sale items, nutritional profiles and dietary constraints. The app validates output and recomputes prices.
+* **Zero-Key Offline Resilience:** Without server-side `OPENAI_API_KEY`, returns deterministic suggestions. Personal keys are rejected. Paid generation also requires verified sign-in and an accepted durable usage reservation; keys alone cannot activate access.
 
 ### 6. `/api/sync` (Cloud Sync Engine)
 * `GET /api/sync`: Loads cloud or local session non-inventory preferences and saved recipes.

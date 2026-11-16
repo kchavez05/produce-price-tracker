@@ -2,12 +2,12 @@
 
 ## Stack & Architecture
 - **Framework:** Next.js 15 (App Router), React 19, TypeScript 5.8 (strict mode), Tailwind CSS v4.
-- **Zero-Key Offline Resilience:** The application must work 100% out-of-the-box without requiring API keys (`GEMINI_API_KEY`, `USDA_MARS_API_KEY`, `KROGER_CLIENT_ID`). Any live API integration must gracefully fall back to deterministic local baselines or cached feeds.
-- **Gemini SDK:** Always use `@google/genai` (`GoogleGenAI`) and current models (`gemini-2.5-flash`). Never introduce the deprecated `@google/generative-ai` package.
+- **Zero-Key Offline Resilience:** The application must work 100% out-of-the-box without requiring API keys (`OPENAI_API_KEY`, `GEMINI_API_KEY`, `USDA_MARS_API_KEY`, `KROGER_CLIENT_ID`). Any live API integration must gracefully fall back to deterministic local baselines or cached feeds.
+- **Selected AI adapters:** Provisional recipes use `gpt-6.1-terra`; speech uses `gpt-transcribe` → `gpt-6-luna` (#731/#752, November 16). Enforce full input/output/audio bounds, one attempt per stage, safe errors, and shared pre-dispatch reservations. No automatic failover. The retained Gemini compatibility adapter uses `@google/genai`; never introduce deprecated `@google/generative-ai`.
 
 ## Review Focus Areas
 1. **Type Safety:** Flag `any` types, unsafe type assertions, or unhandled `null`/`undefined` edge cases in price normalization (`$/lb`, `$/oz`, `$/ea`) and grocery item parsing.
-2. **Security & Secrets:** Ensure API keys are never exposed in client-rendered bundles unless explicitly user-supplied via `localStorage` in the client modal. Server-side environment variables must stay inside Route Handlers (`src/app/api/**`) or server modules.
+2. **Security & Secrets:** Ensure API keys are never exposed in client-rendered bundles. Personal AI keys are retired and must never authorize dispatch. Server-side environment variables must stay inside Route Handlers (`src/app/api/**`) or server modules.
 3. **Price & Arbitrage Math:** Verify division-by-zero guards when computing unit prices, wholesale club comparisons, and explicit Pantry availability and additional grocery cost estimates.
 4. **React 19 & Next.js 15 Patterns:** Ensure client components declare `'use client'`, avoid hydration mismatches when reading `localStorage`, and properly await async `params`/`searchParams` in Next.js 15 route handlers or pages.
 
