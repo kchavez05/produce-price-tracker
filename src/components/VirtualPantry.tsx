@@ -98,7 +98,7 @@ export default function VirtualPantry(props: Props) {
     <div className="mt-3">
       <button ref={speechTrigger} type="button" className={button} disabled={props.status==='Loading'} onClick={()=>{
         if(!props.owner?.startsWith('account:')){props.onAiSignIn?.();return;}setSpeechOpen(true);
-      }}>{props.owner?.startsWith('account:')?'Speak pantry ingredients':'Sign in for speech entry'}</button>
+      }}>{props.owner?.startsWith('account:')?'Speak pantry ingredients (experimental)':'Sign in for experimental speech entry'}</button>
       {speechOpen && props.owner?.startsWith('account:') ? <SpeechPantryEntry key={props.owner} owner={props.owner}
         configured={props.speechConfigured===true} entries={props.entries} acceptedCatalogIds={props.acceptedCatalogIds} onSave={props.onSave}
         onClose={()=>{setSpeechOpen(false);speechTrigger.current?.focus();}}/>:null}

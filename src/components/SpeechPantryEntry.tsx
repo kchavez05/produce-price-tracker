@@ -91,7 +91,8 @@ export default function SpeechPantryEntry({owner,configured,entries,acceptedCata
     finally {saving.current=false;if(current())setBusy(false);}
   }
   return <section aria-labelledby="speech-pantry-title" className="mt-3 rounded-xl border border-sky-200 bg-sky-50 p-4" onKeyDown={event=>{if(event.key==='Escape')close();}}>
-    <div className="flex items-center justify-between gap-3"><h3 id="speech-pantry-title" ref={heading} tabIndex={-1} className="font-bold">Speak pantry ingredients</h3><button type="button" className={button} onClick={close}>{locked?'Close review':'Cancel speech'}</button></div>
+    <div className="flex items-center justify-between gap-3"><h3 id="speech-pantry-title" ref={heading} tabIndex={-1} className="font-bold">Speak pantry ingredients (experimental)</h3><button type="button" className={button} onClick={close}>{locked?'Close review':'Cancel speech'}</button></div>
+    <p className="mt-2 text-sm">Experimental speech entry may not work in every browser. Manual pantry entry is always available.</p>
     <p className="mt-2 text-sm">Record up to 30 seconds, then send it for transcription and ingredient suggestions. Review every form, quantity and unit before confirming. Nothing is added by recording or transcription.</p>
     <p className="mt-1 text-xs text-slate-600">Sending shares this recording and its transcript with OpenAI. PantryBot keeps them only for this review. OpenAI may retain text for abuse monitoring. See the privacy policy for details. Manual pantry entry remains available.</p>
     {!configured?<p role="status" className="mt-3 text-sm">Speech assistance is not ready yet. Enter ingredients manually.</p>:!supported?<p role="status" className="mt-3 text-sm">Microphone recording needs a supported browser and secure connection. Enter ingredients manually.</p>:null}
