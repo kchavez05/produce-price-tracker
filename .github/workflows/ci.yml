@@ -45,6 +45,12 @@ jobs:
       - name: Verify approved cooking catalog projection
         run: npm run catalog:build -- --check
 
+      - name: Verify generated design tokens
+        run: npm run design:tokens -- --check
+
+      - name: Guard against new raw palette classes
+        run: npm run design:palette
+
       - name: TypeScript typecheck
         run: npm run typecheck
 

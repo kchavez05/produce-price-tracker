@@ -56,3 +56,16 @@ Repository-wide review rules live in [`AGENTS.md`](../AGENTS.md) (imported by `C
 - Read and mutate personal inventory only through an authenticated account or private guest session. Caller-supplied IDs and profile emails are not credentials.
 - Preserve pending changes across failed HTTP responses, network failures, and reloads. Never replay one account's queue under another account, and ensure additive operations cannot duplicate data when retried.
 - Check returned database errors before acknowledging cloud writes. Preserve cached child records when refreshing profile metadata.
+
+## Component Tests and Accessibility
+
+- New jsdom component tests use `tests/helpers/render.ts` (`renderUi`, `expectNoA11yViolations`) instead of repeating the `createRoot` and `act` boilerplate. The file still declares `// @vitest-environment jsdom`. Existing component tests are not migrated.
+- Primitives and screens that gain interactive behavior need a keyboard and screen-reader check plus an axe check. `axe-core` is a dev dependency only; jsdom has no layout, so `color-contrast` is disabled in the helper and contrast is verified by the token contrast unit test (v2.0 M1).
+
+## Design System Rules (v2.0)
+
+- New and changed UI uses semantic token utilities and the primitives in `src/components/ui/` (see the [Design System wiki page](./wiki/Design-System.md)). Do not add raw palette classes such as `bg-slate-50` or `text-emerald-600`; `npm run design:palette` fails if a file's count grows, and the baseline only goes down.
+- Do not edit `src/design/tokens.css` by hand: change `src/design/tokens.ts` and run `npm run design:tokens`. New text or control color pairs belong in the contrast pair lists so the unit test covers both themes.
+- Control boundaries use `border-border-strong`, not the decorative `border-border`. Targets are at least 44px, focus is visible, and status is never conveyed by color alone.
+- Modals use `Sheet` (focus trap, Escape, return focus) rather than ad hoc overlays. Theme and `data-ds` changes must not cause a flash or a hydration warning; keep the head script inline-safe for a future CSP (#666).
+- The `/design` route is development-only and must stay out of production.
