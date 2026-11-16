@@ -45,6 +45,9 @@ jobs:
       - name: Verify approved cooking catalog projection
         run: npm run catalog:build -- --check
 
+      - name: Verify generated design tokens
+        run: npm run design:tokens -- --check
+
       - name: TypeScript typecheck
         run: npm run typecheck
 
