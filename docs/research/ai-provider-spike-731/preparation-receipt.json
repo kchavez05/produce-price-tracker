@@ -1,0 +1,82 @@
+{
+  "issue": 731,
+  "validation": "passed",
+  "paidCallsMade": 0,
+  "catalogVersion": "2026-11-07.4",
+  "fixtures": {
+    "recipes": 40,
+    "speech": 20
+  },
+  "categories": {
+    "recipes": {
+      "diet": 8,
+      "availability": 6,
+      "identity": 6,
+      "cost": 6,
+      "remix": 6,
+      "vessel": 4,
+      "robustness": 4
+    },
+    "speech": {
+      "single": 1,
+      "multiple": 1,
+      "quantity": 2,
+      "form": 4,
+      "negation": 2,
+      "correction": 2,
+      "duplicate": 1,
+      "ambiguity": 1,
+      "unknown": 1,
+      "silence": 1,
+      "unintelligible": 1,
+      "noise": 1,
+      "fast": 1,
+      "slow": 1
+    }
+  },
+  "scoredRecipeCallsPrimary": 360,
+  "scoredRecipeCallsOptionalControl": 120,
+  "scoredSpeechPipelineAttempts": 240,
+  "recipeReservationUsd": {
+    "google-lite": 2.088,
+    "openai-luna": 0.456,
+    "claude-haiku": 0.456,
+    "openai-terra-control": 4.56
+  },
+  "speechDerivedPerAttemptBoundUsd": {
+    "google-direct": 0.004048,
+    "google-transcribe-luna": 0.009488,
+    "openai-transcribe-luna": 0.005412,
+    "deepgram-luna": 0.010912
+  },
+  "speechReservationUsd": {
+    "google-direct": 0.246,
+    "google-transcribe-luna": 0.57,
+    "openai-transcribe-luna": 0.33,
+    "deepgram-luna": 0.66
+  },
+  "primaryRecipeReservationUsd": 3.0,
+  "optionalControlReservationUsd": 4.56,
+  "ancillaryReservationUsd": 0.4,
+  "totalPlanningReservationUsd": 9.766,
+  "unallocatedUsd": 0.234,
+  "audioPreparation": {
+    "clips": 20,
+    "totalSeconds": 54.598999,
+    "apiSpendUsd": 0,
+    "checks": "Local generation manifest validated; WAV bytes were separately checked at preparation time.",
+    "listeningReview": "pending owner/reviewer; not claimed"
+  },
+  "warning": "Planning envelope only: all billable bounds, account access, audio bytes and final plan approval must be verified before paid execution.",
+  "inputSha256": {
+    "recipes.json": "05344fe67abb0eaf594e432c558b5278ab7068934a35615bc6ef11f25570ad41",
+    "speech.json": "bb70df557355d6b9fd736885aeebd8522f1986aaceff2d11b037046dae003ce3",
+    "candidates.json": "ee982b71f0d7430995072449a0bb079a56df258aa764a0890610b082d52ea95b",
+    "recipe-output.schema.json": "06742d675a086d6331b584caac28296548bde51e06e254aa8591f455a54d929e",
+    "speech-output.schema.json": "067a8274957fa8357f6e51522a8f5d6b1ab672dc7871f86adb55d976084b1f36",
+    "prompts.json": "7fddbc50c59d2bec16d9fe0e875e18f36356aa3d6daca9669cb1a18ce136689d",
+    "audio-manifest.json": "85be70fa0a33262654ab5f09cbfea4c1b6e4efc0010c08dd57fe528756cede64",
+    "validate.py": "98867cdf9409c40e1552e8d5cf84489eab065dca51629801b4e29cb523127250",
+    "prepare_audio.py": "7985cb05ef162336a7a350d39d408bed590f8185230fa519d58051f53734b444"
+  }
+}

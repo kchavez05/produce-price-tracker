@@ -1,0 +1,33 @@
+{
+  "issue": 731,
+  "approvedOn": "2026-11-13",
+  "owner": "kchavez05",
+  "source": "https://github.com/kchavez05/produce-price-tracker/issues/731#issuecomment-6861542253",
+  "approvedPacketCommit": "f0bf0b6e256a94dd5d85510427b3c3686efeb277",
+  "apiCapUsd": 10,
+  "referenceMonthlyApiCapUsd": 25,
+  "fixtureHashes": {
+    "recipes.json": "05344fe67abb0eaf594e432c558b5278ab7068934a35615bc6ef11f25570ad41",
+    "speech.json": "bb70df557355d6b9fd736885aeebd8522f1986aaceff2d11b037046dae003ce3",
+    "candidates.json": "ee982b71f0d7430995072449a0bb079a56df258aa764a0890610b082d52ea95b",
+    "recipe-output.schema.json": "06742d675a086d6331b584caac28296548bde51e06e254aa8591f455a54d929e",
+    "speech-output.schema.json": "067a8274957fa8357f6e51522a8f5d6b1ab672dc7871f86adb55d976084b1f36",
+    "prompts.json": "7fddbc50c59d2bec16d9fe0e875e18f36356aa3d6daca9669cb1a18ce136689d",
+    "audio-manifest.json": "85be70fa0a33262654ab5f09cbfea4c1b6e4efc0010c08dd57fe528756cede64",
+    "validate.py": "98867cdf9409c40e1552e8d5cf84489eab065dca51629801b4e29cb523127250",
+    "prepare_audio.py": "7985cb05ef162336a7a350d39d408bed590f8185230fa519d58051f53734b444"
+  },
+  "scope": "Execution of the approved comparison plan; no subscription purchases, production migration, added spend or release approval.",
+  "inputBoundAmendment": {
+    "approvedOn": "2026-11-13",
+    "source": "https://github.com/kchavez05/produce-price-tracker/issues/731#issuecomment-6864431424",
+    "target": "claude-haiku",
+    "maxInputTokens": 9000,
+    "reason": "Owner approved after free counts measured 8297 max across 40 unchanged recipe fixtures. Full reservation 9.778 USD; total cap remains 10 USD."
+  },
+  "coverageAmendment": {
+    "target": "google-transcribe-luna",
+    "source": "https://github.com/kchavez05/produce-price-tracker/issues/731#issuecomment-6869349835",
+    "reason": "persistent_http_429"
+  }
+}

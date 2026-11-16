@@ -54,7 +54,7 @@ Stage 2 removes Freezer inputs and flags from ranking, AI context and shopping. 
 * **`LOW_CARB_KETO` Mode:** Automatically swaps high-carb starch slots (Russet Potatoes, Yukon Golds, Rice, Pasta, Beans) to `lowCarbCandidateIds` (Cauliflower, Green Cabbage, Broccoli Crowns, Green Beans) and recalculates batch macros (`-28g` net carbs/serving).
 * **`DAIRY_FREE` Constraint:** Automatically omits `isDairySlot` ingredients (Shredded Cheese, Butter, Sour Cream, Greek Yogurt) from recipe calculations and shopping lists.
 * **Macro & Vessel Scoring:** Boosts blueprints matching the active `MacroGoal` (`HIGH_PROTEIN`, `LOW_CARB_KETO`, `CALORIE_CONSCIOUS`, `BALANCED_FAMILY`) and `CookingVesselArchetype` (`SLOW_COOKER_INSTANT_POT`, `CASSEROLE_SHEET_PAN`, `DUTCH_OVEN_BRAISE`, `BIG_BATCH_SKILLET`).
-* **Gemini 2.5 Flash Integration (`/api/ai-meal-plan`):** Passes all active dietary, macro, and appliance rules into the Gemini system prompt for bespoke AI recipe remixing.
+* **Provider-neutral AI (`/api/ai-meal-plan`, v1.7):** Verified-account requests use provisional GPT-6.1 Terra with dietary/macro/vessel settings and pantry context. Application schema/catalog validation and repricing remain authoritative. Durable admission reserves cost before one generation attempt; standard suggestions remain available. No automatic failover or inventory mutation. See the [selected-provider evidence](../research/v1.7-selected-provider-integration.md) and [usage runbook](../operations/ai-usage-controls.md).
 
 ---
 

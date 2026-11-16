@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Spike 731 reviewed pantry proposal; no writes",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "items",
+    "reviewRequired"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "proposal",
+        "needs_review",
+        "no_change"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ingredientId",
+          "displayName",
+          "quantity",
+          "unit",
+          "available"
+        ],
+        "properties": {
+          "ingredientId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quantity": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "unit": {
+            "enum": [
+              null,
+              "lb",
+              "cup",
+              "tbsp",
+              "clove",
+              "can"
+            ]
+          },
+          "available": {
+            "const": true
+          }
+        }
+      }
+    },
+    "reviewRequired": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

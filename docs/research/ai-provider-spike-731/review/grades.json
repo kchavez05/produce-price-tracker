@@ -1,0 +1,6247 @@
+{
+  "issue": 731,
+  "packetHash": "ba8771e9e67cff8070b41db691a0ab0806b52998d1378e6e8a5fcb5ccf5b8aa1",
+  "rows": [
+    {
+      "reviewId": "0070345d3b8089a2019dd61d",
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
+      "grades": {
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
+      },
+      "reason": "Reviewer: \"5 and passed across the board.\" All three dishes received \"Looks good\" observations."
+    },
+    {
+      "reviewId": "0476d7c32a23e4a2c3eb3662",
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
+      "grades": {
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
+      },
+      "reason": "Reviewer: \"5 and passed across the board\". All three dishes received \"Good\" observations."
+    },
+    {
+      "reviewId": "0591d01b50cb537ed2841f39",
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
+      "grades": {
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
+      },
+      "reason": "Reviewer confirmed all five scores 5/5 and rules passed, with no critical dietary violation. Separate qualitative concern: dishes 1 and 3 are fine as recipes, but ground coriander feels arbitrarily added rather than integrated into their flavor profiles; recipe selection should suit the required ingredient."
+    },
+    {
+      "reviewId": "059a75233188a87eec7a08de",
+      "businessRulesPassed": true,
+      "criticalDietaryViolation": false,
+      "grades": {
+        "practicality": 5,
+        "methodClarity": 5,
+        "quantitiesAndServings": 5,
+        "adherence": 5,
+        "variety": 5
+      },
+      "reason": "Reviewer: \"Good. Plan 4 5 across the board and adheres to rules.\" Dishes 1 and 2 received \"Good\" observations."
+    },
+    {
+      "reviewId": "071acca0878bcc490066bad3",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "07565f30c9ea2b4839034316",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "078a95302b1d3e3c4a023163",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0858923892076dba5ddaec5c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "09146da548539845c364b821",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "091b613446227d74f855b544",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "09f2a9fe69b493980935fd4d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0a712df8b0aa895883cfc8f9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0b0c8d2ed97b203e6076009a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0b70dcd63bad4114b63df952",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0c738ce20e4d212bd4585f20",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0ccb3919e6c59bc271b23b9b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0d0f040575518c49dfc5ff05",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0dca4120d3783d6f58962026",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0ddeccc0712cf683330bb6e5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0e2c732251fd8c4ffb6da860",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0eee7b700993f0539e3b4da2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "0f6b2dd656e683afb942641b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "11a2c771d3ae4e44b698e446",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "11f9fb4565927dc6bb48a2c0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "124bed28f77702cb53507ddc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "12b3cedb19948b1ff76011cf",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1450afa163812b71fb7ee138",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "147de58401b839e4dac6dea4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "14936d82c97df435e8172cc8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "153846a97ff28145c11aa8d0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "158da3f139cbb85b5be0d7db",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1592c73a6ac3cc03b055587f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "15cbe78c1b71489e55af8079",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "15e92fd1ece54306ef35e418",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1627f12aad3b446d61662eaf",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "16952e82a9fea7a34a10c39c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "16eb765eb52acc9300af28f0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1750ff634950b12c341d2c12",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "17533088d68e1a39d2cbd6c8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1866ac502135e63c9852201e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "188d7909cef3bc89a23e5108",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "18d531ec17f3b893d00ef36a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "191be6a3b4457268f7efaa10",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "195fa9c1bb3f898e2d835871",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "197f6bec8e98dc4e3871269f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "19bde336e7c7462515d1d45f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1a20f1c41a25da02aebb3aef",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1a79d1a94062eb07661f98c0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1b44b9c40befedded00452db",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1bd05bf407482c38e271cedc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1cf410d974c2ab61d113e223",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1d410c7f031598abdfff4507",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1e82c642807c53a67cde9abf",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1f73db1891ce7e9061bfa892",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1f9b9c336591c5467cdbe83a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "1fb3710cffa6bbaee52e219e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "213e59e9b04eeef8b2647662",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "218df8706ab8881b264d64eb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "21c954711d19367a18754c3c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "229e08cbecafb4aa06d5e970",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2327a63192f978216835c0e0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "23362e279b95d4e542497718",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "237ed7d6c0dc552f4d7e0699",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "23e04fe987cc843cfd20159b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "25b58c89345be0f21ba9b583",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "25d2acb7e5e0d193c145239c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "263206d44a685dd24116f055",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "275016df5df68db28dbde6a9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "27f4b33adf821f2674fae84f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "27fa99ccd4f062f18a71aa7c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2a65e77540055f1b6068567a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2a7cb077dc828c9935c4b81b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2ac02009dd1436473dd466e2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2ae39f40341dc30e75d3c965",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2ae7290aca2537f7bd705302",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2b141bdea0b420cd2675d11b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2b3530108cc508164fa0a9bb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2b4c7d1f328b86665708bb01",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2bc09537310176ce336f25d5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2c94455432233eac11f94889",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2c9788edc8e5828d12ec981c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2df75a5a91c7987640b8aa8c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "2ea0d976f42ba5a11de28940",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "30650828d8398f135a298353",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "31b1fd5b23e06b043845ddc3",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "31fb5b714ed2bea8b24252f3",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "321978f73190519d08b25a8f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3288d575429bee4948208c61",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "32d5c8f49601b79c7c73a0fc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "332ebeef346cdc77b43d6875",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "33620f3974d61e29f67fc4a2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3369364c9f7616ba8dbe3978",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3562a5e2db4316672fce3f0b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "361bda5bac8018b8743c7bb0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3693f2cca756c10e5bd846d6",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "36a202ed1805a890c069ae15",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3723d1ead008003b0d46e9d4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3864f9217861164c5275950d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "38f74845ad7f193f35db31c5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "39a39e3b05d8575c682bfccb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3a42c24aee800d202fde4b20",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3a471e49cd49afe4fee8049d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3ae338588c661ccd017f0a28",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3af9c69bfe3513c2f395f90d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3b693662b7f3e5445306ba61",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3bca7a796c35b307bfddd0d8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3cfe41f4c1fe7174472b9ef7",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3d23568ca2b58e76e5455bba",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3d5f8ab2570bcc9e95e8d08c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3d7c8af19bf3fc90f92a500d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3e7df1e35dbe7354a8bcc34c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3ef9e6eae709e2119f1db6c5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3f653faac295591ea023ae0d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3fe0f462b43459703de0f54c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "3fe12bc40fbd513b3aa770e7",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4060f99628cebfd73b5ce305",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4152bdde18d535f40a66d66e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4301f9504ed788d0438db0fc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4351b0a61ed9a813bd1baf17",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4523810340e77cd0d732823a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "457b9ca9bcc8bbf1c69b02e4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "45f12c754d96163fa5367244",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4607a450880290adff4b873f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "46fe58019721ae7df1f6930a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "478de6c892d446a0f89643fb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "480e425754de92cc2f096d82",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4829ca098b1eaa79fa1518e4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "48d6eb3ca947ec981746b1be",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4acc5104309ee45d1918db30",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4b63a361b958c546632b1394",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4c3a6e029aefbfc3daf89bdc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4d609d529fdb6c787ff53938",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4e0c19a1488edca5c30e766d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4ef1219c56c7c9a6d2da6d39",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4f136375eb6fe677a977f11f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4f2295f29dd2cdb25b517644",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "4fab805f23da7ccf414d212a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "50bc1156198bfe743c21df64",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "50c3621e0e6de5ed01593db9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "50e53acd5f3b43bee004f885",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "50f63d078936ba70a2ba4957",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "51f5b14d4e1cf59c950c5889",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "522cafe0ab4c25450712afa2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5307ca431101fb2eb755b69c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "533307f23cd22357b81fae22",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5371287a269a47aea038b86d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "53a6c3d8b7a16620f86b7576",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "53b3aab2130e7ee418c129c2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "541f71d23ccc98c1a22f5457",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "54d8506b4f5e904e2ff96447",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "54fe1133ec4692954c4b4e8b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5560e244d0a9a0a23b6f5612",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "57ff11577b04d5ea6b902d65",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "59220768b28ad7f1cc2fc995",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "59836559b532454b243b7e03",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "59c0cbd7fd76d868579363be",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5a3f9b2d8798267e9a99694a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5c76feca7f5826ec48eee7a5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5c858859a0c37aa6f0c5fb5f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5d637d1c35562eda39a5af89",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5db374d24d4e59062c25bdee",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5ded4f1c9a951e2cdc8f4420",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5ea1a09af17be7ea02a03034",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "5fcf7e6735c88f4853940c9b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "611f2c6239575681e5904888",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "61a969bd10fd9049fc5e3c75",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "61e0f0636e1106dde422b160",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "61e50ffa67752cd30bc3567f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "623c3e4de62f516d71429b21",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "630aa6059e5569f5cc7cef12",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "63c4240c16c250c6ae5e0c93",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "644eb609992d23c4645ecd88",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "64ffc55cc93326bdf49dfbfb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "65602375368de89a0887ed71",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "65ce4b0cac41b65c7c9a273a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "65d5e8211b708d128caad587",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "667e84fa99970a2f9a9401fb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "674df418543df0b1a8e81348",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6791be0aca3824316bf18782",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "67f7537ac7036de08951c3e4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "67fa252323b82b0ce668c45d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "67fd67d9c3c0021732868b54",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "68414fc758734f577184c807",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "68576d8e578054f00143bd8e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "69430ef629dee93a7ee3a90d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "69e67f1942912b2375b1a631",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6a9451c4cd628d861ef6c7f1",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6a981edf04a0b52f035edbf5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6b29fd63419692332915a620",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6ba7b80314e606dddf3ac278",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6bdb3f71178eb2f1f3a62d0c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6c8d371ec81273422ff2603f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6ceec746fdde62b3f1046346",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6cf57feb27eb3c0f97407b47",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6d5430aac48a6e50b1e17214",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6d765f7587ce84888a1c4f32",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6da9bf6c1f77be0ce318f390",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6e283a8ae31b93e3a45a1b81",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6e7b8e21ffbfbe33e167af10",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6f62ca40c463a6402d0d6c2a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6f6f4071506c5de6e233b4cd",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6fb0bd31dfd54447888eda1f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6fcd5781db88725bbbb2b402",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "6fedb1cb5199553c07855a29",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "701bb5d80670be77f773e710",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7035c0fc649a014ebc6f2348",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "709093305577583d4e230633",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "70b4a23cbea1a9f106f1fd1c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "71ad884d0e36db74cd057537",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7268398fb7c34d988120582c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "726d0cdcf60f1d020ad3587b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "73000240ef22207b3e12b488",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7377662247837f348d498fb5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "73e4796760623af16ab0d05b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7592a45f3a2c9bab741d337b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "75cf7a63aa589c2061bee995",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "76374373a8c09c0e1fee104e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7705c2f3aa86ea669eead455",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "770cdd0b33cd779c91fd9ecf",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7748b55072318b8bc92122ba",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "77510ce3346f882d763a029b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "791f633ce666ca06585916cd",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "79f24232eed0e05e472048e2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7a8091573a8fcf84c52b64c0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7bf11793bcf5e07fe2a56e07",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7c218ab6254120b8cdc4343d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7c53ba2f066bf6f4474461a2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7cfbe7f7de27f75f58c8cc55",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7d6843f4d0c46102d77d9946",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7e25afe6a4320113aeaf076a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7e803b813b357d420d2f772b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7eac38e9df1754c272383cff",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7eb1828f8fce38e8fb05e9c7",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7f8aae4097e4916c733f2826",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "7fdf1ed942a895d767f5fa48",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8028bebb722d1675cd523e22",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "806dc8a30849828511a1478c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "810688fb7812226d763990db",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "81101e96f3ca5c363e658771",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "81323787463b1b506d679227",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "820bbcd4cf8eb0f9749be23b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8236385c7f3fb5f01ecdd3d4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "82c0de91be0b5968aa960661",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8316332efeb68847da1854ac",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "831e033ce7a302e4836ab560",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8372f1105ad13f985cd76448",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8439eb2b1e10e10b4f398e31",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8471a699bfe9b98ba7dbeb53",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "85e0216419bb6f43839303b2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "86d60fc3829eb8be702c21fb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "86f8ff7e103ba67399346e86",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "89acc469974636094ed91e86",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8a0b6a641dd762b95100f628",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8d068a846bd2a71b039757f2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8d28df133a12411e197c0f51",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8d55a566fb6e86e2e4635bf5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8d817f7309d7bcea0d1b619f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8e7cf82d9d6c5c1bcc7ba14b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8f9c6a0fc5188a0941c9aad9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8fa761df05e830ba8b1407ab",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "8fcc81698118f2bf4909b83c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "924948461d0b5a9cc5c828e9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "931f30ebb7a24fdf8bf60bc4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "93fc120fb3f3abbb1f8a4cb6",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "945f969ccddc89c75278a67f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "95166c1a44dec35d4783c250",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "956965a0d2546c59899b8d4d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "960f3c45526ebc47a248c7ce",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9647aa640c466b342be09fce",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "97b1056f8f0e98fc54d40351",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "97b9ec3cb06f0e0d7984a5f1",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "98b54861fcc71dd074ee2c3e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "98e95b16254cdd2cacf34d37",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9a525969566f184b24982886",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9b4e2dfae50021e046db532e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9bb3f5341aea0c2fa42399e2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9bb9d28f68316767f7a8c3a8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9bdf6541ed911d85174933b0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9c46d8b502a330ec423f2b4b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9c727a03d6606e300a237abf",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9c9694033a034c471bfd7512",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9c96b74640a16351cea38079",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9d7b1b3c5fe2408db082a5a0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9d859023b6e744ce47d9a80e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9e526e11ae90a62cd00ed74c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "9f8686c3e4731452f900c9cc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a06600d58b4171332787043a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a1ba15bbc7e416a0c4ade56d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a39d29e5e318fe84d2c630bf",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a3dd8e0097fd90849b874048",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a42270ac325480c9e138b0d5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a4fec6269b6e03f78ff1049b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a50d457f3ee63431a7f7a833",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a53f81a08aad6ef592341bfa",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a56bbc128cebdfecfd2f06a3",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a64cae5fffc6185d5a317e45",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a72eafafe48ca32d675955eb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a7c52b01245bd4ab3e080dfa",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a8779ed94874b730e78bdaa7",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "a9b2ba5158974f12002e48f4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "aa5267b8350fd6089ba74835",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "aad7b4e89e4a98f465cbbd15",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "aaf111f047197de4278a5571",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ab3770828388860729c4641c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "abe282b0fc7558a94da5ea88",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "abebba4665ac68050d546c62",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ac5a2ad419b409df45ee2eec",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ad30f26467a13f48e4366802",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ad3f94939815fe4d60e031ea",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "adeb19f4ad2f233e0410ad9f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "adef6e7e5c3f3a70155f4cef",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ae0842387740e69f3152b8b0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ae1c90a89e2db7ce515b01f5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "aea46dad4e438218388077ca",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "aedc4ada4d32df3c2bf820f8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "af270e442aab3d28a2ca7d60",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "af64dd84038f5a570e9899f6",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b01e7268b88d7c78488a8421",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b06477abf3040959ca758997",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b1616fccc16b4061aaa70a94",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b183df6f18c64b28abec859f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b1f7f232147899b247364856",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b22cc10d71c47a9a99e6b4de",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b25de4e280717d1fbbedaf00",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b3fb47b70fac24f7a07f6dbc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b45de72a2f4fc3d8d39c2bf8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b4e468142fe5e9ff69d3ece4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b4e7a76bca135dcde51b820b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b569fad2480664c0b93e9d93",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b589f634fd945d38c570fec0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b5918ccb35867e2d972c2dcb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b612a4e04bd7b866fd339034",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b752ebefbb892fe137ec105e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b7ce3c4e59fb7b6b3c4b3021",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b7eb8332bc9051a7b5297b4a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b7edcbc3378538be8daa2857",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b7fc5e1d8da5e22a0cdfc24d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b840168726ff271f41485f10",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b949c161f85e4b993720ee84",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "b9b8937ec21935971609b94b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ba444a6a77216648811c48b9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "baeb155659b0789fbb60459c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "bd031263a587b0b8770bb5e5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "bdbdac318572b3e38a5393ca",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "be43ae5ac968e86ede0f807b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "beabb11e01c18bb0227a00d8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "bf1b0b4ffb2c33f65e3681f4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "bf4b46b0b41971b9e1e42e8f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c0e18702fad8e22a67d08966",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c22dbe88d7eec25f64f20989",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c2ad57266f586874dea95290",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c33199b1322f88a368dce295",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c3575db7b83cf7d77001bbf5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c380549448a4a273526903ff",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c3b2e1346e7b9165fdd3a0c9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c459271872729041abbeb4d8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c4831d1dc2ee75581513e93b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c489288e71584c4f93ace0a8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c52243e6b0f7ffa955f32bdd",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c54f02a947807dfbf7088a5e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c55192f102c1956a7e3ad625",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c6c4007b922e3b7db616338f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c783b5fc2142d55812c21183",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c7be8d311551b8eb5c4ef6ec",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c7c7ad92d7ecb2586ff3de02",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c97996e30deb3aaf3d480030",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "c9da111bcee59c5844c89119",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ca89dded94267414a04a9989",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cae421e8c4fb69ad1df9a30c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "caf3d04051ca463ab33a22f2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cb10ab1adabdde088704b7fa",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cb2aaaba009634a0187d0123",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cb9aba10a4f0b7280329ed8d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cce53eb5385fe7d47db86734",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cd255672c3490855bf231e0a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cd735f10dedbfa02d0784cff",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cdbbc2a2237d24413c3d775f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ce32d980003a49cd044c4387",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ce8fe2ab7c0eaa5eb0c9da2e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ced4452f0456f7dcf7400ca3",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cf49c8bbaa9c19b02b6748ea",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "cfe4c8c5f73bdaf703e58fa7",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d0396bca81eb6fc7d307d854",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d047bda3a8f49424066b6454",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d186df1fd4608c13ccc4796f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d1a6b99d86aa1b6db4ac31bc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d21d7b3dd8ca2563c3fff978",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d308b2642a5495e9fa007774",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d3b3e471d5dd2e021052d50e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d3c096a142acab13a8765109",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d3fcb12ce1156812852d1de4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d4934c499e7e66c0098c0ec2",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d4d5e756e094430d7492deb5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d4e9998f2855a0482feec1ed",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d52fae799658f1fb2b5d8360",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d6105dd9b3d1640ead092645",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d695da54e33c2b616d48d54e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d730a09e113b2c8eca9a14fa",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d8b22476e0a9d43a9dd70027",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d9a6eaa14b6360e3bba9d3b1",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d9aa6121ececb2d1b840828f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "d9b8e52e0f67753505e0f535",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "da659e54ddd24c46f8692ec4",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "dc8d1dcc8fe5a33a9a2592ca",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "dc9ec59734a353cf1abcbc12",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "dcb500c9b5a5bae5a81dafe0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ddc367d3854ec8a5d85dee6d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "df45dd2f601311843aa784d9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "dffa57fb1cebc772be77ec10",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e054392ad4d5db78b7fa61a7",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e0611ea7ab4e2044e3c1a220",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e0a3c6ca5f6e3bfa5d048ae0",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e0e0aed91d8492f328eb24ad",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e2614a87c84edcc557ca2a36",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e2c2203a5d19f7b5fb9bfc4a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e32df04536a94d3ec58a71d5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e33129fdd115ae800d37a089",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e341b884818c252c81be256e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e4f73eb838336d33181df062",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e536f3f5888bfb2cfdc4c83e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e57092ca983c9bb7c5d72b58",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e6ba0da7664acf6ebd8942ce",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e7bdbbed2d345fade5983637",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e7e88eed50abe18578d1ad72",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e7ea542a59ce049363f80b56",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e8278821f838550e6a87fe94",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e849348021fef0eff1adc9e9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e85c61453c780cd56796526f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "e9e1074a76dc0718fc2e3e3f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "eaa8a0411c571d84f716e3e3",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "eac319e785e9be2e4618bcba",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "eae78c7159385c12f7e95813",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "eb0e89205c34ce1ac55714bc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ebcde38e86fa52b25105ea6d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ebf92a9ecbc6056d41acf440",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ec0ac2e238ce5964da228265",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ec12de15613d004404b79c5e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ec6315e9513327ab9c7dd43b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ec951b052c9c55ba3e16cb2f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "eceb874178e1321a97fcdb11",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ee7eaf43b59e17755bcfc106",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "ef07857a9d351e5fa25ca4e9",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f15e2e65f87327aaacda9e3f",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f16b2909b293dfd07df984f8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f17447eb82f4b01d4d268117",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f1e73fae0ff192d075aa022b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f21a8dce982f12b88a08ea80",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f32cafc6082632044d9ebfb1",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f3351adf9f59c64f7858973e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f349589a849850c2adcd9d80",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f3807c60b490184a945ab431",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f3e343a6f43e0280a57a595b",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f4817f646a445afaf1a10d39",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f4fa413a77e4329a4824052a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f511e2c2b5b1c0449d71424c",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f538ef0e2073fa5553b3e783",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f579267ba407bf2d74537e34",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f65d8fb5239cc6c9b50f8d70",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f67023a5ad882137f3620613",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f68ced80f2a62f694d04c211",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f6cf8e329d839dc80223ac4a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f6f5fb8e548e1ffe002f697d",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f71d5f347add04f454ddeba3",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f74e0343410d9636b747d470",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f7e14d3a8260637541202b20",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f827267eb55a3cb529d422c5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f82a8a563bbee19ef2fa3787",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f8601fbad55aa4b000610e03",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f8c6cef27f560a33d99c86cc",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f8cb667dc4ec1003099d428e",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f92b58d5e29be2bd26064369",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "f9b03bbcaf3501ac4d033d7a",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "fa4bd463904a01e03d6cc1a5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "faa9f82ef80d72da5b7c8ffe",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "fc41f4e26a28e67d8ceca9f5",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "fcba4dbb2753a7f783b792bb",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "fd6ad670bb2fe68371c596c8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "fe4f34d3393ff40eabdba551",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "feb6d55d4b7caef306b92c65",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    },
+    {
+      "reviewId": "fffe72a7efa0a5f3300559a8",
+      "businessRulesPassed": null,
+      "criticalDietaryViolation": null,
+      "grades": {
+        "practicality": null,
+        "methodClarity": null,
+        "quantitiesAndServings": null,
+        "adherence": null,
+        "variety": null
+      },
+      "reason": ""
+    }
+  ],
+  "note": "Compact blinded grading sheet; fill grades here or send review IDs and grades in chat. Null remains pending. Do not change review IDs or packet hash."
+}

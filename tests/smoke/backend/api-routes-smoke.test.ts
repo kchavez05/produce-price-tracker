@@ -99,10 +99,10 @@ describe('smoke: API Route Handlers happy-path', () => {
     expect(getData.recipes.some((r: any) => r.id === 'smoke-recipe-001')).toBe(true);
   });
 
-  it('POST /api/ai-meal-plan falls back deterministically without GEMINI_API_KEY', async () => {
-    // Delete GEMINI_API_KEY from environment to verify Zero-Key Offline Resilience
-    const originalKey = process.env.GEMINI_API_KEY;
-    delete process.env.GEMINI_API_KEY;
+  it('POST /api/ai-meal-plan falls back deterministically without OPENAI_API_KEY', async () => {
+    // Delete OPENAI_API_KEY from environment to verify Zero-Key Offline Resilience
+    const originalKey = process.env.OPENAI_API_KEY;
+    delete process.env.OPENAI_API_KEY;
 
     try {
       const req = createRequest('http://localhost:3000/api/ai-meal-plan', {
@@ -119,12 +119,12 @@ describe('smoke: API Route Handlers happy-path', () => {
 
       const data = await res.json();
       expect(data.usedAi).toBe(false);
-      expect(data.message).toContain('No Gemini API key detected');
+      expect(data.message).toContain('Returned standard meal-prep suggestions');
       expect(Array.isArray(data.dishes)).toBe(true);
       expect(data.dishes.length).toBe(3);
     } finally {
       if (originalKey) {
-        process.env.GEMINI_API_KEY = originalKey;
+        process.env.OPENAI_API_KEY = originalKey;
       }
     }
   });

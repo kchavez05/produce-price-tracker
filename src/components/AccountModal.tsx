@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   AuthProviderType,
@@ -27,6 +27,7 @@ import {
 
 interface AccountModalProps {
   isOpen: boolean;
+  intent?: 'account' | 'ai';
   onClose: () => void;
   authenticated: boolean;
   profile: UserProfile | null;
@@ -50,6 +51,7 @@ interface AccountModalProps {
 
 export default function AccountModal({
   isOpen,
+  intent = 'account',
   onClose,
   authenticated,
   profile,
@@ -72,6 +74,14 @@ export default function AccountModal({
 }: AccountModalProps) {
   const [exportSuccess, setExportSuccess] = useState(false);
   const [confirmDeleteStep, setConfirmDeleteStep] = useState(false);
+
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (!isOpen || intent !== 'ai') return;
+    const previous = document.activeElement;
+    headingRef.current?.focus();
+    return () => { if (previous instanceof HTMLElement && previous.isConnected) previous.focus(); };
+  }, [isOpen, intent]);
 
   if (!isOpen) return null;
 
@@ -108,13 +118,13 @@ export default function AccountModal({
             <ShieldCheck className="h-4 w-4" />
           </span>
           <div>
-            <h3 className="font-bold text-sm text-slate-900">
-              {authenticated
+            <h3 ref={headingRef} tabIndex={intent === 'ai' ? -1 : undefined} className="font-bold text-sm text-slate-900">
+              {intent === 'ai' ? 'Sign in to access AI features' : authenticated
                 ? 'Account, Cloud Sync & Privacy Controls (v1.3)'
                 : 'Sign In to Sync Your Virtual Pantry & Preferences'}
             </h3>
             <p className="text-[11px] text-slate-500">
-              {authenticated
+              {intent === 'ai' ? 'AI assistance requires a verified signed-in account. Standard suggestions and manual pantry entry remain available.' : authenticated
                 ? 'Manage cross-device sync, export your grocery archive, or exercise Right-to-be-Forgotten deletion.'
                 : 'One-tap Google or Apple SSO with strict PII minimization and PostgreSQL Row-Level Security.'}
             </p>
@@ -129,7 +139,7 @@ export default function AccountModal({
         </button>
       </div>
 
-      {!authenticated ? (
+      {!authenticated || intent === 'ai' ? (
         <div className="mt-3 grid gap-4 lg:grid-cols-12">
           {/* SSO Sign-In Buttons */}
           <div className="lg:col-span-6 flex flex-col justify-between rounded-xl border border-slate-200 bg-slate-50 p-4">
@@ -150,11 +160,14 @@ export default function AccountModal({
                 and desktop.
               </p>
 
+              {intent === 'ai' && !supabaseConfigured && (
+                <p role="status" className="mt-3 text-amber-800">Sign-in for AI is unavailable right now. You can still use manual pantry entry and standard suggestions.</p>
+              )}
               <div className="mt-3.5 space-y-2.5">
                 {/* Google SSO Button */}
                 <button
                   type="button"
-                  disabled={authLoading}
+                  disabled={authLoading || (intent === 'ai' && !supabaseConfigured)}
                   onClick={() => onSignIn('google')}
                   className="flex w-full items-center justify-center gap-2.5 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-800 shadow-2xs hover:bg-slate-50 disabled:opacity-50 transition"
                 >
@@ -184,7 +197,7 @@ export default function AccountModal({
                 {/* Apple HIG Sign-In Button (Ticket #30) */}
                 <button
                   type="button"
-                  disabled={authLoading}
+                  disabled={authLoading || (intent === 'ai' && !supabaseConfigured)}
                   onClick={() => onSignIn('apple')}
                   className="flex w-full items-center justify-center gap-2.5 rounded-lg bg-black px-4 py-2.5 text-xs font-bold text-white shadow-2xs hover:bg-neutral-900 disabled:opacity-50 transition"
                 >
@@ -223,7 +236,7 @@ export default function AccountModal({
               <span className="inline-flex items-center gap-1 font-medium text-emerald-700">
                 {supabaseConfigured
                   ? '☁️ Live Supabase OAuth Active'
-                  : '🛡️ Zero-Key Local Auth Ready'}
+                  : intent === 'ai' ? 'AI sign-in unavailable' : '🛡️ Zero-Key Local Auth Ready'}
               </span>
             </div>
           </div>
@@ -266,8 +279,8 @@ export default function AccountModal({
 
             <div className="mt-3 rounded-lg bg-white/90 border border-emerald-200 px-3 py-2 text-[11px] text-slate-600">
               <strong>Guest Mode Always Available:</strong> You can continue
-              using PantryBot 100% anonymously without an account. Signing in is
-              only needed to sync across devices.
+              using PantryBot without an account for manual pantry entry and standard
+              suggestions. Sign in to sync across devices or access AI features.
             </div>
           </div>
         </div>

@@ -47,3 +47,6 @@ next-env.d.ts
 # Operator-built public barcode snapshot artifacts and Python bytecode
 /data/fdc-barcode-index/
 __pycache__/
+
+# Isolated AI comparison ledger, credentials qualification and synthetic run outputs
+/data/ai-spike-731/

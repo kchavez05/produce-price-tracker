@@ -1,0 +1,25 @@
+{
+  "issue": 731,
+  "auditedAt": "2026-11-13T20:57:00.085Z",
+  "key": "recipe:google-lite:R30:1",
+  "originalRunnerHash": "24565926760027d8bb918a1e4fe013e53d82834d48a2d17fd540b765b90f9d51",
+  "method": "Retain full reservation using documented request-maximum billing bound; no invoice-exact charge asserted",
+  "reconstructedCountRequestSha256": "c37a38eaa35fdcfce535e772eb7bf64b7c74e90651086856a8b1ab8458c1b5f8",
+  "countedInputTokens": 3920,
+  "originalInputCeiling": 8000,
+  "hardOutputCeiling": 6000,
+  "maximumInferenceRequests": 1,
+  "inputUsdPerMillion": 0.3,
+  "outputUsdPerMillion": 2.5,
+  "derivedMaximumMicroUsd": 16176,
+  "retainedMicroUsd": 17400,
+  "boundConfirmed": true,
+  "providerInvoiceInspected": false,
+  "originalHttpStatus": "unknown",
+  "ownerBillingCorrection": "https://github.com/kchavez05/produce-price-tracker/issues/731#issuecomment-6864716609",
+  "sources": [
+    "https://aistudio.google.com/docs/pricing#gemini-3.5-flash-lite",
+    "https://generativelanguage.googleapis.com/$discovery/rest?version=v1beta"
+  ],
+  "limitations": "Original vendor error was not captured; this does not assert zero charge or refund. Count is a read-only reconstruction after correction; original frozen content and output cap are unchanged. Must preserve failed identity and obtain reviewed audit before acknowledgement."
+}

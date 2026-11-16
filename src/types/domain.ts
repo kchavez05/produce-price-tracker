@@ -454,7 +454,9 @@ export interface DashboardPayload {
     flippLive: boolean;
     usdaLive: boolean;
     krogerLive: boolean;
+    /** @deprecated Retained wire field; Gemini is not a runtime provider. */
     geminiConfigured: boolean;
+    aiConfigured?: boolean;
     sqlitePersisted: boolean;
     supabaseConfigured?: boolean;
   };

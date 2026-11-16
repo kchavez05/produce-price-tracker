@@ -4,7 +4,11 @@ This roadmap tracks our evolution from the initial Proof of Concept (`v0.1`) to 
 
 ## Current release tracking
 
-Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.6.3 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/18) and [release tracker #722](https://github.com/kchavez05/produce-price-tracker/issues/722) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
+Use the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.7.0 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/19) and [release tracker #748](https://github.com/kchavez05/produce-price-tracker/issues/748) for live scope, progress, blockers and next actions. The [issue/release workflow](docs/issue-release-tracking.md) keeps detailed task status on GitHub and approved behavior in linked specifications/decision records. Historical milestone sections below retain their original records. Merged implementation is distinct from verified production release.
+
+## v1.7.0 — Sign-in AI and experimental speech entry
+
+Committed scope: provider-neutral recipes #749, verified-account access/BYOK retirement #751, provisional selected adapters #752, durable shared usage controls #664 and experimental speech-to-pantry #753. Production acceptance/publication is #750. The owner accepted unavailable desktop/mobile microphone checks as documented limitations, with real-browser follow-up #760 in Backlog; those tests are not passed. Full culinary review is deferred. See [release notes](docs/releases/v1.7.0.md) and [Preview evidence](docs/research/v1.7-preview-acceptance.md). Public features remain Awaiting release until production outcomes pass.
 
 ## v1.6.3 — Pantry access repair and Freezer retirement
 
@@ -151,6 +155,8 @@ flowchart LR
 
 ## Planned v1.7 — Sign in to Access AI Features
 
+**Build started:** [Release tracker #748](https://github.com/kchavez05/produce-price-tracker/issues/748), milestone v1.7.0, and the [implementation specification](docs/specs/v1.7-ai-access.md) track provider-independent work authorized November 14. [Readiness #730](https://github.com/kchavez05/produce-price-tracker/issues/730) retains scope/policy questions; [provider comparison #731](https://github.com/kchavez05/produce-price-tracker/issues/731) supports the owner’s November 16 provisional choice of GPT-6.1 Terra recipes and GPT-Transcribe → GPT-6 Luna speech, with full manual culinary review deferred. Launch ceilings are $5/account/day and $20 shared/month (UTC). Selected-adapter integration, account-specific bounds/retention and hosted/device/production acceptance remain release gates; paid access stays disabled pending verification. Speech-to-pantry is included by owner decision and tracked in #753.
+
 **Goal:** Make app-funded AI assistance standard for all signed-in users, replacing the bring-your-own API key experience. Initial focus: recipe remix and speech-to-inventory (scheduled after pantry catalog expansion).
 
 - Remove the bring-your-own-key input and retire the user-supplied-key request path. Remove previously stored user keys from app-managed browser storage during migration; never upload them.
@@ -159,7 +165,7 @@ flowchart LR
 - Preserve manual pantry entry and deterministic recipe suggestions for guests and when AI is unavailable.
 - Plan for a future paid entitlement model, but leave billing, subscriptions, and a paywall out of v1.7.
 
-**Sequencing:** v1.6.1 now prioritizes pantry catalog expansion. Speech follows that work with its release number unassigned; barcode scanning remains separately planned for v1.6.2. Define speech's interim access and funding behavior in its own spec; v1.7 standardizes access across AI features. This roadmap entry does not expand the approved v1.6.0 scope.
+**Sequencing:** v1.6.1 now prioritizes pantry catalog expansion. Speech is committed to v1.7 under [#753](https://github.com/kchavez05/produce-price-tracker/issues/753) and its [capture/review specification](docs/specs/v1.7-speech-pantry.md), using the shared sign-in and usage controls. Barcode scanning remains separate v1.6.2 work. This roadmap entry does not expand the approved v1.6.0 scope.
 
 ---
 
