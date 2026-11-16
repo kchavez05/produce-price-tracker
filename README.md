@@ -77,6 +77,7 @@ v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API p
 * **[Project Roadmap (`ROADMAP.md`)](./ROADMAP.md)** — Historical release milestones, active v1.7.0 scope and long-term mobile plans.
 * **[Changelog (`CHANGELOG.md`)](./CHANGELOG.md)** — Version history following Keep a Changelog.
 * **[Release Notes (`docs/releases/`)](./docs/releases/)**
+  * [v1.7.0 — Sign-in AI & Experimental Speech Entry](./docs/releases/v1.7.0.md)
   * [v1.6.3 — Pantry Access Repair & Freezer Retirement](./docs/releases/v1.6.3.md)
   * [v1.6.2 — Barcode Entry & Static Staple Estimates](./docs/releases/v1.6.2.md)
   * [v1.6.1 — Pantry Catalog Expansion](./docs/releases/v1.6.1.md)
