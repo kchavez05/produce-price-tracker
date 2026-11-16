@@ -23,13 +23,15 @@ If `.env.local` already exists, **merge missing entries from the template instea
 | `KROGER_CLIENT_ID`, `KROGER_CLIENT_SECRET`, `KROGER_LOCATION_ID` | Existing Kroger market-discovery connector. Default location: `01400100`. These do not provide new live pantry-staple pricing. |
 | `NEXT_PUBLIC_DEFAULT_ZIP` | Default ZIP: `80542`. |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public Supabase URL and client key for cloud auth/sync. These are the exact names the app reads; missing config retains local operation. Install the required migrations before cloud use. |
-| `SUPABASE_SECRET_KEY` | Server-only privileged key for market history, ingestion, refresh audits and durable AI usage controls. Never expose it under `NEXT_PUBLIC_`. |
+| `SUPABASE_SECRET_KEY` | Server-only privileged key for market history, ingestion, refresh audits, durable AI usage controls and verified cloud account deletion. Never expose it under `NEXT_PUBLIC_`. |
 | `CRON_SECRET` | Bearer secret for scheduled GET requests. Configure it in the production deployment. |
 | `NEXT_PUBLIC_PANTRYBOT_CATALOG_VERSION` | Optional rollback to a version retained in `src/data/cooking-catalog.json`. Blank uses the bundled current version. |
 | `PANTRYBOT_BARCODE_LOOKUP_ENABLED`, `PANTRYBOT_BARCODE_CAMERA_ENABLED`, `PANTRYBOT_BARCODE_SHARED_LIMIT_VERIFIED` | Barcode rollout/enforcement flags; all default to `false`. Follow the barcode qualification gates before activation. |
 | `PANTRYBOT_BARCODE_INDEX_DIR` | Optional operator-built barcode index directory. Blank defaults to `data/fdc-barcode-index`; never put this artifact under `public/`. |
 | `PANTRYBOT_SQLITE_PATH` | Optional local SQLite path. Blank defaults to `data/mead-price-history.sqlite`; `:memory:` is ephemeral. |
 | `FDC_IMPORT_PYTHON` | Python executable for the offline USDA CSV importer. Blank defaults to `python3` (Python 3.10+). The importer does not automatically load local env files. |
+
+Cloud account deletion also requires the server secret: it freshly verifies the current Auth subject, revokes sessions globally, then deletes that Auth identity so profile/pantry/personal-usage cascades run. Missing configuration or failed revocation/deletion is reported as failure; local account deletion remains keyless. If deletion fails after global session revocation, sign in again before retrying.
 
 Personal AI keys are no longer accepted by the UI/API. The owner provisionally selected Terra recipes and GPT-Transcribe → Luna speech on November 16 (#731/#752); [usage controls](../operations/ai-usage-controls.md) default disabled until the launch policy and adapter bounds are accepted. `GEMINI_API_KEY`, `GOOGLE_API_KEY`, Anthropic and Deepgram credentials below are comparison/compatibility credentials; none is a runtime failover. OpenAI credentials are shared with the comparison runner. See [selected adapter evidence and limits](../research/v1.7-selected-provider-integration.md).
 

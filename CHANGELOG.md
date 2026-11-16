@@ -18,6 +18,9 @@ Release preparation and production/publication receipts: [#748](https://github.c
 - Retire personal API keys; retain deterministic suggestions and manual pantry entry. No automatic paid retry/failover or inventory mutation.
 - Reserve $0.07 per recipe and $0.007524 per speech pipeline within $5/account/day and $20 shared/month UTC; failures retain reservations.
 
+### Fixed
+- Delete the freshly verified cloud Auth identity after global session revocation, so account deletion purges personal AI usage and profile children while retaining shared monthly exposure (#764).
+
 ### Verification limits
 - Owner accepted unverified desktop/mobile microphone behavior with experimental labeling; real-browser follow-up is Backlog #760.
 - Full culinary review is deferred. Preview recorded one recipe validation failure; a controlled local diagnostic passed without identifying the cause. Production acceptance remains explicit.
