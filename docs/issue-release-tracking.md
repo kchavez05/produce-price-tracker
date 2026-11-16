@@ -1,6 +1,6 @@
 # Issue and release tracking
 
-Use the [roadmap project](https://github.com/users/kchavez05/projects/1) for work status and GitHub milestones for release scope. Start with the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.6.3 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/18), and [release tracker #722](https://github.com/kchavez05/produce-price-tracker/issues/722).
+Use the [roadmap project](https://github.com/users/kchavez05/projects/1) for work status and GitHub milestones for release scope. Start with the [current-release board](https://github.com/users/kchavez05/projects/1/views/2), [v1.7.0 milestone](https://github.com/kchavez05/produce-price-tracker/milestone/19), and [release tracker #748](https://github.com/kchavez05/produce-price-tracker/issues/748).
 
 ## What belongs where
 

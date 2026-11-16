@@ -1,3 +1,5 @@
+> v1.7.0 preparation: verified-account app-funded AI, provisional Terra recipes, durable shared usage controls and experimental Transcribe → Luna speech entry. Personal API keys are retired; standard/manual paths remain available. Real desktop/mobile microphone behavior is unverified and owner-accepted as an experimental limitation; follow-up #760 is Backlog. See [release notes](../releases/v1.7.0.md), [Preview evidence](../research/v1.7-preview-acceptance.md) and [production tracker #750](https://github.com/kchavez05/produce-price-tracker/issues/750). Preview evidence is not production acceptance.
+
 > v1.6.3: signed-in Pantry profile repair and Freezer retirement (#712/#700). Deployment and acceptance receipts are tracked alongside [release notes](../releases/v1.6.3.md) and [tracker #722](https://github.com/kchavez05/produce-price-tracker/issues/722). Original storage and recovery remain.
 
 > v1.6.2 was released November 12, 2026: barcode entry/camera and shared static/unpriced staple estimates. The maintainer attested production is functioning as expected; itemized production receipts are not recorded. See [release notes](../releases/v1.6.2.md), [rollout plan](../releases/v1.6.2-rollout.md) and the [accepted verification limits](../research/v1.6.2-barcode-verification-acceptance.md).
@@ -16,7 +18,7 @@
 > v1.5.0: Shared market history now uses Supabase; USDA is ingested only in authenticated Wednesday batches. Current validated sources supply national retail benchmarks, not Mountain or wholesale forecasts. SQLite history is an offline demonstration fallback. The [market-data runbook](../usda-market-data.md) supersedes the historical pipeline descriptions below.
 
 
-Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Pantry & Weekend Meal-Prep Optimizer** (`v1.6.1`, live at [pantrybot.dev](https://pantrybot.dev)).
+Welcome to the project wiki for **PantryBot** — the **Smart Grocery Deal Tracker, Virtual Pantry & Weekend Meal-Prep Optimizer** (v1.7.0 release track; live deployment evidence at [#750](https://github.com/kchavez05/produce-price-tracker/issues/750)).
 
 ## Purpose
 
@@ -38,7 +40,7 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
    * How **Macro Goals (`High-Protein`, `Low-Carb / Keto`, `Calorie-Conscious`)**, **Dietary Rules (`Gluten-Free`, `Dairy-Free`, `Nut-Free`, `Pescatarian`)**, and **Cooking Vessel Archetypes (`Slow Cooker / Instant Pot`, `Sheet-Pan / 9x13`, `Dutch Oven`, `Skillet`)** dynamically adapt recipe slots.
    * How the **1-Tap Curbside Cart Bridge & Multi-Store Exporter** connects to Walmart, Target, Kroger, Safeway, Sprouts, ALDI, Instacart, and Apple Notes / Google Keep.
 3. **[API Keys & Developer Setup Guide](./API-Keys-and-Local-Setup.md)**
-   * How to run the app with zero keys vs. how to register for free-tier keys from Google AI Studio, USDA MARS, the Kroger Developer Portal, and Supabase.
+   * How to run the app with zero keys vs. how to register for server credentials for OpenAI, USDA MARS, the Kroger Developer Portal, and Supabase.
 4. **[OpenAPI 3.1 & Swagger UI Console](./OpenAPI-and-Swagger-Documentation.md)**
    * Production OpenAPI 3.1 REST specification (`/api/openapi.json`), interactive Swagger UI testing console (`/docs`), and endpoint documentation across all 8 backend API domains.
 5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**

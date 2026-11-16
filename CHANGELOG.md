@@ -5,6 +5,23 @@ All notable changes to **PantryBot** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2026-11-16
+
+Release preparation and production/publication receipts: [#748](https://github.com/kchavez05/produce-price-tracker/issues/748), [#750](https://github.com/kchavez05/produce-price-tracker/issues/750). See [release notes](docs/releases/v1.7.0.md); a Preview build is not production acceptance.
+
+### Added
+- Verified-account app-funded AI with shared durable cost/concurrency controls and operator kill switch (#664/#751).
+- Experimental speech-to-pantry capture, editable draft review and explicit owner-bound confirmation (#753).
+
+### Changed
+- Use provider-neutral validated/repriced recipes and provisional GPT-6.1 Terra; GPT-Transcribe → GPT-6 Luna handles speech (#749/#752).
+- Retire personal API keys; retain deterministic suggestions and manual pantry entry. No automatic paid retry/failover or inventory mutation.
+- Reserve $0.07 per recipe and $0.007524 per speech pipeline within $5/account/day and $20 shared/month UTC; failures retain reservations.
+
+### Verification limits
+- Owner accepted unverified desktop/mobile microphone behavior with experimental labeling; real-browser follow-up is Backlog #760.
+- Full culinary review is deferred. Preview recorded one recipe validation failure; a controlled local diagnostic passed without identifying the cause. Production acceptance remains explicit.
+
 ## [1.6.3] - 2026-11-13
 
 Deployment, production acceptance and publication receipts: [#722](https://github.com/kchavez05/produce-price-tracker/issues/722). See [release notes](docs/releases/v1.6.3.md).

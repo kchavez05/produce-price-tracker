@@ -956,7 +956,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                 <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
                   <span>PantryBot</span>
                   <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200 lg:inline-block">
-                    v1.6 Virtual Pantry
+                    v1.7 AI Meal Prep
                   </span>
                 </h1>
               </div>

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "PantryBot API",
-    "version": "1.6.3",
+    "version": "1.7.0",
     "description": "PantryBot REST API documentation and interactive testing console. PantryBot ingests live weekly circulars across 6 supermarket ecosystems (Kroger/King Soopers, Safeway/Albertsons, ALDI, Walmart, Target, Sprouts), benchmarks deals against Costco and Sam's Club wholesale bulk baselines and USDA MARS market trends, recommends high-density 3-dish batch meal-prep trios, optimizes multi-store basket splits, manages Virtual Pantry availability, and provides cross-device cloud synchronization with PostgreSQL RLS.",
     "termsOfService": "/terms",
     "contact": {
@@ -1866,7 +1866,7 @@
         "tags": [
           "AI Meal Planner"
         ],
-        "summary": "Prepare a speech-to-pantry review draft",
+        "summary": "Prepare an experimental speech-to-pantry review draft",
         "operationId": "prepareSpeechPantryDraft",
         "description": "Requires a freshly verified non-anonymous account. Accepts only canonical PCM16 mono 16000 Hz WAV (44-byte header, 0.25–30 seconds; maximum 960044 bytes). Header fields and actual bytes must agree. A single durable reservation covers transcription plus extraction before either stage. Shared recipe/speech ceilings: $5/account/day and $20 total/month in UTC; the selected pipeline is GPT-Transcribe to GPT-6 Luna, with a 16000-input/2048-output-token extraction cap; paid dispatch remains gated on accepted adapter registration and hosted verification. One attempt per stage, 60-second overall deadline; failure/cancellation never refunds exposure. Returns suggestions only and never mutates inventory. The user must review/edit and explicitly confirm through the existing owner-bound pantry API. Audio/transcript stay ephemeral and responses use no-store.",
         "parameters": [
