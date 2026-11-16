@@ -1,6 +1,6 @@
 # Blinded recipe review for #731
 
-Reviewer: @kchavez05. All 480 outputs remain ungraded. No provider labels, run-to-provider mapping or review salt are included. The same salted review IDs from the original export are preserved.
+Reviewer: @kchavez05. Four outputs are graded; 476 remain pending. On November 16 the owner deferred full manual review and accepted provisional operational selection of Terra recipes and GPT-Transcribe → Luna speech. Qualitative concerns include cross-plan repetition and required coriander feeling arbitrarily added to dishes. Original outputs and review IDs remain unchanged. See the [decision and limits](../../v1.7-selected-provider-integration.md). No provider labels, run-to-provider mapping or review salt are included. The same salted review IDs from the original export are preserved.
 
 Start with the [instructions and rubric](REVIEWING.md), then read a batch below. For mobile review, send the review ID and your grades back in chat, or edit the [compact grading sheet](grades.json) on a working branch. Save partial progress; null means pending. The [full original JSON packet](blinded-recipe-review.json) is 8.7 MB: use **Raw / Download raw file** if GitHub cannot display it.
 

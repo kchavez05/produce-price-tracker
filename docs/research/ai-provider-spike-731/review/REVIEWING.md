@@ -1,5 +1,8 @@
 # Blinded recipe review for #731
 
+**November 16 scope revision:** the owner paused full manual review and accepted provisional operational provider selection. Four completed grades are saved; all other rows remain pending. The full-review workflow below is retained for a future resumption, not a prerequisite for this explicitly provisional integration. Provider-labelled aggregate results have since been inspected; disclose this if reviewing further outputs. See [decision and limits](../../v1.7-selected-provider-integration.md).
+
+
 Reviewer: @kchavez05, confirmed November 14, 2026. The packet contains 480 outputs in randomized review-ID order. Provider labels are hidden. Keep provider mappings and the review salt unopened until grades are locked.
 
 Use the [reading batches](README.md) and fill [grades.json](grades.json), or send review IDs and grades back in chat. The full [blinded-recipe-review.json](blinded-recipe-review.json) is also available to download. Work on a branch when saving changes to GitHub; do not commit directly to develop/main. Save a backup before editing. Review in batches and save progress; null fields mean unfinished, not a failed grade. Do not change `reviewId`, `fixture`, `response`, `proposal`, `issue` or `packetHash`.

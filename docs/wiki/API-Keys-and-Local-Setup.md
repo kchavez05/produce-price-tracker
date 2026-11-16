@@ -18,7 +18,7 @@ If `.env.local` already exists, **merge missing entries from the template instea
 
 | Variables | Purpose / default |
 | --- | --- |
-| `GEMINI_API_KEY` | Server-only compatibility adapter credential; absent key preserves deterministic recipes. Paid dispatch also requires verified sign-in, an accepted adapter cost bound and enabled shared policy. See the AI usage runbook; a key alone does not enable paid generation. |
+| `OPENAI_API_KEY` | Server-only Terra recipe / GPT-Transcribe → Luna speech credential; absent key preserves deterministic recipes. Paid dispatch also requires verified sign-in, an accepted adapter cost bound and enabled shared policy. See the AI usage runbook; a key alone does not enable paid generation. |
 | `USDA_MARS_API_KEY`, `USDA_INGEST_ENABLED` | Authenticated weekly ingestion and market operator commands. Ingestion defaults off; enable only after its migrations and validation. |
 | `KROGER_CLIENT_ID`, `KROGER_CLIENT_SECRET`, `KROGER_LOCATION_ID` | Existing Kroger market-discovery connector. Default location: `01400100`. These do not provide new live pantry-staple pricing. |
 | `NEXT_PUBLIC_DEFAULT_ZIP` | Default ZIP: `80542`. |
@@ -31,7 +31,7 @@ If `.env.local` already exists, **merge missing entries from the template instea
 | `PANTRYBOT_SQLITE_PATH` | Optional local SQLite path. Blank defaults to `data/mead-price-history.sqlite`; `:memory:` is ephemeral. |
 | `FDC_IMPORT_PYTHON` | Python executable for the offline USDA CSV importer. Blank defaults to `python3` (Python 3.10+). The importer does not automatically load local env files. |
 
-Personal AI keys are no longer accepted by the UI/API. The compatibility Gemini model remains pending the #731/#752 provider decision; [usage controls](../operations/ai-usage-controls.md) default disabled until the launch policy and adapter bounds are accepted. `GOOGLE_API_KEY`, OpenAI, Anthropic and Deepgram credentials below are used only by the isolated comparison runner.
+Personal AI keys are no longer accepted by the UI/API. The owner provisionally selected Terra recipes and GPT-Transcribe → Luna speech on November 16 (#731/#752); [usage controls](../operations/ai-usage-controls.md) default disabled until the launch policy and adapter bounds are accepted. `GEMINI_API_KEY`, `GOOGLE_API_KEY`, Anthropic and Deepgram credentials below are comparison/compatibility credentials; none is a runtime failover. OpenAI credentials are shared with the comparison runner. See [selected adapter evidence and limits](../research/v1.7-selected-provider-integration.md).
 
 ## Comparison credentials for spike #731
 
