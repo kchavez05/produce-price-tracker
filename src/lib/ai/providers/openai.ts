@@ -71,6 +71,9 @@ export async function openAiStructuredText(apiKey: string, request: TextInput, t
     if (typeof count.input_tokens !== 'number' || !Number.isSafeInteger(count.input_tokens) || count.input_tokens <= 0 || count.input_tokens > request.maxInputTokens) return invalid();
     request.signal.throwIfAborted();
     const result = await readOpenAiJson(await post('responses', { ...body, store: false,
+      // Pin the cache-write rate assumed by both durable cost bounds. This is a
+      // generation billing control; the complete token-bearing body is counted above.
+      prompt_cache_options: { ttl: '30m' },
       background: false, max_output_tokens: request.maxOutputTokens, service_tier: 'default' }));
     const expectedModel = typeof result.model === 'string' && (result.model === request.model ||
       (result.model.startsWith(`${request.model}-`) && /^\d{4}-\d{2}-\d{2}$/.test(result.model.slice(request.model.length + 1))));

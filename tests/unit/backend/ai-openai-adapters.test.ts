@@ -53,6 +53,7 @@ describe('selected production OpenAI adapters without live API calls', () => {
     const generation = JSON.parse(String(transport.mock.calls[1][1]?.body));
     expect(count.text).toEqual(generation.text); expect(count.input).toEqual(generation.input);
     expect(generation).toMatchObject({ model: TERRA_MODEL, store: false, background: false, service_tier: 'default',
+      prompt_cache_options: { ttl: '30m' },
       max_output_tokens: 6000, tools: [], reasoning: { effort: 'low' },
       text: { format: { strict: true, schema: { type: 'object', additionalProperties: false, required: ['dishes'] } } } });
     const schema = generation.text.format.schema.properties.dishes.items;
@@ -104,7 +105,8 @@ describe('selected production OpenAI adapters without live API calls', () => {
     const form = transport.mock.calls[0][1]?.body as FormData;
     expect(form.get('model')).toBe('gpt-transcribe'); expect((form.get('file') as Blob).size).toBe(32044);
     const body = JSON.parse(String(transport.mock.calls[2][1]?.body));
-    expect(body).toMatchObject({ model: LUNA_MODEL, max_output_tokens: 2048, store: false });
+    expect(body).toMatchObject({ model: LUNA_MODEL, max_output_tokens: 2048, store: false,
+      prompt_cache_options: { ttl: '30m' } });
     expect(body.input).toContain('carrots-fresh');
   });
   it('does not extract after empty transcription, failed transcription or invalid audio', async () => {
