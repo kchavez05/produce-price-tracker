@@ -83,3 +83,12 @@ export async function expectNoA11yViolations(container: Element): Promise<void> 
     throw new Error(`Accessibility violations:\n${detail}`);
   }
 }
+
+/** Set a text input's or select's value the way React expects, and fire the matching event. */
+export async function setValue(handle: RenderHandle, element: HTMLInputElement | HTMLSelectElement, value: string): Promise<void> {
+  const proto = element instanceof HTMLSelectElement ? HTMLSelectElement.prototype : HTMLInputElement.prototype;
+  await handle.run(() => {
+    Object.getOwnPropertyDescriptor(proto, 'value')!.set!.call(element, value);
+    element.dispatchEvent(new Event(element instanceof HTMLSelectElement ? 'change' : 'input', { bubbles: true }));
+  });
+}
