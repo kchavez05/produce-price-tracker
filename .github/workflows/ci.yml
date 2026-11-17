@@ -142,3 +142,75 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 7
+
+  # v2.0 M2 visual snapshots (Tier 3). Advisory for the first two weeks of green runs
+  # (continue-on-error), then made blocking by removing that line. Runs on PRs to main or
+  # release, pushes to main or release, and develop PRs carrying the run-tier3 label (apply the
+  # label before pushing, or re-run the workflow). Baselines are committed PNGs generated only by
+  # the Visual Baselines workflow on ubuntu-latest; until they exist this job reports that and passes.
+  visual-snapshots:
+    name: Visual Snapshots (advisory)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+    if: >-
+      (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'release' || contains(github.event.pull_request.labels.*.name, 'run-tier3')))
+      || (github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'release'))
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Report missing baselines
+        if: hashFiles('tests/e2e/__screenshots__/**/*.png') == ''
+        run: echo "No visual baselines are committed yet. Run the Visual Baselines workflow and commit its artifact." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Read Playwright version
+        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
+        id: playwright
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-webkit-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install WebKit and system dependencies
+        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != '' && steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps webkit
+
+      - name: Install WebKit system dependencies (cached browsers)
+        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != '' && steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps webkit
+
+      - name: Build production app
+        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
+        run: npm run build
+
+      - name: Visual snapshots (WebKit, iPhone and iPad portrait)
+        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
+        run: npm run test:e2e:visual
+        env:
+          E2E_SKIP_BUILD: '1'
+
+      - name: Upload visual diff report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diff-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

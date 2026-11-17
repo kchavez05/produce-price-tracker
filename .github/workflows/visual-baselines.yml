@@ -1,0 +1,66 @@
+name: Visual Baselines
+
+# Generates visual snapshot baselines on ubuntu-latest, the only place they may come from
+# (rendering differs by OS). It never commits: it uploads the images as an artifact, and a person
+# downloads them, reviews the diff and commits them. Run it from the Actions tab, or add the
+# "update-visual-baselines" label to a pull request.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-baselines-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    name: Generate baselines
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'update-visual-baselines'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install WebKit and system dependencies
+        run: npx playwright install --with-deps webkit
+
+      - name: Build production app
+        run: npm run build
+
+      - name: Generate baselines
+        run: npm run test:e2e:update
+        env:
+          E2E_SKIP_BUILD: '1'
+
+      - name: Upload baselines
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines
+          path: tests/e2e/__screenshots__/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Explain next steps
+        run: |
+          {
+            echo "### Visual baselines generated"
+            echo
+            echo "Download the \`visual-baselines\` artifact, extract it into \`tests/e2e/__screenshots__/\`,"
+            echo "review the image diff and commit it in a pull request. This workflow never commits."
+          } >> "$GITHUB_STEP_SUMMARY"

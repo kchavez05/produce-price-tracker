@@ -15,7 +15,14 @@ export default defineConfig({
   retries: ci ? 1 : 0,
   workers: 2,
   timeout: 30_000,
-  expect: { timeout: 7_000 },
+  expect: {
+    timeout: 7_000,
+    // Visual checks guard layout and spacing, not font fidelity: the system stack falls back to the
+    // runner's font. Baselines come only from CI (ubuntu-latest); see docs/code-review.md.
+    toHaveScreenshot: { maxDiffPixelRatio: 0.01, animations: 'disabled', caret: 'hide', scale: 'css' },
+  },
+  // One folder per project, next to the specs: tests/e2e/__screenshots__/<project>/<spec>/<name>.png
+  snapshotPathTemplate: '{testDir}/__screenshots__/{projectName}/{testFilePath}/{arg}{ext}',
   reporter: ci ? [['list'], ['html', { open: 'never' }]] : [['list']],
   outputDir: 'test-results',
   use: {
@@ -26,8 +33,11 @@ export default defineConfig({
   },
   projects: [
     // Tier 2 smoke viewports (WebKit). Width classes, not device models (spec section 7).
-    { name: 'iphone-webkit', use: { ...devices['iPhone 14'], viewport: { width: 390, height: 844 } } },
-    { name: 'ipad-webkit', use: { ...devices['iPad (gen 7)'], viewport: { width: 820, height: 1180 } } },
+    { name: 'iphone-webkit', testIgnore: /visual\.spec\.ts/, use: { ...devices['iPhone 14'], viewport: { width: 390, height: 844 } } },
+    { name: 'ipad-webkit', testIgnore: /visual\.spec\.ts/, use: { ...devices['iPad (gen 7)'], viewport: { width: 820, height: 1180 } } },
+    // Visual snapshots (spec section 6): same viewports, only visual.spec.ts, run on their own.
+    { name: 'visual-iphone', testMatch: /visual\.spec\.ts/, use: { ...devices['iPhone 14'], viewport: { width: 390, height: 844 } } },
+    { name: 'visual-ipad', testMatch: /visual\.spec\.ts/, use: { ...devices['iPad (gen 7)'], viewport: { width: 820, height: 1180 } } },
   ],
   webServer: process.env.E2E_BASE_URL
     ? undefined
