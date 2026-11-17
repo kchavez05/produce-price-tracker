@@ -62,6 +62,14 @@ Repository-wide review rules live in [`AGENTS.md`](../AGENTS.md) (imported by `C
 - New jsdom component tests use `tests/helpers/render.ts` (`renderUi`, `expectNoA11yViolations`) instead of repeating the `createRoot` and `act` boilerplate. The file still declares `// @vitest-environment jsdom`. Existing component tests are not migrated.
 - Primitives and screens that gain interactive behavior need a keyboard and screen-reader check plus an axe check. `axe-core` is a dev dependency only; jsdom has no layout, so `color-contrast` is disabled in the helper and contrast is verified by the token contrast unit test (v2.0 M1).
 
+## Browser Tests and Visual Snapshots (v2.0 M2)
+
+- Playwright specs live in `tests/e2e/` and run keyless against a production build; they must not need an API key or any request beyond localhost (the fixture fails the test on one). Use web-first assertions and role or label locators, never fixed sleeps; every test gets a fresh browser context.
+- Accessibility and horizontal-overflow findings are an allowlist ratchet (`tests/e2e/support/a11y-allowlist.json`): a new entry needs an issue link, entries may only be removed, and a stale entry fails. Do not widen the allowlist to make a test pass.
+- Visual baselines (`tests/e2e/__screenshots__/`) are generated only by the `Visual Baselines` workflow on `ubuntu-latest` (label `update-visual-baselines`), reviewed image by image, and committed in a PR. Reject baselines produced on a developer machine. During M3 any baseline or journey change needs a stated reason in the PR; in M4 a screen PR re-baselines its own screens.
+- Apply the `run-tier3` label to a `develop` PR before pushing when it touches layout or shared UI; labeling alone does not retrigger CI. Keep Tier 2 under 5 minutes and each Tier 3 shard under 10. A test that passes only on retry is a flake to fix or quarantine with an issue.
+- `E2E_DESIGN_GUIDE=1` is for browser-test builds only. See the [Testing guide](./wiki/Testing.md).
+
 ## Design System Rules (v2.0)
 
 - New and changed UI uses semantic token utilities and the primitives in `src/components/ui/` (see the [Design System wiki page](./wiki/Design-System.md)). Do not add raw palette classes such as `bg-slate-50` or `text-emerald-600`; `npm run design:palette` fails if a file's count grows, and the baseline only goes down.
