@@ -30,7 +30,8 @@
     "catalog:audit-release": "node --import tsx scripts/audit-release-catalog.ts",
     "barcode:prepare-deployment": "node --import tsx scripts/prepare-barcode-deployment.mts",
     "barcode:verify-deployment": "node --import tsx scripts/verify-barcode-deployment.mts",
-    "barcode:verify-trace": "node --import tsx scripts/verify-barcode-trace.mts"
+    "barcode:verify-trace": "node --import tsx scripts/verify-barcode-trace.mts",
+    "test:golden:update": "UPDATE_DASHBOARD_GOLDENS=1 vitest run tests/unit/frontend/dashboard-golden-html.test.ts"
   },
   "dependencies": {
     "@google/genai": "3.3.0",
