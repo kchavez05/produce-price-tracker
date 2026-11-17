@@ -4,9 +4,14 @@ import { expect, test } from './support/fixtures';
 
 // Visual snapshots (M2 item 4, spec section 6). Light theme only until M4 adopts the tokens.
 // Baselines are generated only by CI (ubuntu-latest), never accepted from a developer machine:
-// see the "Visual Baselines" workflow. Server-rendered dates and timestamps are masked.
+// see the "Visual Baselines" workflow. The server clock is pinned; request timestamps are masked.
 
-/** Text that changes with the server clock or the data refresh, never with the layout. */
+/**
+ * Text that changes on every request or refresh, never with the layout: server timestamps with
+ * seconds and data-source periods. Date-driven content (planning cycle, history windows, the
+ * explorer's date range, the weekly plan) is not masked, because the visual server's clock is pinned
+ * (see playwright.config.ts), so it is the same whenever CI runs.
+ */
 const DYNAMIC_TEXT = /Planning cycle|Refresh attempted|Page generated|USDA source|week ending|updated|Updated|\bago\b/;
 
 function dynamicRegions(page: Page): Locator[] {

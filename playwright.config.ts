@@ -7,6 +7,14 @@ const port = Number(process.env.E2E_PORT ?? 3210);
 const baseURL = process.env.E2E_BASE_URL ?? `http://localhost:${port}`;
 const ci = Boolean(process.env.CI);
 
+// Visual runs pin the server's clock (libfaketime) so date-driven output is identical whenever CI
+// runs: the six-week price history panel disappears as the data ages out, the planning cycle and the
+// explorer's date range roll forward, and the weekly plan rotates. Masks hide timestamps, but they
+// cannot hide a panel that appears or disappears and shifts the layout. "@" (with faketime -f) starts the clock at that
+// moment and lets it advance, so timers behave. Set by the test:e2e:visual and :update scripts.
+const fakeClock = process.env.E2E_FAKE_CLOCK === '1';
+const SERVER_CLOCK_START = '@2026-11-16 12:00:00';
+
 export default defineConfig({
   testDir: './tests/e2e',
   testMatch: '**/*.spec.ts',
@@ -43,12 +51,13 @@ export default defineConfig({
     ? undefined
     : {
         // E2E_SKIP_BUILD reuses an existing .next build (CI builds once before running tests).
-        command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}npx next start -p ${port}`,
+        command: `${process.env.E2E_SKIP_BUILD ? '' : 'npm run build && '}${fakeClock ? `faketime -f '${SERVER_CLOCK_START}' ` : ''}npx next start -p ${port}`,
         url: baseURL,
         timeout: 240_000,
         reuseExistingServer: !ci,
         env: {
           PANTRYBOT_BARCODE_LOOKUP_ENABLED: 'true',
+          FAKETIME_DONT_FAKE_MONOTONIC: '1',
           NEXT_PUBLIC_SUPABASE_URL: '',
           NEXT_PUBLIC_SUPABASE_ANON_KEY: '',
         },
