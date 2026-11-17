@@ -1,1 +1,177 @@
-[]
+[
+  {
+    "screen": "data",
+    "rule": "color-contrast",
+    "projects": [
+      "iphone-webkit",
+      "ipad-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  },
+  {
+    "screen": "docs",
+    "rule": "color-contrast",
+    "projects": [
+      "iphone-webkit",
+      "ipad-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  },
+  {
+    "screen": "docs",
+    "rule": "horizontal-scroll",
+    "projects": [
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
+  },
+  {
+    "screen": "docs",
+    "rule": "nested-interactive",
+    "projects": [
+      "ipad-webkit",
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "Third-party Swagger UI operation rows nest interactive controls; the /docs page is redesigned in M4."
+  },
+  {
+    "screen": "docs",
+    "rule": "select-name",
+    "projects": [
+      "ipad-webkit",
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "A select control on the current UI has no accessible name; replaced by the M4 screen redesign primitives."
+  },
+  {
+    "screen": "home",
+    "rule": "color-contrast",
+    "projects": [
+      "iphone-webkit",
+      "ipad-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  },
+  {
+    "screen": "home",
+    "rule": "horizontal-scroll",
+    "projects": [
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
+  },
+  {
+    "screen": "home",
+    "rule": "select-name",
+    "projects": [
+      "iphone-webkit",
+      "ipad-webkit"
+    ],
+    "issue": 710,
+    "reason": "A select control on the current UI has no accessible name; replaced by the M4 screen redesign primitives."
+  },
+  {
+    "screen": "pantry",
+    "rule": "color-contrast",
+    "projects": [
+      "ipad-webkit",
+      "iphone-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  },
+  {
+    "screen": "pantry",
+    "rule": "horizontal-scroll",
+    "projects": [
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
+  },
+  {
+    "screen": "pantry",
+    "rule": "select-name",
+    "projects": [
+      "ipad-webkit",
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "A select control on the current UI has no accessible name; replaced by the M4 screen redesign primitives."
+  },
+  {
+    "screen": "plan",
+    "rule": "color-contrast",
+    "projects": [
+      "ipad-webkit",
+      "iphone-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  },
+  {
+    "screen": "plan",
+    "rule": "horizontal-scroll",
+    "projects": [
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
+  },
+  {
+    "screen": "privacy",
+    "rule": "color-contrast",
+    "projects": [
+      "iphone-webkit",
+      "ipad-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  },
+  {
+    "screen": "shopping-list",
+    "rule": "button-name",
+    "projects": [
+      "ipad-webkit",
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "Icon-only buttons on the shopping list have no accessible name; replaced by IconButton (requires a label) in the M4 redesign."
+  },
+  {
+    "screen": "shopping-list",
+    "rule": "color-contrast",
+    "projects": [
+      "ipad-webkit",
+      "iphone-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  },
+  {
+    "screen": "shopping-list",
+    "rule": "horizontal-scroll",
+    "projects": [
+      "iphone-webkit"
+    ],
+    "issue": 710,
+    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
+  },
+  {
+    "screen": "terms",
+    "rule": "color-contrast",
+    "projects": [
+      "iphone-webkit",
+      "ipad-webkit"
+    ],
+    "issue": 714,
+    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
+  }
+]
