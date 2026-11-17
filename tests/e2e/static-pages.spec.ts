@@ -2,9 +2,12 @@ import type { Page } from '@playwright/test';
 import { expect, test } from './support/fixtures';
 
 // Journey 6: static and public pages load, have one h1, pass axe and do not scroll sideways.
-// Swagger UI renders after load; axe must wait for it or the findings change from run to run.
+// Swagger UI renders after load and in stages: the operation blocks and the servers select
+// (#servers, which axe reports as select-name) can appear at different times on a slow runner.
+// Axe must wait for both or its findings change from run to run.
 const swaggerReady = async (page: Page) => {
   await page.locator('.swagger-ui .opblock').first().waitFor({ timeout: 20_000 });
+  await page.locator('.swagger-ui select#servers').waitFor({ timeout: 20_000 });
   await page.waitForLoadState('networkidle');
 };
 
