@@ -74,15 +74,63 @@ jobs:
       - name: Dependency security audit (critical)
         run: npm audit --omit=dev --audit-level=critical
 
+  # Decides whether the Browser Tests job is needed. For a PR into develop whose changed files all
+  # match the skip list (docs, repo metadata, workflows that do not build or test the app) the
+  # browser job is skipped. It fails safe: any other path, a PR to main or release, a push, an
+  # empty file list or an API error means product=true. A job skipped by its `if` reports as
+  # successful, so this stays compatible with making Browser Tests a required check.
+  changes:
+    name: Detect product changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      product: ${{ steps.detect.outputs.product }}
+    steps:
+      - name: Classify changed files
+        id: detect
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.base_ref }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -u
+          echo "product=true" >> "$GITHUB_OUTPUT"   # fail-safe default
+          if [ "$EVENT" != "pull_request" ] || [ "$BASE" != "develop" ]; then
+            echo "Not a PR into develop; running browser tests."; exit 0
+          fi
+          files=$(gh api "repos/$REPO/pulls/$PR/files" --paginate \
+            --jq '.[] | .filename, (.previous_filename // empty)') || { echo "file list failed; running browser tests"; exit 0; }
+          [ -n "$files" ] || { echo "empty file list; running browser tests"; exit 0; }
+          # Paths that cannot change the built app or the browser tests. Anything else counts as product.
+          skip='^(docs/|\.claude/|\.github/(ISSUE_TEMPLATE/|scripts/|pull_request_template\.md$|copilot-instructions\.md$|dependabot\.yml$|workflows/(project-status|claude|claude-code-review|market-health)\.yml$)|[^/]+\.md$|LICENSE$)'
+          product=$(printf '%s\n' "$files" | grep -Ev "$skip" || true)
+          if [ -z "$product" ]; then
+            echo "Only non-product files changed; skipping browser tests."
+            echo "product=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Product files changed:"; printf '%s\n' "$product" | head -20
+          fi
+
   # v2.0 M2 browser tests (Playwright, WebKit). A separate job so the required
   # "Typecheck, Lint & Build" check keeps its name and timing. Not a required check yet;
   # it becomes required for develop after about two stable weeks (branch protection is
   # the repository owner's change). Keyless: no secrets, no network beyond the local server.
+  # Runs for PRs (not for the matching branch push, which would duplicate the PR run), for pushes
+  # to develop, main and release, and is skipped for PRs into develop that only touch non-product files.
   browser-tests:
     name: Browser Tests
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    if: github.event_name == 'push' || github.base_ref == 'develop' || github.base_ref == 'main' || github.base_ref == 'release'
+    if: >-
+      needs.changes.outputs.product == 'true' &&
+      ((github.event_name == 'push' && contains(fromJSON('["develop","main","release"]'), github.ref_name)) ||
+       github.base_ref == 'develop' || github.base_ref == 'main' || github.base_ref == 'release')
 
     steps:
       - name: Checkout repository

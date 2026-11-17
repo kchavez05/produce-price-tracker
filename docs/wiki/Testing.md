@@ -10,6 +10,8 @@ PantryBot has three test tiers. Tiers 1 to 3 run Vitest; Tiers 2 and 3 also run 
 | 2 Smoke | PRs and pushes to `develop`, `main`, `release` | `npm run test:smoke` | `npm run test:e2e:smoke`: WebKit, iPhone 390x844 and iPad 820x1180, journeys plus axe and no-horizontal-scroll checks per screen |
 | 3 Regression | PRs and pushes to `main` and `release`; `develop` PRs labeled `run-tier3` | `npm run test:regression` | `npm run test:e2e:regression`: six WebKit sizes, a Chromium cross-check, three shards of at most 10 minutes each, plus visual snapshots |
 
+Browser Tests (Tier 2) run for PRs into `develop`, `main` and `release` and for pushes to those three branches, not for the push to a PR's own branch (the PR run covers it). A PR into `develop` whose changed files are all docs, root Markdown, `.claude/` or repository-metadata workflows and templates skips the browser job (the `Detect product changes` job in `ci.yml` holds the skip list). Anything else, including `package*.json`, `catalog/`, `tests/`, `scripts/` and `ci.yml` itself, runs it; PRs into `main` and `release` always run it. A skipped job reports as successful, so it stays compatible with a required check. Typecheck, Lint & Build and the Vitest tiers still run on every PR.
+
 Budgets: Tier 2 browser job at most 5 minutes; each Tier 3 shard at most 10. CI retries a failing browser test once; a test that passes only on retry is a flake to fix or quarantine with an issue.
 
 ## Running locally
