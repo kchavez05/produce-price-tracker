@@ -89,7 +89,7 @@ test.describe('smoke: virtual pantry', () => {
 
     await page.getByRole('button', { name: 'Enter barcode' }).click();
     await page.getByLabel('Printed barcode digits').fill(code);
-    await page.getByRole('button', { name: /look up|find|search/i }).first().click();
+    await page.getByRole('button', { name: 'Look up product' }).click();
     await expect(page.getByText('Product: EXTRA VIRGIN OLIVE OIL')).toBeVisible();
     expect(requests).toHaveLength(1);
     expect(await home.pantryCount()).toBe(0); // nothing is written before confirmation
