@@ -1,5 +1,5 @@
 import { test as base, expect, type Page } from '@playwright/test';
-import { checkAccessibility, checkNoHorizontalScroll } from './a11y';
+import { checkAccessibility, checkNoHorizontalScroll, type AxeOptions } from './a11y';
 import { freezeDate, stubAnalytics } from './stubs';
 
 /**
@@ -26,7 +26,7 @@ interface Fixtures {
   newGuest: () => Promise<Page>;
   a11y: {
     /** Fail on new serious or critical WCAG A/AA axe violations, or stale allowlist entries. */
-    check: (screen: string) => Promise<void>;
+    check: (screen: string, options?: AxeOptions) => Promise<void>;
     /** Fail on horizontal page scroll unless allowlisted. */
     noHorizontalScroll: (screen: string) => Promise<void>;
   };
@@ -56,7 +56,7 @@ export const test = base.extend<Fixtures>({
   },
   a11y: async ({ page }, use, testInfo) => {
     await use({
-      check: (screen) => checkAccessibility(page, screen, testInfo.project.name),
+      check: (screen, options) => checkAccessibility(page, screen, testInfo.project.name, options),
       noHorizontalScroll: (screen) => checkNoHorizontalScroll(page, screen, testInfo.project.name),
     });
   },
