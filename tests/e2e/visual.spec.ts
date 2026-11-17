@@ -75,3 +75,20 @@ test.describe('visual: data explorer', () => {
     await snapshot(page, 'data-explorer');
   });
 });
+
+// The design system's own page, in both themes (full page: it is long, and nothing on it depends on
+// the clock or the data, so it is the most stable snapshot we have). Needs the E2E_DESIGN_GUIDE=1
+// build. Intentional primitive or token changes re-baseline these.
+test.describe('visual: design guide', () => {
+  for (const scheme of ['light', 'dark'] as const) {
+    test(`design guide, ${scheme}`, async ({ page, problems }) => {
+      void problems;
+      await page.emulateMedia({ colorScheme: scheme });
+      await page.goto('/design');
+      await expect(page.getByRole('heading', { level: 1, name: 'Design System' })).toBeVisible();
+      await expect(page.locator('html')).toHaveAttribute('data-ds', '');
+      await expect(page.locator('html')).toHaveAttribute('data-theme', scheme);
+      await expect(page).toHaveScreenshot(`design-guide-${scheme}.png`, { fullPage: true });
+    });
+  }
+});

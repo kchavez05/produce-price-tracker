@@ -68,4 +68,4 @@ Repository-wide review rules live in [`AGENTS.md`](../AGENTS.md) (imported by `C
 - Do not edit `src/design/tokens.css` by hand: change `src/design/tokens.ts` and run `npm run design:tokens`. New text or control color pairs belong in the contrast pair lists so the unit test covers both themes.
 - Control boundaries use `border-border-strong`, not the decorative `border-border`. Targets are at least 44px, focus is visible, and status is never conveyed by color alone.
 - Modals use `Sheet` (focus trap, Escape, return focus) rather than ad hoc overlays. Theme and `data-ds` changes must not cause a flash or a hydration warning; keep the head script inline-safe for a future CSP (#666).
-- The `/design` route is development-only and must stay out of production.
+- The `/design` route is development-only and must stay out of production. Its guard is `designGuideEnabled` (`src/design/guide-access.ts`): it is served in development and in builds made with `E2E_DESIGN_GUIDE=1` (the browser-test builds), and never on Vercel production. Do not set `E2E_DESIGN_GUIDE` in a deployed environment, and keep the unit test that covers the guard passing.
