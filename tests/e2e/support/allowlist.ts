@@ -13,6 +13,13 @@ export interface AllowlistEntry {
   /** GitHub issue that tracks the fix. */
   issue: number;
   reason: string;
+  /**
+   * The finding sits within a few pixels of a threshold, so whether it occurs depends on the
+   * environment (for example font metrics differ between a developer machine and the CI runner).
+   * A borderline entry still allows the finding but is never reported stale. Use sparingly and say
+   * why in `reason`: it is the one place the ratchet does not force a deletion.
+   */
+  borderline?: boolean;
 }
 
 /** The rule id used for the page overflow check; axe has no rule with this name. */
@@ -47,7 +54,7 @@ export function evaluateAllowlist(entries: readonly AllowlistEntry[], screen: st
   const seen = new Set(findings.map((finding) => finding.rule));
   return {
     unexpected: findings.filter((finding) => !allowed.has(finding.rule)),
-    stale: applicable.filter((entry) => !seen.has(entry.rule)),
+    stale: applicable.filter((entry) => !entry.borderline && !seen.has(entry.rule)),
   };
 }
 

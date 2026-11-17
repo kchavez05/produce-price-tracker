@@ -14,7 +14,7 @@
     "test:unit": "vitest run tests/unit",
     "test:smoke": "vitest run tests/smoke",
     "test:regression": "vitest run tests/regression",
-    "test:e2e:smoke": "playwright test --project=iphone-webkit --project=ipad-webkit",
+    "test:e2e:smoke": "playwright test --project=iphone-webkit --project=ipad-webkit --grep-invert @tier3",
     "test:e2e:regression": "playwright test --project=iphone-webkit --project=ipad-webkit --project=iphone-pro-webkit --project=iphone-pro-max-webkit --project=ipad-landscape-webkit --project=duo-inner-webkit --project=iphone-chromium --project=ipad-chromium",
     "test:e2e:visual": "E2E_FAKE_CLOCK=1 playwright test --project=visual-iphone --project=visual-ipad",
     "test:e2e:update": "E2E_FAKE_CLOCK=1 playwright test --project=visual-iphone --project=visual-ipad --update-snapshots=changed",

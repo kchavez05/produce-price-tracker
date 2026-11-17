@@ -132,11 +132,15 @@ describe('Sheet', () => {
     function Focused() { return h(Sheet, { open: true, onClose, title: 'Pick', initialFocusRef: target, children: h('input', { ref: target, 'aria-label': 'Search' }) }); }
     handle = await renderUi(h(Focused));
     expect(document.activeElement).toBe(target.current);
-    const press = (el: Element) => el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    await handle.run(() => press(q('[role=dialog]')));
+    const press = (el: Element) => { const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true }); el.dispatchEvent(event); return event; };
+    let panelPress!: MouseEvent; let backdropPress!: MouseEvent;
+    await handle.run(() => { panelPress = press(q('[role=dialog]')); });
     expect(onClose).not.toHaveBeenCalled();
-    await handle.run(() => press(q('[role=dialog]').parentElement!));
+    expect(panelPress.defaultPrevented).toBe(false); // pressing inside the panel keeps normal focus behavior
+    await handle.run(() => { backdropPress = press(q('[role=dialog]').parentElement!); });
     expect(onClose).toHaveBeenCalledOnce();
+    // The default mousedown action would move focus to the page after close and undo the focus return.
+    expect(backdropPress.defaultPrevented).toBe(true);
   });
 
   it('supports the centered dialog variant', async () => {

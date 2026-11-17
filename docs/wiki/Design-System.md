@@ -27,7 +27,11 @@ Button, IconButton, TextField, Select, Checkbox, SegmentedControl, Chip, Card, B
 
 ## Style guide
 
-`npm run dev`, then open `/design`: tokens, computed contrast ratios, every primitive and theme switching. The route returns 404 in production builds.
+`npm run dev`, then open `/design`: tokens, computed contrast ratios, every primitive and theme switching.
+
+The route is development-only. It is statically prerendered, so whether it is served is decided at build time (`designGuideEnabled` in `src/design/guide-access.ts`): development always serves it; a production build returns 404 unless it was built with `E2E_DESIGN_GUIDE=1`, which only the browser-test builds set; and `VERCEL_ENV=production` is refused whatever the flag says, so a copied variable can never publish it. Unit tests cover the guard and the page.
+
+Browser coverage (Tier 3, `tests/e2e/design-guide.spec.ts`, tagged `@tier3`): axe with color contrast on in light and dark with zero tolerance and no allowlist (the legacy site footer is left out of the scan), the theme control (a stored choice beats the system theme, survives a reload and is applied before `<body>` exists, arrow keys), and the Sheet (focus in, Tab trap, scroll lock, Escape and backdrop close, focus back to the opener). Visual snapshots of the guide in light and dark are in `tests/e2e/visual.spec.ts`. Only `/design` uses the tokens today, so this is coverage of the design system; the real screens get dark mode in M4.
 
 ## Tests and guards
 

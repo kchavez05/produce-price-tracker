@@ -52,3 +52,23 @@ describe('axeEntries and scrollEntries', () => {
     expect(evaluateAllowlist(scrollEntries(entries), 'home', 'iphone-webkit', []).stale.map((e) => e.rule)).toEqual(['horizontal-scroll']);
   });
 });
+
+describe('borderline entries', () => {
+  const borderline = entry({ rule: 'horizontal-scroll', borderline: true, issue: 544 });
+
+  it('allow the finding when it occurs', () => {
+    const result = evaluateAllowlist([borderline], 'home', 'iphone-webkit', [{ rule: 'horizontal-scroll', nodes: 1 }]);
+    expect(result.unexpected).toEqual([]);
+    expect(result.stale).toEqual([]);
+  });
+
+  it('are not reported stale when the finding does not occur', () => {
+    expect(evaluateAllowlist([borderline], 'home', 'iphone-webkit', []).stale).toEqual([]);
+  });
+
+  it('do not excuse other findings, and ordinary entries still go stale', () => {
+    const result = evaluateAllowlist([borderline, entry({ rule: 'select-name', issue: 2 })], 'home', 'iphone-webkit', [{ rule: 'image-alt', nodes: 1 }]);
+    expect(result.unexpected.map((f) => f.rule)).toEqual(['image-alt']);
+    expect(result.stale.map((e) => e.rule)).toEqual(['select-name']);
+  });
+});
