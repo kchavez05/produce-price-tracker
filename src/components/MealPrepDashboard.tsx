@@ -37,6 +37,10 @@ import {
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
 import { renderDealBadge, renderStoreBadge, renderCycleSignalBadge } from '@/modules/shop/badges';
+import ZipPanel from '@/modules/shell/ZipPanel';
+import StoresPanel from '@/modules/shell/StoresPanel';
+import AlertsPanel from '@/modules/shell/AlertsPanel';
+import PrintSlip from '@/modules/shop/PrintSlip';
 import AccountModal from '@/components/AccountModal';
 import AiMealPlanControls from '@/components/AiMealPlanControls';
 import { useUserSync } from '@/hooks/useUserSync';
@@ -50,7 +54,6 @@ import {
   Flame,
   Pin,
   Check,
-  RefreshCw,
   MapPin,
   Gem,
   Clock,
@@ -1113,297 +1116,61 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
           />}
 
           {/* Interactive Zip Code / Location Switcher Drawer */}
+          {/* Interactive Zip Code / Location Switcher Drawer */}
           {showZipModal && (
-            <div className="mt-3 rounded-xl border border-emerald-300 bg-white p-4 shadow-lg text-xs text-slate-700">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-emerald-600" />
-                  <span className="font-bold text-sm text-slate-900">
-                    Change Grocery Location (ZIP Code)
-                  </span>
-                </div>
-                <button
-                  onClick={() => setShowZipModal(false)}
-                  className="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-0.5"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <p className="mt-2 text-slate-600 text-xs">
-                Enter your 5-digit US ZIP code to fetch weekly supermarket circulars, digital coupons, and price trends for your local area.
-              </p>
-
-              <form onSubmit={handleZipSubmit} className="mt-3 flex flex-wrap items-center gap-2">
-                <input
-                  type="text"
-                  maxLength={5}
-                  pattern="[0-9]{5}"
-                  value={zipInput}
-                  onChange={(e) => {
-                    setZipInput(e.target.value.replace(/\D/g, ''));
-                    setZipError(null);
-                  }}
-                  placeholder="e.g. 80542, 80501, 80202, 90210"
-                  className="w-40 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-900 focus:border-emerald-600 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  disabled={zipLoading}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 py-1.5 font-bold text-white hover:bg-emerald-700 transition disabled:opacity-50"
-                >
-                  {zipLoading ? (
-                    <>
-                      <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-                      <span>Updating...</span>
-                    </>
-                  ) : (
-                    <span>Update Location</span>
-                  )}
-                </button>
-              </form>
-
-              {zipError && (
-                <p className="mt-1.5 text-xs font-semibold text-red-600">{zipError}</p>
-              )}
-
-              <div className="mt-3 pt-2.5 border-t border-slate-100">
-                <span className="text-[11px] font-semibold text-slate-500">
-                  Quick-select popular areas:
-                </span>
-                <div className="mt-1.5 flex flex-wrap gap-1.5">
-                  {[
-                    { zip: '80542', label: 'Mead / Firestone, CO' },
-                    { zip: '80501', label: 'Longmont, CO' },
-                    { zip: '80202', label: 'Denver, CO' },
-                    { zip: '80302', label: 'Boulder, CO' },
-                    { zip: '80525', label: 'Fort Collins, CO' },
-                    { zip: '90210', label: 'Los Angeles, CA' },
-                    { zip: '75001', label: 'Dallas, TX' },
-                    { zip: '98101', label: 'Seattle, WA' },
-                    { zip: '60601', label: 'Chicago, IL' },
-                  ].map((preset) => (
-                    <button
-                      key={preset.zip}
-                      type="button"
-                      onClick={() => {
-                        handleZipSubmit(undefined, preset.zip);
-                      }}
-                      className={`rounded-md px-2 py-1 text-[11px] font-medium border transition ${
-                        currentZip === preset.zip
-                          ? 'bg-emerald-100 border-emerald-400 text-emerald-900 font-bold'
-                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                      }`}
-                    >
-                      {preset.label} ({preset.zip})
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ZipPanel
+              currentZip={currentZip}
+              zipInput={zipInput}
+              zipLoading={zipLoading}
+              zipError={zipError}
+              onZipInputChange={(value) => {
+                setZipInput(value);
+                setZipError(null);
+              }}
+              onSubmit={handleZipSubmit}
+              onClose={() => setShowZipModal(false)}
+            />
           )}
 
           {/* Interactive My Stores Preference Drawer (v1.1) */}
+          {/* Interactive My Stores Preference Drawer (v1.1) */}
           {showStoresModal && (
-            <div className="mt-3 rounded-xl border border-blue-300 bg-white p-4 shadow-lg text-xs text-slate-700">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                <div className="flex items-center gap-2">
-                  <Store className="h-4 w-4 text-blue-600" />
-                  <span className="font-bold text-sm text-slate-900">
-                    My Grocery Stores ({activeStores.length} Active in {data.cityLabel})
-                  </span>
-                </div>
-                <button
-                  onClick={() => setShowStoresModal(false)}
-                  className="text-slate-400 hover:text-slate-600 text-sm font-bold px-2 py-0.5"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <p className="mt-2 text-slate-600 text-xs">
-                Select which grocery chains you shop at. Meal-prep ingredient pricing, digital coupon checklists, and multi-store trip split calculations will only compare against your selected stores.
-              </p>
-
-              <div className="mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-                {ALL_STORE_CHAINS.map((chain) => {
-                  const def = getStoreDefinition(chain);
-                  const banner = resolveStoreBanner(chain, currentZip);
-                  const isChecked = activeStores.includes(chain);
-                  return (
-                    <div
-                      key={chain}
-                      onClick={() => handleToggleActiveStore(chain)}
-                      className={`flex cursor-pointer items-center justify-between rounded-xl border p-3 transition ${
-                        isChecked
-                          ? 'border-blue-400 bg-blue-50/50 shadow-2xs'
-                          : 'border-slate-200 bg-slate-50 opacity-60 hover:opacity-100'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <div
-                          style={{ backgroundColor: def.brandColor }}
-                          className="h-3.5 w-3.5 rounded-full shrink-0"
-                        />
-                        <div>
-                          <div className="font-bold text-slate-900 text-xs">{banner}</div>
-                          <div className="text-[11px] text-slate-500">
-                            {def.hasDigitalCoupons
-                              ? `📱 ${def.couponAppLabel || 'Digital Coupons'}`
-                              : def.isEverydayLowPrice
-                                ? '🏷️ Everyday Low Price'
-                                : '🏷️ Member Card'}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="shrink-0 pl-2">
-                        {isChecked ? (
-                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-blue-600 text-white">
-                            <Check className="h-3.5 w-3.5" />
-                          </span>
-                        ) : (
-                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-slate-300 bg-white" />
-                        )}
-                      </div>
-                    </div>
+            <StoresPanel
+              activeStores={activeStores}
+              cityLabel={data.cityLabel}
+              currentZip={currentZip}
+              onToggleStore={handleToggleActiveStore}
+              onSelectAll={() => {
+                setActiveStores(ALL_STORE_CHAINS);
+                try {
+                  localStorage.setItem(
+                    'pantrybot_active_stores',
+                    JSON.stringify(ALL_STORE_CHAINS)
                   );
-                })}
-              </div>
-
-              <div className="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-100">
-                <span className="text-[11px] text-slate-500">
-                  Tip: Toggle off stores you don&apos;t live near to streamline your shopping lists.
-                </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      setActiveStores(ALL_STORE_CHAINS);
-                      try {
-                        localStorage.setItem(
-                          'pantrybot_active_stores',
-                          JSON.stringify(ALL_STORE_CHAINS)
-                        );
-                      } catch {}
-                      syncDashboard(
-                        storeFilter,
-                        pinnedIds,
-                        effectiveOnHandIds,
-                        targetServings,
-                        currentZip,
-                        ALL_STORE_CHAINS
-                      );
-                    }}
-                    className="text-xs font-semibold text-blue-700 hover:underline"
-                  >
-                    Select All
-                  </button>
-                  <button
-                    onClick={() => setShowStoresModal(false)}
-                    className="rounded-lg bg-blue-600 px-3 py-1 text-xs font-bold text-white hover:bg-blue-700 transition"
-                  >
-                    Done
-                  </button>
-                </div>
-              </div>
-            </div>
+                } catch {}
+                syncDashboard(
+                  storeFilter,
+                  pinnedIds,
+                  effectiveOnHandIds,
+                  targetServings,
+                  currentZip,
+                  ALL_STORE_CHAINS
+                );
+              }}
+              onClose={() => setShowStoresModal(false)}
+            />
           )}
 
           {/* v1.0 Weekly Cron & Smart Push Notifications Preview Drawer */}
           {showAlertsModal && (
-            <div className="mt-3 rounded-xl border border-slate-300 bg-slate-900 p-4 text-xs text-slate-100 shadow-lg">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[11px] font-bold text-emerald-300 border border-emerald-500/30">
-                      <Bell className="h-3 w-3" />
-                      Milestone v1.0 Cron &amp; Smart Push Engine
-                    </span>
-                    <span className="text-[11px] text-slate-400">
-                      Wed 13:00 UTC Circular Sync • Fri 22:00 UTC Weekend Prep Digest
-                    </span>
-                  </div>
-                  <p className="mt-1 text-slate-300">
-                    Live preview of automated push payloads &amp; weekend digest generated by{' '}
-                    <code className="rounded bg-slate-800 px-1.5 py-0.5 text-emerald-300">
-                      /api/cron/weekly-sync
-                    </code>
-                  </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    onClick={handleTriggerWeeklySync}
-                    disabled={cronSyncLoading}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 font-semibold text-white hover:bg-emerald-500 disabled:opacity-50"
-                  >
-                    <RefreshCw
-                      className={`h-3.5 w-3.5 ${cronSyncLoading ? 'animate-spin' : ''}`}
-                    />
-                    <span>
-                      {cronSyncLoading ? 'Syncing Circulars...' : 'Run Weekly Sync Now'}
-                    </span>
-                  </button>
-                  <button
-                    onClick={handleCopyMarkdownDigest}
-                    disabled={!cronSyncResult}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 font-semibold text-slate-200 hover:bg-slate-700 disabled:opacity-50"
-                  >
-                    {copiedDigest ? (
-                      <>
-                        <Check className="h-3.5 w-3.5 text-emerald-400" />
-                        <span className="text-emerald-300">Copied Digest!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-3.5 w-3.5" />
-                        <span>Copy Friday Markdown Digest</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {cronSyncError && <p role="alert" className="mt-2 text-sm text-rose-600">{cronSyncError}</p>}
-              {cronSyncLoading && !cronSyncResult ? (
-                <div className="py-6 text-center text-slate-400">
-                  Building Smart Push Notifications &amp; Friday Weekend Digest...
-                </div>
-              ) : cronSyncResult ? (
-                <div className="mt-3 grid gap-3 lg:grid-cols-3">
-                  <p className="text-xs text-slate-600">
-                    {cronSyncResult.refreshStatus === 'live' ? 'Live prices retrieved' : 'No usable live prices; using estimates'}.
-                    {' '}Audit storage: {cronSyncResult.auditStorage || 'local'}.
-                  </p>
-                  {cronSyncResult.smartPushNotifications.map((notif) => (
-                    <div
-                      key={notif.id}
-                      className="flex flex-col justify-between rounded-xl border border-slate-700/80 bg-slate-800/90 p-3 shadow-xs"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">
-                            {notif.scheduledWindowLabel}
-                          </span>
-                          <span className="rounded-full bg-slate-700 px-2 py-0.5 text-[10px] font-bold text-amber-300">
-                            {notif.badgeText}
-                          </span>
-                        </div>
-                        <p className="mt-1.5 font-bold text-white">{notif.title}</p>
-                        <p className="mt-0.5 text-[11px] font-semibold text-emerald-300">
-                          {notif.subtitle}
-                        </p>
-                        <p className="mt-1.5 text-[11px] leading-relaxed text-slate-300">
-                          {notif.body}
-                        </p>
-                      </div>
-                      <div className="mt-2.5 flex items-center justify-between border-t border-slate-700/60 pt-2 text-[10px] text-slate-400">
-                        <span>Trigger: {notif.triggerType}</span>
-                        <span>Priority: {notif.priority.toUpperCase()}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </div>
+            <AlertsPanel
+              cronSyncResult={cronSyncResult}
+              cronSyncLoading={cronSyncLoading}
+              cronSyncError={cronSyncError}
+              copiedDigest={copiedDigest}
+              onRunSync={handleTriggerWeeklySync}
+              onCopyDigest={handleCopyMarkdownDigest}
+            />
           )}
 
           {/* Primary Navigation Tabs */}
@@ -2764,79 +2531,15 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
             {/* v1.2 Ticket #23: High-Contrast Printable Shopping Slip */}
             {showPrintSlipModal && (
-              <section className="rounded-2xl border-2 border-slate-900 bg-white p-5 text-black shadow-md">
-                <div className="flex items-center justify-between border-b-2 border-black pb-3">
-                  <div>
-                    <h3 className="text-lg font-black uppercase tracking-tight">
-                      PantryBot Weekend In-Store &amp; Curbside Slip
-                    </h3>
-                    <p className="text-xs font-semibold text-slate-700">
-                      {data.cityLabel} ({currentZip}) • {data.adCycleLabel} •{' '}
-                      {activeTrio.length} Batch Dishes ({trioTotals.totalServings} Meals)
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xs font-bold uppercase">Est. Basket Total</div>
-                    <div className="text-xl font-black">
-                      $
-                      {(
-                        shoppingPlan.tripComparison.bestTwoStoreSplit?.total ??
-                        shoppingPlan.tripComparison.optimalSplitTotal
-                      ).toFixed(2)}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  {(['PRODUCE', 'PROTEIN', 'DAIRY_EGGS'] as CommodityCategory[]).map(
-                    (cat) => {
-                      const catItems = resolvedShoppingItems.filter(
-                        (i) => i.category === cat
-                      );
-                      if (catItems.length === 0) return null;
-                      const catTitle =
-                        cat === 'PRODUCE'
-                          ? '🥬 Fresh Produce Aisle'
-                          : cat === 'PROTEIN'
-                            ? '🥩 Meat & Seafood Counter'
-                            : '🧀 Dairy & Eggs Wall';
-                      return (
-                        <div key={cat} className="space-y-1.5">
-                          <h4 className="border-b border-slate-400 pb-1 text-xs font-black uppercase">
-                            {catTitle}
-                          </h4>
-                          {catItems.map((cItem) => (
-                            <div
-                              key={`print-${cItem.ingredientId}`}
-                              className="flex items-start justify-between gap-2 text-xs py-1 border-b border-slate-100"
-                            >
-                              <div className="flex items-start gap-2">
-                                <span className="inline-block h-3.5 w-3.5 border border-black mt-0.5 shrink-0" />
-                                <div>
-                                  <span className="font-bold">
-                                    {cItem.ingredientName}
-                                  </span>{' '}
-                                  ({cItem.totalQuantityNeeded} {cItem.unit})
-                                  <div className="text-[10px] text-slate-700">
-                                    [{resolveStoreBanner(cItem.activeStore, currentZip)}] •{' '}
-                                    {cItem.activeRawDealText}
-                                    {cItem.activeDealType === 'DIGITAL_COUPON'
-                                      ? ' • 📱 CLIP COUPON'
-                                      : ''}
-                                  </div>
-                                </div>
-                              </div>
-                              <span className="font-black">
-                                ${cItem.activeTotalCost.toFixed(2)}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      );
-                    }
-                  )}
-                </div>
-              </section>
+              <PrintSlip
+                cityLabel={data.cityLabel}
+                currentZip={currentZip}
+                adCycleLabel={data.adCycleLabel}
+                dishCount={activeTrio.length}
+                totalServings={trioTotals.totalServings}
+                tripComparison={shoppingPlan.tripComparison}
+                items={resolvedShoppingItems}
+              />
             )}
 
             {/* Digital Coupon Pre-Flight Checklist (Grouped by Store App - v1.1) */}
