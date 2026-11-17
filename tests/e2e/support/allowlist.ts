@@ -15,6 +15,19 @@ export interface AllowlistEntry {
   reason: string;
 }
 
+/** The rule id used for the page overflow check; axe has no rule with this name. */
+export const SCROLL_RULE = 'horizontal-scroll';
+
+/** Entries that apply to axe results. Overflow entries are evaluated separately. */
+export function axeEntries(entries: readonly AllowlistEntry[]): AllowlistEntry[] {
+  return entries.filter((entry) => entry.rule !== SCROLL_RULE);
+}
+
+/** Entries that apply to the horizontal scroll check. */
+export function scrollEntries(entries: readonly AllowlistEntry[]): AllowlistEntry[] {
+  return entries.filter((entry) => entry.rule === SCROLL_RULE);
+}
+
 export interface Finding {
   rule: string;
   /** How many nodes violate the rule (informational). */

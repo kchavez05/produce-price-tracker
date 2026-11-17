@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
 import allowlist from './a11y-allowlist.json';
-import { describeResult, evaluateAllowlist, type AllowlistEntry, type Finding } from './allowlist';
+import { SCROLL_RULE, axeEntries, describeResult, evaluateAllowlist, scrollEntries, type AllowlistEntry, type Finding } from './allowlist';
 
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
@@ -18,22 +18,22 @@ export async function hasHorizontalScroll(page: Page): Promise<boolean> {
   return page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
 }
 
-function assertResult(screen: string, project: string, findings: Finding[]) {
-  const result = evaluateAllowlist(allowlist as AllowlistEntry[], screen, project, findings);
+function assertResult(entries: AllowlistEntry[], screen: string, project: string, findings: Finding[]) {
+  const result = evaluateAllowlist(entries, screen, project, findings);
   const message = describeResult(screen, project, result);
   if (message) throw new Error(message);
 }
 
-/** Fail on any serious or critical axe violation that is not allowlisted, or any stale entry. */
+/**
+ * Fail on any serious or critical axe violation that is not allowlisted, or any stale entry.
+ * Overflow entries belong to checkNoHorizontalScroll and are not considered here.
+ */
 export async function checkAccessibility(page: Page, screen: string, project: string): Promise<void> {
-  assertResult(screen, project, (await collectAxeFindings(page)).filter((finding) => finding.rule !== 'horizontal-scroll'));
+  assertResult(axeEntries(allowlist as AllowlistEntry[]), screen, project, await collectAxeFindings(page));
 }
 
 /** Fail if the page scrolls horizontally, unless allowlisted for this screen and project. */
 export async function checkNoHorizontalScroll(page: Page, screen: string, project: string): Promise<void> {
   const overflow = await hasHorizontalScroll(page);
-  const applicable = (allowlist as AllowlistEntry[]).filter((entry) => entry.rule === 'horizontal-scroll');
-  const result = evaluateAllowlist(applicable, screen, project, overflow ? [{ rule: 'horizontal-scroll', nodes: 1 }] : []);
-  const message = describeResult(screen, project, result);
-  if (message) throw new Error(message);
+  assertResult(scrollEntries(allowlist as AllowlistEntry[]), screen, project, overflow ? [{ rule: SCROLL_RULE, nodes: 1 }] : []);
 }
