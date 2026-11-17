@@ -137,7 +137,7 @@ jobs:
           E2E_SKIP_BUILD: '1'
 
       - name: Upload Playwright report
-        if: failure()
+        if: failure() || cancelled()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
@@ -152,10 +152,19 @@ jobs:
   # carrying the run-tier3 label (apply the label before pushing, or re-run the workflow, because
   # labeling alone does not re-trigger this workflow). Budget: at most 10 minutes (plan section 7).
   # Not a required check; the visual snapshots have their own advisory job below.
+  #
+  # Sharded three ways (decided 2026-11-17). The first run on one runner hit the 10 minute limit with
+  # 76 of 176 tests done (about 9.5 tests a minute on a two-vCPU runner, so roughly 18 minutes in
+  # total). The six extra projects also skip the helper self-tests (146 tests), and each shard gets
+  # about a third of them with the 10 minute budget per job. Each shard builds the app itself.
   browser-tests-tier3:
-    name: Browser Tests (Tier 3)
+    name: Browser Tests (Tier 3, shard ${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     if: >-
       (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'release' || contains(github.event.pull_request.labels.*.name, 'run-tier3')))
       || (github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'release'))
@@ -209,16 +218,17 @@ jobs:
           # Serves the dev-only /design style guide in this e2e build. Never set on Vercel.
           E2E_DESIGN_GUIDE: '1'
 
-      - name: Tier 3 browser regression (six WebKit sizes, Chromium cross-check)
-        run: npm run test:e2e:regression
+      - name: Tier 3 browser regression (six WebKit sizes, Chromium cross-check), shard ${{ matrix.shard }}/3
+        run: npm run test:e2e:regression -- --shard=${{ matrix.shard }}/3
         env:
           E2E_SKIP_BUILD: '1'
 
+      # Also on cancel (for example a timeout), so traces of tests that were retried are kept.
       - name: Upload Playwright report
-        if: failure()
+        if: failure() || cancelled()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-tier3
+          name: playwright-report-tier3-shard-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/
@@ -303,7 +313,7 @@ jobs:
           E2E_SKIP_BUILD: '1'
 
       - name: Upload visual diff report
-        if: failure()
+        if: failure() || cancelled()
         uses: actions/upload-artifact@v4
         with:
           name: visual-diff-report
