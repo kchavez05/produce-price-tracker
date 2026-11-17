@@ -1,16 +1,20 @@
 import { test as base, expect, type Page } from '@playwright/test';
 import { checkAccessibility, checkNoHorizontalScroll, type AxeOptions } from './a11y';
+import { matchAdvisory } from './advisories';
 import { freezeDate, stubAnalytics } from './stubs';
 
 /**
  * Wire the standard boundary onto a page: stubbed Analytics, a pinned clock, and collection of
  * console problems and requests that leave the test server.
  */
-async function guard(page: Page, origin: string, problems: string[]): Promise<void> {
+async function guard(page: Page, origin: string, problems: string[], advisories: string[]): Promise<void> {
   await stubAnalytics(page);
   await freezeDate(page);
   page.on('console', (message) => {
-    if (message.type() === 'error' || message.type() === 'warning') problems.push(`console ${message.type()}: ${message.text()}`);
+    if (message.type() !== 'error' && message.type() !== 'warning') return;
+    const advisory = matchAdvisory(message.type(), message.text());
+    if (advisory) advisories.push(`${advisory.id}: ${advisory.why}`);
+    else problems.push(`console ${message.type()}: ${message.text()}`);
   });
   page.on('pageerror', (error) => problems.push(`page error: ${error.message}`));
   page.on('request', (request) => {
@@ -37,21 +41,26 @@ interface Fixtures {
  * private guest session through the normal cookie. Tests never log in or call Supabase.
  */
 export const test = base.extend<Fixtures>({
-  problems: async ({ page, baseURL }, use) => {
+  problems: async ({ page, baseURL }, use, testInfo) => {
     const problems: string[] = [];
-    await guard(page, new URL(baseURL ?? 'http://localhost').origin, problems);
+    const advisories: string[] = [];
+    await guard(page, new URL(baseURL ?? 'http://localhost').origin, problems, advisories);
     await use(problems);
+    // Known browser advisories do not fail the test, but stay visible in the report.
+    for (const advisory of new Set(advisories)) testInfo.annotations.push({ type: 'advisory', description: advisory });
     expect(problems, 'console errors, hydration warnings or external requests').toEqual([]);
   },
   newGuest: async ({ browser, baseURL, problems }, use, testInfo) => {
+    const advisories: string[] = [];
     const contexts: Awaited<ReturnType<typeof browser.newContext>>[] = [];
     await use(async () => {
       const context = await browser.newContext({ ...testInfo.project.use, baseURL });
       contexts.push(context);
       const page = await context.newPage();
-      await guard(page, new URL(baseURL ?? 'http://localhost').origin, problems);
+      await guard(page, new URL(baseURL ?? 'http://localhost').origin, problems, advisories);
       return page;
     });
+    for (const advisory of new Set(advisories)) testInfo.annotations.push({ type: 'advisory', description: advisory });
     await Promise.all(contexts.map((context) => context.close()));
   },
   a11y: async ({ page }, use, testInfo) => {
