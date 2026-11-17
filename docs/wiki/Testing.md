@@ -23,6 +23,8 @@ npx playwright install webkit chromium
 npm run test:e2e:smoke
 ```
 
+`npm run ci:local` mirrors the `Typecheck, Lint & Build` job (checks, Vitest tiers, build, audit). Add the browser tier with `npm run ci:local:browser` (then `test:e2e:smoke`, the PR-to-`develop` set) or `npm run ci:local:tier3` (then `test:e2e:regression`, the PR-to-`main` set). Visual snapshots are not included; CI generates and compares them. Known local limitation: on macOS WebKit the keyboard test `7. tab order reaches the main controls` fails on unmodified `develop` (the received focus order skips buttons, consistent with Safari's default Tab behavior) while it passes on CI's runner, so treat that one failure as environmental.
+
 The config builds and starts the app itself. Useful switches:
 
 - `E2E_SKIP_BUILD=1` reuses an existing `.next` build.

@@ -47,7 +47,7 @@ npm run test:smoke      # Mandatory Tier 2 smoke tests for PRs to develop
 npm run test:regression # Mandatory Tier 3 regression tests for PRs to main
 npm run build
 ```
-Browser tests (Playwright, WebKit) are recommended locally and mandatory in CI: `npm run test:e2e:smoke` (Tier 2, runs on PRs to `develop`) and `npm run test:e2e:regression` (Tier 3, runs on PRs to `main` and on `develop` PRs labeled `run-tier3`; apply the label before pushing, because labeling alone does not retrigger CI). Install browsers once with `npx playwright install webkit chromium`. Visual snapshot baselines are generated only by the `Visual Baselines` workflow on CI (label `update-visual-baselines`), never locally. See [`docs/wiki/Testing.md`](./docs/wiki/Testing.md).
+Browser tests (Playwright, WebKit) are recommended locally and mandatory in CI: `npm run test:e2e:smoke` (Tier 2, runs on PRs to `develop`) and `npm run test:e2e:regression` (Tier 3, runs on PRs to `main` and on `develop` PRs labeled `run-tier3`; apply the label before pushing, because labeling alone does not retrigger CI). Install browsers once with `npx playwright install webkit chromium`. `npm run ci:local:browser` and `npm run ci:local:tier3` run `ci:local` plus the matching browser tier locally. Visual snapshot baselines are generated only by the `Visual Baselines` workflow on CI (label `update-visual-baselines`), never locally. See [`docs/wiki/Testing.md`](./docs/wiki/Testing.md).
 
 ### Step 3: Push & Open a Pull Request to `develop`
 Push the branch to `origin` and open a PR targeting `develop`. Reference its issue/release parent and update the issue with the PR URL, remaining gates and In Review status:
