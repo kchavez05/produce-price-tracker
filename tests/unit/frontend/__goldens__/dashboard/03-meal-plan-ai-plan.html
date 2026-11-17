@@ -1,0 +1,908 @@
+<div class="min-h-screen pb-24">
+<header class="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print">
+<div class="mx-auto max-w-6xl px-4 py-2.5">
+<div class="flex items-center justify-between gap-3">
+<div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+<div class="flex items-center gap-2">
+<span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-xs">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat h-5 w-5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>
+</span>
+<h1 class="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+<span>PantryBot</span>
+<span class="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200 lg:inline-block">v1.7 AI Meal Prep</span>
+</h1>
+</div>
+<span class="hidden text-slate-300 sm:inline">|</span>
+<button class="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:text-emerald-800 border border-slate-200/90 transition" title="Click to change your ZIP code">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5 text-emerald-600 shrink-0" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>
+<span class="truncate max-w-[150px] sm:max-w-none">Mead / Longmont, CO (80542)</span>
+<span class="text-[11px] font-semibold text-emerald-700 underline ml-0.5">Change</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+<button class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition border-slate-200 bg-white text-slate-700 hover:bg-slate-50" title="Open Virtual Pantry">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-door-open h-3.5 w-3.5 text-sky-500" aria-hidden="true">
+<path d="M10 21H2">
+</path>
+<path d="M10 3H7a2 2 0 00-2 2v16">
+</path>
+<path d="M14 12h.01">
+</path>
+<path d="M19 21V5a2 2 0 00-1.675-1.974l-6.163-1.013A1 1 0 0010 3v18a1 1 0 001.124.992z">
+</path>
+<path d="M22 21h-3">
+</path>
+</svg>
+<span class="hidden sm:inline">Virtual Pantry</span>
+<span class="sm:hidden">Pantry</span>
+<span>(0)</span>
+</button>
+<button class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100" title="Preview Smart Push Notifications &amp; Friday Weekend Meal-Prep Digest">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell h-3.5 w-3.5" aria-hidden="true">
+<path d="M10.268 21a2 2 0 0 0 3.464 0">
+</path>
+<path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326">
+</path>
+</svg>
+<span class="hidden md:inline">Smart Alerts</span>
+</button>
+<span class="hidden h-5 w-px bg-slate-200 sm:inline-block" aria-hidden="true">
+</span>
+<button class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition shadow-2xs border-violet-300 bg-violet-50/90 text-violet-950 hover:bg-violet-100" title="Signed in as Alice ()">
+<span class="h-2 w-2 rounded-full bg-emerald-500">
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check h-3.5 w-3.5 text-violet-700" aria-hidden="true">
+<path d="m16 11 2 2 4-4">
+</path>
+<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2">
+</path>
+<circle cx="9" cy="7" r="4">
+</circle>
+</svg>
+<span class="max-w-[120px] truncate">Alice</span>
+</button>
+</div>
+</div>
+<div class="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2">
+<div class="flex flex-wrap items-center gap-2 max-w-full">
+<div class="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-medium overflow-x-auto max-w-full">
+<button class="rounded-md px-2.5 py-1 transition whitespace-nowrap bg-white font-semibold text-slate-900 shadow-xs">All Stores (6)</button>
+<button class="rounded-md px-2.5 py-1 transition whitespace-nowrap text-slate-600 hover:text-slate-900">ALDI</button>
+<button class="rounded-md px-2.5 py-1 transition whitespace-nowrap text-slate-600 hover:text-slate-900">King Soopers</button>
+<button class="rounded-md px-2.5 py-1 transition whitespace-nowrap text-slate-600 hover:text-slate-900">Walmart</button>
+<button class="rounded-md px-2.5 py-1 transition whitespace-nowrap text-slate-600 hover:text-slate-900">Safeway</button>
+<button class="rounded-md px-2.5 py-1 transition whitespace-nowrap text-slate-600 hover:text-slate-900">Sprouts</button>
+<button class="rounded-md px-2.5 py-1 transition whitespace-nowrap text-slate-600 hover:text-slate-900">Target</button>
+</div>
+<button class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition border-slate-200 bg-white text-slate-700 hover:bg-slate-50" title="Customize which grocery stores you shop at">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store h-3.5 w-3.5" aria-hidden="true">
+<path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5">
+</path>
+<path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244">
+</path>
+<path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05">
+</path>
+</svg>
+<span>My Stores (6)</span>
+</button>
+</div>
+<div class="hidden items-center gap-1.5 rounded-md bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600 border border-slate-200/80 md:inline-flex">
+<span class="h-1.5 w-1.5 rounded-full bg-emerald-500">
+</span>
+<span>Wed, Nov 11 – Tue, Nov 17, 2026</span>
+</div>
+</div>
+<div role="status" class="my-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-slate-700">
+<p>Planning cycle: Wed, Nov 11 – Tue, Nov 17, 2026. 0 verified live prices; 33 top prices use historical estimates. Estimates are not confirmed current specials; verify them with the store.</p>
+<p>Refresh attempted: 11/17/2026, 5:00:00 AM MT. Last successful live retrieval: No successful retrieval recorded. Page generated: 11/17/2026, 5:00:00 AM MT.</p>
+<p>Flipp: no usable current offers. Kroger: unavailable or not configured. USDA benchmarks: baseline estimates.</p>
+<p>USDA source periods: No compatible stored observations. Report age is separate from the price refresh time.</p>
+</div>
+<div class="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5">
+<div class="flex flex-wrap gap-1.5 sm:gap-2">
+<button class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag h-4 w-4" aria-hidden="true">
+<path d="M16 10a4 4 0 0 1-8 0">
+</path>
+<path d="M3.103 6.034h17.794">
+</path>
+<path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z">
+</path>
+</svg>
+<span>1. Value Board</span>
+<span class="rounded-full bg-emerald-500/20 px-1.5 py-0.5 text-[11px] text-emerald-300">33</span>
+</button>
+<button class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm bg-emerald-600 text-white shadow-xs">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame h-4 w-4" aria-hidden="true">
+<path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4">
+</path>
+</svg>
+<span>2. 3-Dish Meal Prep</span>
+<span class="rounded-full bg-black/15 px-1.5 py-0.5 text-[11px]">$1.53/srv</span>
+</button>
+<button class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm bg-indigo-50 text-indigo-950 border border-indigo-200 hover:bg-indigo-100">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-checks h-4 w-4" aria-hidden="true">
+<path d="M13 5h8">
+</path>
+<path d="M13 12h8">
+</path>
+<path d="M13 19h8">
+</path>
+<path d="m3 17 2 2 4-4">
+</path>
+<path d="m3 7 2 2 4-4">
+</path>
+</svg>
+<span>3. Shopping List &amp; Cart Bridge</span>
+<span class="rounded-full bg-black/15 px-1.5 py-0.5 text-[11px]">21 items</span>
+</button>
+<button class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radar h-4 w-4" aria-hidden="true">
+<path d="M19.07 4.93A10 10 0 0 0 6.99 3.34">
+</path>
+<path d="M4 6h.01">
+</path>
+<path d="M2.29 9.62A10 10 0 1 0 21.31 8.35">
+</path>
+<path d="M16.24 7.76A6 6 0 1 0 8.23 16.67">
+</path>
+<path d="M12 18h.01">
+</path>
+<path d="M17.99 11.66A6 6 0 0 1 15.77 16.67">
+</path>
+<circle cx="12" cy="12" r="2">
+</circle>
+<path d="m13.41 10.59 5.66-5.66">
+</path>
+</svg>
+<span>4. Cycle &amp; Club Radar</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="mx-auto max-w-6xl px-4 pt-5">
+<div class="space-y-6">
+<section class="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-950 p-5 text-white shadow-md">
+<div class="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
+<div>
+<div class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame h-3.5 w-3.5" aria-hidden="true">
+<path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4">
+</path>
+</svg>
+<span>Smart Kitchen Batch Trio (Stews, Braises, Sheet-Pans &amp; Casseroles)</span>
+</div>
+<h2 class="mt-2 text-xl font-extrabold sm:text-2xl">Your 3-Dish Weekend Meal Prep Plan (18 Total Meals)</h2>
+<p class="mt-1 text-xs text-slate-300 sm:text-sm">Recipes in Mead / Longmont, CO reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple estimates allocate recipe use; package checkout totals may differ. The strongest value match stays; two recipe slots rotate each Wednesday when enough recipes fit your profile. Planning cycle: Wed, Nov 11 – Tue, Nov 17, 2026.</p>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<div class="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 p-1 text-xs">
+<span class="flex items-center gap-1 px-2 font-semibold text-emerald-200">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users h-3.5 w-3.5" aria-hidden="true">
+<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2">
+</path>
+<path d="M16 3.128a4 4 0 0 1 0 7.744">
+</path>
+<path d="M22 21v-2a4 4 0 0 0-3-3.87">
+</path>
+<circle cx="9" cy="7" r="4">
+</circle>
+</svg> Batch Size:</span>
+<button class="rounded-lg px-2.5 py-1 font-bold transition text-white/80 hover:bg-white/10">4 Srv / Dish</button>
+<button class="rounded-lg px-2.5 py-1 font-bold transition bg-emerald-400 text-slate-950 shadow-2xs">6 Srv / Dish</button>
+<button class="rounded-lg px-2.5 py-1 font-bold transition text-white/80 hover:bg-white/10">8 Srv / Dish</button>
+</div>
+<button class="inline-flex items-center gap-1.5 rounded-xl bg-indigo-500 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-indigo-400">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-checks h-4 w-4" aria-hidden="true">
+<path d="M13 5h8">
+</path>
+<path d="M13 12h8">
+</path>
+<path d="M13 19h8">
+</path>
+<path d="m3 17 2 2 4-4">
+</path>
+<path d="m3 7 2 2 4-4">
+</path>
+</svg>
+<span>Open Shopping List &amp; Cart Bridge</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-3.5 w-3.5" aria-hidden="true">
+<path d="M5 12h14">
+</path>
+<path d="m12 5 7 7-7 7">
+</path>
+</svg>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3 rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-xs sm:min-w-[360px]">
+<div>
+<div class="text-[11px] text-slate-300 uppercase">Additional / Serving</div>
+<div class="text-xl font-black text-emerald-300">$1.53</div>
+<div class="text-[10px] text-slate-400">across 18 portions</div>
+</div>
+<div class="border-x border-white/15 px-2">
+<div class="text-[11px] text-slate-300 uppercase">Estimated additional grocery cost</div>
+<div class="text-xl font-black text-white">$27.59</div>
+<div class="text-[10px] text-slate-400 line-through">Reg $51.54</div>
+</div>
+<div>
+<div class="text-[11px] text-amber-300 uppercase">Price difference</div>
+<div class="text-xl font-black text-amber-300">$23.95</div>
+<div class="text-[10px] text-emerald-200">purchase prices only</div>
+</div>
+</div>
+</div>
+<p class="mt-3 text-sm text-amber-200">Known subtotal only — additional ingredients have no price.</p>
+<div class="mt-4 rounded-xl border border-white/15 bg-black/25 p-3.5 space-y-3">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-1.5 text-xs font-bold text-emerald-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal h-3.5 w-3.5" aria-hidden="true">
+<path d="M10 5H3">
+</path>
+<path d="M12 19H3">
+</path>
+<path d="M14 3v4">
+</path>
+<path d="M16 17v4">
+</path>
+<path d="M21 12h-9">
+</path>
+<path d="M21 19h-5">
+</path>
+<path d="M21 5h-7">
+</path>
+<path d="M8 10v4">
+</path>
+<path d="M8 12H3">
+</path>
+</svg>
+<span>Personalize Nutrition Profile, Dietary Filters &amp; Cooking Vessel (Ticket #22)</span>
+</div>
+</div>
+<div class="grid gap-3 lg:grid-cols-3">
+<div>
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Target Macro Goal:</div>
+<div class="flex flex-wrap gap-1.5">
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-emerald-400 text-slate-950 shadow-2xs">All Macros</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">💪 High-Protein (40g+)</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🥑 Low-Carb / Keto</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🔥 &lt;460 kcal</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🍲 Balanced</button>
+</div>
+</div>
+<div>
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Dietary Rules (Adapts Slots):</div>
+<div class="flex flex-wrap gap-1.5">
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🌾 Gluten-Free</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🥛 Dairy-Free</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🥜 Nut-Free</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🐟 Pescatarian</button>
+</div>
+</div>
+<div>
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Cooking Vessel Archetype:</div>
+<div class="flex flex-wrap gap-1.5">
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-sky-400 text-slate-950 shadow-2xs">All Vessels</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">⚡ Slow Cooker / Instant Pot</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🔥 Sheet-Pan / 9x13</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🍲 Dutch Oven</button>
+<button type="button" class="rounded-lg px-2.5 py-1 text-[11px] font-bold transition bg-white/10 text-slate-200 hover:bg-white/20">🍳 Skillet</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 border-t border-white/15 pt-4" aria-busy="false">
+<div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+<input maxlength="1000" aria-label="Optional AI meal-plan request" placeholder="Optional AI request: extra-spicy stews, a high-protein sheet-pan roast…" class="flex-1 rounded-xl border border-white/20 bg-white/10 px-3.5 py-2 text-xs text-white placeholder:text-slate-400 focus:border-emerald-400 focus:outline-none" type="text" value="">
+<button type="button" class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-slate-950 transition hover:bg-emerald-400 disabled:opacity-50">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles lucide-stars h-4 w-4" aria-hidden="true">
+<path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z">
+</path>
+<path d="M20 2v4">
+</path>
+<path d="M22 4h-4">
+</path>
+<circle cx="4" cy="20" r="2">
+</circle>
+</svg>
+<span>Remix 3-dish plan with AI</span>
+</button>
+</div>
+<div class="mt-2 flex flex-wrap items-center gap-3 text-xs">
+<button type="button" class="font-semibold text-emerald-200 underline">Use standard suggestions</button>
+<span class="text-slate-300">Manual pantry entry and standard suggestions are always available.</span>
+</div>
+<p role="status" aria-live="polite" class="mt-2 rounded-lg bg-white/10 px-3 py-1.5 text-xs text-amber-200">Updated 3-dish meal-prep plan.</p>
+</div>
+</section>
+<div class="space-y-4">
+<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs">
+<div class="border-b border-slate-100 bg-slate-50/70 p-4 sm:p-5">
+<div class="flex flex-wrap items-start justify-between gap-3">
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-emerald-600 px-2.5 py-0.5 text-xs font-extrabold text-white">Dish #1</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-slate-200 px-2.5 py-0.5 text-xs font-semibold text-slate-800">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat h-3.5 w-3.5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>Instant Pot</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-3.5 w-3.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="M12 6v6l4 2">
+</path>
+</svg>15m prep • 45m cook</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-900">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-snowflake h-3.5 w-3.5" aria-hidden="true">
+<path d="m10 20-1.25-2.5L6 18">
+</path>
+<path d="M10 4 8.75 6.5 6 6">
+</path>
+<path d="m14 20 1.25-2.5L18 18">
+</path>
+<path d="m14 4 1.25 2.5L18 6">
+</path>
+<path d="m17 21-3-6h-4">
+</path>
+<path d="m17 3-3 6 1.5 3">
+</path>
+<path d="M2 12h6.5L10 9">
+</path>
+<path d="m20 10-1.5 2 1.5 2">
+</path>
+<path d="M22 12h-6.5L14 15">
+</path>
+<path d="m4 10 1.5 2L4 14">
+</path>
+<path d="m7 21 3-6-1.5-3">
+</path>
+<path d="m7 3 3 6h4">
+</path>
+</svg>Freezer Friendly</span>
+</div>
+<h3 class="text-lg font-extrabold text-slate-900 sm:text-xl">Instant Pot Citrus Pork Carnitas &amp; Charred Pepper-Cabbage Fajita Bowls</h3>
+<p class="text-xs text-slate-600 sm:text-sm">Fall-apart tender pork shoulder pressure-cooked with orange-garlic spices over sautéed cabbage &amp; peppers</p>
+<div class="pt-1.5 flex flex-wrap items-center gap-1.5">
+<span class="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-950 border border-amber-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dumbbell h-3.5 w-3.5 text-amber-700" aria-hidden="true">
+<path d="M17.596 12.768a2 2 0 1 0 2.829-2.829l-1.768-1.767a2 2 0 0 0 2.828-2.829l-2.828-2.828a2 2 0 0 0-2.829 2.828l-1.767-1.768a2 2 0 1 0-2.829 2.829z">
+</path>
+<path d="m2.5 21.5 1.4-1.4">
+</path>
+<path d="m20.1 3.9 1.4-1.4">
+</path>
+<path d="M5.343 21.485a2 2 0 1 0 2.829-2.828l1.767 1.768a2 2 0 1 0 2.829-2.829l-6.364-6.364a2 2 0 1 0-2.829 2.829l1.768 1.767a2 2 0 0 0-2.828 2.829z">
+</path>
+<path d="m9.6 14.4 4.8-4.8">
+</path>
+</svg>44g Protein</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🔥 460 kcal</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🌾 16g Carbs</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🥑 24g Fat</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">💪 High-Protein (44g)</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🥑 Keto / Low-Carb (16g Net Carbs)</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🔥 Calorie-Conscious (460 kcal)</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🌾 Gluten-Free</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🥛 Dairy-Free</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-1 rounded-xl border px-3 py-2 text-xs font-bold transition border-slate-200 bg-white text-slate-700 hover:bg-slate-100" title="Save this recipe into your SQLite Personal Library">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark h-4 w-4" aria-hidden="true">
+<path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z">
+</path>
+</svg>
+<span>Save Recipe</span>
+</button>
+<div class="flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-right">
+<div>
+<div class="text-[11px] font-semibold text-emerald-800 uppercase">Additional / Serving (6 srv)</div>
+<div class="text-2xl font-black text-emerald-700">$1.17</div>
+</div>
+<div class="border-l border-emerald-200 pl-3 text-xs text-slate-600">
+<div>Additional batch estimate: <strong class="text-slate-900">$7.02</strong>
+</div>
+<div class="text-emerald-700 font-semibold">Price difference $6.04</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 sm:p-5">
+<p class="mb-3 text-sm font-semibold text-sky-900">You have 0 of 10 required ingredients. Optional: 0 of 1 available. Includes static estimates.</p>
+<h4 class="mb-2.5 text-xs font-bold tracking-wider text-slate-500 uppercase">Recipe ingredients (6 Servings)</h4>
+<div class="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Pork Shoulder</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Pork Shoulder Roast (Boston Butt / Carnitas Cut)</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>2.5 lb</strong>  (@ $1.49/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$3.73</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Historical estimate: $1.49/lb (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Shredded Green Cabbage</span>
+<span style="background-color: rgb(227, 24, 55); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">Safeway</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Fresh Green Cabbage</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>2 lb</strong>  (@ $0.69/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$1.38</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Fresh Green Cabbage — Historical estimate: $0.69/lb (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Poblanos, Bell Peppers &amp; Onions</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Yellow or White Cooking Onions</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>1.5 lb</strong>  (@ $0.60/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$0.90</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Historical estimate: $1.79/3 lb bag (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Fresh Hass Avocado</span>
+<span style="background-color: rgb(227, 24, 55); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">Safeway</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Hass Avocados (Large or Bagged)</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Optional: <strong>0.7 lb</strong>  (@ $1.97/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$0.00</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Large Hass Avocados — Historical estimate: $0.69/ea (verify with store)</span>
+</div>
+</div>
+</div>
+<div class="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
+<div class="text-xs text-slate-600">
+<strong class="text-slate-800">Staples (recipe-use estimate) (+$1.01):</strong> <ul class="mt-2 space-y-1">
+<li>Chicken broth (1 cup) — $0.40 · Static estimate</li>
+<li>Ground cumin (1 tsp) — $0.08 · Static estimate</li>
+<li>Dried oregano (1 tsp) — $0.07 · Static estimate</li>
+<li>Smoked paprika (1 tsp) — $0.08 · Static estimate</li>
+<li>Garlic (4 clove) — $0.32 · Static estimate</li>
+<li>Salt (1 tsp) — $0.01 · Static estimate</li>
+<li>Black pepper (1 tsp) — $0.05 · Static estimate</li>
+</ul>
+</div>
+<button class="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-200">
+<span>Hide Prep Steps</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up h-4 w-4" aria-hidden="true">
+<path d="m18 15-6-6-6 6">
+</path>
+</svg>
+</button>
+</div>
+<div class="mt-3 rounded-xl bg-slate-50 p-4 text-xs sm:text-sm space-y-3 border border-slate-200/80">
+<div class="flex flex-wrap gap-3 rounded-lg bg-white p-2.5 text-xs border border-slate-200">
+<strong class="text-slate-900">Per Serving Nutrition Estimate:</strong>
+<span>🔥 460 Calories</span>
+<span>💪 44g Protein</span>
+<span>🌾 16g Carbs</span>
+<span>🥑 24g Fat</span>
+</div>
+<div>
+<div class="font-bold text-slate-900 mb-1.5">Low-Effort Batch Cooking Steps:</div>
+<ol class="list-decimal space-y-1.5 pl-5 text-slate-700">
+<li>Cut pork shoulder into 2-inch chunks, toss with cumin, oregano, smoked paprika, salt, and garlic, and pressure cook on HIGH in the Instant Pot with 1 cup broth for 35 minutes (natural release 10 mins).</li>
+<li>While pork cooks, quickly char sliced cabbage, bell/poblano peppers, and onions in a wide skillet for 7 minutes until crisp-tender.</li>
+<li>Shred the pork and broil on a sheet pan for 4 minutes to crisp the edges; portion over the charred cabbage-pepper base.</li>
+</ol>
+</div>
+<div class="rounded-lg bg-emerald-50 p-2.5 text-xs text-emerald-950 border border-emerald-200">
+<strong>Reheat &amp; Storage Tip:</strong> Sautéed cabbage acts as a low-carb noodle/rice replacement that holds up for 5+ days in the fridge without getting soggy.</div>
+</div>
+</div>
+</div>
+<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs">
+<div class="border-b border-slate-100 bg-slate-50/70 p-4 sm:p-5">
+<div class="flex flex-wrap items-start justify-between gap-3">
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-emerald-600 px-2.5 py-0.5 text-xs font-extrabold text-white">Dish #2</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-slate-200 px-2.5 py-0.5 text-xs font-semibold text-slate-800">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat h-3.5 w-3.5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>Sheet Pan</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-3.5 w-3.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="M12 6v6l4 2">
+</path>
+</svg>15m prep • 30m cook</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-900">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-snowflake h-3.5 w-3.5" aria-hidden="true">
+<path d="m10 20-1.25-2.5L6 18">
+</path>
+<path d="M10 4 8.75 6.5 6 6">
+</path>
+<path d="m14 20 1.25-2.5L18 18">
+</path>
+<path d="m14 4 1.25 2.5L18 6">
+</path>
+<path d="m17 21-3-6h-4">
+</path>
+<path d="m17 3-3 6 1.5 3">
+</path>
+<path d="M2 12h6.5L10 9">
+</path>
+<path d="m20 10-1.5 2 1.5 2">
+</path>
+<path d="M22 12h-6.5L14 15">
+</path>
+<path d="m4 10 1.5 2L4 14">
+</path>
+<path d="m7 21 3-6-1.5-3">
+</path>
+<path d="m7 3 3 6h4">
+</path>
+</svg>Freezer Friendly</span>
+</div>
+<h3 class="text-lg font-extrabold text-slate-900 sm:text-xl">Sheet-Pan Chipotle-Lime Chicken Thighs, Charred Peppers &amp; Sweet Potato Roast</h3>
+<p class="text-xs text-slate-600 sm:text-sm">Zero-pot oven sheet-pan roast with juicy dark meat chicken, caramelized bell peppers, poblanos &amp; avocado</p>
+<div class="pt-1.5 flex flex-wrap items-center gap-1.5">
+<span class="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-950 border border-amber-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dumbbell h-3.5 w-3.5 text-amber-700" aria-hidden="true">
+<path d="M17.596 12.768a2 2 0 1 0 2.829-2.829l-1.768-1.767a2 2 0 0 0 2.828-2.829l-2.828-2.828a2 2 0 0 0-2.829 2.828l-1.767-1.768a2 2 0 1 0-2.829 2.829z">
+</path>
+<path d="m2.5 21.5 1.4-1.4">
+</path>
+<path d="m20.1 3.9 1.4-1.4">
+</path>
+<path d="M5.343 21.485a2 2 0 1 0 2.829-2.828l1.767 1.768a2 2 0 1 0 2.829-2.829l-6.364-6.364a2 2 0 1 0-2.829 2.829l1.768 1.767a2 2 0 0 0-2.828 2.829z">
+</path>
+<path d="m9.6 14.4 4.8-4.8">
+</path>
+</svg>44g Protein</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🔥 445 kcal</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🌾 26g Carbs</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🥑 18g Fat</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">💪 High-Protein (44g)</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🔥 Calorie-Conscious (445 kcal)</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🌾 Gluten-Free</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🥛 Dairy-Free</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-1 rounded-xl border px-3 py-2 text-xs font-bold transition border-slate-200 bg-white text-slate-700 hover:bg-slate-100" title="Save this recipe into your SQLite Personal Library">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark h-4 w-4" aria-hidden="true">
+<path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z">
+</path>
+</svg>
+<span>Save Recipe</span>
+</button>
+<div class="flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-right">
+<div>
+<div class="text-[11px] font-semibold text-emerald-800 uppercase">Additional / Serving (6 srv)</div>
+<div class="text-2xl font-black text-emerald-700">$1.65</div>
+</div>
+<div class="border-l border-emerald-200 pl-3 text-xs text-slate-600">
+<div>Additional batch estimate: <strong class="text-slate-900">$9.92</strong>
+</div>
+<div class="text-emerald-700 font-semibold">Price difference $8.19</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 sm:p-5">
+<p class="mb-3 text-sm font-semibold text-sky-900">You have 0 of 9 required ingredients. Optional: 0 of 1 available. Includes static estimates.</p>
+<h4 class="mb-2.5 text-xs font-bold tracking-wider text-slate-500 uppercase">Recipe ingredients (6 Servings)</h4>
+<div class="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Boneless Chicken Thighs or Breast</span>
+<span style="background-color: rgb(227, 24, 55); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">Safeway</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Boneless Skinless Chicken Thighs</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>2.5 lb</strong>  (@ $1.97/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$4.92</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Historical estimate: $1.97/lb (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Bell Peppers, Poblanos &amp; Onions</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Yellow or White Cooking Onions</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>2 lb</strong>  (@ $0.60/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$1.20</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Historical estimate: $1.79/3 lb bag (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Sweet Potatoes or Broccoli/Zucchini</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Broccoli</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>1.75 lb</strong>  (@ $1.49/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$2.61</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Fresh Broccoli Crowns — Historical estimate: $1.49/lb (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Hass Avocado Finish</span>
+<span style="background-color: rgb(227, 24, 55); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">Safeway</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Hass Avocados (Large or Bagged)</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Optional: <strong>0.7 lb</strong>  (@ $1.97/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$0.00</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Large Hass Avocados — Historical estimate: $0.69/ea (verify with store)</span>
+</div>
+</div>
+</div>
+<div class="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
+<div class="text-xs text-slate-600">
+<strong class="text-slate-800">Staples (recipe-use estimate) (+$1.19):</strong> <ul class="mt-2 space-y-1">
+<li>Olive oil (3 tbsp) — $0.60 · Static estimate</li>
+<li>Chili powder (1 tsp) — $0.08 · Static estimate</li>
+<li>Ground cumin (1 tsp) — $0.08 · Static estimate</li>
+<li>Garlic powder (1 tsp) — $0.06 · Static estimate</li>
+<li>Dried oregano (1 tsp) — $0.07 · Static estimate</li>
+<li>Lime juice (2 tbsp) — $0.30 · Static estimate</li>
+</ul>
+</div>
+<button class="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-200">
+<span>Show Prep &amp; Reheat Guide</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down h-4 w-4" aria-hidden="true">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs">
+<div class="border-b border-slate-100 bg-slate-50/70 p-4 sm:p-5">
+<div class="flex flex-wrap items-start justify-between gap-3">
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="inline-flex items-center rounded-md bg-emerald-600 px-2.5 py-0.5 text-xs font-extrabold text-white">Dish #3</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-slate-200 px-2.5 py-0.5 text-xs font-semibold text-slate-800">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat h-3.5 w-3.5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>Slow Cooker</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-3.5 w-3.5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="M12 6v6l4 2">
+</path>
+</svg>20m prep • 360m cook</span>
+<span class="inline-flex items-center gap-1 rounded-md bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-900">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-snowflake h-3.5 w-3.5" aria-hidden="true">
+<path d="m10 20-1.25-2.5L6 18">
+</path>
+<path d="M10 4 8.75 6.5 6 6">
+</path>
+<path d="m14 20 1.25-2.5L18 18">
+</path>
+<path d="m14 4 1.25 2.5L18 6">
+</path>
+<path d="m17 21-3-6h-4">
+</path>
+<path d="m17 3-3 6 1.5 3">
+</path>
+<path d="M2 12h6.5L10 9">
+</path>
+<path d="m20 10-1.5 2 1.5 2">
+</path>
+<path d="M22 12h-6.5L14 15">
+</path>
+<path d="m4 10 1.5 2L4 14">
+</path>
+<path d="m7 21 3-6-1.5-3">
+</path>
+<path d="m7 3 3 6h4">
+</path>
+</svg>Freezer Friendly</span>
+</div>
+<h3 class="text-lg font-extrabold text-slate-900 sm:text-xl">Colorado Roasted Poblano &amp; Pork Green Chile Stew</h3>
+<p class="text-xs text-slate-600 sm:text-sm">Slow-simmered pork shoulder with blistered poblanos, tomatillos, and San Luis Valley potatoes</p>
+<div class="pt-1.5 flex flex-wrap items-center gap-1.5">
+<span class="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-950 border border-amber-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dumbbell h-3.5 w-3.5 text-amber-700" aria-hidden="true">
+<path d="M17.596 12.768a2 2 0 1 0 2.829-2.829l-1.768-1.767a2 2 0 0 0 2.828-2.829l-2.828-2.828a2 2 0 0 0-2.829 2.828l-1.767-1.768a2 2 0 1 0-2.829 2.829z">
+</path>
+<path d="m2.5 21.5 1.4-1.4">
+</path>
+<path d="m20.1 3.9 1.4-1.4">
+</path>
+<path d="M5.343 21.485a2 2 0 1 0 2.829-2.828l1.767 1.768a2 2 0 1 0 2.829-2.829l-6.364-6.364a2 2 0 1 0-2.829 2.829l1.768 1.767a2 2 0 0 0-2.828 2.829z">
+</path>
+<path d="m9.6 14.4 4.8-4.8">
+</path>
+</svg>41g Protein</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🔥 485 kcal</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🌾 32g Carbs</span>
+<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-800 border border-slate-200">🥑 21g Fat</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">💪 High-Protein (41g)</span>
+<span class="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">🌾 Gluten-Free</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-1 rounded-xl border px-3 py-2 text-xs font-bold transition border-slate-200 bg-white text-slate-700 hover:bg-slate-100" title="Save this recipe into your SQLite Personal Library">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark h-4 w-4" aria-hidden="true">
+<path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z">
+</path>
+</svg>
+<span>Save Recipe</span>
+</button>
+<div class="flex items-center gap-4 rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-right">
+<div>
+<div class="text-[11px] font-semibold text-emerald-800 uppercase">Additional / Serving (6 srv)</div>
+<div class="text-2xl font-black text-emerald-700">$1.78</div>
+</div>
+<div class="border-l border-emerald-200 pl-3 text-xs text-slate-600">
+<div>Additional batch estimate: <strong class="text-slate-900">$10.65</strong>
+</div>
+<div class="text-emerald-700 font-semibold">Price difference $9.72</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 sm:p-5">
+<p class="mb-3 text-sm font-semibold text-sky-900">You have 0 of 10 required ingredients. Includes static estimates. Known subtotal only — additional ingredients have no price.</p>
+<h4 class="mb-2.5 text-xs font-bold tracking-wider text-slate-500 uppercase">Recipe ingredients (6 Servings)</h4>
+<div class="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Pork Shoulder</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Pork Shoulder Roast (Boston Butt / Carnitas Cut)</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>2.5 lb</strong>  (@ $1.49/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$3.73</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Historical estimate: $1.49/lb (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Diced Potatoes</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Fresh potatoes</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>2 lb</strong>  (@ $0.40/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$0.80</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Colorado Russet Potatoes (5 lb Bag) — Historical estimate: $1.99/5 lb bag (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Roasting Chiles &amp; Aromatics</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Bell Peppers (Red, Yellow, Orange, or Green)</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>1.5 lb</strong>  (@ $2.03/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$3.04</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Historical estimate: $0.77/ea (verify with store)</span>
+</div>
+</div>
+<div class="rounded-xl border p-3 text-xs border-slate-200 bg-white">
+<div class="flex items-center justify-between gap-1">
+<span class="font-semibold text-slate-500">Tomatillos or Roma Tomatoes &amp; Onion</span>
+<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
+</div>
+<div class="mt-1 font-bold text-slate-900">Yellow or White Cooking Onions</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-slate-600">Need to buy: <strong>1.5 lb</strong>  (@ $0.60/lb)</span>
+<span class="text-sm font-extrabold text-emerald-700">$0.90</span>
+</div>
+<div class="mt-1.5 flex items-center justify-between border-t border-slate-100 pt-1.5 text-[11px] text-slate-500">
+<span>Historical estimate: $1.79/3 lb bag (verify with store)</span>
+</div>
+</div>
+</div>
+<div class="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
+<div class="text-xs text-slate-600">
+<strong class="text-slate-800">Staples (recipe-use estimate) (+$2.18):</strong> <ul class="mt-2 space-y-1">
+<li>Chicken broth (4 cup) — $1.60 · Static estimate</li>
+<li>Ground cumin (1 tsp) — $0.08 · Static estimate</li>
+<li>Dried Mexican oregano (1 tsp) — $0.08 · Static estimate</li>
+<li>Garlic (4 clove) — $0.32 · Static estimate</li>
+<li>Cornstarch (2 tbsp) — $0.10 · Static estimate</li>
+<li>Cheddar cheese or Monterey Jack cheese or Mexican-style cheese blend (0.5 lb) — Price unavailable</li>
+</ul>
+</div>
+<button class="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-200">
+<span>Show Prep &amp; Reheat Guide</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down h-4 w-4" aria-hidden="true">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-white p-4">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="text-sm font-bold text-slate-900">Want to Swap a Dish? Browse All 12 Cost-Ranked Blueprints</h3>
+<p class="text-xs text-slate-500">Every blueprint is dynamically priced using this week's Mead / Longmont, CO circulars and scaled to 6 servings.</p>
+</div>
+<button class="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">Show All 12 Dishes</button>
+</div>
+</div>
+</div>
+</main>
+</div>

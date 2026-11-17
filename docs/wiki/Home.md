@@ -43,9 +43,13 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
    * How to run the app with zero keys vs. how to register for server credentials for OpenAI, USDA MARS, the Kroger Developer Portal, and Supabase.
 4. **[OpenAPI 3.1 & Swagger UI Console](./OpenAPI-and-Swagger-Documentation.md)**
    * Production OpenAPI 3.1 REST specification (`/api/openapi.json`), interactive Swagger UI testing console (`/docs`), and endpoint documentation across all 8 backend API domains.
-5. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
+5. **[Testing](./Testing.md)**
+   * The three test tiers, Playwright browser commands, the accessibility allowlist, and how visual baselines are generated and updated (CI only).
+6. **[Design System](./Design-System.md)**
+   * v2.0 foundations: design tokens, light/dark themes, UI primitives, the `/design` style guide and the palette ratchet guard (not yet used by shipped screens).
+6. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Historical milestones, current release scope and future mobile plans.
-6. **[Release Notes (`docs/releases/`)](../releases/)**
+7. **[Release Notes (`docs/releases/`)](../releases/)**
    * **[v1.6.3 — Pantry Access Repair & Freezer Retirement](../releases/v1.6.3.md)**
    * **[v1.6.2 — Barcode Entry & Static Staple Estimates](../releases/v1.6.2.md)**
    * **[v1.6.1 — Pantry Catalog Expansion](../releases/v1.6.1.md)**
@@ -58,7 +62,7 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
    * **[v1.2.0 — Smart Kitchen, Virtual Freezer & Cart Bridge](../releases/v1.2.0.md)**
    * **[v1.1.0 — Multi-Vendor Expansion & Universal Basket Optimizer](../releases/v1.1.0.md)**
    * **[v1.0.0 — Production Launch (`pantrybot.dev`)](../releases/v1.0.0.md)**
-7. **[North Star: Native iOS/Android & Feature Expansion Blueprint](./Long-Term-Mobile-and-Expansion-Roadmap.md)**
+8. **[North Star: Native iOS/Android & Feature Expansion Blueprint](./Long-Term-Mobile-and-Expansion-Roadmap.md)**
    * Multi-horizon strategy (`v1.5`–`v3.0`) for packaging into native iOS & Android apps (Expo / React Native), camera shelf-tag OCR, and Live Activities.
 
 ---
