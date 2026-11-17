@@ -5,9 +5,19 @@ import { SCROLL_RULE, axeEntries, describeResult, evaluateAllowlist, scrollEntri
 
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
+export interface AxeOptions {
+  /**
+   * CSS selectors to leave out of the scan. Only for third-party widgets we do not control
+   * (such as Swagger UI), whose markup and render timing would make results unstable.
+   */
+  exclude?: string[];
+}
+
 /** Run axe on the page and return serious and critical WCAG A/AA violations as findings. */
-export async function collectAxeFindings(page: Page): Promise<Finding[]> {
-  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+export async function collectAxeFindings(page: Page, options: AxeOptions = {}): Promise<Finding[]> {
+  const builder = new AxeBuilder({ page }).withTags(WCAG_TAGS);
+  for (const selector of options.exclude ?? []) builder.exclude(selector);
+  const results = await builder.analyze();
   return results.violations
     .filter((violation) => violation.impact === 'serious' || violation.impact === 'critical')
     .map((violation) => ({ rule: violation.id, nodes: violation.nodes.length }));
@@ -28,8 +38,8 @@ function assertResult(entries: AllowlistEntry[], screen: string, project: string
  * Fail on any serious or critical axe violation that is not allowlisted, or any stale entry.
  * Overflow entries belong to checkNoHorizontalScroll and are not considered here.
  */
-export async function checkAccessibility(page: Page, screen: string, project: string): Promise<void> {
-  assertResult(axeEntries(allowlist as AllowlistEntry[]), screen, project, await collectAxeFindings(page));
+export async function checkAccessibility(page: Page, screen: string, project: string, options: AxeOptions = {}): Promise<void> {
+  assertResult(axeEntries(allowlist as AllowlistEntry[]), screen, project, await collectAxeFindings(page, options));
 }
 
 /** Fail if the page scrolls horizontally, unless allowlisted for this screen and project. */
