@@ -18,7 +18,6 @@ import {
   CommodityCategory,
   CookingVesselArchetype,
   DashboardPayload,
-  DealType,
   DietaryConstraint,
   MacroGoal,
   RecommendedDish,
@@ -37,6 +36,7 @@ import {
   formatShoppingListForClipboard,
   getItemCurbsideLinks,
 } from '@/lib/cart-exporter';
+import { renderDealBadge, renderStoreBadge, renderCycleSignalBadge } from '@/modules/shop/badges';
 import AccountModal from '@/components/AccountModal';
 import AiMealPlanControls from '@/components/AiMealPlanControls';
 import { useUserSync } from '@/hooks/useUserSync';
@@ -45,10 +45,7 @@ import {
   Sparkles,
   TrendingDown,
   TrendingUp,
-  Tag,
   Smartphone,
-  CreditCard,
-  Layers,
   ChefHat,
   Flame,
   Pin,
@@ -860,86 +857,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     }, 150);
   }
 
-  function renderDealBadge(dealType: DealType) {
-    switch (dealType) {
-      case 'DIGITAL_COUPON':
-        return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-900 border border-amber-300">
-            <Smartphone className="h-3 w-3" />
-            Clip Digital Coupon
-          </span>
-        );
-      case 'MULTI_BUY':
-        return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-semibold text-purple-900 border border-purple-300">
-            <Layers className="h-3 w-3" />
-            Multi-Buy Requirement
-          </span>
-        );
-      case 'EVERYDAY_LOW':
-        return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
-            <Tag className="h-3 w-3" />
-            Everyday Low Price
-          </span>
-        );
-      case 'SHELF_OR_MEMBER':
-        return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-900 border border-emerald-300">
-            <CreditCard className="h-3 w-3" />
-            Member Card Price
-          </span>
-        );
-      default:
-        return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700">
-            <Tag className="h-3 w-3" />
-            Everyday Shelf Price
-          </span>
-        );
-    }
-  }
-
-  function renderStoreBadge(store: StoreChain) {
-    const def = getStoreDefinition(store);
-    const banner = resolveStoreBanner(store, currentZip);
-    return (
-      <span
-        style={{ backgroundColor: def.brandColor, color: '#ffffff' }}
-        className="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs"
-      >
-        {banner}
-      </span>
-    );
-  }
-
-  function renderCycleSignalBadge(item: ScoredCommodity) {
-    if (item.bestOffer.source === 'CURATED_FALLBACK') return (
-      <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-900">Historical estimate</span>
-    );
-    const sig = item.cycleSignal;
-    if (!sig) return null;
-    if (sig.status === 'STOCK_UP_6WK_LOW') {
-      return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-900 border border-emerald-300">
-          <span>🟢 Stock Up Alert (6-Wk Low)</span>
-        </span>
-      );
-    }
-    if (sig.status === 'CYCLE_PEAK_WAIT') {
-      return (
-        <span className="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-900 border border-rose-300">
-          <span>🔴 Cycle Peak (Wait / Swap)</span>
-        </span>
-      );
-    }
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-semibold text-amber-900 border border-amber-200">
-        <span>🟡 Fair Sale Price</span>
-      </span>
-    );
-  }
-
   return (
     <div className="min-h-screen pb-24">
       {/* Top Header — Two-Tier Navigation Architecture */}
@@ -1606,7 +1523,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                       >
                         <div>
                           <div className="flex items-center justify-between gap-2">
-                            {renderStoreBadge(item.bestOffer.store)}
+                            {renderStoreBadge(item.bestOffer.store, currentZip)}
                             <span className="rounded-full bg-emerald-400/20 px-2 py-0.5 text-xs font-bold text-emerald-300">
                               -{item.discountVsRegularPct}% OFF
                             </span>
@@ -1762,7 +1679,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                     <div>
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-1.5">
-                          {renderStoreBadge(bestOffer.store)}
+                          {renderStoreBadge(bestOffer.store, currentZip)}
                           <span className="text-xs font-medium text-slate-500">
                             {ingredient.subcategory}
                           </span>
@@ -2475,7 +2392,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                                   {'Already have'}
                                 </span>
                               ) : (
-                                renderStoreBadge(ing.store)
+                                renderStoreBadge(ing.store, currentZip)
                               )}
                             </div>
                             <div className="mt-1 font-bold text-slate-900">
@@ -2984,7 +2901,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                             >
                               <div className="space-y-0.5 pr-2">
                                 <div className="flex items-center gap-1.5">
-                                  {renderStoreBadge(cItem.activeStore)}
+                                  {renderStoreBadge(cItem.activeStore, currentZip)}
                                   <span className="text-xs font-bold text-slate-900">
                                     {cItem.ingredientName}
                                   </span>
@@ -3079,7 +2996,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                                 <Snowflake className="h-3 w-3" /> Already have
                               </span>
                             ) : (
-                              renderStoreBadge(item.activeStore)
+                              renderStoreBadge(item.activeStore, currentZip)
                             )}
                             <span
                               onClick={() => toggleCheckedItem(item.ingredientId)}
@@ -3245,7 +3162,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                         >
                           <div>
                             <div className="flex items-center gap-1.5">
-                              {renderStoreBadge(item.bestOffer.store)}
+                              {renderStoreBadge(item.bestOffer.store, currentZip)}
                               <span className="font-bold text-slate-900">
                                 {item.ingredient.name}
                               </span>
@@ -3370,7 +3287,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                             </td>
                             <td className="py-2 px-2">
                               <div className="flex items-center gap-1.5">
-                                {renderStoreBadge(item.bestOffer.store)}
+                                {renderStoreBadge(item.bestOffer.store, currentZip)}
                                 <span className="font-extrabold text-slate-900">
                                   ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
                                   {item.ingredient.standardUnit}
@@ -3436,7 +3353,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
                           <span className="font-bold text-slate-900">
                             {item.ingredient.name}
                           </span>
-                          {renderStoreBadge(item.bestOffer.store)}
+                          {renderStoreBadge(item.bestOffer.store, currentZip)}
                         </div>
                         <div className="mt-1 flex items-baseline gap-2">
                           <span className="text-base font-extrabold text-emerald-700">
