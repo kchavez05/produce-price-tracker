@@ -100,8 +100,13 @@ test.describe('smoke: virtual pantry', () => {
 });
 
 test.describe('smoke: account panel', () => {
-  test('4. opens and closes without signing in, and guest pantry data remains', async ({ page, problems }) => {
+  test('4. opens and closes without signing in, and guest pantry data remains', async ({ page, problems }, testInfo) => {
     void problems; // also proves no sign-in request left the test server
+    // Known defect (#544, removed by the M4 shell, #710): the header controls are wider than the 390 px
+    // layout, so Chromium's mobile emulation shrinks the page to fit and the Sign In tap is intercepted
+    // by the Pantry button. WebKit hides it. Marked as an expected failure so it cannot pass unnoticed:
+    // when the header is fixed this test starts passing, which fails the run until this line is removed.
+    test.fail(testInfo.project.name === 'iphone-chromium', 'Sign In is not tappable in Chromium at 390 px (#544, #710)');
     const home = new DashboardPage(page);
     await home.goto();
     await home.openPantry();

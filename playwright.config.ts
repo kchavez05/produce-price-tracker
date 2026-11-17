@@ -6,6 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
 const port = Number(process.env.E2E_PORT ?? 3210);
 const baseURL = process.env.E2E_BASE_URL ?? `http://localhost:${port}`;
 const ci = Boolean(process.env.CI);
+const VISUAL_SPEC = /visual\.spec\.ts/;
 
 // Visual runs pin the server's clock (libfaketime) so date-driven output is identical whenever CI
 // runs: the six-week price history panel disappears as the data ages out, the planning cycle and the
@@ -41,11 +42,24 @@ export default defineConfig({
   },
   projects: [
     // Tier 2 smoke viewports (WebKit). Width classes, not device models (spec section 7).
-    { name: 'iphone-webkit', testIgnore: /visual\.spec\.ts/, use: { ...devices['iPhone 14'], viewport: { width: 390, height: 844 } } },
-    { name: 'ipad-webkit', testIgnore: /visual\.spec\.ts/, use: { ...devices['iPad (gen 7)'], viewport: { width: 820, height: 1180 } } },
+    { name: 'iphone-webkit', testIgnore: VISUAL_SPEC, use: { ...devices['iPhone 14'], viewport: { width: 390, height: 844 } } },
+    { name: 'ipad-webkit', testIgnore: VISUAL_SPEC, use: { ...devices['iPad (gen 7)'], viewport: { width: 820, height: 1180 } } },
+
+    // Tier 3 viewport matrix: the remaining sizes from spec section 7, same journeys, WebKit.
+    { name: 'iphone-pro-webkit', testIgnore: VISUAL_SPEC, use: { ...devices['iPhone 14'], viewport: { width: 402, height: 874 } } },
+    { name: 'iphone-pro-max-webkit', testIgnore: VISUAL_SPEC, use: { ...devices['iPhone 14'], viewport: { width: 440, height: 956 } } },
+    { name: 'ipad-landscape-webkit', testIgnore: VISUAL_SPEC, use: { ...devices['iPad (gen 7)'], viewport: { width: 1194, height: 834 } } },
+    // Width check only, no posture handling (the inner display of a foldable, spec section 1).
+    { name: 'duo-inner-webkit', testIgnore: VISUAL_SPEC, use: { ...devices['iPad (gen 7)'], viewport: { width: 626, height: 890 } } },
+
+    // Tier 3 cross-check in a second engine at the two Tier 2 widths. A cheap second opinion on
+    // layout and behavior, not a Safari substitute (spec section 3).
+    { name: 'iphone-chromium', testIgnore: VISUAL_SPEC, use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 3 } },
+    { name: 'ipad-chromium', testIgnore: VISUAL_SPEC, use: { ...devices['Desktop Chrome'], viewport: { width: 820, height: 1180 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } },
+
     // Visual snapshots (spec section 6): same viewports, only visual.spec.ts, run on their own.
-    { name: 'visual-iphone', testMatch: /visual\.spec\.ts/, use: { ...devices['iPhone 14'], viewport: { width: 390, height: 844 } } },
-    { name: 'visual-ipad', testMatch: /visual\.spec\.ts/, use: { ...devices['iPad (gen 7)'], viewport: { width: 820, height: 1180 } } },
+    { name: 'visual-iphone', testMatch: VISUAL_SPEC, use: { ...devices['iPhone 14'], viewport: { width: 390, height: 844 } } },
+    { name: 'visual-ipad', testMatch: VISUAL_SPEC, use: { ...devices['iPad (gen 7)'], viewport: { width: 820, height: 1180 } } },
   ],
   webServer: process.env.E2E_BASE_URL
     ? undefined
