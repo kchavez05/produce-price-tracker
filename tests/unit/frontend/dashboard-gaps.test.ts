@@ -22,9 +22,9 @@ const zipButtonText = (h: DashboardHarness) =>
   [...h.container.querySelectorAll('button')].map((b) => b.textContent ?? '').find((text) => /\(\d{5}\)\s*Change$/.test(text));
 
 describe('mount restore of the five localStorage keys (gap 1)', () => {
-  it('restores checklist, coupons, profile, stores and ZIP, and refetches with the loaded values', async () => {
+  it('restores the checklist, profile, stores and ZIP, and refetches with the loaded values', async () => {
     localStorageSeed({
-      mead_checked_items_v03: JSON.stringify({ 'potatoes-russet-gold': true }),
+      mead_checked_items_v03: JSON.stringify({ [payload.recommendedTrio[0].matchedIngredients[0].ingredientId]: true }),
       mead_clipped_coupons_v03: JSON.stringify({ 'coupon-a': true }),
       pantrybot_nutrition_profile_v12: JSON.stringify({ macroGoal: 'HIGH_PROTEIN', dietaryConstraints: ['GLUTEN_FREE'], applianceFilter: 'ANY' }),
       pantrybot_active_stores: JSON.stringify(['KING_SOOPERS', 'SAFEWAY']),
@@ -41,6 +41,9 @@ describe('mount restore of the five localStorage keys (gap 1)', () => {
     expect(params.get('dietary')).toBe('GLUTEN_FREE');
     expect(params.get('vessel')).toBe('ANY');
     expect(zipButtonText(harness)).toContain('(80301)');
+    // The saved checklist item is shown as checked once the shopping list is opened.
+    await harness.click(harness.button('3. Shopping List & Cart Bridge'));
+    expect(harness.container.querySelectorAll('.lucide-check-square').length).toBeGreaterThan(0);
   });
 
   it('keeps the server ZIP and makes no refetch when the saved ZIP matches or is malformed', async () => {
@@ -105,10 +108,12 @@ describe('syncDashboard ownership drop (gap 2)', () => {
   });
 
   it('currently drops the ZIP-restore refetch for a guest whose response arrives after the pantry loads', async () => {
-    // Characterizes today's behavior so the M3 moves preserve it; it is not an endorsement. The restore
-    // runs on mount, before the guest pantry snapshot loads, so the owner captured with the request
-    // differs from the owner at response time and the ownership guard discards the response. The ZIP
-    // itself is restored; only the refreshed prices for it are lost. A fix belongs in its own PR.
+    // Characterizes today's behavior so the M3 moves preserve it; it is not an endorsement. Likely cause,
+    // not verified: the restore runs on mount before the guest pantry snapshot loads, so the owner captured
+    // with the request (null) differs from the owner at response time and the ownership guard discards the
+    // response. With an instant fetch the response is applied, so this outcome depends on ordering; if a
+    // later move changes it, treat that as a finding to explain, not a test to relax. The ZIP itself is
+    // restored; only the refreshed prices are lost. A fix belongs in its own PR.
     localStorageSeed({ pantrybot_user_zip: '80301' });
     let release: () => void = () => undefined;
     const gate = new Promise<void>((resolve) => { release = resolve; });
@@ -146,15 +151,15 @@ describe('cloud hydration (gap 3)', () => {
     expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
   });
 
-  it('rejects a malformed cloud ZIP and an empty store list, keeping local values', async () => {
+  it('rejects a malformed cloud ZIP, keeping the local ZIP', async () => {
     harness = await createDashboardHarness({ payload, sync: hydrated({ defaultZip: '80x01', favoriteStoreIds: [], pinnedIngredientIds: [] }) });
     await harness.mount();
     await harness.settle();
     expect(zipButtonText(harness)).toContain(`(${payload.zipCode})`);
   });
 
-  it('ignores a signed-out payload', async () => {
-    harness = await createDashboardHarness({ payload });
+  it('ignores preferences in a signed-out payload', async () => {
+    harness = await createDashboardHarness({ payload, sync: { ...guestSync, preferences: { ...aliceSync.preferences!, defaultZip: '80301', pinnedIngredientIds: [pinned()] } } });
     await harness.mount();
     await harness.settle();
     expect(zipButtonText(harness)).toContain(`(${payload.zipCode})`);

@@ -45,6 +45,9 @@ export interface MountProps {
  * dishes, no live sources. It is a frozen fixture (tests/fixtures/dashboard-keyless-payload.json),
  * generated once from buildDashboardPayload on develop 3737441 under a fixed clock, so catalog
  * or scoring changes cannot shift the goldens. jsdom cannot import node:sqlite to build it live.
+ * To regenerate (only with an explained reason): run buildDashboardPayload({ zipCode: '80542', storeFilter: 'ALL',
+ * targetServings: 6, macroGoal: 'ANY', applianceFilter: 'ANY' }) under node with PANTRYBOT_SQLITE_PATH=':memory:'
+ * and Date frozen at FIXED_NOW_ISO, then write JSON.stringify(payload) plus a newline to the fixture.
  */
 export function keylessPayload(): DashboardPayload {
   const file = join(process.cwd(), 'tests/fixtures/dashboard-keyless-payload.json');
