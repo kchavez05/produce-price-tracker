@@ -1116,7 +1116,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
           />}
 
           {/* Interactive Zip Code / Location Switcher Drawer */}
-          {/* Interactive Zip Code / Location Switcher Drawer */}
           {showZipModal && (
             <ZipPanel
               currentZip={currentZip}
@@ -1132,7 +1131,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
             />
           )}
 
-          {/* Interactive My Stores Preference Drawer (v1.1) */}
           {/* Interactive My Stores Preference Drawer (v1.1) */}
           {showStoresModal && (
             <StoresPanel
