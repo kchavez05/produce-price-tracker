@@ -127,6 +127,9 @@ jobs:
       # Type errors still fail the build; lint already runs in Typecheck, Lint & Build.
       - name: Build production app
         run: npm run build -- --no-lint
+        env:
+          # Serves the dev-only /design style guide in this e2e build. Never set on Vercel.
+          E2E_DESIGN_GUIDE: '1'
 
       - name: Tier 2 browser smoke (WebKit, iPhone and iPad portrait)
         run: npm run test:e2e:smoke
@@ -202,6 +205,9 @@ jobs:
       # Type errors still fail the build; lint already runs in Typecheck, Lint & Build.
       - name: Build production app
         run: npm run build -- --no-lint
+        env:
+          # Serves the dev-only /design style guide in this e2e build. Never set on Vercel.
+          E2E_DESIGN_GUIDE: '1'
 
       - name: Tier 3 browser regression (six WebKit sizes, Chromium cross-check)
         run: npm run test:e2e:regression
@@ -286,6 +292,9 @@ jobs:
       - name: Build production app
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
         run: npm run build -- --no-lint
+        env:
+          # Serves the dev-only /design style guide in this e2e build. Never set on Vercel.
+          E2E_DESIGN_GUIDE: '1'
 
       - name: Visual snapshots (WebKit, iPhone and iPad portrait)
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''

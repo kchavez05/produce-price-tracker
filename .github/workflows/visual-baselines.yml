@@ -45,6 +45,9 @@ jobs:
 
       - name: Build production app
         run: npm run build -- --no-lint
+        env:
+          # Serves the dev-only /design style guide in this e2e build. Never set on Vercel.
+          E2E_DESIGN_GUIDE: '1'
 
       - name: Generate baselines
         run: npm run test:e2e:update

@@ -71,6 +71,8 @@ export default defineConfig({
         reuseExistingServer: !ci,
         env: {
           PANTRYBOT_BARCODE_LOOKUP_ENABLED: 'true',
+          // Serves the dev-only /design style guide in this build (see src/design/guide-access.ts).
+          E2E_DESIGN_GUIDE: '1',
           FAKETIME_DONT_FAKE_MONOTONIC: '1',
           NEXT_PUBLIC_SUPABASE_URL: '',
           NEXT_PUBLIC_SUPABASE_ANON_KEY: '',

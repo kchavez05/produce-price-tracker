@@ -63,7 +63,13 @@ export function Sheet({ open, onClose, title, children, variant = 'sheet', initi
   return createPortal(
     <div
       className={cx('fixed inset-0 z-50 flex bg-overlay', variant === 'sheet' ? 'items-end justify-center' : 'items-center justify-center p-4')}
-      onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}
+      onMouseDown={(event) => {
+        if (event.target !== event.currentTarget) return;
+        // Cancel the browser's default mousedown action: it would move focus to the page after the
+        // sheet closes and undo the focus return to the opener that closing just did.
+        event.preventDefault();
+        onClose();
+      }}
     >
       <div
         ref={panel}
