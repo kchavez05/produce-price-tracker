@@ -106,7 +106,10 @@ test.describe('smoke: account panel', () => {
     // layout, so Chromium's mobile emulation shrinks the page to fit and the Sign In tap is intercepted
     // by the Pantry button. WebKit hides it. Marked as an expected failure so it cannot pass unnoticed:
     // when the header is fixed this test starts passing, which fails the run until this line is removed.
-    test.fail(testInfo.project.name === 'iphone-chromium', 'Sign In is not tappable in Chromium at 390 px (#544, #710)');
+    // The click fails fast on that project: an expected failure must be a thrown error, because a test
+    // that runs into its 30 s timeout is reported as timed out, not as an expected failure.
+    const knownDefect = testInfo.project.name === 'iphone-chromium';
+    test.fail(knownDefect, 'Sign In is not tappable in Chromium at 390 px (#544, #710)');
     const home = new DashboardPage(page);
     await home.goto();
     await home.openPantry();
@@ -114,7 +117,7 @@ test.describe('smoke: account panel', () => {
     await page.getByRole('button', { name: 'Add Salt' }).click();
     await expect.poll(() => home.pantryCount()).toBe(1);
 
-    await home.signInButton.click();
+    await home.signInButton.click({ timeout: knownDefect ? 3_000 : undefined });
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Sign in with Apple' })).toBeVisible();
