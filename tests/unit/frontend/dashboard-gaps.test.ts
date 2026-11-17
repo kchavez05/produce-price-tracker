@@ -3,7 +3,7 @@
 // (#701, plan decision 16): mount restore (gap 1), the syncDashboard ownership drop (gap 2),
 // cloud hydration (gap 3) and save/unsave recipe (gap 8). They pin today's behavior so a
 // verbatim move cannot silently change it. They run in Tier 1 and share the golden harness.
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   aliceSync, guestSync, createDashboardHarness as create, keylessPayload, type DashboardHarness, type FetchHandler,
 } from 'tests/helpers/dashboard-harness';
@@ -226,3 +226,32 @@ describe('save and unsave recipe (gap 8)', () => {
   });
 });
 
+describe('promote a blueprint to the top three (Meal Plan)', () => {
+  it('puts the chosen blueprint first, keeps two of the current dishes, and scrolls to the top', async () => {
+    const scrollTo = vi.fn();
+    vi.stubGlobal('scrollTo', scrollTo);
+    try {
+      harness = await createDashboardHarness({ payload });
+      await harness.mount();
+      await harness.click(harness.button('2. 3-Dish Meal Prep'));
+      const dishTitles = () => [...harness!.container.querySelectorAll('h3')].map((h) => h.textContent ?? '');
+      const before = dishTitles().filter((title) => payload.allRankedDishes.some((dish) => dish.title === title));
+      expect(before.length).toBeGreaterThanOrEqual(3);
+      const showAll = [...harness.container.querySelectorAll('button')].find((b) => /^Show All \d+ Dishes$/.test(b.textContent ?? ''));
+      expect(showAll).toBeDefined();
+      await harness.click(showAll!);
+      const promote = [...harness.container.querySelectorAll('button')].filter((b) => b.textContent === 'Promote to Top 3');
+      expect(promote.length).toBeGreaterThan(0);
+      const chosen = promote[promote.length - 1];
+      const chosenTitle = chosen.parentElement?.querySelector('h4')?.textContent ?? '';
+      expect(chosenTitle).not.toBe('');
+      await harness.click(chosen);
+      const after = dishTitles().filter((title) => payload.allRankedDishes.some((dish) => dish.title === title));
+      expect(after[0]).toBe(chosenTitle);
+      expect(after).toHaveLength(3);
+      expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+});
