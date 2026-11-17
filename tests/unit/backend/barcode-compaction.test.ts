@@ -35,6 +35,8 @@ beforeEach(() => {
     CREATE INDEX lookup_key ON products(key); CREATE UNIQUE INDEX outcome_key ON outcomes(key);`);
   const metadata = { schemaVersion: 1, snapshotDate: '2026-10-29', packetSha256: BARCODE_PACKET_DIGEST, mappingSha256: BARCODE_MAPPING_DIGEST, sourceManifest: BARCODE_SOURCE_MANIFEST };
   db.prepare('INSERT INTO barcode_metadata VALUES(?)').run(JSON.stringify(metadata));
+  // One transaction: about 1,000 autocommitted inserts per test pushed this test past its 10 s timeout on shared CI runners (#784).
+  db.exec('BEGIN');
   const product = db.prepare('INSERT INTO products VALUES(?,?,?,?,?,?,?,?,?,?,?,?)');
   const outcome = db.prepare('INSERT INTO outcomes VALUES(?,?,?,?,?,?)');
   for (const rule of approvedBarcodeMappings) {
@@ -48,6 +50,7 @@ beforeEach(() => {
     product.run(key, String(10000000 + i), key, 'Crème, "quoted"\n' + 'Public label '.repeat(20), '', 'Same brand', '12 oz', 'US', '2026-01-01', '', '2026-01-01', '');
     outcome.run(key, '2026-01-01', i % 3 + 1, i % 2, 1, i % 2);
   }
+  db.exec('COMMIT');
   db.close();
   const bytes = readFileSync(join(source, 'index.sqlite'));
   const manifest = JSON.stringify({ ...metadata, artifactBytes: bytes.length, artifactSha256: hash(bytes), mappingCount: 16, productRows: 1016, lookupKeys: 1016 });
