@@ -58,6 +58,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Testing
+
+`npm run test:unit`, `npm run test:smoke` and `npm run test:regression` run the three Vitest tiers. Playwright browser tests (`npm run test:e2e:smoke`, `npm run test:e2e:regression`) run keyless against a production build; install browsers once with `npx playwright install webkit chromium`. Visual snapshot baselines are generated only by CI, never locally. See the [Testing guide](docs/wiki/Testing.md).
+
 ## Optional API Keys (`.env.local`)
 
 The app works **100% out-of-the-box with zero API keys** using the Flipp circular feed, regional store datasets, USDA baselines, Wholesale Club benchmarks, the deterministic 3-Dish Slot Matcher, and local multi-tenant SQLite storage.
@@ -96,6 +100,7 @@ v1.6.2/MVP retains static/unpriced pantry-staple estimates. New live store API p
   * [Architecture & Data Pipeline](./docs/wiki/Architecture-and-Data-Pipeline.md)
   * [Scoring, Pantry Availability & 3-Dish Meal Prep Engine](./docs/wiki/Scoring-and-Meal-Prep-Engine.md)
   * [API Keys & Developer Setup Guide](./docs/wiki/API-Keys-and-Local-Setup.md)
+  * [Testing (tiers, browser tests, visual snapshots)](./docs/wiki/Testing.md)
   * [OpenAPI 3.1 & Swagger UI Console](./docs/wiki/OpenAPI-and-Swagger-Documentation.md) (Interactive console live at [`/docs`](https://pantrybot.dev/docs))
   * [North Star: Native iOS/Android & Feature Expansion Blueprint](./docs/wiki/Long-Term-Mobile-and-Expansion-Roadmap.md)
 
