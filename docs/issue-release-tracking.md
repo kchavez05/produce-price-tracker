@@ -95,7 +95,7 @@ Re-read the issue before replacing its body to preserve concurrent edits, commen
 
 Status automation: [`project-status.yml`](../.github/workflows/project-status.yml) calls [`.github/scripts/set-project-status.sh`](../.github/scripts/set-project-status.sh) using the repo secret `PROJECT_STATUS_TOKEN` (a classic PAT that includes the `project` scope; `GITHUB_TOKEN` cannot write user projects). Without the secret every job skips. It sets:
 
-- **In Review** when a non-draft PR to `develop` is opened, reopened or marked ready, for each issue named by `Refs/Fixes/Closes/Resolves #N` in the PR body.
+- **In Review** when a non-draft PR to `develop` is opened, reopened or marked ready, for each issue named by `Refs/Fixes/Closes/Resolves #N` in the PR body (one keyword per issue: `Refs #1, #2` updates only #1).
 - **Awaiting release** when such a PR merges, only if the body has a line `Project-Status: Awaiting release`. Without it Status is left alone, because one issue often spans several PRs.
 - **Done** when an issue labeled `release-tracking` is closed. Public-feature issues are never completed automatically.
 
