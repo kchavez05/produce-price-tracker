@@ -93,7 +93,13 @@ gh issue edit 647 --repo kchavez05/produce-price-tracker --body-file /path/to/re
 
 Re-read the issue before replacing its body to preserve concurrent edits, comments and original evidence. Project membership, field updates and milestone assignment are separate operations: verify each. API access errors are not successful updates; preserve completed work and report a concrete missing permission if blocked. Keep routine monitoring output compact.
 
-The first implementation uses issue-form project addition where permitted and explicit agent-maintained API/CLI transitions. No custom project-writing Actions or new service credentials are introduced. Do not assume the project's optional auto-add/close workflows are enabled. Future automation should be added only after verifying its permissions and closure semantics; a generic PR-merged → Done rule must not prematurely complete public-feature issues.
+Status automation: [`project-status.yml`](../.github/workflows/project-status.yml) calls [`.github/scripts/set-project-status.sh`](../.github/scripts/set-project-status.sh) using the repo secret `PROJECT_STATUS_TOKEN` (a classic PAT that includes the `project` scope; `GITHUB_TOKEN` cannot write user projects). Without the secret every job skips. It sets:
+
+- **In Review** when a non-draft PR to `develop` is opened, reopened or marked ready, for each issue named by `Refs/Fixes/Closes/Resolves #N` in the PR body (one keyword per issue: `Refs #1, #2` updates only #1).
+- **Awaiting release** when such a PR merges, only if the body has a line `Project-Status: Awaiting release`. Without it Status is left alone, because one issue often spans several PRs.
+- **Done** when an issue labeled `release-tracking` is closed. Public-feature issues are never completed automatically.
+
+Not automated: Ready, In Progress, Blocked (including blocker changes) and Done after production verification. Set those explicitly. Locally: `.github/scripts/set-project-status.sh <issue> "<Status>" [--dry-run]`; the workflow's `workflow_dispatch` runs the same script (dry-run by default). GitHub's built-in project workflows may also move Status on close or merge; check the project's Workflows page, since this repo cannot read what they set. Do not rely on the built-ins for the transitions above.
 
 ## Ready for the next feature
 

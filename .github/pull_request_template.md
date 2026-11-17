@@ -6,6 +6,7 @@
 - Release milestone / parent (or documented maintenance exception):
 - Approved specification / decision record:
 - Remaining activation or production-verification gates:
+<!-- Add a line `Project-Status: Awaiting release` only if this PR completes the issue's develop-side work; otherwise the issue stays In Progress after merge. -->
 <!-- Public-feature issues stay open after develop merges. Update their evidence, next action and Status explicitly; closing keywords on develop PRs do not provide this lifecycle. -->
 
 ## Target Environment

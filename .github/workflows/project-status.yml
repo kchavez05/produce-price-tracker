@@ -1,0 +1,102 @@
+name: Project Status
+
+# Keeps the roadmap project's Status in step with docs/issue-release-tracking.md.
+# Writes need a user-level Projects token (PROJECT_STATUS_TOKEN); GITHUB_TOKEN cannot.
+# Without the secret, every job skips. It never marks public features Done on a develop merge.
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, closed]
+    branches: [develop]
+  issues:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue number
+        required: true
+      status:
+        description: Status name (exact)
+        required: true
+      dry_run:
+        description: Only print what would change
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  pr-status:
+    name: PR → Status
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.PROJECT_STATUS_TOKEN }}
+      PR_BODY: ${{ github.event.pull_request.body }}
+      PR_DRAFT: ${{ github.event.pull_request.draft }}
+      PR_MERGED: ${{ github.event.pull_request.merged }}
+      ACTION: ${{ github.event.action }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+      - name: Set Status
+        run: |
+          [ -n "$GH_TOKEN" ] || { echo "PROJECT_STATUS_TOKEN not set; skipping"; exit 0; }
+          # Issues referenced as "Refs #N" (also Fixes/Closes/Resolves).
+          issues=$(printf '%s' "$PR_BODY" \
+            | grep -oiE '(refs|fixes|closes|resolves)[: ]+#[0-9]+' | grep -oE '[0-9]+' | sort -u || true)
+          [ -n "$issues" ] || { echo "no referenced issue; skipping"; exit 0; }
+          if [ "$ACTION" = "closed" ]; then
+            [ "$PR_MERGED" = "true" ] || { echo "closed unmerged; leaving Status"; exit 0; }
+            # Develop merge: only when the PR body opts in (multi-PR issues stay In Progress).
+            printf '%s' "$PR_BODY" | grep -qiE '^project-status:[[:space:]]*awaiting release[[:space:]]*$' \
+              || { echo "no 'Project-Status: Awaiting release' line; leaving Status"; exit 0; }
+            target="Awaiting release"
+          else
+            [ "$PR_DRAFT" = "true" ] && { echo "draft PR; leaving Status"; exit 0; }
+            target="In Review"
+          fi
+          for n in $issues; do .github/scripts/set-project-status.sh "$n" "$target" || echo "::warning::could not set #$n"; done
+
+  issue-closed:
+    name: Issue closed → Done
+    # Only release-tracking parents; public-feature issues are closed deliberately after production acceptance.
+    if: >-
+      github.event_name == 'issues' &&
+      contains(github.event.issue.labels.*.name, 'release-tracking')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.PROJECT_STATUS_TOKEN }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+      - run: |
+          [ -n "$GH_TOKEN" ] || { echo "PROJECT_STATUS_TOKEN not set; skipping"; exit 0; }
+          .github/scripts/set-project-status.sh "$ISSUE" Done
+
+  manual:
+    name: Manual set
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.PROJECT_STATUS_TOKEN }}
+      ISSUE: ${{ inputs.issue }}
+      STATUS: ${{ inputs.status }}
+      DRY: ${{ inputs.dry_run && '--dry-run' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+      - run: |
+          [ -n "$GH_TOKEN" ] || { echo "PROJECT_STATUS_TOKEN not set"; exit 1; }
+          .github/scripts/set-project-status.sh "$ISSUE" "$STATUS" $DRY
