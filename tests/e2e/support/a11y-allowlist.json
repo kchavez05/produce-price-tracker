@@ -4,7 +4,13 @@
     "rule": "color-contrast",
     "projects": [
       "iphone-webkit",
-      "ipad-webkit"
+      "ipad-webkit",
+      "iphone-pro-max-webkit",
+      "ipad-chromium",
+      "iphone-chromium",
+      "ipad-landscape-webkit",
+      "iphone-pro-webkit",
+      "duo-inner-webkit"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
@@ -14,7 +20,13 @@
     "rule": "color-contrast",
     "projects": [
       "iphone-webkit",
-      "ipad-webkit"
+      "ipad-webkit",
+      "ipad-chromium",
+      "iphone-chromium",
+      "iphone-pro-webkit",
+      "ipad-landscape-webkit",
+      "duo-inner-webkit",
+      "iphone-pro-max-webkit"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
@@ -23,7 +35,9 @@
     "screen": "docs",
     "rule": "horizontal-scroll",
     "projects": [
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-chromium",
+      "iphone-pro-webkit"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
@@ -33,7 +47,13 @@
     "rule": "color-contrast",
     "projects": [
       "iphone-webkit",
-      "ipad-webkit"
+      "ipad-webkit",
+      "iphone-chromium",
+      "ipad-chromium",
+      "ipad-landscape-webkit",
+      "iphone-pro-webkit",
+      "duo-inner-webkit",
+      "iphone-pro-max-webkit"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
@@ -42,7 +62,10 @@
     "screen": "home",
     "rule": "horizontal-scroll",
     "projects": [
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-chromium",
+      "iphone-pro-max-webkit",
+      "iphone-pro-webkit"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
@@ -52,7 +75,13 @@
     "rule": "select-name",
     "projects": [
       "iphone-webkit",
-      "ipad-webkit"
+      "ipad-webkit",
+      "iphone-pro-max-webkit",
+      "iphone-chromium",
+      "ipad-chromium",
+      "ipad-landscape-webkit",
+      "iphone-pro-webkit",
+      "duo-inner-webkit"
     ],
     "issue": 710,
     "reason": "A select control on the current UI has no accessible name; replaced by the M4 screen redesign primitives."
@@ -62,7 +91,13 @@
     "rule": "color-contrast",
     "projects": [
       "ipad-webkit",
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-pro-max-webkit",
+      "ipad-chromium",
+      "iphone-chromium",
+      "iphone-pro-webkit",
+      "duo-inner-webkit",
+      "ipad-landscape-webkit"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
@@ -71,7 +106,10 @@
     "screen": "pantry",
     "rule": "horizontal-scroll",
     "projects": [
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-pro-webkit",
+      "iphone-pro-max-webkit",
+      "iphone-chromium"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
@@ -81,7 +119,13 @@
     "rule": "select-name",
     "projects": [
       "ipad-webkit",
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-chromium",
+      "iphone-pro-webkit",
+      "duo-inner-webkit",
+      "ipad-landscape-webkit",
+      "iphone-pro-max-webkit",
+      "ipad-chromium"
     ],
     "issue": 710,
     "reason": "A select control on the current UI has no accessible name; replaced by the M4 screen redesign primitives."
@@ -91,7 +135,13 @@
     "rule": "color-contrast",
     "projects": [
       "ipad-webkit",
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-pro-max-webkit",
+      "ipad-chromium",
+      "iphone-pro-webkit",
+      "ipad-landscape-webkit",
+      "iphone-chromium",
+      "duo-inner-webkit"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
@@ -100,7 +150,10 @@
     "screen": "plan",
     "rule": "horizontal-scroll",
     "projects": [
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-pro-max-webkit",
+      "iphone-pro-webkit",
+      "iphone-chromium"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
@@ -110,7 +163,13 @@
     "rule": "color-contrast",
     "projects": [
       "iphone-webkit",
-      "ipad-webkit"
+      "ipad-webkit",
+      "iphone-pro-webkit",
+      "duo-inner-webkit",
+      "ipad-landscape-webkit",
+      "iphone-pro-max-webkit",
+      "ipad-chromium",
+      "iphone-chromium"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
@@ -120,7 +179,13 @@
     "rule": "button-name",
     "projects": [
       "ipad-webkit",
-      "iphone-webkit"
+      "iphone-webkit",
+      "ipad-landscape-webkit",
+      "ipad-chromium",
+      "duo-inner-webkit",
+      "iphone-pro-webkit",
+      "iphone-chromium",
+      "iphone-pro-max-webkit"
     ],
     "issue": 710,
     "reason": "Icon-only buttons on the shopping list have no accessible name; replaced by IconButton (requires a label) in the M4 redesign."
@@ -130,7 +195,13 @@
     "rule": "color-contrast",
     "projects": [
       "ipad-webkit",
-      "iphone-webkit"
+      "iphone-webkit",
+      "ipad-chromium",
+      "duo-inner-webkit",
+      "ipad-landscape-webkit",
+      "iphone-pro-webkit",
+      "iphone-pro-max-webkit",
+      "iphone-chromium"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
@@ -139,7 +210,10 @@
     "screen": "shopping-list",
     "rule": "horizontal-scroll",
     "projects": [
-      "iphone-webkit"
+      "iphone-webkit",
+      "iphone-pro-webkit",
+      "iphone-chromium",
+      "iphone-pro-max-webkit"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
@@ -149,7 +223,13 @@
     "rule": "color-contrast",
     "projects": [
       "iphone-webkit",
-      "ipad-webkit"
+      "ipad-webkit",
+      "iphone-pro-max-webkit",
+      "ipad-chromium",
+      "iphone-chromium",
+      "iphone-pro-webkit",
+      "duo-inner-webkit",
+      "ipad-landscape-webkit"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."

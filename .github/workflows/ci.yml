@@ -143,6 +143,81 @@ jobs:
             test-results/
           retention-days: 7
 
+  # v2.0 M2 browser Tier 3 (Playwright): the full viewport matrix (six WebKit sizes) and a Chromium
+  # cross-check at 390 and 820 px, running the same journeys as Tier 2 (the Vitest Tier 3 step in the
+  # job above is separate). Runs on PRs to main or release, pushes to main or release, and develop PRs
+  # carrying the run-tier3 label (apply the label before pushing, or re-run the workflow, because
+  # labeling alone does not re-trigger this workflow). Budget: at most 10 minutes (plan section 7).
+  # Not a required check; the visual snapshots have their own advisory job below.
+  browser-tests-tier3:
+    name: Browser Tests (Tier 3)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >-
+      (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'release' || contains(github.event.pull_request.labels.*.name, 'run-tier3')))
+      || (github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'release'))
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read Playwright version
+        id: playwright
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # Its own cache key: this job needs Chromium as well as WebKit, so it must not share the
+      # WebKit-only cache of the Tier 2 job.
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-webkit-chromium-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install WebKit, Chromium and system dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps webkit chromium
+
+      - name: Install WebKit and Chromium system dependencies (cached browsers)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps webkit chromium
+
+      - name: Cache Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**', 'next.config.*') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+
+      # Type errors still fail the build; lint already runs in Typecheck, Lint & Build.
+      - name: Build production app
+        run: npm run build -- --no-lint
+
+      - name: Tier 3 browser regression (six WebKit sizes, Chromium cross-check)
+        run: npm run test:e2e:regression
+        env:
+          E2E_SKIP_BUILD: '1'
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-tier3
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
   # v2.0 M2 visual snapshots (Tier 3). Advisory for the first two weeks of green runs
   # (continue-on-error), then made blocking by removing that line. Runs on PRs to main or
   # release, pushes to main or release, and develop PRs carrying the run-tier3 label (apply the
