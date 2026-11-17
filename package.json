@@ -16,6 +16,7 @@
     "test:regression": "vitest run tests/regression",
     "test:ci:develop": "vitest run tests/unit tests/smoke",
     "test:ci:main": "vitest run tests/unit tests/smoke tests/regression",
+    "ci:local": "npm run catalog:build -- --check && npm run typecheck && npm run lint && npm run test:unit && npm run test:smoke && npm run test:regression && npm run build && npm audit --omit=dev --audit-level=critical",
     "market:admin": "node --env-file-if-exists=.env.local --import tsx scripts/market-admin.ts",
     "market:types": "node --import tsx scripts/generate-market-types.mts",
     "catalog:fdc": "node --import tsx scripts/import-fdc-catalog.ts",
