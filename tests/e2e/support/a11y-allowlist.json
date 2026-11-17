@@ -35,12 +35,21 @@
     "screen": "docs",
     "rule": "horizontal-scroll",
     "projects": [
-      "iphone-webkit",
       "iphone-chromium",
-      "iphone-pro-webkit"
+      "iphone-webkit"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
+  },
+  {
+    "screen": "docs",
+    "rule": "horizontal-scroll",
+    "projects": [
+      "iphone-pro-webkit"
+    ],
+    "issue": 710,
+    "reason": "The docs toolbar row is about 407 px wide, so at 402 px it overflows by roughly 5 px on a developer machine but fits with the CI runner's font metrics; either result is accepted at this width (borderline). The header row is redesigned in M4 (#544).",
+    "borderline": true
   },
   {
     "screen": "home",
