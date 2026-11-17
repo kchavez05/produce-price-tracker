@@ -55,3 +55,6 @@ __pycache__/
 
 # Isolated AI comparison ledger, credentials qualification and synthetic run outputs
 /data/ai-spike-731/
+
+# Local Vitest reporter output
+.vitest/
