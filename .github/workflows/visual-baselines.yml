@@ -41,7 +41,7 @@ jobs:
         run: npx playwright install --with-deps webkit
 
       - name: Build production app
-        run: npm run build
+        run: npm run build -- --no-lint
 
       - name: Generate baselines
         run: npm run test:e2e:update
