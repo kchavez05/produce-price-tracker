@@ -127,10 +127,13 @@ jobs:
     needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # !cancelled() plus the result check keep this fail-safe: if the `changes` job fails or times
+    # out, its dependents would otherwise be skipped (which reports as success) without running.
     if: >-
-      needs.changes.outputs.product == 'true' &&
+      ${{ !cancelled() &&
+      (needs.changes.result != 'success' || needs.changes.outputs.product == 'true') &&
       ((github.event_name == 'push' && contains(fromJSON('["develop","main","release"]'), github.ref_name)) ||
-       github.base_ref == 'develop' || github.base_ref == 'main' || github.base_ref == 'release')
+       github.base_ref == 'develop' || github.base_ref == 'main' || github.base_ref == 'release') }}
 
     steps:
       - name: Checkout repository
