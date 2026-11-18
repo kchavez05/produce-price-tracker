@@ -388,3 +388,63 @@ describe('Board leaderboard cards', () => {
     expect(footer?.textContent).not.toContain('Pin to Prep');
   });
 });
+
+describe('header, store filter and navigation', () => {
+  const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
+
+  it('filters by one store from the store bar and refetches with it', async () => {
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    const chip = buttons(harness).find((b) => b.textContent === 'ALDI');
+    expect(chip).toBeDefined();
+    const before = dashboardRequests(harness).length;
+    await harness.click(chip!);
+    await harness.waitUntil(() => dashboardRequests(harness!).length > before);
+    expect(dashboardRequests(harness).at(-1)!.searchParams.get('store')).toBe('ALDI');
+    await harness.click(harness.button('All Stores'));
+    await harness.waitUntil(() => dashboardRequests(harness!).at(-1)!.searchParams.get('store') === 'ALL');
+  });
+
+  it('switches between the four tabs from the navigation', async () => {
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    const tabs = ['1. Value Board', '2. 3-Dish Meal Prep', '3. Shopping List', '4. Cycle & Club Radar'];
+    const activeTab = () => tabs.filter((label) => !harness!.button(label).className.includes('hover:bg-'));
+    const text = () => harness!.container.textContent ?? '';
+    expect(activeTab()).toEqual([tabs[0]]);
+    expect(text()).toContain('Sort by:');
+    for (const label of tabs.slice(1)) {
+      await harness.click(harness.button(label));
+      expect(activeTab()).toEqual([label]);
+      expect(text()).not.toContain('Sort by:');
+    }
+    await harness.click(harness.button(tabs[1]));
+    expect(buttons(harness).some((b) => /^Show All \d+ Dishes$/.test(b.textContent ?? ''))).toBe(true);
+    await harness.click(harness.button(tabs[0]));
+    expect(activeTab()).toEqual([tabs[0]]);
+    expect(text()).toContain('Sort by:');
+  });
+
+  it('shows pin and availability counts and jumps to the meal plan from View 3 Dishes', async () => {
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    expect(buttons(harness).some((b) => /View 3 Dishes/.test(b.textContent ?? ''))).toBe(false);
+    await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
+    expect(harness.container.textContent).toContain('1 Pinned');
+    await harness.click(harness.button('View 3 Dishes'));
+    expect(harness.container.textContent).not.toContain('Sort by:');
+  });
+
+  it('opens the pantry from the header and returns focus to the trigger when it closes', async () => {
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    const trigger = harness.buttonByTitle('Open Virtual Pantry');
+    await harness.click(trigger);
+    expect(harness.container.textContent).toContain('Saved on this device');
+    const close = buttons(harness).find((b) => b.getAttribute('aria-label') === 'Close' || /^Close$/.test(b.textContent ?? ''));
+    expect(close).toBeDefined();
+    await harness.click(close!);
+    expect(harness.container.textContent).not.toContain('Saved on this device');
+    expect(document.activeElement).toBe(harness.buttonByTitle('Open Virtual Pantry'));
+  });
+});

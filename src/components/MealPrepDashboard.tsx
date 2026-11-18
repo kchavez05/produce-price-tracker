@@ -26,8 +26,6 @@ import {
 } from '@/types/domain';
 import {
   ALL_STORE_CHAINS,
-  getStoreDefinition,
-  resolveStoreBanner,
 } from '@/data/store-registry';
 import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import {
@@ -41,6 +39,10 @@ import TripSection from '@/modules/shop/TripSection';
 import BoardAlerts from '@/modules/shop/BoardAlerts';
 import BoardControls from '@/modules/shop/BoardControls';
 import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
+import HeaderPrimary from '@/modules/shell/HeaderPrimary';
+import StoreFilterBar from '@/modules/shell/StoreFilterBar';
+import FreshnessNotice from '@/modules/shell/FreshnessNotice';
+import PrimaryNav from '@/modules/shell/PrimaryNav';
 import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanHeader from '@/modules/plan/PlanHeader';
@@ -48,18 +50,7 @@ import AccountModal from '@/components/AccountModal';
 import { useUserSync } from '@/hooks/useUserSync';
 import { aiRetryHint, createAiRequestFence } from '@/lib/ai/client-request';
 import {
-  ChefHat,
-  Flame,
-  MapPin,
   DoorOpen,
-  Radar,
-  ShoppingBag,
-  ArrowRight,
-  ListChecks,
-  Store,
-  Bell,
-  UserCheck,
-  LogIn,
 } from 'lucide-react';
 
 interface Props {
@@ -876,202 +867,35 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
       <header className={`${showPantry ? 'relative' : 'sticky top-0'} z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
         <div className="mx-auto max-w-6xl px-4 py-2.5">
           {/* Tier 1: Primary Brand & Location (Left) + Utilities & User Account (Pinned Top-Right) */}
-          <div className="flex items-center justify-between gap-3">
-            {/* Brand + Active ZIP Selector */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-              <div className="flex items-center gap-2">
-                <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-xs">
-                  <ChefHat className="h-5 w-5" />
-                </span>
-                <h1 className="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
-                  <span>PantryBot</span>
-                  <span className="hidden rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200 lg:inline-block">
-                    v1.7 AI Meal Prep
-                  </span>
-                </h1>
-              </div>
-
-              <span className="hidden text-slate-300 sm:inline">|</span>
-
-              <button
-                onClick={() => setShowZipModal(!showZipModal)}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:text-emerald-800 border border-slate-200/90 transition"
-                title="Click to change your ZIP code"
-              >
-                <MapPin className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                <span className="truncate max-w-[150px] sm:max-w-none">
-                  {data.cityLabel} ({currentZip})
-                </span>
-                <span className="text-[11px] font-semibold text-emerald-700 underline ml-0.5">
-                  Change
-                </span>
-              </button>
-            </div>
-
-            {/* Top-Right Utility Controls & User Account CTA */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              {/* Virtual Pantry drawer trigger */}
-              <button
-                ref={pantryTrigger}
-                onClick={() => setShowPantry(!showPantry)}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
-                  showPantry
-                    ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
-                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                }`}
-                title={'Open Virtual Pantry'}
-              >
-                <DoorOpen
-                  className={`h-3.5 w-3.5 ${
-                    showPantry ? 'text-white' : 'text-sky-500'
-                  }`}
-                />
-                <span className="hidden sm:inline">{'Virtual Pantry'}</span>
-                <span className="sm:hidden">{'Pantry'}</span>
-                <span>({pantry.entries.filter((entry) => entry.available && !entry.deletedAtIso).length})</span>
-              </button>
-
-              <button
-                onClick={handleToggleAlertsModal}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
-                  showAlertsModal
-                    ? 'border-emerald-600 bg-emerald-600 text-white shadow-xs'
-                    : 'border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100'
-                }`}
-                title="Preview Smart Push Notifications & Friday Weekend Meal-Prep Digest"
-              >
-                <Bell className="h-3.5 w-3.5" />
-                <span className="hidden md:inline">Smart Alerts</span>
-              </button>
-
-
-              <span
-                className="hidden h-5 w-px bg-slate-200 sm:inline-block"
-                aria-hidden="true"
-              />
-
-              {/* v1.3 Ticket #26 & #29: Top-Right User Account & Cloud Sync Trigger */}
-              <button
-                onClick={() => { setAccountIntent('account'); setShowAccountModal(!showAccountModal); }}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition shadow-2xs ${
-                  showAccountModal
-                    ? 'border-violet-700 bg-violet-600 text-white'
-                    : userSync.authenticated
-                      ? 'border-violet-300 bg-violet-50/90 text-violet-950 hover:bg-violet-100'
-                      : 'border-violet-600 bg-violet-600 text-white hover:bg-violet-700'
-                }`}
-                title={
-                  userSync.authenticated
-                    ? `Signed in as ${userSync.profile?.displayName} (${userSync.profile?.email})`
-                    : 'Sign In with Google or Apple to sync across devices'
-                }
-              >
-                {userSync.authenticated ? (
-                  <>
-                    <span
-                      className={`h-2 w-2 rounded-full ${
-                        userSync.syncStatus === 'ERROR'
-                          ? 'bg-rose-500'
-                          : userSync.syncStatus === 'SYNCING'
-                            ? 'bg-amber-400 animate-pulse'
-                            : userSync.syncStatus === 'OFFLINE_QUEUED'
-                              ? 'bg-amber-500'
-                              : 'bg-emerald-500'
-                      }`}
-                    />
-                    <UserCheck
-                      className={`h-3.5 w-3.5 ${
-                        showAccountModal ? 'text-white' : 'text-violet-700'
-                      }`}
-                    />
-                    <span className="max-w-[120px] truncate">
-                      {userSync.profile?.displayName || 'Account'}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <LogIn className="h-3.5 w-3.5" />
-                    <span>Sign In</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
+          <HeaderPrimary
+            data={data}
+            currentZip={currentZip}
+            showPantry={showPantry}
+            showZipModal={showZipModal}
+            showAccountModal={showAccountModal}
+            showAlertsModal={showAlertsModal}
+            userSync={userSync}
+            pantryEntries={pantry.entries}
+            pantryTrigger={pantryTrigger}
+            setShowZipModal={setShowZipModal}
+            setShowPantry={setShowPantry}
+            setShowAccountModal={setShowAccountModal}
+            setAccountIntent={setAccountIntent}
+            handleToggleAlertsModal={handleToggleAlertsModal}
+          />
 
           {/* Tier 2: Dedicated Supermarket Filter Bar (Left) & Weekly Ad-Cycle Pill (Right) */}
-          <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2">
-            <div className="flex flex-wrap items-center gap-2 max-w-full">
-              <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-medium overflow-x-auto max-w-full">
-                <button
-                  onClick={() => handleStoreChange('ALL')}
-                  className={`rounded-md px-2.5 py-1 transition whitespace-nowrap ${
-                    storeFilter === 'ALL'
-                      ? 'bg-white font-semibold text-slate-900 shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  All Stores ({activeStores.length})
-                </button>
-                {activeStores.map((chain) => {
-                  const banner = resolveStoreBanner(chain, currentZip);
-                  const def = getStoreDefinition(chain);
-                  const isSelected = storeFilter === chain;
-                  return (
-                    <button
-                      key={chain}
-                      onClick={() => handleStoreChange(chain)}
-                      style={
-                        isSelected
-                          ? { backgroundColor: def.brandColor, color: '#ffffff' }
-                          : undefined
-                      }
-                      className={`rounded-md px-2.5 py-1 transition whitespace-nowrap ${
-                        isSelected
-                          ? 'font-semibold shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900'
-                      }`}
-                    >
-                      {banner}
-                    </button>
-                  );
-                })}
-              </div>
+          <StoreFilterBar
+            data={data}
+            currentZip={currentZip}
+            storeFilter={storeFilter}
+            activeStores={activeStores}
+            showStoresModal={showStoresModal}
+            handleStoreChange={handleStoreChange}
+            setShowStoresModal={setShowStoresModal}
+          />
 
-              <button
-                onClick={() => setShowStoresModal(!showStoresModal)}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition ${
-                  showStoresModal
-                    ? 'border-blue-600 bg-blue-600 text-white shadow-xs'
-                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                }`}
-                title="Customize which grocery stores you shop at"
-              >
-                <Store className="h-3.5 w-3.5" />
-                <span>My Stores ({activeStores.length})</span>
-              </button>
-            </div>
-
-            <div className="hidden items-center gap-1.5 rounded-md bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600 border border-slate-200/80 md:inline-flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              <span>{data.adCycleLabel}</span>
-            </div>
-          </div>
-
-          {data.freshness && (
-            <div role="status" className="my-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-slate-700">
-              <p>Planning cycle: {data.adCycleLabel}. {data.freshness.usableLiveOffers} verified live prices; {data.freshness.estimatedBestPrices} top prices use historical estimates. Estimates are not confirmed current specials; verify them with the store.</p>
-              <p>Refresh attempted: {new Date(data.freshness.attemptedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.
-                {' '}Last successful live retrieval: {data.freshness.liveRetrievedAtIso
-                  ? `${new Date(data.freshness.liveRetrievedAtIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT`
-                  : 'No successful retrieval recorded'}.
-                {' '}Page generated: {new Date(data.lastUpdatedIso).toLocaleString('en-US', { timeZone: 'America/Denver' })} MT.</p>
-              <p>Flipp: {data.dataSourcesActive.flippLive ? 'current offers available' : 'no usable current offers'}.
-                {' '}Kroger: {data.dataSourcesActive.krogerLive ? 'current prices available' : 'unavailable or not configured'}.
-                {' '}USDA benchmarks: {data.usda?.status === 'current' ? 'stored current reports' : data.usda?.status === 'stale' ? 'stored reports (stale)' : 'baseline estimates'}.</p>
-              {data.usda && <p>USDA source periods: {[...new Set(Object.values(data.usda.provenance).flatMap((p) => p.periodEnd ? [`${p.region === 'NATIONAL' ? 'National' : 'Mountain'} retail • week ending ${p.periodEnd}`] : []))].join('; ') || 'No compatible stored observations'}. Report age is separate from the price refresh time.</p>}
-              {data.marketHistory?.storage === 'unavailable' && <p>Verified market history is temporarily unavailable.</p>}
-            </div>
-          )}
+          <FreshnessNotice data={data} />
 
           {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
           <AccountModal
@@ -1182,84 +1006,15 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
           )}
 
           {/* Primary Navigation Tabs */}
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5">
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              <button
-                onClick={() => setActiveTab('BOARD')}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-                  activeTab === 'BOARD'
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                <ShoppingBag className="h-4 w-4" />
-                <span>1. Value Board</span>
-                <span className="rounded-full bg-emerald-500/20 px-1.5 py-0.5 text-[11px] text-emerald-300">
-                  {data.commodities.length}
-                </span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('MEAL_PLAN')}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-                  activeTab === 'MEAL_PLAN'
-                    ? 'bg-emerald-600 text-white shadow-xs'
-                    : 'bg-emerald-50 text-emerald-900 border border-emerald-200 hover:bg-emerald-100'
-                }`}
-              >
-                <Flame className="h-4 w-4" />
-                <span>2. 3-Dish Meal Prep</span>
-                <span className="rounded-full bg-black/15 px-1.5 py-0.5 text-[11px]">
-                  ${trioTotals.avgPerServing}/srv
-                </span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('SHOPPING_LIST')}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-                  activeTab === 'SHOPPING_LIST'
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-indigo-50 text-indigo-950 border border-indigo-200 hover:bg-indigo-100'
-                }`}
-              >
-                <ListChecks className="h-4 w-4" />
-                <span>3. Shopping List &amp; Cart Bridge</span>
-                <span className="rounded-full bg-black/15 px-1.5 py-0.5 text-[11px]">
-                  {shoppingPlan.items.length + shoppingPlan.pantryNeeds.length} items
-                </span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('RADAR')}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-                  activeTab === 'RADAR'
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                <Radar className="h-4 w-4" />
-                <span>4. Cycle &amp; Club Radar</span>
-              </button>
-            </div>
-
-            {(pinnedIds.length > 0 || effectiveOnHandIds.length > 0) && (
-              <div className="hidden items-center gap-2 md:flex">
-                <span className="text-xs font-medium text-slate-600">
-                  {pinnedIds.length > 0 && `${pinnedIds.length} Pinned`}
-                  {pinnedIds.length > 0 && effectiveOnHandIds.length > 0 && ' • '}
-                  {effectiveOnHandIds.length > 0 &&
-                    (`${effectiveOnHandIds.length} marked available`)}
-                </span>
-                <button
-                  onClick={() => setActiveTab('MEAL_PLAN')}
-                  className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-700"
-                >
-                  <span>View 3 Dishes</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            )}
-          </div>
+          <PrimaryNav
+            data={data}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            pinnedIds={pinnedIds}
+            effectiveOnHandIds={effectiveOnHandIds}
+            shoppingPlan={shoppingPlan}
+            trioTotals={trioTotals}
+          />
         </div>
       </header>
 
