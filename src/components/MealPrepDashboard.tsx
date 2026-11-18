@@ -7,10 +7,9 @@ import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { applyPantryToRecipe } from '@/lib/pantry/recipe';
 
 
-import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { usePantry } from '@/hooks/usePantry';
-import { availablePantryIngredientIds, pantryCatalog } from '@/lib/pantry/model';
+import { pantryCatalog } from '@/lib/pantry/model';
 import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import {
@@ -21,7 +20,6 @@ import {
   MacroGoal,
   RecommendedDish,
   StoreChain,
-  UserSyncPayload,
   WeeklySyncCronResult,
 } from '@/types/domain';
 import {
@@ -41,6 +39,7 @@ import BoardControls from '@/modules/shop/BoardControls';
 import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
 import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
+import { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import { useLocationState } from '@/modules/shell/hooks/useLocationState';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
 import StoreFilterBar from '@/modules/shell/StoreFilterBar';
@@ -50,7 +49,6 @@ import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanHeader from '@/modules/plan/PlanHeader';
 import AccountModal from '@/components/AccountModal';
-import { useUserSync } from '@/hooks/useUserSync';
 import { aiRetryHint, createAiRequestFence } from '@/lib/ai/client-request';
 import {
   DoorOpen,
@@ -65,7 +63,6 @@ interface Props {
 }
 
 export default function MealPrepDashboard({ initialData, barcodeEnabled = false, speechConfigured = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
-  const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
   const {
     storeFilter, setStoreFilter, pinnedIds, setPinnedIds, targetServings, setTargetServings,
     macroGoal, setMacroGoal, dietaryConstraints, setDietaryConstraints, applianceFilter, setApplianceFilter,
@@ -118,56 +115,20 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
   const [cronSyncError, setCronSyncError] = useState<string | null>(null);
   const [copiedDigest, setCopiedDigest] = useState(false);
 
-  // Dynamic Zip Code / Location state (De-localization)
-
   // v1.3 Tickets #26 - #30: User Account, Cloud Sync & Privacy Controls state
   const [showAccountModal, setShowAccountModal] = useState(false);
   const [accountIntent, setAccountIntent] = useState<'account' | 'ai'>('account');
 
-  const handleCloudHydrated = useCallback((payload: UserSyncPayload) => {
-    if (!payload.authenticated || !payload.preferences) return;
-    const prefs = payload.preferences;
-    if (prefs.defaultZip && /^\d{5}$/.test(prefs.defaultZip)) {
-      setCurrentZip(prefs.defaultZip);
-      setZipInput(prefs.defaultZip);
-    }
-    if (
-      Array.isArray(prefs.favoriteStoreIds) &&
-      prefs.favoriteStoreIds.length > 0
-    ) {
-      setActiveStores(prefs.favoriteStoreIds);
-    }
-    if (prefs.macroGoal) setMacroGoal(prefs.macroGoal);
-    if (Array.isArray(prefs.dietaryConstraints)) {
-      setDietaryConstraints(prefs.dietaryConstraints);
-    }
-    if (prefs.vesselArchetype) setApplianceFilter(prefs.vesselArchetype);
-    if (prefs.targetServings) setTargetServings(prefs.targetServings);
-    if (Array.isArray(prefs.pinnedIngredientIds)) {
-      setPinnedIds(prefs.pinnedIngredientIds);
-    }
-
-    setSavedLibrary({ owner: `account:${payload.profile!.id}`, recipes: payload.savedRecipes || [] });
-    // The setters come from the preference and location hooks now, so the lint rule can no longer see that
-    // they are stable useState setters. Listing them keeps the callback identity unchanged (they never change).
-  }, [setCurrentZip, setZipInput, setActiveStores, setMacroGoal, setDietaryConstraints, setApplianceFilter, setTargetServings, setPinnedIds]);
-
-  // useUserSync is created before the pantry and the payload hook, which the acknowledgment callback needs, so it
-  // calls through this ref; the dashboard assigns it each render, right after useDashboardPayload.
+  // useUserSync is created inside useAccountAndPantry, before the payload hook its acknowledgment callback needs, so
+  // it calls through this ref; the dashboard assigns it each render, right after useDashboardPayload.
   const syncAcknowledged = useRef<() => void>(() => undefined);
-  const userSync = useUserSync({
-    onCloudStateHydrated: handleCloudHydrated,
-    onSyncAcknowledged: () => syncAcknowledged.current(),
-  });
-  const pantryAccountId = userSync.lastSyncedIso !== null ? userSync.profile?.id ?? null : initialAccountId;
-  const pantry = usePantry(true, pantryAccountId);
-  const savedRecipeIds = savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest)
-      ? Object.fromEntries(savedLibrary.recipes.map((dish) => [dish.id, true])) : {};
-  const pantryOwnerRef = useRef(pantry.owner);
-  pantryOwnerRef.current = pantry.owner;
-
-  // Availability comes only from the private Pantry.
-  const effectiveOnHandIds = useMemo(() => availablePantryIngredientIds(pantry.entries), [pantry.entries]);
+  const {
+    userSync, pantry, pantryAccountId, pantryOwnerRef, effectiveOnHandIds, savedLibrary, setSavedLibrary, savedRecipeIds, canUseAi,
+  } = useAccountAndPantry(
+    initialAccountId, initialPrivateRecipes,
+    { setCurrentZip, setZipInput, setActiveStores, setMacroGoal, setDietaryConstraints, setApplianceFilter, setTargetServings, setPinnedIds },
+    syncAcknowledged,
+  );
   const { serverData, syncDashboard } = useDashboardPayload(
     initialData, pantryOwnerRef,
     { storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores, macroGoal, dietaryConstraints, applianceFilter },
@@ -196,7 +157,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
   aiContextRef.current = mealContextSignature;
   const aiRequests = useRef<ReturnType<typeof createAiRequestFence> | null>(null);
   if (!aiRequests.current) aiRequests.current = createAiRequestFence();
-  const canUseAi = userSync.profile?.isCloudBacked === true && pantry.owner === `account:${userSync.profile.id}`;
   useEffect(() => {
     const requests = aiRequests.current;
     requests?.cancel();
