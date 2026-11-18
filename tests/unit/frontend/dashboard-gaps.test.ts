@@ -597,3 +597,40 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     await harness.waitUntil(() => label(harness!, 'Remix 3-dish plan with AI'));
   });
 });
+
+describe('mount restore runs once and shows the restored state (M3 A.6)', () => {
+  it('applies the restored profile and stores to the visible state', async () => {
+    localStorageSeed({
+      pantrybot_nutrition_profile_v12: JSON.stringify({ macroGoal: 'HIGH_PROTEIN', dietaryConstraints: ['GLUTEN_FREE'], applianceFilter: 'DUTCH_OVEN_BRAISE' }),
+      pantrybot_active_stores: JSON.stringify(['KING_SOOPERS', 'SAFEWAY']),
+    });
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    await harness.settle();
+    const chips = [...harness.container.querySelectorAll('button')].map((b) => b.textContent ?? '');
+    expect(chips).toContain('King Soopers');
+    expect(chips).toContain('Safeway');
+    expect(chips).not.toContain('Walmart');
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    expect(harness.button('High-Protein').className).toContain('bg-emerald-400');
+    expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
+    expect(harness.button('Dutch Oven').className).not.toBe(harness.button('Skillet').className);
+    expect(harness.button('Gluten-Free').className).not.toBe(harness.button('Dairy-Free').className);
+  });
+
+  it('restores only once: later changes do not re-run it or reset the ZIP', async () => {
+    localStorageSeed({ pantrybot_user_zip: '80301', pantrybot_active_stores: JSON.stringify(['KING_SOOPERS', 'SAFEWAY']) });
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    await harness.waitUntil(() => dashboardRequests(harness!).length === 1);
+    await harness.settle();
+    // A later store filter change makes exactly one more request, and the restored values persist.
+    await harness.click([...harness.container.querySelectorAll('button')].find((b) => b.textContent === 'King Soopers')!);
+    await harness.waitUntil(() => dashboardRequests(harness!).length === 2);
+    await harness.settle(); await harness.settle();
+    expect(dashboardRequests(harness)).toHaveLength(2);
+    expect(dashboardRequests(harness)[1].searchParams.get('zip')).toBe('80301');
+    expect(dashboardRequests(harness)[1].searchParams.get('stores')).toBe('KING_SOOPERS,SAFEWAY');
+    expect(zipButtonText(harness)).toContain('(80301)');
+  });
+});
