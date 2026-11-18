@@ -2,8 +2,10 @@
 # Run a command with a per-attempt timeout and a bounded number of attempts.
 #
 # Used for the Playwright system-dependency install in CI (#790): a stalled apt mirror used to hold a
-# browser job until its 10-minute job timeout. With 120 s per attempt and 3 attempts the worst case is
-# about 6 minutes, inside that budget. Healthy installs take 24 to 59 s.
+# browser job until its 10-minute job timeout. Callers use 120 s x 3 for install-deps and 180 s x 2 for
+# install --with-deps (which also downloads browsers). Worst case is about 6.5 to 7 minutes including the
+# 10 s SIGKILL grace, the pause and the dpkg repair between attempts, on top of checkout/npm ci/cache steps
+# that run earlier in the same job. Healthy installs take 24 to 59 s.
 #
 # Usage: retry-with-timeout.sh <seconds-per-attempt> <attempts> <command> [args...]
 #
