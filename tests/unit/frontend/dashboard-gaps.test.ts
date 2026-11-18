@@ -255,3 +255,28 @@ describe('promote a blueprint to the top three (Meal Plan)', () => {
     }
   });
 });
+
+describe('clear profile filters (Meal Plan header)', () => {
+  it('resets the profile, persists it, refetches with the cleared values and hides the button', async () => {
+    localStorageSeed({
+      pantrybot_nutrition_profile_v12: JSON.stringify({ macroGoal: 'HIGH_PROTEIN', dietaryConstraints: ['GLUTEN_FREE'], applianceFilter: 'ANY' }),
+    });
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    const clear = () => [...harness!.container.querySelectorAll('button')].find((b) => b.textContent === 'Clear Profile Filters');
+    expect(clear()).toBeDefined();
+    const before = dashboardRequests(harness).length;
+    await harness.click(clear()!);
+    await harness.waitUntil(() => dashboardRequests(harness!).length > before);
+    const params = dashboardRequests(harness).at(-1)!.searchParams;
+    expect(params.get('macroGoal')).toBe('ANY');
+    expect(params.get('dietary') ?? '').toBe('');
+    expect(params.get('vessel')).toBe('ANY');
+    expect(JSON.parse(window.localStorage.getItem('pantrybot_nutrition_profile_v12') ?? '{}')).toEqual({
+      macroGoal: 'ANY', dietaryConstraints: [], applianceFilter: 'ANY',
+    });
+    expect(clear()).toBeUndefined();
+  });
+});
