@@ -107,13 +107,10 @@ describe('syncDashboard ownership drop (gap 2)', () => {
     expect(zipButtonText(harness!)).not.toContain('(80999)');
   });
 
-  it('currently drops the ZIP-restore refetch for a guest whose response arrives after the pantry loads', async () => {
-    // Characterizes today's behavior so the M3 moves preserve it; it is not an endorsement. Likely cause,
-    // not verified: the restore runs on mount before the guest pantry snapshot loads, so the owner captured
-    // with the request (null) differs from the owner at response time and the ownership guard discards the
-    // response. With an instant fetch the response is applied, so this outcome depends on ordering; if a
-    // later move changes it, treat that as a finding to explain, not a test to relax. The ZIP itself is
-    // restored; only the refreshed prices are lost. A fix belongs in its own PR.
+  it('applies the ZIP-restore refetch for a guest whose response arrives after the pantry loads (#780)', async () => {
+    // The restore runs on mount before the guest pantry snapshot loads, so the request starts with no owner (null).
+    // The owner becoming known afterwards is not an identity change, so the response must be applied. A response
+    // for a request that started under a known owner that then changed is still dropped (see the test above).
     localStorageSeed({ pantrybot_user_zip: '80301' });
     let release: () => void = () => undefined;
     const gate = new Promise<void>((resolve) => { release = resolve; });
@@ -124,10 +121,9 @@ describe('syncDashboard ownership drop (gap 2)', () => {
     await harness.mount();
     await harness.settle(); await harness.settle(); await harness.settle(); // the guest pantry loads from localStorage
     release();
-    await harness.settle(); await harness.settle();
+    await harness.waitUntil(() => (harness!.container.textContent ?? '').includes('Boulder, CO'));
     expect(dashboardRequests(harness)).toHaveLength(1);
     expect(zipButtonText(harness)).toContain('(80301)');
-    expect(harness.container.textContent).not.toContain('Boulder, CO');
   });
 });
 
