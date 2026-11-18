@@ -7,9 +7,11 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   aliceSync, guestSync, createDashboardHarness as create, keylessPayload, type DashboardHarness, type FetchHandler,
 } from 'tests/helpers/dashboard-harness';
+import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import type { UserSyncPayload } from '@/types/domain';
 
 const payload = keylessPayload();
+const ALL_STORES_PARAM = ALL_STORE_CHAINS.join(',');
 let harness: DashboardHarness | undefined;
 let seed: Record<string, string> = {};
 const localStorageSeed = (entries: Record<string, string>) => { seed = entries; };
@@ -457,5 +459,71 @@ describe('initial preference and location state', () => {
     expect(bar).not.toContain('Safeway');
     await harness.click([...harness.container.querySelectorAll('button')].find((b) => /\(\d{5}\)\s*Change$/.test(b.textContent ?? ''))!);
     expect(harness.container.querySelector<HTMLInputElement>('input[maxlength="5"]')?.value).toBe('80301');
+  });
+});
+
+describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => {
+  const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
+
+  it('sends all nine parameters, defaulting the omitted ones to the current state', async () => {
+    localStorageSeed({ pantrybot_user_zip: '80301' });
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    await harness.waitUntil(() => dashboardRequests(harness!).length >= 1 && (zipButtonText(harness!) ?? '').includes('(80301)'));
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    await harness.click(harness.button('High-Protein'));
+    await harness.click(harness.button('Gluten-Free'));
+    await harness.click(harness.button('Dutch Oven'));
+    await harness.click(harness.button('8 Srv / Dish'));
+    await harness.click(harness.button('1. Value Board'));
+    await harness.click(buttons(harness).find((b) => b.textContent === 'ALDI')!);
+    await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
+    await harness.waitUntil(() => dashboardRequests(harness!).length >= 7);
+    const params = dashboardRequests(harness).at(-1)!.searchParams;
+    expect(params.get('zip')).toBe('80301');
+    expect(params.get('store')).toBe('ALDI');
+    expect(params.get('stores')).toBe(ALL_STORES_PARAM);
+    expect(params.get('pinned')).not.toBe('');
+    expect(params.get('onHand')).toBe('');
+    expect(params.get('servings')).toBe('8');
+    expect(params.get('macroGoal')).toBe('HIGH_PROTEIN');
+    expect(params.get('dietary')).toBe('GLUTEN_FREE');
+    expect(params.get('vessel')).toBe('DUTCH_OVEN_BRAISE');
+  });
+
+  it('keeps the current data and ZIP when the refetch fails or returns an error', async () => {
+    let mode: 'ok' | 'error' | 'throw' = 'ok';
+    harness = await createDashboardHarness({ payload, onFetch: async (input) => {
+      if (!input.startsWith('/api/dashboard?')) return undefined;
+      if (mode === 'throw') throw new Error('offline');
+      if (mode === 'error') return Response.json({ error: 'no' }, { status: 500 });
+      return undefined;
+    } });
+    await harness.mount();
+    const before = harness.container.textContent;
+    for (const next of ['error', 'throw'] as const) {
+      mode = next;
+      const requests = dashboardRequests(harness).length;
+      await harness.click(buttons(harness).find((b) => b.textContent === 'ALDI')!);
+      await harness.waitUntil(() => dashboardRequests(harness!).length > requests);
+      await harness.click(harness.button('All Stores'));
+      expect(zipButtonText(harness)).toContain(`(${payload.zipCode})`);
+    }
+    expect(harness.container.textContent).toBe(before);
+  });
+
+  it('refetches with the current state when a cloud sync is acknowledged', async () => {
+    harness = await createDashboardHarness({ payload, sync: aliceSync });
+    await harness.mount();
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    await harness.click(harness.button('High-Protein'));
+    // The preference change pushes a cloud sync; its acknowledgment triggers a second refetch.
+    await harness.waitUntil(() => dashboardRequests(harness!).length >= 2);
+    const [direct, acknowledged] = dashboardRequests(harness);
+    expect(direct.searchParams.get('macroGoal')).toBe('HIGH_PROTEIN');
+    expect(acknowledged.searchParams.get('macroGoal')).toBe('HIGH_PROTEIN');
+    expect(acknowledged.searchParams.get('store')).toBe('ALL');
+    expect(acknowledged.searchParams.get('servings')).toBe('6');
   });
 });

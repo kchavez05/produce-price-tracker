@@ -40,6 +40,7 @@ import BoardAlerts from '@/modules/shop/BoardAlerts';
 import BoardControls from '@/modules/shop/BoardControls';
 import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
+import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import { useLocationState } from '@/modules/shell/hooks/useLocationState';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
 import StoreFilterBar from '@/modules/shell/StoreFilterBar';
@@ -64,7 +65,6 @@ interface Props {
 }
 
 export default function MealPrepDashboard({ initialData, barcodeEnabled = false, speechConfigured = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
-  const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
   const {
     storeFilter, setStoreFilter, pinnedIds, setPinnedIds, targetServings, setTargetServings,
@@ -152,11 +152,12 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     // they are stable useState setters. Listing them keeps the callback identity unchanged (they never change).
   }, [setCurrentZip, setZipInput, setActiveStores, setMacroGoal, setDietaryConstraints, setApplianceFilter, setTargetServings, setPinnedIds]);
 
+  // useUserSync is created before the pantry and the payload hook, which the acknowledgment callback needs, so it
+  // calls through this ref; the dashboard assigns it each render, right after useDashboardPayload.
+  const syncAcknowledged = useRef<() => void>(() => undefined);
   const userSync = useUserSync({
     onCloudStateHydrated: handleCloudHydrated,
-    onSyncAcknowledged: () => {
-      void syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
-    },
+    onSyncAcknowledged: () => syncAcknowledged.current(),
   });
   const pantryAccountId = userSync.lastSyncedIso !== null ? userSync.profile?.id ?? null : initialAccountId;
   const pantry = usePantry(true, pantryAccountId);
@@ -167,6 +168,14 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
   // Availability comes only from the private Pantry.
   const effectiveOnHandIds = useMemo(() => availablePantryIngredientIds(pantry.entries), [pantry.entries]);
+  const { serverData, syncDashboard } = useDashboardPayload(
+    initialData, pantryOwnerRef,
+    { storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores, macroGoal, dietaryConstraints, applianceFilter },
+    setCurrentZip,
+  );
+  syncAcknowledged.current = () => {
+    void syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
+  };
   const [priceClock, setPriceClock] = useState(serverData.lastUpdatedIso);
   useEffect(() => {
     const refresh = () => setPriceClock(new Date().toISOString());
@@ -311,44 +320,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
       }
       return next;
     });
-  }
-
-  async function syncDashboard(
-    nextStore: 'ALL' | StoreChain = storeFilter,
-    nextPinned: string[] = pinnedIds,
-    nextOnHand: string[] = effectiveOnHandIds,
-    nextServings: 4 | 6 | 8 = targetServings,
-    nextZip: string = currentZip,
-    nextActiveStores: StoreChain[] = activeStores,
-    nextMacroGoal: MacroGoal = macroGoal,
-    nextDietary: DietaryConstraint[] = dietaryConstraints,
-    nextVessel: CookingVesselArchetype = applianceFilter
-  ) {
-    const requestOwner = pantryOwnerRef.current;
-    try {
-      const params = new URLSearchParams({
-        zip: nextZip,
-        store: nextStore,
-        stores: nextActiveStores.join(','),
-        pinned: nextPinned.join(','),
-        onHand: nextOnHand.join(','),
-        servings: String(nextServings),
-        macroGoal: nextMacroGoal,
-        dietary: nextDietary.join(','),
-        vessel: nextVessel,
-      });
-      const res = await fetch(`/api/dashboard?${params.toString()}`);
-      if (res.ok) {
-        const updated: DashboardPayload = await res.json();
-        // A request started before the pantry loaded has no owner (null) and carried no pantry data, so the owner
-        // becoming known is not an identity change. Only discard when a known owner changed in flight (#780).
-        if (requestOwner !== null && pantryOwnerRef.current !== requestOwner) return;
-        setData(updated);
-        setCurrentZip(updated.zipCode);
-      }
-    } catch {
-      // Ignore network hiccup
-    }
   }
 
   function handleReviewStockUp() {
