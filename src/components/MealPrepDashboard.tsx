@@ -340,7 +340,9 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
       const res = await fetch(`/api/dashboard?${params.toString()}`);
       if (res.ok) {
         const updated: DashboardPayload = await res.json();
-        if (pantryOwnerRef.current !== requestOwner) return;
+        // A request started before the pantry loaded has no owner (null) and carried no pantry data, so the owner
+        // becoming known is not an identity change. Only discard when a known owner changed in flight (#780).
+        if (requestOwner !== null && pantryOwnerRef.current !== requestOwner) return;
         setData(updated);
         setCurrentZip(updated.zipCode);
       }
