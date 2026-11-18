@@ -39,6 +39,8 @@ import TripSection from '@/modules/shop/TripSection';
 import BoardAlerts from '@/modules/shop/BoardAlerts';
 import BoardControls from '@/modules/shop/BoardControls';
 import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
+import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
+import { useLocationState } from '@/modules/shell/hooks/useLocationState';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
 import StoreFilterBar from '@/modules/shell/StoreFilterBar';
 import FreshnessNotice from '@/modules/shell/FreshnessNotice';
@@ -64,24 +66,27 @@ interface Props {
 export default function MealPrepDashboard({ initialData, barcodeEnabled = false, speechConfigured = false, cameraEnabled = false, initialAccountId = null, initialPrivateRecipes = [] }: Props) {
   const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [savedLibrary, setSavedLibrary] = useState<{ owner: string; recipes: RecommendedDish[] }>(() => ({ owner: initialAccountId ? `account:${initialAccountId}` : 'guest:ssr', recipes: initialPrivateRecipes }));
+  const {
+    storeFilter, setStoreFilter, pinnedIds, setPinnedIds, targetServings, setTargetServings,
+    macroGoal, setMacroGoal, dietaryConstraints, setDietaryConstraints, applianceFilter, setApplianceFilter,
+    activeStores, setActiveStores,
+  } = usePreferencesState(initialData);
+  const {
+    currentZip, setCurrentZip, showZipModal, setShowZipModal, zipInput, setZipInput,
+    zipLoading, setZipLoading, zipError, setZipError,
+  } = useLocationState(initialData);
   const [activeTab, setActiveTab] = useState<
     'BOARD' | 'MEAL_PLAN' | 'SHOPPING_LIST' | 'RADAR'
   >('BOARD');
-  const [storeFilter, setStoreFilter] = useState<'ALL' | StoreChain>('ALL');
   const [categoryFilter, setCategoryFilter] = useState<'ALL' | CommodityCategory>('ALL');
   const [sortMode, setSortMode] = useState<
     'VALUE_SCORE' | 'LOWEST_PRICE' | 'BIGGEST_DISCOUNT'
   >('VALUE_SCORE');
-  const [pinnedIds, setPinnedIds] = useState<string[]>([]);
-  const [targetServings, setTargetServings] = useState<4 | 6 | 8>(6);
   const [showPantry, setShowPantry] = useState(false);
   const pantryTrigger = useRef<HTMLButtonElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
 
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
-  const [macroGoal, setMacroGoal] = useState<MacroGoal>('ANY');
-  const [dietaryConstraints, setDietaryConstraints] = useState<DietaryConstraint[]>([]);
-  const [applianceFilter, setApplianceFilter] = useState<CookingVesselArchetype>('ANY');
 
   // v1.2 Ticket #23: 1-Tap Curbside Cart Bridge & Multi-Store Export state
   const [copiedChecklist, setCopiedChecklist] = useState(false);
@@ -94,9 +99,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
   // Shopping list & coupon checklist interactive state (v0.3 + v1.1)
   const [tripMode, setTripMode] = useState<'SPLIT' | StoreChain>('SPLIT');
-  const [activeStores, setActiveStores] = useState<StoreChain[]>(() => {
-    return initialData.activeStores || ALL_STORE_CHAINS;
-  });
   const [showStoresModal, setShowStoresModal] = useState(false);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [clippedCoupons, setClippedCoupons] = useState<Record<string, boolean>>({});
@@ -117,11 +119,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
   const [copiedDigest, setCopiedDigest] = useState(false);
 
   // Dynamic Zip Code / Location state (De-localization)
-  const [currentZip, setCurrentZip] = useState(initialData.zipCode || '80542');
-  const [showZipModal, setShowZipModal] = useState(false);
-  const [zipInput, setZipInput] = useState(initialData.zipCode || '80542');
-  const [zipLoading, setZipLoading] = useState(false);
-  const [zipError, setZipError] = useState<string | null>(null);
 
   // v1.3 Tickets #26 - #30: User Account, Cloud Sync & Privacy Controls state
   const [showAccountModal, setShowAccountModal] = useState(false);
@@ -151,7 +148,9 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     }
 
     setSavedLibrary({ owner: `account:${payload.profile!.id}`, recipes: payload.savedRecipes || [] });
-  }, []);
+    // The setters come from the preference and location hooks now, so the lint rule can no longer see that
+    // they are stable useState setters. Listing them keeps the callback identity unchanged (they never change).
+  }, [setCurrentZip, setZipInput, setActiveStores, setMacroGoal, setDietaryConstraints, setApplianceFilter, setTargetServings, setPinnedIds]);
 
   const userSync = useUserSync({
     onCloudStateHydrated: handleCloudHydrated,

@@ -448,3 +448,18 @@ describe('header, store filter and navigation', () => {
     expect(document.activeElement).toBe(harness.buttonByTitle('Open Virtual Pantry'));
   });
 });
+
+describe('initial preference and location state', () => {
+  it('starts from the payload ZIP and active stores', async () => {
+    const custom = { ...keylessPayload(), zipCode: '80301', activeStores: ['ALDI', 'WALMART'] as ('ALDI' | 'WALMART')[] };
+    harness = await createDashboardHarness({ payload: custom });
+    await harness.mount();
+    expect(zipButtonText(harness)).toContain('(80301)');
+    const bar = [...harness.container.querySelectorAll('button')].map((b) => b.textContent ?? '');
+    expect(bar).toContain('ALDI');
+    expect(bar).toContain('Walmart');
+    expect(bar).not.toContain('Safeway');
+    await harness.click([...harness.container.querySelectorAll('button')].find((b) => /\(\d{5}\)\s*Change$/.test(b.textContent ?? ''))!);
+    expect(harness.container.querySelector<HTMLInputElement>('input[maxlength="5"]')?.value).toBe('80301');
+  });
+});
