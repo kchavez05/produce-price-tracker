@@ -280,3 +280,50 @@ describe('clear profile filters (Meal Plan header)', () => {
     expect(clear()).toBeUndefined();
   });
 });
+
+describe('Board alerts and controls', () => {
+  // The keyless fixture has no splurge alerts, so promote one commodity with a stock-up prompt.
+  const alertPayload = (() => {
+    const base = keylessPayload();
+    const item = { ...base.commodities[0], arbitragePrompt: { eligible: true, label: 'Buy 2: Prep 1, Freeze 1', recommendedFreezeQty: 1, unit: 'lb' as const, freezeCostBasis: 3, futureWeekSavings: 1.5 } };
+    return { ...base, splurgeAlerts: [item] };
+  })();
+
+  it('pins from a Stock-up alert and shows the pin as taken', async () => {
+    harness = await createDashboardHarness({ payload: alertPayload });
+    await harness.mount();
+    const pinButtons = () => [...harness!.container.querySelectorAll('button')].filter((b) => /Pin to Prep/.test(b.textContent ?? ''));
+        expect(harness.container.textContent).toContain('Stock-up Value Alerts');
+    const firstAlertPin = pinButtons()[0];
+    expect(firstAlertPin).toBeDefined();
+    await harness.click(firstAlertPin);
+    expect(harness.container.textContent).toContain('1 Pinned');
+  });
+
+  it('opens the pantry with a review toast from the Buy 2 stock-up button', async () => {
+    harness = await createDashboardHarness({ payload: alertPayload });
+    await harness.mount();
+    const stockUp = [...harness.container.querySelectorAll('button')].find((b) => /^Buy 2: Prep 1, Freeze 1/.test(b.textContent ?? ''));
+    expect(stockUp).toBeDefined();
+    await harness.click(stockUp!);
+    expect(harness.container.textContent).toContain('Review your Pantry before stocking up.');
+  });
+
+  it('switches category and sort from the controls', async () => {
+    harness = await createDashboardHarness({ payload: alertPayload });
+    await harness.mount();
+    const pill = () => harness!.button('Fresh Produce');
+    expect(pill().className).not.toContain('bg-emerald-600');
+    await harness.click(pill());
+    expect(pill().className).toContain('bg-emerald-600');
+    const select = harness.container.querySelector('select')!;
+    expect(select.value).toBe('VALUE_SCORE');
+    const { act } = await import('react');
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(select, 'LOWEST_PRICE');
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await harness.settle();
+    expect(harness.container.querySelector('select')!.value).toBe('LOWEST_PRICE');
+  });
+});
