@@ -10,8 +10,11 @@
 # Usage: retry-with-timeout.sh <seconds-per-attempt> <attempts> <command> [args...]
 #
 # Environment:
-#   RETRY_CLEANUP   command to run between a failed attempt and the next one (default: repair an
-#                   interrupted dpkg state, which a killed apt-get can leave behind). Set to ':' to skip.
+#   RETRY_CLEANUP   command to run between a failed attempt and the next one. Default: kill any apt-get/dpkg
+#                   still running, then repair an interrupted dpkg state. The kill matters: the install runs
+#                   apt-get as root through sudo, so `timeout` stops the Playwright wrapper but the root
+#                   apt-get can survive and keep the dpkg lock, which made attempts 2 and 3 fail at once
+#                   (seen on PR #793). Set to ':' to skip.
 #   RETRY_PAUSE     seconds to wait between attempts (default 5).
 set -u
 
@@ -24,7 +27,7 @@ seconds="$1"; attempts="$2"; shift 2
 case "$seconds$attempts" in *[!0-9]*) echo "seconds and attempts must be whole numbers" >&2; exit 2 ;; esac
 [ "$seconds" -ge 1 ] && [ "$attempts" -ge 1 ] || { echo "seconds and attempts must be at least 1" >&2; exit 2; }
 
-cleanup="${RETRY_CLEANUP-sudo dpkg --configure -a}"
+cleanup="${RETRY_CLEANUP-sudo pkill -KILL -x 'apt-get|apt|dpkg' || true; sleep 2; sudo dpkg --configure -a}"
 pause="${RETRY_PAUSE:-5}"
 
 attempt=1
