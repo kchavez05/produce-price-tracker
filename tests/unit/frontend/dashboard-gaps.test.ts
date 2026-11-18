@@ -327,3 +327,64 @@ describe('Board alerts and controls', () => {
     expect(harness.container.querySelector('select')!.value).toBe('LOWEST_PRICE');
   });
 });
+
+describe('Board leaderboard cards', () => {
+  // The keyless fixture has no stock-up prompt or cycle substitution, so add one of each to two commodities.
+  const cardPayload = (() => {
+    const base = keylessPayload();
+    const [first, second, ...rest] = base.commodities;
+    const withPrompt = { ...first, arbitragePrompt: { eligible: true, label: 'Buy 2: Prep 1, Freeze 1', recommendedFreezeQty: 1, unit: 'lb' as const, freezeCostBasis: 3, futureWeekSavings: 1.5 } };
+    const withSubstitute = {
+      ...second,
+      cycleSignal: {
+        status: 'CYCLE_PEAK_WAIT' as const, badgeLabel: 'Peak', sixWeekLow: 1, sixWeekHigh: 2, sixWeekMedian: 1.5, pctVsSixWeekLow: 40,
+        substitutionSuggestion: {
+          substituteIngredientId: first.ingredient.id, substituteName: 'Substitute Pick', substitutePrice: 1, substituteStore: 'KING_SOOPERS' as const,
+          savingsPerUnit: 0.5, reason: 'Cheaper this week',
+        },
+      },
+    };
+    return { ...base, splurgeAlerts: [], commodities: [withPrompt, withSubstitute, ...rest] };
+  })();
+  const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
+
+  it('pins from a card', async () => {
+    harness = await createDashboardHarness({ payload: cardPayload });
+    await harness.mount();
+    await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
+    expect(harness.container.textContent).toContain('1 Pinned');
+  });
+
+  it('marks specific ingredients as available at home and explains grouped deals', async () => {
+    harness = await createDashboardHarness({ payload: cardPayload });
+    await harness.mount();
+    const toggles = (h: DashboardHarness) => buttons(h).filter((b) => /Not marked available|Already have/.test(b.textContent ?? ''));
+    const have = (h: DashboardHarness) => buttons(h).filter((b) => /Already have/.test(b.textContent ?? '')).length;
+    expect(have(harness)).toBe(0);
+    expect(harness.container.textContent).not.toContain('Choose the specific ingredient');
+    // In the keyless fixture the first two cards are grouped deals (toast, no change); the next two are specific ingredients.
+    for (let index = 0; index < 4; index += 1) await harness.click(toggles(harness)[index]);
+    expect(harness.container.textContent).toContain('Choose the specific ingredient in Virtual Pantry');
+    expect(have(harness)).toBe(2);
+  });
+
+  it('opens the pantry review toast from the Buy 2 button on a card', async () => {
+    harness = await createDashboardHarness({ payload: cardPayload });
+    await harness.mount();
+    await harness.click(buttons(harness).find((b) => /^Buy 2: Prep 1, Freeze 1 \(\+/.test(b.textContent ?? ''))!);
+    expect(harness.container.textContent).toContain('Review your Pantry before stocking up.');
+  });
+
+  it('pins the suggested substitute from the cycle-peak card', async () => {
+    harness = await createDashboardHarness({ payload: cardPayload });
+    await harness.mount();
+    expect(harness.container.textContent).not.toContain('1 Pinned');
+    await harness.click(buttons(harness).find((b) => /Pin Substitute Instead/.test(b.textContent ?? ''))!);
+    expect(harness.container.textContent).toContain('1 Pinned');
+    // The substitute is the first commodity (the one with the Buy 2 button): its own card now shows Pinned.
+    let footer = buttons(harness).find((b) => /^Buy 2: Prep 1, Freeze 1 \(\+/.test(b.textContent ?? ''))!.parentElement;
+    while (footer && !/Pin to Prep|Pinned/.test(footer.textContent ?? '')) footer = footer.parentElement;
+    expect(footer?.textContent).toContain('Pinned');
+    expect(footer?.textContent).not.toContain('Pin to Prep');
+  });
+});
