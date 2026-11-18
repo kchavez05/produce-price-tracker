@@ -14,6 +14,8 @@ Browser Tests (Tier 2) run for PRs into `develop`, `main` and `release` and for 
 
 Budgets: Tier 2 browser job at most 5 minutes; each Tier 3 shard at most 10. CI retries a failing browser test once; a test that passes only on retry is a flake to fix or quarantine with an issue.
 
+The browser jobs install Playwright's system dependencies through `.github/scripts/retry-with-timeout.sh` (120 s per attempt, up to 3 attempts, about 6 minutes at worst). A stalled apt mirror used to hold a job until its 10-minute timeout (#790). A retried or timed-out attempt shows as a warning on the run; if all attempts fail the job fails as before.
+
 ## Running locally
 
 Browser tests are recommended locally and mandatory in CI. WebKit on macOS renders differently from CI, so local runs are for behavior, not pixels.

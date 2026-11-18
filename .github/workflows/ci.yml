@@ -161,11 +161,11 @@ jobs:
 
       - name: Install WebKit and system dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps webkit
+        run: .github/scripts/retry-with-timeout.sh 120 3 npx playwright install --with-deps webkit
 
       - name: Install WebKit system dependencies (cached browsers)
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps webkit
+        run: .github/scripts/retry-with-timeout.sh 120 3 npx playwright install-deps webkit
 
       - name: Cache Next.js build cache
         uses: actions/cache@v4
@@ -248,11 +248,11 @@ jobs:
 
       - name: Install WebKit, Chromium and system dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps webkit chromium
+        run: .github/scripts/retry-with-timeout.sh 120 3 npx playwright install --with-deps webkit chromium
 
       - name: Install WebKit and Chromium system dependencies (cached browsers)
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps webkit chromium
+        run: .github/scripts/retry-with-timeout.sh 120 3 npx playwright install-deps webkit chromium
 
       - name: Cache Next.js build cache
         uses: actions/cache@v4
@@ -331,11 +331,11 @@ jobs:
 
       - name: Install WebKit and system dependencies
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != '' && steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps webkit
+        run: .github/scripts/retry-with-timeout.sh 120 3 npx playwright install --with-deps webkit
 
       - name: Install WebKit system dependencies (cached browsers)
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != '' && steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps webkit
+        run: .github/scripts/retry-with-timeout.sh 120 3 npx playwright install-deps webkit
 
       - name: Install faketime (pins the server clock for visual runs)
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
