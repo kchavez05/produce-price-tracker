@@ -147,6 +147,13 @@ describe('cloud hydration (gap 3)', () => {
     const macro = harness.button('High-Protein');
     expect(macro.className).toContain('bg-emerald-400');
     expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
+    expect(harness.button('8 Srv / Dish').className).toContain('bg-emerald-400');
+    expect(harness.button('6 Srv / Dish').className).not.toContain('bg-emerald-400');
+    expect(harness.button('Gluten-Free').className).not.toBe(harness.button('Dairy-Free').className);
+    await harness.click(harness.button('1. Value Board'));
+    const chips = [...harness.container.querySelectorAll('button')].map((b) => b.textContent ?? '');
+    expect(chips).toContain('King Soopers');
+    expect(chips).not.toContain('Safeway');
   });
 
   it('rejects a malformed cloud ZIP, keeping the local ZIP', async () => {
@@ -525,5 +532,68 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
     expect(acknowledged.searchParams.get('macroGoal')).toBe('HIGH_PROTEIN');
     expect(acknowledged.searchParams.get('store')).toBe('ALL');
     expect(acknowledged.searchParams.get('servings')).toBe('6');
+  });
+});
+
+describe('account, pantry and AI wiring (M3 A.5c)', () => {
+  const cloudBacked: UserSyncPayload = { ...aliceSync, profile: { ...aliceSync.profile!, isCloudBacked: true } };
+  const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
+  const label = (h: DashboardHarness, text: string) => buttons(h).some((b) => b.textContent?.includes(text));
+
+  it('marks recipes from the cloud library as saved for the signed-in account', async () => {
+    const dish = payload.recommendedTrio[0];
+    harness = await createDashboardHarness({ payload, sync: { ...aliceSync, savedRecipes: [dish] } });
+    await harness.mount({ initialAccountId: 'alice' });
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    await harness.waitUntil(() => (harness!.container.textContent ?? '').includes('Saved in Library'));
+  });
+
+  it('does not take a library from a signed-out payload', async () => {
+    const dish = payload.recommendedTrio[0];
+    harness = await createDashboardHarness({ payload, sync: { ...guestSync, savedRecipes: [dish] } });
+    await harness.mount();
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    expect(harness.container.textContent).not.toContain('Saved in Library');
+  });
+
+  it('keeps AI locked until the account pantry has loaded', async () => {
+    let releasePantry: () => void = () => undefined;
+    const pantryGate = new Promise<void>((resolve) => { releasePantry = resolve; });
+    harness = await createDashboardHarness({ payload, sync: cloudBacked, onFetch: async (input) => {
+      if (input === '/api/pantry') await pantryGate;
+      return undefined;
+    } });
+    await harness.mount({ initialAccountId: 'alice' });
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    expect(label(harness, 'Sign in to access AI')).toBe(true);
+    releasePantry();
+    await harness.waitUntil(() => label(harness!, 'Remix 3-dish plan with AI'));
+  });
+
+  it('asks a signed-out visitor to sign in for AI and opens the account dialog', async () => {
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    expect(label(harness, 'Remix 3-dish plan with AI')).toBe(false);
+    await harness.click(harness.button('Sign in to access AI'));
+    expect(harness.container.textContent).toContain('Sign in to access AI features');
+  });
+
+  it('keeps AI locked for a signed-in account that is not cloud-backed, and unlocks it when cloud-backed', async () => {
+    harness = await createDashboardHarness({ payload, sync: aliceSync });
+    await harness.mount({ initialAccountId: 'alice' });
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    expect(label(harness, 'Sign in to access AI')).toBe(true);
+    expect(label(harness, 'Remix 3-dish plan with AI')).toBe(false);
+    await harness.teardown();
+    harness = await createDashboardHarness({ payload, sync: cloudBacked });
+    await harness.mount({ initialAccountId: 'alice' });
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    await harness.waitUntil(() => label(harness!, 'Remix 3-dish plan with AI'));
   });
 });
