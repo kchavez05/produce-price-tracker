@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { ShopView } from '@/modules/shell/navigation';
 import { formatShoppingListForClipboard } from '@/lib/cart-exporter';
 import type { CommodityCategory, StoreChain } from '@/types/domain';
 
@@ -9,6 +10,7 @@ import type { CommodityCategory, StoreChain } from '@/types/domain';
 //  2. useShopUi has no inputs because the derived-data chain (useDerivedDashboard) reads categoryFilter, sortMode and
 //     tripMode. The copy handler needs that chain's output, so it is a second hook, useShopCopyAction, called after it.
 export function useShopUi() {
+  const [shopView, setShopView] = useState<ShopView>('BOARD');
   const [categoryFilter, setCategoryFilter] = useState<'ALL' | CommodityCategory>('ALL');
   const [sortMode, setSortMode] = useState<
     'VALUE_SCORE' | 'LOWEST_PRICE' | 'BIGGEST_DISCOUNT'
@@ -51,7 +53,7 @@ export function useShopUi() {
   }
 
   return {
-    categoryFilter, setCategoryFilter, sortMode, setSortMode, copiedChecklist, setCopiedChecklist,
+    shopView, setShopView, categoryFilter, setCategoryFilter, sortMode, setSortMode, copiedChecklist, setCopiedChecklist,
     showPrintSlipModal, setShowPrintSlipModal, tripMode, setTripMode, checkedItems, setCheckedItems,
     clippedCoupons, setClippedCoupons, toggleCheckedItem, toggleClippedCoupon, handlePrintShoppingSlip,
   };

@@ -19,8 +19,9 @@ import PlanHeader from '@/modules/plan/PlanHeader';
 import AccountDialog from '@/modules/shell/AccountDialog';
 import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import {
-  useLocationContext, useShellContext,
+  useLocationContext, useShellContext, useShopContext,
 } from '@/modules/shell/app-context';
+import { legacyTab } from '@/modules/shell/navigation';
 import {
   DoorOpen,
 } from 'lucide-react';
@@ -40,8 +41,11 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
     showZipModal,
   } = useLocationContext();
   const {
-    activeTab, showPantry, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal,
+    module, showPantry, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal,
   } = useShellContext();
+
+  const { shopView } = useShopContext();
+  const activeTab = legacyTab(module, shopView);
 
   return (
     <div className="min-h-screen pb-24">

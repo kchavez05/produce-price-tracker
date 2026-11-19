@@ -68,7 +68,7 @@ describe('AppProvider', () => {
       seen.plan.setShowAllBlueprints(true);                // Plan UI
       seen.shop.setTripMode('ALDI');                       // Shop UI
       seen.shell.setArbitrageToast('Hello from the toast'); // Shell UI
-      seen.shell.setActiveTab('RADAR');                    // Shell UI
+      seen.shell.navigateTo({ module: 'shop', view: 'RADAR' }); // Shell UI (module) and Shop UI (view)
       seen.location.setZipInput('80301');                  // Location
       await harness!.settle();
     });
@@ -84,7 +84,8 @@ describe('AppProvider', () => {
     expect(seen.plan.showAllBlueprints).toBe(true);
     expect(seen.shop.tripMode).toBe('ALDI');
     expect(seen.shell.arbitrageToast).toBe('Hello from the toast');
-    expect(seen.shell.activeTab).toBe('RADAR');
+    expect(seen.shell.module).toBe('shop');
+    expect(seen.shop.shopView).toBe('RADAR');
     expect(seen.location.zipInput).toBe('80301');
     // The promoted plan also survives: it is still the active trio, so the shopping list built from it is unchanged.
     expect(seen.dashboard.activeTrio[0].id).toBe(dish.id);
@@ -114,7 +115,7 @@ describe('AppProvider', () => {
     expect(Object.keys(seen.account)).toEqual(expect.arrayContaining(['userSync', 'pantry', 'pantryOwnerRef', 'canUseAi']));
     expect(Object.keys(seen.plan)).toEqual(expect.arrayContaining(['customPrompt', 'customAiDishes', 'handleGenerateAiPlan', 'handlePromoteDish']));
     expect(Object.keys(seen.shop)).toEqual(expect.arrayContaining(['tripMode', 'checkedItems', 'toggleCheckedItem', 'handleCopyShoppingListForNotes']));
-    expect(Object.keys(seen.shell)).toEqual(expect.arrayContaining(['activeTab', 'showPantry', 'handleForceCloudSync', 'showAiSignIn']));
+    expect(Object.keys(seen.shell)).toEqual(expect.arrayContaining(['module', 'navigateTo', 'showPantry', 'handleForceCloudSync', 'showAiSignIn']));
   });
 
   it('starts from the server payload: the first render matches a server render of the same props', async () => {
