@@ -3,7 +3,9 @@
 import { useDashboardContext } from '@/modules/shell/app-context';
 
 // Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
-// context hooks instead of props; the markup is unchanged.
+// context hooks instead of props; the markup is unchanged. Since M4-1a the shell no longer renders it: the owner asked for it
+// to go (it was a debug aid that filled the header). Its content is meant to come back as the Shop's single freshness line
+// and in Settings or Radar's data-source section (M4 decision 4); this component is kept for that until then.
 
 export default function FreshnessNotice() {
   const { data } = useDashboardContext();

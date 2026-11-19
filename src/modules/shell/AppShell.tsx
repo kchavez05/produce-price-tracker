@@ -6,7 +6,6 @@ import StoresPanel from '@/modules/shell/StoresPanel';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
 import StoreFilterBar from '@/modules/shell/StoreFilterBar';
-import FreshnessNotice from '@/modules/shell/FreshnessNotice';
 import PinSummary from '@/modules/shell/PinSummary';
 import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
 import AccountDialog from '@/modules/shell/AccountDialog';
@@ -40,8 +39,6 @@ export default function AppShell({ children }: { children?: ReactNode }) {
 
           {/* Tier 2: Dedicated Supermarket Filter Bar (Left) & Weekly Ad-Cycle Pill (Right) */}
           <StoreFilterBar />
-
-          <FreshnessNotice />
 
           {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
           <AccountDialog />
