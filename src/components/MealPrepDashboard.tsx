@@ -1,21 +1,12 @@
 'use client';
 
-
-import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
-
-
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { pantryCatalog } from '@/lib/pantry/model';
 const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import {
   DashboardPayload,
   RecommendedDish,
-  WeeklySyncCronResult,
 } from '@/types/domain';
-import {
-  ALL_STORE_CHAINS,
-} from '@/data/store-registry';
 import ZipPanel from '@/modules/shell/ZipPanel';
 import StoresPanel from '@/modules/shell/StoresPanel';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
@@ -27,6 +18,7 @@ import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
 import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
+import { useShellUi, useShellActions } from '@/modules/shell/hooks/useShellUi';
 import { usePlanUi, usePlanActions } from '@/modules/plan/hooks/usePlanUi';
 import { useShopUi, useShopCopyAction } from '@/modules/shop/hooks/useShopUi';
 import { useDerivedDashboard } from '@/modules/shell/hooks/useDerivedDashboard';
@@ -63,18 +55,17 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     currentZip, setCurrentZip, showZipModal, setShowZipModal, zipInput, setZipInput,
     zipLoading, setZipLoading, zipError, setZipError,
   } = useLocationState(initialData);
-  const [activeTab, setActiveTab] = useState<
-    'BOARD' | 'MEAL_PLAN' | 'SHOPPING_LIST' | 'RADAR'
-  >('BOARD');
+  const {
+    activeTab, setActiveTab, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast,
+    showStoresModal, setShowStoresModal, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
+    cronSyncLoading, setCronSyncLoading, cronSyncError, setCronSyncError, copiedDigest, setCopiedDigest,
+    showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, handleReviewStockUp, showAiSignIn,
+  } = useShellUi();
   const {
     categoryFilter, setCategoryFilter, sortMode, setSortMode, copiedChecklist, setCopiedChecklist,
     showPrintSlipModal, setShowPrintSlipModal, tripMode, setTripMode, setCheckedItems, checkedItems,
     clippedCoupons, setClippedCoupons, toggleCheckedItem, toggleClippedCoupon, handlePrintShoppingSlip,
   } = useShopUi();
-  const [showPantry, setShowPantry] = useState(false);
-  const pantryTrigger = useRef<HTMLButtonElement>(null);
-  const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
-
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
 
   const {
@@ -82,18 +73,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     aiLoading, setAiLoading, aiBannerMessage, setAiBannerMessage, customAiDishes, setCustomAiDishes, customAiOwner,
     customAiContext,
   } = usePlanUi(initialData);
-  const [showStoresModal, setShowStoresModal] = useState(false);
-  // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
-  const [showAlertsModal, setShowAlertsModal] = useState(false);
-  const [cronSyncResult, setCronSyncResult] = useState<WeeklySyncCronResult | null>(null);
-  const [cronSyncLoading, setCronSyncLoading] = useState(false);
-  const [cronSyncError, setCronSyncError] = useState<string | null>(null);
-  const [copiedDigest, setCopiedDigest] = useState(false);
-
-  // v1.3 Tickets #26 - #30: User Account, Cloud Sync & Privacy Controls state
-  const [showAccountModal, setShowAccountModal] = useState(false);
-  const [accountIntent, setAccountIntent] = useState<'account' | 'ai'>('account');
-
   // useUserSync is created inside useAccountAndPantry, before the payload hook its acknowledgment callback needs, so
   // it calls through this ref; the dashboard assigns it each render, right after useDashboardPayload.
   const syncAcknowledged = useRef<() => void>(() => undefined);
@@ -148,90 +127,14 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     setStoreFilter, setCurrentZip, setZipInput, setZipError, setZipLoading, setShowZipModal, setCustomAiDishes, setTripMode,
   });
 
-  function handleReviewStockUp() {
-    setShowPantry(true);
-    setArbitrageToast('Review your Pantry before stocking up. Record ingredients after purchase.');
-  }
-
-  async function handleForceCloudSync() {
-    await pantry.retry();
-    await userSync.pushCloudSync({ preferences: { defaultZip: currentZip, favoriteStoreIds: activeStores, macroGoal,
-      dietaryConstraints, vesselArchetype: applianceFilter, targetServings, pinnedIngredientIds: pinnedIds } });
-  }
-
-  function handleToggleOnHand(ingredientId: string) {
-    const pantryId = recipePantryIngredientId(ingredientId);
-    const ingredient = pantryCatalog.get(pantryId);
-    if (!ingredient) {
-      setShowPantry(true);
-      setArbitrageToast('Choose the specific ingredient in Virtual Pantry. Grouped deals do not establish an exact ingredient identity.');
-      return;
-    }
-    const existing = pantry.entries.find((entry) => entry.ingredientId === pantryId);
-    void pantry.save({ ...(existing ?? { ingredientId: pantryId, displayName: ingredient.name }), available: !(existing?.available && !existing.deletedAtIso) }, existing?.id)
-      .catch((error: unknown) => setArbitrageToast(error instanceof Error ? error.message : 'Could not update the pantry.'));
-  }
-
-  function showAiSignIn() {
-    setAccountIntent('ai');
-    setShowAccountModal(true);
-  }
-
-  async function handleToggleAlertsModal() {
-    const nextOpen = !showAlertsModal;
-    setShowAlertsModal(nextOpen);
-    if (nextOpen && !cronSyncResult) {
-      setCronSyncLoading(true);
-      try {
-        const res = await fetch(
-          `/api/cron/weekly-sync?cycle=preview_digest&zip=${encodeURIComponent(currentZip)}`
-        );
-        if (res.ok) {
-          const payload: WeeklySyncCronResult = await res.json();
-          setCronSyncResult(payload);
-        }
-      } catch {
-        // Ignore
-      } finally {
-        setCronSyncLoading(false);
-      }
-    }
-  }
-
-  async function handleTriggerWeeklySync() {
-    setCronSyncLoading(true);
-    setCronSyncError(null);
-    try {
-      const res = await fetch('/api/cron/weekly-sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cycle: 'manual_sync', zipCode: currentZip }),
-      });
-      const payload = await res.json();
-      if (payload.fridayWeekendDigest) setCronSyncResult(payload);
-      if (!res.ok) {
-        setCronSyncError(payload.auditStorage === 'unavailable'
-          ? 'Prices were checked, but the durable audit could not be saved. Please retry.'
-          : 'Weekly refresh failed. Please retry.');
-        return;
-      }
-      await syncDashboard(
-        storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip
-      );
-    } catch {
-      setCronSyncError('Weekly refresh could not connect. Please retry.');
-    } finally {
-      setCronSyncLoading(false);
-    }
-  }
-
-  function handleCopyMarkdownDigest() {
-    const text = cronSyncResult?.fridayWeekendDigest?.markdownDigest;
-    if (!text) return;
-    navigator.clipboard?.writeText(text);
-    setCopiedDigest(true);
-    setTimeout(() => setCopiedDigest(false), 2500);
-  }
+  const {
+    handleForceCloudSync, handleToggleOnHand, handleToggleAlertsModal, handleTriggerWeeklySync, handleCopyMarkdownDigest,
+    handleSelectAllStores,
+  } = useShellActions({
+    pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
+    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, setShowPantry, setArbitrageToast,
+    setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
+  });
 
   return (
     <div className="min-h-screen pb-24">
@@ -344,23 +247,7 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
               cityLabel={data.cityLabel}
               currentZip={currentZip}
               onToggleStore={handleToggleActiveStore}
-              onSelectAll={() => {
-                setActiveStores(ALL_STORE_CHAINS);
-                try {
-                  localStorage.setItem(
-                    'pantrybot_active_stores',
-                    JSON.stringify(ALL_STORE_CHAINS)
-                  );
-                } catch {}
-                syncDashboard(
-                  storeFilter,
-                  pinnedIds,
-                  effectiveOnHandIds,
-                  targetServings,
-                  currentZip,
-                  ALL_STORE_CHAINS
-                );
-              }}
+              onSelectAll={handleSelectAllStores}
               onClose={() => setShowStoresModal(false)}
             />
           )}
