@@ -206,13 +206,21 @@ export function usePreferenceActions({
     );
   }
 
-  // Clear the profile filters (moved unchanged from the Meal Plan header's inline click handler).
+  // Clear the profile filters (moved from the Meal Plan header's inline click handler; the cloud push was added for #807).
   function handleClearProfileFilters() {
     setMacroGoal('ANY');
     setDietaryConstraints([]);
     setApplianceFilter('ANY');
     setCustomAiDishes(null);
     persistProfileToLocalStorage('ANY', [], 'ANY');
+    // Like the other profile handlers, save the cleared profile to the cloud so it is not restored on the next load (#807).
+    userSync.pushCloudSync({
+      preferences: {
+        macroGoal: 'ANY',
+        dietaryConstraints: [],
+        vesselArchetype: 'ANY',
+      },
+    });
     syncDashboard(
       storeFilter,
       pinnedIds,
