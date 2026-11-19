@@ -235,6 +235,9 @@ export function detectDealType(
 export async function fetchLiveFlippOffers(
   zipCode: string = '80542'
 ): Promise<{ offers: StoreOffer[]; liveSuccess: boolean }> {
+  // The visual snapshot server sets PANTRYBOT_LIVE_OFFERS=off so every render uses the curated weekly baseline, with no
+  // network and no refreshed circular data (#796). Unset (the default, and all of production), live offers are fetched.
+  if (process.env.PANTRYBOT_LIVE_OFFERS === 'off') return { offers: [], liveSuccess: false };
   const matchedOffers: StoreOffer[] = [];
   let liveSuccess = false;
 

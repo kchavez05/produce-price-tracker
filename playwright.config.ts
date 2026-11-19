@@ -78,6 +78,9 @@ export default defineConfig({
           // Serves the dev-only /design style guide in this build (see src/design/guide-access.ts).
           E2E_DESIGN_GUIDE: '1',
           FAKETIME_DONT_FAKE_MONOTONIC: '1',
+          // Visual runs render the curated weekly baseline only: no live circular fetch, so a market refresh cannot move a
+          // baseline (#796). Other runs keep the live path.
+          ...(fakeClock ? { PANTRYBOT_LIVE_OFFERS: 'off' } : {}),
           NEXT_PUBLIC_SUPABASE_URL: '',
           NEXT_PUBLIC_SUPABASE_ANON_KEY: '',
         },
