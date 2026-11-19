@@ -40,6 +40,7 @@ import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
 import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
+import { useStorageRestore } from '@/modules/shell/hooks/useStorageRestore';
 import { useLocationState } from '@/modules/shell/hooks/useLocationState';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
 import StoreFilterBar from '@/modules/shell/StoreFilterBar';
@@ -176,68 +177,11 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     return { ...serverData, ...ranked };
   }, [serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest, pantryPriceContext]);
 
-  useEffect(() => {
-    try {
-      const savedChecked = localStorage.getItem('mead_checked_items_v03');
-      if (savedChecked) setCheckedItems(JSON.parse(savedChecked));
-      const savedClipped = localStorage.getItem('mead_clipped_coupons_v03');
-      if (savedClipped) setClippedCoupons(JSON.parse(savedClipped));
-
-      let loadedMacroGoal = macroGoal;
-      let loadedDietaryConstraints = dietaryConstraints;
-      let loadedApplianceFilter = applianceFilter;
-      const savedProfile = localStorage.getItem('pantrybot_nutrition_profile_v12');
-      if (savedProfile) {
-        const parsed = JSON.parse(savedProfile);
-        if (parsed.macroGoal) {
-          setMacroGoal(parsed.macroGoal);
-          loadedMacroGoal = parsed.macroGoal;
-        }
-        if (Array.isArray(parsed.dietaryConstraints)) {
-          setDietaryConstraints(parsed.dietaryConstraints);
-          loadedDietaryConstraints = parsed.dietaryConstraints;
-        }
-        if (parsed.applianceFilter) {
-          setApplianceFilter(parsed.applianceFilter);
-          loadedApplianceFilter = parsed.applianceFilter;
-        }
-      }
-
-      let loadedActiveStores = activeStores;
-      const savedActiveStores = localStorage.getItem('pantrybot_active_stores');
-      if (savedActiveStores) {
-        try {
-          const parsed = JSON.parse(savedActiveStores);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setActiveStores(parsed);
-            loadedActiveStores = parsed;
-          }
-        } catch {
-          // Ignore
-        }
-      }
-
-      const savedZip = localStorage.getItem('pantrybot_user_zip');
-      if (savedZip && /^\d{5}$/.test(savedZip) && savedZip !== data.zipCode) {
-        setCurrentZip(savedZip);
-        setZipInput(savedZip);
-        syncDashboard(
-          storeFilter,
-          pinnedIds,
-          effectiveOnHandIds,
-          targetServings,
-          savedZip,
-          loadedActiveStores,
-          loadedMacroGoal,
-          loadedDietaryConstraints,
-          loadedApplianceFilter
-        );
-      }
-    } catch {
-      // Ignore storage errors
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useStorageRestore({
+    data, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, activeStores, macroGoal, dietaryConstraints, applianceFilter,
+    setCheckedItems, setClippedCoupons, setMacroGoal, setDietaryConstraints, setApplianceFilter, setActiveStores,
+    setCurrentZip, setZipInput, syncDashboard,
+  });
 
   function persistProfileToLocalStorage(
     nextMacro: MacroGoal,
