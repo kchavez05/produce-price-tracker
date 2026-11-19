@@ -11,6 +11,9 @@ export class DashboardPage {
   readonly signInButton: Locator;
   readonly priceCards: Locator;
   readonly pantryHeading: Locator;
+  readonly planHeading: Locator;
+  /** The optional AI meal-plan request box on the plan. */
+  readonly aiRequest: Locator;
 
   constructor(readonly page: Page) {
     this.heading = page.getByRole('heading', { level: 1, name: /PantryBot/ });
@@ -22,6 +25,13 @@ export class DashboardPage {
     this.signInButton = page.getByRole('button', { name: 'Sign In', exact: true });
     this.priceCards = page.getByRole('heading', { level: 3 });
     this.pantryHeading = page.getByRole('heading', { level: 2, name: 'Virtual Pantry' });
+    this.planHeading = page.getByRole('heading', { level: 2, name: /Your 3-Dish Weekend Meal Prep Plan/ });
+    this.aiRequest = page.getByRole('textbox', { name: 'Optional AI meal-plan request' });
+  }
+
+  /** The current path, for example "/shop" (each module is a page since M3 B.3c). */
+  get pathname(): string {
+    return new URL(this.page.url()).pathname;
   }
 
   /** The number in the Pantry button, for example 2 for "Pantry (2)". */

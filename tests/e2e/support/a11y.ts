@@ -15,6 +15,10 @@ export interface AxeOptions {
 
 /** Run axe on the page and return serious and critical WCAG A/AA violations as findings. */
 export async function collectAxeFindings(page: Page, options: AxeOptions = {}): Promise<Finding[]> {
+  // Next.js briefly empties document.title while it swaps the page during a client navigation (seen on about one run in
+  // five when axe runs right after a tab click), which axe reports as document-title. Wait for the settled title so the
+  // scan sees the page the user sees; a page that never gets a title still fails, after the wait.
+  await page.waitForFunction(() => document.title.trim() !== '');
   const builder = new AxeBuilder({ page }).withTags(WCAG_TAGS);
   for (const selector of options.exclude ?? []) builder.exclude(selector);
   const results = await builder.analyze();
