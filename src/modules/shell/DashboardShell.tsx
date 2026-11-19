@@ -41,16 +41,17 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
     showZipModal,
   } = useLocationContext();
   const {
-    module, showPantry, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal,
+    arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal,
   } = useShellContext();
 
+  const { module } = useShellContext();
   const { shopView } = useShopContext();
   const activeTab = legacyTab(module, shopView);
 
   return (
     <div className="min-h-screen pb-24">
       {/* Top Header — Two-Tier Navigation Architecture */}
-      <header className={`${showPantry ? 'relative' : 'sticky top-0'} z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
+      <header className={`sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
         <div className="mx-auto max-w-6xl px-4 py-2.5">
           {/* Tier 1: Primary Brand & Location (Left) + Utilities & User Account (Pinned Top-Right) */}
           <HeaderPrimary />
@@ -78,9 +79,6 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
               </button>
             </div>
           )}
-
-          {/* Private Virtual Pantry drawer */}
-          <PantryDrawer speechConfigured={speechConfigured} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled} />
 
           {/* Interactive Zip Code / Location Switcher Drawer */}
           {showZipModal && (
@@ -146,6 +144,13 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
            ========================================================= */}
         {activeTab === 'RADAR' && (
           <RadarSection />
+        )}
+
+        {/* =========================================================
+            PANTRY: the private Virtual Pantry (a module since B.3b; it was a drawer over the tabs)
+           ========================================================= */}
+        {activeTab === 'PANTRY' && (
+          <PantryDrawer speechConfigured={speechConfigured} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled} />
         )}
       </main>
     </div>

@@ -257,16 +257,18 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     expect(text(h)).not.toContain('Choose the specific ingredient');
   });
 
-  it('keeps the pantry drawer open and the toast shown across tab switches', async () => {
+  it('shows the Pantry in place of the tabs, keeps the toast across tab switches, and leaves the Pantry when a tab is chosen', async () => {
     const h = await start();
     // The grouped-deal cards on the Board explain themselves with a toast and open the pantry.
     const grouped = buttons(h).find((b) => /Not marked available/.test(b.textContent ?? ''))!;
     await h.click(grouped);
     expect(text(h)).toContain('Choose the specific ingredient in Virtual Pantry');
     await h.waitUntil(() => Boolean(h.container.querySelector('#virtual-pantry-title')));
+    // The Pantry replaces the tab content (it is a module, not a drawer over it).
+    expect(text(h)).not.toContain('Sort by:');
     await h.click(h.button(RADAR));
     expect(text(h)).toContain('Choose the specific ingredient in Virtual Pantry');
-    expect(h.container.querySelector('#virtual-pantry-title')).not.toBeNull();
+    expect(h.container.querySelector('#virtual-pantry-title')).toBeNull();
     await h.click(h.button('✕'));
     expect(text(h)).not.toContain('Choose the specific ingredient in Virtual Pantry');
   });

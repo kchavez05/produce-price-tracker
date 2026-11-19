@@ -14,7 +14,7 @@ export default function PrimaryNav() {
   const { module, navigateTo } = useShellContext();
   const { shopView } = useShopContext();
   const activeTab = legacyTab(module, shopView);
-  const setActiveTab = (tab: LegacyTab) => navigateTo(destinationOf(tab));
+  const setActiveTab = (tab: Exclude<LegacyTab, 'PANTRY'>) => navigateTo(destinationOf(tab));
   const { pinnedIds } = usePreferencesContext();
   const { effectiveOnHandIds } = useAccountContext();
   return (

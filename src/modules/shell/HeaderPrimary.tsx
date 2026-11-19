@@ -13,9 +13,10 @@ export default function HeaderPrimary() {
   const { currentZip, showZipModal, setShowZipModal } = useLocationContext();
   const { userSync, pantry: { entries: pantryEntries } } = useAccountContext();
   const {
-    showPantry, showAccountModal, showAlertsModal, pantryTrigger, setShowPantry, setShowAccountModal, setAccountIntent,
+    module, showAccountModal, showAlertsModal, pantryTrigger, navigateTo, closePantry, setShowAccountModal, setAccountIntent,
     handleToggleAlertsModal,
   } = useShellContext();
+  const showPantry = module === 'pantry';
   return (
     <div className="flex items-center justify-between gap-3">
       {/* Brand + Active ZIP Selector */}
@@ -54,7 +55,7 @@ export default function HeaderPrimary() {
         {/* Virtual Pantry drawer trigger */}
         <button
           ref={pantryTrigger}
-          onClick={() => setShowPantry(!showPantry)}
+          onClick={() => (showPantry ? closePantry() : navigateTo({ module: 'pantry' }))}
           className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
             showPantry
               ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
