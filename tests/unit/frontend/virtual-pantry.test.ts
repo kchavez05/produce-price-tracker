@@ -2,7 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import VirtualPantry from '@/components/VirtualPantry';
+import VirtualPantry from '@/modules/pantry/VirtualPantry';
 import { cookingIngredients } from '@/lib/pantry/model';
 import { evaluatePantryMutation } from '@/lib/pantry/mutations';
 import { PantryEntry } from '@/types/pantry';

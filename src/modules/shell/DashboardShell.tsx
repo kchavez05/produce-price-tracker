@@ -1,8 +1,6 @@
 'use client';
 
 import React from 'react';
-import dynamic from 'next/dynamic';
-const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import ZipPanel from '@/modules/shell/ZipPanel';
 import StoresPanel from '@/modules/shell/StoresPanel';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
@@ -18,18 +16,19 @@ import PrimaryNav from '@/modules/shell/PrimaryNav';
 import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanHeader from '@/modules/plan/PlanHeader';
-import AccountModal from '@/components/AccountModal';
+import AccountDialog from '@/modules/shell/AccountDialog';
+import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import {
-  useAccountContext, useLocationContext, usePreferencesContext, useShellContext,
+  useLocationContext, useShellContext,
 } from '@/modules/shell/app-context';
 import {
   DoorOpen,
 } from 'lucide-react';
 
 // v2.0 M3 Phase B.1e: the dashboard's markup, moved verbatim from MealPrepDashboard. It reads the app's state through
-// the seven context hooks instead of owning it. The Shop (B.2a), Plan (B.2b) and Shell (B.2c) components read the
-// contexts themselves; only the Pantry drawer and the account dialog still take props (B.2d). The three config flags
-// are page-level, not state, so they stay props.
+// the seven context hooks instead of owning it. Every module component (Shop, Plan, Shell, the Pantry drawer and the
+// account dialog, B.2a to B.2d) reads the contexts itself; what is left here is layout, the toast and which panels show,
+// until the routes (B.3). The three config flags are page-level, not state, so they stay props.
 interface DashboardShellProps {
   barcodeEnabled?: boolean;
   speechConfigured?: boolean;
@@ -38,17 +37,10 @@ interface DashboardShellProps {
 
 export default function DashboardShell({ barcodeEnabled = false, speechConfigured = false, cameraEnabled = false }: DashboardShellProps) {
   const {
-    macroGoal, dietaryConstraints, applianceFilter, activeStores,
-  } = usePreferencesContext();
-  const {
-    currentZip, showZipModal,
+    showZipModal,
   } = useLocationContext();
   const {
-    userSync, pantry, pantryAccountId,
-  } = useAccountContext();
-  const {
-    activeTab, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast, showStoresModal,
-    showAlertsModal, showAccountModal, setShowAccountModal, accountIntent, showAiSignIn, handleForceCloudSync,
+    activeTab, showPantry, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal,
   } = useShellContext();
 
   return (
@@ -65,29 +57,7 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
           <FreshnessNotice />
 
           {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
-          <AccountModal
-            isOpen={showAccountModal}
-            intent={accountIntent}
-            onClose={() => setShowAccountModal(false)}
-            authenticated={userSync.authenticated}
-            profile={userSync.profile}
-            storageMode={userSync.storageMode}
-            supabaseConfigured={userSync.supabaseConfigured}
-            syncStatus={userSync.syncStatus}
-            lastSyncedIso={userSync.lastSyncedIso}
-            authLoading={userSync.authLoading}
-            currentZip={currentZip}
-            activeStores={activeStores}
-            macroGoal={macroGoal}
-            dietaryConstraints={dietaryConstraints}
-            applianceFilter={applianceFilter}
-            pantryItemCount={pantry.entries.filter((entry) => !entry.deletedAtIso).length}
-            onSignIn={userSync.signInWithProvider}
-            onSignOut={userSync.signOut}
-            onForceSync={handleForceCloudSync}
-            onExportData={userSync.exportAccountDataJson}
-            onDeleteAccount={userSync.deleteAccountAndData}
-          />
+          <AccountDialog />
 
           {/* Arbitrage Toast Banner */}
           {arbitrageToast && (
@@ -106,15 +76,7 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
           )}
 
           {/* Private Virtual Pantry drawer */}
-          {showPantry && <VirtualPantry speechConfigured={speechConfigured} onAiSignIn={showAiSignIn} owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
-            key={pantry.owner ?? `loading:${pantryAccountId ?? 'guest'}`}
-            entries={pantry.entries} acceptedCatalogIds={pantry.acceptedCatalogIds} status={pantry.status} error={pantry.error} guest={pantry.guest} hasLegacyEdits={pantry.hasLegacyEdits}
-            importDuplicates={pantry.importDuplicates}
-            guestEntries={pantry.guestEntries} conflicts={pantry.conflicts}
-            onSave={pantry.save} onDelete={pantry.remove} onRetry={pantry.retry} onResolve={pantry.resolve}
-            onImportGuest={pantry.importGuest} onReviewLegacy={pantry.reviewLegacy} onImportLegacy={pantry.importLegacy}
-            onClose={() => { setShowPantry(false); pantryTrigger.current?.focus(); }}
-          />}
+          <PantryDrawer speechConfigured={speechConfigured} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled} />
 
           {/* Interactive Zip Code / Location Switcher Drawer */}
           {showZipModal && (

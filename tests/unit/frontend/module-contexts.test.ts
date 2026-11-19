@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-// Tests that the Shop, Plan and Shell components render on their own from the AppProvider contexts, with no props and no dashboard
-// shell around them (v2.0 M3 Phases B.2a to B.2c, #701). The goldens pin that the shell's markup is unchanged; these pin the
+// Tests that the Shop, Plan, Shell and Pantry components render on their own from the AppProvider contexts, with no props and no dashboard
+// shell around them (v2.0 M3 Phases B.2a to B.2d, #701). The goldens pin that the shell's markup is unchanged; these pin the
 // new contract: each component reads its state and calls its actions through the context hooks.
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
@@ -20,6 +20,8 @@ import TripSection from '@/modules/shop/TripSection';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanHeader from '@/modules/plan/PlanHeader';
+import PantryDrawer from '@/modules/pantry/PantryDrawer';
+import AccountDialog from '@/modules/shell/AccountDialog';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import FreshnessNotice from '@/modules/shell/FreshnessNotice';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
@@ -369,5 +371,82 @@ describe('Shell components on the contexts, without the shell', () => {
     await click(h, (b) => b.textContent?.includes('Run Weekly Sync Now') === true);
     await h.waitUntil(() => h.requests.slice(before).some((r) => r.url === '/api/cron/weekly-sync' && r.method === 'POST'));
     expect(JSON.parse(h.requests.slice(before).find((r) => r.url === '/api/cron/weekly-sync')!.body!)).toEqual({ cycle: 'manual_sync', zipCode: '80542' });
+  });
+});
+
+describe('Pantry drawer and account dialog on the contexts, without the shell', () => {
+  const click = (h: DashboardHarness, find: (b: HTMLButtonElement) => boolean) =>
+    act(async () => { buttons(h).find(find)!.click(); await h.settle(); });
+  const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
+  const pantryResponse = (owner: string) => Response.json({ owner, entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] });
+
+  it('PantryDrawer renders nothing until the Shell context opens it, then shows the account pantry and closes through Shell', async () => {
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
+    const h = await mountModules(() => createElement(PantryDrawer));
+    expect(h.container.querySelector('#virtual-pantry-title')).toBeNull();
+    await act(async () => { seen.shell.setShowPantry(true); await h.settle(); });
+    expect(h.container.querySelector('#virtual-pantry-title')).not.toBeNull();
+    await h.waitUntil(() => text(h).includes('Olive oil'));
+    expect(text(h)).toContain('Speak pantry ingredients (experimental)');
+    await click(h, (b) => b.getAttribute('aria-label') === 'Close Virtual Pantry');
+    expect(seen.shell.showPantry).toBe(false);
+    expect(h.container.querySelector('#virtual-pantry-title')).toBeNull();
+  });
+
+  it('PantryDrawer sends a signed-out visitor to the AI sign-in through the Shell context', async () => {
+    const h = await mountModules(() => createElement(PantryDrawer));
+    await act(async () => { seen.shell.setShowPantry(true); await h.settle(); });
+    await click(h, (b) => b.textContent?.includes('Sign in for experimental speech entry') === true);
+    expect(seen.shell.showAccountModal).toBe(true);
+    expect(seen.shell.accountIntent).toBe('ai');
+  });
+
+  it('PantryDrawer remounts when the pantry owner settles, so a half-typed search never carries over', async () => {
+    let release: (response: Response) => void = () => undefined;
+    const gate = new Promise<Response>((resolve) => { release = resolve; });
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? gate : undefined);
+    const h = await mountModules(() => createElement(PantryDrawer));
+    await act(async () => { seen.shell.setShowPantry(true); await h.settle(); });
+    const search = () => h.container.querySelector<HTMLInputElement>('input[type="search"]')!;
+    await h.type(search(), 'rice');
+    expect(search().value).toBe('rice');
+    expect(seen.account.pantry.owner).toBeNull();
+    release(pantryResponse('account:alice'));
+    await h.waitUntil(() => seen.account.pantry.owner !== null);
+    expect(search().value).toBe('');
+  });
+
+  it('AccountDialog opens and closes through the Shell context and shows the sign-in prompt or the AI intent', async () => {
+    const h = await mountModules(() => createElement(AccountDialog));
+    expect(text(h)).not.toContain('Sign In to Sync Your Virtual Pantry');
+    await act(async () => { seen.shell.setShowAccountModal(true); await h.settle(); });
+    expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
+    await click(h, (b) => b.getAttribute('aria-label') === 'Close account modal');
+    expect(seen.shell.showAccountModal).toBe(false);
+    await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
+    expect(text(h)).toContain('Sign in to access AI features');
+  });
+
+  it('AccountDialog shows the signed-in account and runs Sync Now through the Shell action', async () => {
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
+    const h = await mountModules(() => createElement(AccountDialog));
+    await act(async () => { seen.shell.setShowAccountModal(true); await h.settle(); });
+    expect(text(h)).toContain('Account, Cloud Sync & Privacy Controls');
+    expect(text(h)).toContain('Alice');
+    await h.waitUntil(() => text(h).includes('1 ingredients'));
+    await act(async () => { seen.preferences.handleMacroGoalChange('HIGH_PROTEIN'); await h.settle(); });
+    expect(text(h)).toContain('HIGH_PROTEIN');
+    expect(text(h)).toContain('80542');
+    expect(text(h)).toContain(`${seen.preferences.activeStores.length} Chains`);
+    const pantryGets = () => h.requests.filter((r) => r.url === '/api/pantry' && r.method === 'GET').length;
+    const before = pantryGets();
+    await click(h, (b) => b.textContent?.includes('Sync Now') === true);
+    await h.waitUntil(() => pantryGets() > before);
   });
 });
