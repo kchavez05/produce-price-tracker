@@ -1,16 +1,13 @@
 'use client';
 
-import { createPantryPriceContext } from '@/lib/pantry/pricing';
 import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
 
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
-import { applyPantryToRecipe } from '@/lib/pantry/recipe';
 
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { pantryCatalog } from '@/lib/pantry/model';
-import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import {
   CommodityCategory,
@@ -22,7 +19,6 @@ import {
 import {
   ALL_STORE_CHAINS,
 } from '@/data/store-registry';
-import { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
 import {
   formatShoppingListForClipboard,
 } from '@/lib/cart-exporter';
@@ -37,6 +33,7 @@ import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
 import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
+import { useDerivedDashboard } from '@/modules/shell/hooks/useDerivedDashboard';
 import { useStorageRestore } from '@/modules/shell/hooks/useStorageRestore';
 import { usePreferenceActions } from '@/modules/shell/hooks/usePreferenceActions';
 import { useLocationState } from '@/modules/shell/hooks/useLocationState';
@@ -136,22 +133,13 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
   syncAcknowledged.current = () => {
     void syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
   };
-  const [priceClock, setPriceClock] = useState(serverData.lastUpdatedIso);
-  useEffect(() => {
-    const refresh = () => setPriceClock(new Date().toISOString());
-    refresh();
-    const timer = window.setInterval(refresh, 60_000);
-    window.addEventListener('focus', refresh);
-    return () => { window.clearInterval(timer); window.removeEventListener('focus', refresh); };
-  }, []);
-  // No live source, contract or admission is configured. One snapshot serves every view.
-  const pantryPriceContext = useMemo(() => createPantryPriceContext({
-    nowIso: priceClock || new Date().toISOString(), marketId: currentZip,
-    selectedLocationIds: [],
-  }), [priceClock, currentZip]);
-  const mealContextSignature = JSON.stringify({ available: [...effectiveOnHandIds].sort(), pinned: [...pinnedIds].sort(),
-    targetServings, macroGoal, dietary: [...dietaryConstraints].sort(), vessel: applianceFilter,
-    stores: [...activeStores].sort(), storeFilter, zip: currentZip, customPreference: customPrompt });
+  const {
+    data, filteredCommodities, activeTrio, trioTotals, shoppingPlan, resolvedShoppingItems, digitalCouponItems, mealContextSignature,
+  } = useDerivedDashboard({
+    serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, activeStores,
+    storeFilter, currentZip, savedLibrary, pantryOwner: pantry.owner, pantryGuest: pantry.guest, customPrompt, customAiDishes,
+    customAiOwner, customAiContext, categoryFilter, sortMode, tripMode,
+  });
   const aiContextRef = useRef(mealContextSignature);
   aiContextRef.current = mealContextSignature;
   const aiRequests = useRef<ReturnType<typeof createAiRequestFence> | null>(null);
@@ -163,17 +151,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     setAiBannerMessage(null);
     return () => { requests?.cancel(); };
   }, [pantry.owner, mealContextSignature]);
-
-  const data = useMemo(() => {
-
-    const ranked = rankMealPrepDishes(serverData.commodities, pinnedIds, effectiveOnHandIds, targetServings, {
-      macroGoal, dietaryConstraints, applianceFilter,
-      pantryPriceContext,
-      savedRecipes: savedLibrary.owner === pantry.owner || (savedLibrary.owner === 'guest:ssr' && pantry.guest) ? savedLibrary.recipes : [],
-      now: new Date(serverData.lastUpdatedIso || Date.now()),
-    });
-    return { ...serverData, ...ranked };
-  }, [serverData, pinnedIds, effectiveOnHandIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, savedLibrary, pantry.owner, pantry.guest, pantryPriceContext]);
 
   useStorageRestore({
     data, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, activeStores, macroGoal, dietaryConstraints, applianceFilter,
@@ -366,135 +343,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     setCopiedDigest(true);
     setTimeout(() => setCopiedDigest(false), 2500);
   }
-
-  const filteredCommodities = useMemo(() => {
-    const list = data.commodities.filter((c) => {
-      if (categoryFilter === 'ALL') return true;
-      return c.ingredient.category === categoryFilter;
-    });
-
-    return [...list].sort((a, b) => {
-      if (sortMode === 'LOWEST_PRICE') {
-        return a.bestOffer.normalizedPricePerUnit - b.bestOffer.normalizedPricePerUnit;
-      }
-      if (sortMode === 'BIGGEST_DISCOUNT') {
-        return b.discountVsRegularPct - a.discountVsRegularPct;
-      }
-      return b.valueScore - a.valueScore;
-    });
-  }, [data.commodities, categoryFilter, sortMode]);
-
-  const sourceTrio = ((customAiOwner.current !== pantry.owner || customAiContext.current !== mealContextSignature)
-    ? null : customAiDishes) || data.recommendedTrio;
-  const activeTrio = useMemo(() => sourceTrio.map((dish) =>
-    applyPantryToRecipe(dish, effectiveOnHandIds, data.commodities, undefined, pantryPriceContext)),
-  [sourceTrio, effectiveOnHandIds, data.commodities, pantryPriceContext]);
-
-  const trioTotals = useMemo(() => {
-    const totalBatchCost = activeTrio.reduce((acc, d) => acc + d.totalBatchCost, 0);
-    const totalRegularCost = activeTrio.reduce((acc, d) => acc + d.regularBatchCost, 0);
-    const totalSavings = Math.max(0, totalRegularCost - totalBatchCost);
-    const totalServings =
-      activeTrio.reduce((acc, d) => acc + d.servings, 0) || targetServings * 3;
-    const avgPerServing = totalBatchCost / totalServings;
-
-    return {
-      totalBatchCost: totalBatchCost.toFixed(2),
-      totalRegularCost: totalRegularCost.toFixed(2),
-      totalSavings: totalSavings.toFixed(2),
-      totalServings,
-      avgPerServing: avgPerServing.toFixed(2),
-    };
-  }, [activeTrio, targetServings]);
-
-  // v0.3 + v0.4 + v1.1 + v1.2 Aggregated Shopping List, Coupon Pre-Flight, and Store Trip Optimizer
-  const shoppingPlan = useMemo(
-    () =>
-      buildShoppingListAndStoreComparison(
-        activeTrio,
-        data.commodities,
-        effectiveOnHandIds,
-        data.zipCode || currentZip,
-        activeStores,
-        pantryPriceContext,
-      ),
-    [
-      activeTrio,
-      data.commodities,
-      effectiveOnHandIds,
-      data.zipCode,
-      currentZip,
-      activeStores,
-      pantryPriceContext,
-    ]
-  );
-
-  const resolvedShoppingItems = useMemo(() => {
-    return shoppingPlan.items.map((item) => {
-      const store: StoreChain =
-        tripMode === 'SPLIT' ? item.optimalStore : tripMode;
-
-      const sp = item.storePricing?.[store];
-      const unitCost =
-        sp?.unitCost ??
-        (store === 'KING_SOOPERS'
-          ? item.kingSoopersUnitCost
-          : store === 'SAFEWAY'
-            ? item.safewayUnitCost
-            : item.optimalUnitCost);
-      const totalCost = item.isOnHand
-        ? 0
-        : sp?.totalCost ??
-          (store === 'KING_SOOPERS'
-            ? item.kingSoopersTotalCost
-            : store === 'SAFEWAY'
-              ? item.safewayTotalCost
-              : item.optimalTotalCost);
-      const rawDealText = item.isOnHand
-        ? 'Already have'
-        : sp?.rawDealText ??
-          (store === 'KING_SOOPERS'
-            ? item.kingSoopersRawDealText
-            : store === 'SAFEWAY'
-              ? item.safewayRawDealText
-              : item.optimalRawDealText);
-      const dealType =
-        sp?.dealType ??
-        (store === 'KING_SOOPERS'
-          ? item.kingSoopersDealType
-          : store === 'SAFEWAY'
-            ? item.safewayDealType
-            : item.optimalDealType);
-      const dealConditions =
-        sp?.dealConditions ??
-        (store === 'KING_SOOPERS'
-          ? item.kingSoopersDealConditions
-          : store === 'SAFEWAY'
-            ? item.safewayDealConditions
-            : item.optimalDealConditions);
-
-      return {
-        ...item,
-        ingredientName: sp?.ingredientName ?? item.ingredientName,
-        activeStore: store,
-        activeUnitCost: unitCost,
-        activeTotalCost: totalCost,
-        activeRawDealText: rawDealText,
-        activeDealType: dealType,
-        activeDealConditions: dealConditions,
-      };
-    });
-  }, [shoppingPlan.items, tripMode]);
-
-  const digitalCouponItems = useMemo(
-    () =>
-      resolvedShoppingItems.filter(
-        (i) =>
-          !i.isOnHand &&
-          (i.activeDealType === 'DIGITAL_COUPON' || i.activeDealType === 'MULTI_BUY')
-      ),
-    [resolvedShoppingItems]
-  );
 
   // v1.2 Ticket #23: Copy formatted checklist for Apple Notes / Google Keep / Reminders
   function handleCopyShoppingListForNotes() {
