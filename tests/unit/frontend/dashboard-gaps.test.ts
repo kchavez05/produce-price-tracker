@@ -776,3 +776,41 @@ describe('cleared profile filters survive a reload (#807)', () => {
     expect(harness.button('High-Protein').className).not.toContain('bg-emerald-400');
   });
 });
+
+describe('store toggle side effects run once (#808)', () => {
+  // Development-style StrictMode calls state updaters twice, so side effects inside an updater would run twice.
+  const pushesOf = (h: DashboardHarness) => h.requests.filter((r) => r.url === '/api/sync' && r.method !== 'GET' && (r.body ?? '').includes('favoriteStoreIds')).length;
+  async function toggleSafeway(sync?: UserSyncPayload) {
+    harness = await createDashboardHarness({ payload, sync, strictMode: true });
+    await harness.mount(sync ? { initialAccountId: 'alice' } : {});
+    await harness.settle(); await harness.settle();
+    await harness.click(harness.button('My Stores'));
+    const storeWrites: string[] = [];
+    const setItem = Storage.prototype.setItem;
+    const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, key: string, value: string) {
+      if (key === 'pantrybot_active_stores') storeWrites.push(value);
+      return setItem.call(this, key, value);
+    });
+    try {
+      const requestsBefore = dashboardRequests(harness).length;
+      const pushesBefore = pushesOf(harness);
+      const cards = [...harness.container.querySelectorAll<HTMLElement>('div.cursor-pointer')];
+      await harness.click(cards[ALL_STORE_CHAINS.indexOf('SAFEWAY')]);
+      if (sync) await harness.waitUntil(() => pushesOf(harness!) > pushesBefore);
+      await harness.waitUntil(() => dashboardRequests(harness!).length > requestsBefore);
+      await harness.settle(); await harness.settle(); await harness.settle();
+      return { writes: storeWrites.length, pushes: pushesOf(harness) - pushesBefore, refetches: dashboardRequests(harness).length - requestsBefore };
+    } finally {
+      spy.mockRestore();
+    }
+  }
+
+  it('writes storage and refetches once per click for a guest under StrictMode', async () => {
+    expect(await toggleSafeway()).toEqual({ writes: 1, pushes: 0, refetches: 1 });
+  });
+
+  it('writes storage and pushes once per click for a signed-in user under StrictMode', async () => {
+    // Two refetches are expected for a signed-in user: the click's own, and one when the cloud acknowledges the push.
+    expect(await toggleSafeway(aliceSync)).toEqual({ writes: 1, pushes: 1, refetches: 2 });
+  });
+});

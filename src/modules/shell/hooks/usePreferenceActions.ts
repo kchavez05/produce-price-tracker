@@ -141,35 +141,36 @@ export function usePreferenceActions({
     );
   }
 
+  // The next store list is computed from the current render's list and the side effects run once, outside the state
+  // updater: React may call an updater twice (StrictMode), which used to repeat the storage write, the cloud push
+  // and the refetch (#808). Discrete clicks re-render between events, so `activeStores` is current at each click.
   function handleToggleActiveStore(store: StoreChain) {
-    setActiveStores((prev) => {
-      let next: StoreChain[];
-      if (prev.includes(store)) {
-        if (prev.length <= 1) return prev;
-        next = prev.filter((s) => s !== store);
-      } else {
-        next = [...prev, store];
-      }
-      try {
-        localStorage.setItem('pantrybot_active_stores', JSON.stringify(next));
-      } catch {
-        // Ignore
-      }
-      userSync.pushCloudSync({
-        preferences: {
-          favoriteStoreIds: next,
-        },
-      });
-      syncDashboard(
-        storeFilter,
-        pinnedIds,
-        effectiveOnHandIds,
-        targetServings,
-        currentZip,
-        next
-      );
-      return next;
+    let next: StoreChain[];
+    if (activeStores.includes(store)) {
+      if (activeStores.length <= 1) return;
+      next = activeStores.filter((s) => s !== store);
+    } else {
+      next = [...activeStores, store];
+    }
+    setActiveStores(next);
+    try {
+      localStorage.setItem('pantrybot_active_stores', JSON.stringify(next));
+    } catch {
+      // Ignore
+    }
+    userSync.pushCloudSync({
+      preferences: {
+        favoriteStoreIds: next,
+      },
     });
+    syncDashboard(
+      storeFilter,
+      pinnedIds,
+      effectiveOnHandIds,
+      targetServings,
+      currentZip,
+      next
+    );
   }
 
   function handleTogglePin(ingredientId: string) {
