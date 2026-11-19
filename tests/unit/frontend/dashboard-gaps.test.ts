@@ -634,3 +634,106 @@ describe('mount restore runs once and shows the restored state (M3 A.6)', () => 
     expect(zipButtonText(harness)).toContain('(80301)');
   });
 });
+
+describe('preference and location actions (M3 A.5d)', () => {
+  const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
+  const syncPosts = (h: DashboardHarness) => h.requests.filter((r) => r.url === '/api/sync' && r.method !== 'GET').map((r) => JSON.parse(r.body ?? '{}'));
+  const prefsPushed = (h: DashboardHarness) => syncPosts(h).map((body) => body.preferences ?? body.mutation?.preferences).filter(Boolean);
+  const profile = () => JSON.parse(window.localStorage.getItem('pantrybot_nutrition_profile_v12') ?? 'null');
+  async function signedInPlan() {
+    harness = await createDashboardHarness({ payload, sync: aliceSync });
+    await harness.mount({ initialAccountId: 'alice' });
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+  }
+
+  it('macro goal: sets it, persists the profile, pushes it to the cloud and refetches', async () => {
+    await signedInPlan();
+    await harness!.click(harness!.button('High-Protein'));
+    await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
+    expect(profile()).toEqual({ macroGoal: 'HIGH_PROTEIN', dietaryConstraints: [], applianceFilter: 'ANY' });
+    expect(prefsPushed(harness!).at(-1)).toMatchObject({ macroGoal: 'HIGH_PROTEIN', dietaryConstraints: [], vesselArchetype: 'ANY' });
+    expect(dashboardRequests(harness!).at(-1)!.searchParams.get('macroGoal')).toBe('HIGH_PROTEIN');
+  });
+
+  it('dietary constraints: toggles on and off, persisting and pushing each time', async () => {
+    await signedInPlan();
+    await harness!.click(harness!.button('Gluten-Free'));
+    await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
+    expect(profile().dietaryConstraints).toEqual(['GLUTEN_FREE']);
+    expect(prefsPushed(harness!).at(-1)).toMatchObject({ dietaryConstraints: ['GLUTEN_FREE'] });
+    expect(dashboardRequests(harness!).at(-1)!.searchParams.get('dietary')).toBe('GLUTEN_FREE');
+    await harness!.click(harness!.button('Gluten-Free'));
+    await harness!.waitUntil(() => prefsPushed(harness!).length > 1);
+    expect(profile().dietaryConstraints).toEqual([]);
+    expect(prefsPushed(harness!).at(-1)).toMatchObject({ dietaryConstraints: [] });
+  });
+
+  it('cooking vessel: sets it, persists the profile, pushes it and refetches', async () => {
+    await signedInPlan();
+    await harness!.click(harness!.button('Dutch Oven'));
+    await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
+    expect(profile().applianceFilter).toBe('DUTCH_OVEN_BRAISE');
+    expect(prefsPushed(harness!).at(-1)).toMatchObject({ vesselArchetype: 'DUTCH_OVEN_BRAISE' });
+    expect(dashboardRequests(harness!).at(-1)!.searchParams.get('vessel')).toBe('DUTCH_OVEN_BRAISE');
+  });
+
+  it('active stores: toggles a store, persists, pushes and refetches, and never drops below one store', async () => {
+    await signedInPlan();
+    await harness!.click(harness!.button('My Stores'));
+    const cards = () => [...harness!.container.querySelectorAll<HTMLElement>('div.cursor-pointer')];
+    const stored = () => JSON.parse(window.localStorage.getItem('pantrybot_active_stores')!) as string[];
+    expect(cards()).toHaveLength(ALL_STORE_CHAINS.length);
+    await harness!.click(cards()[ALL_STORE_CHAINS.indexOf('SAFEWAY')]);
+    await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
+    expect(stored()).toEqual(ALL_STORE_CHAINS.filter((chain) => chain !== 'SAFEWAY'));
+    expect(prefsPushed(harness!).at(-1)).toMatchObject({ favoriteStoreIds: stored() });
+    expect(dashboardRequests(harness!).at(-1)!.searchParams.get('stores')).toBe(stored().join(','));
+    // Toggle every other store off: the last remaining store cannot be removed.
+    for (const chain of ALL_STORE_CHAINS.filter((c) => c !== 'SAFEWAY' && c !== 'KING_SOOPERS')) {
+      await harness!.click(cards()[ALL_STORE_CHAINS.indexOf(chain)]);
+    }
+    expect(stored()).toEqual(['KING_SOOPERS']);
+    await harness!.click(cards()[ALL_STORE_CHAINS.indexOf('KING_SOOPERS')]);
+    expect(stored()).toEqual(['KING_SOOPERS']);
+  });
+
+  it('pin and servings: refetch with the new value and do not push to the cloud', async () => {
+    await signedInPlan();
+    await harness!.click(harness!.button('8 Srv / Dish'));
+    await harness!.waitUntil(() => dashboardRequests(harness!).some((r) => r.searchParams.get('servings') === '8'));
+    await harness!.click(harness!.button('1. Value Board'));
+    await harness!.click(buttons(harness!).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
+    await harness!.waitUntil(() => dashboardRequests(harness!).at(-1)!.searchParams.get('pinned') !== '');
+    expect(dashboardRequests(harness!).at(-1)!.searchParams.get('servings')).toBe('8');
+    expect(prefsPushed(harness!)).toHaveLength(0);
+  });
+
+  it('ZIP submit: saves the ZIP, pushes it, refetches for it and closes the panel', async () => {
+    await signedInPlan();
+    await harness!.click(harness!.button('1. Value Board'));
+    await harness!.click(buttons(harness!).find((b) => /\(\d{5}\)\s*Change$/.test(b.textContent ?? ''))!);
+    const input = () => harness!.container.querySelector<HTMLInputElement>('input[maxlength="5"]')!;
+    expect(window.localStorage.getItem('pantrybot_user_zip')).toBeNull();
+    await harness!.type(input(), '80301');
+    await harness!.click(harness!.button('Update Location'));
+    await harness!.waitUntil(() => harness!.container.querySelector('input[maxlength="5"]') === null);
+    expect(window.localStorage.getItem('pantrybot_user_zip')).toBe('80301');
+    expect(prefsPushed(harness!).at(-1)).toMatchObject({ defaultZip: '80301' });
+    expect(dashboardRequests(harness!).at(-1)!.searchParams.get('zip')).toBe('80301');
+  });
+
+  it('clear filters does not push the cleared profile to the cloud (today\'s behavior)', async () => {
+    // Characterizes today's behavior, not an endorsement: unlike the other profile handlers, clearing the filters
+    // resets the local profile and refetches but sends nothing to the cloud, so a signed-in user's cloud profile
+    // keeps the old filters until their next change. Reported as a possible bug; do not fix inside a move.
+    await signedInPlan();
+    await harness!.click(harness!.button('High-Protein'));
+    await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
+    const before = prefsPushed(harness!).length;
+    await harness!.click(harness!.button('Clear Profile Filters'));
+    await harness!.settle(); await harness!.settle();
+    expect(profile()).toEqual({ macroGoal: 'ANY', dietaryConstraints: [], applianceFilter: 'ANY' });
+    expect(prefsPushed(harness!)).toHaveLength(before);
+  });
+});
