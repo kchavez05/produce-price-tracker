@@ -14,7 +14,7 @@ test.describe('smoke: home', () => {
 
     await expect(home.heading).toBeVisible();
     await expect(home.zipButton).toContainText('Mead / Longmont, CO (80542)');
-    await expect(home.tab(/Value Board/)).toBeVisible();
+    await expect(home.tab('Deals')).toBeVisible();
     expect(await home.priceCards.count()).toBeGreaterThan(3);
     await a11y.check('home');
     await a11y.noHorizontalScroll('home');
@@ -100,16 +100,8 @@ test.describe('smoke: virtual pantry', () => {
 });
 
 test.describe('smoke: account panel', () => {
-  test('4. opens and closes without signing in, and guest pantry data remains', async ({ page, problems }, testInfo) => {
+  test('4. opens and closes without signing in, and guest pantry data remains', async ({ page, problems }) => {
     void problems; // also proves no sign-in request left the test server
-    // Known defect (#544, removed by the M4 shell, #710): the header controls are wider than the 390 px
-    // layout, so Chromium's mobile emulation shrinks the page to fit and the Sign In tap is intercepted
-    // by the Pantry button. WebKit hides it. Marked as an expected failure so it cannot pass unnoticed:
-    // when the header is fixed this test starts passing, which fails the run until this line is removed.
-    // The click fails fast on that project: an expected failure must be a thrown error, because a test
-    // that runs into its 30 s timeout is reported as timed out, not as an expected failure.
-    const knownDefect = testInfo.project.name === 'iphone-chromium';
-    test.fail(knownDefect, 'Sign In is not tappable in Chromium at 390 px (#544, #710)');
     const home = new DashboardPage(page);
     await home.goto();
     await home.openPantry();
@@ -119,7 +111,7 @@ test.describe('smoke: account panel', () => {
 
     // The account dialog must not navigate: the path is the same after it closes (the Pantry is a page at /pantry since M3 B.3c).
     const pathBeforeDialog = new URL(page.url()).pathname;
-    await home.signInButton.click({ timeout: knownDefect ? 3_000 : undefined });
+    await home.signInButton.click();
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Sign in with Apple' })).toBeVisible();
@@ -137,13 +129,13 @@ test.describe('smoke: meal plan', () => {
     const home = new DashboardPage(page);
     await home.goto();
 
-    await home.tab(/^2\. 3-Dish Meal Prep/).click();
+    await home.tab('Plan').click();
     await expect(page.getByRole('heading', { level: 2, name: /Your 3-Dish Weekend Meal Prep Plan/ })).toBeVisible();
     await expect(page.getByRole('heading', { level: 3 }).filter({ hasText: /Pork|Sausage|Chicken|Beef|Bean|Stew|Skillet/ }).first()).toBeVisible();
     await a11y.check('plan');
     await a11y.noHorizontalScroll('plan');
 
-    await home.tab(/^3\. Shopping List/).click();
+    await home.openShopView('Trip');
     await expect(page.getByRole('heading', { level: 3, name: /Deduplicated 3-Dish Shopping List/ })).toBeVisible();
     await expect(page.getByRole('heading', { level: 3, name: /Cart Bridge/ })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Print Checklist' })).toBeVisible();
@@ -153,30 +145,33 @@ test.describe('smoke: meal plan', () => {
 });
 
 test.describe('smoke: keyboard', () => {
-  test('7. tab order reaches the main controls and the pantry panel manages focus', async ({ page, problems }) => {
+  test('7. tab order reaches the main controls and the tabs work by keyboard', async ({ page, problems }) => {
     void problems;
     const home = new DashboardPage(page);
     await home.goto();
 
+    // Tab through the page until the Sign In control: the ZIP, alerts and account controls are reached in this order. The
+    // navigation (an icon rail before the header on medium widths, a tab bar after the page on compact ones) is skipped over
+    // here and covered below. The Pantry control moved from the header to the tab bar (M4-1a).
     const reached: string[] = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 12 && !reached.some((name) => name.includes('Sign In with Google or Apple')); i++) {
       await page.keyboard.press('Tab');
       reached.push(await page.evaluate(() => document.activeElement?.getAttribute('title') ?? document.activeElement?.textContent?.trim() ?? ''));
     }
-    expect(reached).toEqual([
+    const controls = reached.filter((name) => name === 'Click to change your ZIP code' || name.includes('Smart Push Notifications') || name.includes('Sign In with Google or Apple'));
+    expect(controls).toEqual([
       'Click to change your ZIP code',
-      'Open Virtual Pantry',
       expect.stringContaining('Smart Push Notifications'),
       expect.stringContaining('Sign In with Google or Apple'),
     ]);
 
+    // The Pantry tab opens the Pantry by keyboard and the page puts focus on its heading; the Shop tab leaves it.
     await home.pantryButton.focus();
     await page.keyboard.press('Enter');
     await expect(home.pantryHeading).toBeFocused();
-
-    await page.getByRole('button', { name: 'Close Virtual Pantry' }).focus();
+    await home.tab('Shop').focus();
     await page.keyboard.press('Enter');
     await expect(home.pantryHeading).toBeHidden();
-    await expect(home.pantryButton).toBeFocused();
+    await expect.poll(() => home.pathname).toBe('/shop');
   });
 });

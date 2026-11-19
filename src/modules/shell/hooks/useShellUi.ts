@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { pantryCatalog } from '@/lib/pantry/model';
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
@@ -15,10 +15,8 @@ import type {
 // provider keeps it, not the Shell components. Keep these when editing:
 //  1. The handlers are plain functions recreated every render (not memoized), like the closures they were.
 //  2. useShellUi takes no inputs and comes first: showAiSignIn is passed to usePlanActions. useShellActions needs the
-//     account, pantry and payload hooks (and the Shop view, to remember where the Pantry was opened from), so it comes after them.
+//     account, pantry and payload hooks, so it comes after them.
 export function useShellUi() {
-  const [pantryReturn, setPantryReturn] = useState<Destination>({ module: 'shop', view: 'BOARD' });
-  const pantryTrigger = useRef<HTMLAnchorElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
   const [showStoresModal, setShowStoresModal] = useState(false);
   // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
@@ -37,7 +35,7 @@ export function useShellUi() {
   }
 
   return {
-    pantryReturn, setPantryReturn, pantryTrigger, arbitrageToast, setArbitrageToast,
+    arbitrageToast, setArbitrageToast,
     showStoresModal, setShowStoresModal, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     cronSyncLoading, setCronSyncLoading, cronSyncError, setCronSyncError, copiedDigest, setCopiedDigest,
     showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, showAiSignIn,
@@ -61,11 +59,8 @@ interface ShellActionsArgs {
   showAlertsModal: boolean;
   cronSyncResult: WeeklySyncCronResult | null;
   module: AppModule;
-  shopView: ShopView;
-  pantryReturn: Destination;
   navigate: (path: string) => void;
   setShopView: (view: ShopView) => void;
-  setPantryReturn: (destination: Destination) => void;
   setArbitrageToast: (message: string | null) => void;
   setActiveStores: (stores: StoreChain[]) => void;
   setShowAlertsModal: (show: boolean) => void;
@@ -77,8 +72,8 @@ interface ShellActionsArgs {
 
 export function useShellActions({
   pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, shopView, pantryReturn, navigate, setShopView,
-  setPantryReturn, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
+  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, navigate, setShopView,
+  setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
 }: ShellActionsArgs) {
   async function handleForceCloudSync() {
     await pantry.retry();
@@ -158,17 +153,9 @@ export function useShellActions({
   // Move to a module (and, for Shop, a view) by changing the URL. The Shop view is left alone when going to another
   // module, so coming back finds it as it was.
   function navigateTo(destination: Destination) {
-    // Opening the Pantry remembers where it was opened from, so closing it returns there.
-    if (destination.module === 'pantry' && module !== 'pantry') {
-      setPantryReturn(module === 'shop' ? { module: 'shop', view: shopView } : { module: 'plan' });
-    }
     if (destination.module === 'shop') setShopView(destination.view);
     // The URL is the source of truth for the module; moving within a module (Shop to another Shop view) changes no URL.
     if (destination.module !== module) navigate(pathOf(destination));
-  }
-
-  function closePantry() {
-    navigateTo(pantryReturn);
   }
 
   function handleReviewStockUp() {
@@ -197,6 +184,6 @@ export function useShellActions({
 
   return {
     handleForceCloudSync, handleToggleOnHand, handleToggleAlertsModal, handleTriggerWeeklySync, handleCopyMarkdownDigest,
-    handleSelectAllStores, navigateTo, closePantry, handleReviewStockUp,
+    handleSelectAllStores, navigateTo, handleReviewStockUp,
   };
 }

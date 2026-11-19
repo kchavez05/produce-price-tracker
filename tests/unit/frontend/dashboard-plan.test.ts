@@ -14,9 +14,9 @@ const cloudBacked: UserSyncPayload = { ...aliceSync, profile: { ...aliceSync.pro
 let harness: DashboardHarness | undefined;
 afterEach(async () => { await harness?.teardown(); harness = undefined; });
 
-const PLAN = '2. 3-Dish Meal Prep';
-const BOARD = '1. Value Board';
-const RADAR = '4. Cycle & Club Radar';
+const PLAN = 'Plan';
+const BOARD = 'Deals';
+const RADAR = 'Radar';
 const REMIX = 'Remix 3-dish plan with AI';
 const aiDishes = payload.allRankedDishes.slice(3, 6);
 const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
@@ -56,7 +56,7 @@ describe('AI plan request', () => {
   it('sends the whole context, shows the busy state, then applies the plan, banner and expanded first dish', async () => {
     const held = heldAi();
     const h = await start(held.handler, [oliveOil]);
-    await h.click(h.link(BOARD));
+    await h.openShopView('Deals');
     await h.click(buttons(h).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
     await h.click(h.link(PLAN));
     await h.click(h.button('8 Srv / Dish'));
@@ -188,7 +188,7 @@ describe('Plan state survives tab switches (owner decision 1)', () => {
     await h.click(h.button(REMIX));
     await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
     const html = h.html();
-    await h.click(h.link(RADAR));
+    await h.openShopView('Radar');
     await h.click(h.link(PLAN));
     expect(h.html()).toBe(html);
     expect(promptInput(h).value).toBe('soup');

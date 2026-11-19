@@ -11,9 +11,9 @@ let harness: DashboardHarness | undefined;
 beforeEach(() => { document.cookie = 'pantrybot_last_module=; Max-Age=0; Path=/'; });
 afterEach(async () => { await harness?.teardown(); harness = undefined; vi.restoreAllMocks(); });
 
-const MEAL_PLAN = '2. 3-Dish Meal Prep';
-const LIST = '3. Shopping List';
-const RADAR = '4. Cycle & Club Radar';
+const MEAL_PLAN = 'Plan';
+const LIST = 'Trip';
+const RADAR = 'Radar';
 const text = (h: DashboardHarness) => h.container.textContent ?? '';
 const cookie = () => document.cookie.split('; ').find((entry) => entry.startsWith('pantrybot_last_module='));
 const promptInput = (h: DashboardHarness) => h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!;
@@ -39,12 +39,13 @@ describe('a page per module', () => {
     expect(text(pantry)).not.toContain('Sort by:');
   });
 
-  it('keeps the chrome around every page: the header and the tab strip', async () => {
+  it('keeps the chrome around every page: the header and the navigation', async () => {
     for (const path of ['/shop', '/plan', '/pantry']) {
       const h = await start(path);
       expect(h.container.querySelector('h1')?.textContent).toContain('PantryBot');
-      expect(h.link('1. Value Board')).toBeDefined();
+      expect(h.link('Shop')).toBeDefined();
       expect(h.link('Pantry')).toBeDefined();
+      expect(h.link('Plan')).toBeDefined();
       await h.teardown();
     }
   });
@@ -53,11 +54,12 @@ describe('a page per module', () => {
 describe('links', () => {
   it('are real links to the module paths', async () => {
     const h = await start('/shop');
-    expect(h.link('1. Value Board').getAttribute('href')).toBe('/shop');
+    expect(h.link('Shop').getAttribute('href')).toBe('/shop');
+    expect(h.link('Deals').getAttribute('href')).toBe('/shop');
     expect(h.link(MEAL_PLAN).getAttribute('href')).toBe('/plan');
     expect(h.link(LIST).getAttribute('href')).toBe('/shop');
     expect(h.link(RADAR).getAttribute('href')).toBe('/shop');
-    expect(h.container.querySelector('a[title="Open Virtual Pantry"]')!.getAttribute('href')).toBe('/pantry');
+    expect(h.link('Pantry').getAttribute('href')).toBe('/pantry');
   });
 
   it('navigate without a reload, changing the page and the path', async () => {
@@ -65,7 +67,7 @@ describe('links', () => {
     await h.click(h.link(MEAL_PLAN));
     expect(h.path()).toBe('/plan');
     expect(text(h)).toContain('Your 3-Dish Weekend Meal Prep Plan');
-    await h.click(h.link('1. Value Board'));
+    await h.openShopView('Deals');
     expect(h.path()).toBe('/shop');
     expect(text(h)).toContain('Sort by:');
     expect(h.pushes).toEqual(['/plan', '/shop']);
@@ -73,9 +75,9 @@ describe('links', () => {
 
   it('switch Shop views without a navigation, only a change of module pushes a path', async () => {
     const h = await start('/shop');
-    await h.click(h.link(LIST));
+    await h.openShopView('Trip');
     expect(text(h)).toContain('Print Checklist');
-    await h.click(h.link(RADAR));
+    await h.openShopView('Radar');
     expect(text(h)).toContain('Predictive 6-Week Cycle Signals');
     expect(h.pushes).toEqual([]);
     expect(h.path()).toBe('/shop');
@@ -108,7 +110,7 @@ describe('the last-used module cookie', () => {
     expect(cookie()).toBe('pantrybot_last_module=shop');
     await h.click(h.link(MEAL_PLAN));
     expect(cookie()).toBe('pantrybot_last_module=plan');
-    await h.click(h.container.querySelector<HTMLElement>('a[title="Open Virtual Pantry"]')!);
+    await h.click(h.link('Pantry'));
     expect(cookie()).toBe('pantrybot_last_module=pantry');
     expect(document.cookie).not.toMatch(/alice|@|guest/);
   });
@@ -127,7 +129,7 @@ describe('state survives moving between modules (the provider is in the layout)'
     await h.click(h.link(MEAL_PLAN));
     await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('8 Srv / Dish'))!);
     await h.type(promptInput(h), 'half-typed soup');
-    await h.click(h.link('1. Value Board'));
+    await h.openShopView('Deals');
     expect(text(h)).toContain('1 Pinned');
     await h.click(h.link(MEAL_PLAN));
     expect(promptInput(h).value).toBe('half-typed soup');
@@ -144,7 +146,7 @@ describe('state survives moving between modules (the provider is in the layout)'
     await h.type(h.container.querySelector<HTMLInputElement>('input[placeholder^="e.g. 80542"]')!, '80999');
     await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('Update Location'))!);
     await h.waitUntil(() => dashboardRequests(h).some((r) => r.url.includes('zip=80999')));
-    await h.click(h.link('1. Value Board'));
+    await h.openShopView('Deals');
     expect(h.path()).toBe('/shop');
     release(Response.json({ ...payload, zipCode: '80999' }));
     await h.waitUntil(() => text(h).includes('(80999)'));

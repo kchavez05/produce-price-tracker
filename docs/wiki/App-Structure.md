@@ -27,7 +27,7 @@ The `(app)` layout (`src/app/(app)/layout.tsx`) is a server component. It loads 
 | Account (`useAccountContext`) | `userSync`, the private pantry, owner refs, saved library, effective on-hand ids, `canUseAi` | `useAccountAndPantry` (wraps `useUserSync` and `usePantry`) |
 | Plan (`usePlanContext`) | the AI request, banner, generated plan, expanded dishes, "show all blueprints", and the AI plan, standard-suggestions, promote and save-recipe actions | `usePlanUi`, `usePlanActions` |
 | Shop (`useShopContext`) | the Shop view, category and sort, trip mode, checklist, clipped coupons, copied and print-slip flags, and their handlers | `useShopUi`, `useShopCopyAction` |
-| Shell (`useShellContext`) | the module (from the URL), the toast, the ZIP, stores, alerts and account dialogs, the cron digest state, `navigateTo`, `closePantry` and the other shell actions | `useShellUi`, `useShellActions` |
+| Shell (`useShellContext`) | the module (from the URL), the toast, the ZIP, stores, alerts and account dialogs, the cron digest state, `navigateTo` and the other shell actions | `useShellUi`, `useShellActions` |
 
 Hook sources are `src/modules/*/hooks/`. Two things to know:
 
@@ -40,16 +40,16 @@ Components are stateless views over the context hooks. Only page-level configura
 
 | Module | Folder | Components |
 |---|---|---|
-| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (header, filters, notices, toast, panels), `HeaderPrimary`, `StoreFilterBar`, `FreshnessNotice`, `PrimaryNav`, `ZipPanel`, `StoresPanel`, `AlertsPanel`, `AccountDialog` (adapter) and `AccountModal`, `AppLink`, `app-router.tsx`, `navigation.ts` |
-| Shop | `src/modules/shop/` | `ShopPage`, `BoardAlerts`, `BoardControls`, `BoardLeaderboard`, `TripSection`, `PrintSlip`, `RadarSection`, `badges.tsx` |
+| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (header, filters, notices, toast, panels), `HeaderPrimary`, `StoreFilterBar`, `FreshnessNotice`, `PrimaryNavigation` (the tabs), `PinSummary`, `ZipPanel`, `StoresPanel`, `AlertsPanel`, `AccountDialog` (adapter) and `AccountModal`, `AppLink`, `app-router.tsx`, `navigation.ts` |
+| Shop | `src/modules/shop/` | `ShopPage`, `ShopViewNav` (Deals, Trip, Radar), `BoardAlerts`, `BoardControls`, `BoardLeaderboard`, `TripSection`, `PrintSlip`, `RadarSection`, `badges.tsx` |
 | Plan | `src/modules/plan/` | `PlanPage`, `PlanHeader`, `PlanDishes`, `PlanBlueprints` |
 | Pantry | `src/modules/pantry/` | `PantryDrawer` (adapter: reads the contexts, renders `VirtualPantry`) and `VirtualPantry` (props-driven, tested on its own) |
 
 ## Navigation
 
-- **The URL is the source of truth for the module** (`moduleOfPath`, `src/modules/shell/navigation.ts`). `navigateTo(destination)` (Shell context) is the one way the app moves: it sets the Shop view for a Shop destination, remembers where the Pantry was opened from, and pushes a path only when the module changes. `AppLink` (`src/modules/shell/AppLink.tsx`) is a real `<a href>` that calls it and leaves modified and non-primary clicks (a new tab, a copy) to the browser.
+- **The URL is the source of truth for the module** (`moduleOfPath`, `src/modules/shell/navigation.ts`). `navigateTo(destination)` (Shell context) is the one way the app moves: it sets the Shop view for a Shop destination and pushes a path only when the module changes. `AppLink` (`src/modules/shell/AppLink.tsx`) is a real `<a href>` that calls it and leaves modified and non-primary clicks (a new tab, a copy) to the browser.
 - **Shop views are state, not routes.** The Board, Trip and Radar views live in the Shop context (`shopView`), so they survive a trip to another module and reset on a reload.
-- **The Pantry remembers its origin** (`pantryReturn`, Shell context) so its Close button returns to the module and Shop view it was opened from. The header Pantry control is a link to `/pantry`; it does not toggle.
+- **Three tabs, in the order Shop, Pantry, Plan** (v2.0 M4-1a, `PrimaryNavigation`): a bottom tab bar below 600 px, an icon rail from 600 px and a sidebar from 1024 px (the `medium:` and `wide:` variants in `globals.css`; a viewport 500 px tall or less keeps the compact layout). All three are `AppLink` links built from the `TabBar`, `IconRail` and `Sidebar` primitives, and only the one for the current width is displayed. The Shop tab returns to the Shop view the user left. The Pantry is a tab like the others: it has no Close button and remembers no origin (M4 decision 20).
 - **The router seam.** `src/modules/shell/app-router.tsx` is the only file that imports `next/navigation`. The hooks read a small `AppRouter` (`pathname`, `push`), which `NextAppRouter` provides in production. Tests supply an in-memory router instead, so no test mocks Next.
 - **Last-used module.** `AppShell` writes `pantrybot_last_module=<shop|plan|pantry>` (`Path=/`, one year, `SameSite=Lax`, `Secure` on https) on every module change; `/` validates it against the three names and redirects. The cookie holds the module name only.
 

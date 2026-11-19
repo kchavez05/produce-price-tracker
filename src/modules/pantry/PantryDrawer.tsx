@@ -18,7 +18,7 @@ interface PantryDrawerProps {
 
 export default function PantryDrawer({ speechConfigured = false, barcodeEnabled = false, cameraEnabled = false }: PantryDrawerProps) {
   const { pantry, pantryAccountId } = useAccountContext();
-  const { closePantry, pantryTrigger, showAiSignIn } = useShellContext();
+  const { showAiSignIn } = useShellContext();
   return (
     <>
       <VirtualPantry speechConfigured={speechConfigured} onAiSignIn={showAiSignIn} owner={pantry.owner} barcodeEnabled={barcodeEnabled} cameraEnabled={cameraEnabled}
@@ -28,7 +28,6 @@ export default function PantryDrawer({ speechConfigured = false, barcodeEnabled 
         guestEntries={pantry.guestEntries} conflicts={pantry.conflicts}
         onSave={pantry.save} onDelete={pantry.remove} onRetry={pantry.retry} onResolve={pantry.resolve}
         onImportGuest={pantry.importGuest} onReviewLegacy={pantry.reviewLegacy} onImportLegacy={pantry.importLegacy}
-        onClose={() => { closePantry(); pantryTrigger.current?.focus(); }}
       />
     </>
   );

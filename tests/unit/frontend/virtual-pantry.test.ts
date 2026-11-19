@@ -19,7 +19,7 @@ function button(text: string) {
 }
 async function render(entries: PantryEntry[] = [], acceptedCatalogIds = cookingIngredients.map((r) => r.id)) { await run(() => root.render(createElement(VirtualPantry, {
   entries, acceptedCatalogIds, status: 'Saved', error: null, guest: true, hasLegacyEdits: false, importDuplicates: [], guestEntries: [], conflicts: [],
-  onSave: save, onDelete: vi.fn(), onRetry: vi.fn(), onResolve: vi.fn(), onImportGuest: vi.fn(), onClose: vi.fn(),
+  onSave: save, onDelete: vi.fn(), onRetry: vi.fn(), onResolve: vi.fn(), onImportGuest: vi.fn(),
   onReviewLegacy: vi.fn().mockResolvedValue([]), onImportLegacy: vi.fn(),
 }))); }
 async function search(value: string) { await run(() => {

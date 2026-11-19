@@ -2,7 +2,9 @@ import type { Locator, Page } from '@playwright/test';
 
 /**
  * Page object for the app. Locators use roles and accessible names only, so when M3 moved the screens to /shop, /pantry
- * and /plan (B.3c) the change stayed in this file (spec section 9): the tabs and the Pantry control became links.
+ * and /plan (B.3c) the change stayed in this file (spec section 9): the tabs and the Pantry control became links. Since M4-1a
+ * the navigation is three tabs (Shop, Pantry, Plan: a bottom tab bar, an icon rail or a sidebar by width) and the Shop's
+ * Deals, Trip and Radar views are links on the Shop page.
  */
 export class DashboardPage {
   readonly heading: Locator;
@@ -19,8 +21,8 @@ export class DashboardPage {
     this.heading = page.getByRole('heading', { level: 1, name: /PantryBot/ });
     // The header control ends with "Change"; the location list buttons in the open panel do not.
     this.zipButton = page.getByRole('button', { name: /\(\d{5}\)\s*Change$/ });
-    // The Pantry control is a link to /pantry since M3 B.3c (the property keeps its name so the specs do not change). The
-    // "Virtual Pantry" label is hidden on narrow screens, so the accessible name is "Pantry (n)".
+    // The Pantry tab is a link to /pantry (the property keeps its name so the specs do not change). Its accessible name
+    // is "Pantry (n)". Only the navigation for the current width is displayed, so one link matches.
     this.pantryButton = page.getByRole('link', { name: /Pantry\s*\(\d+\)/ });
     this.signInButton = page.getByRole('button', { name: 'Sign In', exact: true });
     this.priceCards = page.getByRole('heading', { level: 3 });
@@ -45,9 +47,18 @@ export class DashboardPage {
     await this.pantryHeading.waitFor();
   }
 
-  /** A tab of the module strip. Since M3 B.3c the tabs are links (the Plan tab goes to /plan, the three Shop tabs stay on /shop). */
-  tab(name: RegExp | string): Locator {
-    return this.page.getByRole('link', { name });
+  /**
+   * A tab ("Shop", "Plan"; the Pantry tab is pantryButton, whose name carries a count) or a Shop view link ("Deals", "Trip",
+   * "Radar"). All are links.
+   */
+  tab(name: 'Shop' | 'Plan' | 'Deals' | 'Trip' | 'Radar'): Locator {
+    return this.page.getByRole('link', { name, exact: true });
+  }
+
+  /** Open a Shop view from wherever the app is: the view links are on the Shop page, so another module goes through the Shop tab first. */
+  async openShopView(view: 'Deals' | 'Trip' | 'Radar'): Promise<void> {
+    if (!(await this.tab(view).isVisible())) await this.tab('Shop').click();
+    await this.tab(view).click();
   }
 
   /**

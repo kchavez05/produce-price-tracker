@@ -1,10 +1,9 @@
 'use client';
 
-import { Bell, ChefHat, DoorOpen, LogIn, MapPin, UserCheck } from 'lucide-react';
+import { Bell, ChefHat, LogIn, MapPin, UserCheck } from 'lucide-react';
 import {
   useAccountContext, useDashboardContext, useLocationContext, useShellContext,
 } from '@/modules/shell/app-context';
-import AppLink from '@/modules/shell/AppLink';
 
 // Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
 // context hooks instead of props; the markup is unchanged.
@@ -12,12 +11,11 @@ import AppLink from '@/modules/shell/AppLink';
 export default function HeaderPrimary() {
   const { data } = useDashboardContext();
   const { currentZip, showZipModal, setShowZipModal } = useLocationContext();
-  const { userSync, pantry: { entries: pantryEntries } } = useAccountContext();
+  const { userSync } = useAccountContext();
   const {
-    module, showAccountModal, showAlertsModal, pantryTrigger, setShowAccountModal, setAccountIntent,
+    showAccountModal, showAlertsModal, setShowAccountModal, setAccountIntent,
     handleToggleAlertsModal,
   } = useShellContext();
-  const showPantry = module === 'pantry';
   return (
     <div className="flex items-center justify-between gap-3">
       {/* Brand + Active ZIP Selector */}
@@ -53,27 +51,6 @@ export default function HeaderPrimary() {
 
       {/* Top-Right Utility Controls & User Account CTA */}
       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        {/* Virtual Pantry link (the Pantry is a page, /pantry) */}
-        <AppLink
-          ref={pantryTrigger}
-          to={{ module: 'pantry' }}
-          className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
-            showPantry
-              ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
-              : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-          }`}
-          title={'Open Virtual Pantry'}
-        >
-          <DoorOpen
-            className={`h-3.5 w-3.5 ${
-              showPantry ? 'text-white' : 'text-sky-500'
-            }`}
-          />
-          <span className="hidden sm:inline">{'Virtual Pantry'}</span>
-          <span className="sm:hidden">{'Pantry'}</span>
-          <span>({pantryEntries.filter((entry) => entry.available && !entry.deletedAtIso).length})</span>
-        </AppLink>
-
         <button
           onClick={handleToggleAlertsModal}
           className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${

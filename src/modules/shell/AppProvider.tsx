@@ -48,12 +48,12 @@ export default function AppProvider({ initialData, initialAccountId = null, init
   const { currentZip, setCurrentZip, setShowZipModal, zipInput, setZipInput, setZipLoading, setZipError } = location;
   const shellUi = useShellUi();
   const {
-    pantryReturn, setPantryReturn, setArbitrageToast, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
+    setArbitrageToast, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     setCronSyncLoading, setCronSyncError, setCopiedDigest, showAiSignIn
   } = shellUi;
   const shopUi = useShopUi();
   const {
-    shopView, setShopView, categoryFilter, sortMode, setCopiedChecklist, tripMode, setTripMode, setCheckedItems, checkedItems,
+    setShopView, categoryFilter, sortMode, setCopiedChecklist, tripMode, setTripMode, setCheckedItems, checkedItems,
     setClippedCoupons
   } = shopUi;
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
@@ -119,8 +119,8 @@ export default function AppProvider({ initialData, initialAccountId = null, init
 
   const shellActions = useShellActions({
     pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module: currentModule, shopView, pantryReturn,
-    navigate: router.push, setShopView, setPantryReturn, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult,
+    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module: currentModule,
+    navigate: router.push, setShopView, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult,
     setCronSyncLoading, setCronSyncError, setCopiedDigest,
   });
 

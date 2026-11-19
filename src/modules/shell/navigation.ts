@@ -3,7 +3,7 @@
 //  - shopView: which view the Shop module shows (Board, Trip or Radar). It is Shop UI memory, so it survives a trip to
 //    another module, as every other piece of view state does (owner decision 1). Shop views stay in-page state, not
 //    routes (owner decision, B.3 option A).
-//  - pantryReturn (Shell context): the module the Pantry was opened from, so its Close button returns there.
+//  - The Pantry is a tab of its own (M4-1a): it has no Close button and remembers no origin.
 // Components move around with navigateTo (Shell context) or an AppLink; both end in the same place.
 export type AppModule = 'shop' | 'plan' | 'pantry';
 export type ShopView = 'BOARD' | 'SHOPPING_LIST' | 'RADAR';
@@ -32,11 +32,4 @@ export function isAppModule(value: unknown): value is AppModule {
 /** Where "/" goes: the last-used module, or Shop for a first visit, a bad value or no cookie. */
 export function lastModulePath(cookieValue: string | undefined): string {
   return isAppModule(cookieValue) ? MODULE_PATHS[cookieValue] : MODULE_PATHS.shop;
-}
-
-/** The four-way tab the tab strip's highlighting is keyed on. */
-export type LegacyTab = ShopView | 'MEAL_PLAN' | 'PANTRY';
-export function legacyTab(module: AppModule, shopView: ShopView): LegacyTab {
-  if (module === 'pantry') return 'PANTRY';
-  return module === 'plan' ? 'MEAL_PLAN' : shopView;
 }

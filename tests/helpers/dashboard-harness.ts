@@ -27,8 +27,13 @@ export interface DashboardHarness {
   /** Set a text input's value the way a user edit does, so React's onChange fires. */
   type: (input: HTMLInputElement, value: string) => Promise<void>;
   button: (text: string) => HTMLButtonElement;
-  /** A link by its text (the tab strip, the header Pantry link and the other navigation are links since B.3c). */
+  /** A link by its text (the tabs, the Shop view links and the other navigation are links). An exact match wins over a partial one. */
   link: (text: string) => HTMLAnchorElement;
+  /**
+   * Open a Shop view ("Deals", "Trip" or "Radar") from wherever the app is. The view links live on the Shop page (M4-1a), so
+   * from another module this first takes the Shop tab, which returns to the view the user left.
+   */
+  openShopView: (label: 'Deals' | 'Trip' | 'Radar') => Promise<void>;
   /** The current in-app path ("/shop", "/plan" or "/pantry"). */
   path: () => string;
   /** Every path pushed by a navigation since mount, in order. */
@@ -124,6 +129,12 @@ export async function createDashboardHarness(options: {
   let currentPath = '/shop';
   const pushes: string[] = [];
   const run = async (action: () => unknown) => { await act(async () => { await action(); await settle(); }); };
+  const link = (text: string): HTMLAnchorElement => {
+    const anchors = [...container.querySelectorAll('a')];
+    const found = anchors.find((element) => element.textContent === text) ?? anchors.find((element) => element.textContent?.includes(text));
+    if (!found) throw new Error(`Missing link: ${text}`);
+    return found;
+  };
   const button = (text: string) => {
     const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text));
     if (!found) throw new Error(`Missing button: ${text}`);
@@ -149,10 +160,11 @@ export async function createDashboardHarness(options: {
       input.dispatchEvent(new Event('input', { bubbles: true }));
     }),
     button,
-    link: (text) => {
-      const found = [...container.querySelectorAll('a')].find((element) => element.textContent?.includes(text));
-      if (!found) throw new Error(`Missing link: ${text}`);
-      return found;
+    link,
+    openShopView: async (label) => {
+      const present = [...container.querySelectorAll('a')].some((element) => element.textContent === label);
+      if (!present) await run(() => link('Shop').click());
+      await run(() => link(label).click());
     },
     path: () => currentPath,
     pushes,

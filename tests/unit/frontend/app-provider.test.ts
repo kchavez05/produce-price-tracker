@@ -116,7 +116,7 @@ describe('AppProvider', () => {
     expect(Object.keys(seen.account)).toEqual(expect.arrayContaining(['userSync', 'pantry', 'pantryOwnerRef', 'canUseAi']));
     expect(Object.keys(seen.plan)).toEqual(expect.arrayContaining(['customPrompt', 'customAiDishes', 'handleGenerateAiPlan', 'handlePromoteDish']));
     expect(Object.keys(seen.shop)).toEqual(expect.arrayContaining(['tripMode', 'checkedItems', 'toggleCheckedItem', 'handleCopyShoppingListForNotes']));
-    expect(Object.keys(seen.shell)).toEqual(expect.arrayContaining(['module', 'navigateTo', 'closePantry', 'handleReviewStockUp', 'handleForceCloudSync', 'showAiSignIn']));
+    expect(Object.keys(seen.shell)).toEqual(expect.arrayContaining(['module', 'navigateTo', 'handleReviewStockUp', 'handleForceCloudSync', 'showAiSignIn']));
   });
 
   it('starts from the server payload: the first render matches a server render of the same props', async () => {

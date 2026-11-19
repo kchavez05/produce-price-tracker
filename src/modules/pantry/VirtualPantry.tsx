@@ -29,7 +29,6 @@ interface Props {
   onImportGuest: () => Promise<void>;
   onReviewLegacy: () => Promise<readonly PantryEntry[]>;
   onImportLegacy: () => Promise<void>;
-  onClose: () => void;
 }
 const button = 'rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50';
 
@@ -93,7 +92,6 @@ export default function VirtualPantry(props: Props) {
     <div className="flex items-start justify-between gap-3">
       <div><h2 ref={heading} tabIndex={-1} id="virtual-pantry-title" className="text-lg font-bold">Virtual Pantry</h2>
         <p className="mt-1 text-sm">Do I have this? Mark ingredients Yes or No. Recipes and purchase suggestions leave your inventory unchanged.</p></div>
-      <button className={button} onClick={props.onClose} aria-label="Close Virtual Pantry">Close</button>
     </div>
     <div className="mt-3">
       <button ref={speechTrigger} type="button" className={button} disabled={props.status==='Loading'} onClick={()=>{

@@ -51,7 +51,7 @@ test.describe('visual: dashboard', () => {
     void problems;
     const home = new DashboardPage(page);
     await home.goto();
-    await home.tab(/^2\. 3-Dish Meal Prep/).click();
+    await home.tab('Plan').click();
     await expect(page.getByRole('heading', { level: 2, name: /Your 3-Dish Weekend Meal Prep Plan/ })).toBeVisible();
     await snapshot(page, 'meal-plan');
   });

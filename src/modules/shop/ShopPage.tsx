@@ -4,6 +4,7 @@ import BoardAlerts from '@/modules/shop/BoardAlerts';
 import BoardControls from '@/modules/shop/BoardControls';
 import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import RadarSection from '@/modules/shop/RadarSection';
+import ShopViewNav from '@/modules/shop/ShopViewNav';
 import TripSection from '@/modules/shop/TripSection';
 import { useShopContext } from '@/modules/shell/app-context';
 
@@ -13,6 +14,8 @@ export default function ShopPage() {
   const { shopView } = useShopContext();
   return (
     <>
+      <ShopViewNav />
+
       {/* =========================================================
           TAB 1: THE WEEKEND VALUE BOARD
          ========================================================= */}

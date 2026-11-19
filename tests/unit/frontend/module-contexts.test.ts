@@ -26,7 +26,9 @@ import AccountDialog from '@/modules/shell/AccountDialog';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import FreshnessNotice from '@/modules/shell/FreshnessNotice';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
-import PrimaryNav from '@/modules/shell/PrimaryNav';
+import PinSummary from '@/modules/shell/PinSummary';
+import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
+import ShopViewNav from '@/modules/shop/ShopViewNav';
 import StoreFilterBar from '@/modules/shell/StoreFilterBar';
 import StoresPanel from '@/modules/shell/StoresPanel';
 import ZipPanel from '@/modules/shell/ZipPanel';
@@ -108,7 +110,6 @@ describe('Shop components on the contexts, without the shell', () => {
       await h.settle();
     });
     expect(seen.shell.module).toBe('pantry');
-    expect(seen.shell.pantryReturn).toEqual({ module: 'shop', view: 'BOARD' });
     expect(seen.shell.arbitrageToast).toContain('Choose the specific ingredient');
   });
 
@@ -264,32 +265,18 @@ describe('Shell components on the contexts, without the shell', () => {
   } as unknown as WeeklySyncCronResult;
 
   it('HeaderPrimary reads the location and account and toggles the Shell drawers', async () => {
-    const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
     sync = aliceSync;
     accountId = 'alice';
-    onFetch = (input, init) => {
-      if (input.startsWith('/api/cron/weekly-sync?')) return Response.json(digest);
-      if (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET') {
-        return Response.json({ owner: 'account:alice', entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] });
-      }
-      return undefined;
-    };
+    onFetch = (input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined);
     const h = await mountModules(() => createElement(HeaderPrimary));
-    await h.waitUntil(() => text(h).includes('Pantry(1)'));
     expect(text(h)).toContain(seen.dashboard.data.cityLabel);
     expect(text(h)).toContain('(80542)');
     expect(seen.location.showZipModal).toBe(false);
     await click(h, (b) => b.title === 'Click to change your ZIP code');
     expect(seen.location.showZipModal).toBe(true);
     expect(seen.shell.module).toBe('shop');
-    // The header's Pantry control is a link to /pantry: it opens the Pantry, and pressing it again changes nothing.
-    expect(links(h).find((a) => a.title === 'Open Virtual Pantry')!.getAttribute('href')).toBe('/pantry');
-    await clickLink(h, (a) => a.title === 'Open Virtual Pantry');
-    expect(seen.shell.module).toBe('pantry');
-    expect(pushes).toEqual(['/pantry']);
-    await clickLink(h, (a) => a.title === 'Open Virtual Pantry');
-    expect(seen.shell.module).toBe('pantry');
-    expect(pushes).toEqual(['/pantry']);
+    // The header has no Pantry control any more: the Pantry is a tab (M4-1a).
+    expect(links(h).some((a) => a.title === 'Open Virtual Pantry')).toBe(false);
     await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
     expect(seen.shell.accountIntent).toBe('ai');
     await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
@@ -323,32 +310,29 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(text(h)).toContain(`Planning cycle: ${seen.dashboard.data.adCycleLabel}.`);
   });
 
-  it('PrimaryNav switches tabs through the Shell context and shows the counts from the other contexts', async () => {
+  it('PinSummary and the Shop view links read the other contexts and switch views through the Shell context', async () => {
     const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
     sync = aliceSync;
     accountId = 'alice';
     onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET'
       ? Response.json({ owner: 'account:alice', entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] }) : undefined);
-    const h = await mountModules(() => createElement(PrimaryNav));
-    expect(text(h)).toContain(String(seen.dashboard.data.commodities.length));
+    const h = await mountModules(() => createElement('div', null, createElement(PinSummary), createElement(ShopViewNav)));
     await h.waitUntil(() => text(h).includes('1 marked available'));
     expect(text(h)).not.toContain('Pinned');
     await act(async () => { seen.preferences.handleTogglePin(seen.dashboard.data.commodities[0].ingredient.id); await h.settle(); });
     expect(text(h)).toContain('1 Pinned \u2022 1 marked available');
-    expect(text(h)).toContain(`$${seen.dashboard.trioTotals.avgPerServing}/srv`);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'BOARD']);
-    expect(links(h).find((a) => a.textContent?.includes('2. 3-Dish Meal Prep'))!.getAttribute('href')).toBe('/plan');
-    expect(links(h).find((a) => a.textContent?.includes('4. Cycle & Club Radar'))!.getAttribute('href')).toBe('/shop');
-    await clickLink(h, (a) => a.textContent?.includes('2. 3-Dish Meal Prep') === true);
-    expect(seen.shell.module).toBe('plan');
-    await clickLink(h, (a) => a.textContent?.includes('4. Cycle & Club Radar') === true);
+    expect(links(h).find((a) => a.textContent?.includes('View 3 Dishes'))!.getAttribute('href')).toBe('/plan');
+    expect(links(h).find((a) => a.textContent?.includes('Radar'))!.getAttribute('href')).toBe('/shop');
+    expect(links(h).filter((a) => a.getAttribute('aria-current') === 'page').map((a) => a.textContent)).toEqual(['Deals']);
+    await clickLink(h, (a) => a.textContent?.includes('Radar') === true);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'RADAR']);
-    await clickLink(h, (a) => a.textContent?.includes('3. Shopping List') === true);
+    await clickLink(h, (a) => a.textContent?.includes('Trip') === true);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'SHOPPING_LIST']);
     await clickLink(h, (a) => a.textContent?.includes('View 3 Dishes') === true);
     expect(seen.shell.module).toBe('plan');
     // Moving between Shop views changes no URL; only a change of module does.
-    expect(pushes).toEqual(['/plan', '/shop', '/plan']);
+    expect(pushes).toEqual(['/plan']);
   });
 
   it('ZipPanel edits and submits the ZIP through the Location context and closes through Shell state', async () => {
@@ -398,13 +382,58 @@ describe('Shell components on the contexts, without the shell', () => {
   });
 });
 
+describe('PrimaryNavigation (M4-1a)', () => {
+  const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
+  const navs = (h: DashboardHarness) => [...h.container.querySelectorAll('nav')];
+  const mountNav = () => mountModules(() => createElement('div', null, createElement(SideNavigation), createElement(BottomNavigation)));
+
+  it('renders the three tabs in the order Shop, Pantry, Plan for every width, as links with the current one marked', async () => {
+    const h = await mountNav();
+    // An icon rail, a sidebar and a tab bar; CSS shows one of them at a time.
+    expect(navs(h).map((nav) => nav.getAttribute('aria-label'))).toEqual(['Primary', 'Primary', 'Primary']);
+    for (const nav of navs(h)) {
+      const links = [...nav.querySelectorAll('a')];
+      expect(links.map((a) => a.textContent?.replace(/\(\d+\)/, '').trim())).toEqual(['Shop', 'Pantry', 'Plan']);
+      expect(links.map((a) => a.getAttribute('href'))).toEqual(['/shop', '/pantry', '/plan']);
+      expect(links.map((a) => a.getAttribute('aria-current'))).toEqual(['page', null, null]);
+    }
+    expect(navs(h)[0].parentElement!.className).toContain('medium:block');
+    expect(navs(h)[1].parentElement!.parentElement!.className).toContain('wide:block');
+    expect(navs(h)[2].parentElement!.className).toContain('medium:hidden');
+  });
+
+  it('moves between modules through the Shell context and marks the current module', async () => {
+    const h = await mountNav();
+    const tab = (nav: number, name: string) => [...navs(h)[nav].querySelectorAll('a')].find((a) => a.textContent?.startsWith(name))!;
+    await act(async () => { tab(2, 'Plan').click(); await h.settle(); });
+    expect(seen.shell.module).toBe('plan');
+    expect([...navs(h)[2].querySelectorAll('a')].map((a) => a.getAttribute('aria-current'))).toEqual([null, null, 'page']);
+    await act(async () => { tab(0, 'Pantry').click(); await h.settle(); });
+    expect(seen.shell.module).toBe('pantry');
+  });
+
+  it('returns to the Shop view the user left, and shows the Pantry count from the Account context', async () => {
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET'
+      ? Response.json({ owner: 'account:alice', entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] }) : undefined);
+    const h = await mountNav();
+    await h.waitUntil(() => text(h).includes('Pantry(1)'));
+    await act(async () => { seen.shell.navigateTo({ module: 'shop', view: 'RADAR' }); await h.settle(); });
+    await act(async () => { seen.shell.navigateTo({ module: 'plan' }); await h.settle(); });
+    const shopTab = [...navs(h)[2].querySelectorAll('a')].find((a) => a.textContent === 'Shop')!;
+    await act(async () => { shopTab.click(); await h.settle(); });
+    expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'RADAR']);
+  });
+});
+
 describe('Pantry drawer and account dialog on the contexts, without the shell', () => {
   const click = (h: DashboardHarness, find: (b: HTMLButtonElement) => boolean) =>
     act(async () => { buttons(h).find(find)!.click(); await h.settle(); });
   const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
   const pantryResponse = (owner: string) => Response.json({ owner, entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] });
 
-  it('PantryDrawer shows the account pantry, and closing returns to the module it was opened from', async () => {
+  it('PantryDrawer shows the account pantry and has no Close button (the Pantry is a tab)', async () => {
     sync = aliceSync;
     accountId = 'alice';
     onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
@@ -415,8 +444,8 @@ describe('Pantry drawer and account dialog on the contexts, without the shell', 
     expect(seen.shell.module).toBe('pantry');
     await h.waitUntil(() => text(h).includes('Olive oil'));
     expect(text(h)).toContain('Speak pantry ingredients (experimental)');
-    await click(h, (b) => b.getAttribute('aria-label') === 'Close Virtual Pantry');
-    expect(seen.shell.module).toBe('plan');
+    expect(buttons(h).some((b) => b.getAttribute('aria-label') === 'Close Virtual Pantry')).toBe(false);
+    expect(seen.shell.module).toBe('pantry');
   });
 
   it('PantryDrawer sends a signed-out visitor to the AI sign-in through the Shell context', async () => {

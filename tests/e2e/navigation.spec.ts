@@ -19,7 +19,7 @@ test.describe('navigation: modules are pages', () => {
     // A reload would clear this marker: the links must navigate in place.
     await page.evaluate(() => { window.__navigationMarker = 1; });
 
-    await home.tab(/^2\. 3-Dish Meal Prep/).click();
+    await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     expect(home.pathname).toBe('/plan');
 
@@ -31,7 +31,7 @@ test.describe('navigation: modules are pages', () => {
     await expect(home.planHeading).toBeVisible();
     expect(home.pathname).toBe('/plan');
     await page.goBack();
-    await expect(home.tab(/^1\. Value Board/)).toBeVisible();
+    await expect(home.tab('Deals')).toBeVisible();
     await expect.poll(() => home.pathname).toBe('/shop');
     await expect(page.getByText('Sort by:')).toBeVisible();
     await page.goForward();
@@ -47,24 +47,27 @@ test.describe('navigation: modules are pages', () => {
     expect(home.pathname).toBe('/plan');
   });
 
-  test('9. closing the Pantry returns to the module it was opened from', async ({ page, problems }) => {
+  test('9. the Shop tab returns to the Shop view the user left, and the Pantry has no Close button', async ({ page, problems }) => {
     void problems;
     const home = new DashboardPage(page);
     await home.goto();
-    await home.tab(/^2\. 3-Dish Meal Prep/).click();
+    await home.tab('Radar').click();
+    await expect(page.getByText('Sort by:')).toBeHidden();
+    await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     await home.openPantry();
-    await page.getByRole('button', { name: 'Close Virtual Pantry' }).click();
-    await expect(home.planHeading).toBeVisible();
-    expect(home.pathname).toBe('/plan');
-    await expect(home.pantryButton).toBeFocused();
+    await expect(page.getByRole('button', { name: 'Close Virtual Pantry' })).toHaveCount(0);
+    await expect(home.tab('Shop')).not.toHaveAttribute('aria-current', 'page');
+    await home.tab('Shop').click();
+    await expect.poll(() => home.pathname).toBe('/shop');
+    await expect(home.tab('Radar')).toHaveAttribute('aria-current', 'page');
   });
 
   test('10. "/" opens the last-used module, and Shop for a first visit', async ({ page, newGuest, problems }) => {
     void problems;
     const home = new DashboardPage(page);
     await home.goto();
-    await home.tab(/^2\. 3-Dish Meal Prep/).click();
+    await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     // The module is remembered by an effect after the page shows, so wait for the cookie before leaving for "/".
     const moduleCookie = async () => (await page.context().cookies()).find((cookie) => cookie.name === 'pantrybot_last_module')?.value;
@@ -94,7 +97,7 @@ test.describe('navigation: nothing is lost when switching module mid-edit', () =
     await expect(page.getByRole('button', { name: /Pinned/ }).first()).toBeVisible();
 
     // On the plan: choose 8 servings per dish and start typing an AI request.
-    await home.tab(/^2\. 3-Dish Meal Prep/).click();
+    await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     await page.getByRole('button', { name: '8 Srv / Dish' }).click();
     await expect(page.getByRole('button', { name: '8 Srv / Dish' })).toHaveClass(/bg-emerald-400/);
@@ -116,7 +119,7 @@ test.describe('navigation: nothing is lost when switching module mid-edit', () =
     await expect(home.planHeading).toBeVisible();
     await expect(home.aiRequest).toHaveValue('a half-typed request for spicy stews');
     await expect(page.getByRole('button', { name: '8 Srv / Dish' })).toHaveClass(/bg-emerald-400/);
-    await home.tab(/^1\. Value Board/).click();
+    await home.tab('Shop').click();
     await expect.poll(() => home.pathname).toBe('/shop');
     await expect(page.getByRole('button', { name: /Pinned/ }).first()).toBeVisible();
     expect(await home.priceCards.count()).toBeGreaterThan(3);
