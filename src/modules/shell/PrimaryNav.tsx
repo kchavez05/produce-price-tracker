@@ -1,22 +1,18 @@
+'use client';
+
 import { ArrowRight, Flame, ListChecks, Radar, ShoppingBag } from 'lucide-react';
-import type { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
-import type { DashboardPayload } from '@/types/domain';
+import {
+  useAccountContext, useDashboardContext, usePreferencesContext, useShellContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-type ActiveTab = 'BOARD' | 'MEAL_PLAN' | 'SHOPPING_LIST' | 'RADAR';
-
-interface PrimaryNavProps {
-  data: Pick<DashboardPayload, 'commodities'>;
-  activeTab: ActiveTab;
-  setActiveTab: (tab: ActiveTab) => void;
-  pinnedIds: string[];
-  effectiveOnHandIds: string[];
-  shoppingPlan: Pick<ReturnType<typeof buildShoppingListAndStoreComparison>, 'items' | 'pantryNeeds'>;
-  trioTotals: { avgPerServing: string };
-}
-
-export default function PrimaryNav({ data, activeTab, setActiveTab, pinnedIds, effectiveOnHandIds, shoppingPlan, trioTotals }: PrimaryNavProps) {
+export default function PrimaryNav() {
+  const { data, shoppingPlan, trioTotals } = useDashboardContext();
+  const { activeTab, setActiveTab } = useShellContext();
+  const { pinnedIds } = usePreferencesContext();
+  const { effectiveOnHandIds } = useAccountContext();
   return (
     <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5">
       <div className="flex flex-wrap gap-1.5 sm:gap-2">

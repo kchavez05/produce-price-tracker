@@ -1,20 +1,19 @@
+'use client';
+
 import { Store } from 'lucide-react';
 import { getStoreDefinition, resolveStoreBanner } from '@/data/store-registry';
-import type { DashboardPayload, StoreChain } from '@/types/domain';
+import {
+  useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface StoreFilterBarProps {
-  data: Pick<DashboardPayload, 'adCycleLabel'>;
-  currentZip: string;
-  storeFilter: 'ALL' | StoreChain;
-  activeStores: StoreChain[];
-  showStoresModal: boolean;
-  handleStoreChange: (store: 'ALL' | StoreChain) => void;
-  setShowStoresModal: (show: boolean) => void;
-}
-
-export default function StoreFilterBar({ data, currentZip, storeFilter, activeStores, showStoresModal, handleStoreChange, setShowStoresModal }: StoreFilterBarProps) {
+export default function StoreFilterBar() {
+  const { data } = useDashboardContext();
+  const { currentZip } = useLocationContext();
+  const { storeFilter, activeStores, handleStoreChange } = usePreferencesContext();
+  const { showStoresModal, setShowStoresModal } = useShellContext();
   return (
     <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2">
       <div className="flex flex-wrap items-center gap-2 max-w-full">

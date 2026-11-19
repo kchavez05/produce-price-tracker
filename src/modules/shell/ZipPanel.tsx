@@ -1,18 +1,20 @@
+'use client';
+
 import { MapPin, RefreshCw } from 'lucide-react';
+import { useLocationContext } from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.2); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.2). Since Phase B.2c it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface ZipPanelProps {
-  currentZip: string;
-  zipInput: string;
-  zipLoading: boolean;
-  zipError: string | null;
-  onZipInputChange: (value: string) => void;
-  onSubmit: (e?: React.FormEvent, overrideZip?: string) => void | Promise<void>;
-  onClose: () => void;
-}
-
-export default function ZipPanel({ currentZip, zipInput, zipLoading, zipError, onZipInputChange, onSubmit, onClose }: ZipPanelProps) {
+export default function ZipPanel() {
+  const {
+    currentZip, zipInput, zipLoading, zipError, setZipInput, setZipError, setShowZipModal, handleZipSubmit: onSubmit,
+  } = useLocationContext();
+  const onZipInputChange = (value: string) => {
+    setZipInput(value);
+    setZipError(null);
+  };
+  const onClose = () => setShowZipModal(false);
   return (
     <div className="mt-3 rounded-xl border border-emerald-300 bg-white p-4 shadow-lg text-xs text-slate-700">
       <div className="flex items-center justify-between border-b border-slate-100 pb-2">

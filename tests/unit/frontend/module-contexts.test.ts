@@ -1,13 +1,16 @@
 // @vitest-environment jsdom
-// Tests that the Shop and Plan components render on their own from the AppProvider contexts, with no props and no dashboard
-// shell around them (v2.0 M3 Phases B.2a and B.2b, #701). The goldens pin that the shell's markup is unchanged; these pin the
+// Tests that the Shop, Plan and Shell components render on their own from the AppProvider contexts, with no props and no dashboard
+// shell around them (v2.0 M3 Phases B.2a to B.2c, #701). The goldens pin that the shell's markup is unchanged; these pin the
 // new contract: each component reads its state and calls its actions through the context hooks.
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
-import { createDashboardHarness, keylessPayload, type DashboardHarness, type FetchHandler } from 'tests/helpers/dashboard-harness';
+import {
+  aliceSync, createDashboardHarness, keylessPayload, type DashboardHarness, type FetchHandler,
+} from 'tests/helpers/dashboard-harness';
 import AppProvider from '@/modules/shell/AppProvider';
 import {
-  useAccountContext, useDashboardContext, usePlanContext, usePreferencesContext, useShellContext, useShopContext,
+  useAccountContext, useDashboardContext, useLocationContext, usePlanContext, usePreferencesContext, useShellContext,
+  useShopContext,
 } from '@/modules/shell/app-context';
 import BoardAlerts from '@/modules/shop/BoardAlerts';
 import BoardControls from '@/modules/shop/BoardControls';
@@ -17,11 +20,21 @@ import TripSection from '@/modules/shop/TripSection';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanHeader from '@/modules/plan/PlanHeader';
+import AlertsPanel from '@/modules/shell/AlertsPanel';
+import FreshnessNotice from '@/modules/shell/FreshnessNotice';
+import HeaderPrimary from '@/modules/shell/HeaderPrimary';
+import PrimaryNav from '@/modules/shell/PrimaryNav';
+import StoreFilterBar from '@/modules/shell/StoreFilterBar';
+import StoresPanel from '@/modules/shell/StoresPanel';
+import ZipPanel from '@/modules/shell/ZipPanel';
+import type { UserSyncPayload, WeeklySyncCronResult } from '@/types/domain';
 
 const payload = keylessPayload();
 let harness: DashboardHarness | undefined;
 let onFetch: FetchHandler | undefined;
-afterEach(async () => { await harness?.teardown(); harness = undefined; onFetch = undefined; vi.restoreAllMocks(); });
+let sync: UserSyncPayload | undefined;
+let accountId: string | null = null;
+afterEach(async () => { await harness?.teardown(); harness = undefined; onFetch = undefined; sync = undefined; accountId = null; vi.restoreAllMocks(); });
 
 interface Seen {
   dashboard: ReturnType<typeof useDashboardContext>;
@@ -30,18 +43,19 @@ interface Seen {
   shell: ReturnType<typeof useShellContext>;
   plan: ReturnType<typeof usePlanContext>;
   account: ReturnType<typeof useAccountContext>;
+  location: ReturnType<typeof useLocationContext>;
 }
 let seen: Seen;
 function Probe() {
-  seen = { dashboard: useDashboardContext(), preferences: usePreferencesContext(), shop: useShopContext(), shell: useShellContext(), plan: usePlanContext(), account: useAccountContext() };
+  seen = { dashboard: useDashboardContext(), preferences: usePreferencesContext(), shop: useShopContext(), shell: useShellContext(), plan: usePlanContext(), account: useAccountContext(), location: useLocationContext() };
   return null;
 }
 
 /** Render only the given module components inside the provider (plus the context probe), with no shell. */
 async function mountModules(...components: Array<() => ReturnType<typeof createElement>>) {
-  harness = await createDashboardHarness({ payload, onFetch });
+  harness = await createDashboardHarness({ payload, onFetch, sync });
   await act(async () => {
-    harness!.root.render(createElement(AppProvider, { initialData: payload, initialAccountId: null },
+    harness!.root.render(createElement(AppProvider, { initialData: payload, initialAccountId: accountId },
       createElement(Probe), ...components.map((component, index) => createElement('div', { key: index, 'data-module': index }, component()))));
     await harness!.settle();
   });
@@ -219,5 +233,141 @@ describe('Plan components on the contexts, without the shell', () => {
     await act(async () => { chosen.click(); await h.settle(); });
     expect(seen.dashboard.activeTrio[0].title).toBe(title);
     vi.unstubAllGlobals();
+  });
+});
+
+describe('Shell components on the contexts, without the shell', () => {
+  const click = (h: DashboardHarness, find: (b: HTMLButtonElement) => boolean) =>
+    act(async () => { buttons(h).find(find)!.click(); await h.settle(); });
+  const digest = {
+    ok: true, cycle: 'preview_digest', executedAtIso: '2026-11-17T12:00:00.000Z', syncedOffersCount: 0,
+    refreshStatus: 'estimates_only', auditStorage: 'preview', dataSources: { flippLive: false, krogerLive: false, usdaLive: false },
+    smartPushNotifications: [{ id: 'push-1', triggerType: 'FRIDAY_PREP_DIGEST', scheduledWindowLabel: 'Friday 4 PM', title: 'Weekend prep digest',
+      subtitle: 'Three dishes', body: 'Your weekend trio is ready.', deepLinkPath: '/', badgeText: 'Digest', priority: 'normal' }],
+    fridayWeekendDigest: { generatedAtIso: '2026-11-17T12:00:00.000Z', adCycleLabel: 'This week', zipCode: '80542', topValueCommodities: [],
+      splurgeAlerts: [], recommendedWeekendTrio: [], markdownDigest: '# Weekend digest' },
+    recentSyncRuns: [],
+  } as unknown as WeeklySyncCronResult;
+
+  it('HeaderPrimary reads the location and account and toggles the Shell drawers', async () => {
+    const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => {
+      if (input.startsWith('/api/cron/weekly-sync?')) return Response.json(digest);
+      if (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET') {
+        return Response.json({ owner: 'account:alice', entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] });
+      }
+      return undefined;
+    };
+    const h = await mountModules(() => createElement(HeaderPrimary));
+    await h.waitUntil(() => text(h).includes('Pantry(1)'));
+    expect(text(h)).toContain(seen.dashboard.data.cityLabel);
+    expect(text(h)).toContain('(80542)');
+    expect(seen.location.showZipModal).toBe(false);
+    await click(h, (b) => b.title === 'Click to change your ZIP code');
+    expect(seen.location.showZipModal).toBe(true);
+    expect(seen.shell.showPantry).toBe(false);
+    await click(h, (b) => b.textContent?.includes('Pantry') === true && b.title !== 'Click to change your ZIP code');
+    expect(seen.shell.showPantry).toBe(true);
+    await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
+    expect(seen.shell.accountIntent).toBe('ai');
+    await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
+    await click(h, (b) => b.textContent?.includes('Alice') === true);
+    expect(seen.shell.showAccountModal).toBe(true);
+    expect(seen.shell.accountIntent).toBe('account');
+    await click(h, (b) => b.title.startsWith('Preview Smart Push Notifications'));
+    expect(seen.shell.showAlertsModal).toBe(true);
+    expect(h.requests.some((r) => r.url === '/api/cron/weekly-sync?cycle=preview_digest&zip=80542')).toBe(true);
+  });
+
+  it('StoreFilterBar filters through the Preferences context (and the trip), and opens the stores drawer through Shell', async () => {
+    const h = await mountModules(() => createElement(StoreFilterBar));
+    expect(text(h)).toContain(`All Stores (${seen.preferences.activeStores.length})`);
+    await click(h, (b) => b.textContent === 'ALDI');
+    expect(seen.preferences.storeFilter).toBe('ALDI');
+    expect(seen.shop.tripMode).toBe('ALDI');
+    await click(h, (b) => b.textContent?.includes('All Stores') === true);
+    expect(seen.preferences.storeFilter).toBe('ALL');
+    expect(seen.shop.tripMode).toBe('SPLIT');
+    expect(seen.shell.showStoresModal).toBe(false);
+    await click(h, (b) => b.textContent?.includes('My Stores') === true);
+    expect(seen.shell.showStoresModal).toBe(true);
+  });
+
+  it('FreshnessNotice shows the dashboard freshness details', async () => {
+    const h = await mountModules(() => createElement(FreshnessNotice));
+    const { freshness } = seen.dashboard.data;
+    expect(freshness).toBeDefined();
+    expect(text(h)).toContain(`${freshness!.usableLiveOffers} verified live prices`);
+    expect(text(h)).toContain(`Planning cycle: ${seen.dashboard.data.adCycleLabel}.`);
+  });
+
+  it('PrimaryNav switches tabs through the Shell context and shows the counts from the other contexts', async () => {
+    const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET'
+      ? Response.json({ owner: 'account:alice', entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] }) : undefined);
+    const h = await mountModules(() => createElement(PrimaryNav));
+    expect(text(h)).toContain(String(seen.dashboard.data.commodities.length));
+    await h.waitUntil(() => text(h).includes('1 marked available'));
+    expect(text(h)).not.toContain('Pinned');
+    await act(async () => { seen.preferences.handleTogglePin(seen.dashboard.data.commodities[0].ingredient.id); await h.settle(); });
+    expect(text(h)).toContain('1 Pinned \u2022 1 marked available');
+    expect(text(h)).toContain(`$${seen.dashboard.trioTotals.avgPerServing}/srv`);
+    expect(seen.shell.activeTab).toBe('BOARD');
+    await click(h, (b) => b.textContent?.includes('2. 3-Dish Meal Prep') === true);
+    expect(seen.shell.activeTab).toBe('MEAL_PLAN');
+    await click(h, (b) => b.textContent?.includes('4. Cycle & Club Radar') === true);
+    expect(seen.shell.activeTab).toBe('RADAR');
+    await click(h, (b) => b.textContent?.includes('View 3 Dishes') === true);
+    expect(seen.shell.activeTab).toBe('MEAL_PLAN');
+  });
+
+  it('ZipPanel edits and submits the ZIP through the Location context and closes through Shell state', async () => {
+    const h = await mountModules(() => createElement(ZipPanel));
+    const input = () => h.container.querySelector<HTMLInputElement>('input[placeholder^="e.g. 80542"]')!;
+    await act(async () => { seen.location.setShowZipModal(true); seen.location.setZipError('stale'); await h.settle(); });
+    await h.type(input(), '80a30b1');
+    expect(seen.location.zipInput).toBe('80301');
+    expect(seen.location.zipError).toBeNull();
+    await h.type(input(), '');
+    await click(h, (b) => b.textContent?.includes('Update Location') === true);
+    await h.waitUntil(() => seen.location.zipError !== null);
+    expect(text(h)).toContain('Please enter a valid 5-digit US ZIP code.');
+    await click(h, (b) => b.textContent === '✕');
+    expect(seen.location.showZipModal).toBe(false);
+  });
+
+  it('StoresPanel toggles and selects stores through the Preferences and Shell contexts', async () => {
+    const h = await mountModules(() => createElement(StoresPanel));
+    const cards = () => [...h.container.querySelectorAll<HTMLElement>('div.cursor-pointer')];
+    expect(text(h)).toContain(`My Grocery Stores (${seen.preferences.activeStores.length} Active in ${seen.dashboard.data.cityLabel})`);
+    const all = seen.preferences.activeStores.length;
+    await act(async () => { cards()[0].click(); await h.settle(); });
+    expect(seen.preferences.activeStores).toHaveLength(all - 1);
+    await click(h, (b) => b.textContent === 'Select All');
+    expect(seen.preferences.activeStores).toHaveLength(all);
+    await act(async () => { seen.shell.setShowStoresModal(true); await h.settle(); });
+    await click(h, (b) => b.textContent === '✕');
+    expect(seen.shell.showStoresModal).toBe(false);
+  });
+
+  it('AlertsPanel shows the Shell context\'s digest and runs the weekly sync and the digest copy through it', async () => {
+    const writeText = vi.fn();
+    onFetch = (input, init) => (input === '/api/cron/weekly-sync' && init?.method === 'POST' ? Response.json(digest) : undefined);
+    const h = await mountModules(() => createElement(AlertsPanel));
+    Object.assign(navigator, { clipboard: { writeText } });
+    expect(text(h)).not.toContain('Weekend prep digest');
+    await act(async () => { seen.shell.setCronSyncResult(digest); await h.settle(); });
+    expect(text(h)).toContain('Weekend prep digest');
+    await click(h, (b) => b.textContent?.includes('Copy Friday Markdown Digest') === true);
+    expect(writeText).toHaveBeenCalledWith('# Weekend digest');
+    expect(seen.shell.copiedDigest).toBe(true);
+    const before = h.requests.length;
+    await click(h, (b) => b.textContent?.includes('Run Weekly Sync Now') === true);
+    await h.waitUntil(() => h.requests.slice(before).some((r) => r.url === '/api/cron/weekly-sync' && r.method === 'POST'));
+    expect(JSON.parse(h.requests.slice(before).find((r) => r.url === '/api/cron/weekly-sync')!.body!)).toEqual({ cycle: 'manual_sync', zipCode: '80542' });
   });
 });

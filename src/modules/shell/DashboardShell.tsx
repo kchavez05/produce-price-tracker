@@ -20,16 +20,16 @@ import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanHeader from '@/modules/plan/PlanHeader';
 import AccountModal from '@/components/AccountModal';
 import {
-  useAccountContext, useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
+  useAccountContext, useLocationContext, usePreferencesContext, useShellContext,
 } from '@/modules/shell/app-context';
 import {
   DoorOpen,
 } from 'lucide-react';
 
 // v2.0 M3 Phase B.1e: the dashboard's markup, moved verbatim from MealPrepDashboard. It reads the app's state through
-// the seven context hooks instead of owning it. The Shop (B.2a) and Plan (B.2b) components read the contexts
-// themselves; the other modules still take props until their B.2 PRs. The three config flags are page-level, not
-// state, so they stay props.
+// the seven context hooks instead of owning it. The Shop (B.2a), Plan (B.2b) and Shell (B.2c) components read the
+// contexts themselves; only the Pantry drawer and the account dialog still take props (B.2d). The three config flags
+// are page-level, not state, so they stay props.
 interface DashboardShellProps {
   barcodeEnabled?: boolean;
   speechConfigured?: boolean;
@@ -38,25 +38,17 @@ interface DashboardShellProps {
 
 export default function DashboardShell({ barcodeEnabled = false, speechConfigured = false, cameraEnabled = false }: DashboardShellProps) {
   const {
-    storeFilter, pinnedIds, macroGoal, dietaryConstraints, applianceFilter, activeStores,
-    handleToggleActiveStore, handleStoreChange,
+    macroGoal, dietaryConstraints, applianceFilter, activeStores,
   } = usePreferencesContext();
   const {
-    currentZip, showZipModal, setShowZipModal, zipInput, setZipInput, zipLoading, zipError, setZipError,
-    handleZipSubmit,
+    currentZip, showZipModal,
   } = useLocationContext();
   const {
-    data, trioTotals, shoppingPlan,
-  } = useDashboardContext();
-  const {
-    userSync, pantry, pantryAccountId, effectiveOnHandIds,
+    userSync, pantry, pantryAccountId,
   } = useAccountContext();
   const {
-    activeTab, setActiveTab, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast,
-    showStoresModal, setShowStoresModal, showAlertsModal, cronSyncResult, cronSyncLoading, cronSyncError,
-    copiedDigest, showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, showAiSignIn,
-    handleForceCloudSync, handleToggleAlertsModal, handleTriggerWeeklySync, handleCopyMarkdownDigest,
-    handleSelectAllStores,
+    activeTab, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast, showStoresModal,
+    showAlertsModal, showAccountModal, setShowAccountModal, accountIntent, showAiSignIn, handleForceCloudSync,
   } = useShellContext();
 
   return (
@@ -65,35 +57,12 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
       <header className={`${showPantry ? 'relative' : 'sticky top-0'} z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
         <div className="mx-auto max-w-6xl px-4 py-2.5">
           {/* Tier 1: Primary Brand & Location (Left) + Utilities & User Account (Pinned Top-Right) */}
-          <HeaderPrimary
-            data={data}
-            currentZip={currentZip}
-            showPantry={showPantry}
-            showZipModal={showZipModal}
-            showAccountModal={showAccountModal}
-            showAlertsModal={showAlertsModal}
-            userSync={userSync}
-            pantryEntries={pantry.entries}
-            pantryTrigger={pantryTrigger}
-            setShowZipModal={setShowZipModal}
-            setShowPantry={setShowPantry}
-            setShowAccountModal={setShowAccountModal}
-            setAccountIntent={setAccountIntent}
-            handleToggleAlertsModal={handleToggleAlertsModal}
-          />
+          <HeaderPrimary />
 
           {/* Tier 2: Dedicated Supermarket Filter Bar (Left) & Weekly Ad-Cycle Pill (Right) */}
-          <StoreFilterBar
-            data={data}
-            currentZip={currentZip}
-            storeFilter={storeFilter}
-            activeStores={activeStores}
-            showStoresModal={showStoresModal}
-            handleStoreChange={handleStoreChange}
-            setShowStoresModal={setShowStoresModal}
-          />
+          <StoreFilterBar />
 
-          <FreshnessNotice data={data} />
+          <FreshnessNotice />
 
           {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
           <AccountModal
@@ -149,54 +118,21 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
 
           {/* Interactive Zip Code / Location Switcher Drawer */}
           {showZipModal && (
-            <ZipPanel
-              currentZip={currentZip}
-              zipInput={zipInput}
-              zipLoading={zipLoading}
-              zipError={zipError}
-              onZipInputChange={(value) => {
-                setZipInput(value);
-                setZipError(null);
-              }}
-              onSubmit={handleZipSubmit}
-              onClose={() => setShowZipModal(false)}
-            />
+            <ZipPanel />
           )}
 
           {/* Interactive My Stores Preference Drawer (v1.1) */}
           {showStoresModal && (
-            <StoresPanel
-              activeStores={activeStores}
-              cityLabel={data.cityLabel}
-              currentZip={currentZip}
-              onToggleStore={handleToggleActiveStore}
-              onSelectAll={handleSelectAllStores}
-              onClose={() => setShowStoresModal(false)}
-            />
+            <StoresPanel />
           )}
 
           {/* v1.0 Weekly Cron & Smart Push Notifications Preview Drawer */}
           {showAlertsModal && (
-            <AlertsPanel
-              cronSyncResult={cronSyncResult}
-              cronSyncLoading={cronSyncLoading}
-              cronSyncError={cronSyncError}
-              copiedDigest={copiedDigest}
-              onRunSync={handleTriggerWeeklySync}
-              onCopyDigest={handleCopyMarkdownDigest}
-            />
+            <AlertsPanel />
           )}
 
           {/* Primary Navigation Tabs */}
-          <PrimaryNav
-            data={data}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            pinnedIds={pinnedIds}
-            effectiveOnHandIds={effectiveOnHandIds}
-            shoppingPlan={shoppingPlan}
-            trioTotals={trioTotals}
-          />
+          <PrimaryNav />
         </div>
       </header>
 
