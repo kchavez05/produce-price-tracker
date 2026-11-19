@@ -10,18 +10,13 @@ import dynamic from 'next/dynamic';
 import { pantryCatalog } from '@/lib/pantry/model';
 const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import {
-  CommodityCategory,
   DashboardPayload,
   RecommendedDish,
-  StoreChain,
   WeeklySyncCronResult,
 } from '@/types/domain';
 import {
   ALL_STORE_CHAINS,
 } from '@/data/store-registry';
-import {
-  formatShoppingListForClipboard,
-} from '@/lib/cart-exporter';
 import ZipPanel from '@/modules/shell/ZipPanel';
 import StoresPanel from '@/modules/shell/StoresPanel';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
@@ -33,6 +28,7 @@ import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
 import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
+import { useShopUi, useShopCopyAction } from '@/modules/shop/hooks/useShopUi';
 import { useDerivedDashboard } from '@/modules/shell/hooks/useDerivedDashboard';
 import { useStorageRestore } from '@/modules/shell/hooks/useStorageRestore';
 import { usePreferenceActions } from '@/modules/shell/hooks/usePreferenceActions';
@@ -71,31 +67,23 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
   const [activeTab, setActiveTab] = useState<
     'BOARD' | 'MEAL_PLAN' | 'SHOPPING_LIST' | 'RADAR'
   >('BOARD');
-  const [categoryFilter, setCategoryFilter] = useState<'ALL' | CommodityCategory>('ALL');
-  const [sortMode, setSortMode] = useState<
-    'VALUE_SCORE' | 'LOWEST_PRICE' | 'BIGGEST_DISCOUNT'
-  >('VALUE_SCORE');
+  const {
+    categoryFilter, setCategoryFilter, sortMode, setSortMode, copiedChecklist, setCopiedChecklist,
+    showPrintSlipModal, setShowPrintSlipModal, tripMode, setTripMode, setCheckedItems, checkedItems,
+    clippedCoupons, setClippedCoupons, toggleCheckedItem, toggleClippedCoupon, handlePrintShoppingSlip,
+  } = useShopUi();
   const [showPantry, setShowPantry] = useState(false);
   const pantryTrigger = useRef<HTMLButtonElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
 
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
 
-  // v1.2 Ticket #23: 1-Tap Curbside Cart Bridge & Multi-Store Export state
-  const [copiedChecklist, setCopiedChecklist] = useState(false);
-  const [showPrintSlipModal, setShowPrintSlipModal] = useState(false);
-
   const [expandedDishIds, setExpandedDishIds] = useState<Record<string, boolean>>({
     [initialData.recommendedTrio[0]?.id || '']: true,
   });
   const [showAllBlueprints, setShowAllBlueprints] = useState(false);
 
-  // Shopping list & coupon checklist interactive state (v0.3 + v1.1)
-  const [tripMode, setTripMode] = useState<'SPLIT' | StoreChain>('SPLIT');
   const [showStoresModal, setShowStoresModal] = useState(false);
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-  const [clippedCoupons, setClippedCoupons] = useState<Record<string, boolean>>({});
-
   // AI Custom Chef state
   const [customPrompt, setCustomPrompt] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
@@ -140,6 +128,10 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     storeFilter, currentZip, savedLibrary, pantryOwner: pantry.owner, pantryGuest: pantry.guest, customPrompt, customAiDishes,
     customAiOwner, customAiContext, categoryFilter, sortMode, tripMode,
   });
+  const { handleCopyShoppingListForNotes } = useShopCopyAction({
+    resolvedShoppingItems, shoppingPlan, activeTrio, currentZip, cityLabel: data.cityLabel, tripMode, checkedItems,
+    setCopiedChecklist,
+  });
   const aiContextRef = useRef(mealContextSignature);
   aiContextRef.current = mealContextSignature;
   const aiRequests = useRef<ReturnType<typeof createAiRequestFence> | null>(null);
@@ -167,30 +159,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     setMacroGoal, setDietaryConstraints, setApplianceFilter, setActiveStores, setPinnedIds, setTargetServings,
     setStoreFilter, setCurrentZip, setZipInput, setZipError, setZipLoading, setShowZipModal, setCustomAiDishes, setTripMode,
   });
-
-  function toggleCheckedItem(key: string) {
-    setCheckedItems((prev) => {
-      const next = { ...prev, [key]: !prev[key] };
-      try {
-        localStorage.setItem('mead_checked_items_v03', JSON.stringify(next));
-      } catch {
-        // Ignore
-      }
-      return next;
-    });
-  }
-
-  function toggleClippedCoupon(key: string) {
-    setClippedCoupons((prev) => {
-      const next = { ...prev, [key]: !prev[key] };
-      try {
-        localStorage.setItem('mead_clipped_coupons_v03', JSON.stringify(next));
-      } catch {
-        // Ignore
-      }
-      return next;
-    });
-  }
 
   function handleReviewStockUp() {
     setShowPantry(true);
@@ -342,30 +310,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     navigator.clipboard?.writeText(text);
     setCopiedDigest(true);
     setTimeout(() => setCopiedDigest(false), 2500);
-  }
-
-  // v1.2 Ticket #23: Copy formatted checklist for Apple Notes / Google Keep / Reminders
-  function handleCopyShoppingListForNotes() {
-    const text = formatShoppingListForClipboard({
-      items: resolvedShoppingItems,
-      pantryChecklist: shoppingPlan.pantryChecklist,
-      tripComparison: shoppingPlan.tripComparison,
-      activeTrio,
-      zipCode: currentZip,
-      cityLabel: data.cityLabel,
-      tripMode,
-      checkedItems,
-    });
-    navigator.clipboard?.writeText(text);
-    setCopiedChecklist(true);
-    setTimeout(() => setCopiedChecklist(false), 3000);
-  }
-
-  function handlePrintShoppingSlip() {
-    setShowPrintSlipModal(true);
-    setTimeout(() => {
-      window.print();
-    }, 150);
   }
 
   // Promote a blueprint into the top three (moved unchanged from the Meal Plan tab's inline click handler).
