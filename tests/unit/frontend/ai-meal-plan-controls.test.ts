@@ -4,7 +4,7 @@ import { act, createElement, type ComponentProps } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { webcrypto } from 'node:crypto';
 import AiMealPlanControls from '@/components/AiMealPlanControls';
-import AccountModal from '@/components/AccountModal';
+import AccountModal from '@/modules/shell/AccountModal';
 import { aiRetryHint, createAiRequestFence } from '@/lib/ai/client-request';
 let root:Root,container:HTMLDivElement;
 const generate=vi.fn(),signIn=vi.fn(),standard=vi.fn(),prompt=vi.fn();

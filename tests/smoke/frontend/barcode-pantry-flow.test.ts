@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { webcrypto } from 'node:crypto';
-import VirtualPantry from '@/components/VirtualPantry';
+import VirtualPantry from '@/modules/pantry/VirtualPantry';
 import { usePantry } from '@/hooks/usePantry';
 import { guestPantryKey } from '@/lib/pantry/client-cache';
 import { pantryQueueKey } from '@/lib/pantry/queue';
