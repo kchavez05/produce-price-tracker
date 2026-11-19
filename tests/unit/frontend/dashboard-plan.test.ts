@@ -1,0 +1,196 @@
+// @vitest-environment jsdom
+// Characterization tests for the Plan UI state and the AI plan actions (v2.0 M3 Phase B.1c, #701): the request
+// body, the fence that drops stale or cancelled responses, every outcome banner, the standard-suggestions reset,
+// and the state kept across tab switches (owner decision 1). They pin develop's behavior so moving the state and
+// handlers into hooks cannot silently change it.
+import { afterEach, describe, expect, it } from 'vitest';
+import {
+  aliceSync, createDashboardHarness, keylessPayload, type DashboardHarness, type FetchHandler,
+} from 'tests/helpers/dashboard-harness';
+import type { UserSyncPayload } from '@/types/domain';
+
+const payload = keylessPayload();
+const cloudBacked: UserSyncPayload = { ...aliceSync, profile: { ...aliceSync.profile!, isCloudBacked: true } };
+let harness: DashboardHarness | undefined;
+afterEach(async () => { await harness?.teardown(); harness = undefined; });
+
+const PLAN = '2. 3-Dish Meal Prep';
+const BOARD = '1. Value Board';
+const RADAR = '4. Cycle & Club Radar';
+const REMIX = 'Remix 3-dish plan with AI';
+const aiDishes = payload.allRankedDishes.slice(3, 6);
+const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
+const promptInput = (h: DashboardHarness) => h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!;
+const dishTitles = (h: DashboardHarness) => [...h.container.querySelectorAll('h3')].map((el) => el.textContent ?? '')
+  .filter((title) => payload.allRankedDishes.some((dish) => dish.title === title));
+const aiRequests = (h: DashboardHarness) => h.requests.filter((request) => request.url === '/api/ai-meal-plan');
+const banner = (h: DashboardHarness) => h.container.querySelector('[role="status"][aria-live="polite"]')?.textContent ?? null;
+
+/** Mount a signed-in, cloud-backed dashboard on the Plan tab, with AI unlocked and `/api/ai-meal-plan` handled by `ai`. */
+const oliveOil = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
+async function start(ai: (init?: RequestInit) => Response | Promise<Response>, onHand: object[] = []) {
+  const onFetch: FetchHandler = (input, init) => {
+    if (input === '/api/ai-meal-plan') return ai(init);
+    if (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET') {
+      return Response.json({ owner: 'account:alice', entries: onHand, legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] });
+    }
+    return undefined;
+  };
+  harness = await createDashboardHarness({ payload, sync: cloudBacked, onFetch });
+  await harness.mount({ initialAccountId: 'alice' });
+  await harness.settle();
+  await harness.click(harness.button(PLAN));
+  await harness.waitUntil(() => buttons(harness!).some((b) => b.textContent?.includes(REMIX)));
+  return harness;
+}
+
+/** A held AI request: the test releases it with a response, and can read the request's abort signal. */
+function heldAi() {
+  let release: (response: Response) => void = () => undefined;
+  let signal: AbortSignal | null | undefined;
+  const gate = new Promise<Response>((resolve) => { release = resolve; });
+  return { handler: (init?: RequestInit) => { signal = init?.signal; return gate; }, release, signal: () => signal };
+}
+
+describe('AI plan request', () => {
+  it('sends the whole context, shows the busy state, then applies the plan, banner and expanded first dish', async () => {
+    const held = heldAi();
+    const h = await start(held.handler, [oliveOil]);
+    await h.click(h.button(BOARD));
+    await h.click(buttons(h).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
+    await h.click(h.button(PLAN));
+    await h.click(h.button('8 Srv / Dish'));
+    await h.type(promptInput(h), 'extra spicy');
+    await h.click(h.button(REMIX));
+    expect(aiRequests(h)).toHaveLength(1);
+    const body = JSON.parse(aiRequests(h)[0].body!);
+    expect(body).toMatchObject({ targetServings: 8, customPreference: 'extra spicy', storeFilter: 'ALL', zipCode: '80542',
+      cityLabel: payload.cityLabel, macroGoal: 'ANY', dietaryConstraints: [], applianceFilter: 'ANY' });
+    expect(body.pinnedIngredientIds).toHaveLength(1);
+    expect(body.onHandIngredientIds).toHaveLength(1);
+    expect(typeof body.requestId).toBe('string');
+    expect(h.container.querySelector('[aria-busy="true"]')).not.toBeNull();
+    expect(h.container.textContent).toContain('Generating meal plan...');
+    expect(h.container.textContent).toContain('Cancel and use standard suggestions');
+    held.release(Response.json({ dishes: aiDishes, message: 'Fresh AI plan.' }));
+    await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
+    expect(h.container.querySelector('[aria-busy="true"]')).toBeNull();
+    expect(dishTitles(h).slice(0, 3)).toEqual(aiDishes.map((dish) => dish.title));
+    // The first generated dish is the only one expanded (expandedDishIds is replaced with it).
+    expect(buttons(h).filter((b) => b.textContent?.includes('Hide Prep Steps'))).toHaveLength(1);
+    expect(buttons(h).filter((b) => b.textContent?.includes('Show Prep & Reheat Guide'))).toHaveLength(2);
+  });
+
+  it('uses the default banner when the response has no message', async () => {
+    const h = await start(() => Response.json({ dishes: aiDishes }));
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => banner(h) === 'Updated 3-dish meal-prep plan.');
+    expect(dishTitles(h)[0]).toBe(aiDishes[0].title);
+  });
+
+  it('shows the server error with a retry hint and keeps the standard plan', async () => {
+    const standard = (await start(() => Response.json({ error: 'Daily limit reached.' }, { status: 429, headers: { 'Retry-After': '120' } })), dishTitles(harness!));
+    await harness!.click(harness!.button(REMIX));
+    await harness!.waitUntil(() => banner(harness!) !== null);
+    expect(banner(harness!)).toBe('Daily limit reached. Try again in about 2 minutes.');
+    expect(dishTitles(harness!)).toEqual(standard);
+  });
+
+  it('shows the default message for an error without text or a response without dishes', async () => {
+    const h = await start(() => Response.json({ dishes: 'nope' }));
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => banner(h) !== null);
+    expect(banner(h)).toBe('Unable to generate a meal plan. Standard suggestions remain available.');
+  });
+
+  it('asks for sign-in when the server answers 401', async () => {
+    const h = await start(() => Response.json({ error: 'Sign in required.' }, { status: 401 }));
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => h.container.textContent?.includes('Sign in to access AI features') === true);
+    expect(banner(h)).toBe('Sign in required.');
+  });
+
+  it('shows the offline message when the request cannot be made', async () => {
+    const h = await start(() => { throw new TypeError('network'); });
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => banner(h) !== null);
+    expect(banner(h)).toBe('Unable to reach AI assistance. Standard suggestions remain available. Try again when connected.');
+  });
+});
+
+describe('the request fence', () => {
+  it('drops a response when the plan context changed while it was in flight, and aborts the request', async () => {
+    const held = heldAi();
+    const h = await start(held.handler);
+    const standard = dishTitles(h);
+    await h.click(h.button(REMIX));
+    await h.type(promptInput(h), 'changed my mind');
+    expect(held.signal()?.aborted).toBe(true);
+    expect(h.container.querySelector('[aria-busy="true"]')).toBeNull();
+    held.release(Response.json({ dishes: aiDishes, message: 'Too late.' }));
+    await h.settle();
+    await h.settle();
+    expect(banner(h)).toBeNull();
+    expect(dishTitles(h)).toEqual(standard);
+  });
+
+  it('aborts an in-flight request when the dashboard unmounts', async () => {
+    const held = heldAi();
+    const h = await start(held.handler);
+    await h.click(h.button(REMIX));
+    expect(held.signal()?.aborted).toBe(false);
+    await h.unmount();
+    expect(held.signal()?.aborted).toBe(true);
+  });
+
+  it('clears the banner when the context changes', async () => {
+    const h = await start(() => Response.json({ dishes: aiDishes, message: 'Fresh AI plan.' }));
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
+    await h.click(h.button('8 Srv / Dish'));
+    expect(banner(h)).toBeNull();
+  });
+});
+
+describe('standard suggestions', () => {
+  it('cancels an in-flight request, clears the plan and says so', async () => {
+    const held = heldAi();
+    const h = await start(held.handler);
+    const standard = dishTitles(h);
+    await h.click(h.button(REMIX));
+    await h.click(h.button('Cancel and use standard suggestions'));
+    expect(held.signal()?.aborted).toBe(true);
+    expect(h.container.querySelector('[aria-busy="true"]')).toBeNull();
+    expect(banner(h)).toBe('Using standard meal-prep suggestions.');
+    held.release(Response.json({ dishes: aiDishes }));
+    await h.settle();
+    expect(dishTitles(h)).toEqual(standard);
+    expect(banner(h)).toBe('Using standard meal-prep suggestions.');
+  });
+
+  it('reverts a generated plan to the standard suggestions', async () => {
+    const h = await start(() => Response.json({ dishes: aiDishes }));
+    const standard = dishTitles(h);
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => banner(h) === 'Updated 3-dish meal-prep plan.');
+    expect(dishTitles(h)).not.toEqual(standard);
+    await h.click(h.button('Use standard suggestions'));
+    expect(dishTitles(h)).toEqual(standard);
+    expect(banner(h)).toBe('Using standard meal-prep suggestions.');
+  });
+});
+
+describe('Plan state survives tab switches (owner decision 1)', () => {
+  it('keeps a generated plan, its banner and the request text', async () => {
+    const h = await start(() => Response.json({ dishes: aiDishes, message: 'Fresh AI plan.' }));
+    await h.type(promptInput(h), 'soup');
+    // Typing changes the context, so generate after typing.
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
+    const html = h.html();
+    await h.click(h.button(RADAR));
+    await h.click(h.button(PLAN));
+    expect(h.html()).toBe(html);
+    expect(promptInput(h).value).toBe('soup');
+  });
+});
