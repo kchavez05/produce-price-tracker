@@ -367,10 +367,16 @@ describe('Board leaderboard cards', () => {
     const have = (h: DashboardHarness) => buttons(h).filter((b) => /Already have/.test(b.textContent ?? '')).length;
     expect(have(harness)).toBe(0);
     expect(harness.container.textContent).not.toContain('Choose the specific ingredient');
-    // In the keyless fixture the first two cards are grouped deals (toast, no change); the next two are specific ingredients.
-    for (let index = 0; index < 4; index += 1) await harness.click(toggles(harness)[index]);
-    expect(harness.container.textContent).toContain('Choose the specific ingredient in Virtual Pantry');
+    // In the keyless fixture the first two cards are grouped deals and the next two are specific ingredients. A specific
+    // ingredient flips on the Board; a grouped deal explains itself with a toast and opens the Pantry module (B.3b), which
+    // replaces the Board, so the specific ones go first.
+    for (const index of [2, 3]) await harness.click(toggles(harness)[index]);
     expect(have(harness)).toBe(2);
+    expect(harness.container.textContent).not.toContain('Choose the specific ingredient');
+    await harness.click(toggles(harness)[0]);
+    expect(harness.container.textContent).toContain('Choose the specific ingredient in Virtual Pantry');
+    expect(harness.container.querySelector('#virtual-pantry-title')).not.toBeNull();
+    expect(toggles(harness)).toHaveLength(0);
   });
 
   it('opens the pantry review toast from the Buy 2 button on a card', async () => {

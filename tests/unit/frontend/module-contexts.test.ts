@@ -93,14 +93,15 @@ describe('Shop components on the contexts, without the shell', () => {
     expect(text(h)).toContain('Pinned');
   });
 
-  it('BoardLeaderboard opens the Shell pantry drawer state for a grouped deal', async () => {
+  it('BoardLeaderboard opens the Pantry module for a grouped deal', async () => {
     const h = await mountModules(() => createElement(BoardLeaderboard));
-    expect(seen.shell.showPantry).toBe(false);
+    expect(seen.shell.module).toBe('shop');
     await act(async () => {
       buttons(h).find((b) => /Not marked available/.test(b.textContent ?? ''))!.click();
       await h.settle();
     });
-    expect(seen.shell.showPantry).toBe(true);
+    expect(seen.shell.module).toBe('pantry');
+    expect(seen.shell.pantryReturn).toEqual({ module: 'shop', view: 'BOARD' });
     expect(seen.shell.arbitrageToast).toContain('Choose the specific ingredient');
   });
 
@@ -165,9 +166,9 @@ describe('Shop components on the contexts, without the shell', () => {
     const toggles = () => buttons(h).filter((b) => /Have at Home\?|On-Hand/.test(b.textContent ?? ''));
     expect(toggles().length).toBeGreaterThan(0);
     for (let index = 0; index < 4; index += 1) await act(async () => { toggles()[index].click(); await h.settle(); });
-    // Grouped deals explain themselves with a toast and open the pantry drawer; they are never sent to the stock-up review.
+    // Grouped deals explain themselves with a toast and open the Pantry module; they are never sent to the stock-up review.
     expect(seen.shell.arbitrageToast).toContain('Choose the specific ingredient');
-    expect(seen.shell.showPantry).toBe(true);
+    expect(seen.shell.module).toBe('pantry');
   });
 });
 
@@ -271,9 +272,12 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(seen.location.showZipModal).toBe(false);
     await click(h, (b) => b.title === 'Click to change your ZIP code');
     expect(seen.location.showZipModal).toBe(true);
-    expect(seen.shell.showPantry).toBe(false);
+    expect(seen.shell.module).toBe('shop');
     await click(h, (b) => b.textContent?.includes('Pantry') === true && b.title !== 'Click to change your ZIP code');
-    expect(seen.shell.showPantry).toBe(true);
+    expect(seen.shell.module).toBe('pantry');
+    // The header button toggles: pressed again, it returns to the module the Pantry was opened from.
+    await click(h, (b) => b.textContent?.includes('Pantry') === true && b.title !== 'Click to change your ZIP code');
+    expect(seen.shell.module).toBe('shop');
     await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
     expect(seen.shell.accountIntent).toBe('ai');
     await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
@@ -384,24 +388,23 @@ describe('Pantry drawer and account dialog on the contexts, without the shell', 
   const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
   const pantryResponse = (owner: string) => Response.json({ owner, entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] });
 
-  it('PantryDrawer renders nothing until the Shell context opens it, then shows the account pantry and closes through Shell', async () => {
+  it('PantryDrawer shows the account pantry, and closing returns to the module it was opened from', async () => {
     sync = aliceSync;
     accountId = 'alice';
     onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
     const h = await mountModules(() => createElement(PantryDrawer));
-    expect(h.container.querySelector('#virtual-pantry-title')).toBeNull();
-    await act(async () => { seen.shell.setShowPantry(true); await h.settle(); });
+    await act(async () => { seen.shell.navigateTo({ module: 'plan' }); await h.settle(); });
+    await act(async () => { seen.shell.navigateTo({ module: 'pantry' }); await h.settle(); });
     expect(h.container.querySelector('#virtual-pantry-title')).not.toBeNull();
+    expect(seen.shell.module).toBe('pantry');
     await h.waitUntil(() => text(h).includes('Olive oil'));
     expect(text(h)).toContain('Speak pantry ingredients (experimental)');
     await click(h, (b) => b.getAttribute('aria-label') === 'Close Virtual Pantry');
-    expect(seen.shell.showPantry).toBe(false);
-    expect(h.container.querySelector('#virtual-pantry-title')).toBeNull();
+    expect(seen.shell.module).toBe('plan');
   });
 
   it('PantryDrawer sends a signed-out visitor to the AI sign-in through the Shell context', async () => {
     const h = await mountModules(() => createElement(PantryDrawer));
-    await act(async () => { seen.shell.setShowPantry(true); await h.settle(); });
     await click(h, (b) => b.textContent?.includes('Sign in for experimental speech entry') === true);
     expect(seen.shell.showAccountModal).toBe(true);
     expect(seen.shell.accountIntent).toBe('ai');
@@ -414,7 +417,6 @@ describe('Pantry drawer and account dialog on the contexts, without the shell', 
     accountId = 'alice';
     onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? gate : undefined);
     const h = await mountModules(() => createElement(PantryDrawer));
-    await act(async () => { seen.shell.setShowPantry(true); await h.settle(); });
     const search = () => h.container.querySelector<HTMLInputElement>('input[type="search"]')!;
     await h.type(search(), 'rice');
     expect(search().value).toBe('rice');

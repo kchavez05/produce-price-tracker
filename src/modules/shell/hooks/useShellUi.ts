@@ -10,15 +10,15 @@ import type {
   CookingVesselArchetype, DietaryConstraint, MacroGoal, StoreChain, WeeklySyncCronResult,
 } from '@/types/domain';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase B.1d): the Shell view state (tabs, drawers, modals, the toast, the
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase B.1d; the Pantry became a module in B.3b): the Shell view state (module, modals, the toast, the
 // alerts and cron state) and the handlers that touch it. All of it survives navigation (owner decision 1), so the
 // provider keeps it, not the Shell components. Keep these when editing:
 //  1. The handlers are plain functions recreated every render (not memoized), like the closures they were.
-//  2. useShellUi takes no inputs and comes first: showAiSignIn is passed to usePlanActions, and handleReviewStockUp
-//     is used by Shop. useShellActions needs the account, pantry and payload hooks, so it comes after them.
+//  2. useShellUi takes no inputs and comes first: showAiSignIn is passed to usePlanActions. useShellActions needs the
+//     account, pantry and payload hooks (and the Shop view, to remember where the Pantry was opened from), so it comes after them.
 export function useShellUi() {
   const [module, setModule] = useState<AppModule>('shop');
-  const [showPantry, setShowPantry] = useState(false);
+  const [pantryReturn, setPantryReturn] = useState<Destination>({ module: 'shop', view: 'BOARD' });
   const pantryTrigger = useRef<HTMLButtonElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
   const [showStoresModal, setShowStoresModal] = useState(false);
@@ -32,21 +32,16 @@ export function useShellUi() {
   const [showAccountModal, setShowAccountModal] = useState(false);
   const [accountIntent, setAccountIntent] = useState<'account' | 'ai'>('account');
 
-  function handleReviewStockUp() {
-    setShowPantry(true);
-    setArbitrageToast('Review your Pantry before stocking up. Record ingredients after purchase.');
-  }
-
   function showAiSignIn() {
     setAccountIntent('ai');
     setShowAccountModal(true);
   }
 
   return {
-    module, setModule, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast,
+    module, setModule, pantryReturn, setPantryReturn, pantryTrigger, arbitrageToast, setArbitrageToast,
     showStoresModal, setShowStoresModal, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     cronSyncLoading, setCronSyncLoading, cronSyncError, setCronSyncError, copiedDigest, setCopiedDigest,
-    showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, handleReviewStockUp, showAiSignIn,
+    showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, showAiSignIn,
   };
 }
 
@@ -66,9 +61,12 @@ interface ShellActionsArgs {
   applianceFilter: CookingVesselArchetype;
   showAlertsModal: boolean;
   cronSyncResult: WeeklySyncCronResult | null;
+  module: AppModule;
+  shopView: ShopView;
+  pantryReturn: Destination;
   setModule: (module: AppModule) => void;
   setShopView: (view: ShopView) => void;
-  setShowPantry: (show: boolean) => void;
+  setPantryReturn: (destination: Destination) => void;
   setArbitrageToast: (message: string | null) => void;
   setActiveStores: (stores: StoreChain[]) => void;
   setShowAlertsModal: (show: boolean) => void;
@@ -80,8 +78,8 @@ interface ShellActionsArgs {
 
 export function useShellActions({
   pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, setModule, setShopView, setShowPantry,
-  setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
+  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, shopView, pantryReturn, setModule, setShopView,
+  setPantryReturn, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
 }: ShellActionsArgs) {
   async function handleForceCloudSync() {
     await pantry.retry();
@@ -93,7 +91,7 @@ export function useShellActions({
     const pantryId = recipePantryIngredientId(ingredientId);
     const ingredient = pantryCatalog.get(pantryId);
     if (!ingredient) {
-      setShowPantry(true);
+      navigateTo({ module: 'pantry' });
       setArbitrageToast('Choose the specific ingredient in Virtual Pantry. Grouped deals do not establish an exact ingredient identity.');
       return;
     }
@@ -161,8 +159,21 @@ export function useShellActions({
   // Move to a module (and, for Shop, a view). The Shop view is left alone when going to another module, so coming
   // back finds it as it was. In B.3c this also changes the URL; callers do not change.
   function navigateTo(destination: Destination) {
+    // Opening the Pantry remembers where it was opened from, so closing it returns there.
+    if (destination.module === 'pantry' && module !== 'pantry') {
+      setPantryReturn(module === 'shop' ? { module: 'shop', view: shopView } : { module: 'plan' });
+    }
     setModule(destination.module);
     if (destination.module === 'shop') setShopView(destination.view);
+  }
+
+  function closePantry() {
+    navigateTo(pantryReturn);
+  }
+
+  function handleReviewStockUp() {
+    navigateTo({ module: 'pantry' });
+    setArbitrageToast('Review your Pantry before stocking up. Record ingredients after purchase.');
   }
 
   // The stores drawer's "Select All" (moved from an inline handler in the JSX, body unchanged).
@@ -186,6 +197,6 @@ export function useShellActions({
 
   return {
     handleForceCloudSync, handleToggleOnHand, handleToggleAlertsModal, handleTriggerWeeklySync, handleCopyMarkdownDigest,
-    handleSelectAllStores, navigateTo,
+    handleSelectAllStores, navigateTo, closePantry, handleReviewStockUp,
   };
 }

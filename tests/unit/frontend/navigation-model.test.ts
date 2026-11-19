@@ -53,12 +53,61 @@ describe('navigateTo', () => {
   });
 });
 
+describe('the Pantry module (B.3b)', () => {
+  it('opens from the Shop view the user was on, and closing returns to that view', async () => {
+    const h = await mount();
+    await go(h, { module: 'shop', view: 'RADAR' });
+    await go(h, { module: 'pantry' });
+    expect(shell.module).toBe('pantry');
+    expect(shell.pantryReturn).toEqual({ module: 'shop', view: 'RADAR' });
+    await act(async () => { shell.closePantry(); await h.settle(); });
+    expect([shell.module, shop.shopView]).toEqual(['shop', 'RADAR']);
+  });
+
+  it('returns to Plan when it was opened from Plan', async () => {
+    const h = await mount();
+    await go(h, { module: 'plan' });
+    await go(h, { module: 'pantry' });
+    expect(shell.pantryReturn).toEqual({ module: 'plan' });
+    await act(async () => { shell.closePantry(); await h.settle(); });
+    expect(shell.module).toBe('plan');
+  });
+
+  it('keeps the original return point when the Pantry is opened again while it is open', async () => {
+    const h = await mount();
+    await go(h, { module: 'shop', view: 'RADAR' });
+    await go(h, { module: 'pantry' });
+    await go(h, { module: 'pantry' });
+    expect(shell.pantryReturn).toEqual({ module: 'shop', view: 'RADAR' });
+  });
+
+  it('is left, without a return, by choosing another module, and the Shop view is untouched meanwhile', async () => {
+    const h = await mount();
+    await go(h, { module: 'shop', view: 'SHOPPING_LIST' });
+    await go(h, { module: 'pantry' });
+    expect(shop.shopView).toBe('SHOPPING_LIST');
+    await go(h, { module: 'plan' });
+    expect(shell.module).toBe('plan');
+    expect(shop.shopView).toBe('SHOPPING_LIST');
+  });
+
+  it('is opened by the stock-up review with its toast, from wherever the user is', async () => {
+    const h = await mount();
+    await go(h, { module: 'plan' });
+    await act(async () => { shell.handleReviewStockUp(); await h.settle(); });
+    expect(shell.module).toBe('pantry');
+    expect(shell.pantryReturn).toEqual({ module: 'plan' });
+    expect(shell.arbitrageToast).toContain('Review your Pantry before stocking up.');
+  });
+});
+
 describe('legacy tab mapping (until the tab strip becomes links)', () => {
   it('maps a module and view to the four-way tab and back', () => {
     expect(legacyTab('shop', 'BOARD')).toBe('BOARD');
     expect(legacyTab('shop', 'SHOPPING_LIST')).toBe('SHOPPING_LIST');
     expect(legacyTab('shop', 'RADAR')).toBe('RADAR');
     expect(legacyTab('plan', 'RADAR')).toBe('MEAL_PLAN');
+    expect(legacyTab('pantry', 'RADAR')).toBe('PANTRY');
     expect(destinationOf('MEAL_PLAN')).toEqual({ module: 'plan' });
     expect(destinationOf('RADAR')).toEqual({ module: 'shop', view: 'RADAR' });
     expect(destinationOf('SHOPPING_LIST')).toEqual({ module: 'shop', view: 'SHOPPING_LIST' });
