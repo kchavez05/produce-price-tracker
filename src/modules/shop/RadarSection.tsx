@@ -1,17 +1,19 @@
+'use client';
+
 import { ArrowLeftRight, Award, Info, Radar, Snowflake, TrendingDown, TrendingUp } from 'lucide-react';
-import type { DashboardPayload } from '@/types/domain';
 import { renderStoreBadge } from '@/modules/shop/badges';
+import {
+  useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Radar tab); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Radar tab). Since Phase B.2a it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface RadarSectionProps {
-  data: DashboardPayload;
-  currentZip: string;
-  onTogglePin: (ingredientId: string) => void;
-  onReviewStockUp: () => void;
-}
-
-export default function RadarSection({ data, currentZip, onTogglePin, onReviewStockUp }: RadarSectionProps) {
+export default function RadarSection() {
+  const { data } = useDashboardContext();
+  const { currentZip } = useLocationContext();
+  const { handleTogglePin: onTogglePin } = usePreferencesContext();
+  const { handleReviewStockUp: onReviewStockUp } = useShellContext();
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">

@@ -20,16 +20,16 @@ import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanHeader from '@/modules/plan/PlanHeader';
 import AccountModal from '@/components/AccountModal';
 import {
-  useAccountContext, useDashboardContext, useLocationContext, usePlanContext, usePreferencesContext, useShellContext,
-  useShopContext,
+  useAccountContext, useDashboardContext, useLocationContext, usePlanContext, usePreferencesContext,
+  useShellContext,
 } from '@/modules/shell/app-context';
 import {
   DoorOpen,
 } from 'lucide-react';
 
 // v2.0 M3 Phase B.1e: the dashboard's markup, moved verbatim from MealPrepDashboard. It reads the app's state through
-// the seven context hooks instead of owning it, and still passes props to the module components (B.2 moves each module
-// onto the contexts, one PR at a time). The three config flags are page-level, not state, so they stay props.
+// the seven context hooks instead of owning it. The Shop components (B.2a) read the contexts themselves; the other
+// modules still take props until their B.2 PRs. The three config flags are page-level, not state, so they stay props.
 interface DashboardShellProps {
   barcodeEnabled?: boolean;
   speechConfigured?: boolean;
@@ -40,14 +40,14 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
   const {
     storeFilter, pinnedIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, activeStores,
     handleMacroGoalChange, handleToggleDietaryConstraint, handleVesselChange, handleToggleActiveStore,
-    handleTogglePin, handleServingsChange, handleStoreChange, handleClearProfileFilters,
+    handleServingsChange, handleStoreChange, handleClearProfileFilters,
   } = usePreferencesContext();
   const {
     currentZip, showZipModal, setShowZipModal, zipInput, setZipInput, zipLoading, zipError, setZipError,
     handleZipSubmit,
   } = useLocationContext();
   const {
-    data, filteredCommodities, activeTrio, trioTotals, shoppingPlan, resolvedShoppingItems, digitalCouponItems,
+    data, activeTrio, trioTotals, shoppingPlan,
   } = useDashboardContext();
   const {
     userSync, pantry, pantryAccountId, effectiveOnHandIds, savedRecipeIds, canUseAi,
@@ -58,16 +58,11 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
     handlePromoteDish,
   } = usePlanContext();
   const {
-    categoryFilter, setCategoryFilter, sortMode, setSortMode, copiedChecklist, showPrintSlipModal,
-    setShowPrintSlipModal, tripMode, setTripMode, checkedItems, clippedCoupons, toggleCheckedItem,
-    toggleClippedCoupon, handlePrintShoppingSlip, handleCopyShoppingListForNotes,
-  } = useShopContext();
-  const {
     activeTab, setActiveTab, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast,
     showStoresModal, setShowStoresModal, showAlertsModal, cronSyncResult, cronSyncLoading, cronSyncError,
-    copiedDigest, showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, handleReviewStockUp,
-    showAiSignIn, handleForceCloudSync, handleToggleOnHand, handleToggleAlertsModal, handleTriggerWeeklySync,
-    handleCopyMarkdownDigest, handleSelectAllStores,
+    copiedDigest, showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, showAiSignIn,
+    handleForceCloudSync, handleToggleAlertsModal, handleTriggerWeeklySync, handleCopyMarkdownDigest,
+    handleSelectAllStores,
   } = useShellContext();
 
   return (
@@ -218,32 +213,13 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
         {activeTab === 'BOARD' && (
           <div className="space-y-6">
             {/* Splurge Value Alerts Callout Strip */}
-            <BoardAlerts
-              data={data}
-              currentZip={currentZip}
-              pinnedIds={pinnedIds}
-              handleTogglePin={handleTogglePin}
-              handleReviewStockUp={handleReviewStockUp}
-            />
+            <BoardAlerts />
 
             {/* Category & Sort Controls */}
-            <BoardControls
-              categoryFilter={categoryFilter}
-              setCategoryFilter={setCategoryFilter}
-              sortMode={sortMode}
-              setSortMode={setSortMode}
-            />
+            <BoardControls />
 
             {/* Main Commodity Leaderboard Grid */}
-            <BoardLeaderboard
-              filteredCommodities={filteredCommodities}
-              currentZip={currentZip}
-              pinnedIds={pinnedIds}
-              effectiveOnHandIds={effectiveOnHandIds}
-              handleTogglePin={handleTogglePin}
-              handleToggleOnHand={handleToggleOnHand}
-              handleReviewStockUp={handleReviewStockUp}
-            />
+            <BoardLeaderboard />
           </div>
         )}
 
@@ -301,39 +277,14 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
             TAB 3: SHOPPING LIST, 1-TAP CURBSIDE CART BRIDGE & EXPORT
            ========================================================= */}
         {activeTab === 'SHOPPING_LIST' && (
-          <TripSection
-            data={data}
-            currentZip={currentZip}
-            shoppingPlan={shoppingPlan}
-            tripMode={tripMode}
-            setTripMode={setTripMode}
-            resolvedShoppingItems={resolvedShoppingItems}
-            digitalCouponItems={digitalCouponItems}
-            activeTrio={activeTrio}
-            trioTotals={trioTotals}
-            checkedItems={checkedItems}
-            clippedCoupons={clippedCoupons}
-            copiedChecklist={copiedChecklist}
-            showPrintSlipModal={showPrintSlipModal}
-            setShowPrintSlipModal={setShowPrintSlipModal}
-            toggleCheckedItem={toggleCheckedItem}
-            toggleClippedCoupon={toggleClippedCoupon}
-            handleToggleOnHand={handleToggleOnHand}
-            handleCopyShoppingListForNotes={handleCopyShoppingListForNotes}
-            handlePrintShoppingSlip={handlePrintShoppingSlip}
-          />
+          <TripSection />
         )}
 
         {/* =========================================================
             TAB 4: USDA, 6-WEEK CYCLE SIGNALS & WHOLESALE CLUB RADAR
            ========================================================= */}
         {activeTab === 'RADAR' && (
-          <RadarSection
-            data={data}
-            currentZip={currentZip}
-            onTogglePin={handleTogglePin}
-            onReviewStockUp={handleReviewStockUp}
-          />
+          <RadarSection />
         )}
       </main>
     </div>

@@ -1,18 +1,19 @@
+'use client';
+
 import { Check, Gem, Pin, Snowflake } from 'lucide-react';
 import { renderStoreBadge } from '@/modules/shop/badges';
-import type { DashboardPayload } from '@/types/domain';
+import {
+  useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Board tab); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Board tab). Since Phase B.2a it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface BoardAlertsProps {
-  data: Pick<DashboardPayload, 'splurgeAlerts'>;
-  currentZip: string;
-  pinnedIds: string[];
-  handleTogglePin: (ingredientId: string) => void;
-  handleReviewStockUp: () => void;
-}
-
-export default function BoardAlerts({ data, currentZip, pinnedIds, handleTogglePin, handleReviewStockUp }: BoardAlertsProps) {
+export default function BoardAlerts() {
+  const { data } = useDashboardContext();
+  const { currentZip } = useLocationContext();
+  const { pinnedIds, handleTogglePin } = usePreferencesContext();
+  const { handleReviewStockUp } = useShellContext();
   return (
     <>
       {data.splurgeAlerts.length > 0 && (

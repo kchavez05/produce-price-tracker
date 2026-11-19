@@ -1,13 +1,18 @@
+'use client';
+
 import { Check, CheckSquare, Copy, ExternalLink, Printer, Smartphone, Snowflake, Square, Store } from 'lucide-react';
 import { getItemCurbsideLinks } from '@/lib/cart-exporter';
 import { getStoreDefinition, resolveStoreBanner } from '@/data/store-registry';
 import type { buildShoppingListAndStoreComparison } from '@/lib/shopping-list';
-import type { DashboardPayload, DealType, StoreChain } from '@/types/domain';
+import type { DealType, StoreChain } from '@/types/domain';
 import { renderDealBadge, renderStoreBadge } from '@/modules/shop/badges';
 import PrintSlip from '@/modules/shop/PrintSlip';
+import {
+  useDashboardContext, useLocationContext, useShellContext, useShopContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Trip tab). State, setters and handlers stay in the
-// dashboard and are passed in under their original names so the markup below is unchanged.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Trip tab). Since Phase B.2a it reads the app's state from the
+// context hooks, under their original names, instead of props; the markup is unchanged.
 
 type ShoppingPlan = ReturnType<typeof buildShoppingListAndStoreComparison>;
 type PlanItem = ShoppingPlan['items'][number];
@@ -21,34 +26,14 @@ export type ResolvedShoppingItem = PlanItem & {
   activeDealConditions: PlanItem['optimalDealConditions'];
 };
 
-interface TripSectionProps {
-  data: DashboardPayload;
-  currentZip: string;
-  shoppingPlan: ShoppingPlan;
-  tripMode: 'SPLIT' | StoreChain;
-  setTripMode: (mode: 'SPLIT' | StoreChain) => void;
-  resolvedShoppingItems: ResolvedShoppingItem[];
-  digitalCouponItems: ResolvedShoppingItem[];
-  activeTrio: readonly unknown[];
-  trioTotals: { totalServings: number };
-  checkedItems: Record<string, boolean>;
-  clippedCoupons: Record<string, boolean>;
-  copiedChecklist: boolean;
-  showPrintSlipModal: boolean;
-  setShowPrintSlipModal: (show: boolean) => void;
-  toggleCheckedItem: (key: string) => void;
-  toggleClippedCoupon: (key: string) => void;
-  handleToggleOnHand: (ingredientId: string) => void;
-  handleCopyShoppingListForNotes: () => void;
-  handlePrintShoppingSlip: () => void;
-}
-
-export default function TripSection({
-  data, currentZip, shoppingPlan, tripMode, setTripMode, resolvedShoppingItems, digitalCouponItems,
-  activeTrio, trioTotals, checkedItems, clippedCoupons, copiedChecklist, showPrintSlipModal,
-  setShowPrintSlipModal, toggleCheckedItem, toggleClippedCoupon, handleToggleOnHand,
-  handleCopyShoppingListForNotes, handlePrintShoppingSlip,
-}: TripSectionProps) {
+export default function TripSection() {
+  const { data, shoppingPlan, resolvedShoppingItems, digitalCouponItems, activeTrio, trioTotals } = useDashboardContext();
+  const { currentZip } = useLocationContext();
+  const {
+    tripMode, setTripMode, checkedItems, clippedCoupons, copiedChecklist, showPrintSlipModal, setShowPrintSlipModal,
+    toggleCheckedItem, toggleClippedCoupon, handleCopyShoppingListForNotes, handlePrintShoppingSlip,
+  } = useShopContext();
+  const { handleToggleOnHand } = useShellContext();
   return (
     <div className="space-y-6">
       <section className="rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-5 text-white shadow-md no-print">

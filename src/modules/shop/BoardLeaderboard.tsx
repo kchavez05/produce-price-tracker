@@ -1,25 +1,24 @@
+'use client';
+
 import { Award, Check, DoorOpen, Gem, Pin, Snowflake, TrendingDown, TrendingUp } from 'lucide-react';
 import { verifiedLocalWeekCount } from '@/lib/market/history-summary';
 import { resolveStoreBanner } from '@/data/store-registry';
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { renderCycleSignalBadge, renderDealBadge, renderStoreBadge } from '@/modules/shop/badges';
 import type { ScoredCommodity } from '@/types/domain';
+import {
+  useAccountContext, useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Board tab); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Board tab). Since Phase B.2a it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface BoardLeaderboardProps {
-  filteredCommodities: ScoredCommodity[];
-  currentZip: string;
-  pinnedIds: string[];
-  effectiveOnHandIds: string[];
-  handleTogglePin: (ingredientId: string) => void;
-  handleToggleOnHand: (ingredientId: string) => void;
-  handleReviewStockUp: () => void;
-}
-
-export default function BoardLeaderboard({
-  filteredCommodities, currentZip, pinnedIds, effectiveOnHandIds, handleTogglePin, handleToggleOnHand, handleReviewStockUp,
-}: BoardLeaderboardProps) {
+export default function BoardLeaderboard() {
+  const { filteredCommodities } = useDashboardContext();
+  const { currentZip } = useLocationContext();
+  const { pinnedIds, handleTogglePin } = usePreferencesContext();
+  const { effectiveOnHandIds } = useAccountContext();
+  const { handleToggleOnHand, handleReviewStockUp } = useShellContext();
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {filteredCommodities.map((item: ScoredCommodity) => {
