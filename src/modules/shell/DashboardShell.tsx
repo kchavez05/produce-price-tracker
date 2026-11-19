@@ -20,16 +20,16 @@ import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanHeader from '@/modules/plan/PlanHeader';
 import AccountModal from '@/components/AccountModal';
 import {
-  useAccountContext, useDashboardContext, useLocationContext, usePlanContext, usePreferencesContext,
-  useShellContext,
+  useAccountContext, useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
 } from '@/modules/shell/app-context';
 import {
   DoorOpen,
 } from 'lucide-react';
 
 // v2.0 M3 Phase B.1e: the dashboard's markup, moved verbatim from MealPrepDashboard. It reads the app's state through
-// the seven context hooks instead of owning it. The Shop components (B.2a) read the contexts themselves; the other
-// modules still take props until their B.2 PRs. The three config flags are page-level, not state, so they stay props.
+// the seven context hooks instead of owning it. The Shop (B.2a) and Plan (B.2b) components read the contexts
+// themselves; the other modules still take props until their B.2 PRs. The three config flags are page-level, not
+// state, so they stay props.
 interface DashboardShellProps {
   barcodeEnabled?: boolean;
   speechConfigured?: boolean;
@@ -38,25 +38,19 @@ interface DashboardShellProps {
 
 export default function DashboardShell({ barcodeEnabled = false, speechConfigured = false, cameraEnabled = false }: DashboardShellProps) {
   const {
-    storeFilter, pinnedIds, targetServings, macroGoal, dietaryConstraints, applianceFilter, activeStores,
-    handleMacroGoalChange, handleToggleDietaryConstraint, handleVesselChange, handleToggleActiveStore,
-    handleServingsChange, handleStoreChange, handleClearProfileFilters,
+    storeFilter, pinnedIds, macroGoal, dietaryConstraints, applianceFilter, activeStores,
+    handleToggleActiveStore, handleStoreChange,
   } = usePreferencesContext();
   const {
     currentZip, showZipModal, setShowZipModal, zipInput, setZipInput, zipLoading, zipError, setZipError,
     handleZipSubmit,
   } = useLocationContext();
   const {
-    data, activeTrio, trioTotals, shoppingPlan,
+    data, trioTotals, shoppingPlan,
   } = useDashboardContext();
   const {
-    userSync, pantry, pantryAccountId, effectiveOnHandIds, savedRecipeIds, canUseAi,
+    userSync, pantry, pantryAccountId, effectiveOnHandIds,
   } = useAccountContext();
-  const {
-    expandedDishIds, setExpandedDishIds, showAllBlueprints, setShowAllBlueprints, customPrompt, setCustomPrompt,
-    aiLoading, aiBannerMessage, handleToggleSaveRecipe, useStandardSuggestions, handleGenerateAiPlan,
-    handlePromoteDish,
-  } = usePlanContext();
   const {
     activeTab, setActiveTab, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast,
     showStoresModal, setShowStoresModal, showAlertsModal, cronSyncResult, cronSyncLoading, cronSyncError,
@@ -228,48 +222,13 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
            ========================================================= */}
         {activeTab === 'MEAL_PLAN' && (
           <div className="space-y-6">
-            <PlanHeader
-              data={data}
-              trioTotals={trioTotals}
-              activeTrio={activeTrio}
-              targetServings={targetServings}
-              handleServingsChange={handleServingsChange}
-              setActiveTab={setActiveTab}
-              macroGoal={macroGoal}
-              dietaryConstraints={dietaryConstraints}
-              applianceFilter={applianceFilter}
-              handleMacroGoalChange={handleMacroGoalChange}
-              handleToggleDietaryConstraint={handleToggleDietaryConstraint}
-              handleVesselChange={handleVesselChange}
-              onClearProfileFilters={handleClearProfileFilters}
-              canUseAi={canUseAi}
-              aiLoading={aiLoading}
-              customPrompt={customPrompt}
-              aiBannerMessage={aiBannerMessage}
-              setCustomPrompt={setCustomPrompt}
-              handleGenerateAiPlan={handleGenerateAiPlan}
-              showAiSignIn={showAiSignIn}
-              useStandardSuggestions={useStandardSuggestions}
-            />
+            <PlanHeader />
 
             {/* The 3 Recommended Batch Dishes */}
-            <PlanDishes
-              activeTrio={activeTrio}
-              currentZip={currentZip}
-              expandedDishIds={expandedDishIds}
-              setExpandedDishIds={setExpandedDishIds}
-              savedRecipeIds={savedRecipeIds}
-              handleToggleSaveRecipe={handleToggleSaveRecipe}
-            />
+            <PlanDishes />
 
             {/* Option to Browse All Evaluated Stew/Casserole Blueprints */}
-            <PlanBlueprints
-              data={data}
-              targetServings={targetServings}
-              showAllBlueprints={showAllBlueprints}
-              setShowAllBlueprints={setShowAllBlueprints}
-              onPromoteDish={handlePromoteDish}
-            />
+            <PlanBlueprints />
           </div>
         )}
 

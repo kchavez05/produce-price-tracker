@@ -1,39 +1,26 @@
+'use client';
+
 import { ArrowRight, Flame, ListChecks, SlidersHorizontal, Users } from 'lucide-react';
 import AiMealPlanControls from '@/components/AiMealPlanControls';
-import type { applyPantryToRecipe } from '@/lib/pantry/recipe';
-import type { CookingVesselArchetype, DashboardPayload, DietaryConstraint, MacroGoal } from '@/types/domain';
+import {
+  useAccountContext, useDashboardContext, usePlanContext, usePreferencesContext, useShellContext,
+} from '@/modules/shell/app-context';
+import type { CookingVesselArchetype, DietaryConstraint, MacroGoal } from '@/types/domain';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan header); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan header). Since Phase B.2b it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface PlanHeaderProps {
-  data: Pick<DashboardPayload, 'cityLabel' | 'adCycleLabel'>;
-  trioTotals: { totalServings: number; avgPerServing: string; totalBatchCost: string; totalRegularCost: string; totalSavings: string };
-  activeTrio: ReturnType<typeof applyPantryToRecipe>[];
-  targetServings: number;
-  handleServingsChange: (servings: 4 | 6 | 8) => void;
-  setActiveTab: (tab: 'SHOPPING_LIST') => void;
-  macroGoal: MacroGoal;
-  dietaryConstraints: DietaryConstraint[];
-  applianceFilter: 'ANY' | CookingVesselArchetype;
-  handleMacroGoalChange: (goal: MacroGoal) => void;
-  handleToggleDietaryConstraint: (constraint: DietaryConstraint) => void;
-  handleVesselChange: (vessel: 'ANY' | CookingVesselArchetype) => void;
-  onClearProfileFilters: () => void;
-  canUseAi: boolean;
-  aiLoading: boolean;
-  customPrompt: string;
-  aiBannerMessage: string | null;
-  setCustomPrompt: (prompt: string) => void;
-  handleGenerateAiPlan: () => void | Promise<void>;
-  showAiSignIn: () => void;
-  useStandardSuggestions: () => void;
-}
-
-export default function PlanHeader({
-  data, trioTotals, activeTrio, targetServings, handleServingsChange, setActiveTab, macroGoal, dietaryConstraints,
-  applianceFilter, handleMacroGoalChange, handleToggleDietaryConstraint, handleVesselChange, onClearProfileFilters,
-  canUseAi, aiLoading, customPrompt, aiBannerMessage, setCustomPrompt, handleGenerateAiPlan, showAiSignIn, useStandardSuggestions,
-}: PlanHeaderProps) {
+export default function PlanHeader() {
+  const { data, trioTotals, activeTrio } = useDashboardContext();
+  const {
+    targetServings, handleServingsChange, macroGoal, dietaryConstraints, applianceFilter, handleMacroGoalChange,
+    handleToggleDietaryConstraint, handleVesselChange, handleClearProfileFilters: onClearProfileFilters,
+  } = usePreferencesContext();
+  const { setActiveTab, showAiSignIn } = useShellContext();
+  const { canUseAi } = useAccountContext();
+  const {
+    aiLoading, customPrompt, aiBannerMessage, setCustomPrompt, handleGenerateAiPlan, useStandardSuggestions,
+  } = usePlanContext();
   return (
     <section className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-950 p-5 text-white shadow-md">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
