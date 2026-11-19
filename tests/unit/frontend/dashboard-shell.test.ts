@@ -279,8 +279,10 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     await h.waitUntil(() => Boolean(h.container.querySelector('#virtual-pantry-title')));
     // The Pantry replaces the tab content (it is a module, not a drawer over it).
     expect(text(h)).not.toContain('Sort by:');
-    // The header is sticky on every module, the Pantry included (M4-1a; it used to stay in the page flow while the Pantry was open).
-    expect(h.container.querySelector('header')!.className).toContain('sticky');
+    // The header stays in the page flow while the Pantry is open: it is tall on a phone and the Pantry scrolls its heading to
+    // the top of the view, so a sticky header would cover the page.
+    expect(h.container.querySelector('header')!.className).toContain('relative');
+    expect(h.container.querySelector('header')!.className).not.toContain('sticky');
     await h.openShopView('Radar');
     expect(h.container.querySelector('header')!.className).toContain('sticky');
     expect(text(h)).toContain('Choose the specific ingredient in Virtual Pantry');
