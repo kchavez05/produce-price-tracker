@@ -1,19 +1,21 @@
+'use client';
+
 import { Check, Store } from 'lucide-react';
 import { ALL_STORE_CHAINS, getStoreDefinition, resolveStoreBanner } from '@/data/store-registry';
-import type { StoreChain } from '@/types/domain';
+import {
+  useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.2); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.2). Since Phase B.2c it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface StoresPanelProps {
-  activeStores: StoreChain[];
-  cityLabel: string;
-  currentZip: string;
-  onToggleStore: (store: StoreChain) => void;
-  onSelectAll: () => void;
-  onClose: () => void;
-}
-
-export default function StoresPanel({ activeStores, cityLabel, currentZip, onToggleStore, onSelectAll, onClose }: StoresPanelProps) {
+export default function StoresPanel() {
+  const { data } = useDashboardContext();
+  const { cityLabel } = data;
+  const { currentZip } = useLocationContext();
+  const { activeStores, handleToggleActiveStore: onToggleStore } = usePreferencesContext();
+  const { handleSelectAllStores: onSelectAll, setShowStoresModal } = useShellContext();
+  const onClose = () => setShowStoresModal(false);
   return (
     <div className="mt-3 rounded-xl border border-blue-300 bg-white p-4 shadow-lg text-xs text-slate-700">
       <div className="flex items-center justify-between border-b border-slate-100 pb-2">

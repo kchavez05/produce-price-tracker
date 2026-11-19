@@ -1,12 +1,12 @@
-import type { DashboardPayload } from '@/types/domain';
+'use client';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header); state and handlers stay in the dashboard.
+import { useDashboardContext } from '@/modules/shell/app-context';
 
-interface FreshnessNoticeProps {
-  data: Pick<DashboardPayload, 'adCycleLabel' | 'freshness' | 'lastUpdatedIso' | 'dataSourcesActive' | 'usda' | 'marketHistory'>;
-}
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-export default function FreshnessNotice({ data }: FreshnessNoticeProps) {
+export default function FreshnessNotice() {
+  const { data } = useDashboardContext();
   return (
     <>
       {data.freshness && (

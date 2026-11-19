@@ -1,18 +1,16 @@
+'use client';
+
 import { Bell, Check, Copy, RefreshCw } from 'lucide-react';
-import type { WeeklySyncCronResult } from '@/types/domain';
+import { useShellContext } from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.2); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.2). Since Phase B.2c it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface AlertsPanelProps {
-  cronSyncResult: WeeklySyncCronResult | null;
-  cronSyncLoading: boolean;
-  cronSyncError: string | null;
-  copiedDigest: boolean;
-  onRunSync: () => void | Promise<void>;
-  onCopyDigest: () => void;
-}
-
-export default function AlertsPanel({ cronSyncResult, cronSyncLoading, cronSyncError, copiedDigest, onRunSync, onCopyDigest }: AlertsPanelProps) {
+export default function AlertsPanel() {
+  const {
+    cronSyncResult, cronSyncLoading, cronSyncError, copiedDigest, handleTriggerWeeklySync: onRunSync,
+    handleCopyMarkdownDigest: onCopyDigest,
+  } = useShellContext();
   return (
     <div className="mt-3 rounded-xl border border-slate-300 bg-slate-900 p-4 text-xs text-slate-100 shadow-lg">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">

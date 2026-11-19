@@ -1,32 +1,21 @@
+'use client';
+
 import { Bell, ChefHat, DoorOpen, LogIn, MapPin, UserCheck } from 'lucide-react';
-import type { RefObject } from 'react';
-import type { DashboardPayload } from '@/types/domain';
-import type { useUserSync } from '@/hooks/useUserSync';
-import type { usePantry } from '@/hooks/usePantry';
+import {
+  useAccountContext, useDashboardContext, useLocationContext, useShellContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface HeaderPrimaryProps {
-  data: Pick<DashboardPayload, 'cityLabel'>;
-  currentZip: string;
-  showPantry: boolean;
-  showZipModal: boolean;
-  showAccountModal: boolean;
-  showAlertsModal: boolean;
-  userSync: Pick<ReturnType<typeof useUserSync>, 'authenticated' | 'profile' | 'syncStatus'>;
-  pantryEntries: ReturnType<typeof usePantry>['entries'];
-  pantryTrigger: RefObject<HTMLButtonElement | null>;
-  setShowZipModal: (show: boolean) => void;
-  setShowPantry: (show: boolean) => void;
-  setShowAccountModal: (show: boolean) => void;
-  setAccountIntent: (intent: 'account' | 'ai') => void;
-  handleToggleAlertsModal: () => void | Promise<void>;
-}
-
-export default function HeaderPrimary({
-  data, currentZip, showPantry, showZipModal, showAccountModal, showAlertsModal, userSync, pantryEntries, pantryTrigger,
-  setShowZipModal, setShowPantry, setShowAccountModal, setAccountIntent, handleToggleAlertsModal,
-}: HeaderPrimaryProps) {
+export default function HeaderPrimary() {
+  const { data } = useDashboardContext();
+  const { currentZip, showZipModal, setShowZipModal } = useLocationContext();
+  const { userSync, pantry: { entries: pantryEntries } } = useAccountContext();
+  const {
+    showPantry, showAccountModal, showAlertsModal, pantryTrigger, setShowPantry, setShowAccountModal, setAccountIntent,
+    handleToggleAlertsModal,
+  } = useShellContext();
   return (
     <div className="flex items-center justify-between gap-3">
       {/* Brand + Active ZIP Selector */}
