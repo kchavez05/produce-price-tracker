@@ -1,13 +1,19 @@
-import { useEffect, type Dispatch, type SetStateAction } from 'react';
+import { useEffect, useRef, type Dispatch, type SetStateAction } from 'react';
 import type {
   CookingVesselArchetype, DashboardPayload, DietaryConstraint, MacroGoal, StoreChain,
 } from '@/types/domain';
 import type { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.6a): the mount effect that restores the five localStorage
-// keys (checklist, clipped coupons, nutrition profile, active stores, ZIP) and refetches the dashboard for a saved
-// ZIP. It runs once, on the first render's values, as an effect (not an initializer) so the first render stays
-// hydration-safe. Its eslint-disable moves with it unchanged; resolving it is A.6b (spec decision 3).
+// The mount effect that restores the five localStorage keys (checklist, clipped coupons, nutrition profile, active
+// stores, ZIP) and refetches the dashboard for a saved ZIP (moved verbatim in v2.0 M3 Phase A.6a). It runs once, on
+// the first render's values, as an effect (not an initializer) so the first render stays hydration-safe.
+//
+// A.6b (spec decision 3) removes its eslint-disable without changing behavior:
+//  - the first render's values are snapshotted in a ref (useRef ignores later initial values), exactly what the old
+//    run-once closure saw;
+//  - syncDashboard is reached through a ref. The old effect called the first render's copy, but it passes all nine
+//    arguments explicitly, so the only live state it reads is the pantry owner ref, which both copies share;
+//  - the remaining dependencies are the useState setters, which never change, so the effect still runs once.
 interface StorageRestoreArgs {
   data: Pick<DashboardPayload, 'zipCode'>;
   storeFilter: 'ALL' | StoreChain;
@@ -29,12 +35,24 @@ interface StorageRestoreArgs {
   syncDashboard: ReturnType<typeof useDashboardPayload>['syncDashboard'];
 }
 
-export function useStorageRestore({
-  data, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, activeStores, macroGoal, dietaryConstraints,
-  applianceFilter, setCheckedItems, setClippedCoupons, setMacroGoal, setDietaryConstraints, setApplianceFilter,
-  setActiveStores, setCurrentZip, setZipInput, syncDashboard,
-}: StorageRestoreArgs) {
+export function useStorageRestore(args: StorageRestoreArgs) {
+  const {
+    setCheckedItems, setClippedCoupons, setMacroGoal, setDietaryConstraints, setApplianceFilter, setActiveStores,
+    setCurrentZip, setZipInput,
+  } = args;
+  const initial = useRef({
+    data: args.data, storeFilter: args.storeFilter, pinnedIds: args.pinnedIds, effectiveOnHandIds: args.effectiveOnHandIds,
+    targetServings: args.targetServings, activeStores: args.activeStores, macroGoal: args.macroGoal,
+    dietaryConstraints: args.dietaryConstraints, applianceFilter: args.applianceFilter,
+  });
+  const latestSync = useRef(args.syncDashboard);
+  latestSync.current = args.syncDashboard;
   useEffect(() => {
+    const {
+      data, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, activeStores, macroGoal, dietaryConstraints,
+      applianceFilter,
+    } = initial.current;
+    const syncDashboard = latestSync.current;
     try {
       const savedChecked = localStorage.getItem('mead_checked_items_v03');
       if (savedChecked) setCheckedItems(JSON.parse(savedChecked));
@@ -94,7 +112,6 @@ export function useStorageRestore({
     } catch {
       // Ignore storage errors
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setCheckedItems, setClippedCoupons, setMacroGoal, setDietaryConstraints, setApplianceFilter, setActiveStores, setCurrentZip, setZipInput]);
 
 }
