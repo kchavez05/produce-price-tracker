@@ -26,7 +26,7 @@ const stored = (key: string) => JSON.parse(localStorage.getItem(key) ?? '{}') as
 async function start(strictMode = false) {
   harness = await createDashboardHarness({ payload, strictMode });
   await harness.mount();
-  await harness.click(harness.button(LIST));
+  await harness.click(harness.link(LIST));
   return harness;
 }
 
@@ -74,8 +74,8 @@ describe('checklist and coupon toggles', () => {
     await h.click(checklistToggles(h)[1]);
     await h.click(coupons(h)[0]);
     const html = h.html();
-    await h.click(h.button(RADAR));
-    await h.click(h.button(LIST));
+    await h.click(h.link(RADAR));
+    await h.click(h.link(LIST));
     expect(h.html()).toBe(html);
   });
 });
@@ -110,8 +110,8 @@ describe('copy to notes and print', () => {
     expect(unchecked).toContain('80542');
     expect(h.container.textContent).toContain('Copied for Apple Notes / Keep!');
     // The copied flag is Shop state: it survives a tab switch until the timer fires.
-    await h.click(h.button(RADAR));
-    await h.click(h.button(LIST));
+    await h.click(h.link(RADAR));
+    await h.click(h.link(LIST));
     expect(h.container.textContent).toContain('Copied for Apple Notes / Keep!');
     const clear = timer(3000);
     expect(clear).toBeDefined();
@@ -134,8 +134,8 @@ describe('copy to notes and print', () => {
     expect(printNow).toBeDefined();
     await act(async () => { printNow!(); });
     expect(print).toHaveBeenCalledTimes(1);
-    await h.click(h.button(RADAR));
-    await h.click(h.button(LIST));
+    await h.click(h.link(RADAR));
+    await h.click(h.link(LIST));
     expect(h.container.textContent).toContain('Hide Printable Slip');
     await h.click(h.button('Hide Printable Slip'));
     expect(h.container.textContent).toContain('Preview Printable Slip');

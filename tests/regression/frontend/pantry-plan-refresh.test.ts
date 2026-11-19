@@ -15,7 +15,7 @@ vi.mock('@/hooks/useUserSync', () => ({ useUserSync: () => ({ authenticated: tru
   storageMode: 'SUPABASE_RLS', supabaseConfigured: true, syncStatus: 'IDLE', authLoading: false, hasGuestDataToMerge: false,
   guestFreezerCount: 0, signInWithProvider: vi.fn(), signOut: vi.fn(), dismissGuestMergePrompt: vi.fn(), pushCloudSync: vi.fn(),
   exportAccountDataJson: vi.fn(), deleteAccountAndData: vi.fn() }) }));
-import MealPrepDashboard from '@/components/MealPrepDashboard';
+import AppUnderTest from 'tests/helpers/app-under-test';
 
 const generated = createMockDish({ id: 'generated-plan', title: 'Generated plan before pantry edit' });
 const data: DashboardPayload = {
@@ -31,11 +31,11 @@ let container: HTMLDivElement;
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 async function run(action: () => void) { await act(async () => { action(); await settle(); }); }
 function button(text: string) {
-  const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text));
+  const found = [...container.querySelectorAll<HTMLElement>('button, a[href]')].find((element) => element.textContent?.includes(text));
   if (!found) throw new Error(`Missing button: ${text}`);
   return found;
 }
-async function render() { await run(() => root.render(createElement(MealPrepDashboard, { initialData: data, initialAccountId: 'test' }))); }
+async function render() { await run(() => root.render(createElement(AppUnderTest, { initialData: data, initialAccountId: 'test' }))); }
 beforeEach(() => {
   pantry.entries = []; localStorage.clear();
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);

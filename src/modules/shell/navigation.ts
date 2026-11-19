@@ -1,20 +1,42 @@
-// v2.0 M3 Phase B.3a: where the user is in the app, as two small pieces of state instead of one four-way tab.
-//  - module: which module is showing (Shop, Plan or Pantry). The Pantry is a module of its own since B.3b, not a drawer over
-//    the others; closing it returns to the module it was opened from (Shell context, pantryReturn).
+// v2.0 M3 Phase B.3: where the user is in the app. The URL is the source of truth for the module; the Shop view is state.
+//  - module: Shop, Plan or Pantry, derived from the path (/shop, /plan, /pantry).
 //  - shopView: which view the Shop module shows (Board, Trip or Radar). It is Shop UI memory, so it survives a trip to
 //    another module, as every other piece of view state does (owner decision 1). Shop views stay in-page state, not
 //    routes (owner decision, B.3 option A).
-// Components move around with navigateTo (Shell context). In B.3c it also changes the URL; callers do not change.
+//  - pantryReturn (Shell context): the module the Pantry was opened from, so its Close button returns there.
+// Components move around with navigateTo (Shell context) or an AppLink; both end in the same place.
 export type AppModule = 'shop' | 'plan' | 'pantry';
 export type ShopView = 'BOARD' | 'SHOPPING_LIST' | 'RADAR';
 export type Destination = { module: 'shop'; view: ShopView } | { module: 'plan' } | { module: 'pantry' };
 
-/** The four-way tab the current markup is keyed on (Board, Meal Plan, Shopping List, Radar). Goes away with the tab strip in B.3c. */
+export const MODULE_PATHS: Record<AppModule, string> = { shop: '/shop', plan: '/plan', pantry: '/pantry' };
+
+export function pathOf(destination: Destination): string {
+  return MODULE_PATHS[destination.module];
+}
+
+/** The module a path belongs to. Anything that is not a module path (including "/") counts as Shop, the default. */
+export function moduleOfPath(pathname: string): AppModule {
+  const first = pathname.split('/')[1];
+  return first === 'plan' || first === 'pantry' ? first : 'shop';
+}
+
+/** The last-used-module cookie (owner decision 10): the module name only, no personal data. */
+export const LAST_MODULE_COOKIE = 'pantrybot_last_module';
+export const LAST_MODULE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
+
+export function isAppModule(value: unknown): value is AppModule {
+  return value === 'shop' || value === 'plan' || value === 'pantry';
+}
+
+/** Where "/" goes: the last-used module, or Shop for a first visit, a bad value or no cookie. */
+export function lastModulePath(cookieValue: string | undefined): string {
+  return isAppModule(cookieValue) ? MODULE_PATHS[cookieValue] : MODULE_PATHS.shop;
+}
+
+/** The four-way tab the tab strip's highlighting is keyed on. */
 export type LegacyTab = ShopView | 'MEAL_PLAN' | 'PANTRY';
 export function legacyTab(module: AppModule, shopView: ShopView): LegacyTab {
   if (module === 'pantry') return 'PANTRY';
   return module === 'plan' ? 'MEAL_PLAN' : shopView;
-}
-export function destinationOf(tab: Exclude<LegacyTab, 'PANTRY'>): Destination {
-  return tab === 'MEAL_PLAN' ? { module: 'plan' } : { module: 'shop', view: tab };
 }

@@ -10,6 +10,7 @@ import type { useDerivedDashboard } from '@/modules/shell/hooks/useDerivedDashbo
 import type { useShellUi, useShellActions } from '@/modules/shell/hooks/useShellUi';
 import type { usePlanUi, usePlanActions } from '@/modules/plan/hooks/usePlanUi';
 import type { useShopUi, useShopCopyAction } from '@/modules/shop/hooks/useShopUi';
+import type { AppModule } from '@/modules/shell/navigation';
 
 // v2.0 M3 Phase B.1e: the app's state, split by owner into seven contexts. Each value is the return of the hooks that
 // own that slice, so a module reads a narrow hook instead of taking a long list of props. Nothing here memoizes: the
@@ -24,7 +25,7 @@ export type DashboardContextValue = ReturnType<typeof useDerivedDashboard>
 export type AccountContextValue = ReturnType<typeof useAccountAndPantry>;
 export type PlanContextValue = ReturnType<typeof usePlanUi> & ReturnType<typeof usePlanActions>;
 export type ShopContextValue = ReturnType<typeof useShopUi> & ReturnType<typeof useShopCopyAction>;
-export type ShellContextValue = ReturnType<typeof useShellUi> & ReturnType<typeof useShellActions>;
+export type ShellContextValue = ReturnType<typeof useShellUi> & ReturnType<typeof useShellActions> & { module: AppModule };
 
 function createRequiredContext<T>(name: string, hookName: string) {
   const Context = createContext<T | null>(null);

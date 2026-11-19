@@ -2,6 +2,7 @@
 
 import { ArrowRight, Flame, ListChecks, SlidersHorizontal, Users } from 'lucide-react';
 import AiMealPlanControls from '@/components/AiMealPlanControls';
+import AppLink from '@/modules/shell/AppLink';
 import {
   useAccountContext, useDashboardContext, usePlanContext, usePreferencesContext, useShellContext,
 } from '@/modules/shell/app-context';
@@ -16,8 +17,7 @@ export default function PlanHeader() {
     targetServings, handleServingsChange, macroGoal, dietaryConstraints, applianceFilter, handleMacroGoalChange,
     handleToggleDietaryConstraint, handleVesselChange, handleClearProfileFilters: onClearProfileFilters,
   } = usePreferencesContext();
-  const { navigateTo, showAiSignIn } = useShellContext();
-  const setActiveTab = (tab: 'SHOPPING_LIST') => navigateTo({ module: 'shop', view: tab });
+  const { showAiSignIn } = useShellContext();
   const { canUseAi } = useAccountContext();
   const {
     aiLoading, customPrompt, aiBannerMessage, setCustomPrompt, handleGenerateAiPlan, useStandardSuggestions,
@@ -61,14 +61,14 @@ export default function PlanHeader() {
               ))}
             </div>
 
-            <button
-              onClick={() => setActiveTab('SHOPPING_LIST')}
+            <AppLink
+              to={{ module: 'shop', view: 'SHOPPING_LIST' }}
               className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-500 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-indigo-400"
             >
               <ListChecks className="h-4 w-4" />
               <span>Open Shopping List &amp; Cart Bridge</span>
               <ArrowRight className="h-3.5 w-3.5" />
-            </button>
+            </AppLink>
           </div>
         </div>
 

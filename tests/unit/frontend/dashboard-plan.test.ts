@@ -39,7 +39,7 @@ async function start(ai: (init?: RequestInit) => Response | Promise<Response>, o
   harness = await createDashboardHarness({ payload, sync: cloudBacked, onFetch });
   await harness.mount({ initialAccountId: 'alice' });
   await harness.settle();
-  await harness.click(harness.button(PLAN));
+  await harness.click(harness.link(PLAN));
   await harness.waitUntil(() => buttons(harness!).some((b) => b.textContent?.includes(REMIX)));
   return harness;
 }
@@ -56,9 +56,9 @@ describe('AI plan request', () => {
   it('sends the whole context, shows the busy state, then applies the plan, banner and expanded first dish', async () => {
     const held = heldAi();
     const h = await start(held.handler, [oliveOil]);
-    await h.click(h.button(BOARD));
+    await h.click(h.link(BOARD));
     await h.click(buttons(h).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
-    await h.click(h.button(PLAN));
+    await h.click(h.link(PLAN));
     await h.click(h.button('8 Srv / Dish'));
     await h.type(promptInput(h), 'extra spicy');
     await h.click(h.button(REMIX));
@@ -188,8 +188,8 @@ describe('Plan state survives tab switches (owner decision 1)', () => {
     await h.click(h.button(REMIX));
     await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
     const html = h.html();
-    await h.click(h.button(RADAR));
-    await h.click(h.button(PLAN));
+    await h.click(h.link(RADAR));
+    await h.click(h.link(PLAN));
     expect(h.html()).toBe(html);
     expect(promptInput(h).value).toBe('soup');
   });
