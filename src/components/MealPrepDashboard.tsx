@@ -1,11 +1,10 @@
 'use client';
 
-import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
 
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { pantryCatalog } from '@/lib/pantry/model';
 const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
@@ -28,6 +27,7 @@ import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
 import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
+import { usePlanUi, usePlanActions } from '@/modules/plan/hooks/usePlanUi';
 import { useShopUi, useShopCopyAction } from '@/modules/shop/hooks/useShopUi';
 import { useDerivedDashboard } from '@/modules/shell/hooks/useDerivedDashboard';
 import { useStorageRestore } from '@/modules/shell/hooks/useStorageRestore';
@@ -41,7 +41,6 @@ import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanHeader from '@/modules/plan/PlanHeader';
 import AccountModal from '@/components/AccountModal';
-import { aiRetryHint, createAiRequestFence } from '@/lib/ai/client-request';
 import {
   DoorOpen,
 } from 'lucide-react';
@@ -78,20 +77,12 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
 
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
 
-  const [expandedDishIds, setExpandedDishIds] = useState<Record<string, boolean>>({
-    [initialData.recommendedTrio[0]?.id || '']: true,
-  });
-  const [showAllBlueprints, setShowAllBlueprints] = useState(false);
-
+  const {
+    expandedDishIds, setExpandedDishIds, showAllBlueprints, setShowAllBlueprints, customPrompt, setCustomPrompt,
+    aiLoading, setAiLoading, aiBannerMessage, setAiBannerMessage, customAiDishes, setCustomAiDishes, customAiOwner,
+    customAiContext,
+  } = usePlanUi(initialData);
   const [showStoresModal, setShowStoresModal] = useState(false);
-  // AI Custom Chef state
-  const [customPrompt, setCustomPrompt] = useState('');
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiBannerMessage, setAiBannerMessage] = useState<string | null>(null);
-  const [customAiDishes, setCustomAiDishes] = useState<RecommendedDish[] | null>(null);
-  const customAiOwner = useRef<string | null>(null);
-  const customAiContext = useRef<string>('');
-
   // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
   const [showAlertsModal, setShowAlertsModal] = useState(false);
   const [cronSyncResult, setCronSyncResult] = useState<WeeklySyncCronResult | null>(null);
@@ -132,17 +123,14 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     resolvedShoppingItems, shoppingPlan, activeTrio, currentZip, cityLabel: data.cityLabel, tripMode, checkedItems,
     setCopiedChecklist,
   });
-  const aiContextRef = useRef(mealContextSignature);
-  aiContextRef.current = mealContextSignature;
-  const aiRequests = useRef<ReturnType<typeof createAiRequestFence> | null>(null);
-  if (!aiRequests.current) aiRequests.current = createAiRequestFence();
-  useEffect(() => {
-    const requests = aiRequests.current;
-    requests?.cancel();
-    setAiLoading(false);
-    setAiBannerMessage(null);
-    return () => { requests?.cancel(); };
-  }, [pantry.owner, mealContextSignature]);
+  const {
+    handleToggleSaveRecipe, useStandardSuggestions, handleGenerateAiPlan, handlePromoteDish,
+  } = usePlanActions({
+    pantryOwner: pantry.owner, pantryOwnerRef, canUseAi, savedRecipeIds, setSavedLibrary, syncDashboard, showAiSignIn,
+    mealContextSignature, activeTrio, pinnedIds, effectiveOnHandIds, targetServings, customPrompt, storeFilter, currentZip,
+    cityLabel: data.cityLabel, macroGoal, dietaryConstraints, applianceFilter, customAiOwner, customAiContext, setAiLoading,
+    setAiBannerMessage, setCustomAiDishes, setExpandedDishIds,
+  });
 
   useStorageRestore({
     data, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, activeStores, macroGoal, dietaryConstraints, applianceFilter,
@@ -184,76 +172,9 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
       .catch((error: unknown) => setArbitrageToast(error instanceof Error ? error.message : 'Could not update the pantry.'));
   }
 
-  async function handleToggleSaveRecipe(dish: RecommendedDish) {
-    const requestOwner = pantryOwnerRef.current;
-    const isCurrentlySaved = Boolean(dish.savedInLibrary || savedRecipeIds[dish.id]);
-    try {
-      const res = isCurrentlySaved
-        ? await fetch(`/api/saved-recipes?id=${encodeURIComponent(dish.id)}`, { method: 'DELETE' })
-        : await fetch('/api/saved-recipes', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dish: withoutDerivedPantryPricing(dish) }),
-          });
-      if (!res.ok) throw new Error('Recipe save failed');
-      if (pantryOwnerRef.current !== requestOwner) return;
-      if (requestOwner) setSavedLibrary((previous) => ({ owner: requestOwner,
-        recipes: isCurrentlySaved ? previous.recipes.filter((entry) => entry.id !== dish.id) : [...previous.recipes.filter((entry) => entry.id !== dish.id), { ...withoutDerivedPantryPricing(dish), savedInLibrary: true }] }));
-    } catch {
-      setAiBannerMessage('Unable to update your saved recipes. Please try again.');
-      return;
-    }
-    syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, targetServings);
-  }
-
   function showAiSignIn() {
     setAccountIntent('ai');
     setShowAccountModal(true);
-  }
-
-  function useStandardSuggestions() {
-    aiRequests.current?.cancel();
-    setAiLoading(false);
-    setCustomAiDishes(null);
-    customAiOwner.current = null;
-    customAiContext.current = '';
-    setAiBannerMessage('Using standard meal-prep suggestions.');
-  }
-
-  async function handleGenerateAiPlan() {
-    if (!canUseAi) { showAiSignIn(); return; }
-    const ticket = aiRequests.current!.begin(pantryOwnerRef.current, mealContextSignature);
-    setAiLoading(true);
-    setAiBannerMessage(null);
-    try {
-      const res = await fetch('/api/ai-meal-plan', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ticket.controller.signal,
-        body: JSON.stringify({ requestId: ticket.id, pinnedIngredientIds: pinnedIds, onHandIngredientIds: effectiveOnHandIds,
-          targetServings, customPreference: customPrompt, storeFilter, zipCode: currentZip, cityLabel: data.cityLabel,
-          macroGoal, dietaryConstraints, applianceFilter }),
-      });
-      const result = await res.json();
-      if (!aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) return;
-      if (res.ok && Array.isArray(result.dishes)) {
-        customAiOwner.current = ticket.owner;
-        customAiContext.current = ticket.context;
-        setCustomAiDishes(result.dishes);
-        setAiBannerMessage(result.message || 'Updated 3-dish meal-prep plan.');
-        if (result.dishes[0]?.id) setExpandedDishIds({ [result.dishes[0].id]: true });
-      } else {
-        setCustomAiDishes(null);
-        const retry = aiRetryHint(res.headers.get('Retry-After'));
-        setAiBannerMessage((typeof result.error === 'string' ? result.error : 'Unable to generate a meal plan. Standard suggestions remain available.') + retry);
-        if (res.status === 401) showAiSignIn();
-      }
-    } catch {
-      if (!aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) return;
-      setCustomAiDishes(null);
-      setAiBannerMessage('Unable to reach AI assistance. Standard suggestions remain available. Try again when connected.');
-    } finally {
-      if (aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) {
-        setAiLoading(false);
-        aiRequests.current!.complete(ticket);
-      }
-    }
   }
 
   async function handleToggleAlertsModal() {
@@ -310,17 +231,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     navigator.clipboard?.writeText(text);
     setCopiedDigest(true);
     setTimeout(() => setCopiedDigest(false), 2500);
-  }
-
-  // Promote a blueprint into the top three (moved unchanged from the Meal Plan tab's inline click handler).
-  function handlePromoteDish(dish: RecommendedDish) {
-    customAiOwner.current = pantry.owner;
-    customAiContext.current = mealContextSignature;
-    setCustomAiDishes([
-      dish,
-      ...activeTrio.filter((d) => d.id !== dish.id).slice(0, 2),
-    ]);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   return (
