@@ -45,11 +45,13 @@ PantryBot bridges **macro agricultural supply data (USDA)**, **wholesale club bu
    * Production OpenAPI 3.1 REST specification (`/api/openapi.json`), interactive Swagger UI testing console (`/docs`), and endpoint documentation across all 8 backend API domains.
 5. **[Testing](./Testing.md)**
    * The three test tiers, Playwright browser commands, the accessibility allowlist, and how visual baselines are generated and updated (CI only).
-6. **[Design System](./Design-System.md)**
+6. **[App Structure and Module Map](./App-Structure.md)**
+   * The routes (`/shop`, `/plan`, `/pantry`), the one provider and its seven contexts, the Shop, Plan, Pantry and Shell modules, navigation and the last-used-module cookie, what survives a module switch, and the tests that cover it.
+7. **[Design System](./Design-System.md)**
    * v2.0 foundations: design tokens, light/dark themes, UI primitives, the `/design` style guide and the palette ratchet guard (not yet used by shipped screens).
-6. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
+8. **[Project Roadmap (`ROADMAP.md`)](../../ROADMAP.md)**
    * Historical milestones, current release scope and future mobile plans.
-7. **[Release Notes (`docs/releases/`)](../releases/)**
+9. **[Release Notes (`docs/releases/`)](../releases/)**
    * **[v1.6.3 — Pantry Access Repair & Freezer Retirement](../releases/v1.6.3.md)**
    * **[v1.6.2 — Barcode Entry & Static Staple Estimates](../releases/v1.6.2.md)**
    * **[v1.6.1 — Pantry Catalog Expansion](../releases/v1.6.1.md)**

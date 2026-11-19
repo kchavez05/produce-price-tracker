@@ -57,6 +57,10 @@ The workflow never commits. During the v2.0 M3 refactor any snapshot diff is a f
 - `run-tier3`: runs the Tier 3 browser matrix and the visual job on a `develop` PR. Apply it **before pushing**; labeling alone does not retrigger CI.
 - `update-visual-baselines`: runs the Visual Baselines workflow.
 
+## App routes in tests (M3)
+
+Tier 1 jsdom tests cannot run Next.js, so they mount the same pieces the route group composes (the chrome plus the page for a path) through an in-memory router: `tests/helpers/app-under-test.ts`, with the dashboard harness (`tests/helpers/dashboard-harness.ts`) building on it. A test reads the path with `harness.path()` and the paths pushed with `harness.pushes`; nothing mocks `next/navigation`. The browser journeys in `tests/e2e/navigation.spec.ts` cover the real thing: links without a reload, Back, Forward and reload, the Pantry's return point, `/` opening the last-used module, and switching module mid-edit with a refetch still in flight (`holdRequests` in `tests/e2e/support/stubs.ts` holds a response until released). The accessibility scan waits for a settled `document.title` before it runs, because Next.js briefly empties it during a client navigation. See [App Structure and Module Map](./App-Structure.md).
+
 ## Characterization suite (M3)
 
 The smoke journeys and the visual baselines are the frozen safety net for the dashboard split ([#701](https://github.com/kchavez05/produce-price-tracker/issues/701)). M3 PRs keep them green with no baseline or test edits other than the route and locator changes the split requires; any other edit needs an explanation in the PR description.
