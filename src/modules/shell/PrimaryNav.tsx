@@ -2,15 +2,19 @@
 
 import { ArrowRight, Flame, ListChecks, Radar, ShoppingBag } from 'lucide-react';
 import {
-  useAccountContext, useDashboardContext, usePreferencesContext, useShellContext,
+  useAccountContext, useDashboardContext, usePreferencesContext, useShellContext, useShopContext,
 } from '@/modules/shell/app-context';
+import { destinationOf, legacyTab, type LegacyTab } from '@/modules/shell/navigation';
 
 // Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
 // context hooks instead of props; the markup is unchanged.
 
 export default function PrimaryNav() {
   const { data, shoppingPlan, trioTotals } = useDashboardContext();
-  const { activeTab, setActiveTab } = useShellContext();
+  const { module, navigateTo } = useShellContext();
+  const { shopView } = useShopContext();
+  const activeTab = legacyTab(module, shopView);
+  const setActiveTab = (tab: LegacyTab) => navigateTo(destinationOf(tab));
   const { pinnedIds } = usePreferencesContext();
   const { effectiveOnHandIds } = useAccountContext();
   return (

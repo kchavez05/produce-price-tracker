@@ -43,12 +43,12 @@ export default function AppProvider({ initialData, initialAccountId = null, init
   const { currentZip, setCurrentZip, setShowZipModal, zipInput, setZipInput, setZipLoading, setZipError } = location;
   const shellUi = useShellUi();
   const {
-    setShowPantry, setArbitrageToast, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
+    setModule, setShowPantry, setArbitrageToast, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     setCronSyncLoading, setCronSyncError, setCopiedDigest, showAiSignIn
   } = shellUi;
   const shopUi = useShopUi();
   const {
-    categoryFilter, sortMode, setCopiedChecklist, tripMode, setTripMode, setCheckedItems, checkedItems,
+    setShopView, categoryFilter, sortMode, setCopiedChecklist, tripMode, setTripMode, setCheckedItems, checkedItems,
     setClippedCoupons
   } = shopUi;
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
@@ -114,8 +114,8 @@ export default function AppProvider({ initialData, initialAccountId = null, init
 
   const shellActions = useShellActions({
     pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, setShowPantry, setArbitrageToast,
-    setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
+    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, setModule, setShopView, setShowPantry,
+    setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
   });
 
   return (

@@ -192,9 +192,11 @@ describe('Plan components on the contexts, without the shell', () => {
 
   it('PlanHeader opens the shopping list through the Shell context and runs the AI controls through the Plan context', async () => {
     const h = await mountModules(() => createElement(PlanHeader));
-    expect(seen.shell.activeTab).toBe('BOARD');
+    await act(async () => { seen.shell.navigateTo({ module: 'plan' }); await h.settle(); });
+    expect(seen.shell.module).toBe('plan');
     await act(async () => { buttons(h).find((b) => b.textContent?.includes('Open Shopping List'))!.click(); await h.settle(); });
-    expect(seen.shell.activeTab).toBe('SHOPPING_LIST');
+    expect(seen.shell.module).toBe('shop');
+    expect(seen.shop.shopView).toBe('SHOPPING_LIST');
     await h.type(h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!, 'soup');
     expect(seen.plan.customPrompt).toBe('soup');
     expect(seen.account.canUseAi).toBe(false);
@@ -318,13 +320,15 @@ describe('Shell components on the contexts, without the shell', () => {
     await act(async () => { seen.preferences.handleTogglePin(seen.dashboard.data.commodities[0].ingredient.id); await h.settle(); });
     expect(text(h)).toContain('1 Pinned \u2022 1 marked available');
     expect(text(h)).toContain(`$${seen.dashboard.trioTotals.avgPerServing}/srv`);
-    expect(seen.shell.activeTab).toBe('BOARD');
+    expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'BOARD']);
     await click(h, (b) => b.textContent?.includes('2. 3-Dish Meal Prep') === true);
-    expect(seen.shell.activeTab).toBe('MEAL_PLAN');
+    expect(seen.shell.module).toBe('plan');
     await click(h, (b) => b.textContent?.includes('4. Cycle & Club Radar') === true);
-    expect(seen.shell.activeTab).toBe('RADAR');
+    expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'RADAR']);
+    await click(h, (b) => b.textContent?.includes('3. Shopping List') === true);
+    expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'SHOPPING_LIST']);
     await click(h, (b) => b.textContent?.includes('View 3 Dishes') === true);
-    expect(seen.shell.activeTab).toBe('MEAL_PLAN');
+    expect(seen.shell.module).toBe('plan');
   });
 
   it('ZipPanel edits and submits the ZIP through the Location context and closes through Shell state', async () => {

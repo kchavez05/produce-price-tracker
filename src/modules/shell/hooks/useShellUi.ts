@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { pantryCatalog } from '@/lib/pantry/model';
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
+import type { AppModule, Destination, ShopView } from '@/modules/shell/navigation';
 import type { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import type { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import type { useUserSync } from '@/hooks/useUserSync';
@@ -16,9 +17,7 @@ import type {
 //  2. useShellUi takes no inputs and comes first: showAiSignIn is passed to usePlanActions, and handleReviewStockUp
 //     is used by Shop. useShellActions needs the account, pantry and payload hooks, so it comes after them.
 export function useShellUi() {
-  const [activeTab, setActiveTab] = useState<
-    'BOARD' | 'MEAL_PLAN' | 'SHOPPING_LIST' | 'RADAR'
-  >('BOARD');
+  const [module, setModule] = useState<AppModule>('shop');
   const [showPantry, setShowPantry] = useState(false);
   const pantryTrigger = useRef<HTMLButtonElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
@@ -44,7 +43,7 @@ export function useShellUi() {
   }
 
   return {
-    activeTab, setActiveTab, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast,
+    module, setModule, showPantry, setShowPantry, pantryTrigger, arbitrageToast, setArbitrageToast,
     showStoresModal, setShowStoresModal, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     cronSyncLoading, setCronSyncLoading, cronSyncError, setCronSyncError, copiedDigest, setCopiedDigest,
     showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, handleReviewStockUp, showAiSignIn,
@@ -67,6 +66,8 @@ interface ShellActionsArgs {
   applianceFilter: CookingVesselArchetype;
   showAlertsModal: boolean;
   cronSyncResult: WeeklySyncCronResult | null;
+  setModule: (module: AppModule) => void;
+  setShopView: (view: ShopView) => void;
   setShowPantry: (show: boolean) => void;
   setArbitrageToast: (message: string | null) => void;
   setActiveStores: (stores: StoreChain[]) => void;
@@ -79,8 +80,8 @@ interface ShellActionsArgs {
 
 export function useShellActions({
   pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, setShowPantry, setArbitrageToast,
-  setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
+  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, setModule, setShopView, setShowPantry,
+  setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
 }: ShellActionsArgs) {
   async function handleForceCloudSync() {
     await pantry.retry();
@@ -157,6 +158,13 @@ export function useShellActions({
     setTimeout(() => setCopiedDigest(false), 2500);
   }
 
+  // Move to a module (and, for Shop, a view). The Shop view is left alone when going to another module, so coming
+  // back finds it as it was. In B.3c this also changes the URL; callers do not change.
+  function navigateTo(destination: Destination) {
+    setModule(destination.module);
+    if (destination.module === 'shop') setShopView(destination.view);
+  }
+
   // The stores drawer's "Select All" (moved from an inline handler in the JSX, body unchanged).
   function handleSelectAllStores() {
     setActiveStores(ALL_STORE_CHAINS);
@@ -178,6 +186,6 @@ export function useShellActions({
 
   return {
     handleForceCloudSync, handleToggleOnHand, handleToggleAlertsModal, handleTriggerWeeklySync, handleCopyMarkdownDigest,
-    handleSelectAllStores,
+    handleSelectAllStores, navigateTo,
   };
 }

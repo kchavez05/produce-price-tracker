@@ -16,7 +16,8 @@ export default function PlanHeader() {
     targetServings, handleServingsChange, macroGoal, dietaryConstraints, applianceFilter, handleMacroGoalChange,
     handleToggleDietaryConstraint, handleVesselChange, handleClearProfileFilters: onClearProfileFilters,
   } = usePreferencesContext();
-  const { setActiveTab, showAiSignIn } = useShellContext();
+  const { navigateTo, showAiSignIn } = useShellContext();
+  const setActiveTab = (tab: 'SHOPPING_LIST') => navigateTo({ module: 'shop', view: tab });
   const { canUseAi } = useAccountContext();
   const {
     aiLoading, customPrompt, aiBannerMessage, setCustomPrompt, handleGenerateAiPlan, useStandardSuggestions,
