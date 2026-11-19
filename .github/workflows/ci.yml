@@ -267,6 +267,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     continue-on-error: true
+    # Same image as the Tier 2 and Tier 3 jobs: no browser download and no 185-package apt install (#790). The baselines are
+    # generated in this same image by the Visual Baselines workflow. The tag must equal the pinned @playwright/test version;
+    # tests/unit/ci/playwright-image.test.ts enforces that.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      options: --ipc=host
     if: >-
       (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'release' || contains(github.event.pull_request.labels.*.name, 'run-tier3')))
       || (github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'release'))
@@ -288,30 +294,12 @@ jobs:
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') == ''
         run: echo "No visual baselines are committed yet. Run the Visual Baselines workflow and commit its artifact." >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Read Playwright version
-        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
-        id: playwright
-        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
-
-      - name: Cache Playwright browsers
-        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
-        id: playwright-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-webkit-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
-      - name: Install WebKit and system dependencies
-        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != '' && steps.playwright-cache.outputs.cache-hit != 'true'
-        run: .github/scripts/retry-with-timeout.sh 180 2 npx playwright install --with-deps webkit
-
-      - name: Install WebKit system dependencies (cached browsers)
-        if: hashFiles('tests/e2e/__screenshots__/**/*.png') != '' && steps.playwright-cache.outputs.cache-hit == 'true'
-        run: .github/scripts/retry-with-timeout.sh 120 3 npx playwright install-deps webkit
-
+      # faketime (one small package) is the only apt install left; the image has no sudo, so the retry cleanup runs as root.
       - name: Install faketime (pins the server clock for visual runs)
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
-        run: sudo apt-get install -y --no-install-recommends faketime
+        run: .github/scripts/retry-with-timeout.sh 120 3 sh -c 'apt-get update -qq && apt-get install -y --no-install-recommends faketime'
+        env:
+          RETRY_CLEANUP: "pkill -KILL -x 'apt-get|apt|dpkg' || true; sleep 2; dpkg --configure -a"
 
       - name: Cache Next.js build cache
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
@@ -329,6 +317,8 @@ jobs:
           # Serves the dev-only /design style guide in this e2e build. Never set on Vercel.
           E2E_DESIGN_GUIDE: '1'
 
+      # The server renders the curated weekly baseline with no live circular fetch (PANTRYBOT_LIVE_OFFERS=off, set by
+      # playwright.config.ts for fake-clock runs), so a market refresh cannot move a baseline (#796).
       - name: Visual snapshots (WebKit, iPhone and iPad portrait)
         if: hashFiles('tests/e2e/__screenshots__/**/*.png') != ''
         run: npm run test:e2e:visual

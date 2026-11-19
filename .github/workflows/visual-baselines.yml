@@ -1,8 +1,9 @@
 name: Visual Baselines
 
-# Generates visual snapshot baselines on ubuntu-latest, the only place they may come from
-# (rendering differs by OS). It never commits: it uploads the images as an artifact, and a person
-# downloads them, reviews the diff and commits them. Run it from the Actions tab, or add the
+# Generates visual snapshot baselines in the Playwright image (the same one the visual job compares in), the only
+# place they may come from (rendering differs by OS). The server renders the curated weekly baseline only, with no live
+# circular fetch, so a market refresh never changes them (#796). It never commits: it uploads the images as an artifact,
+# and a person downloads them, reviews the diff and commits them. Run it from the Actions tab, or add the
 # "update-visual-baselines" label to a pull request.
 
 on:
@@ -22,6 +23,10 @@ jobs:
     name: Generate baselines
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # The tag must equal the pinned @playwright/test version; tests/unit/ci/playwright-image.test.ts enforces that.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.1-noble
+      options: --ipc=host
     if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'update-visual-baselines'
 
     steps:
@@ -37,11 +42,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install WebKit and system dependencies
-        run: .github/scripts/retry-with-timeout.sh 180 2 npx playwright install --with-deps webkit
-
+      # faketime (one small package) is the only apt install left; the image has no sudo, so the retry cleanup runs as root.
       - name: Install faketime (pins the server clock for visual runs)
-        run: sudo apt-get install -y --no-install-recommends faketime
+        run: .github/scripts/retry-with-timeout.sh 120 3 sh -c 'apt-get update -qq && apt-get install -y --no-install-recommends faketime'
+        env:
+          RETRY_CLEANUP: "pkill -KILL -x 'apt-get|apt|dpkg' || true; sleep 2; dpkg --configure -a"
 
       - name: Build production app
         run: npm run build -- --no-lint
