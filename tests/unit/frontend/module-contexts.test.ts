@@ -8,6 +8,7 @@ import {
   aliceSync, createDashboardHarness, keylessPayload, type DashboardHarness, type FetchHandler,
 } from 'tests/helpers/dashboard-harness';
 import AppProvider from '@/modules/shell/AppProvider';
+import { TestRouter } from 'tests/helpers/app-under-test';
 import {
   useAccountContext, useDashboardContext, useLocationContext, usePlanContext, usePreferencesContext, useShellContext,
   useShopContext,
@@ -36,7 +37,9 @@ let harness: DashboardHarness | undefined;
 let onFetch: FetchHandler | undefined;
 let sync: UserSyncPayload | undefined;
 let accountId: string | null = null;
-afterEach(async () => { await harness?.teardown(); harness = undefined; onFetch = undefined; sync = undefined; accountId = null; vi.restoreAllMocks(); });
+/** Every path the in-memory router was asked to open, in order. */
+let pushes: string[] = [];
+afterEach(async () => { await harness?.teardown(); harness = undefined; onFetch = undefined; sync = undefined; accountId = null; pushes = []; vi.restoreAllMocks(); });
 
 interface Seen {
   dashboard: ReturnType<typeof useDashboardContext>;
@@ -57,13 +60,17 @@ function Probe() {
 async function mountModules(...components: Array<() => ReturnType<typeof createElement>>) {
   harness = await createDashboardHarness({ payload, onFetch, sync });
   await act(async () => {
-    harness!.root.render(createElement(AppProvider, { initialData: payload, initialAccountId: accountId },
-      createElement(Probe), ...components.map((component, index) => createElement('div', { key: index, 'data-module': index }, component()))));
+    harness!.root.render(createElement(TestRouter, { onPush: (path) => pushes.push(path) }, createElement(AppProvider, { initialData: payload, initialAccountId: accountId },
+      createElement(Probe), ...components.map((component, index) => createElement('div', { key: index, 'data-module': index }, component())))));
     await harness!.settle();
   });
   return harness;
 }
 const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
+/** Links (the tab strip, the header Pantry link and the plan header's shopping-list link) are <a href> since B.3c. */
+const links = (h: DashboardHarness) => [...h.container.querySelectorAll('a')];
+const clickLink = (h: DashboardHarness, find: (a: HTMLAnchorElement) => boolean) =>
+  act(async () => { links(h).find(find)!.click(); await h.settle(); });
 const text = (h: DashboardHarness) => h.container.textContent ?? '';
 
 describe('Shop components on the contexts, without the shell', () => {
@@ -110,8 +117,8 @@ describe('Shop components on the contexts, without the shell', () => {
     const alertPayload = { ...payload, splurgeAlerts: [first], commodities: [first, ...rest] };
     harness = await createDashboardHarness({ payload: alertPayload });
     await act(async () => {
-      harness!.root.render(createElement(AppProvider, { initialData: alertPayload, initialAccountId: null },
-        createElement(Probe), createElement(BoardAlerts)));
+      harness!.root.render(createElement(TestRouter, null, createElement(AppProvider, { initialData: alertPayload, initialAccountId: null },
+        createElement(Probe), createElement(BoardAlerts))));
       await harness!.settle();
     });
     expect(buttons(harness).some((b) => /Pin to Prep/.test(b.textContent ?? ''))).toBe(true);
@@ -136,8 +143,8 @@ describe('Shop components on the contexts, without the shell', () => {
     const radarPayload = { ...payload, commodities: [first, peak, ...rest], marketRadar: { ...payload.marketRadar, cyclePeakWaitList: [peak] } };
     harness = await createDashboardHarness({ payload: radarPayload });
     await act(async () => {
-      harness!.root.render(createElement(AppProvider, { initialData: radarPayload, initialAccountId: null },
-        createElement(Probe), createElement(RadarSection)));
+      harness!.root.render(createElement(TestRouter, null, createElement(AppProvider, { initialData: radarPayload, initialAccountId: null },
+        createElement(Probe), createElement(RadarSection))));
       await harness!.settle();
     });
     expect(text(harness)).toContain('Predictive 6-Week Cycle Signals');
@@ -195,9 +202,11 @@ describe('Plan components on the contexts, without the shell', () => {
     const h = await mountModules(() => createElement(PlanHeader));
     await act(async () => { seen.shell.navigateTo({ module: 'plan' }); await h.settle(); });
     expect(seen.shell.module).toBe('plan');
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Open Shopping List'))!.click(); await h.settle(); });
+    expect(pushes).toEqual(['/plan']);
+    await clickLink(h, (a) => a.textContent?.includes('Open Shopping List') === true);
     expect(seen.shell.module).toBe('shop');
     expect(seen.shop.shopView).toBe('SHOPPING_LIST');
+    expect(pushes).toEqual(['/plan', '/shop']);
     await h.type(h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!, 'soup');
     expect(seen.plan.customPrompt).toBe('soup');
     expect(seen.account.canUseAi).toBe(false);
@@ -273,11 +282,14 @@ describe('Shell components on the contexts, without the shell', () => {
     await click(h, (b) => b.title === 'Click to change your ZIP code');
     expect(seen.location.showZipModal).toBe(true);
     expect(seen.shell.module).toBe('shop');
-    await click(h, (b) => b.textContent?.includes('Pantry') === true && b.title !== 'Click to change your ZIP code');
+    // The header's Pantry control is a link to /pantry: it opens the Pantry, and pressing it again changes nothing.
+    expect(links(h).find((a) => a.title === 'Open Virtual Pantry')!.getAttribute('href')).toBe('/pantry');
+    await clickLink(h, (a) => a.title === 'Open Virtual Pantry');
     expect(seen.shell.module).toBe('pantry');
-    // The header button toggles: pressed again, it returns to the module the Pantry was opened from.
-    await click(h, (b) => b.textContent?.includes('Pantry') === true && b.title !== 'Click to change your ZIP code');
-    expect(seen.shell.module).toBe('shop');
+    expect(pushes).toEqual(['/pantry']);
+    await clickLink(h, (a) => a.title === 'Open Virtual Pantry');
+    expect(seen.shell.module).toBe('pantry');
+    expect(pushes).toEqual(['/pantry']);
     await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
     expect(seen.shell.accountIntent).toBe('ai');
     await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
@@ -325,14 +337,18 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(text(h)).toContain('1 Pinned \u2022 1 marked available');
     expect(text(h)).toContain(`$${seen.dashboard.trioTotals.avgPerServing}/srv`);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'BOARD']);
-    await click(h, (b) => b.textContent?.includes('2. 3-Dish Meal Prep') === true);
+    expect(links(h).find((a) => a.textContent?.includes('2. 3-Dish Meal Prep'))!.getAttribute('href')).toBe('/plan');
+    expect(links(h).find((a) => a.textContent?.includes('4. Cycle & Club Radar'))!.getAttribute('href')).toBe('/shop');
+    await clickLink(h, (a) => a.textContent?.includes('2. 3-Dish Meal Prep') === true);
     expect(seen.shell.module).toBe('plan');
-    await click(h, (b) => b.textContent?.includes('4. Cycle & Club Radar') === true);
+    await clickLink(h, (a) => a.textContent?.includes('4. Cycle & Club Radar') === true);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'RADAR']);
-    await click(h, (b) => b.textContent?.includes('3. Shopping List') === true);
+    await clickLink(h, (a) => a.textContent?.includes('3. Shopping List') === true);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'SHOPPING_LIST']);
-    await click(h, (b) => b.textContent?.includes('View 3 Dishes') === true);
+    await clickLink(h, (a) => a.textContent?.includes('View 3 Dishes') === true);
     expect(seen.shell.module).toBe('plan');
+    // Moving between Shop views changes no URL; only a change of module does.
+    expect(pushes).toEqual(['/plan', '/shop', '/plan']);
   });
 
   it('ZipPanel edits and submits the ZIP through the Location context and closes through Shell state', async () => {

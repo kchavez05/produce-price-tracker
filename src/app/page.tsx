@@ -1,24 +1,12 @@
-import { readProfilePantryAvailability } from '@/lib/pantry/server';
-import { loadInventoryState } from '@/lib/supabase/session';
-import { isSpeechPipelineConfigured } from '@/lib/ai/speech/providers';
-import MealPrepDashboard from '@/components/MealPrepDashboard';
-import { buildDashboardPayload } from '@/lib/scoring-and-matcher';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { LAST_MODULE_COOKIE, lastModulePath } from '@/modules/shell/navigation';
 
 export const dynamic = 'force-dynamic';
 
+// v2.0 M3 Phase B.3c: "/" opens the last-used module (owner decision 10), Shop on a first visit. The cookie holds the module
+// name only and is written by the app shell on every module change.
 export default async function HomePage() {
-  const inventory = await loadInventoryState();
-  const onHandIngredientIds = await readProfilePantryAvailability(inventory.profile).catch(() => []);
-  const initialData = await buildDashboardPayload({
-    savedRecipes: inventory.savedRecipes,
-    zipCode: '80542',
-    storeFilter: 'ALL',
-    pinnedIngredientIds: [],
-    onHandIngredientIds,
-  });
-
-  return <MealPrepDashboard speechConfigured={isSpeechPipelineConfigured()} initialData={initialData} barcodeEnabled={process.env.PANTRYBOT_BARCODE_LOOKUP_ENABLED === 'true'}
-    cameraEnabled={process.env.PANTRYBOT_BARCODE_CAMERA_ENABLED === 'true'}
-    initialPrivateRecipes={inventory.savedRecipes}
-    initialAccountId={inventory.profile && !inventory.profile.id.startsWith('guest-') ? inventory.profile.id : null} />;
+  const jar = await cookies();
+  redirect(lastModulePath(jar.get(LAST_MODULE_COOKIE)?.value));
 }

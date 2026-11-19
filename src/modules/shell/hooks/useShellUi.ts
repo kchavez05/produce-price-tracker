@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { pantryCatalog } from '@/lib/pantry/model';
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
-import type { AppModule, Destination, ShopView } from '@/modules/shell/navigation';
+import { pathOf, type AppModule, type Destination, type ShopView } from '@/modules/shell/navigation';
 import type { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import type { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import type { useUserSync } from '@/hooks/useUserSync';
@@ -17,9 +17,8 @@ import type {
 //  2. useShellUi takes no inputs and comes first: showAiSignIn is passed to usePlanActions. useShellActions needs the
 //     account, pantry and payload hooks (and the Shop view, to remember where the Pantry was opened from), so it comes after them.
 export function useShellUi() {
-  const [module, setModule] = useState<AppModule>('shop');
   const [pantryReturn, setPantryReturn] = useState<Destination>({ module: 'shop', view: 'BOARD' });
-  const pantryTrigger = useRef<HTMLButtonElement>(null);
+  const pantryTrigger = useRef<HTMLAnchorElement>(null);
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
   const [showStoresModal, setShowStoresModal] = useState(false);
   // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
@@ -38,7 +37,7 @@ export function useShellUi() {
   }
 
   return {
-    module, setModule, pantryReturn, setPantryReturn, pantryTrigger, arbitrageToast, setArbitrageToast,
+    pantryReturn, setPantryReturn, pantryTrigger, arbitrageToast, setArbitrageToast,
     showStoresModal, setShowStoresModal, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     cronSyncLoading, setCronSyncLoading, cronSyncError, setCronSyncError, copiedDigest, setCopiedDigest,
     showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, showAiSignIn,
@@ -64,7 +63,7 @@ interface ShellActionsArgs {
   module: AppModule;
   shopView: ShopView;
   pantryReturn: Destination;
-  setModule: (module: AppModule) => void;
+  navigate: (path: string) => void;
   setShopView: (view: ShopView) => void;
   setPantryReturn: (destination: Destination) => void;
   setArbitrageToast: (message: string | null) => void;
@@ -78,7 +77,7 @@ interface ShellActionsArgs {
 
 export function useShellActions({
   pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, shopView, pantryReturn, setModule, setShopView,
+  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, shopView, pantryReturn, navigate, setShopView,
   setPantryReturn, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
 }: ShellActionsArgs) {
   async function handleForceCloudSync() {
@@ -156,15 +155,16 @@ export function useShellActions({
     setTimeout(() => setCopiedDigest(false), 2500);
   }
 
-  // Move to a module (and, for Shop, a view). The Shop view is left alone when going to another module, so coming
-  // back finds it as it was. In B.3c this also changes the URL; callers do not change.
+  // Move to a module (and, for Shop, a view) by changing the URL. The Shop view is left alone when going to another
+  // module, so coming back finds it as it was.
   function navigateTo(destination: Destination) {
     // Opening the Pantry remembers where it was opened from, so closing it returns there.
     if (destination.module === 'pantry' && module !== 'pantry') {
       setPantryReturn(module === 'shop' ? { module: 'shop', view: shopView } : { module: 'plan' });
     }
-    setModule(destination.module);
     if (destination.module === 'shop') setShopView(destination.view);
+    // The URL is the source of truth for the module; moving within a module (Shop to another Shop view) changes no URL.
+    if (destination.module !== module) navigate(pathOf(destination));
   }
 
   function closePantry() {

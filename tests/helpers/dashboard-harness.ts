@@ -1,12 +1,13 @@
 // Shared jsdom harness for the v2.0 M3 dashboard characterization tests (#701).
-// It mounts the real MealPrepDashboard with the real usePantry and useUserSync hooks against a
-// stubbed fetch, a fixed clock and a keyless payload, so the rendered HTML is deterministic.
+// It mounts the real app (the route group's layout and pages, through tests/helpers/app-under-test.ts and an in-memory router)
+// with the real usePantry and useUserSync hooks against a stubbed fetch, a fixed clock and a keyless payload, so the
+// rendered HTML is deterministic.
 // Test files must still declare `// @vitest-environment jsdom`.
 import { act, createElement, StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { webcrypto } from 'node:crypto';
 import { vi } from 'vitest';
-import MealPrepDashboard from '@/components/MealPrepDashboard';
+import AppUnderTest from 'tests/helpers/app-under-test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createTestSyncLock } from 'tests/sync-lock';
@@ -26,6 +27,12 @@ export interface DashboardHarness {
   /** Set a text input's value the way a user edit does, so React's onChange fires. */
   type: (input: HTMLInputElement, value: string) => Promise<void>;
   button: (text: string) => HTMLButtonElement;
+  /** A link by its text (the tab strip, the header Pantry link and the other navigation are links since B.3c). */
+  link: (text: string) => HTMLAnchorElement;
+  /** The current in-app path ("/shop", "/plan" or "/pantry"). */
+  path: () => string;
+  /** Every path pushed by a navigation since mount, in order. */
+  pushes: string[];
   buttonByTitle: (title: string) => HTMLButtonElement;
   waitUntil: (check: () => boolean) => Promise<void>;
   settle: () => Promise<void>;
@@ -38,6 +45,8 @@ export interface MountProps {
   initialData: DashboardPayload;
   initialAccountId: string | null;
   initialPrivateRecipes: RecommendedDish[];
+  /** The path the app opens on (default "/shop"). */
+  initialPath: string;
 }
 
 /**
@@ -112,6 +121,8 @@ export async function createDashboardHarness(options: {
   document.body.append(container);
   let root = createRoot(container);
   let mounted = false;
+  let currentPath = '/shop';
+  const pushes: string[] = [];
   const run = async (action: () => unknown) => { await act(async () => { await action(); await settle(); }); };
   const button = (text: string) => {
     const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text));
@@ -124,8 +135,10 @@ export async function createDashboardHarness(options: {
       if (mounted) await run(() => root.unmount());
       root = createRoot(container);
       mounted = true;
-      const dashboard = createElement(MealPrepDashboard, {
+      pushes.length = 0;
+      const dashboard = createElement(AppUnderTest, {
         initialData: options.payload, initialAccountId: null, ...props,
+        onPath: (path: string) => { currentPath = path; }, onPush: (path: string) => { pushes.push(path); },
       });
       await run(() => root.render(options.strictMode ? createElement(StrictMode, null, dashboard) : dashboard));
     },
@@ -136,6 +149,13 @@ export async function createDashboardHarness(options: {
       input.dispatchEvent(new Event('input', { bubbles: true }));
     }),
     button,
+    link: (text) => {
+      const found = [...container.querySelectorAll('a')].find((element) => element.textContent?.includes(text));
+      if (!found) throw new Error(`Missing link: ${text}`);
+      return found;
+    },
+    path: () => currentPath,
+    pushes,
     buttonByTitle: (title) => {
       const found = container.querySelector<HTMLButtonElement>(`button[title="${title}"]`);
       if (!found) throw new Error(`Missing button titled: ${title}`);

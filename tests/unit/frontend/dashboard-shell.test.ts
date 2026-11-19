@@ -91,8 +91,8 @@ describe('alerts preview', () => {
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined));
     await h.click(h.buttonByTitle(ALERTS));
     await h.waitUntil(() => text(h).includes('Weekend prep digest'));
-    await h.click(h.button(RADAR));
-    await h.click(h.button(PLAN));
+    await h.click(h.link(RADAR));
+    await h.click(h.link(PLAN));
     expect(text(h)).toContain('Weekend prep digest');
     expect(text(h)).toContain('Run Weekly Sync Now');
   });
@@ -217,8 +217,8 @@ describe('stores drawer: select all', () => {
   it('keeps the stores drawer open across tab switches', async () => {
     const h = await start();
     await h.click(h.button('My Stores'));
-    await h.click(h.button(RADAR));
-    await h.click(h.button(PLAN));
+    await h.click(h.link(RADAR));
+    await h.click(h.link(PLAN));
     expect(text(h)).toContain('Select All');
   });
 });
@@ -283,7 +283,7 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     // the top of the view, so a sticky header would cover the page.
     expect(h.container.querySelector('header')!.className).toContain('relative');
     expect(h.container.querySelector('header')!.className).not.toContain('sticky');
-    await h.click(h.button(RADAR));
+    await h.click(h.link(RADAR));
     expect(h.container.querySelector('header')!.className).toContain('sticky');
     expect(text(h)).toContain('Choose the specific ingredient in Virtual Pantry');
     expect(h.container.querySelector('#virtual-pantry-title')).toBeNull();
@@ -295,8 +295,8 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     const h = await start();
     await h.click(h.button('Sign In'));
     expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
-    await h.click(h.button(RADAR));
-    await h.click(h.button(PLAN));
+    await h.click(h.link(RADAR));
+    await h.click(h.link(PLAN));
     expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
   });
 });

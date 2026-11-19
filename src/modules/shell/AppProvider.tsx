@@ -12,6 +12,8 @@ import { useDerivedDashboard } from '@/modules/shell/hooks/useDerivedDashboard';
 import { useStorageRestore } from '@/modules/shell/hooks/useStorageRestore';
 import { usePreferenceActions } from '@/modules/shell/hooks/usePreferenceActions';
 import { useLocationState } from '@/modules/shell/hooks/useLocationState';
+import { useAppRouter } from '@/modules/shell/app-router';
+import { moduleOfPath } from '@/modules/shell/navigation';
 import {
   AccountContext, DashboardContext, LocationContext, PlanContext, PreferencesContext, ShellContext, ShopContext,
 } from '@/modules/shell/app-context';
@@ -32,6 +34,9 @@ interface AppProviderProps {
 }
 
 export default function AppProvider({ initialData, initialAccountId = null, initialPrivateRecipes = [], children }: AppProviderProps) {
+  // The URL is the source of truth for the module (B.3c); the router seam keeps these hooks testable without Next.js.
+  const router = useAppRouter();
+  const currentModule = moduleOfPath(router.pathname);
   const preferences = usePreferencesState(initialData);
   const {
     storeFilter, setStoreFilter, pinnedIds, setPinnedIds, targetServings, setTargetServings,
@@ -43,7 +48,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
   const { currentZip, setCurrentZip, setShowZipModal, zipInput, setZipInput, setZipLoading, setZipError } = location;
   const shellUi = useShellUi();
   const {
-    module, pantryReturn, setModule, setPantryReturn, setArbitrageToast, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
+    pantryReturn, setPantryReturn, setArbitrageToast, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     setCronSyncLoading, setCronSyncError, setCopiedDigest, showAiSignIn
   } = shellUi;
   const shopUi = useShopUi();
@@ -114,8 +119,8 @@ export default function AppProvider({ initialData, initialAccountId = null, init
 
   const shellActions = useShellActions({
     pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, shopView, pantryReturn,
-    setModule, setShopView, setPantryReturn, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult,
+    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module: currentModule, shopView, pantryReturn,
+    navigate: router.push, setShopView, setPantryReturn, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult,
     setCronSyncLoading, setCronSyncError, setCopiedDigest,
   });
 
@@ -127,7 +132,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
           <DashboardContext.Provider value={{ ...derived, serverData, syncDashboard }}>
             <PlanContext.Provider value={{ ...planUi, ...planActions }}>
               <ShopContext.Provider value={{ ...shopUi, ...shopCopy }}>
-                <ShellContext.Provider value={{ ...shellUi, ...shellActions }}>
+                <ShellContext.Provider value={{ ...shellUi, ...shellActions, module: currentModule }}>
                   {children}
                 </ShellContext.Provider>
               </ShopContext.Provider>

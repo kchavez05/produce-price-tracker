@@ -18,7 +18,7 @@ const dishTitles = (h: DashboardHarness) => [...h.container.querySelectorAll('h3
 const showAll = (h: DashboardHarness) => buttons(h).find((b) => /^Show All \d+ Dishes$/.test(b.textContent ?? ''))!;
 
 async function promoteLastBlueprint(h: DashboardHarness) {
-  await h.click(h.button(TABS.plan));
+  await h.click(h.link(TABS.plan));
   await h.click(showAll(h));
   const promote = buttons(h).filter((b) => b.textContent === 'Promote to Top 3');
   const chosen = promote[promote.length - 1];
@@ -37,32 +37,32 @@ async function start() {
 describe('promoted plan and the shopping list (activeTrio feeds shoppingPlan)', () => {
   it('rebuilds the shopping list from the promoted dishes, and keeps both across tab switches', async () => {
     const h = await start();
-    await h.click(h.button(TABS.list));
+    await h.click(h.link(TABS.list));
     const listBefore = h.container.textContent ?? '';
     const title = await promoteLastBlueprint(h);
     expect(dishTitles(h)[0]).toBe(title);
-    await h.click(h.button(TABS.list));
+    await h.click(h.link(TABS.list));
     const listAfter = h.container.textContent ?? '';
     expect(listAfter).not.toBe(listBefore);
-    await h.click(h.button(TABS.radar));
-    await h.click(h.button(TABS.plan));
+    await h.click(h.link(TABS.radar));
+    await h.click(h.link(TABS.plan));
     expect(dishTitles(h)[0]).toBe(title);
-    await h.click(h.button(TABS.list));
+    await h.click(h.link(TABS.list));
     expect(h.container.textContent).toBe(listAfter);
   });
 
   it('shows the plan totals and the nav count from the promoted dishes', async () => {
     const h = await start();
-    await h.click(h.button(TABS.plan));
+    await h.click(h.link(TABS.plan));
     const heading = () => [...h.container.querySelectorAll('h2')].map((el) => el.textContent ?? '').find((text) => /Total Meals/.test(text));
     const before = heading();
     expect(before).toBeDefined();
     await promoteLastBlueprint(h);
     const after = heading();
     expect(after).toMatch(/\(\d+ Total Meals\)/);
-    const listTab = h.button(TABS.list).textContent;
-    await h.click(h.button(TABS.list));
-    expect(h.button(TABS.list).textContent).toBe(listTab);
+    const listTab = h.link(TABS.list).textContent;
+    await h.click(h.link(TABS.list));
+    expect(h.link(TABS.list).textContent).toBe(listTab);
   });
 });
 
@@ -87,9 +87,9 @@ describe('plan invalidation (explicit clears and the context signature)', () => 
   it('keeps a promoted plan when only unrelated state changes', async () => {
     const h = await start();
     const title = await promoteLastBlueprint(h);
-    await h.click(h.button(TABS.board));
+    await h.click(h.link(TABS.board));
     await h.click(h.button('Fresh Produce'));
-    await h.click(h.button(TABS.plan));
+    await h.click(h.link(TABS.plan));
     expect(dishTitles(h)[0]).toBe(title);
   });
 });
@@ -109,8 +109,8 @@ describe('view state survives tab switches (owner decision 1)', () => {
     await h.settle();
     const board = h.container.textContent;
     expect(board).not.toBe(defaultOrder);
-    await h.click(h.button(TABS.plan));
-    await h.click(h.button(TABS.board));
+    await h.click(h.link(TABS.plan));
+    await h.click(h.link(TABS.board));
     expect(h.button('Fresh Produce').className).toContain('bg-emerald-600');
     expect(h.container.querySelector('select')!.value).toBe('LOWEST_PRICE');
     expect(h.container.textContent).toBe(board);
@@ -118,24 +118,24 @@ describe('view state survives tab switches (owner decision 1)', () => {
 
   it('keeps "show all blueprints" and the AI request text on the Plan', async () => {
     const h = await start();
-    await h.click(h.button(TABS.plan));
+    await h.click(h.link(TABS.plan));
     await h.click(showAll(h));
     await h.type(h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!, 'soup');
-    await h.click(h.button(TABS.radar));
-    await h.click(h.button(TABS.plan));
+    await h.click(h.link(TABS.radar));
+    await h.click(h.link(TABS.plan));
     expect(h.button('Hide Full Matrix')).toBeDefined();
     expect(h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!.value).toBe('soup');
   });
 
   it('keeps the chosen trip mode and the checked items on the shopping list', async () => {
     const h = await start();
-    await h.click(h.button(TABS.list));
+    await h.click(h.link(TABS.list));
     await h.click(buttons(h).find((b) => b.textContent?.startsWith('#1'))!);
     await h.click(h.container.querySelector<HTMLButtonElement>('button.mt-0\\.5.text-emerald-600')!);
     const list = h.container.textContent;
     const html = h.html();
-    await h.click(h.button(TABS.radar));
-    await h.click(h.button(TABS.list));
+    await h.click(h.link(TABS.radar));
+    await h.click(h.link(TABS.list));
     expect(h.container.textContent).toBe(list);
     expect(h.html()).toBe(html);
   });

@@ -8,6 +8,7 @@ import { act, createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { createDashboardHarness, keylessPayload, type DashboardHarness } from 'tests/helpers/dashboard-harness';
 import AppProvider from '@/modules/shell/AppProvider';
+import { TestRouter } from 'tests/helpers/app-under-test';
 import {
   useAccountContext, useDashboardContext, useLocationContext, usePlanContext, usePreferencesContext, useShellContext,
   useShopContext,
@@ -37,7 +38,7 @@ function Probe() {
 }
 
 const provider = (children: ReturnType<typeof createElement> | null) =>
-  createElement(AppProvider, { initialData: payload, initialAccountId: null }, children);
+  createElement(TestRouter, null, createElement(AppProvider, { initialData: payload, initialAccountId: null }, children));
 
 async function mountProvider(children: () => ReturnType<typeof createElement> | null = () => createElement(Probe)) {
   harness = await createDashboardHarness({ payload });

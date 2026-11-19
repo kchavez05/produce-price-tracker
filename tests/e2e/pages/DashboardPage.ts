@@ -1,8 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
 
 /**
- * Page object for the dashboard. Locators use roles and accessible names only, so when M3 moves
- * the screens to /shop, /pantry and /plan the change stays in this file (spec section 9).
+ * Page object for the app. Locators use roles and accessible names only, so when M3 moved the screens to /shop, /pantry
+ * and /plan (B.3c) the change stayed in this file (spec section 9): the tabs and the Pantry control became links.
  */
 export class DashboardPage {
   readonly heading: Locator;
@@ -16,8 +16,9 @@ export class DashboardPage {
     this.heading = page.getByRole('heading', { level: 1, name: /PantryBot/ });
     // The header control ends with "Change"; the location list buttons in the open panel do not.
     this.zipButton = page.getByRole('button', { name: /\(\d{5}\)\s*Change$/ });
-    // The "Virtual Pantry" label is hidden on narrow screens, so the accessible name is "Pantry (n)".
-    this.pantryButton = page.getByRole('button', { name: /Pantry\s*\(\d+\)/ });
+    // The Pantry control is a link to /pantry since M3 B.3c (the property keeps its name so the specs do not change). The
+    // "Virtual Pantry" label is hidden on narrow screens, so the accessible name is "Pantry (n)".
+    this.pantryButton = page.getByRole('link', { name: /Pantry\s*\(\d+\)/ });
     this.signInButton = page.getByRole('button', { name: 'Sign In', exact: true });
     this.priceCards = page.getByRole('heading', { level: 3 });
     this.pantryHeading = page.getByRole('heading', { level: 2, name: 'Virtual Pantry' });
@@ -34,8 +35,9 @@ export class DashboardPage {
     await this.pantryHeading.waitFor();
   }
 
+  /** A tab of the module strip. Since M3 B.3c the tabs are links (the Plan tab goes to /plan, the three Shop tabs stay on /shop). */
   tab(name: RegExp | string): Locator {
-    return this.page.getByRole('button', { name });
+    return this.page.getByRole('link', { name });
   }
 
   /**

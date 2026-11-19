@@ -117,6 +117,8 @@ test.describe('smoke: account panel', () => {
     await page.getByRole('button', { name: 'Add Salt' }).click();
     await expect.poll(() => home.pantryCount()).toBe(1);
 
+    // The account dialog must not navigate: the path is the same after it closes (the Pantry is a page at /pantry since M3 B.3c).
+    const pathBeforeDialog = new URL(page.url()).pathname;
     await home.signInButton.click({ timeout: knownDefect ? 3_000 : undefined });
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible();
@@ -124,7 +126,7 @@ test.describe('smoke: account panel', () => {
 
     await page.getByRole('button', { name: 'Close account modal' }).click();
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeHidden();
-    expect(new URL(page.url()).pathname).toBe('/');
+    expect(new URL(page.url()).pathname).toBe(pathBeforeDialog);
     expect(await home.pantryCount()).toBe(1);
   });
 });

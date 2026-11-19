@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { webcrypto } from 'node:crypto';
-import MealPrepDashboard from '@/components/MealPrepDashboard';
+import AppUnderTest from 'tests/helpers/app-under-test';
 import { DashboardPayload, UserSyncPayload } from '@/types/domain';
 import { PantryEntry, PantryMutation } from '@/types/pantry';
 import { PantryMigrationSnapshot } from '@/lib/pantry/migration';
@@ -46,7 +46,7 @@ let failSync: boolean;
 let mutationRequests: string[];
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 function button(text: string) {
-  const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text));
+  const found = [...container.querySelectorAll<HTMLElement>('button, a[href]')].find((element) => element.textContent?.includes(text));
   if (!found) throw new Error(`Missing button: ${text}`);
   return found;
 }
@@ -65,7 +65,7 @@ async function openPantry() {
 }
 async function mount() {
   root = createRoot(container);
-  await act(async () => { root.render(createElement(MealPrepDashboard, { initialData, initialAccountId: 'alice' })); await settle(); });
+  await act(async () => { root.render(createElement(AppUnderTest, { initialData, initialAccountId: 'alice' })); await settle(); });
 }
 beforeEach(async () => {
   localStorage.clear(); sessionStorage.clear(); server = structuredClone(initialSync);

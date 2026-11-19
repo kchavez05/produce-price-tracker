@@ -4,6 +4,7 @@ import { Bell, ChefHat, DoorOpen, LogIn, MapPin, UserCheck } from 'lucide-react'
 import {
   useAccountContext, useDashboardContext, useLocationContext, useShellContext,
 } from '@/modules/shell/app-context';
+import AppLink from '@/modules/shell/AppLink';
 
 // Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.4, header). Since Phase B.2c it reads the app's state from the
 // context hooks instead of props; the markup is unchanged.
@@ -13,7 +14,7 @@ export default function HeaderPrimary() {
   const { currentZip, showZipModal, setShowZipModal } = useLocationContext();
   const { userSync, pantry: { entries: pantryEntries } } = useAccountContext();
   const {
-    module, showAccountModal, showAlertsModal, pantryTrigger, navigateTo, closePantry, setShowAccountModal, setAccountIntent,
+    module, showAccountModal, showAlertsModal, pantryTrigger, setShowAccountModal, setAccountIntent,
     handleToggleAlertsModal,
   } = useShellContext();
   const showPantry = module === 'pantry';
@@ -52,10 +53,10 @@ export default function HeaderPrimary() {
 
       {/* Top-Right Utility Controls & User Account CTA */}
       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        {/* Virtual Pantry drawer trigger */}
-        <button
+        {/* Virtual Pantry link (the Pantry is a page, /pantry) */}
+        <AppLink
           ref={pantryTrigger}
-          onClick={() => (showPantry ? closePantry() : navigateTo({ module: 'pantry' }))}
+          to={{ module: 'pantry' }}
           className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition ${
             showPantry
               ? 'border-sky-600 bg-sky-600 text-white shadow-xs'
@@ -71,7 +72,7 @@ export default function HeaderPrimary() {
           <span className="hidden sm:inline">{'Virtual Pantry'}</span>
           <span className="sm:hidden">{'Pantry'}</span>
           <span>({pantryEntries.filter((entry) => entry.available && !entry.deletedAtIso).length})</span>
-        </button>
+        </AppLink>
 
         <button
           onClick={handleToggleAlertsModal}
