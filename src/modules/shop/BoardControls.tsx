@@ -1,17 +1,12 @@
-import type { CommodityCategory } from '@/types/domain';
+'use client';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Board tab); state and handlers stay in the dashboard.
+import { useShopContext } from '@/modules/shell/app-context';
 
-type SortMode = 'VALUE_SCORE' | 'LOWEST_PRICE' | 'BIGGEST_DISCOUNT';
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Board tab). Since Phase B.2a it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-interface BoardControlsProps {
-  categoryFilter: 'ALL' | CommodityCategory;
-  setCategoryFilter: (category: 'ALL' | CommodityCategory) => void;
-  sortMode: SortMode;
-  setSortMode: (mode: SortMode) => void;
-}
-
-export default function BoardControls({ categoryFilter, setCategoryFilter, sortMode, setSortMode }: BoardControlsProps) {
+export default function BoardControls() {
+  const { categoryFilter, setCategoryFilter, sortMode, setSortMode } = useShopContext();
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-2xs">
       <div className="flex flex-wrap items-center gap-1.5">
