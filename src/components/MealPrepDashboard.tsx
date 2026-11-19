@@ -14,10 +14,7 @@ import { rankMealPrepDishes } from '@/lib/meal-prep-matcher';
 const VirtualPantry = dynamic(() => import('@/components/VirtualPantry'));
 import {
   CommodityCategory,
-  CookingVesselArchetype,
   DashboardPayload,
-  DietaryConstraint,
-  MacroGoal,
   RecommendedDish,
   StoreChain,
   WeeklySyncCronResult,
@@ -41,6 +38,7 @@ import { usePreferencesState } from '@/modules/shell/hooks/usePreferencesState';
 import { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import { useStorageRestore } from '@/modules/shell/hooks/useStorageRestore';
+import { usePreferenceActions } from '@/modules/shell/hooks/usePreferenceActions';
 import { useLocationState } from '@/modules/shell/hooks/useLocationState';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
 import StoreFilterBar from '@/modules/shell/StoreFilterBar';
@@ -183,24 +181,15 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     setCurrentZip, setZipInput, syncDashboard,
   });
 
-  function persistProfileToLocalStorage(
-    nextMacro: MacroGoal,
-    nextDietary: DietaryConstraint[],
-    nextVessel: CookingVesselArchetype
-  ) {
-    try {
-      localStorage.setItem(
-        'pantrybot_nutrition_profile_v12',
-        JSON.stringify({
-          macroGoal: nextMacro,
-          dietaryConstraints: nextDietary,
-          applianceFilter: nextVessel,
-        })
-      );
-    } catch {
-      // Ignore
-    }
-  }
+  const {
+    handleMacroGoalChange, handleToggleDietaryConstraint, handleVesselChange, handleToggleActiveStore, handleTogglePin,
+    handleServingsChange, handleStoreChange, handleClearProfileFilters, handleZipSubmit,
+  } = usePreferenceActions({
+    storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores, macroGoal, dietaryConstraints,
+    applianceFilter, zipInput, userSync, syncDashboard,
+    setMacroGoal, setDietaryConstraints, setApplianceFilter, setActiveStores, setPinnedIds, setTargetServings,
+    setStoreFilter, setCurrentZip, setZipInput, setZipError, setZipLoading, setShowZipModal, setCustomAiDishes, setTripMode,
+  });
 
   function toggleCheckedItem(key: string) {
     setCheckedItems((prev) => {
@@ -237,124 +226,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
       dietaryConstraints, vesselArchetype: applianceFilter, targetServings, pinnedIngredientIds: pinnedIds } });
   }
 
-  // v1.2 Ticket #22 Handlers: Macro Goal, Dietary Constraints, Cooking Vessel
-  function handleMacroGoalChange(nextMacro: MacroGoal) {
-    setMacroGoal(nextMacro);
-    setCustomAiDishes(null);
-    persistProfileToLocalStorage(nextMacro, dietaryConstraints, applianceFilter);
-    userSync.pushCloudSync({
-      preferences: {
-        macroGoal: nextMacro,
-        dietaryConstraints,
-        vesselArchetype: applianceFilter,
-      },
-    });
-    syncDashboard(
-      storeFilter,
-      pinnedIds,
-      effectiveOnHandIds,
-      targetServings,
-      currentZip,
-      activeStores,
-      nextMacro,
-      dietaryConstraints,
-      applianceFilter
-    );
-  }
-
-  function handleToggleDietaryConstraint(constraint: DietaryConstraint) {
-    const exists = dietaryConstraints.includes(constraint);
-    const nextDietary = exists
-      ? dietaryConstraints.filter((c) => c !== constraint)
-      : [...dietaryConstraints, constraint];
-    setDietaryConstraints(nextDietary);
-    setCustomAiDishes(null);
-    persistProfileToLocalStorage(macroGoal, nextDietary, applianceFilter);
-    userSync.pushCloudSync({
-      preferences: {
-        macroGoal,
-        dietaryConstraints: nextDietary,
-        vesselArchetype: applianceFilter,
-      },
-    });
-    syncDashboard(
-      storeFilter,
-      pinnedIds,
-      effectiveOnHandIds,
-      targetServings,
-      currentZip,
-      activeStores,
-      macroGoal,
-      nextDietary,
-      applianceFilter
-    );
-  }
-
-  function handleVesselChange(nextVessel: CookingVesselArchetype) {
-    setApplianceFilter(nextVessel);
-    setCustomAiDishes(null);
-    persistProfileToLocalStorage(macroGoal, dietaryConstraints, nextVessel);
-    userSync.pushCloudSync({
-      preferences: {
-        macroGoal,
-        dietaryConstraints,
-        vesselArchetype: nextVessel,
-      },
-    });
-    syncDashboard(
-      storeFilter,
-      pinnedIds,
-      effectiveOnHandIds,
-      targetServings,
-      currentZip,
-      activeStores,
-      macroGoal,
-      dietaryConstraints,
-      nextVessel
-    );
-  }
-
-  function handleToggleActiveStore(store: StoreChain) {
-    setActiveStores((prev) => {
-      let next: StoreChain[];
-      if (prev.includes(store)) {
-        if (prev.length <= 1) return prev;
-        next = prev.filter((s) => s !== store);
-      } else {
-        next = [...prev, store];
-      }
-      try {
-        localStorage.setItem('pantrybot_active_stores', JSON.stringify(next));
-      } catch {
-        // Ignore
-      }
-      userSync.pushCloudSync({
-        preferences: {
-          favoriteStoreIds: next,
-        },
-      });
-      syncDashboard(
-        storeFilter,
-        pinnedIds,
-        effectiveOnHandIds,
-        targetServings,
-        currentZip,
-        next
-      );
-      return next;
-    });
-  }
-
-  function handleTogglePin(ingredientId: string) {
-    const exists = pinnedIds.includes(ingredientId);
-    const nextPinned = exists
-      ? pinnedIds.filter((id) => id !== ingredientId)
-      : [...pinnedIds, ingredientId];
-    setPinnedIds(nextPinned);
-    setCustomAiDishes(null);
-    syncDashboard(storeFilter, nextPinned, effectiveOnHandIds, targetServings);
-  }
-
   function handleToggleOnHand(ingredientId: string) {
     const pantryId = recipePantryIngredientId(ingredientId);
     const ingredient = pantryCatalog.get(pantryId);
@@ -366,30 +237,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
     const existing = pantry.entries.find((entry) => entry.ingredientId === pantryId);
     void pantry.save({ ...(existing ?? { ingredientId: pantryId, displayName: ingredient.name }), available: !(existing?.available && !existing.deletedAtIso) }, existing?.id)
       .catch((error: unknown) => setArbitrageToast(error instanceof Error ? error.message : 'Could not update the pantry.'));
-  }
-
-  function handleServingsChange(nextServings: 4 | 6 | 8) {
-    setTargetServings(nextServings);
-    setCustomAiDishes(null);
-    syncDashboard(storeFilter, pinnedIds, effectiveOnHandIds, nextServings);
-  }
-
-  function handleStoreChange(nextStore: 'ALL' | StoreChain) {
-    setStoreFilter(nextStore);
-    if (nextStore === 'ALL') {
-      setTripMode('SPLIT');
-    } else {
-      setTripMode(nextStore);
-    }
-    setCustomAiDishes(null);
-    syncDashboard(
-      nextStore,
-      pinnedIds,
-      effectiveOnHandIds,
-      targetServings,
-      currentZip,
-      activeStores
-    );
   }
 
   async function handleToggleSaveRecipe(dish: RecommendedDish) {
@@ -461,39 +308,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
         setAiLoading(false);
         aiRequests.current!.complete(ticket);
       }
-    }
-  }
-
-  async function handleZipSubmit(e?: React.FormEvent, overrideZip?: string) {
-    if (e) e.preventDefault();
-    const cleanZip = (overrideZip || zipInput).trim();
-    if (!/^\d{5}$/.test(cleanZip)) {
-      setZipError('Please enter a valid 5-digit US ZIP code.');
-      return;
-    }
-    setZipError(null);
-    setZipLoading(true);
-    try {
-      localStorage.setItem('pantrybot_user_zip', cleanZip);
-      setCurrentZip(cleanZip);
-      setZipInput(cleanZip);
-      userSync.pushCloudSync({
-        preferences: {
-          defaultZip: cleanZip,
-        },
-      });
-      await syncDashboard(
-        storeFilter,
-        pinnedIds,
-        effectiveOnHandIds,
-        targetServings,
-        cleanZip
-      );
-      setShowZipModal(false);
-    } catch {
-      setZipError('Failed to load deals for this zip code.');
-    } finally {
-      setZipLoading(false);
     }
   }
 
@@ -715,26 +529,6 @@ export default function MealPrepDashboard({ initialData, barcodeEnabled = false,
       ...activeTrio.filter((d) => d.id !== dish.id).slice(0, 2),
     ]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // Clear the profile filters (moved unchanged from the Meal Plan header's inline click handler).
-  function handleClearProfileFilters() {
-    setMacroGoal('ANY');
-    setDietaryConstraints([]);
-    setApplianceFilter('ANY');
-    setCustomAiDishes(null);
-    persistProfileToLocalStorage('ANY', [], 'ANY');
-    syncDashboard(
-      storeFilter,
-      pinnedIds,
-      effectiveOnHandIds,
-      targetServings,
-      currentZip,
-      activeStores,
-      'ANY',
-      [],
-      'ANY'
-    );
   }
 
   return (
