@@ -13,6 +13,23 @@ export async function stubAnalytics(page: Page): Promise<void> {
 }
 
 /**
+ * Hold the responses of matching requests until `release()` is called, then let them through to the real server. The
+ * request itself reaches the server only after the release, so a test can start a refetch, move around the app while it
+ * is in flight, and check that its result is applied afterwards. `requests()` counts how many were held so far.
+ */
+export async function holdRequests(page: Page, url: string): Promise<{ release: () => void; requests: () => number }> {
+  let release: () => void = () => undefined;
+  const gate = new Promise<void>((resolve) => { release = resolve; });
+  let seen = 0;
+  await page.route(url, async (route: Route) => {
+    seen += 1;
+    await gate;
+    await route.continue();
+  });
+  return { release: () => release(), requests: () => seen };
+}
+
+/**
  * Stub the barcode lookup HTTP boundary (real lookups need server data and a verified shared
  * limiter). Returns the captured request bodies so a test can assert what was sent.
  */
