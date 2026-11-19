@@ -2,7 +2,7 @@
 // It mounts the real MealPrepDashboard with the real usePantry and useUserSync hooks against a
 // stubbed fetch, a fixed clock and a keyless payload, so the rendered HTML is deterministic.
 // Test files must still declare `// @vitest-environment jsdom`.
-import { act, createElement } from 'react';
+import { act, createElement, StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { webcrypto } from 'node:crypto';
 import { vi } from 'vitest';
@@ -78,6 +78,8 @@ export async function createDashboardHarness(options: {
   onFetch?: FetchHandler;
   /** localStorage entries to seed after the reset, before the first render. */
   storage?: Record<string, string>;
+  /** Render inside React.StrictMode, which double-invokes state updaters and render-phase code like development does. */
+  strictMode?: boolean;
 }): Promise<DashboardHarness> {
   const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
   const requests: DashboardHarness['requests'] = [];
@@ -122,9 +124,10 @@ export async function createDashboardHarness(options: {
       if (mounted) await run(() => root.unmount());
       root = createRoot(container);
       mounted = true;
-      await run(() => root.render(createElement(MealPrepDashboard, {
+      const dashboard = createElement(MealPrepDashboard, {
         initialData: options.payload, initialAccountId: null, ...props,
-      })));
+      });
+      await run(() => root.render(options.strictMode ? createElement(StrictMode, null, dashboard) : dashboard));
     },
     unmount: async () => { if (mounted) { mounted = false; await run(() => root.unmount()); } },
     click: (element) => run(() => element.click()),
