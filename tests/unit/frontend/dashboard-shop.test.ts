@@ -3,7 +3,7 @@
 // coupon toggles with their localStorage writes, the copy-to-notes and print actions with their timers, and the
 // state kept across tab switches (owner decision 1). They pin develop's behavior so moving the state into a hook
 // cannot silently change it.
-import { afterEach, describe, expect, it, vi, type MockInstance } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act } from 'react';
 import type { DashboardPayload } from '@/types/domain';
 import { createDashboardHarness, keylessPayload, type DashboardHarness } from 'tests/helpers/dashboard-harness';
@@ -80,17 +80,30 @@ describe('checklist and coupon toggles', () => {
   });
 });
 
-describe('copy to notes and print', () => {
-  const timeoutCall = (spy: MockInstance<typeof setTimeout>, delay: number) => {
-    const index = spy.mock.calls.findIndex((call) => call[1] === delay);
-    return index < 0 ? undefined : spy.mock.calls[index][0] as () => void;
-  };
+/**
+ * Capture the timers with the given delays instead of scheduling them, so a late real timer cannot fire after the test
+ * environment is torn down (the print timer calls window.print()); every other timer runs normally. The test fires the
+ * captured callback itself.
+ */
+function captureTimers(delays: number[]) {
+  const real = globalThis.setTimeout;
+  const captured: Array<{ handler: () => void; delay: number }> = [];
+  vi.spyOn(globalThis, 'setTimeout').mockImplementation(((handler: () => void, delay?: number, ...args: unknown[]) => {
+    if (delay !== undefined && delays.includes(delay)) {
+      captured.push({ handler, delay });
+      return 0 as unknown as ReturnType<typeof setTimeout>;
+    }
+    return real(handler, delay, ...args);
+  }) as typeof setTimeout);
+  return (delay: number) => captured.find((entry) => entry.delay === delay)?.handler;
+}
 
+describe('copy to notes and print', () => {
   it('copies the formatted list with the checked items, shows the copied state, and clears it after 3 seconds', async () => {
     const writeText = vi.fn();
     const h = await start();
     Object.assign(navigator, { clipboard: { writeText } });
-    const timers = vi.spyOn(globalThis, 'setTimeout');
+    const timer = captureTimers([3000]);
     await h.click(h.button('Export to Notes / Keep'));
     expect(writeText).toHaveBeenCalledTimes(1);
     const unchecked = writeText.mock.calls[0][0] as string;
@@ -100,7 +113,7 @@ describe('copy to notes and print', () => {
     await h.click(h.button(RADAR));
     await h.click(h.button(LIST));
     expect(h.container.textContent).toContain('Copied for Apple Notes / Keep!');
-    const clear = timeoutCall(timers, 3000);
+    const clear = timer(3000);
     expect(clear).toBeDefined();
     await act(async () => { clear!(); });
     expect(h.container.textContent).not.toContain('Copied for Apple Notes / Keep!');
@@ -113,11 +126,11 @@ describe('copy to notes and print', () => {
   it('opens the slip and prints after 150 ms, and keeps the slip open across tab switches', async () => {
     const print = vi.spyOn(window, 'print').mockImplementation(() => undefined);
     const h = await start();
-    const timers = vi.spyOn(globalThis, 'setTimeout');
+    const timer = captureTimers([150]);
     await h.click(h.button('Print Checklist'));
     expect(h.container.textContent).toContain('Hide Printable Slip');
     expect(print).not.toHaveBeenCalled();
-    const printNow = timeoutCall(timers, 150);
+    const printNow = timer(150);
     expect(printNow).toBeDefined();
     await act(async () => { printNow!(); });
     expect(print).toHaveBeenCalledTimes(1);
