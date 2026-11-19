@@ -723,17 +723,56 @@ describe('preference and location actions (M3 A.5d)', () => {
     expect(dashboardRequests(harness!).at(-1)!.searchParams.get('zip')).toBe('80301');
   });
 
-  it('clear filters does not push the cleared profile to the cloud (today\'s behavior)', async () => {
-    // Characterizes today's behavior, not an endorsement: unlike the other profile handlers, clearing the filters
-    // resets the local profile and refetches but sends nothing to the cloud, so a signed-in user's cloud profile
-    // keeps the old filters until their next change. Reported as a possible bug; do not fix inside a move.
+  it('clear filters resets the profile and pushes the cleared profile to the cloud (#807)', async () => {
     await signedInPlan();
     await harness!.click(harness!.button('High-Protein'));
     await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
     const before = prefsPushed(harness!).length;
     await harness!.click(harness!.button('Clear Profile Filters'));
-    await harness!.settle(); await harness!.settle();
+    await harness!.waitUntil(() => prefsPushed(harness!).length > before);
     expect(profile()).toEqual({ macroGoal: 'ANY', dietaryConstraints: [], applianceFilter: 'ANY' });
-    expect(prefsPushed(harness!)).toHaveLength(before);
+    expect(prefsPushed(harness!).at(-1)).toMatchObject({ macroGoal: 'ANY', dietaryConstraints: [], vesselArchetype: 'ANY' });
+    expect(dashboardRequests(harness!).at(-1)!.searchParams.get('macroGoal')).toBe('ANY');
+  });
+
+  it('clear filters sends nothing to the cloud for a guest', async () => {
+    harness = await createDashboardHarness({ payload });
+    await harness.mount();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    await harness.click(harness.button('High-Protein'));
+    await harness.click(harness.button('Clear Profile Filters'));
+    await harness.settle(); await harness.settle();
+    expect(prefsPushed(harness)).toHaveLength(0);
+    expect(profile()).toEqual({ macroGoal: 'ANY', dietaryConstraints: [], applianceFilter: 'ANY' });
+  });
+});
+
+describe('cleared profile filters survive a reload (#807)', () => {
+  // A tiny stateful cloud: a push merges its preferences into the profile, and every later /api/sync returns it.
+  it('keeps the cleared filters for a signed-in user after the dashboard reloads', async () => {
+    const cloud: UserSyncPayload = JSON.parse(JSON.stringify(aliceSync));
+    harness = await createDashboardHarness({ payload, sync: cloud, onFetch: async (input, init) => {
+      if (input !== '/api/sync') return undefined;
+      if (init?.method && init.method !== 'GET') {
+        const body = JSON.parse(String(init.body ?? '{}'));
+        const preferences = body.preferences ?? body.mutation?.preferences;
+        if (preferences) Object.assign(cloud.preferences!, preferences);
+      }
+      return Response.json(cloud);
+    } });
+    await harness.mount({ initialAccountId: 'alice' });
+    await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    await harness.click(harness.button('High-Protein'));
+    await harness.waitUntil(() => cloud.preferences!.macroGoal === 'HIGH_PROTEIN');
+    await harness.click(harness.button('Clear Profile Filters'));
+    await harness.settle(); await harness.settle();
+    // Reload: a fresh mount restores localStorage, then the cloud profile is hydrated over it.
+    await harness.mount({ initialAccountId: 'alice' });
+    await harness.settle(); await harness.settle();
+    await harness.click(harness.button('2. 3-Dish Meal Prep'));
+    expect(cloud.preferences!.macroGoal).toBe('ANY');
+    expect(harness.button('All Macros').className).toContain('bg-emerald-400');
+    expect(harness.button('High-Protein').className).not.toContain('bg-emerald-400');
   });
 });
