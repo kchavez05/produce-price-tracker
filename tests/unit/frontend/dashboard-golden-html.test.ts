@@ -41,30 +41,30 @@ describe('dashboard golden HTML (guest, keyless)', () => {
   });
   it('2 meal plan without an AI plan', async () => {
     const h = await start();
-    await h.click(h.link('2. 3-Dish Meal Prep'));
+    await h.click(h.link('Plan'));
     expectGolden('02-guest-meal-plan', h.html());
   });
   it('6 radar', async () => {
     const h = await start();
-    await h.click(h.link('4. Cycle & Club Radar'));
+    await h.openShopView('Radar');
     expectGolden('06-guest-radar', h.html());
   });
   it('3 meal plan with a generated AI plan and an expanded dish', async () => {
     const h = await start({ sync: cloudAccount, accountId: 'alice', onFetch: (input) => (input === '/api/ai-meal-plan'
       ? Response.json({ dishes: payload.allRankedDishes.slice(0, 3), message: 'Updated 3-dish meal-prep plan.' }) : undefined) });
-    await h.click(h.link('2. 3-Dish Meal Prep'));
+    await h.click(h.link('Plan'));
     await h.click(h.button('Remix 3-dish plan with AI'));
     await h.waitUntil(() => h.container.textContent?.includes('Updated 3-dish meal-prep plan.') === true);
     expectGolden('03-meal-plan-ai-plan', h.html());
   });
   it('4 shopping list, split trip', async () => {
     const h = await start();
-    await h.click(h.link('3. Shopping List & Cart Bridge'));
+    await h.openShopView('Trip');
     expectGolden('04-guest-shopping-split', h.html());
   });
   it('5 shopping list, single-store trip with one checked item', async () => {
     const h = await start();
-    await h.click(h.link('3. Shopping List & Cart Bridge'));
+    await h.openShopView('Trip');
     // The ranked single-store cards start with their rank, "#1", "#2"...
     await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.startsWith('#1'))!);
     await h.click(checklistToggle(h));
@@ -104,7 +104,7 @@ describe('dashboard golden HTML (guest, keyless)', () => {
   });
   it('9 print slip open', async () => {
     const h = await start();
-    await h.click(h.link('3. Shopping List & Cart Bridge'));
+    await h.openShopView('Trip');
     await h.click(h.button('Preview Printable Slip'));
     expectGolden('09-print-slip-open', h.html());
   });

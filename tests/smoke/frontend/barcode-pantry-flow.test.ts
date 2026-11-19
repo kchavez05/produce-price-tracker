@@ -36,7 +36,7 @@ function Harness({ accountId }: { accountId: string | null }) {
   pantry = usePantry(true, accountId);
   return createElement(VirtualPantry, { ...pantry, barcodeEnabled: true, cameraEnabled: true,
     onSave: pantry.save, onDelete: pantry.remove, onRetry: pantry.retry, onResolve: pantry.resolve,
-    onImportGuest: pantry.importGuest, onReviewLegacy: pantry.reviewLegacy, onImportLegacy: pantry.importLegacy, onClose: () => {} });
+    onImportGuest: pantry.importGuest, onReviewLegacy: pantry.reviewLegacy, onImportLegacy: pantry.importLegacy });
 }
 async function run(action: () => unknown) {
   await act(async () => { await action(); });

@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "../design/tokens.css";
 
+/* v2.0 M4 width classes (device specs section 3): compact below 600 px, medium from 600, wide from 1024. A viewport 500 px
+   tall or less keeps the compact layout whatever its width (iPhone landscape fallback, owner decision 2026-11-12). */
+@custom-variant medium (@media (min-width: 600px) and (min-height: 501px));
+@custom-variant wide (@media (min-width: 1024px) and (min-height: 501px));
+
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;

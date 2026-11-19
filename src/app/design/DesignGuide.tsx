@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Bell, Plus, Search } from 'lucide-react';
 import {
-  Badge, Banner, Button, Card, Checkbox, Chip, EmptyState, IconButton, List, ListRow, PageHeader,
+  Badge, Banner, Button, Card, Checkbox, Chip, EmptyState, IconButton, IconRail, List, ListRow, PageHeader,
   SegmentedControl, Select, Sheet, Sidebar, Skeleton, TabBar, TextField, VisuallyHidden, type BadgeTone, type BannerTone,
 } from '@/components/ui';
 import { contrastRatio } from '@/design/contrast';
@@ -164,6 +164,7 @@ export default function DesignGuide() {
           <div className="overflow-hidden rounded-card border border-border">
             <TabBar label="Main tabs" items={NAV} current={nav} onSelect={setNav} />
           </div>
+          <div className="flex"><IconRail label="Main rail" items={NAV} current={nav} onSelect={setNav} /></div>
           <Sidebar label="Main sidebar" items={NAV} current={nav} onSelect={setNav} header={<p className="px-3 text-lg font-bold">PantryBot</p>} />
         </Section>
 

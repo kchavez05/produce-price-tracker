@@ -72,9 +72,7 @@
     "rule": "horizontal-scroll",
     "projects": [
       "iphone-webkit",
-      "iphone-chromium",
-      "iphone-pro-max-webkit",
-      "iphone-pro-webkit"
+      "iphone-chromium"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
@@ -116,8 +114,6 @@
     "rule": "horizontal-scroll",
     "projects": [
       "iphone-webkit",
-      "iphone-pro-webkit",
-      "iphone-pro-max-webkit",
       "iphone-chromium"
     ],
     "issue": 710,
@@ -144,8 +140,6 @@
     "rule": "horizontal-scroll",
     "projects": [
       "iphone-webkit",
-      "iphone-pro-max-webkit",
-      "iphone-pro-webkit",
       "iphone-chromium"
     ],
     "issue": 710,
@@ -204,9 +198,7 @@
     "rule": "horizontal-scroll",
     "projects": [
       "iphone-webkit",
-      "iphone-pro-webkit",
-      "iphone-chromium",
-      "iphone-pro-max-webkit"
+      "iphone-chromium"
     ],
     "issue": 710,
     "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."

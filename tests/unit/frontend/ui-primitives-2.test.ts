@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { createElement as h, createRef, useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Badge, Banner, Button, Card, EmptyState, List, ListRow, PageHeader, Sheet, Sidebar, Skeleton, TabBar } from '@/components/ui';
+import { Badge, Banner, Button, Card, EmptyState, IconRail, List, ListRow, PageHeader, Sheet, Sidebar, Skeleton, TabBar } from '@/components/ui';
 import { expectNoA11yViolations, renderUi, type RenderHandle } from '../../helpers/render';
 
 let handle: RenderHandle | undefined;
@@ -61,13 +61,13 @@ describe('ListRow', () => {
   });
 });
 
-describe('TabBar and Sidebar', () => {
-  const items = [{ id: 'shop', label: 'Shop' }, { id: 'pantry', label: 'Pantry' }, { id: 'plan', label: 'Plan' }];
-  function Probe({ Nav }: { Nav: typeof TabBar | typeof Sidebar }) {
+describe('TabBar, IconRail and Sidebar', () => {
+  const items = [{ id: 'shop', label: 'Shop' }, { id: 'pantry', label: 'Pantry', badge: '(2)' }, { id: 'plan', label: 'Plan' }];
+  function Probe({ Nav }: { Nav: typeof TabBar | typeof Sidebar | typeof IconRail }) {
     const [current, setCurrent] = useState('shop');
     return h(Nav as typeof TabBar, { label: 'Main', items, current, onSelect: setCurrent });
   }
-  it.each([['TabBar', TabBar], ['Sidebar', Sidebar]] as const)('%s marks the current item and switches on activation', async (_name, Nav) => {
+  it.each([['TabBar', TabBar], ['IconRail', IconRail], ['Sidebar', Sidebar]] as const)('%s marks the current item and switches on activation', async (_name, Nav) => {
     handle = await renderUi(page(h(Probe, { Nav })));
     expect(q('nav', handle.container).getAttribute('aria-label')).toBe('Main');
     const current = () => [...handle!.container.querySelectorAll('button')].filter((b) => b.getAttribute('aria-current') === 'page').map((b) => b.textContent);
@@ -75,6 +75,20 @@ describe('TabBar and Sidebar', () => {
     await handle.run(() => handle!.container.querySelectorAll('button')[2].click());
     expect(current()).toEqual(['Plan']);
     expect(handle.container.querySelectorAll('button.min-h-touch').length).toBe(3);
+    expect(handle.container.querySelectorAll('button')[1].textContent).toBe('Pantry(2)');
+    await expectNoA11yViolations(handle.container);
+  });
+  it.each([['TabBar', TabBar], ['IconRail', IconRail], ['Sidebar', Sidebar]] as const)('%s renders links when given renderLink, with the current one marked', async (_name, Nav) => {
+    handle = await renderUi(page(h(Nav as typeof TabBar, {
+      label: 'Main', items, current: 'pantry',
+      renderLink: (item, props) => h('a', { href: `/${item.id}`, ...props }),
+    })));
+    expect(handle.container.querySelectorAll('button').length).toBe(0);
+    const links = [...handle.container.querySelectorAll('a')];
+    expect(links.map((a) => a.getAttribute('href'))).toEqual(['/shop', '/pantry', '/plan']);
+    expect(links.map((a) => a.getAttribute('aria-current'))).toEqual([null, 'page', null]);
+    expect(links[1].textContent).toBe('Pantry(2)');
+    expect(links.every((a) => a.className.includes('min-h-touch'))).toBe(true);
     await expectNoA11yViolations(handle.container);
   });
 });

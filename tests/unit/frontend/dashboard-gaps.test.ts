@@ -44,7 +44,7 @@ describe('mount restore of the five localStorage keys (gap 1)', () => {
     expect(params.get('vessel')).toBe('ANY');
     expect(zipButtonText(harness)).toContain('(80301)');
     // The saved checklist item is shown as checked once the shopping list is opened.
-    await harness.click(harness.link('3. Shopping List & Cart Bridge'));
+    await harness.openShopView('Trip');
     expect(harness.container.querySelectorAll('.lucide-check-square').length).toBeGreaterThan(0);
   });
 
@@ -65,7 +65,7 @@ describe('mount restore of the five localStorage keys (gap 1)', () => {
     localStorageSeed({ mead_checked_items_v03: '{not json', pantrybot_active_stores: '[' });
     harness = await createDashboardHarness({ payload });
     await harness.mount();
-    expect(harness.container.textContent).toContain('1. Value Board');
+    expect(harness.container.textContent).toContain('Deals');
   });
 });
 
@@ -86,7 +86,7 @@ describe('syncDashboard ownership drop (gap 2)', () => {
       },
     });
     await harness.mount();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.click(harness.button('High-Protein')); // preference change -> syncDashboard
     await harness.waitUntil(() => dashboardRequests(harness!).length === 1);
     return { releaseSync, releaseDashboard };
@@ -143,14 +143,14 @@ describe('cloud hydration (gap 3)', () => {
     await harness.mount();
     await harness.waitUntil(() => zipButtonText(harness!)?.includes('(80301)') === true);
     expect(harness.container.textContent).toContain('1 Pinned');
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     const macro = harness.button('High-Protein');
     expect(macro.className).toContain('bg-emerald-400');
     expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
     expect(harness.button('8 Srv / Dish').className).toContain('bg-emerald-400');
     expect(harness.button('6 Srv / Dish').className).not.toContain('bg-emerald-400');
     expect(harness.button('Gluten-Free').className).not.toBe(harness.button('Dairy-Free').className);
-    await harness.click(harness.link('1. Value Board'));
+    await harness.openShopView('Deals');
     const chips = [...harness.container.querySelectorAll('button')].map((b) => b.textContent ?? '');
     expect(chips).toContain('King Soopers');
     expect(chips).not.toContain('Safeway');
@@ -179,7 +179,7 @@ describe('save and unsave recipe (gap 8)', () => {
     harness = await createDashboardHarness({ payload, sync: aliceSync, onFetch });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.waitUntil(() => harness!.container.textContent?.includes('Alice') === true || harness!.requests.some((r) => r.url === '/api/sync'));
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
   }
 
   it('saves, then unsaves, and refetches the dashboard each time', async () => {
@@ -219,7 +219,7 @@ describe('save and unsave recipe (gap 8)', () => {
       return undefined;
     } });
     await harness.mount(); // guest owner while /api/sync is held
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.click(saveButtons(harness)[0]);
     releaseSync(); // the owner changes to account:alice
     await harness.settle();
@@ -238,7 +238,7 @@ describe('promote a blueprint to the top three (Meal Plan)', () => {
     try {
       harness = await createDashboardHarness({ payload });
       await harness.mount();
-      await harness.click(harness.link('2. 3-Dish Meal Prep'));
+      await harness.click(harness.link('Plan'));
       const dishTitles = () => [...harness!.container.querySelectorAll('h3')].map((h) => h.textContent ?? '');
       const before = dishTitles().filter((title) => payload.allRankedDishes.some((dish) => dish.title === title));
       expect(before.length).toBeGreaterThanOrEqual(3);
@@ -269,7 +269,7 @@ describe('clear profile filters (Meal Plan header)', () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     const clear = () => [...harness!.container.querySelectorAll('button')].find((b) => b.textContent === 'Clear Profile Filters');
     expect(clear()).toBeDefined();
     const before = dashboardRequests(harness).length;
@@ -416,23 +416,26 @@ describe('header, store filter and navigation', () => {
     await harness.waitUntil(() => dashboardRequests(harness!).at(-1)!.searchParams.get('store') === 'ALL');
   });
 
-  it('switches between the four tabs from the navigation', async () => {
+  it('switches between the Shop views and the Plan from the navigation', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
-    const tabs = ['1. Value Board', '2. 3-Dish Meal Prep', '3. Shopping List', '4. Cycle & Club Radar'];
-    const activeTab = () => tabs.filter((label) => !harness!.link(label).className.includes('hover:bg-'));
+    // The current link is the one marked aria-current (the tab for the module, the Shop view link for the view).
+    const current = () => [...harness!.container.querySelectorAll('a[aria-current="page"]')].map((a) => a.textContent);
     const text = () => harness!.container.textContent ?? '';
-    expect(activeTab()).toEqual([tabs[0]]);
+    expect(current()).toContain('Deals');
     expect(text()).toContain('Sort by:');
-    for (const label of tabs.slice(1)) {
-      await harness.click(harness.link(label));
-      expect(activeTab()).toEqual([label]);
+    for (const label of ['Trip', 'Radar'] as const) {
+      await harness.openShopView(label);
+      expect(current()).toContain(label);
+      expect(current()).not.toContain('Deals');
       expect(text()).not.toContain('Sort by:');
     }
-    await harness.click(harness.link(tabs[1]));
+    await harness.click(harness.link('Plan'));
+    expect(harness.path()).toBe('/plan');
+    expect(current()).toContain('Plan');
     expect(buttons(harness).some((b) => /^Show All \d+ Dishes$/.test(b.textContent ?? ''))).toBe(true);
-    await harness.click(harness.link(tabs[0]));
-    expect(activeTab()).toEqual([tabs[0]]);
+    await harness.openShopView('Deals');
+    expect(current()).toContain('Deals');
     expect(text()).toContain('Sort by:');
   });
 
@@ -446,21 +449,18 @@ describe('header, store filter and navigation', () => {
     expect(harness.container.textContent).not.toContain('Sort by:');
   });
 
-  it('opens the pantry from the header and returns focus to the trigger when it closes', async () => {
+  it('opens the pantry from its tab, which has no Close button, and leaves it by choosing the Shop tab', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
-    // The header control is a link to /pantry (B.3c), so it is found by its title among the links, and opening it moves to /pantry.
-    const trigger = () => harness!.container.querySelector<HTMLAnchorElement>('a[title="Open Virtual Pantry"]')!;
-    expect(trigger().getAttribute('href')).toBe('/pantry');
-    await harness.click(trigger());
+    // The Pantry is a tab (M4-1a): a link to /pantry, and the other tabs are the way out.
+    expect(harness.link('Pantry').getAttribute('href')).toBe('/pantry');
+    await harness.click(harness.link('Pantry'));
     expect(harness.path()).toBe('/pantry');
     expect(harness.container.textContent).toContain('Saved on this device');
-    const close = buttons(harness).find((b) => b.getAttribute('aria-label') === 'Close' || /^Close$/.test(b.textContent ?? ''));
-    expect(close).toBeDefined();
-    await harness.click(close!);
+    expect(buttons(harness).some((b) => b.getAttribute('aria-label') === 'Close Virtual Pantry')).toBe(false);
+    await harness.click(harness.link('Shop'));
     expect(harness.path()).toBe('/shop');
     expect(harness.container.textContent).not.toContain('Saved on this device');
-    expect(document.activeElement).toBe(trigger());
   });
 });
 
@@ -487,12 +487,12 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
     harness = await createDashboardHarness({ payload });
     await harness.mount();
     await harness.waitUntil(() => dashboardRequests(harness!).length >= 1 && (zipButtonText(harness!) ?? '').includes('(80301)'));
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.click(harness.button('High-Protein'));
     await harness.click(harness.button('Gluten-Free'));
     await harness.click(harness.button('Dutch Oven'));
     await harness.click(harness.button('8 Srv / Dish'));
-    await harness.click(harness.link('1. Value Board'));
+    await harness.openShopView('Deals');
     await harness.click(buttons(harness).find((b) => b.textContent === 'ALDI')!);
     await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
     await harness.waitUntil(() => dashboardRequests(harness!).length >= 7);
@@ -533,7 +533,7 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
     harness = await createDashboardHarness({ payload, sync: aliceSync });
     await harness.mount();
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.click(harness.button('High-Protein'));
     // The preference change pushes a cloud sync; its acknowledgment triggers a second refetch.
     await harness.waitUntil(() => dashboardRequests(harness!).length >= 2);
@@ -555,7 +555,7 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     harness = await createDashboardHarness({ payload, sync: { ...aliceSync, savedRecipes: [dish] } });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.waitUntil(() => (harness!.container.textContent ?? '').includes('Saved in Library'));
   });
 
@@ -564,7 +564,7 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     harness = await createDashboardHarness({ payload, sync: { ...guestSync, savedRecipes: [dish] } });
     await harness.mount();
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     expect(harness.container.textContent).not.toContain('Saved in Library');
   });
 
@@ -577,7 +577,7 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     } });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     expect(label(harness, 'Sign in to access AI')).toBe(true);
     releasePantry();
     await harness.waitUntil(() => label(harness!, 'Remix 3-dish plan with AI'));
@@ -586,7 +586,7 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
   it('asks a signed-out visitor to sign in for AI and opens the account dialog', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     expect(label(harness, 'Remix 3-dish plan with AI')).toBe(false);
     await harness.click(harness.button('Sign in to access AI'));
     expect(harness.container.textContent).toContain('Sign in to access AI features');
@@ -596,14 +596,14 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     harness = await createDashboardHarness({ payload, sync: aliceSync });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     expect(label(harness, 'Sign in to access AI')).toBe(true);
     expect(label(harness, 'Remix 3-dish plan with AI')).toBe(false);
     await harness.teardown();
     harness = await createDashboardHarness({ payload, sync: cloudBacked });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.waitUntil(() => label(harness!, 'Remix 3-dish plan with AI'));
   });
 });
@@ -621,7 +621,7 @@ describe('mount restore runs once and shows the restored state (M3 A.6)', () => 
     expect(chips).toContain('King Soopers');
     expect(chips).toContain('Safeway');
     expect(chips).not.toContain('Walmart');
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     expect(harness.button('High-Protein').className).toContain('bg-emerald-400');
     expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
     expect(harness.button('Dutch Oven').className).not.toBe(harness.button('Skillet').className);
@@ -654,7 +654,7 @@ describe('preference and location actions (M3 A.5d)', () => {
     harness = await createDashboardHarness({ payload, sync: aliceSync });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
   }
 
   it('macro goal: sets it, persists the profile, pushes it to the cloud and refetches', async () => {
@@ -712,7 +712,7 @@ describe('preference and location actions (M3 A.5d)', () => {
     await signedInPlan();
     await harness!.click(harness!.button('8 Srv / Dish'));
     await harness!.waitUntil(() => dashboardRequests(harness!).some((r) => r.searchParams.get('servings') === '8'));
-    await harness!.click(harness!.link('1. Value Board'));
+    await harness!.openShopView('Deals');
     await harness!.click(buttons(harness!).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
     await harness!.waitUntil(() => dashboardRequests(harness!).at(-1)!.searchParams.get('pinned') !== '');
     expect(dashboardRequests(harness!).at(-1)!.searchParams.get('servings')).toBe('8');
@@ -721,7 +721,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('ZIP submit: saves the ZIP, pushes it, refetches for it and closes the panel', async () => {
     await signedInPlan();
-    await harness!.click(harness!.link('1. Value Board'));
+    await harness!.openShopView('Deals');
     await harness!.click(buttons(harness!).find((b) => /\(\d{5}\)\s*Change$/.test(b.textContent ?? ''))!);
     const input = () => harness!.container.querySelector<HTMLInputElement>('input[maxlength="5"]')!;
     expect(window.localStorage.getItem('pantrybot_user_zip')).toBeNull();
@@ -748,7 +748,7 @@ describe('preference and location actions (M3 A.5d)', () => {
   it('clear filters sends nothing to the cloud for a guest', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.click(harness.button('High-Protein'));
     await harness.click(harness.button('Clear Profile Filters'));
     await harness.settle(); await harness.settle();
@@ -772,7 +772,7 @@ describe('cleared profile filters survive a reload (#807)', () => {
     } });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     await harness.click(harness.button('High-Protein'));
     await harness.waitUntil(() => cloud.preferences!.macroGoal === 'HIGH_PROTEIN');
     await harness.click(harness.button('Clear Profile Filters'));
@@ -780,7 +780,7 @@ describe('cleared profile filters survive a reload (#807)', () => {
     // Reload: a fresh mount restores localStorage, then the cloud profile is hydrated over it.
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle(); await harness.settle();
-    await harness.click(harness.link('2. 3-Dish Meal Prep'));
+    await harness.click(harness.link('Plan'));
     expect(cloud.preferences!.macroGoal).toBe('ANY');
     expect(harness.button('All Macros').className).toContain('bg-emerald-400');
     expect(harness.button('High-Protein').className).not.toContain('bg-emerald-400');

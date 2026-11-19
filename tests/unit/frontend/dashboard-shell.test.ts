@@ -16,8 +16,8 @@ const cloudBacked: UserSyncPayload = { ...aliceSync, profile: { ...aliceSync.pro
 let harness: DashboardHarness | undefined;
 afterEach(async () => { await harness?.teardown(); harness = undefined; vi.restoreAllMocks(); });
 
-const RADAR = '4. Cycle & Club Radar';
-const PLAN = '2. 3-Dish Meal Prep';
+const RADAR = 'Radar';
+const PLAN = 'Plan';
 const ALERTS = 'Preview Smart Push Notifications & Friday Weekend Meal-Prep Digest';
 const digest = {
   ok: true, cycle: 'preview_digest', executedAtIso: '2026-11-17T12:00:00.000Z', syncedOffersCount: 0,
@@ -91,7 +91,7 @@ describe('alerts preview', () => {
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined));
     await h.click(h.buttonByTitle(ALERTS));
     await h.waitUntil(() => text(h).includes('Weekend prep digest'));
-    await h.click(h.link(RADAR));
+    await h.openShopView('Radar');
     await h.click(h.link(PLAN));
     expect(text(h)).toContain('Weekend prep digest');
     expect(text(h)).toContain('Run Weekly Sync Now');
@@ -217,7 +217,7 @@ describe('stores drawer: select all', () => {
   it('keeps the stores drawer open across tab switches', async () => {
     const h = await start();
     await h.click(h.button('My Stores'));
-    await h.click(h.link(RADAR));
+    await h.openShopView('Radar');
     await h.click(h.link(PLAN));
     expect(text(h)).toContain('Select All');
   });
@@ -279,11 +279,9 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     await h.waitUntil(() => Boolean(h.container.querySelector('#virtual-pantry-title')));
     // The Pantry replaces the tab content (it is a module, not a drawer over it).
     expect(text(h)).not.toContain('Sort by:');
-    // The header stays in the page flow while the Pantry is open: it is tall on a phone and the Pantry scrolls its heading to
-    // the top of the view, so a sticky header would cover the page.
-    expect(h.container.querySelector('header')!.className).toContain('relative');
-    expect(h.container.querySelector('header')!.className).not.toContain('sticky');
-    await h.click(h.link(RADAR));
+    // The header is sticky on every module, the Pantry included (M4-1a; it used to stay in the page flow while the Pantry was open).
+    expect(h.container.querySelector('header')!.className).toContain('sticky');
+    await h.openShopView('Radar');
     expect(h.container.querySelector('header')!.className).toContain('sticky');
     expect(text(h)).toContain('Choose the specific ingredient in Virtual Pantry');
     expect(h.container.querySelector('#virtual-pantry-title')).toBeNull();
@@ -295,7 +293,7 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     const h = await start();
     await h.click(h.button('Sign In'));
     expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
-    await h.click(h.link(RADAR));
+    await h.openShopView('Radar');
     await h.click(h.link(PLAN));
     expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
   });

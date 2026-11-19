@@ -8,7 +8,7 @@ import AppProvider from '@/modules/shell/AppProvider';
 import { TestRouter } from 'tests/helpers/app-under-test';
 import { useShellContext, useShopContext } from '@/modules/shell/app-context';
 import {
-  isAppModule, LAST_MODULE_COOKIE, lastModulePath, legacyTab, moduleOfPath, pathOf,
+  isAppModule, LAST_MODULE_COOKIE, lastModulePath, moduleOfPath, pathOf,
 } from '@/modules/shell/navigation';
 
 const payload = keylessPayload();
@@ -56,35 +56,18 @@ describe('navigateTo', () => {
   });
 });
 
-describe('the Pantry module (B.3b)', () => {
-  it('opens from the Shop view the user was on, and closing returns to that view', async () => {
+describe('the Pantry module (a tab since M4-1a)', () => {
+  it('opens from any module with no return point, and leaves the Shop view untouched', async () => {
     const h = await mount();
     await go(h, { module: 'shop', view: 'RADAR' });
     await go(h, { module: 'pantry' });
     expect(shell.module).toBe('pantry');
-    expect(shell.pantryReturn).toEqual({ module: 'shop', view: 'RADAR' });
-    await act(async () => { shell.closePantry(); await h.settle(); });
-    expect([shell.module, shop.shopView]).toEqual(['shop', 'RADAR']);
+    expect(shop.shopView).toBe('RADAR');
+    expect('pantryReturn' in shell).toBe(false);
+    expect('closePantry' in shell).toBe(false);
   });
 
-  it('returns to Plan when it was opened from Plan', async () => {
-    const h = await mount();
-    await go(h, { module: 'plan' });
-    await go(h, { module: 'pantry' });
-    expect(shell.pantryReturn).toEqual({ module: 'plan' });
-    await act(async () => { shell.closePantry(); await h.settle(); });
-    expect(shell.module).toBe('plan');
-  });
-
-  it('keeps the original return point when the Pantry is opened again while it is open', async () => {
-    const h = await mount();
-    await go(h, { module: 'shop', view: 'RADAR' });
-    await go(h, { module: 'pantry' });
-    await go(h, { module: 'pantry' });
-    expect(shell.pantryReturn).toEqual({ module: 'shop', view: 'RADAR' });
-  });
-
-  it('is left, without a return, by choosing another module, and the Shop view is untouched meanwhile', async () => {
+  it('is left by choosing another module, and the Shop view is untouched meanwhile', async () => {
     const h = await mount();
     await go(h, { module: 'shop', view: 'SHOPPING_LIST' });
     await go(h, { module: 'pantry' });
@@ -99,7 +82,6 @@ describe('the Pantry module (B.3b)', () => {
     await go(h, { module: 'plan' });
     await act(async () => { shell.handleReviewStockUp(); await h.settle(); });
     expect(shell.module).toBe('pantry');
-    expect(shell.pantryReturn).toEqual({ module: 'plan' });
     expect(shell.arbitrageToast).toContain('Review your Pantry before stocking up.');
   });
 });
@@ -145,15 +127,5 @@ describe('the module is the URL', () => {
     expect(isAppModule('plan')).toBe(true);
     expect(isAppModule('Plan')).toBe(false);
     expect(LAST_MODULE_COOKIE).toBe('pantrybot_last_module');
-  });
-});
-
-describe('legacy tab mapping (the tab strip highlighting)', () => {
-  it('maps a module and view to the four-way tab', () => {
-    expect(legacyTab('shop', 'BOARD')).toBe('BOARD');
-    expect(legacyTab('shop', 'SHOPPING_LIST')).toBe('SHOPPING_LIST');
-    expect(legacyTab('shop', 'RADAR')).toBe('RADAR');
-    expect(legacyTab('plan', 'RADAR')).toBe('MEAL_PLAN');
-    expect(legacyTab('pantry', 'RADAR')).toBe('PANTRY');
   });
 });

@@ -59,7 +59,7 @@ async function waitUntil(check: () => boolean) {
 }
 async function click(element: HTMLElement) { await act(async () => { element.click(); await settle(); }); }
 async function openPantry() {
-  await click(button('Virtual Pantry'));
+  await click(button('Pantry'));
   await waitUntil(() => Boolean(container.querySelector('#virtual-pantry-title')));
   await waitUntil(() => container.querySelector('section[aria-labelledby="virtual-pantry-title"] [role="status"]')?.textContent?.includes('Saved') === true);
 }
@@ -117,7 +117,12 @@ async function prepareGuest() {
 
 describe('signed-in dashboard sync through Pantry', () => {
   it('recomputes meal costs after an offline pantry deletion and retains the edit until reconnect', async () => {
-    const cost = () => Number(button('2. 3-Dish Meal Prep').textContent?.match(/\$(\d+(?:\.\d+)?)\/srv/)?.[1]);
+    // The cost per serving is shown on the Plan page (the tab no longer carries it, M4-1a), so read it there.
+    const cost = () => {
+      const label = [...container.querySelectorAll('div')].find((element) => element.textContent === 'Additional / Serving');
+      return Number(label?.nextElementSibling?.textContent?.replace('$', ''));
+    };
+    await click(button('Plan'));
     const before = cost();
     expect(Number.isFinite(before)).toBe(true);
     await openPantry();
@@ -125,21 +130,23 @@ describe('signed-in dashboard sync through Pantry', () => {
     await click(button('Delete Chicken thighs'));
     expect(liveEntries()).toHaveLength(1);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).not.toBeNull();
+    await click(button('Plan'));
     expect(cost()).toBeGreaterThan(before);
     const after = cost();
     failSync = false;
     await reconnect();
     expect(liveEntries()).toEqual([]);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).toBeNull();
-    expect(container.textContent).toContain('Saved');
     expect(cost()).toBe(after);
-    await click(button('2. 3-Dish Meal Prep'));
+    await openPantry();
+    expect(container.textContent).toContain('Saved');
+    await click(button('Plan'));
     await click(button('All Macros'));
     expect(dashboardRequests.at(-1)?.searchParams.get('onHand')).toBe('');
   });
   it('preserves pins and servings selected before and during a preference acknowledgment', async () => {
     await click(button('Pin to Prep'));
-    await click(button('2. 3-Dish Meal Prep'));
+    await click(button('Plan'));
     holdSync = true;
     await click(button('High-Protein'));
     expect(acknowledge).toBeTypeOf('function');
@@ -158,7 +165,7 @@ describe('signed-in dashboard sync through Pantry', () => {
     await click(button('Confirm import'));
     await waitUntil(() => localStorage.getItem(pantryQueueKey('account:alice')) !== null);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).not.toBeNull();
-    await click(button('Close'));
+    await click(button('Shop'));
     await click(button('Not marked available'));
     failSync = false;
     await reconnect();

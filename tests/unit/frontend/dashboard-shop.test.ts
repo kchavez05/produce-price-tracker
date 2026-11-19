@@ -13,8 +13,8 @@ const payload: DashboardPayload = JSON.parse(JSON.stringify(keylessPayload(), (k
 let harness: DashboardHarness | undefined;
 afterEach(async () => { await harness?.teardown(); harness = undefined; vi.restoreAllMocks(); });
 
-const LIST = '3. Shopping List & Cart Bridge';
-const RADAR = '4. Cycle & Club Radar';
+const LIST = 'Trip';
+const RADAR = 'Radar';
 const CHECKED_KEY = 'mead_checked_items_v03';
 const CLIPPED_KEY = 'mead_clipped_coupons_v03';
 const checklistToggles = (h: DashboardHarness) => [...h.container.querySelectorAll<HTMLButtonElement>('button.mt-0\\.5.text-emerald-600')];
@@ -26,7 +26,7 @@ const stored = (key: string) => JSON.parse(localStorage.getItem(key) ?? '{}') as
 async function start(strictMode = false) {
   harness = await createDashboardHarness({ payload, strictMode });
   await harness.mount();
-  await harness.click(harness.link(LIST));
+  await harness.openShopView('Trip');
   return harness;
 }
 
@@ -74,8 +74,8 @@ describe('checklist and coupon toggles', () => {
     await h.click(checklistToggles(h)[1]);
     await h.click(coupons(h)[0]);
     const html = h.html();
-    await h.click(h.link(RADAR));
-    await h.click(h.link(LIST));
+    await h.openShopView('Radar');
+    await h.openShopView('Trip');
     expect(h.html()).toBe(html);
   });
 });
@@ -110,8 +110,8 @@ describe('copy to notes and print', () => {
     expect(unchecked).toContain('80542');
     expect(h.container.textContent).toContain('Copied for Apple Notes / Keep!');
     // The copied flag is Shop state: it survives a tab switch until the timer fires.
-    await h.click(h.link(RADAR));
-    await h.click(h.link(LIST));
+    await h.openShopView('Radar');
+    await h.openShopView('Trip');
     expect(h.container.textContent).toContain('Copied for Apple Notes / Keep!');
     const clear = timer(3000);
     expect(clear).toBeDefined();
@@ -134,8 +134,8 @@ describe('copy to notes and print', () => {
     expect(printNow).toBeDefined();
     await act(async () => { printNow!(); });
     expect(print).toHaveBeenCalledTimes(1);
-    await h.click(h.link(RADAR));
-    await h.click(h.link(LIST));
+    await h.openShopView('Radar');
+    await h.openShopView('Trip');
     expect(h.container.textContent).toContain('Hide Printable Slip');
     await h.click(h.button('Hide Printable Slip'));
     expect(h.container.textContent).toContain('Preview Printable Slip');
