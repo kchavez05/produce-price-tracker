@@ -51,7 +51,7 @@ export default function DashboardShell({ barcodeEnabled = false, speechConfigure
   return (
     <div className="min-h-screen pb-24">
       {/* Top Header — Two-Tier Navigation Architecture */}
-      <header className={`sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
+      <header className={`${activeTab === 'PANTRY' ? 'relative' : 'sticky top-0'} z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-2xs no-print`}>
         <div className="mx-auto max-w-6xl px-4 py-2.5">
           {/* Tier 1: Primary Brand & Location (Left) + Utilities & User Account (Pinned Top-Right) */}
           <HeaderPrimary />
