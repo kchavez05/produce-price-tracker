@@ -1,23 +1,21 @@
+'use client';
+
 import { Bookmark, ChefHat, ChevronDown, ChevronUp, Clock, DoorOpen, Dumbbell, Snowflake, Sparkles } from 'lucide-react';
 import { renderStoreBadge } from '@/modules/shop/badges';
-import { formatPantryRequirement, type applyPantryToRecipe } from '@/lib/pantry/recipe';
+import { formatPantryRequirement } from '@/lib/pantry/recipe';
 import { pantryPriceLabel } from '@/lib/pantry/pricing';
-import type { RecommendedDish } from '@/types/domain';
+import {
+  useAccountContext, useDashboardContext, useLocationContext, usePlanContext,
+} from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan tab); state and handlers stay in the dashboard.
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan tab). Since Phase B.2b it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-type PlanDish = ReturnType<typeof applyPantryToRecipe>;
-
-interface PlanDishesProps {
-  activeTrio: PlanDish[];
-  currentZip: string;
-  expandedDishIds: Record<string, boolean>;
-  setExpandedDishIds: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-  savedRecipeIds: Record<string, boolean>;
-  handleToggleSaveRecipe: (dish: RecommendedDish) => void | Promise<void>;
-}
-
-export default function PlanDishes({ activeTrio, currentZip, expandedDishIds, setExpandedDishIds, savedRecipeIds, handleToggleSaveRecipe }: PlanDishesProps) {
+export default function PlanDishes() {
+  const { activeTrio } = useDashboardContext();
+  const { currentZip } = useLocationContext();
+  const { expandedDishIds, setExpandedDishIds, handleToggleSaveRecipe } = usePlanContext();
+  const { savedRecipeIds } = useAccountContext();
   return (
     <div className="space-y-4">
       {activeTrio.map((dish, index) => {

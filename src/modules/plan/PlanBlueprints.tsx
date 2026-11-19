@@ -1,16 +1,14 @@
-import type { RecommendedDish } from '@/types/domain';
+'use client';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan tab); state and handlers stay in the dashboard.
+import { useDashboardContext, usePlanContext, usePreferencesContext } from '@/modules/shell/app-context';
 
-interface PlanBlueprintsProps {
-  data: { allRankedDishes: RecommendedDish[]; cityLabel: string };
-  targetServings: number;
-  showAllBlueprints: boolean;
-  setShowAllBlueprints: (show: boolean) => void;
-  onPromoteDish: (dish: RecommendedDish) => void;
-}
+// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan tab). Since Phase B.2b it reads the app's state from the
+// context hooks instead of props; the markup is unchanged.
 
-export default function PlanBlueprints({ data, targetServings, showAllBlueprints, setShowAllBlueprints, onPromoteDish }: PlanBlueprintsProps) {
+export default function PlanBlueprints() {
+  const { data } = useDashboardContext();
+  const { targetServings } = usePreferencesContext();
+  const { showAllBlueprints, setShowAllBlueprints, handlePromoteDish: onPromoteDish } = usePlanContext();
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
       <div className="flex items-center justify-between">

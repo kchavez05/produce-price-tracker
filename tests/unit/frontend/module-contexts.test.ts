@@ -1,37 +1,45 @@
 // @vitest-environment jsdom
-// Tests that the Shop components render on their own from the AppProvider contexts, with no props and no dashboard
-// shell around them (v2.0 M3 Phase B.2a, #701). The goldens pin that the shell's markup is unchanged; these pin the
+// Tests that the Shop and Plan components render on their own from the AppProvider contexts, with no props and no dashboard
+// shell around them (v2.0 M3 Phases B.2a and B.2b, #701). The goldens pin that the shell's markup is unchanged; these pin the
 // new contract: each component reads its state and calls its actions through the context hooks.
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
-import { createDashboardHarness, keylessPayload, type DashboardHarness } from 'tests/helpers/dashboard-harness';
+import { createDashboardHarness, keylessPayload, type DashboardHarness, type FetchHandler } from 'tests/helpers/dashboard-harness';
 import AppProvider from '@/modules/shell/AppProvider';
-import { useDashboardContext, usePreferencesContext, useShellContext, useShopContext } from '@/modules/shell/app-context';
+import {
+  useAccountContext, useDashboardContext, usePlanContext, usePreferencesContext, useShellContext, useShopContext,
+} from '@/modules/shell/app-context';
 import BoardAlerts from '@/modules/shop/BoardAlerts';
 import BoardControls from '@/modules/shop/BoardControls';
 import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
 import RadarSection from '@/modules/shop/RadarSection';
 import TripSection from '@/modules/shop/TripSection';
+import PlanBlueprints from '@/modules/plan/PlanBlueprints';
+import PlanDishes from '@/modules/plan/PlanDishes';
+import PlanHeader from '@/modules/plan/PlanHeader';
 
 const payload = keylessPayload();
 let harness: DashboardHarness | undefined;
-afterEach(async () => { await harness?.teardown(); harness = undefined; vi.restoreAllMocks(); });
+let onFetch: FetchHandler | undefined;
+afterEach(async () => { await harness?.teardown(); harness = undefined; onFetch = undefined; vi.restoreAllMocks(); });
 
 interface Seen {
   dashboard: ReturnType<typeof useDashboardContext>;
   preferences: ReturnType<typeof usePreferencesContext>;
   shop: ReturnType<typeof useShopContext>;
   shell: ReturnType<typeof useShellContext>;
+  plan: ReturnType<typeof usePlanContext>;
+  account: ReturnType<typeof useAccountContext>;
 }
 let seen: Seen;
 function Probe() {
-  seen = { dashboard: useDashboardContext(), preferences: usePreferencesContext(), shop: useShopContext(), shell: useShellContext() };
+  seen = { dashboard: useDashboardContext(), preferences: usePreferencesContext(), shop: useShopContext(), shell: useShellContext(), plan: usePlanContext(), account: useAccountContext() };
   return null;
 }
 
 /** Render only the given module components inside the provider (plus the context probe), with no shell. */
 async function mountModules(...components: Array<() => ReturnType<typeof createElement>>) {
-  harness = await createDashboardHarness({ payload });
+  harness = await createDashboardHarness({ payload, onFetch });
   await act(async () => {
     harness!.root.render(createElement(AppProvider, { initialData: payload, initialAccountId: null },
       createElement(Probe), ...components.map((component, index) => createElement('div', { key: index, 'data-module': index }, component()))));
@@ -144,5 +152,72 @@ describe('Shop components on the contexts, without the shell', () => {
     // Grouped deals explain themselves with a toast and open the pantry drawer; they are never sent to the stock-up review.
     expect(seen.shell.arbitrageToast).toContain('Choose the specific ingredient');
     expect(seen.shell.showPantry).toBe(true);
+  });
+});
+
+describe('Plan components on the contexts, without the shell', () => {
+  const titles = (h: DashboardHarness) => [...h.container.querySelectorAll('h3')].map((el) => el.textContent ?? '')
+    .filter((title) => payload.allRankedDishes.some((dish) => dish.title === title));
+
+  it('PlanHeader shows the dashboard totals and writes preferences through the Preferences context', async () => {
+    const h = await mountModules(() => createElement(PlanHeader));
+    expect(text(h)).toContain(`(${seen.dashboard.trioTotals.totalServings} Total Meals)`);
+    expect(text(h)).toContain(`$${seen.dashboard.trioTotals.avgPerServing}`);
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('8 Srv / Dish'))!.click(); await h.settle(); });
+    expect(seen.preferences.targetServings).toBe(8);
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('High-Protein'))!.click(); await h.settle(); });
+    expect(seen.preferences.macroGoal).toBe('HIGH_PROTEIN');
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Gluten-Free'))!.click(); await h.settle(); });
+    expect(seen.preferences.dietaryConstraints).toContain('GLUTEN_FREE');
+    await act(async () => { buttons(h).find((b) => b.textContent === 'Clear Profile Filters')!.click(); await h.settle(); });
+    expect(seen.preferences.macroGoal).toBe('ANY');
+    expect(seen.preferences.dietaryConstraints).toEqual([]);
+  });
+
+  it('PlanHeader opens the shopping list through the Shell context and runs the AI controls through the Plan context', async () => {
+    const h = await mountModules(() => createElement(PlanHeader));
+    expect(seen.shell.activeTab).toBe('BOARD');
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Open Shopping List'))!.click(); await h.settle(); });
+    expect(seen.shell.activeTab).toBe('SHOPPING_LIST');
+    await h.type(h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!, 'soup');
+    expect(seen.plan.customPrompt).toBe('soup');
+    expect(seen.account.canUseAi).toBe(false);
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Sign in to access AI'))!.click(); await h.settle(); });
+    expect(seen.shell.showAccountModal).toBe(true);
+    expect(seen.shell.accountIntent).toBe('ai');
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Use standard suggestions'))!.click(); await h.settle(); });
+    expect(seen.plan.aiBannerMessage).toBe('Using standard meal-prep suggestions.');
+    expect(text(h)).toContain('Using standard meal-prep suggestions.');
+  });
+
+  it('PlanDishes lists the dashboard active trio, expands through the Plan context and saves a recipe', async () => {
+    onFetch = (input, init) => (input === '/api/saved-recipes' && init?.method === 'POST' ? Response.json({ ok: true }) : undefined);
+    const h = await mountModules(() => createElement(PlanDishes));
+    expect(titles(h)).toEqual(seen.dashboard.activeTrio.map((dish) => dish.title));
+    const first = seen.dashboard.activeTrio[0].id;
+    expect(Object.keys(seen.plan.expandedDishIds)).toEqual([first]);
+    const second = seen.dashboard.activeTrio[1].id;
+    await act(async () => { buttons(h).filter((b) => /Show Prep & Reheat Guide/.test(b.textContent ?? ''))[0].click(); await h.settle(); });
+    expect(Object.keys(seen.plan.expandedDishIds).sort()).toEqual([first, second].sort());
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Save Recipe'))!.click(); await h.settle(); });
+    expect(h.requests.some((r) => r.url === '/api/saved-recipes' && r.method === 'POST')).toBe(true);
+    // The saved recipe is shown as saved, from the Account context's saved ids.
+    await h.waitUntil(() => text(h).includes('Saved in Library'));
+  });
+
+  it('PlanBlueprints lists and promotes through the Plan context', async () => {
+    vi.stubGlobal('scrollTo', vi.fn());
+    const h = await mountModules(() => createElement(PlanBlueprints));
+    expect(text(h)).toContain(`Browse All ${seen.dashboard.data.allRankedDishes.length} Cost-Ranked Blueprints`);
+    expect(seen.plan.showAllBlueprints).toBe(false);
+    await act(async () => { buttons(h).find((b) => /^Show All \d+ Dishes$/.test(b.textContent ?? ''))!.click(); await h.settle(); });
+    expect(seen.plan.showAllBlueprints).toBe(true);
+    const promote = buttons(h).filter((b) => b.textContent === 'Promote to Top 3');
+    expect(promote.length).toBeGreaterThan(0);
+    const chosen = promote[promote.length - 1];
+    const title = chosen.parentElement?.querySelector('h4')?.textContent ?? '';
+    await act(async () => { chosen.click(); await h.settle(); });
+    expect(seen.dashboard.activeTrio[0].title).toBe(title);
+    vi.unstubAllGlobals();
   });
 });
