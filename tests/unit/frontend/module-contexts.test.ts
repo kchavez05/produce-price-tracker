@@ -217,15 +217,13 @@ describe('Plan components on the contexts, without the shell', () => {
     expect(text(h)).toContain('Using standard meal-prep suggestions.');
   });
 
-  it('PlanDishes lists the dashboard active trio, expands through the Plan context and saves a recipe', async () => {
+  it('PlanDishes lists the dashboard active trio, links each dish to its detail and saves a recipe', async () => {
     onFetch = (input, init) => (input === '/api/saved-recipes' && init?.method === 'POST' ? Response.json({ ok: true }) : undefined);
     const h = await mountModules(() => createElement(PlanDishes));
     expect(titles(h)).toEqual(seen.dashboard.activeTrio.map((dish) => dish.title));
-    const first = seen.dashboard.activeTrio[0].id;
-    expect(Object.keys(seen.plan.expandedDishIds)).toEqual([first]);
-    const second = seen.dashboard.activeTrio[1].id;
-    await act(async () => { buttons(h).filter((b) => b.textContent === 'View dish')[0].click(); await h.settle(); });
-    expect(Object.keys(seen.plan.expandedDishIds).sort()).toEqual([first, second].sort());
+    // View dish is a link to the dish's own screen (M4-5b), not an in-place expansion.
+    const links = [...h.container.querySelectorAll<HTMLAnchorElement>('a')].filter((a) => a.textContent === 'View dish');
+    expect(links.map((a) => a.getAttribute('href'))).toEqual(seen.dashboard.activeTrio.map((dish) => `/plan/dish/${encodeURIComponent(dish.id)}`));
     await act(async () => { buttons(h).find((b) => b.textContent === 'Save')!.click(); await h.settle(); });
     expect(h.requests.some((r) => r.url === '/api/saved-recipes' && r.method === 'POST')).toBe(true);
     // The saved recipe is shown as saved, from the Account context's saved ids.

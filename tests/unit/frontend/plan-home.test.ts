@@ -129,22 +129,13 @@ describe('the dish cards', () => {
     expect(first.textContent).toMatch(/\d+m prep · \d+m cook/);
   });
 
-  it('open the full dish on View dish and close it on Hide dish, as a disclosure', async () => {
+  it('link View dish to the dish\'s own screen, with no in-place expansion', async () => {
     const h = await start();
-    const second = cards(h)[1];
-    const view = () => [...second.querySelectorAll('button')].find((b) => b.textContent === 'View dish' || b.textContent === 'Hide dish')!;
-    expect(view().getAttribute('aria-expanded')).toBe('false');
-    const panel = () => document.getElementById(view().getAttribute('aria-controls')!)!;
-    expect(panel().hidden).toBe(true);
-    await h.click(view());
-    expect(view().textContent).toBe('Hide dish');
-    expect(view().getAttribute('aria-expanded')).toBe('true');
-    expect(panel().hidden).toBe(false);
-    expect(panel().textContent).toContain('Low-Effort Batch Cooking Steps:');
-    expect(panel().textContent).toContain('Reheat & Storage Tip:');
-    expect(panel().querySelector('section[aria-label="Recipe ingredients"] li')).not.toBeNull();
-    await h.click(view());
-    expect(panel().hidden).toBe(true);
+    const links = [...h.container.querySelectorAll<HTMLAnchorElement>('article a')].filter((a) => a.textContent === 'View dish');
+    expect(links).toHaveLength(3);
+    for (const link of links) expect(link.getAttribute('href')).toMatch(/^\/plan\/dish\//);
+    expect(h.container.querySelector('button[aria-expanded][aria-controls]')).toBeNull();
+    expect(text(h)).not.toContain('Low-Effort Batch Cooking Steps:');
   });
 
   it('offer Save as a toggle that reads Save until the recipe is saved (saving itself is covered with a signed-in account)', async () => {
@@ -156,11 +147,12 @@ describe('the dish cards', () => {
     }
   });
 
-  it('make View dish the one primary action of a card', async () => {
+  it('make View dish the one primary action of each card', async () => {
     const h = await start();
-    // The first dish starts open, so its button reads Hide dish; it is the same button either way.
-    expect([...cards(h)[0].querySelectorAll('button')].filter((b) => b.className.includes('bg-accent')).map((b) => b.textContent)).toEqual(['Hide dish']);
-    expect([...cards(h)[1].querySelectorAll('button')].filter((b) => b.className.includes('bg-accent')).map((b) => b.textContent)).toEqual(['View dish']);
+    for (const card of cards(h).filter((candidate) => candidate.querySelector('h3'))) {
+      const primary = [...card.querySelectorAll('a, button')].filter((el) => el.className.includes('bg-accent')).map((el) => el.textContent);
+      expect(primary).toEqual(['View dish']);
+    }
   });
 });
 

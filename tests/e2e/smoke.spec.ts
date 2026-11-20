@@ -191,6 +191,28 @@ test.describe('smoke: meal plan', () => {
     await a11y.check('plan');
     await a11y.noHorizontalScroll('plan');
 
+    // Dish Detail (M4-5b): View dish opens the dish at its own path. From 1024 px the list stays beside it and there is no Back link;
+    // below that the detail is the screen, the list is hidden and Back returns to the Plan.
+    const wideScreen = (page.viewportSize()?.width ?? 0) >= 1024;
+    const viewDish = page.getByRole('link', { name: /^View dish/ }).first();
+    await viewDish.click();
+    await expect.poll(() => home.pathname).toMatch(/^\/plan\/dish\//);
+    const detail = page.getByRole('region', { name: 'Dish detail' });
+    await expect(detail.getByRole('heading', { level: 2 })).toBeVisible();
+    await expect(detail.getByRole('link', { name: 'View shopping list' })).toBeVisible();
+    await a11y.check('dish-detail');
+    await a11y.noHorizontalScroll('dish-detail');
+    if (wideScreen) {
+      await expect(viewDish).toBeVisible();
+      await expect(detail.getByRole('link', { name: 'Plan' })).toBeHidden();
+      await page.goBack();
+    } else {
+      await expect(viewDish).toBeHidden();
+      await detail.getByRole('link', { name: 'Plan' }).click();
+    }
+    await expect.poll(() => home.pathname).toBe('/plan');
+    await expect(viewDish).toBeVisible();
+
     await home.openShopView('Trip');
     await expect(page.getByRole('heading', { level: 2, name: 'Best plan' })).toBeVisible();
     await expect(page.getByRole('heading', { level: 2, name: /ingredients to buy/ })).toBeAttached();

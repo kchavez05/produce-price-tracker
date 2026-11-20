@@ -58,9 +58,9 @@ export default function AppProvider({ initialData, initialAccountId = null, init
   } = shopUi;
   // v1.2 Ticket #22: Dietary Preferences, Macro Targets & Cooking Vessel Archetypes
 
-  const planUi = usePlanUi(initialData);
+  const planUi = usePlanUi();
   const {
-    setExpandedDishIds, customPrompt, setAiLoading, setAiBannerMessage, customAiDishes, setCustomAiDishes,
+    customPrompt, setAiLoading, setAiBannerMessage, customAiDishes, setCustomAiDishes,
     customAiOwner, customAiContext
   } = planUi;
   // useUserSync is created inside useAccountAndPantry, before the payload hook its acknowledgment callback needs, so
@@ -97,7 +97,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
     pantryOwner: pantry.owner, pantryOwnerRef, canUseAi, savedRecipeIds, setSavedLibrary, syncDashboard, showAiSignIn,
     mealContextSignature, activeTrio, pinnedIds, effectiveOnHandIds, targetServings, customPrompt, storeFilter, currentZip,
     cityLabel: data.cityLabel, macroGoal, dietaryConstraints, applianceFilter, customAiOwner, customAiContext, setAiLoading,
-    setAiBannerMessage, setCustomAiDishes, setExpandedDishIds,
+    setAiBannerMessage, setCustomAiDishes,
   });
 
   useStorageRestore({
