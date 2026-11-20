@@ -6,6 +6,7 @@ import { webcrypto } from 'node:crypto';
 const capture=vi.hoisted(()=>({start:vi.fn(),supported:vi.fn()}));
 vi.mock('@/lib/ai/speech/capture',()=>({startSpeechRecording:capture.start,speechCaptureSupported:capture.supported}));
 import SpeechPantryEntry from '@/components/SpeechPantryEntry';
+import { expectNoA11yViolations } from 'tests/helpers/render';
 import { prepareSpeechConfirmation, createSpeechConfirmationRunner } from '@/lib/ai/speech/confirmation';
 import type { SpeechProposal } from '@/lib/ai/speech/types';
 import type { PantryEntry } from '@/types/pantry';
@@ -62,4 +63,26 @@ describe('speech capture and reviewed pantry changes',()=>{
 describe('confirmation ownership and identity',()=>{
   it('captures exact identity/revision and rejects duplicates',()=>{const inputs=[{displayName:existing.displayName,ingredientId:existing.ingredientId,quantity:2,unit:'cans',available:true}];const [addition]=prepareSpeechConfirmation([existing],inputs);expect(addition).toMatchObject({entryId:'beans-entry',intent:{expectedRevision:3},input:{quantity:2,location:'PANTRY'}});expect(()=>prepareSpeechConfirmation([],inputs.concat(inputs))).toThrow('duplicate');});
   it('stops the next write immediately after owner invalidation and does not repeat completed mutations',async()=>{const additions=prepareSpeechConfirmation([],[{displayName:'Salt',ingredientId:'salt',available:true},{displayName:'custom',available:true}]);const runner=createSpeechConfirmationRunner();let current=true;const write=vi.fn().mockImplementation(async()=>{current=false;});await expect(runner.run(additions,()=>current,write)).rejects.toThrow('account changed');expect(write).toHaveBeenCalledOnce();current=true;write.mockResolvedValue(undefined);expect(await runner.run(additions,()=>current,write)).toBe(true);expect(write).toHaveBeenCalledTimes(2);expect(write.mock.calls[1][0].intent.mutationId).toBe(additions[1].intent.mutationId);});
+});
+
+// v2.0 M4-4c: the speech entry on the design tokens and primitives (wireframe Pantry Voice).
+describe('markup on the design tokens',()=>{
+  it('has no accessibility violations before recording, at the review and on an error',async()=>{
+    await render();await expectNoA11yViolations(container);
+    capture.start.mockRejectedValue(new Error('denied'));await run(()=>button('Record ingredients').click());expect(container.querySelector('[role=alert]')).not.toBeNull();await expectNoA11yViolations(container);
+    capture.start.mockResolvedValue({stop,cancel});await review();expect(container.textContent).toContain('Review what was heard');await expectNoA11yViolations(container);
+  });
+  it('makes the one next step primary in each phase, with a labelled row for each proposal',async()=>{
+    await render();const primary=()=>[...container.querySelectorAll('button')].filter(node=>node.className.includes('bg-accent')).map(node=>node.textContent);
+    expect(primary()).toEqual(['Record ingredients']);
+    await run(()=>button('Record ingredients').click());expect(primary()).toEqual(['Stop recording']);
+    await run(()=>button('Stop recording').click());expect(primary()).toEqual(['Send recording for review']);
+    await review([proposal],{owner:'account:fresh'});expect(primary()).toEqual(['Confirm pantry changes']);
+    const row=container.querySelector('fieldset')!;expect(row.querySelector('legend')!.textContent).toContain('two cans of black beans');
+    expect(row.querySelector('[aria-label="Ingredient 1 catalog match"]')).not.toBeNull();expect(row.querySelector('[aria-label="Ingredient 1 quantity"]')).not.toBeNull();
+  });
+  it('shows the provider disclosure and the not-ready state as readable text',async()=>{
+    await render({configured:false});expect(container.textContent).toContain('shares this recording and its transcript with OpenAI');
+    expect(container.querySelector('[role=status]')!.textContent).toContain('Speech assistance is not ready yet.');
+  });
 });
