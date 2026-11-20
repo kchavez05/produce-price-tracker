@@ -209,7 +209,7 @@ describe('Plan components on the contexts, without the shell', () => {
     await h.type(h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!, 'soup');
     expect(seen.plan.customPrompt).toBe('soup');
     expect(seen.account.canUseAi).toBe(false);
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Sign in to access AI'))!.click(); await h.settle(); });
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Sign in to use'))!.click(); await h.settle(); });
     expect(seen.shell.showAccountModal).toBe(true);
     expect(seen.shell.accountIntent).toBe('ai');
     await act(async () => { buttons(h).find((b) => b.textContent?.includes('Use standard suggestions'))!.click(); await h.settle(); });

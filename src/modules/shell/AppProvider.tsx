@@ -60,7 +60,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
 
   const planUi = usePlanUi();
   const {
-    customPrompt, setAiLoading, setAiBannerMessage, customAiDishes, setCustomAiDishes,
+    customPrompt, setAiLoading, setAiBannerMessage, setAiBannerTone, customAiDishes, setCustomAiDishes,
     customAiOwner, customAiContext
   } = planUi;
   // useUserSync is created inside useAccountAndPantry, before the payload hook its acknowledgment callback needs, so
@@ -97,7 +97,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
     pantryOwner: pantry.owner, pantryOwnerRef, canUseAi, savedRecipeIds, setSavedLibrary, syncDashboard, showAiSignIn,
     mealContextSignature, activeTrio, pinnedIds, effectiveOnHandIds, targetServings, customPrompt, storeFilter, currentZip,
     cityLabel: data.cityLabel, macroGoal, dietaryConstraints, applianceFilter, customAiOwner, customAiContext, setAiLoading,
-    setAiBannerMessage, setCustomAiDishes,
+    setAiBannerMessage, setAiBannerTone, setCustomAiDishes,
   });
 
   useStorageRestore({

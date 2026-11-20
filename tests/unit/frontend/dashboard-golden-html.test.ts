@@ -53,7 +53,7 @@ describe('dashboard golden HTML (guest, keyless)', () => {
     const h = await start({ sync: cloudAccount, accountId: 'alice', onFetch: (input) => (input === '/api/ai-meal-plan'
       ? Response.json({ dishes: payload.allRankedDishes.slice(0, 3), message: 'Updated 3-dish meal-prep plan.' }) : undefined) });
     await h.click(h.link('Plan'));
-    await h.click(h.button('Remix 3-dish plan with AI'));
+    await h.click(h.button('Suggest Dishes'));
     await h.waitUntil(() => h.container.textContent?.includes('Updated 3-dish meal-prep plan.') === true);
     expectGolden('03-meal-plan-ai-plan', h.html());
   });

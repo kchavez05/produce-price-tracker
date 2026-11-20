@@ -570,17 +570,17 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
     await harness.click(harness.link('Plan'));
-    expect(label(harness, 'Sign in to access AI')).toBe(true);
+    expect(label(harness, 'Sign in to use')).toBe(true);
     releasePantry();
-    await harness.waitUntil(() => label(harness!, 'Remix 3-dish plan with AI'));
+    await harness.waitUntil(() => label(harness!, 'Suggest Dishes'));
   });
 
   it('asks a signed-out visitor to sign in for AI and opens the account dialog', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
     await harness.click(harness.link('Plan'));
-    expect(label(harness, 'Remix 3-dish plan with AI')).toBe(false);
-    await harness.click(harness.button('Sign in to access AI'));
+    expect(label(harness, 'Suggest Dishes')).toBe(false);
+    await harness.click(harness.button('Sign in to use'));
     expect(harness.container.textContent).toContain('Sign in to access AI features');
   });
 
@@ -589,14 +589,14 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
     await harness.click(harness.link('Plan'));
-    expect(label(harness, 'Sign in to access AI')).toBe(true);
-    expect(label(harness, 'Remix 3-dish plan with AI')).toBe(false);
+    expect(label(harness, 'Sign in to use')).toBe(true);
+    expect(label(harness, 'Suggest Dishes')).toBe(false);
     await harness.teardown();
     harness = await createDashboardHarness({ payload, sync: cloudBacked });
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
     await harness.click(harness.link('Plan'));
-    await harness.waitUntil(() => label(harness!, 'Remix 3-dish plan with AI'));
+    await harness.waitUntil(() => label(harness!, 'Suggest Dishes'));
   });
 });
 

@@ -45,7 +45,7 @@ export default function PlanHeader() {
   const { showAiSignIn } = useShellContext();
   const { canUseAi, effectiveOnHandIds } = useAccountContext();
   const {
-    aiLoading, customPrompt, aiBannerMessage, setCustomPrompt, handleGenerateAiPlan, useStandardSuggestions,
+    aiLoading, customPrompt, aiBannerMessage, aiBannerTone, setAiBannerMessage, setCustomPrompt, handleGenerateAiPlan, useStandardSuggestions,
   } = usePlanContext();
   const [prefsOpen, setPrefsOpen] = useState(false);
   const [hintHidden, setHintHidden] = useState(false);
@@ -110,7 +110,7 @@ export default function PlanHeader() {
       </Card>
 
       <AiMealPlanControls canUseAi={canUseAi} loading={aiLoading} prompt={customPrompt} banner={aiBannerMessage}
-        onPromptChange={setCustomPrompt} onGenerate={handleGenerateAiPlan} onSignIn={showAiSignIn}
+        bannerTone={aiBannerTone} onDismissBanner={() => setAiBannerMessage(null)} onPromptChange={setCustomPrompt} onGenerate={handleGenerateAiPlan} onSignIn={showAiSignIn}
         onUseStandard={useStandardSuggestions} />
 
       <Sheet open={prefsOpen} onClose={() => setPrefsOpen(false)} title="Preferences">

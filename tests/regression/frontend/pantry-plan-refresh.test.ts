@@ -47,7 +47,7 @@ describe('pantry availability and the active meal plan', () => {
   it('stops displaying a generated/fallback plan after availability changes without making a new AI request', async () => {
     await render();
     await run(() => button('Plan').click());
-    await run(() => button('Remix 3-dish plan with AI').click());
+    await run(() => button('Suggest Dishes').click());
     expect(container.textContent).toContain(generated.title);
     pantry.entries = [{ id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' }];
     await render();
@@ -58,7 +58,7 @@ describe('pantry availability and the active meal plan', () => {
     pantry.entries = [{ id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '', quantity: 1 }];
     await render();
     await run(() => button('Plan').click());
-    await run(() => button('Remix 3-dish plan with AI').click());
+    await run(() => button('Suggest Dishes').click());
     pantry.entries = [{ ...pantry.entries[0], quantity: 0, useByDate: '2000-01-01', revision: 2 }];
     await render();
     expect(container.textContent).toContain(generated.title);
