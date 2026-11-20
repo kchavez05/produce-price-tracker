@@ -9,7 +9,6 @@
   "src/components/BarcodeEntry.tsx": 8,
   "src/components/SpeechPantryEntry.tsx": 9,
   "src/components/SwaggerUIConsole.tsx": 35,
-  "src/modules/pantry/VirtualPantry.tsx": 33,
   "src/modules/plan/PlanBlueprints.tsx": 12,
   "src/modules/plan/PlanDishes.tsx": 77,
   "src/modules/plan/PlanHeader.tsx": 35,
