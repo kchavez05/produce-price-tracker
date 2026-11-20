@@ -67,8 +67,8 @@ export default function PlanHeader() {
           onChange={(value) => handleServingsChange(Number(value) as 4 | 6 | 8)} />
       </div>
 
-      <Button variant="secondary" className="w-full justify-between" onClick={() => setPrefsOpen(true)}>
-        <span className="min-w-0 truncate text-left">{summary}</span>
+      <Button variant="secondary" className="h-auto w-full justify-between gap-3 py-2" onClick={() => setPrefsOpen(true)}>
+        <span className="min-w-0 flex-1 text-left">{summary}</span>
         <span className="inline-flex shrink-0 items-center gap-1.5 text-accent"><SlidersHorizontal aria-hidden="true" className="size-4" />Edit preferences</span>
       </Button>
 
