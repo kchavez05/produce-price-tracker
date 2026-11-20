@@ -116,7 +116,7 @@ describe('links', () => {
     await h.openShopView('Trip');
     expect(text(h)).toContain('Print Slip');
     await h.openShopView('Radar');
-    expect(text(h)).toContain('Predictive 6-Week Cycle Signals');
+    expect(text(h)).toContain('Stock-Up Alerts');
     expect(h.pushes).toEqual([]);
     expect(h.path()).toBe('/shop');
   });

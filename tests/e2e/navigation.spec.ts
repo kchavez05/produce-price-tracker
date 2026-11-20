@@ -74,6 +74,12 @@ test.describe('navigation: modules are pages', () => {
 
     await home.tab('Radar').click();
     await expect(page.getByRole('group', { name: 'Category' })).toBeHidden();
+    // Radar (M4-3c): its sections show at every width; the alert detail pane is there from 1024 px only.
+    await expect(page.getByRole('heading', { level: 2, name: 'Stock-Up Alerts' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 2, name: 'Hold Off' })).toBeVisible();
+    const alertPane = page.getByRole('region', { name: 'Alert detail' });
+    if (wideScreen) await expect(alertPane).toBeVisible();
+    else await expect(alertPane).toBeHidden();
     await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     await home.openPantry();

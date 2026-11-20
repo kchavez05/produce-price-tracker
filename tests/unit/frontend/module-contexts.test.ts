@@ -143,9 +143,9 @@ describe('Shop components on the contexts, without the shell', () => {
         createElement(Probe), createElement(RadarSection))));
       await harness!.settle();
     });
-    expect(text(harness)).toContain('Predictive 6-Week Cycle Signals');
+    expect(text(harness)).toContain('Stock-Up Alerts');
     expect(text(harness)).toContain('Cheaper this week');
-    await act(async () => { buttons(harness!).find((b) => b.textContent === 'Pin Swap')!.click(); await harness!.settle(); });
+    await act(async () => { buttons(harness!).find((b) => b.textContent === 'Pin swap')!.click(); await harness!.settle(); });
     expect(seen.preferences.pinnedIds).toEqual([first.ingredient.id]);
   });
 

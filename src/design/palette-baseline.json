@@ -19,6 +19,5 @@
   "src/modules/shell/StoresPanel.tsx": 21,
   "src/modules/shell/ZipPanel.tsx": 23,
   "src/modules/shop/badges.tsx": 25,
-  "src/modules/shop/PrintSlip.tsx": 5,
-  "src/modules/shop/RadarSection.tsx": 78
+  "src/modules/shop/PrintSlip.tsx": 5
 }

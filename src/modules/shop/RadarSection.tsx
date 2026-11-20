@@ -1,363 +1,225 @@
 'use client';
 
-import { ArrowLeftRight, Award, Info, Radar, Snowflake, TrendingDown, TrendingUp } from 'lucide-react';
+import { useState, type ReactNode } from 'react';
+import { Badge, Button, Card, Sheet } from '@/components/ui';
+import { focusRing } from '@/components/ui/cx';
+import DealDetailView from '@/modules/shop/DealDetailView';
+import PriceTrend from '@/modules/shop/PriceTrend';
+import AppLink from '@/modules/shell/AppLink';
 import { renderStoreBadge } from '@/modules/shop/badges';
+import { resolveStoreBanner } from '@/data/store-registry';
 import {
   useDashboardContext, useLocationContext, usePreferencesContext, useShellContext,
 } from '@/modules/shell/app-context';
+import type { ScoredCommodity } from '@/types/domain';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Radar tab). Since Phase B.2a it reads the app's state from the
-// context hooks instead of props; the markup is unchanged.
+// v2.0 M4-3c (wireframes Shop Radar and iPad Radar): the Radar view as three short sections and one row of detail. Stock-Up Alerts
+// are the staples at or near their six-week low, Hold Off is what is at a cycle peak (with the swap to pin), and Club vs. Store
+// sets the supermarket price against Costco and Sam's Club. "USDA movers and data status" opens the USDA wholesale movers and where the
+// data comes from. Below 1024 px an alert's name links to its Deal Detail; from 1024 px the list is the left column and the
+// selected alert's detail is the pane (the first one until another is chosen). The numbers and wording of each signal are
+// the old Radar's, moved here, not recalculated.
+
+function RadarCard({ item, selected, onSelect, tag, children }: {
+  item: ScoredCommodity; selected: boolean; onSelect: () => void; tag: ReactNode; children: ReactNode;
+}) {
+  const name = item.ingredient.name;
+  return (
+    <Card as="article" aria-label={name} className={`space-y-2 ${selected ? 'wide:ring-2 wide:ring-accent' : ''}`}>
+      <div className="flex items-start justify-between gap-2">
+        <h3 className="text-base font-bold text-ink">
+          <AppLink to={{ module: 'shop', view: 'BOARD', deal: item.ingredient.id }} className={`flex min-h-touch items-center wide:hidden ${focusRing}`}>{name}</AppLink>
+          <button type="button" aria-pressed={selected} onClick={onSelect} className={`hidden min-h-touch items-center text-left wide:flex ${focusRing}`}>{name}</button>
+        </h3>
+        <div className="shrink-0 pt-2">{tag}</div>
+      </div>
+      {children}
+    </Card>
+  );
+}
 
 export default function RadarSection() {
   const { data } = useDashboardContext();
   const { currentZip } = useLocationContext();
-  const { handleTogglePin: onTogglePin } = usePreferencesContext();
-  const { handleReviewStockUp: onReviewStockUp } = useShellContext();
+  const { handleTogglePin } = usePreferencesContext();
+  const { handleReviewStockUp } = useShellContext();
+  const [usdaOpen, setUsdaOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const lows = data.marketRadar.stockUpCycleLows;
+  const stockUp = (lows ?? data.commodities.slice(0, 6)).slice(0, 6);
+  const holdOff = data.marketRadar.cyclePeakWaitList ?? [];
+  const clubRows = data.commodities.slice(0, 12).filter((item) => item.clubBenchmark);
+  const paneId = selectedId ?? stockUp[0]?.ingredient.id ?? holdOff[0]?.ingredient.id ?? null;
+
+  const usdaRow = (className: string) => (
+    <div className={`no-print flex items-center justify-between gap-3 ${className}`}>
+      <span className="text-sm text-muted">USDA movers and data status</span>
+      <Button variant="quiet" onClick={() => setUsdaOpen(true)}>Details</Button>
+    </div>
+  );
+
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-2xs">
-        <div className="flex items-start gap-3">
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-emerald-400">
-            <Radar className="h-5 w-5" />
-          </span>
-          <div>
-            <h2 className="text-lg font-bold text-slate-900">
-              Predictive 6-Week Cycle Signals, USDA Wholesale &amp; Club Bulk Radar
-            </h2>
-            <p className="mt-1 text-xs text-slate-600 sm:text-sm">
-              Combines available verified price history, stored USDA retail benchmarks, and Costco / Sam&apos;s Club bulk benchmarks to show when to stock up and freeze vs. when to wait or substitute.
-            </p>
-          </div>
-        </div>
-
-        {/* v1.2 Ticket #24: Stock Up Alert (6-Week Low) vs Cycle Peak Substitution Grid */}
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50/40 p-4">
-            <div className="flex items-center gap-2 text-emerald-950">
-              <Snowflake className="h-5 w-5 text-emerald-600" />
-              <h3 className="font-bold">
-                🟢 Stock Up Alert (Confirmed 6-Week Price Floors)
-              </h3>
-            </div>
-            <p className="mt-1 text-xs text-emerald-800">
-              These staples are at or within pennies of their 6-week SQLite price floor. Ideal candidates for &ldquo;Buy 2: Prep 1, Freeze 1&rdquo; multi-week arbitrage.
-            </p>
-
-            <div className="mt-3 space-y-2.5">
-              {(data.marketRadar.stockUpCycleLows || data.commodities.slice(0, 6))
-                .slice(0, 6)
-                .map((item) => (
-                  <div
-                    key={`floor-${item.ingredient.id}`}
-                    className="flex items-center justify-between rounded-xl border border-emerald-200 bg-white p-3 shadow-2xs text-xs"
-                  >
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        {renderStoreBadge(item.bestOffer.store, currentZip)}
-                        <span className="font-bold text-slate-900">
-                          {item.ingredient.name}
-                        </span>
-                      </div>
-                      <div className="mt-1 text-slate-600">
-                        Now{' '}
-                        <strong className="text-emerald-700">
-                          ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
-                          {item.ingredient.standardUnit}
-                        </strong>{' '}
-                        (6-Wk Range: ${item.sixWeekLow.toFixed(2)} – $
-                        {(item.sixWeekHigh ?? item.bestOffer.regularPricePerUnit).toFixed(2)})
-                      </div>
-                    </div>
-
-                    {item.arbitragePrompt?.eligible && (
-                      <button
-                        type="button"
-                        onClick={() => onReviewStockUp()}
-                        className="shrink-0 rounded-lg bg-sky-600 px-2.5 py-1.5 text-[11px] font-bold text-white hover:bg-sky-700"
-                      >
-                        ❄️ Buy 2 / Freeze 1
-                      </button>
-                    )}
-                  </div>
-                ))}
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-rose-200 bg-rose-50/40 p-4">
-            <div className="flex items-center gap-2 text-rose-950">
-              <ArrowLeftRight className="h-5 w-5 text-rose-600" />
-              <h3 className="font-bold">
-                🔴 Cycle Peak / Wait &amp; Smart Substitution Advisor (Ticket #24)
-              </h3>
-            </div>
-            <p className="mt-1 text-xs text-rose-800">
-              Wholesale prices are dropping rapidly or current retail is near its 6-week peak. Swap in a 6-week floor alternative this week and wait for next Wednesday&apos;s ad drop.
-            </p>
-
-            <div className="mt-3 space-y-2.5">
-              {(data.marketRadar.cyclePeakWaitList || []).map((item) => (
-                <div
-                  key={`peak-${item.ingredient.id}`}
-                  className="rounded-xl border border-rose-200 bg-white p-3 shadow-2xs text-xs"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900">
-                      {item.ingredient.name}
-                    </span>
-                    <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-bold text-rose-900">
-                      🔴 Wait / Swap (Wholesale {item.ingredient.usdaSignal.wholesaleChangePct}%)
-                    </span>
-                  </div>
-                  <div className="mt-1 text-slate-600">
-                    Current Retail:{' '}
-                    <strong>
-                      ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
-                      {item.ingredient.standardUnit}
-                    </strong>{' '}
-                    {item.comparisonEvidence ? ' • Historical comparison unavailable' : <> • 6-Wk Median: $
-                    {(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)}</>}
-                  </div>
-                  {item.cycleSignal?.substitutionSuggestion && (
-                    <div className="mt-1.5 flex items-center justify-between gap-2 rounded-lg bg-rose-50 p-2 text-[11px] text-rose-950">
-                      <span>{item.cycleSignal.substitutionSuggestion.reason}</span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onTogglePin(
-                            item.cycleSignal!.substitutionSuggestion!
-                              .substituteIngredientId
-                          )
-                        }
-                        className="shrink-0 rounded bg-rose-700 px-2 py-1 text-[10px] font-bold text-white hover:bg-rose-800"
-                      >
-                        Pin Swap
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* v1.2 Ticket #25: Wholesale Club Price Normalizer Matrix (Costco & Sam's Club) */}
-        <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50/30 p-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <Award className="h-5 w-5 text-blue-700" />
-              <div>
-                <h3 className="text-sm font-bold text-slate-900">
-                  Wholesale Club Price Normalizer: Supermarket Ads vs. Costco &amp; Sam&apos;s Club Bulk (Ticket #25)
-                </h3>
-                <p className="text-xs text-slate-600">
-                  Side-by-side $/lb and $/doz benchmark confirming which weekly supermarket loss-leaders genuinely beat buying bulk packs at Costco or Sam&apos;s Club.
+    <div className="space-y-4 wide:grid wide:grid-cols-[380px_minmax(0,1fr)] wide:items-start wide:gap-6 wide:space-y-0">
+      <div className="space-y-4">
+        <section aria-labelledby="radar-stock-up" className="space-y-2">
+          <h2 id="radar-stock-up" className="text-sm font-bold uppercase tracking-wide text-muted">Stock-Up Alerts</h2>
+          {stockUp.length === 0 && <p className="text-sm text-muted">No stock-up lows this week.</p>}
+          <div className="grid gap-3 sm:grid-cols-2 wide:grid-cols-1">
+            {stockUp.map((item) => (
+              <RadarCard
+                key={`floor-${item.ingredient.id}`}
+                item={item}
+                selected={item.ingredient.id === paneId}
+                onSelect={() => setSelectedId(item.ingredient.id)}
+                tag={<Badge tone="save">{lows ? '6-week low' : 'Top deal'}</Badge>}
+              >
+                <p className="flex flex-wrap items-center gap-1.5 text-sm text-muted">
+                  {renderStoreBadge(item.bestOffer.store, currentZip)}
+                  <span>
+                    <span className="font-semibold text-ink">${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/{item.ingredient.standardUnit}</span>
+                    {item.arbitragePrompt?.eligible ? ' · buy 2, freeze 1' : ''}
+                  </span>
                 </p>
-              </div>
-            </div>
+                <p className="text-xs text-muted">
+                  6-week range: ${item.sixWeekLow.toFixed(2)} – ${(item.sixWeekHigh ?? item.bestOffer.regularPricePerUnit).toFixed(2)}
+                </p>
+                <PriceTrend item={item} />
+                {item.arbitragePrompt?.eligible && (
+                  <Button variant="secondary" className="no-print" onClick={() => handleReviewStockUp()}>Buy 2 / Freeze 1</Button>
+                )}
+              </RadarCard>
+            ))}
           </div>
+        </section>
 
-          <div className="mt-3 overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-blue-200 text-[11px] font-bold uppercase text-slate-600">
-                  <th className="py-2 pr-3">Commodity</th>
-                  <th className="py-2 px-2">Best Supermarket Deal</th>
-                  <th className="py-2 px-2">Costco (Kirkland)</th>
-                  <th className="py-2 px-2">Sam&apos;s Club</th>
-                  <th className="py-2 pl-2 text-right">Club Normalizer Verdict</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-blue-100">
-                {data.commodities.slice(0, 12).map((item) => {
-                  const cb = item.clubBenchmark;
-                  if (!cb) return null;
+        <section aria-labelledby="radar-hold-off" className="space-y-2">
+          <h2 id="radar-hold-off" className="text-sm font-bold uppercase tracking-wide text-muted">Hold Off</h2>
+          {holdOff.length === 0 && <p className="text-sm text-muted">Nothing is at a cycle peak this week.</p>}
+          <div className="grid gap-3 sm:grid-cols-2 wide:grid-cols-1">
+            {holdOff.map((item) => (
+              <RadarCard
+                key={`peak-${item.ingredient.id}`}
+                item={item}
+                selected={item.ingredient.id === paneId}
+                onSelect={() => setSelectedId(item.ingredient.id)}
+                tag={<Badge tone="danger">Cycle peak</Badge>}
+              >
+                <p className="text-sm text-muted">
+                  ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/{item.ingredient.standardUnit} is high this week (wholesale {item.ingredient.usdaSignal.wholesaleChangePct}%)
+                  {item.comparisonEvidence ? ' • Historical comparison unavailable' : <> • 6-week median ${(item.sixWeekMedian ?? item.sixWeekLocalAvg).toFixed(2)}</>}
+                </p>
+                {item.cycleSignal?.substitutionSuggestion && (
+                  <div className="space-y-1 rounded-control bg-chip p-2 text-sm text-ink">
+                    <p>{item.cycleSignal.substitutionSuggestion.reason}</p>
+                    <Button variant="secondary" className="no-print" onClick={() => handleTogglePin(item.cycleSignal!.substitutionSuggestion!.substituteIngredientId)}>
+                      Pin swap
+                    </Button>
+                  </div>
+                )}
+              </RadarCard>
+            ))}
+          </div>
+        </section>
+
+        {/* Club vs. Store (below 1024 px; from 1024 px the selected alert's own comparison is in the pane) */}
+        <section aria-labelledby="radar-club" className="space-y-2 wide:hidden">
+          <h2 id="radar-club" className="text-sm font-bold uppercase tracking-wide text-muted">Club vs. Store</h2>
+          {clubRows.length === 0 ? <p className="text-sm text-muted">No club comparisons for these foods.</p> : (
+            <Card padding="none">
+              <ul className="divide-y divide-border">
+                {clubRows.map((item) => {
+                  const club = item.clubBenchmark!;
+                  const unit = item.ingredient.standardUnit;
                   return (
-                    <tr key={`club-${item.ingredient.id}`} className="bg-white/60">
-                      <td className="py-2 pr-3 font-bold text-slate-900">
-                        {item.ingredient.name}
-                      </td>
-                      <td className="py-2 px-2">
-                        <div className="flex items-center gap-1.5">
-                          {renderStoreBadge(item.bestOffer.store, currentZip)}
-                          <span className="font-extrabold text-slate-900">
-                            ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
-                            {item.ingredient.standardUnit}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-2 px-2 text-slate-700">
-                        <strong>
-                          ${cb.costcoPricePerUnit.toFixed(2)}/{item.ingredient.standardUnit}
-                        </strong>
-                        <div className="text-[10px] text-slate-500">
-                          {cb.costcoPackDescription}
-                        </div>
-                      </td>
-                      <td className="py-2 px-2 text-slate-700">
-                        <strong>
-                          ${cb.samsClubPricePerUnit.toFixed(2)}/
-                          {item.ingredient.standardUnit}
-                        </strong>
-                        <div className="text-[10px] text-slate-500">
-                          {cb.samsClubPackDescription}
-                        </div>
-                      </td>
-                      <td className="py-2 pl-2 text-right">
-                        <span
-                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
-                            cb.beatsClubBulk
-                              ? 'bg-emerald-100 text-emerald-900'
-                              : 'bg-amber-100 text-amber-900'
-                          }`}
-                        >
-                          {cb.verdictLabel}
-                        </span>
-                      </td>
-                    </tr>
+                    <li key={`club-${item.ingredient.id}`} className="space-y-0.5 px-4 py-3 text-sm">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <span className="font-semibold text-ink">{item.ingredient.name}</span>
+                        <Badge tone={club.beatsClubBulk ? 'save' : 'warning'}>{club.verdictLabel}</Badge>
+                      </div>
+                      <p className="text-muted">
+                        {resolveStoreBanner(item.bestOffer.store, currentZip)} ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/{unit}
+                        {' · '}Costco ${club.costcoPricePerUnit.toFixed(2)}/{unit}
+                        {' · '}Sam&apos;s ${club.samsClubPricePerUnit.toFixed(2)}/{unit}
+                      </p>
+                      <p className="text-xs text-muted">Costco: {club.costcoPackDescription} • Sam&apos;s Club: {club.samsClubPackDescription}</p>
+                    </li>
                   );
                 })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Original USDA Spiking vs Dropping Section */}
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-amber-200 bg-amber-50/40 p-4">
-            <div className="flex items-center gap-2 text-amber-900">
-              <TrendingUp className="h-5 w-5 text-amber-600" />
-              <h3 className="font-bold">
-                Buy Now &amp; Freeze (Wholesale Spiking, Local Retail Still Cheap)
-              </h3>
-            </div>
-            <p className="mt-1 text-xs text-amber-800">
-              Static wholesale scenario estimates are shown only in local demonstration mode; they are not verified current market movements.
-            </p>
-
-            <div className="mt-3 space-y-3">
-              {data.marketRadar.buyBeforeSpike.map((item) => (
-                <div
-                  key={item.ingredient.id}
-                  className="rounded-xl border border-amber-200 bg-white p-3 shadow-2xs"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900">
-                      {item.ingredient.name}
-                    </span>
-                    {renderStoreBadge(item.bestOffer.store, currentZip)}
-                  </div>
-                  <div className="mt-1 flex items-baseline gap-2">
-                    <span className="text-base font-extrabold text-emerald-700">
-                      ${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/
-                      {item.ingredient.standardUnit}
-                    </span>
-                    <span className="text-xs text-amber-700 font-semibold">
-                      (USDA Wholesale +{item.ingredient.usdaSignal.wholesaleChangePct}%
-                      this week)
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-slate-600">
-                    {item.ingredient.usdaSignal.note}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-sky-200 bg-sky-50/40 p-4">
-            <div className="flex items-center gap-2 text-sky-950">
-              <TrendingDown className="h-5 w-5 text-sky-600" />
-              <h3 className="font-bold">
-                Hold Off 7 Days (Wholesale Crashing, Local Retail Still High)
-              </h3>
-            </div>
-            <p className="mt-1 text-xs text-sky-800">
-              These are fallback scenario estimates, not newly retrieved wholesale forecasts.
-            </p>
-
-            <div className="mt-3 space-y-3">
-              {data.marketRadar.holdOffDropping.map((item) => (
-                <div
-                  key={item.ingredient.id}
-                  className="rounded-xl border border-sky-200 bg-white p-3 shadow-2xs"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900">
-                      {item.ingredient.name}
-                    </span>
-                    <span className="rounded-full bg-sky-100 px-2 py-0.5 text-xs font-semibold text-sky-900">
-                      Wholesale {item.ingredient.usdaSignal.wholesaleChangePct}%
-                    </span>
-                  </div>
-                  <div className="mt-1 flex items-center gap-3 text-xs">
-                    <span className="text-slate-600">
-                      Current Local Shelf:{' '}
-                      <strong className="text-slate-900">
-                        ${item.currentLocalPrice.toFixed(2)}/
-                        {item.ingredient.standardUnit}
-                      </strong>
-                    </span>
-                    <span className="text-emerald-700 font-semibold">
-                      Target Next Ad: ~${item.expectedSaleTarget.toFixed(2)}/
-                      {item.ingredient.standardUnit}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-slate-600">{item.reason}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Data Pipeline Status Footer */}
-        <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600">
-          <div className="flex items-center gap-1.5 font-bold text-slate-900">
-            <Info className="h-4 w-4 text-emerald-600" />
-            <span>
-              {'Market History, Virtual Pantry & Store Locations'}
-            </span>
-          </div>
-          <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <strong>Market history: {data.marketHistory?.storage ?? 'local'}</strong>
-              {data.marketHistory?.storage === 'local' ? ' • Includes synthetic demonstration history. ' : ' • Verified observations only. '}
-              <strong>Local development cache:</strong>{' '}
-              <code>{data.sqliteStats.dbPath}</code> —{' '}
-              <span className="text-emerald-700 font-semibold">
-                {data.sqliteStats.totalHistoricalOfferRows} offer rows &amp;{' '}
-                {data.sqliteStats.totalUsdaSnapshotRows} USDA rows (
-                {data.sqliteStats.trackedWeeksCount} weeks)
-              </span>
-            </div>
-            <div>
-              <strong>Local Circulars ({data.zipCode}):</strong> Supermarket Weekly Flyers —{' '}
-              <span className="text-emerald-700 font-semibold">
-                {data.dataSourcesActive.flippLive
-                  ? `Live Circular Feed Connected for ${data.cityLabel}`
-                  : `No verified current circulars; historical estimates (${data.cityLabel})`}
-              </span>
-            </div>
-            <div>
-              <strong>Nearby Supermarkets ({data.zipCode}):</strong>{' '}
-              {data.nearbyKingSoopersLocations &&
-              data.nearbyKingSoopersLocations.length > 0
-                ? data.nearbyKingSoopersLocations
-                    .map(
-                      (loc) =>
-                        `${loc.name} (#${loc.locationId}, ${loc.distanceMiles} mi)`
-                    )
-                    .join(' • ')
-                : `Kroger, Albertsons, ALDI, Walmart, Target & Sprouts`}
-            </div>
-            <div>
-              <strong>USDA MARS &amp; Club Normalizer:</strong> Specialty Crops (
-              <code>3324</code>), Beef (<code>3228</code>), Pork (<code>2868</code>),
-              Chicken (<code>2756</code>), Dairy (<code>2995</code>) + Costco / Sam&apos;s Bulk
-            </div>
-          </div>
-        </div>
+              </ul>
+            </Card>
+          )}
+        </section>
+        {usdaRow('wide:hidden')}
       </div>
+
+      {/* The pane, from 1024 px: the selected alert's detail, with its own club comparison, and the USDA row */}
+      <section aria-label="Alert detail" className="hidden min-w-0 space-y-3 wide:sticky wide:top-20 wide:block">
+        {paneId !== null ? <DealDetailView dealId={paneId} /> : <p className="rounded-card bg-chip p-6 text-center text-sm text-muted">Nothing to show yet.</p>}
+        {usdaRow('')}
+      </section>
+
+      <Sheet open={usdaOpen} onClose={() => setUsdaOpen(false)} title="USDA Movers and Data Status">
+        <div className="space-y-5 text-sm">
+          <section aria-labelledby="usda-buy" className="space-y-2">
+            <h3 id="usda-buy" className="font-bold text-ink">Buy now and freeze: wholesale spiking, local retail still cheap</h3>
+            <p className="text-muted">Static wholesale scenario estimates are shown only in local demonstration mode; they are not verified current market movements.</p>
+            {data.marketRadar.buyBeforeSpike.map((item) => (
+              <div key={item.ingredient.id} className="rounded-control bg-chip p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-semibold text-ink">{item.ingredient.name}</span>
+                  {renderStoreBadge(item.bestOffer.store, currentZip)}
+                </div>
+                <p className="mt-1 text-ink">
+                  <span className="font-bold">${item.bestOffer.normalizedPricePerUnit.toFixed(2)}/{item.ingredient.standardUnit}</span>
+                  {' '}(USDA wholesale +{item.ingredient.usdaSignal.wholesaleChangePct}% this week)
+                </p>
+                <p className="text-muted">{item.ingredient.usdaSignal.note}</p>
+              </div>
+            ))}
+          </section>
+
+          <section aria-labelledby="usda-hold" className="space-y-2">
+            <h3 id="usda-hold" className="font-bold text-ink">Hold off 7 days: wholesale crashing, local retail still high</h3>
+            <p className="text-muted">These are fallback scenario estimates, not newly retrieved wholesale forecasts.</p>
+            {data.marketRadar.holdOffDropping.map((item) => (
+              <div key={item.ingredient.id} className="rounded-control bg-chip p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-semibold text-ink">{item.ingredient.name}</span>
+                  <Badge>Wholesale {item.ingredient.usdaSignal.wholesaleChangePct}%</Badge>
+                </div>
+                <p className="mt-1 text-ink">
+                  Current local shelf: <span className="font-bold">${item.currentLocalPrice.toFixed(2)}/{item.ingredient.standardUnit}</span>
+                  {' · '}target next ad: ~${item.expectedSaleTarget.toFixed(2)}/{item.ingredient.standardUnit}
+                </p>
+                <p className="text-muted">{item.reason}</p>
+              </div>
+            ))}
+          </section>
+
+          <section aria-labelledby="usda-status" className="space-y-2 text-muted">
+            <h3 id="usda-status" className="font-bold text-ink">Market history, Virtual Pantry and store locations</h3>
+            <p>
+              <strong className="text-ink">Market history: {data.marketHistory?.storage ?? 'local'}</strong>
+              {data.marketHistory?.storage === 'local' ? ' • Includes synthetic demonstration history. ' : ' • Verified observations only. '}
+              <strong className="text-ink">Local development cache:</strong> <code>{data.sqliteStats.dbPath}</code> — {data.sqliteStats.totalHistoricalOfferRows} offer rows &amp; {data.sqliteStats.totalUsdaSnapshotRows} USDA rows ({data.sqliteStats.trackedWeeksCount} weeks)
+            </p>
+            <p>
+              <strong className="text-ink">Local circulars ({data.zipCode}):</strong> supermarket weekly flyers —{' '}
+              {data.dataSourcesActive.flippLive ? `live circular feed connected for ${data.cityLabel}` : `no verified current circulars; historical estimates (${data.cityLabel})`}
+            </p>
+            <p>
+              <strong className="text-ink">Nearby supermarkets ({data.zipCode}):</strong>{' '}
+              {data.nearbyKingSoopersLocations && data.nearbyKingSoopersLocations.length > 0
+                ? data.nearbyKingSoopersLocations.map((loc) => `${loc.name} (#${loc.locationId}, ${loc.distanceMiles} mi)`).join(' • ')
+                : 'Kroger, Albertsons, ALDI, Walmart, Target & Sprouts'}
+            </p>
+            <p>
+              <strong className="text-ink">USDA MARS &amp; club normalizer:</strong> Specialty Crops (<code>3324</code>), Beef (<code>3228</code>), Pork (<code>2868</code>), Chicken (<code>2756</code>), Dairy (<code>2995</code>) + Costco / Sam&apos;s bulk
+            </p>
+          </section>
+        </div>
+      </Sheet>
     </div>
   );
 }
