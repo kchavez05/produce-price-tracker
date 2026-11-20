@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, type Dispatch, type RefObject, type SetStateAction } from 'react';
+import { useState, useEffect, useRef, type RefObject } from 'react';
 import { withoutDerivedPantryPricing } from '@/lib/pantry/saved-pricing';
 import { aiRetryHint, createAiRequestFence } from '@/lib/ai/client-request';
 import type { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import type { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import type {
-  CookingVesselArchetype, DashboardPayload, DietaryConstraint, MacroGoal, RecommendedDish, StoreChain,
+  CookingVesselArchetype, DietaryConstraint, MacroGoal, RecommendedDish, StoreChain,
 } from '@/types/domain';
 
 // Moved verbatim from MealPrepDashboard (v2.0 M3 Phase B.1c): the Plan view state and the AI plan actions. All of it
@@ -15,10 +15,8 @@ import type {
 //  2. Hook order: usePlanUi comes before useDerivedDashboard (which reads customPrompt, customAiDishes and the refs);
 //     usePlanActions comes after it, where the fence effect used to run, so effect order is unchanged.
 //  3. The handlers are plain functions recreated every render (not memoized), like the closures they were.
-export function usePlanUi(initialData: DashboardPayload) {
-  const [expandedDishIds, setExpandedDishIds] = useState<Record<string, boolean>>({
-    [initialData.recommendedTrio[0]?.id || '']: true,
-  });
+// v2.0 M4-5b: the dishes' in-place expansion state is gone; a dish's full view is Dish Detail, at its own path.
+export function usePlanUi() {
   const [showAllBlueprints, setShowAllBlueprints] = useState(false);
   const [customPrompt, setCustomPrompt] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
@@ -27,7 +25,7 @@ export function usePlanUi(initialData: DashboardPayload) {
   const customAiOwner = useRef<string | null>(null);
   const customAiContext = useRef<string>('');
   return {
-    expandedDishIds, setExpandedDishIds, showAllBlueprints, setShowAllBlueprints, customPrompt, setCustomPrompt,
+    showAllBlueprints, setShowAllBlueprints, customPrompt, setCustomPrompt,
     aiLoading, setAiLoading, aiBannerMessage, setAiBannerMessage, customAiDishes, setCustomAiDishes, customAiOwner,
     customAiContext,
   };
@@ -59,14 +57,12 @@ interface PlanActionsArgs {
   setAiLoading: (loading: boolean) => void;
   setAiBannerMessage: (message: string | null) => void;
   setCustomAiDishes: (dishes: RecommendedDish[] | null) => void;
-  setExpandedDishIds: Dispatch<SetStateAction<Record<string, boolean>>>;
 }
 
 export function usePlanActions({
   pantryOwner, pantryOwnerRef, canUseAi, savedRecipeIds, setSavedLibrary, syncDashboard, showAiSignIn, mealContextSignature,
   activeTrio, pinnedIds, effectiveOnHandIds, targetServings, customPrompt, storeFilter, currentZip, cityLabel, macroGoal,
   dietaryConstraints, applianceFilter, customAiOwner, customAiContext, setAiLoading, setAiBannerMessage, setCustomAiDishes,
-  setExpandedDishIds,
 }: PlanActionsArgs) {
   const aiContextRef = useRef(mealContextSignature);
   aiContextRef.current = mealContextSignature;
@@ -129,7 +125,6 @@ export function usePlanActions({
         customAiContext.current = ticket.context;
         setCustomAiDishes(result.dishes);
         setAiBannerMessage(result.message || 'Updated 3-dish meal-prep plan.');
-        if (result.dishes[0]?.id) setExpandedDishIds({ [result.dishes[0].id]: true });
       } else {
         setCustomAiDishes(null);
         const retry = aiRetryHint(res.headers.get('Retry-After'));

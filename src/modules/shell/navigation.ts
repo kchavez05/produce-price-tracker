@@ -11,18 +11,21 @@ export type TabModule = 'shop' | 'plan' | 'pantry';
 export type AppModule = TabModule | 'settings' | 'welcome';
 export type ShopView = 'BOARD' | 'SHOPPING_LIST' | 'RADAR';
 // A Shop destination may name a deal (Deal Detail, M4-3a), which is a path of its own: /shop/deal/<ingredient id>. A Pantry
-// destination may name an entry (Ingredient Detail, M4-4b): /pantry/item/<entry id>.
-export type Destination = { module: 'shop'; view: ShopView; deal?: string } | { module: 'plan' } | { module: 'pantry'; item?: string } | { module: 'settings' } | { module: 'welcome' };
+// destination may name an entry (Ingredient Detail, M4-4b): /pantry/item/<entry id>. A Plan destination may name a dish (Dish
+// Detail, M4-5b): /plan/dish/<dish id>.
+export type Destination = { module: 'shop'; view: ShopView; deal?: string } | { module: 'plan'; dish?: string } | { module: 'pantry'; item?: string } | { module: 'settings' } | { module: 'welcome' };
 
 export const MODULE_PATHS: Record<AppModule, string> = { shop: '/shop', plan: '/plan', pantry: '/pantry', settings: '/settings', welcome: '/welcome' };
 
 export const DEAL_PATH_PREFIX = '/shop/deal/';
 
 export const ITEM_PATH_PREFIX = '/pantry/item/';
+export const DISH_PATH_PREFIX = '/plan/dish/';
 
 export function pathOf(destination: Destination): string {
   if (destination.module === 'shop' && destination.deal) return `${DEAL_PATH_PREFIX}${encodeURIComponent(destination.deal)}`;
   if (destination.module === 'pantry' && destination.item) return `${ITEM_PATH_PREFIX}${encodeURIComponent(destination.item)}`;
+  if (destination.module === 'plan' && destination.dish) return `${DISH_PATH_PREFIX}${encodeURIComponent(destination.dish)}`;
   return MODULE_PATHS[destination.module];
 }
 
@@ -41,6 +44,11 @@ export function dealIdOfPath(pathname: string): string | null {
 /** The entry id of an Ingredient Detail path (the Pantry), or null for any other path. */
 export function itemIdOfPath(pathname: string): string | null {
   return idAfter(ITEM_PATH_PREFIX, pathname);
+}
+
+/** The dish id of a Dish Detail path (the Plan), or null for any other path. */
+export function dishIdOfPath(pathname: string): string | null {
+  return idAfter(DISH_PATH_PREFIX, pathname);
 }
 
 /** The module a path belongs to. Anything that is not a module path (including "/") counts as Shop, the default. */

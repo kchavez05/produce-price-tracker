@@ -53,7 +53,7 @@ function heldAi() {
 }
 
 describe('AI plan request', () => {
-  it('sends the whole context, shows the busy state, then applies the plan, banner and expanded first dish', async () => {
+  it('sends the whole context, shows the busy state, then applies the plan and banner, and links each dish to its detail', async () => {
     const held = heldAi();
     const h = await start(held.handler, [oliveOil]);
     await h.openShopView('Deals');
@@ -76,9 +76,9 @@ describe('AI plan request', () => {
     await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
     expect(h.container.querySelector('[aria-busy="true"]')).toBeNull();
     expect(dishTitles(h).slice(0, 3)).toEqual(aiDishes.map((dish) => dish.title));
-    // The first generated dish is the only one expanded (expandedDishIds is replaced with it).
-    expect(buttons(h).filter((b) => b.textContent === 'Hide dish')).toHaveLength(1);
-    expect(buttons(h).filter((b) => b.textContent === 'View dish')).toHaveLength(2);
+    // Each generated dish links to its own detail (M4-5b); nothing is expanded in place.
+    const links = [...h.container.querySelectorAll<HTMLAnchorElement>('a')].filter((a) => a.textContent === 'View dish');
+    expect(links.map((a) => a.getAttribute('href'))).toEqual(aiDishes.map((dish) => `/plan/dish/${encodeURIComponent(dish.id)}`));
   });
 
   it('uses the default banner when the response has no message', async () => {

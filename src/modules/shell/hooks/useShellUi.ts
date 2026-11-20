@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { pantryCatalog } from '@/lib/pantry/model';
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
-import { dealIdOfPath, itemIdOfPath, pathOf, type AppModule, type Destination, type ShopView, type TabModule } from '@/modules/shell/navigation';
+import { dealIdOfPath, dishIdOfPath, itemIdOfPath, pathOf, type AppModule, type Destination, type ShopView, type TabModule } from '@/modules/shell/navigation';
 import type { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import type { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import type { useUserSync } from '@/hooks/useUserSync';
@@ -158,11 +158,11 @@ export function useShellActions({
   function navigateTo(destination: Destination) {
     if (destination.module === 'shop') setShopView(destination.view);
     // The URL is the source of truth for the module; moving within a module (Shop to another Shop view) changes no URL.
-    // Deal Detail is a path inside Shop (M4-3a) and Ingredient Detail one inside Pantry (M4-4b): opening one, and leaving one
-    // for any other destination in its module, do change it.
+    // Deal Detail is a path inside Shop (M4-3a), Ingredient Detail one inside Pantry (M4-4b) and Dish Detail one inside Plan (M4-5b):
+    // opening one, and leaving one for any other destination in its module, do change it.
     const target = pathOf(destination);
-    const leavingDetail = dealIdOfPath(pathname) !== null || itemIdOfPath(pathname) !== null;
-    const opening = (destination.module === 'shop' && Boolean(destination.deal)) || (destination.module === 'pantry' && Boolean(destination.item));
+    const leavingDetail = dealIdOfPath(pathname) !== null || itemIdOfPath(pathname) !== null || dishIdOfPath(pathname) !== null;
+    const opening = (destination.module === 'shop' && Boolean(destination.deal)) || (destination.module === 'pantry' && Boolean(destination.item)) || (destination.module === 'plan' && Boolean(destination.dish));
     if ((destination.module !== module || leavingDetail || opening) && target !== pathname) navigate(target);
   }
 
