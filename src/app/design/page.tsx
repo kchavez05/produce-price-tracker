@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import AppFooter from '@/components/AppFooter';
 import { designGuideEnabled } from '@/design/guide-access';
 
 export const metadata: Metadata = { title: 'Design System — PantryBot', robots: { index: false, follow: false } };
@@ -11,5 +12,10 @@ export const metadata: Metadata = { title: 'Design System — PantryBot', robots
 export default async function DesignPage() {
   if (!designGuideEnabled()) notFound();
   const { default: DesignGuide } = await import('./DesignGuide');
-  return <DesignGuide />;
+  return (
+    <>
+      <DesignGuide />
+      <AppFooter />
+    </>
+  );
 }

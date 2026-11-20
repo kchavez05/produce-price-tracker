@@ -40,14 +40,48 @@ describe('a page per module', () => {
   });
 
   it('keeps the chrome around every page: the header and the navigation', async () => {
-    for (const path of ['/shop', '/plan', '/pantry']) {
+    for (const [path, screen] of [['/shop', 'Shop'], ['/plan', 'Plan'], ['/pantry', 'Pantry']] as const) {
       const h = await start(path);
-      expect(h.container.querySelector('h1')?.textContent).toContain('PantryBot');
+      // Each screen has a visually hidden h1 with its name (spec 6a); the brand is not a heading.
+      expect(h.container.querySelector('h1')?.textContent).toBe(screen);
+      expect(h.container.querySelector('h1')?.className).toContain('sr-only');
+      expect(h.container.querySelector('header')?.textContent).toContain('PantryBot');
       expect(h.link('Shop')).toBeDefined();
       expect(h.link('Pantry')).toBeDefined();
       expect(h.link('Plan')).toBeDefined();
       await h.teardown();
     }
+  });
+});
+
+describe('the shell frame (M4-1b)', () => {
+  it('opts the app into the design tokens after mount (data-ds on <html>) and out again when it unmounts', async () => {
+    expect(document.documentElement.hasAttribute('data-ds')).toBe(false);
+    const h = await start('/shop');
+    expect(document.documentElement.hasAttribute('data-ds')).toBe(true);
+    await h.teardown();
+    expect(document.documentElement.hasAttribute('data-ds')).toBe(false);
+  });
+
+  it('has a slim header padded for the status bar, and no site footer on the app screens', async () => {
+    for (const path of ['/shop', '/plan', '/pantry']) {
+      const h = await start(path);
+      const header = h.container.querySelector('header')!;
+      expect(header.className).toContain('pt-[env(safe-area-inset-top)]');
+      expect(header.className).toContain('bg-surface');
+      expect(header.querySelectorAll('button').length).toBe(1); // the account avatar only
+      expect(h.container.querySelector('footer')).toBeNull();
+      await h.teardown();
+    }
+  });
+
+  it('puts the ZIP, alerts and store controls in the page, not in the sticky header', async () => {
+    const h = await start('/shop');
+    const header = h.container.querySelector('header')!;
+    const zip = h.container.querySelector('button[title="Click to change your ZIP code"]')!;
+    expect(zip).not.toBeNull();
+    expect(header.contains(zip)).toBe(false);
+    expect(h.container.querySelector('main')!.contains(zip)).toBe(true);
   });
 });
 

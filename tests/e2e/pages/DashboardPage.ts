@@ -18,7 +18,8 @@ export class DashboardPage {
   readonly aiRequest: Locator;
 
   constructor(readonly page: Page) {
-    this.heading = page.getByRole('heading', { level: 1, name: /PantryBot/ });
+    // The screen's visually hidden h1 ("Shop", "Pantry" or "Plan", spec 6a); the brand in the header is not a heading.
+    this.heading = page.getByRole('heading', { level: 1 });
     // The header control ends with "Change"; the location list buttons in the open panel do not.
     this.zipButton = page.getByRole('button', { name: /\(\d{5}\)\s*Change$/ });
     // The Pantry tab is a link to /pantry (the property keeps its name so the specs do not change). Its accessible name

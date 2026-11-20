@@ -150,19 +150,20 @@ test.describe('smoke: keyboard', () => {
     const home = new DashboardPage(page);
     await home.goto();
 
-    // Tab through the page until the Sign In control: the ZIP, alerts and account controls are reached in this order. The
-    // navigation (an icon rail before the header on medium widths, a tab bar after the page on compact ones) is skipped over
-    // here and covered below. The Pantry control moved from the header to the tab bar (M4-1a).
-    const reached: string[] = [];
-    for (let i = 0; i < 12 && !reached.some((name) => name.includes('Sign In with Google or Apple')); i++) {
+    // Tab through the page and collect the header and page controls in the order they are reached: the account avatar in the
+    // header first, then the ZIP and alerts controls at the top of the page. The navigation (an icon rail before the header on
+    // medium widths, a tab bar after the page on compact ones) is left out here and covered below.
+    const wanted = (name: string) => name === 'Click to change your ZIP code' || name.includes('Smart Push Notifications') || name.includes('Sign In with Google or Apple');
+    const controls: string[] = [];
+    for (let i = 0; i < 12 && controls.length < 3; i++) {
       await page.keyboard.press('Tab');
-      reached.push(await page.evaluate(() => document.activeElement?.getAttribute('title') ?? document.activeElement?.textContent?.trim() ?? ''));
+      const name = await page.evaluate(() => document.activeElement?.getAttribute('title') ?? document.activeElement?.textContent?.trim() ?? '');
+      if (wanted(name)) controls.push(name);
     }
-    const controls = reached.filter((name) => name === 'Click to change your ZIP code' || name.includes('Smart Push Notifications') || name.includes('Sign In with Google or Apple'));
     expect(controls).toEqual([
+      expect.stringContaining('Sign In with Google or Apple'),
       'Click to change your ZIP code',
       expect.stringContaining('Smart Push Notifications'),
-      expect.stringContaining('Sign In with Google or Apple'),
     ]);
 
     // The Pantry tab opens the Pantry by keyboard and the page puts focus on its heading; the Shop tab leaves it.

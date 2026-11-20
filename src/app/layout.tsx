@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
-import AppFooter from '@/components/AppFooter';
 import { themeInitScript } from '@/design/theme';
 import './globals.css';
 
@@ -9,6 +8,9 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  // v2.0 M4-1b: let the page extend under the iPhone status bar and home indicator; the app shell pads for the insets with
+  // env(safe-area-inset-*) (the standalone app already draws under the status bar, statusBarStyle black-translucent).
+  viewportFit: 'cover',
 };
 
 export const metadata: Metadata = {
@@ -37,8 +39,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="flex min-h-screen flex-col bg-slate-50 text-slate-900 selection:bg-emerald-600 selection:text-white">
+        {/* The site footer moved off the app screens (M4-1b); the static pages render it themselves. */}
         <div className="flex-1">{children}</div>
-        <AppFooter />
         <Analytics />
       </body>
     </html>

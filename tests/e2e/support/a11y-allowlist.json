@@ -69,16 +69,6 @@
   },
   {
     "screen": "home",
-    "rule": "horizontal-scroll",
-    "projects": [
-      "iphone-webkit",
-      "iphone-chromium"
-    ],
-    "issue": 710,
-    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
-  },
-  {
-    "screen": "home",
     "rule": "select-name",
     "projects": [
       "iphone-webkit",
@@ -98,26 +88,11 @@
     "rule": "color-contrast",
     "projects": [
       "ipad-webkit",
-      "iphone-webkit",
-      "iphone-pro-max-webkit",
       "ipad-chromium",
-      "iphone-chromium",
-      "iphone-pro-webkit",
-      "duo-inner-webkit",
       "ipad-landscape-webkit"
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
-    "screen": "pantry",
-    "rule": "horizontal-scroll",
-    "projects": [
-      "iphone-webkit",
-      "iphone-chromium"
-    ],
-    "issue": 710,
-    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
   },
   {
     "screen": "plan",
@@ -134,16 +109,6 @@
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
-    "screen": "plan",
-    "rule": "horizontal-scroll",
-    "projects": [
-      "iphone-webkit",
-      "iphone-chromium"
-    ],
-    "issue": 710,
-    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
   },
   {
     "screen": "privacy",
@@ -192,16 +157,6 @@
     ],
     "issue": 714,
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
-    "screen": "shopping-list",
-    "rule": "horizontal-scroll",
-    "projects": [
-      "iphone-webkit",
-      "iphone-chromium"
-    ],
-    "issue": 710,
-    "reason": "The 390 px header control row is wider than the viewport (decision 15); the M4 shell PR removes this entry."
   },
   {
     "screen": "terms",
