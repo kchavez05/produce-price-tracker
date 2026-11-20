@@ -100,7 +100,7 @@ test.describe('smoke: virtual pantry', () => {
 });
 
 test.describe('smoke: account panel', () => {
-  test('4. opens and closes without signing in, and guest pantry data remains', async ({ page, problems }) => {
+  test('4. opens Settings and the account dialog without signing in, and guest pantry data remains', async ({ page, a11y, problems }) => {
     void problems; // also proves no sign-in request left the test server
     const home = new DashboardPage(page);
     await home.goto();
@@ -123,31 +123,21 @@ test.describe('smoke: account panel', () => {
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeHidden();
     expect(new URL(page.url()).pathname).toBe(pathBeforeDialog);
     expect(await home.pantryCount()).toBe(1);
-  });
-});
 
-test.describe('smoke: settings', () => {
-  test('4b. opens from the avatar, shows its sections, sets the theme and goes Back', async ({ page, a11y, problems }) => {
-    void problems;
-    const home = new DashboardPage(page);
-    await home.goto();
-    await home.openSettings();
-    expect(home.pathname).toBe('/settings');
+    // The rest of Settings (M4-2a), in the same page load: its sections, accessibility, the theme control and Back. One journey
+    // because the browser matrix shares the app's per-IP rate limits (60 sync reads a minute): an extra page load per project
+    // here makes the Chromium shard return 429s.
     for (const section of ['Shopping', 'Meal Prep', 'Appearance', 'Account', 'About']) {
       await expect(page.getByRole('heading', { level: 2, name: section })).toBeVisible();
     }
     await a11y.check('settings');
     await a11y.noHorizontalScroll('settings');
-
-    // The theme choice applies at once and is remembered on the device (the Appearance control, M4-2a).
     await page.getByRole('radio', { name: 'Dark' }).check();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     expect(await page.evaluate(() => localStorage.getItem('pantrybot-theme'))).toBe('dark');
     await page.getByRole('radio', { name: 'System' }).check();
-
     await page.getByRole('link', { name: 'Back' }).click();
-    await expect.poll(() => home.pathname).toBe('/shop');
-    await expect(home.tab('Deals')).toBeVisible();
+    await expect.poll(() => home.pathname).toBe('/pantry');
   });
 });
 

@@ -13,6 +13,8 @@ import ShopPage from '@/modules/shop/ShopPage';
 import PlanPage from '@/modules/plan/PlanPage';
 import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import SettingsPage from '@/modules/settings/SettingsPage';
+import WelcomePage from '@/modules/welcome/WelcomePage';
+import { SETUP_COMPLETED_KEY } from '@/modules/shell/first-run';
 import type { DashboardPayload, RecommendedDish } from '@/types/domain';
 
 export interface TestRouterProps {
@@ -21,14 +23,20 @@ export interface TestRouterProps {
   onPath?: (path: string) => void;
   /** Called with every path pushed (not the initial one), in order. */
   onPush?: (path: string) => void;
+  /** Called with every path replaced, in order (the first-run redirect and the end of setup). */
+  onReplace?: (path: string) => void;
   children?: ReactNode;
 }
 
-export function TestRouter({ initialPath = '/shop', onPath, onPush, children }: TestRouterProps) {
+export function TestRouter({ initialPath = '/shop', onPath, onPush, onReplace, children }: TestRouterProps) {
   const [pathname, setPathname] = useState(initialPath);
   onPath?.(pathname);
   return createElement(AppRouterProvider, {
-    router: { pathname, push: (path: string) => { onPush?.(path); setPathname(path); } },
+    router: {
+      pathname,
+      push: (path: string) => { onPush?.(path); setPathname(path); },
+      replace: (path: string) => { onReplace?.(path); setPathname(path); },
+    },
   }, children);
 }
 
@@ -41,23 +49,33 @@ export interface PageFlags {
 function TestPage({ flags }: { flags: PageFlags }) {
   const { pathname } = useAppRouter();
   const current = moduleOfPath(pathname);
+  if (current === 'welcome') return createElement(WelcomePage);
   if (current === 'settings') return createElement(SettingsPage);
   if (current === 'plan') return createElement(PlanPage);
   if (current === 'pantry') return createElement(PantryDrawer, flags);
   return createElement(ShopPage);
 }
 
-export interface AppUnderTestProps extends Pick<TestRouterProps, 'initialPath' | 'onPath' | 'onPush'> {
+export interface AppUnderTestProps extends Pick<TestRouterProps, 'initialPath' | 'onPath' | 'onPush' | 'onReplace'> {
   initialData: DashboardPayload;
   initialAccountId?: string | null;
   initialPrivateRecipes?: RecommendedDish[];
   flags?: PageFlags;
+  /**
+   * Leave the device as a first run (nothing set up) so the shell redirects to /welcome. By default a test device counts as set up
+   * (the first-run marker is seeded before the first render), so the journeys that are not about onboarding start where they say.
+   */
+  firstRun?: boolean;
 }
 
 export default function AppUnderTest({
-  initialData, initialAccountId = null, initialPrivateRecipes = [], flags = {}, initialPath, onPath, onPush,
+  initialData, initialAccountId = null, initialPrivateRecipes = [], flags = {}, initialPath, onPath, onPush, onReplace, firstRun = false,
 }: AppUnderTestProps) {
-  return createElement(TestRouter, { initialPath, onPath, onPush },
+  useState(() => {
+    if (!firstRun && localStorage.getItem(SETUP_COMPLETED_KEY) === null) localStorage.setItem(SETUP_COMPLETED_KEY, '1');
+    return null;
+  });
+  return createElement(TestRouter, { initialPath, onPath, onPush, onReplace },
     createElement(AppProvider, { initialData, initialAccountId, initialPrivateRecipes },
       createElement(AppShell, null, createElement(TestPage, { flags }))));
 }

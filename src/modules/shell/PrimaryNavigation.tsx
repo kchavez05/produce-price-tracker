@@ -5,7 +5,7 @@ import { ChefHat, Refrigerator, ShoppingBag } from 'lucide-react';
 import { IconRail, Sidebar, TabBar, type NavItem, type NavLinkRenderer } from '@/components/ui';
 import { useAccountContext, useShellContext, useShopContext } from '@/modules/shell/app-context';
 import AppLink from '@/modules/shell/AppLink';
-import type { Destination, TabModule } from '@/modules/shell/navigation';
+import { isTabModule, type Destination, type TabModule } from '@/modules/shell/navigation';
 
 // v2.0 M4-1a: the app's final navigation, replacing M3's temporary four-pill strip. Three tabs in the order Shop, Pantry,
 // Plan (spec section 3), shown as a bottom tab bar on compact widths, an icon rail on medium widths and a sidebar on wide
@@ -31,8 +31,8 @@ function useNavigation() {
   const renderLink: NavLinkRenderer<ModuleItem> = (item, props) => (
     <AppLink to={destination(item.id)} {...props} />
   );
-  // Settings is not a tab, so no tab is current there.
-  return { module: module === 'settings' ? null : module, items, renderLink };
+  // Settings and Welcome are not tabs, so no tab is current there.
+  return { module: isTabModule(module) ? module : null, items, renderLink };
 }
 
 /** The icon rail (medium widths) and the sidebar (wide widths): placed before the page content. */

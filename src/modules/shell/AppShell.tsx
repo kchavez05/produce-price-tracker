@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import ZipPanel from '@/modules/shell/ZipPanel';
 import StoresPanel from '@/modules/shell/StoresPanel';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
@@ -10,8 +10,10 @@ import TemporaryControls from '@/modules/shell/TemporaryControls';
 import PinSummary from '@/modules/shell/PinSummary';
 import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
 import AccountDialog from '@/modules/shell/AccountDialog';
-import { useLocationContext, useShellContext } from '@/modules/shell/app-context';
-import { LAST_MODULE_COOKIE, LAST_MODULE_MAX_AGE_SECONDS, type AppModule } from '@/modules/shell/navigation';
+import { useAccountContext, useLocationContext, useShellContext } from '@/modules/shell/app-context';
+import { useAppRouter } from '@/modules/shell/app-router';
+import { decideFirstRun, markSetupCompleted } from '@/modules/shell/first-run';
+import { LAST_MODULE_COOKIE, LAST_MODULE_MAX_AGE_SECONDS, MODULE_PATHS, isTabModule, type AppModule } from '@/modules/shell/navigation';
 import { DoorOpen } from 'lucide-react';
 
 // v2.0 M3 Phase B.3c: the app's chrome around the current page. It lives in the route group's layout, so it persists across
@@ -25,26 +27,51 @@ import { DoorOpen } from 'lucide-react';
 // the Shop redesign take over their jobs (M4 decision 19). Each screen has a visually hidden h1 with its name (spec 6a).
 // Settings is not a tab: it shows its own visible title and, since it hosts these controls itself (M4-2a), none of the
 // page-top controls, panels or dialogs below. It does not write the last-used-module cookie, and it remembers the tab the
-// user came from so it can offer Back.
-const SCREEN_NAMES: Record<Exclude<AppModule, 'settings'>, string> = { shop: 'Shop', pantry: 'Pantry', plan: 'Plan' };
+// user came from so it can offer Back. Welcome (M4-2b, the first-run setup) shows no chrome at all.
+//
+// First run (M4-2b): once, after mount, a device that has never been set up and has no signed-in account is sent to /welcome
+// (`replace`, so Back does not loop). The decision is `decideFirstRun`; the account is the one the server resolved for this
+// request (`pantryAccountId` is that value until the sync state loads), so a signed-in user on a new device is never sent
+// to setup and is marked as set up.
+const SCREEN_NAMES: Record<Exclude<AppModule, 'settings' | 'welcome'>, string> = { shop: 'Shop', pantry: 'Pantry', plan: 'Plan' };
 
 export default function AppShell({ children }: { children?: ReactNode }) {
   const { showZipModal } = useLocationContext();
+  const { pantryAccountId } = useAccountContext();
+  const router = useAppRouter();
   const { module, setLastTab, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal } = useShellContext();
   const onSettings = module === 'settings';
+  const onWelcome = module === 'welcome';
 
   useEffect(() => {
-    if (module === 'settings') return;
+    if (!isTabModule(module)) return;
     setLastTab(module);
     const secure = window.location.protocol === 'https:' ? '; Secure' : '';
     document.cookie = `${LAST_MODULE_COOKIE}=${module}; Path=/; Max-Age=${LAST_MODULE_MAX_AGE_SECONDS}; SameSite=Lax${secure}`;
   }, [module, setLastTab]);
+
+  // The first render's account and module, and the latest router (a new object each render in tests).
+  const firstRun = useRef({ accountId: pantryAccountId, module, router });
+  firstRun.current.router = router;
+  useEffect(() => {
+    const decision = decideFirstRun(localStorage, firstRun.current.accountId);
+    if (decision === 'signed-in') markSetupCompleted(localStorage);
+    else if (decision === 'welcome' && firstRun.current.module !== 'welcome') firstRun.current.router.replace(MODULE_PATHS.welcome);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
     root.setAttribute('data-ds', '');
     return () => root.removeAttribute('data-ds');
   }, []);
+
+  if (onWelcome) {
+    return (
+      <div className="min-h-screen bg-bg pt-[env(safe-area-inset-top)] text-ink">
+        <main className="mx-auto max-w-md px-4 py-8">{children}</main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-bg text-ink medium:flex">
@@ -57,7 +84,7 @@ export default function AppShell({ children }: { children?: ReactNode }) {
         </header>
 
         <main className="mx-auto max-w-6xl px-4 pt-3">
-          {!onSettings && <h1 className="sr-only">{SCREEN_NAMES[module]}</h1>}
+          {!onSettings && <h1 className="sr-only">{SCREEN_NAMES[module as keyof typeof SCREEN_NAMES]}</h1>}
 
           {!onSettings && <div className="no-print">
             <TemporaryControls />
