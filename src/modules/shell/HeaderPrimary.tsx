@@ -6,18 +6,31 @@ import { useAccountContext, useShellContext } from '@/modules/shell/app-context'
 
 // v2.0 M4-1b: the header is the brand and the account avatar, as in the wireframes. ZIP, alerts and the store filter moved
 // to TemporaryControls (until Settings holds them). The avatar is the same account control the Sign In button was (it opens
-// the account dialog; M4-2a points it at Settings). Its name is "Sign In" for a guest and the display name when signed in,
-// and the sync status is kept as a coloured dot plus the accessible description.
+// the account dialog; M4-2a points it at Settings). Its name is "Sign In" for a guest and the display name when signed in.
+// The sync status is a coloured dot for sighted users and, for everyone, a visually hidden description the button points at
+// (aria-describedby), so a failed sync or changes queued offline are never colour-only.
 const SYNC_DOT: Record<string, string> = {
   ERROR: 'bg-danger',
   SYNCING: 'bg-warning animate-pulse',
   OFFLINE_QUEUED: 'bg-warning',
 };
 
+const SYNC_TEXT: Record<string, string> = {
+  ERROR: 'Sync failed. Your changes are saved on this device and will retry.',
+  SYNCING: 'Syncing your changes.',
+  OFFLINE_QUEUED: 'Offline. Your changes are queued and will sync when you reconnect.',
+};
+
+/** The sentence that describes a sync status to assistive technology (a synced or idle account reads as synced). */
+export function describeSync(status: string): string {
+  return SYNC_TEXT[status] ?? 'Signed in. Your changes are synced.';
+}
+
 export default function HeaderPrimary() {
   const { userSync } = useAccountContext();
   const { showAccountModal, setShowAccountModal, setAccountIntent } = useShellContext();
   const signedIn = userSync.authenticated;
+  const syncDescription = signedIn ? describeSync(userSync.syncStatus) : undefined;
   const name = signedIn ? userSync.profile?.displayName || 'Account' : 'Sign In';
   return (
     <div className="flex items-center justify-between gap-3">
@@ -33,6 +46,7 @@ export default function HeaderPrimary() {
         <IconButton
           label={name}
           aria-expanded={showAccountModal}
+          aria-describedby={syncDescription ? 'account-sync-status' : undefined}
           onClick={() => { setAccountIntent('account'); setShowAccountModal(!showAccountModal); }}
           className={`rounded-pill border border-border-strong ${showAccountModal ? 'bg-accent text-on-accent' : 'bg-chip'}`}
           title={
@@ -44,6 +58,7 @@ export default function HeaderPrimary() {
             ? <span className="text-sm font-bold">{name.slice(0, 1).toUpperCase()}</span>
             : <LogIn className="size-5" />}
         />
+        {syncDescription && <span id="account-sync-status" className="sr-only">{syncDescription}</span>}
         {signedIn && (
           <span
             aria-hidden="true"

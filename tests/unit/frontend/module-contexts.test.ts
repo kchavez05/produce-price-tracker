@@ -25,7 +25,7 @@ import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import AccountDialog from '@/modules/shell/AccountDialog';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import FreshnessNotice from '@/modules/shell/FreshnessNotice';
-import HeaderPrimary from '@/modules/shell/HeaderPrimary';
+import HeaderPrimary, { describeSync } from '@/modules/shell/HeaderPrimary';
 import TemporaryControls from '@/modules/shell/TemporaryControls';
 import PinSummary from '@/modules/shell/PinSummary';
 import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
@@ -305,6 +305,20 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(avatar().title).toContain('Signed in as Alice');
     expect(avatar().textContent).toBe('A');
     expect(h.container.querySelector('[data-sync-status]')).not.toBeNull();
+    // The status is not colour-only: the avatar is described by a visually hidden sentence (review of #829).
+    const describedBy = avatar().getAttribute('aria-describedby')!;
+    expect(h.container.querySelector(`#${describedBy}`)?.textContent).toContain('synced');
+    expect(h.container.querySelector(`#${describedBy}`)?.className).toContain('sr-only');
+  });
+
+  it.each([
+    ['ERROR', 'Sync failed'],
+    ['SYNCING', 'Syncing'],
+    ['OFFLINE_QUEUED', 'queued'],
+    ['SYNCED', 'synced'],
+    ['IDLE', 'synced'],
+  ] as const)('describeSync words the %s sync status for assistive technology', (status, expected) => {
+    expect(describeSync(status)).toContain(expected);
   });
 
   it('StoreFilterBar filters through the Preferences context (and the trip), and opens the stores drawer through Shell', async () => {
