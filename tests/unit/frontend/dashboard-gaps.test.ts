@@ -275,7 +275,7 @@ describe('clear profile filters (Meal Plan header)', () => {
     await harness.settle();
     await harness.click(harness.link('Plan'));
     await harness.openPlanPreferences();
-    const clear = () => [...document.querySelectorAll('[role="dialog"] button')].find((b) => b.textContent === 'Clear Profile Filters');
+    const clear = () => [...document.querySelectorAll<HTMLElement>('[role="dialog"] button')].find((b) => b.textContent === 'Clear Profile Filters');
     expect(clear()).toBeDefined();
     const before = dashboardRequests(harness).length;
     await harness.click(clear()!);
