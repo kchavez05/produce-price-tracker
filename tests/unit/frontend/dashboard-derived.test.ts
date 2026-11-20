@@ -135,14 +135,14 @@ describe('view state survives tab switches (owner decision 1)', () => {
   it('keeps the chosen trip mode and the checked items on the shopping list', async () => {
     const h = await start();
     await h.openShopView('Trip');
-    await h.click(buttons(h).find((b) => b.textContent?.startsWith('#1'))!);
-    await h.click(h.container.querySelector<HTMLButtonElement>('button.mt-0\\.5.text-emerald-600')!);
-    const list = h.container.textContent;
-    const html = h.html();
+    await h.click(buttons(h).find((b) => b.textContent?.includes('lowest 1-stop'))!);
+    await h.click(h.container.querySelector<HTMLInputElement>('input[type="checkbox"][id^="trip-"]')!);
+    // A checked box is a DOM property, not an attribute, so compare what is checked, not the markup.
+    const state = () => [h.container.textContent, [...h.container.querySelectorAll<HTMLInputElement>('input[type="checkbox"][id^="trip-"]')].map((box) => box.checked)];
+    const before = state();
     await h.openShopView('Radar');
     await h.openShopView('Trip');
-    expect(h.container.textContent).toBe(list);
-    expect(h.html()).toBe(html);
+    expect(state()).toEqual(before);
   });
 });
 

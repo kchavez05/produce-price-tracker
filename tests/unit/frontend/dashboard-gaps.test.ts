@@ -45,7 +45,7 @@ describe('mount restore of the five localStorage keys (gap 1)', () => {
     expect(zipButtonText(harness)).toContain('(80301)');
     // The saved checklist item is shown as checked once the shopping list is opened.
     await harness.openShopView('Trip');
-    expect(harness.container.querySelectorAll('.lucide-check-square').length).toBeGreaterThan(0);
+    expect(harness.container.querySelectorAll('input[type="checkbox"][id^="trip-"]:checked').length).toBeGreaterThan(0);
   });
 
   it('keeps the server ZIP and makes no refetch when the saved ZIP matches or is malformed', async () => {

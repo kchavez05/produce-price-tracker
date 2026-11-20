@@ -202,190 +202,51 @@
 <span>Filters</span>
 </button>
 </div>
-<div class="space-y-6">
-<section class="rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-5 text-white shadow-md no-print">
-<div class="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
+<div class="space-y-4 wide:grid wide:grid-cols-[380px_minmax(0,1fr)] wide:items-start wide:gap-6 wide:space-y-0">
+<div class="wide:col-start-2 wide:row-start-1">
+<section aria-labelledby="trip-plan" class="rounded-card bg-surface text-ink shadow-card p-4 no-print space-y-3 bg-chip">
 <div>
-<div class="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-300">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-store h-3.5 w-3.5" aria-hidden="true">
-<path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5">
-</path>
-<path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244">
-</path>
-<path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05">
-</path>
-</svg>
-<span>Store Split Optimizer &amp; 1-Tap Curbside Cart Bridge (Tickets #7 &amp; #23)</span>
+<h2 id="trip-plan" class="text-base font-bold text-ink">Best plan</h2>
+<p class="mt-1 text-lg font-bold text-ink">1-Stop at King Soopers is the sweet spot ($23.40)</p>
+<p class="mt-1 text-sm text-muted">Splitting stores only saves $1.04 more than doing a single trip to King Soopers. Some store prices are unavailable; estimates from another store are labeled and are not verified offers at this store. Estimated additional grocery cost assumes marked ingredients are on hand. Staple rows identify the price basis; package checkout totals may differ. Known subtotal only — plus ingredients with no price.</p>
+<p class="mt-2 text-sm text-ink">
+<span class="font-bold">$22.36</span> with the best split · saves $15.20 vs regular shelf prices ($37.56)</p>
 </div>
-<h2 class="mt-2 text-xl font-extrabold sm:text-2xl">1-Stop at King Soopers is the sweet spot ($23.40)</h2>
-<p class="mt-1 text-xs text-slate-300 sm:text-sm">Splitting stores only saves $1.04 more than doing a single trip to King Soopers. Some store prices are unavailable; estimates from another store are labeled and are not verified offers at this store. Estimated additional grocery cost assumes marked ingredients are on hand. Staple rows identify the price basis; package checkout totals may differ. Known subtotal only — plus ingredients with no price.</p>
-</div>
-<div class="text-right text-xs text-slate-300">
-<div>Regular Shelf Price Without Promos:</div>
-<div class="text-lg font-bold text-slate-400 line-through">$37.56</div>
-</div>
-</div>
-<div class="mt-4 space-y-3">
-<button class="w-full flex flex-col sm:flex-row sm:items-center justify-between rounded-xl border p-4 text-left transition gap-3 border-white/15 bg-white/5 hover:bg-white/10">
-<div>
-<div class="flex items-center gap-2">
-<span class="text-xs font-bold uppercase tracking-wider text-emerald-300">⚡ Optimal 2-Store Split: King Soopers + Safeway</span>
-</div>
-<div class="mt-1 text-xs text-slate-300">Buy 6 items at King Soopers and 1 items at Safeway</div>
-</div>
-<div class="text-left sm:text-right shrink-0">
-<div class="text-2xl font-black text-white">$22.36</div>
-<div class="text-[11px] text-emerald-300 font-semibold">Save $15.20 vs regular shelf</div>
-</div>
-</button>
-<div>
-<div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Ranked 1-Stop Trips (7 priced market ingredients; staples estimated separately)</div>
-<div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-<button class="flex flex-col justify-between rounded-xl border p-3 text-left transition border-indigo-400 bg-indigo-500/25 ring-2 ring-indigo-400/40">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="text-xs font-bold text-slate-300">#1</span>
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs">King Soopers</span>
-</div>
-<span class="rounded-full bg-indigo-400 px-2 py-0.5 text-[10px] font-bold text-slate-950">Active</span>
-</div>
-<div class="mt-2 flex items-baseline justify-between">
-<span class="text-xl font-black text-white">$23.40</span>
-<span class="text-[11px] text-slate-400">+$1.04 vs split</span>
-</div>
-</button>
-<button class="flex flex-col justify-between rounded-xl border p-3 text-left transition border-white/15 bg-white/5 hover:bg-white/10">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="text-xs font-bold text-slate-300">#2</span>
-<span style="background-color: rgb(227, 24, 55); color: rgb(255, 255, 255);" class="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs">Safeway</span>
-</div>
-<span class="text-[10px] text-slate-400 font-medium">+$0.98 vs #1</span>
-</div>
-<div class="mt-2 flex items-baseline justify-between">
-<span class="text-xl font-black text-white">$24.38</span>
-<span class="text-[11px] text-slate-400">+$2.02 vs split</span>
-</div>
-</button>
-<button class="flex flex-col justify-between rounded-xl border p-3 text-left transition border-white/15 bg-white/5 hover:bg-white/10">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="text-xs font-bold text-slate-300">#3</span>
-<span style="background-color: rgb(10, 37, 64); color: rgb(255, 255, 255);" class="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs">ALDI</span>
-</div>
-<span class="text-[10px] text-slate-400 font-medium">+$6.50 vs #1</span>
-</div>
-<div class="mt-2 flex items-baseline justify-between">
-<span class="text-xl font-black text-white">$29.90</span>
-<span class="text-[11px] text-slate-400">+$7.54 vs split</span>
-</div>
-</button>
-<button class="flex flex-col justify-between rounded-xl border p-3 text-left transition border-white/15 bg-white/5 hover:bg-white/10">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="text-xs font-bold text-slate-300">#4</span>
-<span style="background-color: rgb(0, 113, 220); color: rgb(255, 255, 255);" class="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs">Walmart</span>
-</div>
-<span class="text-[10px] text-slate-400 font-medium">+$7.29 vs #1</span>
-</div>
-<div class="mt-2 flex items-baseline justify-between">
-<span class="text-xl font-black text-white">$30.69</span>
-<span class="text-[11px] text-slate-400">+$8.33 vs split</span>
-</div>
-</button>
-<button class="flex flex-col justify-between rounded-xl border p-3 text-left transition border-white/15 bg-white/5 hover:bg-white/10">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="text-xs font-bold text-slate-300">#5</span>
-<span style="background-color: rgb(204, 0, 0); color: rgb(255, 255, 255);" class="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs">Target</span>
-</div>
-<span class="text-[10px] text-slate-400 font-medium">+$7.75 vs #1</span>
-</div>
-<div class="mt-2 flex items-baseline justify-between">
-<span class="text-xl font-black text-white">$31.15</span>
-<span class="text-[11px] text-slate-400">+$8.79 vs split</span>
-</div>
-</button>
-<button class="flex flex-col justify-between rounded-xl border p-3 text-left transition border-white/15 bg-white/5 hover:bg-white/10">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-1.5">
-<span class="text-xs font-bold text-slate-300">#6</span>
-<span style="background-color: rgb(30, 86, 49); color: rgb(255, 255, 255);" class="rounded-md px-2 py-0.5 text-[11px] font-bold shadow-xs">Sprouts</span>
-</div>
-<span class="text-[10px] text-slate-400 font-medium">+$8.31 vs #1</span>
-</div>
-<div class="mt-2 flex items-baseline justify-between">
-<span class="text-xl font-black text-white">$31.71</span>
-<span class="text-[11px] text-slate-400">+$9.35 vs split</span>
-</div>
-</button>
-</div>
-</div>
+<div role="group" aria-label="Plan" class="-mx-4 flex gap-2 overflow-x-auto px-4">
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink shrink-0">King Soopers + Safeway · $22.36</button>
+<button type="button" aria-pressed="true" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-accent text-on-accent shrink-0">King Soopers only · $23.40 (lowest 1-stop)</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink shrink-0">Safeway only · $24.38 (+$0.98)</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink shrink-0">ALDI only · $29.90 (+$6.50)</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink shrink-0">Walmart only · $30.69 (+$7.29)</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink shrink-0">Target only · $31.15 (+$7.75)</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink shrink-0">Sprouts only · $31.71 (+$8.31)</button>
 </div>
 </section>
-<section class="rounded-2xl border border-emerald-300 bg-emerald-50/70 p-4 shadow-2xs no-print">
-<div class="flex flex-wrap items-center justify-between gap-3">
-<div>
-<h3 class="text-sm font-extrabold text-slate-900">1-Tap Curbside Cart Bridge &amp; Multi-Store Checklist Export (Ticket #23)</h3>
-<p class="text-xs text-slate-600">Export your aisle-grouped checklist to Apple Notes, Google Keep, or Reminders—or use the 1-tap curbside search links below to load Walmart, Target, Kroger, or Instacart carts.</p>
 </div>
+<div class="wide:col-start-1 wide:row-span-4 wide:row-start-1">
+<section aria-labelledby="trip-list" class="space-y-3">
+<h2 id="trip-list" class="sr-only">Shopping list (22 ingredients to buy)</h2>
+<div class="grid gap-3 sm:grid-cols-2 wide:grid-cols-1">
+<section aria-label="King Soopers" class="rounded-card bg-surface text-ink shadow-card p-4">
+<div class="flex items-baseline justify-between gap-2">
+<h3 class="text-base font-bold text-ink">King Soopers</h3>
+<p class="text-sm text-muted">7 items · <span class="font-semibold text-ink">$17.83</span>
+</p>
+</div>
+<ul class="mt-1 divide-y divide-border">
+<li class="py-1">
+<div class="flex min-h-touch items-center gap-3">
+<input id="trip-chicken-thighs-boneless" class="size-5 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="trip-chicken-thighs-boneless" class="flex min-h-touch flex-1 flex-col justify-center text-muted line-through">
+<span class="text-base">Boneless Skinless Chicken Thighs, 2 lb</span>
+</label>
+<span class="text-sm font-semibold text-ink">$4.98</span>
+</div>
+<details class="no-print pl-8">
+<summary class="flex min-h-touch cursor-pointer list-none items-center text-sm font-semibold text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Details<span class="sr-only"> for Boneless Skinless Chicken Thighs</span>
+</summary>
+<div class="space-y-2 pb-2 text-sm text-muted">
 <div class="flex flex-wrap items-center gap-2">
-<button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy h-4 w-4" aria-hidden="true">
-<rect width="14" height="14" x="8" y="8" rx="2" ry="2">
-</rect>
-<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2">
-</path>
-</svg>
-<span>Export to Notes / Keep (By Aisle)</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-bold text-slate-800 hover:bg-slate-100 transition">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer h-4 w-4 text-slate-700" aria-hidden="true">
-<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
-</path>
-<path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6">
-</path>
-<rect x="6" y="14" width="12" height="8" rx="1">
-</rect>
-</svg>
-<span>Preview Printable Slip</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-white hover:bg-slate-800 transition">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer h-4 w-4" aria-hidden="true">
-<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
-</path>
-<path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6">
-</path>
-<rect x="6" y="14" width="12" height="8" rx="1">
-</rect>
-</svg>
-<span>Print Checklist</span>
-</button>
-</div>
-</div>
-</section>
-<section class="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-<div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
-<div>
-<h3 class="text-base font-extrabold text-slate-900 sm:text-lg">Deduplicated 3-Dish Shopping List (22 Ingredients to Buy)</h3>
-<p class="text-xs text-slate-500">Overlapping ingredients across your 3 batch dishes are automatically combined. Click any 1-tap curbside link to open the item directly in Walmart, Target, Kroger, or Instacart.</p>
-</div>
-</div>
-<div class="mt-4 space-y-2.5">
-<div class="flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center border-slate-200 bg-slate-50 opacity-60">
-<div class="flex flex-1 items-start gap-3">
-<button type="button" class="mt-0.5 text-emerald-600">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-check-big lucide-check-square h-5 w-5" aria-hidden="true">
-<path d="M21 10.656V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.344">
-</path>
-<path d="m9 11 3 3L22 4">
-</path>
-</svg>
-</button>
-<div class="space-y-1">
-<div class="flex flex-wrap items-center gap-2">
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
-<span class="cursor-pointer text-sm font-bold line-through text-slate-500">Boneless Skinless Chicken Thighs</span>
 <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag h-3 w-3" aria-hidden="true">
 <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z">
@@ -393,78 +254,66 @@
 <circle cx="7.5" cy="7.5" r=".5" fill="currentColor">
 </circle>
 </svg>Everyday Low Price</span>
+<span>Historical estimate: $2.49/lb (verify with store)</span>
 </div>
-<p class="text-xs text-slate-600">
-<strong>Total Needed: 2 lb</strong> • Used in: Creamy Tuscan Italian Sausage, Potato &amp; Spinach Zuppa Stew (2 lb)</p>
-<div class="pt-1 flex flex-wrap items-center gap-1.5 no-print">
-<span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">1-Tap Curbside:</span>
-<a href="https://www.kingsoopers.com/search?query=Boneless%20Skinless%20Chicken%20Thighs&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90">
-<span>🛒 King Soopers Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.walmart.com/search?q=Boneless%20Skinless%20Chicken%20Thighs&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Walmart Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.target.com/s?searchTerm=Boneless%20Skinless%20Chicken%20Thighs" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Target Drive Up</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.instacart.com/store/s?k=Boneless%20Skinless%20Chicken%20Thighs" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Instacart</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
-<button type="button" class="rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">Have at Home?</button>
-<div class="text-xs text-slate-500">
-<div>Historical estimate: $2.49/lb (verify with store)</div>
-</div>
-<div class="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">$4.98</div>
-</div>
-</div>
-<div class="flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center border-slate-200 bg-white hover:border-emerald-400">
-<div class="flex flex-1 items-start gap-3">
-<button type="button" class="mt-0.5 text-emerald-600">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square h-5 w-5 text-slate-400" aria-hidden="true">
-<rect width="18" height="18" x="3" y="3" rx="2">
-</rect>
-</svg>
-</button>
-<div class="space-y-1">
+<p>
+<span class="font-semibold text-ink">Total needed: 2 lb</span> • Used in: Creamy Tuscan Italian Sausage, Potato &amp; Spinach Zuppa Stew (2 lb)</p>
 <div class="flex flex-wrap items-center gap-2">
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
-<span class="cursor-pointer text-sm font-bold text-slate-900">Pork Shoulder Roast (Boston Butt / Carnitas Cut)</span>
+<span class="text-xs font-semibold uppercase tracking-wide">Order curbside</span>
+<a href="https://www.kingsoopers.com/search?query=Boneless%20Skinless%20Chicken%20Thighs&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">King Soopers Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.walmart.com/search?q=Boneless%20Skinless%20Chicken%20Thighs&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Walmart Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.target.com/s?searchTerm=Boneless%20Skinless%20Chicken%20Thighs" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Target Drive Up<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.instacart.com/store/s?k=Boneless%20Skinless%20Chicken%20Thighs" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Instacart<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+</div>
+<button aria-pressed="false" type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Have it</button>
+</div>
+</details>
+</li>
+<li class="py-1">
+<div class="flex min-h-touch items-center gap-3">
+<input id="trip-pork-shoulder-butt" class="size-5 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="trip-pork-shoulder-butt" class="flex min-h-touch flex-1 flex-col justify-center text-ink">
+<span class="text-base">Pork Shoulder Roast (Boston Butt / Carnitas Cut), 2.5 lb</span>
+</label>
+<span class="text-sm font-semibold text-ink">$3.73</span>
+</div>
+<details class="no-print pl-8">
+<summary class="flex min-h-touch cursor-pointer list-none items-center text-sm font-semibold text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Details<span class="sr-only"> for Pork Shoulder Roast (Boston Butt / Carnitas Cut)</span>
+</summary>
+<div class="space-y-2 pb-2 text-sm text-muted">
+<div class="flex flex-wrap items-center gap-2">
 <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag h-3 w-3" aria-hidden="true">
 <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z">
@@ -472,78 +321,66 @@
 <circle cx="7.5" cy="7.5" r=".5" fill="currentColor">
 </circle>
 </svg>Everyday Low Price</span>
+<span>Historical estimate: $1.49/lb (verify with store)</span>
 </div>
-<p class="text-xs text-slate-600">
-<strong>Total Needed: 2.5 lb</strong> • Used in: Instant Pot Citrus Pork Carnitas &amp; Charred Pepper-Cabbage Fajita Bowls (2.5 lb)</p>
-<div class="pt-1 flex flex-wrap items-center gap-1.5 no-print">
-<span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">1-Tap Curbside:</span>
-<a href="https://www.kingsoopers.com/search?query=Pork%20Shoulder%20Roast&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90">
-<span>🛒 King Soopers Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.walmart.com/search?q=Pork%20Shoulder%20Roast&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Walmart Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.target.com/s?searchTerm=Pork%20Shoulder%20Roast" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Target Drive Up</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.instacart.com/store/s?k=Pork%20Shoulder%20Roast" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Instacart</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
-<button type="button" class="rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">Have at Home?</button>
-<div class="text-xs text-slate-500">
-<div>Historical estimate: $1.49/lb (verify with store)</div>
-</div>
-<div class="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">$3.73</div>
-</div>
-</div>
-<div class="flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center border-slate-200 bg-white hover:border-emerald-400">
-<div class="flex flex-1 items-start gap-3">
-<button type="button" class="mt-0.5 text-emerald-600">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square h-5 w-5 text-slate-400" aria-hidden="true">
-<rect width="18" height="18" x="3" y="3" rx="2">
-</rect>
-</svg>
-</button>
-<div class="space-y-1">
+<p>
+<span class="font-semibold text-ink">Total needed: 2.5 lb</span> • Used in: Instant Pot Citrus Pork Carnitas &amp; Charred Pepper-Cabbage Fajita Bowls (2.5 lb)</p>
 <div class="flex flex-wrap items-center gap-2">
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
-<span class="cursor-pointer text-sm font-bold text-slate-900">Fresh Green Cabbage</span>
+<span class="text-xs font-semibold uppercase tracking-wide">Order curbside</span>
+<a href="https://www.kingsoopers.com/search?query=Pork%20Shoulder%20Roast&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">King Soopers Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.walmart.com/search?q=Pork%20Shoulder%20Roast&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Walmart Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.target.com/s?searchTerm=Pork%20Shoulder%20Roast" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Target Drive Up<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.instacart.com/store/s?k=Pork%20Shoulder%20Roast" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Instacart<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+</div>
+<button aria-pressed="false" type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Have it</button>
+</div>
+</details>
+</li>
+<li class="py-1">
+<div class="flex min-h-touch items-center gap-3">
+<input id="trip-green-cabbage" class="size-5 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="trip-green-cabbage" class="flex min-h-touch flex-1 flex-col justify-center text-ink">
+<span class="text-base">Fresh Green Cabbage, 4.2 lb</span>
+</label>
+<span class="text-sm font-semibold text-ink">$2.90</span>
+</div>
+<details class="no-print pl-8">
+<summary class="flex min-h-touch cursor-pointer list-none items-center text-sm font-semibold text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Details<span class="sr-only"> for Fresh Green Cabbage</span>
+</summary>
+<div class="space-y-2 pb-2 text-sm text-muted">
+<div class="flex flex-wrap items-center gap-2">
 <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-900 border border-emerald-300">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card h-3 w-3" aria-hidden="true">
 <rect width="20" height="14" x="2" y="5" rx="2">
@@ -553,78 +390,66 @@
 <path d="M6 14h2">
 </path>
 </svg>Member Card Price</span>
+<span>Price unavailable at this store; estimate from SAFEWAY</span>
 </div>
-<p class="text-xs text-slate-600">
-<strong>Total Needed: 4.2 lb</strong> • Used in: Instant Pot Citrus Pork Carnitas &amp; Charred Pepper-Cabbage Fajita Bowls (2 lb) + Bavarian Sausage, Braised Cabbage, Apple &amp; Potato Skillet (2.2 lb)</p>
-<div class="pt-1 flex flex-wrap items-center gap-1.5 no-print">
-<span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">1-Tap Curbside:</span>
-<a href="https://www.kingsoopers.com/search?query=Fresh%20Green%20Cabbage&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90">
-<span>🛒 King Soopers Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.walmart.com/search?q=Fresh%20Green%20Cabbage&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Walmart Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.target.com/s?searchTerm=Fresh%20Green%20Cabbage" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Target Drive Up</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.instacart.com/store/s?k=Fresh%20Green%20Cabbage" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Instacart</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
-<button type="button" class="rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">Have at Home?</button>
-<div class="text-xs text-slate-500">
-<div>Price unavailable at this store; estimate from SAFEWAY</div>
-</div>
-<div class="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">$2.90</div>
-</div>
-</div>
-<div class="flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center border-slate-200 bg-white hover:border-emerald-400">
-<div class="flex flex-1 items-start gap-3">
-<button type="button" class="mt-0.5 text-emerald-600">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square h-5 w-5 text-slate-400" aria-hidden="true">
-<rect width="18" height="18" x="3" y="3" rx="2">
-</rect>
-</svg>
-</button>
-<div class="space-y-1">
+<p>
+<span class="font-semibold text-ink">Total needed: 4.2 lb</span> • Used in: Instant Pot Citrus Pork Carnitas &amp; Charred Pepper-Cabbage Fajita Bowls (2 lb) + Bavarian Sausage, Braised Cabbage, Apple &amp; Potato Skillet (2.2 lb)</p>
 <div class="flex flex-wrap items-center gap-2">
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
-<span class="cursor-pointer text-sm font-bold text-slate-900">Yellow or White Cooking Onions</span>
+<span class="text-xs font-semibold uppercase tracking-wide">Order curbside</span>
+<a href="https://www.kingsoopers.com/search?query=Fresh%20Green%20Cabbage&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">King Soopers Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.walmart.com/search?q=Fresh%20Green%20Cabbage&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Walmart Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.target.com/s?searchTerm=Fresh%20Green%20Cabbage" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Target Drive Up<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.instacart.com/store/s?k=Fresh%20Green%20Cabbage" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Instacart<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+</div>
+<button aria-pressed="false" type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Have it</button>
+</div>
+</details>
+</li>
+<li class="py-1">
+<div class="flex min-h-touch items-center gap-3">
+<input id="trip-yellow-white-onions" class="size-5 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="trip-yellow-white-onions" class="flex min-h-touch flex-1 flex-col justify-center text-ink">
+<span class="text-base">Yellow or White Cooking Onions, 4.25 lb</span>
+</label>
+<span class="text-sm font-semibold text-ink">$2.55</span>
+</div>
+<details class="no-print pl-8">
+<summary class="flex min-h-touch cursor-pointer list-none items-center text-sm font-semibold text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Details<span class="sr-only"> for Yellow or White Cooking Onions</span>
+</summary>
+<div class="space-y-2 pb-2 text-sm text-muted">
+<div class="flex flex-wrap items-center gap-2">
 <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag h-3 w-3" aria-hidden="true">
 <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z">
@@ -632,78 +457,66 @@
 <circle cx="7.5" cy="7.5" r=".5" fill="currentColor">
 </circle>
 </svg>Everyday Low Price</span>
+<span>Historical estimate: $1.79/3 lb bag (verify with store)</span>
 </div>
-<p class="text-xs text-slate-600">
-<strong>Total Needed: 4.25 lb</strong> • Used in: Instant Pot Citrus Pork Carnitas &amp; Charred Pepper-Cabbage Fajita Bowls (1.5 lb) + Bavarian Sausage, Braised Cabbage, Apple &amp; Potato Skillet (1.5 lb) + Creamy Tuscan Italian Sausage, Potato &amp; Spinach Zuppa Stew (1.25 lb)</p>
-<div class="pt-1 flex flex-wrap items-center gap-1.5 no-print">
-<span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">1-Tap Curbside:</span>
-<a href="https://www.kingsoopers.com/search?query=Yellow&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90">
-<span>🛒 King Soopers Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.walmart.com/search?q=Yellow&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Walmart Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.target.com/s?searchTerm=Yellow" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Target Drive Up</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.instacart.com/store/s?k=Yellow" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Instacart</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
-<button type="button" class="rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">Have at Home?</button>
-<div class="text-xs text-slate-500">
-<div>Historical estimate: $1.79/3 lb bag (verify with store)</div>
-</div>
-<div class="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">$2.55</div>
-</div>
-</div>
-<div class="flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center border-slate-200 bg-white hover:border-emerald-400">
-<div class="flex flex-1 items-start gap-3">
-<button type="button" class="mt-0.5 text-emerald-600">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square h-5 w-5 text-slate-400" aria-hidden="true">
-<rect width="18" height="18" x="3" y="3" rx="2">
-</rect>
-</svg>
-</button>
-<div class="space-y-1">
+<p>
+<span class="font-semibold text-ink">Total needed: 4.25 lb</span> • Used in: Instant Pot Citrus Pork Carnitas &amp; Charred Pepper-Cabbage Fajita Bowls (1.5 lb) + Bavarian Sausage, Braised Cabbage, Apple &amp; Potato Skillet (1.5 lb) + Creamy Tuscan Italian Sausage, Potato &amp; Spinach Zuppa Stew (1.25 lb)</p>
 <div class="flex flex-wrap items-center gap-2">
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
-<span class="cursor-pointer text-sm font-bold text-slate-900">Kroger Tender Baby Spinach (10 oz Bag)</span>
+<span class="text-xs font-semibold uppercase tracking-wide">Order curbside</span>
+<a href="https://www.kingsoopers.com/search?query=Yellow&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">King Soopers Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.walmart.com/search?q=Yellow&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Walmart Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.target.com/s?searchTerm=Yellow" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Target Drive Up<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+<a href="https://www.instacart.com/store/s?k=Yellow" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Instacart<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="M10 14 21 3">
+</path>
+<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+</path>
+</svg>
+</a>
+</div>
+<button aria-pressed="false" type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Have it</button>
+</div>
+</details>
+</li>
+<li class="py-1">
+<div class="flex min-h-touch items-center gap-3">
+<input id="trip-recipe-use:tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:spinach-kale-greens" class="size-5 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="trip-recipe-use:tuscan-sausage-white-bean-spinach-potato-stew:greens_veg:spinach-kale-greens" class="flex min-h-touch flex-1 flex-col justify-center text-ink">
+<span class="text-base">Kroger Tender Baby Spinach (10 oz Bag), 0.65 lb</span>
+</label>
+<span class="text-sm font-semibold text-ink">$2.07</span>
+</div>
+<details class="no-print pl-8">
+<summary class="flex min-h-touch cursor-pointer list-none items-center text-sm font-semibold text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Details<span class="sr-only"> for Kroger Tender Baby Spinach (10 oz Bag)</span>
+</summary>
+<div class="space-y-2 pb-2 text-sm text-muted">
+<div class="flex flex-wrap items-center gap-2">
 <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag h-3 w-3" aria-hidden="true">
 <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z">
@@ -711,93 +524,13 @@
 <circle cx="7.5" cy="7.5" r=".5" fill="currentColor">
 </circle>
 </svg>Everyday Low Price</span>
+<span>Historical estimate: $1.99/10 oz (verify with store)</span>
 </div>
-<p class="text-xs text-slate-600">
-<strong>Total Needed: 0.65 lb</strong> • Used in: Creamy Tuscan Italian Sausage, Potato &amp; Spinach Zuppa Stew (0.65 lb)</p>
-<div class="pt-1 flex flex-wrap items-center gap-1.5 no-print">
-<span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">1-Tap Curbside:</span>
-<a href="https://www.kingsoopers.com/search?query=Kroger%20Tender%20Baby%20Spinach&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90">
-<span>🛒 King Soopers Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.walmart.com/search?q=Kroger%20Tender%20Baby%20Spinach&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Walmart Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.target.com/s?searchTerm=Kroger%20Tender%20Baby%20Spinach" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Target Drive Up</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.instacart.com/store/s?k=Kroger%20Tender%20Baby%20Spinach" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Instacart</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
-<button type="button" class="rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">Have at Home?</button>
-<div class="text-xs text-slate-500">
-<div>Historical estimate: $1.99/10 oz (verify with store)</div>
-</div>
-<div class="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">$2.07</div>
-</div>
-</div>
-<div class="flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center border-slate-200 bg-white hover:border-emerald-400">
-<div class="flex flex-1 items-start gap-3">
-<button type="button" class="mt-0.5 text-emerald-600">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square h-5 w-5 text-slate-400" aria-hidden="true">
-<rect width="18" height="18" x="3" y="3" rx="2">
-</rect>
-</svg>
-</button>
-<div class="space-y-1">
+<p>
+<span class="font-semibold text-ink">Total needed: 0.65 lb</span> • Used in: Creamy Tuscan Italian Sausage, Potato &amp; Spinach Zuppa Stew (0.65 lb)</p>
 <div class="flex flex-wrap items-center gap-2">
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
-<span class="cursor-pointer text-sm font-bold text-slate-900">Colorado Russet Potatoes (5 lb Bag)</span>
-<span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag h-3 w-3" aria-hidden="true">
-<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z">
-</path>
-<circle cx="7.5" cy="7.5" r=".5" fill="currentColor">
-</circle>
-</svg>Everyday Low Price</span>
-</div>
-<p class="text-xs text-slate-600">
-<strong>Total Needed: 2.25 lb</strong> • Used in: Creamy Tuscan Italian Sausage, Potato &amp; Spinach Zuppa Stew (2.25 lb)</p>
-<div class="pt-1 flex flex-wrap items-center gap-1.5 no-print">
-<span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">1-Tap Curbside:</span>
-<a href="https://www.kingsoopers.com/search?query=Colorado%20Russet%20Potatoes&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90">
-<span>🛒 King Soopers Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5" aria-hidden="true">
+<span class="text-xs font-semibold uppercase tracking-wide">Order curbside</span>
+<a href="https://www.kingsoopers.com/search?query=Kroger%20Tender%20Baby%20Spinach&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">King Soopers Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
 <path d="M15 3h6v6">
 </path>
 <path d="M10 14 21 3">
@@ -806,9 +539,7 @@
 </path>
 </svg>
 </a>
-<a href="https://www.walmart.com/search?q=Colorado%20Russet%20Potatoes&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Walmart Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
+<a href="https://www.walmart.com/search?q=Kroger%20Tender%20Baby%20Spinach&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Walmart Pickup<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
 <path d="M15 3h6v6">
 </path>
 <path d="M10 14 21 3">
@@ -817,9 +548,7 @@
 </path>
 </svg>
 </a>
-<a href="https://www.target.com/s?searchTerm=Colorado%20Russet%20Potatoes" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Target Drive Up</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
+<a href="https://www.target.com/s?searchTerm=Kroger%20Tender%20Baby%20Spinach" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Target Drive Up<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
 <path d="M15 3h6v6">
 </path>
 <path d="M10 14 21 3">
@@ -828,9 +557,7 @@
 </path>
 </svg>
 </a>
-<a href="https://www.instacart.com/store/s?k=Colorado%20Russet%20Potatoes" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Instacart</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
+<a href="https://www.instacart.com/store/s?k=Kroger%20Tender%20Baby%20Spinach" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-touch items-center gap-1 rounded-control bg-chip px-3 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Instacart<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link size-3" aria-hidden="true">
 <path d="M15 3h6v6">
 </path>
 <path d="M10 14 21 3">
@@ -840,148 +567,64 @@
 </svg>
 </a>
 </div>
+<button aria-pressed="false" type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Have it</button>
 </div>
-</div>
-<div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
-<button type="button" class="rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">Have at Home?</button>
-<div class="text-xs text-slate-500">
-<div>Historical estimate: $1.99/5 lb bag (verify with store)</div>
-</div>
-<div class="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">$0.90</div>
-</div>
-</div>
-<div class="flex flex-col justify-between gap-2.5 rounded-xl border p-3.5 transition lg:flex-row lg:items-center border-slate-200 bg-white hover:border-emerald-400">
-<div class="flex flex-1 items-start gap-3">
-<button type="button" class="mt-0.5 text-emerald-600">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square h-5 w-5 text-slate-400" aria-hidden="true">
-<rect width="18" height="18" x="3" y="3" rx="2">
-</rect>
-</svg>
-</button>
-<div class="space-y-1">
-<div class="flex flex-wrap items-center gap-2">
-<span style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold shadow-xs">King Soopers</span>
-<span class="cursor-pointer text-sm font-bold text-slate-900">Colorado Russet Potatoes (5 lb Bag)</span>
-<span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-900 border border-blue-300">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag h-3 w-3" aria-hidden="true">
-<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z">
-</path>
-<circle cx="7.5" cy="7.5" r=".5" fill="currentColor">
-</circle>
-</svg>Everyday Low Price</span>
-</div>
-<p class="text-xs text-slate-600">
-<strong>Total Needed: 1.75 lb</strong> • Used in: Bavarian Sausage, Braised Cabbage, Apple &amp; Potato Skillet (1.75 lb)</p>
-<div class="pt-1 flex flex-wrap items-center gap-1.5 no-print">
-<span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">1-Tap Curbside:</span>
-<a href="https://www.kingsoopers.com/search?query=Colorado%20Russet%20Potatoes&amp;searchType=default_search" target="_blank" rel="noopener noreferrer" style="background-color: rgb(0, 85, 165); color: rgb(255, 255, 255);" class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-bold shadow-2xs hover:opacity-90">
-<span>🛒 King Soopers Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.walmart.com/search?q=Colorado%20Russet%20Potatoes&amp;facet=fulfillment_method_in_store%3APickup" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Walmart Pickup</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.target.com/s?searchTerm=Colorado%20Russet%20Potatoes" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Target Drive Up</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-<a href="https://www.instacart.com/store/s?k=Colorado%20Russet%20Potatoes" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-700 hover:bg-slate-100">
-<span>Instacart</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link h-2.5 w-2.5 text-slate-400" aria-hidden="true">
-<path d="M15 3h6v6">
-</path>
-<path d="M10 14 21 3">
-</path>
-<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
-</path>
-</svg>
-</a>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between gap-3 border-t border-slate-100 pt-2 lg:border-none lg:pt-0 lg:text-right">
-<button type="button" class="rounded-lg border px-2.5 py-1 text-[11px] font-bold transition no-print border-slate-200 bg-slate-100 text-slate-600 hover:bg-slate-200">Have at Home?</button>
-<div class="text-xs text-slate-500">
-<div>Historical estimate: $1.99/5 lb bag (verify with store)</div>
-</div>
-<div class="text-base font-extrabold text-emerald-700 min-w-[60px] text-right">$0.70</div>
-</div>
-</div>
-</div>
-<p class="mt-4 text-xs text-slate-600">Estimated additional grocery cost assumes marked ingredients are on hand. Staple estimates allocate recipe use; package checkout totals may differ. Includes static estimates. Known subtotal only — plus unpriced ingredients.</p>
-<div class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
-<h4 class="text-xs font-bold uppercase tracking-wider text-slate-700">Staples to buy — recipe-use estimates (Est. $5.57 total across 3 dishes)</h4>
-<div class="mt-2.5 flex flex-wrap gap-2">
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Chicken broth (7.5 cup) — $3.00 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Ground cumin (1 tsp) — $0.08 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Dried oregano (1 tsp) — $0.07 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Smoked paprika (1 tsp) — $0.08 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Garlic (8 clove) — $0.64 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Salt (1 tsp) — $0.01 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Black pepper (1 tsp) — $0.05 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Apple cider vinegar (2 tbsp) — $0.12 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Whole grain mustard (2 tbsp) — $0.28 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Caraway seeds (1 tsp) — $0.08 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Fully cooked smoked sausage or Fully cooked kielbasa or Fully cooked andouille sausage (1.75 lb) — price unavailable</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Canned cannellini beans (15 oz) — Unopened can contents — $1.05 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Italian seasoning (1 tsp) — $0.08 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Red pepper flakes (0.5 tsp) — $0.03 Static estimate</span>
-</button>
-<button type="button" class="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition border-slate-300 bg-white text-slate-700 hover:bg-slate-100">
-<span>Plain full-fat sour cream (0.5 lb) — price unavailable</span>
-</button>
-</div>
+</details>
+</li>
+</ul>
+<button aria-expanded="false" type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-transparent text-accent no-print mt-1">Show 2 more</button>
+</section>
 </div>
 </section>
+</div>
+<div class="space-y-4 wide:col-start-2 wide:row-start-2">
+<div class="no-print flex flex-wrap items-center gap-2">
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-accent text-on-accent flex-1">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-4" aria-hidden="true">
+<rect width="14" height="14" x="8" y="8" rx="2" ry="2">
+</rect>
+<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2">
+</path>
+</svg>
+<span>Export to Notes</span>
+</button>
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer size-4" aria-hidden="true">
+<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
+</path>
+<path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6">
+</path>
+<rect x="6" y="14" width="12" height="8" rx="1">
+</rect>
+</svg>
+<span>Print Slip</span>
+</button>
+<button aria-expanded="false" type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-transparent text-accent">Preview Slip</button>
+</div>
+</div>
+<div class="wide:col-start-2 wide:row-start-3">
+<section aria-labelledby="trip-staples" class="rounded-card bg-surface text-ink shadow-card p-4 no-print">
+<h2 id="trip-staples" class="text-sm font-bold text-ink">Staples to buy: recipe-use estimates (Est. $5.57 across 3 dishes)</h2>
+<p class="mt-1 text-xs text-muted">Estimated additional grocery cost assumes marked ingredients are on hand. Staple estimates allocate recipe use; package checkout totals may differ. Includes static estimates. Known subtotal only — plus unpriced ingredients.</p>
+<div class="mt-2 flex flex-wrap gap-2">
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Chicken broth (7.5 cup) — $3.00 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Ground cumin (1 tsp) — $0.08 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Dried oregano (1 tsp) — $0.07 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Smoked paprika (1 tsp) — $0.08 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Garlic (8 clove) — $0.64 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Salt (1 tsp) — $0.01 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Black pepper (1 tsp) — $0.05 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Apple cider vinegar (2 tbsp) — $0.12 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Whole grain mustard (2 tbsp) — $0.28 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Caraway seeds (1 tsp) — $0.08 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Fully cooked smoked sausage or Fully cooked kielbasa or Fully cooked andouille sausage (1.75 lb) — price unavailable</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Canned cannellini beans (15 oz) — Unopened can contents — $1.05 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Italian seasoning (1 tsp) — $0.08 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Red pepper flakes (0.5 tsp) — $0.03 Static estimate</button>
+<button type="button" aria-pressed="false" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Plain full-fat sour cream (0.5 lb) — price unavailable</button>
+</div>
+</section>
+</div>
 </div>
 </div>
 </div>

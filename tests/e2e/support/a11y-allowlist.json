@@ -84,38 +84,6 @@
     "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
   },
   {
-    "screen": "shopping-list",
-    "rule": "button-name",
-    "projects": [
-      "ipad-webkit",
-      "iphone-webkit",
-      "ipad-landscape-webkit",
-      "ipad-chromium",
-      "duo-inner-webkit",
-      "iphone-pro-webkit",
-      "iphone-chromium",
-      "iphone-pro-max-webkit"
-    ],
-    "issue": 710,
-    "reason": "Icon-only buttons on the shopping list have no accessible name; replaced by IconButton (requires a label) in the M4 redesign."
-  },
-  {
-    "screen": "shopping-list",
-    "rule": "color-contrast",
-    "projects": [
-      "ipad-webkit",
-      "iphone-webkit",
-      "ipad-chromium",
-      "duo-inner-webkit",
-      "ipad-landscape-webkit",
-      "iphone-pro-webkit",
-      "iphone-pro-max-webkit",
-      "iphone-chromium"
-    ],
-    "issue": 714,
-    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
     "screen": "terms",
     "rule": "color-contrast",
     "projects": [
