@@ -34,6 +34,10 @@ export interface DashboardHarness {
    * from another module this first takes the Shop tab, which returns to the view the user left.
    */
   openShopView: (label: 'Deals' | 'Trip' | 'Radar') => Promise<void>;
+  /** Open the Plan's Preferences sheet (macro goal, dietary rules, cookware), from the preferences chip. */
+  openPlanPreferences: () => Promise<void>;
+  /** The Plan's servings radio for 4, 6 or 8 per dish. */
+  servingsRadio: (servings: 4 | 6 | 8) => HTMLInputElement;
   /** The app state tests assert on without a screen (the ZIP, the stores, the store filter, the pins), as of the last render. */
   state: () => AppState;
   /**
@@ -162,9 +166,13 @@ export async function createDashboardHarness(options: {
   };
   const button = (text: string) => {
     // A button is found by its text or, for an icon button such as the header avatar, by its accessible name (aria-label).
-    const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text) || element.getAttribute('aria-label')?.includes(text));
+    // A button inside an open sheet or dialog (a portal outside the container) counts too, such as the Plan's Preferences.
+    const matches = (element: Element) => element.textContent?.includes(text) || element.getAttribute('aria-label')?.includes(text);
+    // An open sheet is looked in first: the Plan's preferences chip also carries the chosen preferences in its text.
+    const found = [...document.querySelectorAll('[role="dialog"] button')].find(matches)
+      ?? [...container.querySelectorAll('button')].find(matches);
     if (!found) throw new Error(`Missing button: ${text}`);
-    return found;
+    return found as HTMLButtonElement;
   };
   const harness: DashboardHarness = {
     container, get root() { return root; }, requests, settle: () => run(() => undefined),
@@ -213,6 +221,17 @@ export async function createDashboardHarness(options: {
       if (!container.querySelector('section[aria-label="Your account"]')) await run(() => link('Account and settings').click());
       const card = container.querySelector('section[aria-label="Your account"]')!;
       await run(() => card.querySelector('button')!.click());
+    },
+    servingsRadio: (servings) => {
+      const found = container.querySelector<HTMLInputElement>(`[role="radiogroup"][aria-label="Servings per dish"] input[value="${servings}"]`);
+      if (!found) throw new Error(`Missing servings radio: ${servings}`);
+      return found;
+    },
+    openPlanPreferences: async () => {
+      if (document.querySelector('[role="dialog"]')) return;
+      const chip = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes('Edit preferences'));
+      if (!chip) throw new Error('Missing the Edit preferences chip');
+      await run(() => chip.click());
     },
     openShopView: async (label) => {
       const present = [...container.querySelectorAll('a')].some((element) => element.textContent === label);

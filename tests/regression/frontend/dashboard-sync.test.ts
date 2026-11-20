@@ -46,7 +46,9 @@ let failSync: boolean;
 let mutationRequests: string[];
 const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 function button(text: string) {
-  const found = [...container.querySelectorAll<HTMLElement>('button, a[href]')].find((element) => element.textContent?.includes(text));
+  // A button in an open sheet (the Plan's Preferences, outside the container) counts too.
+  const found = [...document.querySelectorAll<HTMLElement>('[role="dialog"] button')].find((element) => element.textContent?.includes(text))
+    ?? [...container.querySelectorAll<HTMLElement>('button, a[href]')].find((element) => element.textContent?.includes(text));
   if (!found) throw new Error(`Missing button: ${text}`);
   return found;
 }
@@ -143,6 +145,7 @@ describe('signed-in dashboard sync through Pantry', () => {
     await openPantry();
     expect(container.textContent).toContain('Saved');
     await click(button('Plan'));
+    await click(button('Edit preferences'));
     await click(button('All Macros'));
     expect(dashboardRequests.at(-1)?.searchParams.get('onHand')).toBe('');
   });
@@ -150,12 +153,13 @@ describe('signed-in dashboard sync through Pantry', () => {
     await click(button('Pin to Prep'));
     await click(button('Plan'));
     holdSync = true;
+    await click(button('Edit preferences'));
     await click(button('High-Protein'));
     expect(acknowledge).toBeTypeOf('function');
-    await click(button('8 Srv / Dish'));
+    await click(container.querySelector<HTMLElement>('[role="radiogroup"][aria-label="Servings per dish"] input[value="8"]')!);
     await act(async () => { acknowledge!(); await settle(); });
     expect(localStorage.getItem(syncQueueKey('alice'))).toBeNull();
-    expect(button('8 Srv / Dish').className).toContain('bg-emerald-400');
+    expect(container.querySelector<HTMLInputElement>('[role="radiogroup"][aria-label="Servings per dish"] input[value="8"]')!.checked).toBe(true);
     await click(button('All Macros'));
     expect(dashboardRequests.at(-1)?.searchParams.get('servings')).toBe('8');
     expect(dashboardRequests.at(-1)?.searchParams.get('pinned')).toBe(stock.ingredientId);

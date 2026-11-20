@@ -183,13 +183,16 @@ describe('Plan components on the contexts, without the shell', () => {
     const h = await mountModules(() => createElement(PlanHeader));
     expect(text(h)).toContain(`(${seen.dashboard.trioTotals.totalServings} Total Meals)`);
     expect(text(h)).toContain(`$${seen.dashboard.trioTotals.avgPerServing}`);
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('8 Srv / Dish'))!.click(); await h.settle(); });
+    await act(async () => { h.container.querySelector<HTMLInputElement>('[role="radiogroup"][aria-label="Servings per dish"] input[value="8"]')!.click(); await h.settle(); });
     expect(seen.preferences.targetServings).toBe(8);
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('High-Protein'))!.click(); await h.settle(); });
+    // The macro goal, dietary rules and cookware are in the Preferences sheet, opened from the summary chip.
+    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Edit preferences'))!.click(); await h.settle(); });
+    const sheet = () => [...document.querySelectorAll<HTMLButtonElement>('[role="dialog"] button')];
+    await act(async () => { sheet().find((b) => b.textContent?.includes('High-Protein'))!.click(); await h.settle(); });
     expect(seen.preferences.macroGoal).toBe('HIGH_PROTEIN');
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Gluten-Free'))!.click(); await h.settle(); });
+    await act(async () => { sheet().find((b) => b.textContent?.includes('Gluten-Free'))!.click(); await h.settle(); });
     expect(seen.preferences.dietaryConstraints).toContain('GLUTEN_FREE');
-    await act(async () => { buttons(h).find((b) => b.textContent === 'Clear Profile Filters')!.click(); await h.settle(); });
+    await act(async () => { sheet().find((b) => b.textContent === 'Clear Profile Filters')!.click(); await h.settle(); });
     expect(seen.preferences.macroGoal).toBe('ANY');
     expect(seen.preferences.dietaryConstraints).toEqual([]);
   });
@@ -221,12 +224,12 @@ describe('Plan components on the contexts, without the shell', () => {
     const first = seen.dashboard.activeTrio[0].id;
     expect(Object.keys(seen.plan.expandedDishIds)).toEqual([first]);
     const second = seen.dashboard.activeTrio[1].id;
-    await act(async () => { buttons(h).filter((b) => /Show Prep & Reheat Guide/.test(b.textContent ?? ''))[0].click(); await h.settle(); });
+    await act(async () => { buttons(h).filter((b) => b.textContent === 'View dish')[0].click(); await h.settle(); });
     expect(Object.keys(seen.plan.expandedDishIds).sort()).toEqual([first, second].sort());
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Save Recipe'))!.click(); await h.settle(); });
+    await act(async () => { buttons(h).find((b) => b.textContent === 'Save')!.click(); await h.settle(); });
     expect(h.requests.some((r) => r.url === '/api/saved-recipes' && r.method === 'POST')).toBe(true);
     // The saved recipe is shown as saved, from the Account context's saved ids.
-    await h.waitUntil(() => text(h).includes('Saved in Library'));
+    await h.waitUntil(() => buttons(h).some((b) => b.textContent === 'Saved'));
   });
 
   it('PlanBlueprints lists and promotes through the Plan context', async () => {

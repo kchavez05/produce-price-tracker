@@ -154,8 +154,8 @@ test.describe('navigation: nothing is lost when switching module mid-edit', () =
     // On the plan: choose 8 servings per dish and start typing an AI request.
     await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
-    await page.getByRole('button', { name: '8 Srv / Dish' }).click();
-    await expect(page.getByRole('button', { name: '8 Srv / Dish' })).toHaveClass(/bg-emerald-400/);
+    await page.getByRole('radio', { name: '8' }).check();
+    await expect(page.getByRole('radio', { name: '8' })).toBeChecked();
     await home.aiRequest.fill('a half-typed request for spicy stews');
 
     // Start a refetch (a new ZIP) and hold its response, so it is still in flight while the user moves to the Pantry and back.
@@ -176,7 +176,7 @@ test.describe('navigation: nothing is lost when switching module mid-edit', () =
     await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     await expect(home.aiRequest).toHaveValue('a half-typed request for spicy stews');
-    await expect(page.getByRole('button', { name: '8 Srv / Dish' })).toHaveClass(/bg-emerald-400/);
+    await expect(page.getByRole('radio', { name: '8' })).toBeChecked();
     await home.tab('Shop').click();
     await expect.poll(() => home.pathname).toBe('/shop');
     await expect(page.getByRole('button', { name: /Pinned/ }).first()).toBeVisible();
