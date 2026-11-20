@@ -70,6 +70,27 @@ test.describe('smoke: virtual pantry', () => {
     await a11y.check('pantry');
     await a11y.noHorizontalScroll('pantry');
 
+    // Ingredient Detail (M4-4b): the ingredient's name opens it at its own path. From 1024 px the list stays beside it and there is
+    // no Back link; below that the detail is the screen, the list is hidden and Back returns to the Pantry.
+    const search = page.getByPlaceholder('Try lentils, garlic, or rice');
+    const wideScreen = (page.viewportSize()?.width ?? 0) >= 1024;
+    await page.getByRole('link', { name: 'Olive oil' }).click();
+    await expect.poll(() => home.pathname).toMatch(/^\/pantry\/item\//);
+    const detail = page.getByRole('region', { name: 'Ingredient detail' });
+    await expect(detail.getByRole('heading', { level: 2, name: 'Olive oil' })).toBeVisible();
+    await a11y.check('pantry-detail');
+    await a11y.noHorizontalScroll('pantry-detail');
+    if (wideScreen) {
+      await expect(search).toBeVisible();
+      await expect(detail.getByRole('link', { name: 'Pantry' })).toBeHidden();
+      await page.goBack();
+    } else {
+      await expect(search).toBeHidden();
+      await detail.getByRole('link', { name: 'Pantry' }).click();
+    }
+    await expect.poll(() => home.pathname).toBe('/pantry');
+    await expect(search).toBeVisible();
+
     // Stored entries are restored on the client after load, so wait for them rather than read once.
     await page.reload();
     await expect.poll(() => home.pantryCount()).toBe(1);

@@ -10,24 +10,37 @@
 export type TabModule = 'shop' | 'plan' | 'pantry';
 export type AppModule = TabModule | 'settings' | 'welcome';
 export type ShopView = 'BOARD' | 'SHOPPING_LIST' | 'RADAR';
-// A Shop destination may name a deal (Deal Detail, M4-3a), which is a path of its own: /shop/deal/<ingredient id>.
-export type Destination = { module: 'shop'; view: ShopView; deal?: string } | { module: 'plan' } | { module: 'pantry' } | { module: 'settings' } | { module: 'welcome' };
+// A Shop destination may name a deal (Deal Detail, M4-3a), which is a path of its own: /shop/deal/<ingredient id>. A Pantry
+// destination may name an entry (Ingredient Detail, M4-4b): /pantry/item/<entry id>.
+export type Destination = { module: 'shop'; view: ShopView; deal?: string } | { module: 'plan' } | { module: 'pantry'; item?: string } | { module: 'settings' } | { module: 'welcome' };
 
 export const MODULE_PATHS: Record<AppModule, string> = { shop: '/shop', plan: '/plan', pantry: '/pantry', settings: '/settings', welcome: '/welcome' };
 
 export const DEAL_PATH_PREFIX = '/shop/deal/';
 
+export const ITEM_PATH_PREFIX = '/pantry/item/';
+
 export function pathOf(destination: Destination): string {
   if (destination.module === 'shop' && destination.deal) return `${DEAL_PATH_PREFIX}${encodeURIComponent(destination.deal)}`;
+  if (destination.module === 'pantry' && destination.item) return `${ITEM_PATH_PREFIX}${encodeURIComponent(destination.item)}`;
   return MODULE_PATHS[destination.module];
+}
+
+function idAfter(prefix: string, pathname: string): string | null {
+  if (!pathname.startsWith(prefix)) return null;
+  const raw = pathname.slice(prefix.length).split('/')[0];
+  if (!raw) return null;
+  try { return decodeURIComponent(raw); } catch { return null; }
 }
 
 /** The ingredient id of a Deal Detail path, or null for any other path. */
 export function dealIdOfPath(pathname: string): string | null {
-  if (!pathname.startsWith(DEAL_PATH_PREFIX)) return null;
-  const raw = pathname.slice(DEAL_PATH_PREFIX.length).split('/')[0];
-  if (!raw) return null;
-  try { return decodeURIComponent(raw); } catch { return null; }
+  return idAfter(DEAL_PATH_PREFIX, pathname);
+}
+
+/** The entry id of an Ingredient Detail path (the Pantry), or null for any other path. */
+export function itemIdOfPath(pathname: string): string | null {
+  return idAfter(ITEM_PATH_PREFIX, pathname);
 }
 
 /** The module a path belongs to. Anything that is not a module path (including "/") counts as Shop, the default. */
