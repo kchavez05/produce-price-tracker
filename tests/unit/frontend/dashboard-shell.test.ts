@@ -64,35 +64,38 @@ describe('alerts preview', () => {
     let release: (response: Response) => void = () => undefined;
     const gate = new Promise<Response>((resolve) => { release = resolve; });
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? gate : undefined));
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     expect(cronRequests(h).map((r) => r.url)).toEqual(['/api/cron/weekly-sync?cycle=preview_digest&zip=80542']);
     expect(text(h)).toContain('Syncing Circulars...');
     release(Response.json(digest));
     await h.waitUntil(() => text(h).includes('Weekend prep digest'));
     expect(text(h)).not.toContain('Syncing Circulars...');
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     expect(text(h)).not.toContain('Weekend prep digest');
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     expect(text(h)).toContain('Weekend prep digest');
     expect(cronRequests(h)).toHaveLength(1);
   });
 
   it('ignores a failed preview and fetches again on the next open', async () => {
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? new Response('{}', { status: 500 }) : undefined));
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     await h.waitUntil(() => !text(h).includes('Syncing Circulars...'));
     expect(alertError(h)).toBeNull();
-    await h.click(h.buttonByTitle(ALERTS));
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
+    await h.openSettingsPanel('Weekly Digest');
     expect(cronRequests(h)).toHaveLength(2);
   });
 
   it('keeps the drawer and its digest across tab switches', async () => {
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined));
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     await h.waitUntil(() => text(h).includes('Weekend prep digest'));
     await h.openShopView('Radar');
     await h.click(h.link(PLAN));
+    // The drawer's state survives the move; it is drawn inside Settings (M4-3a), so go back there to see it.
+    expect(text(h)).not.toContain('Weekend prep digest');
+    await h.click(h.link('Account and settings'));
     expect(text(h)).toContain('Weekend prep digest');
     expect(text(h)).toContain('Run Weekly Sync Now');
   });
@@ -102,7 +105,7 @@ describe('manual weekly sync', () => {
   const post = (h: DashboardHarness) => cronRequests(h).find((r) => r.method === 'POST');
   async function open(onFetch: FetchHandler) {
     const h = await start((input, init) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : onFetch(input, init)));
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     await h.waitUntil(() => text(h).includes('Weekend prep digest'));
     return h;
   }
@@ -163,7 +166,7 @@ describe('digest copy', () => {
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined));
     Object.assign(navigator, { clipboard: { writeText } });
     expect(h.container.querySelector('button[disabled]')).toBeNull();
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     await h.waitUntil(() => text(h).includes('Weekend prep digest'));
     const timer = captureTimers([2500]);
     await h.click(h.button('Copy Friday Markdown Digest'));
@@ -181,7 +184,7 @@ describe('digest copy', () => {
     void _omitted;
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(withoutDigest) : undefined));
     Object.assign(navigator, { clipboard: { writeText } });
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     await h.waitUntil(() => text(h).includes('Weekend prep digest'));
     await h.click(h.button('Copy Friday Markdown Digest'));
     expect(writeText).not.toHaveBeenCalled();
@@ -190,7 +193,7 @@ describe('digest copy', () => {
 
   it('is disabled until a digest has loaded', async () => {
     const h = await start((input) => (input.startsWith('/api/cron/weekly-sync?') ? new Response('{}', { status: 500 }) : undefined));
-    await h.click(h.buttonByTitle(ALERTS));
+    await h.openSettingsPanel('Weekly Digest');
     await h.waitUntil(() => !text(h).includes('Syncing Circulars...'));
     expect(h.button('Copy Friday Markdown Digest').disabled).toBe(true);
   });
@@ -199,11 +202,11 @@ describe('digest copy', () => {
 describe('stores drawer: select all', () => {
   it('selects every store, writes storage and refetches with all stores', async () => {
     const h = await start();
-    await h.click(h.button('My Stores'));
+    await h.openSettingsPanel('My Stores');
     const cards = () => [...h.container.querySelectorAll<HTMLElement>('div.cursor-pointer')];
     await h.click(cards()[ALL_STORE_CHAINS.indexOf('SAFEWAY')]);
     await h.waitUntil(() => dashboardRequests(h).length > 0);
-    expect(text(h)).toContain(`My Stores (${ALL_STORE_CHAINS.length - 1})`);
+    expect(text(h)).toContain(`${ALL_STORE_CHAINS.length - 1} selected`);
     expect(JSON.parse(localStorage.getItem('pantrybot_active_stores')!)).not.toEqual(ALL_STORE_CHAINS);
     const before = dashboardRequests(h).length;
     await h.click(h.button('Select All'));
@@ -211,14 +214,17 @@ describe('stores drawer: select all', () => {
     await h.waitUntil(() => dashboardRequests(h).length > before);
     expect(dashboardRequests(h).at(-1)!.searchParams.get('stores')).toBe(ALL_STORE_CHAINS.join(','));
     expect(cards()).toHaveLength(ALL_STORE_CHAINS.length);
-    expect(text(h)).toContain(`My Stores (${ALL_STORE_CHAINS.length})`);
+    expect(text(h)).toContain(`${ALL_STORE_CHAINS.length} selected`);
   });
 
   it('keeps the stores drawer open across tab switches', async () => {
     const h = await start();
-    await h.click(h.button('My Stores'));
+    await h.openSettingsPanel('My Stores');
     await h.openShopView('Radar');
     await h.click(h.link(PLAN));
+    // The drawer's state survives the move; it is drawn inside Settings (M4-3a), so go back there to see it.
+    expect(text(h)).not.toContain('Select All');
+    await h.click(h.link('Account and settings'));
     expect(text(h)).toContain('Select All');
   });
 });

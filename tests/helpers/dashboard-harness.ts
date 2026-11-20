@@ -7,11 +7,11 @@ import { act, createElement, StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { webcrypto } from 'node:crypto';
 import { vi } from 'vitest';
-import AppUnderTest from 'tests/helpers/app-under-test';
+import AppUnderTest, { type AppState } from 'tests/helpers/app-under-test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createTestSyncLock } from 'tests/sync-lock';
-import type { DashboardPayload, RecommendedDish, UserSyncPayload } from '@/types/domain';
+import type { DashboardPayload, RecommendedDish, StoreChain, UserSyncPayload } from '@/types/domain';
 
 export const FIXED_NOW_ISO = '2026-11-17T12:00:00.000Z';
 
@@ -34,6 +34,18 @@ export interface DashboardHarness {
    * from another module this first takes the Shop tab, which returns to the view the user left.
    */
   openShopView: (label: 'Deals' | 'Trip' | 'Radar') => Promise<void>;
+  /** The app state tests assert on without a screen (the ZIP, the stores, the store filter, the pins), as of the last render. */
+  state: () => AppState;
+  /**
+   * Open one of Settings' in-place panels the way a user does since the temporary page-top controls went (M4-3a): through the
+   * header avatar to Settings, then the row ("Location", "My Stores" or "Weekly Digest").
+   */
+  openSettingsPanel: (row: 'Location' | 'My Stores' | 'Weekly Digest') => Promise<void>;
+  /**
+   * Set the store filter through the Shop's Filters sheet ("ALL" or a chain), from wherever the app is: it goes to the Shop
+   * first if the Filters button is not on screen.
+   */
+  setStoreFilter: (value: 'ALL' | StoreChain) => Promise<void>;
   /**
    * Open the account dialog the way a user does since M4-2a: through the header avatar to Settings, then the account card's
    * button ("Sign In" for a guest, "Manage Account" when signed in). Does nothing on Settings if the dialog is already open.
@@ -138,6 +150,7 @@ export async function createDashboardHarness(options: {
   let currentPath = '/shop';
   const pushes: string[] = [];
   const replaces: string[] = [];
+  let latestState: AppState = { zip: '', activeStores: [], storeFilter: 'ALL', pinnedIds: [] };
   const run = async (action: () => unknown) => { await act(async () => { await action(); await settle(); }); };
   const link = (text: string): HTMLAnchorElement => {
     const anchors = [...container.querySelectorAll('a')];
@@ -165,6 +178,7 @@ export async function createDashboardHarness(options: {
         initialData: options.payload, initialAccountId: null, ...props,
         onPath: (path: string) => { currentPath = path; }, onPush: (path: string) => { pushes.push(path); },
         onReplace: (path: string) => { replaces.push(path); },
+        onState: (state: AppState) => { latestState = state; },
       });
       await run(() => root.render(options.strictMode ? createElement(StrictMode, null, dashboard) : dashboard));
     },
@@ -176,6 +190,25 @@ export async function createDashboardHarness(options: {
     }),
     button,
     link,
+    state: () => latestState,
+    openSettingsPanel: async (row) => {
+      if (!container.querySelector('section[aria-label="Your account"]')) await run(() => link('Account and settings').click());
+      const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(row));
+      if (!found) throw new Error(`Missing Settings row: ${row}`);
+      await run(() => found.click());
+    },
+    setStoreFilter: async (value) => {
+      const filters = () => [...container.querySelectorAll('button')].find((element) => element.textContent?.startsWith('Filters'));
+      if (!filters()) await run(() => link('Shop').click());
+      await run(() => filters()!.click());
+      const label = [...document.querySelectorAll('label')].find((element) => element.textContent === 'Store')!;
+      const select = document.querySelector<HTMLSelectElement>(`#${label.htmlFor}`)!;
+      await run(() => {
+        Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(select, value);
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      await run(() => document.querySelector<HTMLButtonElement>('[role="dialog"] button[aria-label="Close"]')!.click());
+    },
     openAccountDialog: async () => {
       if (!container.querySelector('section[aria-label="Your account"]')) await run(() => link('Account and settings').click());
       const card = container.querySelector('section[aria-label="Your account"]')!;

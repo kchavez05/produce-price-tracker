@@ -77,23 +77,23 @@ describe('dashboard golden HTML (guest, keyless)', () => {
     await h.waitUntil(() => h.container.querySelector('section[aria-labelledby="virtual-pantry-title"] [role="status"]') !== null);
     expectGolden('07-guest-pantry-open', h.html());
   });
-  it('8a ZIP modal with an error', async () => {
+  it('8a ZIP panel with an error (on Settings)', async () => {
     const h = await start();
-    await h.click(h.buttonByTitle('Click to change your ZIP code'));
+    await h.openSettingsPanel('Location');
     const input = h.container.querySelector<HTMLInputElement>('input[placeholder^="e.g. 80542"]')!;
     await h.type(input, '');
     await h.click(h.button('Update Location')); // an empty entry is rejected
     await h.waitUntil(() => h.container.textContent?.includes('Please enter a valid 5-digit US ZIP code.') === true);
     expectGolden('08a-zip-modal-error', h.html());
   });
-  it('8b stores modal', async () => {
+  it('8b stores panel (on Settings)', async () => {
     const h = await start();
-    await h.click(h.buttonByTitle('Customize which grocery stores you shop at'));
+    await h.openSettingsPanel('My Stores');
     expectGolden('08b-stores-modal', h.html());
   });
-  it('8c alerts modal with a digest', async () => {
+  it('8c weekly digest with a digest (on Settings)', async () => {
     const h = await start({ onFetch: (input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined) });
-    await h.click(h.buttonByTitle('Preview Smart Push Notifications & Friday Weekend Meal-Prep Digest'));
+    await h.openSettingsPanel('Weekly Digest');
     await h.waitUntil(() => h.container.textContent?.includes('Weekend prep digest') === true);
     expectGolden('08c-alerts-modal-digest', h.html());
   });

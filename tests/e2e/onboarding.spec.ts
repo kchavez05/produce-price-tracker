@@ -28,7 +28,6 @@ test.describe('onboarding: the first visit', () => {
     await page.getByRole('button', { name: 'Finish' }).click();
 
     await expect.poll(() => home.pathname).toBe('/shop');
-    await expect(home.zipButton).toContainText('(80202)');
     expect(await page.evaluate(() => localStorage.getItem('pantrybot_user_zip'))).toBe('80202'); // kept on the device
     expect(await page.evaluate(() => localStorage.getItem('pantrybot_setup_completed_v20'))).toBe('1');
     await home.openSettings();

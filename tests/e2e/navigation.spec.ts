@@ -133,17 +133,20 @@ test.describe('navigation: nothing is lost when switching module mid-edit', () =
 
     // Start a refetch (a new ZIP) and hold its response, so it is still in flight while the user moves to the Pantry and back.
     const held = await holdRequests(page, '**/api/dashboard?*zip=80202*');
-    await home.zipButton.click();
+    await home.openSettings();
+    await home.locationRow.click();
     await page.getByRole('button', { name: 'Denver, CO (80202)' }).click();
     await expect.poll(() => held.requests()).toBeGreaterThan(0);
     await home.pantryButton.click();
     await home.pantryHeading.waitFor();
     expect(home.pathname).toBe('/pantry');
     held.release();
-    await expect(home.zipButton).toContainText('(80202)'); // the response was applied although its page is gone
+    // The response was applied although its page is gone: Settings shows the new ZIP.
+    await home.openSettings();
+    await expect(page.getByText('Denver, CO 80202')).toBeVisible();
 
-    // Back on the Board: the pin is still there. Back on the plan: the batch size and the request are as left.
-    await page.goBack();
+    // Back on the plan: the batch size and the request are as left. Back on the Board: the pin is still there.
+    await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     await expect(home.aiRequest).toHaveValue('a half-typed request for spicy stews');
     await expect(page.getByRole('button', { name: '8 Srv / Dish' })).toHaveClass(/bg-emerald-400/);

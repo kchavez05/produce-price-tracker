@@ -20,8 +20,8 @@ afterEach(async () => { await harness?.teardown(); harness = undefined; seed = {
 
 const dashboardRequests = (h: DashboardHarness) =>
   h.requests.filter((request) => request.url.startsWith('/api/dashboard?')).map((request) => new URL(request.url, 'http://localhost'));
-const zipButtonText = (h: DashboardHarness) =>
-  [...h.container.querySelectorAll('button')].map((b) => b.textContent ?? '').find((text) => /\(\d{5}\)\s*Change$/.test(text));
+// The ZIP the app is showing. The page-top ZIP chip is gone (M4-3a), so this reads the app state the chip used to render.
+const zipButtonText = (h: DashboardHarness) => `(${h.state().zip})`;
 
 describe('mount restore of the five localStorage keys (gap 1)', () => {
   it('restores the checklist, profile, stores and ZIP, and refetches with the loaded values', async () => {
@@ -142,7 +142,7 @@ describe('cloud hydration (gap 3)', () => {
     }) });
     await harness.mount();
     await harness.waitUntil(() => zipButtonText(harness!)?.includes('(80301)') === true);
-    expect(harness.container.textContent).toContain('1 Pinned');
+    expect(harness.state().pinnedIds).toHaveLength(1);
     await harness.click(harness.link('Plan'));
     const macro = harness.button('High-Protein');
     expect(macro.className).toContain('bg-emerald-400');
@@ -151,9 +151,9 @@ describe('cloud hydration (gap 3)', () => {
     expect(harness.button('6 Srv / Dish').className).not.toContain('bg-emerald-400');
     expect(harness.button('Gluten-Free').className).not.toBe(harness.button('Dairy-Free').className);
     await harness.openShopView('Deals');
-    const chips = [...harness.container.querySelectorAll('button')].map((b) => b.textContent ?? '');
-    expect(chips).toContain('King Soopers');
-    expect(chips).not.toContain('Safeway');
+    // The cloud stores are the app's stores (the page-top store chips are gone, M4-3a; the Filters sheet lists them).
+    expect(harness.state().activeStores).toContain('KING_SOOPERS');
+    expect(harness.state().activeStores).not.toContain('SAFEWAY');
   });
 
   it('rejects a malformed cloud ZIP, keeping the local ZIP', async () => {
@@ -168,7 +168,7 @@ describe('cloud hydration (gap 3)', () => {
     await harness.mount();
     await harness.settle();
     expect(zipButtonText(harness)).toContain(`(${payload.zipCode})`);
-    expect(harness.container.textContent).not.toContain('1 Pinned');
+    expect(harness.state().pinnedIds).toHaveLength(0);
   });
 });
 
@@ -302,7 +302,7 @@ describe('Board alerts and controls', () => {
     const firstAlertPin = pinButtons()[0];
     expect(firstAlertPin).toBeDefined();
     await harness.click(firstAlertPin);
-    expect(harness.container.textContent).toContain('1 Pinned');
+    expect(harness.state().pinnedIds).toHaveLength(1);
   });
 
   it('opens the pantry with a review toast from the Buy 2 stock-up button', async () => {
@@ -357,7 +357,7 @@ describe('Board leaderboard cards', () => {
     harness = await createDashboardHarness({ payload: cardPayload });
     await harness.mount();
     await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
-    expect(harness.container.textContent).toContain('1 Pinned');
+    expect(harness.state().pinnedIds).toHaveLength(1);
   });
 
   it('marks specific ingredients as available at home and explains grouped deals', async () => {
@@ -389,9 +389,9 @@ describe('Board leaderboard cards', () => {
   it('pins the suggested substitute from the cycle-peak card', async () => {
     harness = await createDashboardHarness({ payload: cardPayload });
     await harness.mount();
-    expect(harness.container.textContent).not.toContain('1 Pinned');
+    expect(harness.state().pinnedIds).toHaveLength(0);
     await harness.click(buttons(harness).find((b) => /Pin Substitute Instead/.test(b.textContent ?? ''))!);
-    expect(harness.container.textContent).toContain('1 Pinned');
+    expect(harness.state().pinnedIds).toHaveLength(1);
     // The substitute is the first commodity (the one with the Buy 2 button): its own card now shows Pinned.
     let footer = buttons(harness).find((b) => /^Buy 2: Prep 1, Freeze 1 \(\+/.test(b.textContent ?? ''))!.parentElement;
     while (footer && !/Pin to Prep|Pinned/.test(footer.textContent ?? '')) footer = footer.parentElement;
@@ -403,16 +403,15 @@ describe('Board leaderboard cards', () => {
 describe('header, store filter and navigation', () => {
   const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
 
-  it('filters by one store from the store bar and refetches with it', async () => {
+  it('filters by one store from the Filters sheet and refetches with it', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
-    const chip = buttons(harness).find((b) => b.textContent === 'ALDI');
-    expect(chip).toBeDefined();
     const before = dashboardRequests(harness).length;
-    await harness.click(chip!);
+    await harness.setStoreFilter('ALDI');
     await harness.waitUntil(() => dashboardRequests(harness!).length > before);
     expect(dashboardRequests(harness).at(-1)!.searchParams.get('store')).toBe('ALDI');
-    await harness.click(harness.button('All Stores'));
+    expect(harness.state().storeFilter).toBe('ALDI');
+    await harness.setStoreFilter('ALL');
     await harness.waitUntil(() => dashboardRequests(harness!).at(-1)!.searchParams.get('store') === 'ALL');
   });
 
@@ -440,16 +439,6 @@ describe('header, store filter and navigation', () => {
     expect(text()).toContain('Sort by:');
   });
 
-  it('shows pin and availability counts and jumps to the meal plan from View 3 Dishes', async () => {
-    harness = await createDashboardHarness({ payload });
-    await harness.mount();
-    expect(buttons(harness).some((b) => /View 3 Dishes/.test(b.textContent ?? ''))).toBe(false);
-    await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
-    expect(harness.container.textContent).toContain('1 Pinned');
-    await harness.click(harness.link('View 3 Dishes'));
-    expect(harness.container.textContent).not.toContain('Sort by:');
-  });
-
   it('opens the pantry from its tab, which has no Close button, and leaves it by choosing the Shop tab', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
@@ -471,11 +460,8 @@ describe('initial preference and location state', () => {
     harness = await createDashboardHarness({ payload: custom });
     await harness.mount();
     expect(zipButtonText(harness)).toContain('(80301)');
-    const bar = [...harness.container.querySelectorAll('button')].map((b) => b.textContent ?? '');
-    expect(bar).toContain('ALDI');
-    expect(bar).toContain('Walmart');
-    expect(bar).not.toContain('Safeway');
-    await harness.click([...harness.container.querySelectorAll('button')].find((b) => /\(\d{5}\)\s*Change$/.test(b.textContent ?? ''))!);
+    expect(harness.state().activeStores).toEqual(['ALDI', 'WALMART']);
+    await harness.openSettingsPanel('Location');
     expect(harness.container.querySelector<HTMLInputElement>('input[maxlength="5"]')?.value).toBe('80301');
   });
 });
@@ -494,7 +480,7 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
     await harness.click(harness.button('Dutch Oven'));
     await harness.click(harness.button('8 Srv / Dish'));
     await harness.openShopView('Deals');
-    await harness.click(buttons(harness).find((b) => b.textContent === 'ALDI')!);
+    await harness.setStoreFilter('ALDI');
     await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
     await harness.waitUntil(() => dashboardRequests(harness!).length >= 7);
     const params = dashboardRequests(harness).at(-1)!.searchParams;
@@ -522,9 +508,9 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
     for (const next of ['error', 'throw'] as const) {
       mode = next;
       const requests = dashboardRequests(harness).length;
-      await harness.click(buttons(harness).find((b) => b.textContent === 'ALDI')!);
+      await harness.setStoreFilter('ALDI');
       await harness.waitUntil(() => dashboardRequests(harness!).length > requests);
-      await harness.click(harness.button('All Stores'));
+      await harness.setStoreFilter('ALL');
       expect(zipButtonText(harness)).toContain(`(${payload.zipCode})`);
     }
     expect(harness.container.textContent).toBe(before);
@@ -618,10 +604,7 @@ describe('mount restore runs once and shows the restored state (M3 A.6)', () => 
     harness = await createDashboardHarness({ payload });
     await harness.mount();
     await harness.settle();
-    const chips = [...harness.container.querySelectorAll('button')].map((b) => b.textContent ?? '');
-    expect(chips).toContain('King Soopers');
-    expect(chips).toContain('Safeway');
-    expect(chips).not.toContain('Walmart');
+    expect(harness.state().activeStores).toEqual(['KING_SOOPERS', 'SAFEWAY']);
     await harness.click(harness.link('Plan'));
     expect(harness.button('High-Protein').className).toContain('bg-emerald-400');
     expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
@@ -636,7 +619,7 @@ describe('mount restore runs once and shows the restored state (M3 A.6)', () => 
     await harness.waitUntil(() => dashboardRequests(harness!).length === 1);
     await harness.settle();
     // A later store filter change makes exactly one more request, and the restored values persist.
-    await harness.click([...harness.container.querySelectorAll('button')].find((b) => b.textContent === 'King Soopers')!);
+    await harness.setStoreFilter('KING_SOOPERS');
     await harness.waitUntil(() => dashboardRequests(harness!).length === 2);
     await harness.settle(); await harness.settle();
     expect(dashboardRequests(harness)).toHaveLength(2);
@@ -691,7 +674,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('active stores: toggles a store, persists, pushes and refetches, and never drops below one store', async () => {
     await signedInPlan();
-    await harness!.click(harness!.button('My Stores'));
+    await harness!.openSettingsPanel('My Stores');
     const cards = () => [...harness!.container.querySelectorAll<HTMLElement>('div.cursor-pointer')];
     const stored = () => JSON.parse(window.localStorage.getItem('pantrybot_active_stores')!) as string[];
     expect(cards()).toHaveLength(ALL_STORE_CHAINS.length);
@@ -722,8 +705,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('ZIP submit: saves the ZIP, pushes it, refetches for it and closes the panel', async () => {
     await signedInPlan();
-    await harness!.openShopView('Deals');
-    await harness!.click(buttons(harness!).find((b) => /\(\d{5}\)\s*Change$/.test(b.textContent ?? ''))!);
+    await harness!.openSettingsPanel('Location');
     const input = () => harness!.container.querySelector<HTMLInputElement>('input[maxlength="5"]')!;
     expect(window.localStorage.getItem('pantrybot_user_zip')).toBeNull();
     await harness!.type(input(), '80301');
@@ -795,7 +777,7 @@ describe('store toggle side effects run once (#808)', () => {
     harness = await createDashboardHarness({ payload, sync, strictMode: true });
     await harness.mount(sync ? { initialAccountId: 'alice' } : {});
     await harness.settle(); await harness.settle();
-    await harness.click(harness.button('My Stores'));
+    await harness.openSettingsPanel('My Stores');
     const storeWrites: string[] = [];
     const setItem = Storage.prototype.setItem;
     const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, key: string, value: string) {
