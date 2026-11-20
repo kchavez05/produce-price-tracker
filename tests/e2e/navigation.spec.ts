@@ -33,7 +33,7 @@ test.describe('navigation: modules are pages', () => {
     await page.goBack();
     await expect(home.tab('Deals')).toBeVisible();
     await expect.poll(() => home.pathname).toBe('/shop');
-    await expect(page.getByText('Sort by:')).toBeVisible();
+    await expect(page.getByRole('group', { name: 'Category' })).toBeVisible();
     await page.goForward();
     await expect(home.planHeading).toBeVisible();
     expect(home.pathname).toBe('/plan');
@@ -52,7 +52,7 @@ test.describe('navigation: modules are pages', () => {
     const home = new DashboardPage(page);
     await home.goto();
     await home.tab('Radar').click();
-    await expect(page.getByText('Sort by:')).toBeHidden();
+    await expect(page.getByRole('group', { name: 'Category' })).toBeHidden();
     await home.tab('Plan').click();
     await expect(home.planHeading).toBeVisible();
     await home.openPantry();

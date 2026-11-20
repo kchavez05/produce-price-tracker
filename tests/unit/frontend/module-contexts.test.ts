@@ -15,7 +15,7 @@ import {
 } from '@/modules/shell/app-context';
 import BoardAlerts from '@/modules/shop/BoardAlerts';
 import BoardControls from '@/modules/shop/BoardControls';
-import BoardLeaderboard from '@/modules/shop/BoardLeaderboard';
+import BoardLeaderboard, { DEALS_PAGE_SIZE } from '@/modules/shop/BoardLeaderboard';
 import RadarSection from '@/modules/shop/RadarSection';
 import TripSection from '@/modules/shop/TripSection';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
@@ -78,23 +78,19 @@ describe('Shop components on the contexts, without the shell', () => {
   it('BoardControls reads and writes the Shop context', async () => {
     const h = await mountModules(() => createElement(BoardControls));
     expect(seen.shop.categoryFilter).toBe('ALL');
-    expect(seen.shop.sortMode).toBe('VALUE_SCORE');
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Fresh Produce'))!.click(); await h.settle(); });
-    expect(seen.shop.categoryFilter).not.toBe('ALL');
-    expect(buttons(h).find((b) => b.textContent?.includes('Fresh Produce'))!.className).toContain('bg-emerald-600');
-    const select = h.container.querySelector('select')!;
-    await act(async () => {
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(select, 'LOWEST_PRICE');
-      select.dispatchEvent(new Event('change', { bubbles: true }));
-      await h.settle();
-    });
-    expect(seen.shop.sortMode).toBe('LOWEST_PRICE');
+    expect(buttons(h).find((b) => b.textContent === 'All')!.getAttribute('aria-pressed')).toBe('true');
+    await act(async () => { buttons(h).find((b) => b.textContent === 'Produce')!.click(); await h.settle(); });
+    expect(seen.shop.categoryFilter).toBe('PRODUCE');
+    expect(buttons(h).find((b) => b.textContent === 'Produce')!.getAttribute('aria-pressed')).toBe('true');
+    expect(buttons(h).find((b) => b.textContent === 'All')!.getAttribute('aria-pressed')).toBe('false');
+    // The sort order is no longer here: it is in the Filters sheet (ShopFilters, tested below).
+    expect(h.container.querySelector('select')).toBeNull();
   });
 
   it('BoardLeaderboard lists the dashboard context\'s commodities and pins through the Preferences context', async () => {
     const h = await mountModules(() => createElement(BoardLeaderboard));
     const pinButtons = () => buttons(h).filter((b) => /Pin to Prep/.test(b.textContent ?? ''));
-    expect(pinButtons().length).toBe(seen.dashboard.filteredCommodities.length);
+    expect(pinButtons().length).toBe(Math.min(DEALS_PAGE_SIZE, seen.dashboard.filteredCommodities.length));
     expect(seen.preferences.pinnedIds).toEqual([]);
     await act(async () => { pinButtons()[0].click(); await h.settle(); });
     expect(seen.preferences.pinnedIds).toHaveLength(1);
@@ -105,7 +101,7 @@ describe('Shop components on the contexts, without the shell', () => {
     const h = await mountModules(() => createElement(BoardLeaderboard));
     expect(seen.shell.module).toBe('shop');
     await act(async () => {
-      buttons(h).find((b) => /Not marked available/.test(b.textContent ?? ''))!.click();
+      buttons(h).find((b) => /^Have it$/.test(b.textContent ?? ''))!.click();
       await h.settle();
     });
     expect(seen.shell.module).toBe('pantry');

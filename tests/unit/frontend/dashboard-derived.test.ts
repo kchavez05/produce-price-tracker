@@ -85,7 +85,7 @@ describe('plan invalidation (explicit clears and the context signature)', () => 
     const h = await start();
     const title = await promoteLastBlueprint(h);
     await h.openShopView('Deals');
-    await h.click(h.button('Fresh Produce'));
+    await h.click(h.button('Produce'));
     await h.click(h.link(TABS.plan));
     expect(dishTitles(h)[0]).toBe(title);
   });
@@ -95,21 +95,29 @@ describe('view state survives tab switches (owner decision 1)', () => {
   it('keeps the category and sort on the Board', async () => {
     const h = await start();
     const allCategories = h.container.textContent;
-    await h.click(h.button('Fresh Produce'));
-    const select = h.container.querySelector('select')!;
+    await h.click(h.button('Produce'));
+    // The sort order is chosen in the Filters sheet (M4-3a).
+    const sortSelect = () => {
+      const label = [...document.querySelectorAll('label')].find((l) => l.textContent === 'Sort by')!;
+      return document.querySelector<HTMLSelectElement>(`#${label.htmlFor}`)!;
+    };
     const defaultOrder = h.container.textContent;
     expect(defaultOrder).not.toBe(allCategories);
+    await h.click(h.button('Filters'));
     await act(async () => {
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(select, 'LOWEST_PRICE');
-      select.dispatchEvent(new Event('change', { bubbles: true }));
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(sortSelect(), 'LOWEST_PRICE');
+      sortSelect().dispatchEvent(new Event('change', { bubbles: true }));
     });
     await h.settle();
+    await h.click(document.querySelector<HTMLElement>('[role="dialog"] button[aria-label="Close"]')!);
     const board = h.container.textContent;
     expect(board).not.toBe(defaultOrder);
     await h.click(h.link(TABS.plan));
     await h.openShopView('Deals');
-    expect(h.button('Fresh Produce').className).toContain('bg-emerald-600');
-    expect(h.container.querySelector('select')!.value).toBe('LOWEST_PRICE');
+    expect(h.button('Produce').getAttribute('aria-pressed')).toBe('true');
+    await h.click(h.button('Filters'));
+    expect(sortSelect().value).toBe('LOWEST_PRICE');
+    await h.click(document.querySelector<HTMLElement>('[role="dialog"] button[aria-label="Close"]')!);
     expect(h.container.textContent).toBe(board);
   });
 

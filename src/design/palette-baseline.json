@@ -19,9 +19,6 @@
   "src/modules/shell/StoresPanel.tsx": 21,
   "src/modules/shell/ZipPanel.tsx": 23,
   "src/modules/shop/badges.tsx": 25,
-  "src/modules/shop/BoardAlerts.tsx": 21,
-  "src/modules/shop/BoardControls.tsx": 9,
-  "src/modules/shop/BoardLeaderboard.tsx": 82,
   "src/modules/shop/PrintSlip.tsx": 5,
   "src/modules/shop/RadarSection.tsx": 78,
   "src/modules/shop/TripSection.tsx": 103

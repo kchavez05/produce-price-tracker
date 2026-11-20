@@ -166,7 +166,7 @@ describe('signed-in dashboard sync through Pantry', () => {
     await waitUntil(() => localStorage.getItem(pantryQueueKey('account:alice')) !== null);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).not.toBeNull();
     await click(button('Shop'));
-    await click(button('Not marked available'));
+    await click(button('Have it'));
     failSync = false;
     await reconnect();
     expect(liveEntries().map((entry) => entry.ingredientId).sort()).toEqual(['chicken-thighs-boneless', 'salt']);

@@ -298,7 +298,7 @@ describe('Board alerts and controls', () => {
     harness = await createDashboardHarness({ payload: alertPayload });
     await harness.mount();
     const pinButtons = () => [...harness!.container.querySelectorAll('button')].filter((b) => /Pin to Prep/.test(b.textContent ?? ''));
-        expect(harness.container.textContent).toContain('Stock-up Value Alerts');
+        expect(harness.container.textContent).toContain('Stock-Up Alert');
     const firstAlertPin = pinButtons()[0];
     expect(firstAlertPin).toBeDefined();
     await harness.click(firstAlertPin);
@@ -314,22 +314,14 @@ describe('Board alerts and controls', () => {
     expect(harness.container.textContent).toContain('Review your Pantry before stocking up.');
   });
 
-  it('switches category and sort from the controls', async () => {
+  it('switches category from the chips', async () => {
     harness = await createDashboardHarness({ payload: alertPayload });
     await harness.mount();
-    const pill = () => harness!.button('Fresh Produce');
-    expect(pill().className).not.toContain('bg-emerald-600');
+    const pill = () => harness!.button('Produce');
+    expect(pill().getAttribute('aria-pressed')).toBe('false');
     await harness.click(pill());
-    expect(pill().className).toContain('bg-emerald-600');
-    const select = harness.container.querySelector('select')!;
-    expect(select.value).toBe('VALUE_SCORE');
-    const { act } = await import('react');
-    await act(async () => {
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(select, 'LOWEST_PRICE');
-      select.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-    await harness.settle();
-    expect(harness.container.querySelector('select')!.value).toBe('LOWEST_PRICE');
+    expect(pill().getAttribute('aria-pressed')).toBe('true');
+    expect(harness.button('All').getAttribute('aria-pressed')).toBe('false');
   });
 });
 
@@ -363,8 +355,8 @@ describe('Board leaderboard cards', () => {
   it('marks specific ingredients as available at home and explains grouped deals', async () => {
     harness = await createDashboardHarness({ payload: cardPayload });
     await harness.mount();
-    const toggles = (h: DashboardHarness) => buttons(h).filter((b) => /Not marked available|Already have/.test(b.textContent ?? ''));
-    const have = (h: DashboardHarness) => buttons(h).filter((b) => /Already have/.test(b.textContent ?? '')).length;
+    const toggles = (h: DashboardHarness) => buttons(h).filter((b) => /^Have it$/.test(b.textContent ?? ''));
+    const have = (h: DashboardHarness) => toggles(h).filter((b) => b.getAttribute('aria-pressed') === 'true').length;
     expect(have(harness)).toBe(0);
     expect(harness.container.textContent).not.toContain('Choose the specific ingredient');
     // In the keyless fixture the first two cards are grouped deals and the next two are specific ingredients. A specific
@@ -390,7 +382,7 @@ describe('Board leaderboard cards', () => {
     harness = await createDashboardHarness({ payload: cardPayload });
     await harness.mount();
     expect(harness.state().pinnedIds).toHaveLength(0);
-    await harness.click(buttons(harness).find((b) => /Pin Substitute Instead/.test(b.textContent ?? ''))!);
+    await harness.click(buttons(harness).find((b) => /Pin Substitute instead/.test(b.textContent ?? ''))!);
     expect(harness.state().pinnedIds).toHaveLength(1);
     // The substitute is the first commodity (the one with the Buy 2 button): its own card now shows Pinned.
     let footer = buttons(harness).find((b) => /^Buy 2: Prep 1, Freeze 1 \(\+/.test(b.textContent ?? ''))!.parentElement;
@@ -421,14 +413,14 @@ describe('header, store filter and navigation', () => {
     // The current link is the one marked aria-current (the tab for the module, the Shop view link for the view).
     // The Trip link carries its item count (M4-3a), so compare by the label it starts with.
     const current = () => [...harness!.container.querySelectorAll('a[aria-current="page"]')].map((a) => a.textContent?.replace(/\d+$/, ''));
-    const text = () => harness!.container.textContent ?? '';
+    const category = () => harness!.container.querySelector('[role="group"][aria-label="Category"]');
     expect(current()).toContain('Deals');
-    expect(text()).toContain('Sort by:');
+    expect(category()).not.toBeNull();
     for (const label of ['Trip', 'Radar'] as const) {
       await harness.openShopView(label);
       expect(current()).toContain(label);
       expect(current()).not.toContain('Deals');
-      expect(text()).not.toContain('Sort by:');
+      expect(category()).toBeNull();
     }
     await harness.click(harness.link('Plan'));
     expect(harness.path()).toBe('/plan');
@@ -436,7 +428,7 @@ describe('header, store filter and navigation', () => {
     expect(buttons(harness).some((b) => /^Show All \d+ Dishes$/.test(b.textContent ?? ''))).toBe(true);
     await harness.openShopView('Deals');
     expect(current()).toContain('Deals');
-    expect(text()).toContain('Sort by:');
+    expect(category()).not.toBeNull();
   });
 
   it('opens the pantry from its tab, which has no Close button, and leaves it by choosing the Shop tab', async () => {
@@ -513,7 +505,9 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
       await harness.setStoreFilter('ALL');
       expect(zipButtonText(harness)).toContain(`(${payload.zipCode})`);
     }
-    expect(harness.container.textContent).toBe(before);
+    // The prices on screen are the old ones, and the Shop says so (M4-3a) instead of failing silently.
+    expect(harness.container.textContent).toContain('Could not update prices');
+    expect(harness.container.textContent!.replace('Could not update pricesYou are seeing the last prices we got.Try again', '')).toBe(before);
   });
 
   it('refetches with the current state when a cloud sync is acknowledged', async () => {
