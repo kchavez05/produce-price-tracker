@@ -119,7 +119,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
 
   const shellActions = useShellActions({
     pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module: currentModule,
+    macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module: currentModule, pathname: router.pathname,
     navigate: router.push, setShopView, setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult,
     setCronSyncLoading, setCronSyncError, setCopiedDigest,
   });

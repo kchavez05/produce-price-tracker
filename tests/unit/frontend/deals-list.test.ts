@@ -58,16 +58,14 @@ describe('paging', () => {
 });
 
 describe('the card', () => {
-  it('shows the headline, with the rest behind Details', async () => {
+  it('shows the headline, with the name linking to Deal Detail and nothing more', async () => {
     const h = await start();
     const card = cards(h)[0];
-    expect(card.querySelector('h3')!.textContent).toBeTruthy();
+    const first = payload.commodities.find((c) => c.ingredient.name === card.querySelector('h3')!.textContent)!;
     expect(card.textContent).toMatch(/\$\d+\.\d{2}/);
-    const details = card.querySelector('details')!;
-    expect(details.open).toBe(false);
-    expect(details.querySelector('summary')!.textContent).toContain('Details');
-    expect(details.textContent).toMatch(/Value \d+\/100/);
-    expect(details.textContent).toContain('USDA wholesale');
+    expect(card.querySelector('h3 a')!.getAttribute('href')).toBe(`/shop/deal/${encodeURIComponent(first.ingredient.id)}`);
+    expect(card.querySelector('details')).toBeNull();
+    expect(card.textContent).not.toMatch(/Value \d+\/100/);
   });
 
   it('marks Have it as pressed, keeping its name, and flips it back', async () => {

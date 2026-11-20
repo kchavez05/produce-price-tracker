@@ -51,6 +51,27 @@ test.describe('navigation: modules are pages', () => {
     void problems;
     const home = new DashboardPage(page);
     await home.goto();
+
+    // Deal Detail (M4-3a): a card's name opens the deal at its own path. From 1024 px the list stays beside it and there is no
+    // Back link; below that the detail is the screen, the list is hidden and Back returns to the Deals.
+    const wideScreen = (page.viewportSize()?.width ?? 0) >= 1024;
+    const cardName = page.locator('article h3 a').first();
+    const dealName = (await cardName.textContent())!.trim();
+    await cardName.click();
+    await expect.poll(() => home.pathname).toMatch(/^\/shop\/deal\//);
+    const detail = page.getByRole('region', { name: 'Deal detail' });
+    await expect(detail.getByRole('heading', { level: 2, name: dealName })).toBeVisible();
+    if (wideScreen) {
+      await expect(cardName).toBeVisible();
+      await expect(detail.getByRole('link', { name: 'Deals' })).toBeHidden();
+      await page.goBack();
+    } else {
+      await expect(cardName).toBeHidden();
+      await detail.getByRole('link', { name: 'Deals' }).click();
+    }
+    await expect.poll(() => home.pathname).toBe('/shop');
+    await expect(cardName).toBeVisible();
+
     await home.tab('Radar').click();
     await expect(page.getByRole('group', { name: 'Category' })).toBeHidden();
     await home.tab('Plan').click();

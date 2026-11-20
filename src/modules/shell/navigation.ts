@@ -10,12 +10,24 @@
 export type TabModule = 'shop' | 'plan' | 'pantry';
 export type AppModule = TabModule | 'settings' | 'welcome';
 export type ShopView = 'BOARD' | 'SHOPPING_LIST' | 'RADAR';
-export type Destination = { module: 'shop'; view: ShopView } | { module: 'plan' } | { module: 'pantry' } | { module: 'settings' } | { module: 'welcome' };
+// A Shop destination may name a deal (Deal Detail, M4-3a), which is a path of its own: /shop/deal/<ingredient id>.
+export type Destination = { module: 'shop'; view: ShopView; deal?: string } | { module: 'plan' } | { module: 'pantry' } | { module: 'settings' } | { module: 'welcome' };
 
 export const MODULE_PATHS: Record<AppModule, string> = { shop: '/shop', plan: '/plan', pantry: '/pantry', settings: '/settings', welcome: '/welcome' };
 
+export const DEAL_PATH_PREFIX = '/shop/deal/';
+
 export function pathOf(destination: Destination): string {
+  if (destination.module === 'shop' && destination.deal) return `${DEAL_PATH_PREFIX}${encodeURIComponent(destination.deal)}`;
   return MODULE_PATHS[destination.module];
+}
+
+/** The ingredient id of a Deal Detail path, or null for any other path. */
+export function dealIdOfPath(pathname: string): string | null {
+  if (!pathname.startsWith(DEAL_PATH_PREFIX)) return null;
+  const raw = pathname.slice(DEAL_PATH_PREFIX.length).split('/')[0];
+  if (!raw) return null;
+  try { return decodeURIComponent(raw); } catch { return null; }
 }
 
 /** The module a path belongs to. Anything that is not a module path (including "/") counts as Shop, the default. */

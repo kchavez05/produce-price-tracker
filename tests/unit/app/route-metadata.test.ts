@@ -12,6 +12,7 @@ import RootLayout, { viewport } from '@/app/layout';
 import { metadata as shopMeta } from '@/app/(app)/shop/page';
 import { metadata as planMeta } from '@/app/(app)/plan/page';
 import { metadata as pantryMeta } from '@/app/(app)/pantry/page';
+import { metadata as dealMeta } from '@/app/(app)/shop/deal/[id]/page';
 import TermsPage from '@/app/terms/page';
 import PrivacyPage from '@/app/privacy/page';
 
@@ -25,7 +26,7 @@ function contains(node: ReactNode, type: unknown): boolean {
 
 describe('route metadata', () => {
   it('gives each app screen its own title', () => {
-    expect([shopMeta.title, planMeta.title, pantryMeta.title]).toEqual(['Shop — PantryBot', 'Plan — PantryBot', 'Pantry — PantryBot']);
+    expect([shopMeta.title, planMeta.title, pantryMeta.title, dealMeta.title]).toEqual(['Shop — PantryBot', 'Plan — PantryBot', 'Pantry — PantryBot', 'Deal Detail — PantryBot']);
   });
 
   it('lets the page extend under the status bar and home indicator', () => {

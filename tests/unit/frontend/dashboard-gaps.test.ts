@@ -378,12 +378,16 @@ describe('Board leaderboard cards', () => {
     expect(harness.container.textContent).toContain('Review your Pantry before stocking up.');
   });
 
-  it('pins the suggested substitute from the cycle-peak card', async () => {
+  it('pins the suggested substitute from the cycle-peak deal\'s detail', async () => {
     harness = await createDashboardHarness({ payload: cardPayload });
     await harness.mount();
     expect(harness.state().pinnedIds).toHaveLength(0);
+    // The cycle-peak deal is the second commodity; its detail (M4-3a) holds the substitution.
+    const detailLink = harness.container.querySelector<HTMLAnchorElement>(`a[href="/shop/deal/${encodeURIComponent(cardPayload.commodities[1].ingredient.id)}"]`)!;
+    await harness.click(detailLink);
     await harness.click(buttons(harness).find((b) => /Pin Substitute instead/.test(b.textContent ?? ''))!);
     expect(harness.state().pinnedIds).toHaveLength(1);
+    await harness.click([...harness.container.querySelectorAll('a')].find((a) => a.textContent === 'Deals' && a.closest('article'))!);
     // The substitute is the first commodity (the one with the Buy 2 button): its own card now shows Pinned.
     let footer = buttons(harness).find((b) => /^Buy 2: Prep 1, Freeze 1 \(\+/.test(b.textContent ?? ''))!.parentElement;
     while (footer && !/Pin to Prep|Pinned/.test(footer.textContent ?? '')) footer = footer.parentElement;

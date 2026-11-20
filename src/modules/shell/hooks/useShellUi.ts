@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { pantryCatalog } from '@/lib/pantry/model';
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
-import { pathOf, type AppModule, type Destination, type ShopView, type TabModule } from '@/modules/shell/navigation';
+import { dealIdOfPath, pathOf, type AppModule, type Destination, type ShopView, type TabModule } from '@/modules/shell/navigation';
 import type { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import type { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import type { useUserSync } from '@/hooks/useUserSync';
@@ -61,6 +61,7 @@ interface ShellActionsArgs {
   showAlertsModal: boolean;
   cronSyncResult: WeeklySyncCronResult | null;
   module: AppModule;
+  pathname: string;
   navigate: (path: string) => void;
   setShopView: (view: ShopView) => void;
   setArbitrageToast: (message: string | null) => void;
@@ -74,7 +75,7 @@ interface ShellActionsArgs {
 
 export function useShellActions({
   pantry, userSync, syncDashboard, storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores,
-  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, navigate, setShopView,
+  macroGoal, dietaryConstraints, applianceFilter, showAlertsModal, cronSyncResult, module, pathname, navigate, setShopView,
   setArbitrageToast, setActiveStores, setShowAlertsModal, setCronSyncResult, setCronSyncLoading, setCronSyncError, setCopiedDigest,
 }: ShellActionsArgs) {
   async function handleForceCloudSync() {
@@ -157,7 +158,10 @@ export function useShellActions({
   function navigateTo(destination: Destination) {
     if (destination.module === 'shop') setShopView(destination.view);
     // The URL is the source of truth for the module; moving within a module (Shop to another Shop view) changes no URL.
-    if (destination.module !== module) navigate(pathOf(destination));
+    // Deal Detail is a path inside Shop (M4-3a): opening a deal, and leaving one for any other Shop destination, do change it.
+    const target = pathOf(destination);
+    const leavingDeal = dealIdOfPath(pathname) !== null;
+    if ((destination.module !== module || leavingDeal || (destination.module === 'shop' && destination.deal)) && target !== pathname) navigate(target);
   }
 
   function handleReviewStockUp() {
