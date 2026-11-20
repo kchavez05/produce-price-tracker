@@ -127,7 +127,9 @@ describe('signed-in dashboard sync through Pantry', () => {
     expect(Number.isFinite(before)).toBe(true);
     await openPantry();
     failSync = true;
-    await click(button('Delete Chicken thighs'));
+    // Removing an ingredient is on its detail (M4-4b): open it from the list, then Remove from Pantry.
+    await click(button('Chicken thighs'));
+    await click(button('Remove from Pantry'));
     expect(liveEntries()).toHaveLength(1);
     expect(localStorage.getItem(pantryQueueKey('account:alice'))).not.toBeNull();
     await click(button('Plan'));

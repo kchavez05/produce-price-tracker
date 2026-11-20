@@ -1,11 +1,12 @@
 'use client';
 
 import BarcodeEntry from '@/components/BarcodeEntry';
-import { Banner, Button, Card, Chip, EmptyState, SegmentedControl, Select, TextField } from '@/components/ui';
+import { Banner, Button, Card, Chip, EmptyState, SegmentedControl, TextField } from '@/components/ui';
 import SpeechPantryEntry from '@/components/SpeechPantryEntry';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import PantryEntryForm from '@/modules/pantry/PantryEntryForm';
 import { cookingCatalogVariants } from '@/lib/pantry/catalog-search';
-import { normalizePantryName, pantryIdentity, searchPantryCatalog, validatePantryEntry, cookingIngredients, activeCookingIngredients, cookingCompatibility, pantryCatalog } from '@/lib/pantry/model';
+import { normalizePantryName, pantryIdentity, searchPantryCatalog, cookingIngredients, activeCookingIngredients, cookingCompatibility, pantryCatalog } from '@/lib/pantry/model';
 import { PantryEntry, PantryEntryInput, PantryMutation, PantryMutationResult, PantryOwner, PantrySaveIntent } from '@/types/pantry';
 
 interface Props {
@@ -30,10 +31,14 @@ interface Props {
   onImportGuest: () => Promise<void>;
   onReviewLegacy: () => Promise<readonly PantryEntry[]>;
   onImportLegacy: () => Promise<void>;
+  /** An entry's name as it is shown in the list (the adapter makes it a link to the ingredient detail). */
+  renderEntryName?: (entry: PantryEntry, name: ReactNode) => ReactNode;
+  selectedId?: string | null;
 }
 // v2.0 M4-4a (wireframes Pantry and Pantry Empty): the Pantry list. Search is the first control; the optional Scan and Voice entries
 // stay where they were (their screens are M4-4c); a banner says nothing here is required; chips filter the list (All, Have, Out);
-// each ingredient has a Yes/No toggle (a radio group), with Edit and Delete (they move into the ingredient detail in M4-4b). The
+// each ingredient has a Yes/No toggle (a radio group) and its name links to the ingredient detail (M4-4b: editing and removing moved
+// there; a new custom ingredient is still added here, with the shared PantryEntryForm). The
 // first visit is the empty state with the staple shortcuts. Every handler, the sync status, the conflict and import panels and
 // their wording are unchanged: only the markup moved onto the design tokens. The list now opens on All, as the wireframe does
 // (it used to hide ingredients marked No behind a checkbox).
@@ -44,16 +49,14 @@ export default function VirtualPantry(props: Props) {
   const barcodeTrigger = useRef<HTMLButtonElement>(null);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<'ALL' | 'HAVE' | 'OUT'>('ALL');
-  const [editing, setEditing] = useState<PantryEntry | PantryEntryInput | null>(null);
+  const [editing, setEditing] = useState<PantryEntryInput | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [importPreview, setImportPreview] = useState(false);
   const [legacyPreview, setLegacyPreview] = useState<readonly PantryEntry[] | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const editor = useRef<HTMLFormElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => { heading.current?.focus(); heading.current?.scrollIntoView?.({ block: 'start' }); }, []);
-  useEffect(() => { if (editing) editor.current?.querySelector<HTMLInputElement>('[name=displayName]')?.focus(); }, [editing]);
   const accepts = (id: string) => props.acceptedCatalogIds.includes(id) || props.entries.some((entry) => entry.ingredientId === id);
   const results = searchPantryCatalog(query).slice(0, 12);
   const customResults = props.entries.filter((entry) => !entry.deletedAtIso && !entry.ingredientId && normalizePantryName(entry.displayName).includes(normalizePantryName(query)));
@@ -71,28 +74,6 @@ export default function VirtualPantry(props: Props) {
     await props.onSave({ ...(existing ?? input), available: true }, existing?.id);
     setQuery(''); setNotice(`${input.displayName} marked Yes.`);
   }
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!editing) return;
-    const fields = new FormData(event.currentTarget);
-    const ingredientId = String(fields.get('ingredientId') || '');
-    const catalog = cookingIngredients.find((ingredient) => ingredient.id === ingredientId);
-    const quantity = String(fields.get('quantity') || '').trim();
-    const retainedId = editing.ingredientId === ingredientId ? ingredientId : undefined;
-    const input = validatePantryEntry({
-      displayName: catalog?.name ?? fields.get('displayName'), available: fields.get('available') === 'true',
-      ...(ingredientId ? { ingredientId } : {}),
-      ...(fields.get('location') ? { location: fields.get('location') } : {}),
-      ...(quantity ? { quantity: Number(quantity) } : {}),
-      ...(fields.get('unit') ? { unit: fields.get('unit') } : {}),
-      ...(fields.get('useByDate') ? { useByDate: fields.get('useByDate') } : {}),
-    }, Boolean(retainedId));
-    if (!input.ok) { setFormError(Object.values(input.errors).join(' ')); return; }
-    const entryId = 'id' in editing ? editing.id
-      : props.entries.find((entry) => pantryIdentity(entry) === pantryIdentity(input.value))?.id;
-    void perform(async () => { await props.onSave(input.value, entryId); setEditing(null); });
-  }
-
   return <section aria-labelledby="virtual-pantry-title" className="space-y-3">
     <h2 ref={heading} tabIndex={-1} id="virtual-pantry-title" className="sr-only">Virtual Pantry</h2>
 
@@ -180,39 +161,25 @@ export default function VirtualPantry(props: Props) {
     {props.entries.some((entry) => !entry.deletedAtIso) && <div role="group" aria-label="Show" className="flex gap-2">
       {([['ALL', 'All'], ['HAVE', 'Have'], ['OUT', 'Out']] as const).map(([value, label]) => <Chip key={value} selected={filter === value} onClick={() => setFilter(value)}>{label}</Chip>)}
     </div>}
-    {shown.length > 0 && <Card padding="none"><ul className="divide-y divide-border">{shown.map((entry) => <li key={entry.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
-      <div className="min-w-0"><p className="break-words font-semibold text-ink">{entry.displayName}</p>
+    {shown.length > 0 && <Card padding="none"><ul className="divide-y divide-border">{shown.map((entry) => <li key={entry.id} aria-current={entry.id === props.selectedId ? 'true' : undefined} className={`flex flex-wrap items-center justify-between gap-3 px-4 py-3 ${entry.id === props.selectedId ? 'wide:bg-chip' : ''}`}>
+      <div className="min-w-0"><p className="break-words font-semibold text-ink">{props.renderEntryName ? props.renderEntryName(entry, entry.displayName) : entry.displayName}</p>
         <p className="text-xs text-muted">{entry.location ? `${entry.location.toLowerCase()} · ` : ''}{entry.quantity !== undefined ? `${entry.quantity} ${entry.unit ?? ''} · ` : ''}{entry.useByDate ? `Use by ${entry.useByDate}` : ''}</p>
         {entry.ingredientId && cookingCompatibility.some((edge) => edge.to === entry.ingredientId && !entry.available && props.entries.some((other) => other.ingredientId === edge.from && other.available && !other.deletedAtIso)) && <p className="text-xs text-warning">Marked No: available varieties do not cover recipes requiring {entry.displayName}. Change this entry explicitly if you have it.</p>}
         {entry.ingredientId && !pantryCatalog.has(entry.ingredientId) && <p className="text-xs text-muted">Saved catalog ingredient. Your details are preserved; recipe matching needs a newer catalog.</p>}
-        {!entry.ingredientId && <p className="text-xs text-muted">Custom ingredient. Choose a catalog match in Edit to use it in recipe matching.</p>}
+        {!entry.ingredientId && <p className="text-xs text-muted">Custom ingredient. Choose a catalog match in its details to use it in recipe matching.</p>}
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <SegmentedControl label={`${entry.displayName} availability`} value={String(entry.available) as 'true' | 'false'}
           options={[{ value: 'true', label: 'Yes' }, { value: 'false', label: 'No' }]}
           onChange={(value) => { if (!busy) void perform(() => props.onSave({ ...entry, available: value === 'true' }, entry.id)); }} />
-        <Button variant="quiet" onClick={() => { setEditing(entry); setFormError(null); }}>Edit <span className="sr-only">{entry.displayName}</span></Button>
-        <Button variant="quiet" className="text-danger" disabled={busy} onClick={() => void perform(() => props.onDelete(entry))}>Delete <span className="sr-only">{entry.displayName}</span></Button>
       </div>
     </li>)}</ul></Card>}
     {shown.length === 0 && props.entries.length > 0 && <p className="py-3 text-sm text-muted">No ingredients match this view. Clear search or choose All.</p>}
 
-    {editing && <Card as="section" aria-label={'id' in editing ? 'Edit ingredient' : 'Add custom ingredient'}>
-      <form ref={editor} key={'id' in editing ? editing.id : 'new'} onSubmit={submit} className="space-y-3">
-        <h3 className="font-semibold text-ink">{'id' in editing ? 'Edit ingredient' : 'Add custom ingredient'}</h3>
-        <TextField label="Ingredient name" name="displayName" required maxLength={120} defaultValue={editing.displayName} />
-        <Select label="Available" name="available" defaultValue={String(editing.available)}><option value="true">Yes</option><option value="false">No</option></Select>
-        <details><summary className="flex min-h-touch cursor-pointer items-center text-sm font-semibold text-accent">Optional details and catalog match</summary>
-          <div className="mt-2 grid gap-3 sm:grid-cols-2">
-            <Select label="Storage location" name="location" defaultValue={editing.location ?? ''}><option value="">Unspecified</option><option value="PANTRY">Pantry</option><option value="FRIDGE">Fridge</option><option value="FREEZER">Freezer</option></Select>
-            <TextField label="Quantity" name="quantity" type="number" min="0" step="any" defaultValue={editing.quantity ?? ''} />
-            <TextField label="Unit" name="unit" maxLength={40} defaultValue={editing.unit ?? ''} placeholder="cans, bags, g, lb" />
-            <TextField label="Use-by date" name="useByDate" type="date" defaultValue={editing.useByDate ?? ''} />
-            <Select label="Catalog ingredient" name="ingredientId" defaultValue={editing.ingredientId ?? ''} className="sm:col-span-2"><option value="">Custom name — no recipe match</option>{editing.ingredientId && !pantryCatalog.has(editing.ingredientId) && <option value={editing.ingredientId}>{editing.displayName} (saved ingredient)</option>}{cookingIngredients.filter((ingredient) => ingredient.id === editing.ingredientId || activeCookingIngredients.some((active) => active.id === ingredient.id) && ingredient.lifecycle !== 'retired' && props.acceptedCatalogIds.includes(ingredient.id)).map((ingredient) => <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>)}</Select>
-          </div><p className="mt-2 text-xs text-muted">Quantity and dates are context; they never change Yes/No. A date does not certify food safety.</p>
-        </details>
-        <div className="flex flex-wrap gap-2"><Button type="submit" variant="primary" disabled={busy}>Save ingredient</Button><Button variant="quiet" onClick={() => setEditing(null)}>Cancel</Button></div>
-      </form>
+    {editing && <Card as="section" aria-label="Add custom ingredient">
+      <h3 className="mb-3 font-semibold text-ink">Add custom ingredient</h3>
+      <PantryEntryForm entry={editing} entries={props.entries} acceptedCatalogIds={props.acceptedCatalogIds} onSave={props.onSave}
+        onSaved={() => setEditing(null)} onCancel={() => setEditing(null)} showAvailable saveLabel="Save ingredient" autoFocus />
     </Card>}
   </section>;
 }

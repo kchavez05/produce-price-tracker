@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import VirtualPantry from '@/modules/pantry/VirtualPantry';
+import PantryEntryForm from '@/modules/pantry/PantryEntryForm';
 import { cookingIngredients } from '@/lib/pantry/model';
 import { evaluatePantryMutation } from '@/lib/pantry/mutations';
 import { PantryEntry } from '@/types/pantry';
@@ -21,6 +22,10 @@ async function render(entries: PantryEntry[] = [], acceptedCatalogIds = cookingI
   entries, acceptedCatalogIds, status: 'Saved', error: null, guest: true, hasLegacyEdits: false, importDuplicates: [], guestEntries: [], conflicts: [],
   onSave: save, onDelete: vi.fn(), onRetry: vi.fn(), onResolve: vi.fn(), onImportGuest: vi.fn(),
   onReviewLegacy: vi.fn().mockResolvedValue([]), onImportLegacy: vi.fn(),
+}))); }
+/** The ingredient form on its own, as the detail shows it (editing an entry; its Yes/No answer is its own control). */
+async function renderForm(entry: PantryEntry, acceptedCatalogIds = cookingIngredients.map((r) => r.id)) { await run(() => root.render(createElement(PantryEntryForm, {
+  entry, entries: [entry], acceptedCatalogIds, onSave: save, onSaved: vi.fn(), showAvailable: false, saveLabel: 'Save details',
 }))); }
 async function search(value: string) { await run(() => {
   const field = container.querySelector('input[type=search]') as HTMLInputElement;
@@ -160,14 +165,12 @@ describe('Virtual Pantry accessible controls', () => {
     expect(container.textContent).toContain('Marked No: available varieties do not cover');
   });
   it('edits an unfamiliar saved identity without clearing its ID or optional details', async () => {
-    await render([{ ...saved, available: true, ingredientId: 'future-catalog-item', displayName: 'Future ingredient' }]);
-    await run(() => button('Edit').click());
+    await renderForm({ ...saved, available: true, ingredientId: 'future-catalog-item', displayName: 'Future ingredient' });
     await run(() => container.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
     expect(save).toHaveBeenCalledWith(expect.objectContaining({ ingredientId: 'future-catalog-item', displayName: 'Future ingredient', quantity: 0, useByDate: '2000-01-01' }), saved.id);
   });
   it('keeps invalid optional details recoverable with inline errors', async () => {
-    await render([{ ...saved, available: true }]);
-    await run(() => button('Edit').click());
+    await renderForm({ ...saved, available: true });
     await run(() => {
       const quantity = container.querySelector('input[name=quantity]') as HTMLInputElement;
       quantity.value = '-1';
