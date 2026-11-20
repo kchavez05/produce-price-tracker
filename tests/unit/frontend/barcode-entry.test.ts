@@ -7,6 +7,7 @@ import BarcodeEntry from '@/components/BarcodeEntry';
 import type { PantryEntry } from '@/types/pantry';
 import type { BarcodeLookupResult } from '@/types/barcode';
 import { validateBarcode } from '@/lib/barcodes/validation';
+import { expectNoA11yViolations } from 'tests/helpers/render';
 
 let root: Root; let container: HTMLDivElement;
 const camera = vi.hoisted(() => ({ capture: null as null | ((code: string, format: 'UPC_A' | 'EAN_13') => void), cleanup: vi.fn() }));
@@ -191,5 +192,39 @@ describe('shared ingress throttling', () => {
     await input('Find a cooking ingredient', 'olive oil'); await run(() => button('Choose Olive oil').click());
     expect(save).not.toHaveBeenCalled();
     await run(() => button('Confirm addition').click()); expect(save).toHaveBeenCalledOnce();
+  });
+});
+
+// v2.0 M4-4c: the barcode entry on the design tokens and primitives (wireframe Pantry Scan).
+describe('markup on the design tokens', () => {
+  it('has no accessibility violations at the lookup, at the review and after a failed save', async () => {
+    await render([existing]);
+    await expectNoA11yViolations(container);
+    await lookup();
+    expect(container.textContent).toContain('Product: EXTRA VIRGIN OLIVE OIL');
+    await expectNoA11yViolations(container);
+    save.mockRejectedValue(new Error('queue failed'));
+    await run(() => button('Confirm addition').click());
+    expect(container.querySelector('[role=alert]')!.textContent).toContain('queue failed');
+    await expectNoA11yViolations(container);
+  });
+
+  it('makes Confirm addition the one primary action, and shows a failure as an alert', async () => {
+    await render([existing]);
+    expect(button('Look up product').className).not.toContain('bg-accent');
+    await lookup();
+    expect(button('Confirm addition').className).toContain('bg-accent');
+    expect([...container.querySelectorAll('button')].filter((item) => item.className.includes('bg-accent'))).toHaveLength(1);
+    expect(container.querySelector('[role=alert]')).toBeNull();
+  });
+
+  it('labels the lookup field and the other fields, and offers the matches as toggle-style chips', async () => {
+    await render([existing]);
+    expect(document.getElementById([...container.querySelectorAll('label')].find((item) => item.textContent === 'Printed barcode digits')!.htmlFor)).toBe(container.querySelector('input'));
+    await lookup();
+    await input('Find a cooking ingredient', 'olive');
+    const chip = button('Choose Olive oil');
+    expect(chip.className).toContain('min-h-touch');
+    expect(container.querySelector('section')!.getAttribute('aria-labelledby')).toBeTruthy();
   });
 });

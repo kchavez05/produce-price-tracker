@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { BarcodeFormat } from '@/types/barcode';
+import { Button } from '@/components/ui';
 
 export default function BarcodeCamera({ onCapture, onTyped }: {
   onCapture: (code: string, format: BarcodeFormat) => void;
@@ -41,17 +42,17 @@ export default function BarcodeCamera({ onCapture, onTyped }: {
       }, fail);
     } catch { fail(); }
   }
-  return <div className="mt-3 min-w-0 space-y-2">
-    <p className="text-sm">Camera frames stay on this device. Capture fills the digits; review and confirmation are still required.</p>
-    <video ref={video} muted playsInline autoPlay aria-label="Barcode camera preview" className="aspect-video w-full max-w-md rounded-lg bg-slate-900" />
-    <p role="status" className="text-sm">{message}</p>
+  return <div className="min-w-0 space-y-2">
+    <p className="text-sm text-muted">Camera frames stay on this device. Capture fills the digits; review and confirmation are still required.</p>
+    <video ref={video} muted playsInline autoPlay aria-label="Barcode camera preview" className="aspect-video w-full max-w-md rounded-card bg-ink" />
+    <p role="status" className="text-sm text-ink">{message}</p>
     <div className="flex flex-wrap gap-2">
-      <button ref={startButton} type="button" disabled={active} className="rounded-lg border bg-white px-3 py-2 text-sm disabled:opacity-50" onClick={() => void start()}>Start / resume camera</button>
-      <button type="button" className="rounded-lg border bg-white px-3 py-2 text-sm" onClick={onTyped}>Stop camera and type digits</button>
+      <Button ref={startButton} variant="secondary" disabled={active} onClick={() => void start()}>Start / resume camera</Button>
+      <Button variant="quiet" onClick={onTyped}>Stop camera and type digits</Button>
     </div>
-    <details className="text-xs"><summary className="cursor-pointer">Scanner licenses</summary>
-      <a href="/licenses/zxing-browser-MIT.txt" className="mr-3 underline" target="_blank" rel="noopener noreferrer">ZXing browser (MIT)</a>
-      <a href="/licenses/zxing-library-Apache-2.0.txt" className="underline" target="_blank" rel="noopener noreferrer">ZXing library (Apache 2.0)</a>
+    <details className="text-xs text-muted"><summary className="flex min-h-touch cursor-pointer items-center text-accent">Scanner licenses</summary>
+      <a href="/licenses/zxing-browser-MIT.txt" className="mr-3 inline-flex min-h-touch items-center underline" target="_blank" rel="noopener noreferrer">ZXing browser (MIT)</a>
+      <a href="/licenses/zxing-library-Apache-2.0.txt" className="inline-flex min-h-touch items-center underline" target="_blank" rel="noopener noreferrer">ZXing library (Apache 2.0)</a>
     </details>
   </div>;
 }

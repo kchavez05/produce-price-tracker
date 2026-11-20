@@ -1,6 +1,7 @@
 'use client';
 
 import BarcodeCamera from '@/components/BarcodeCamera';
+import { Banner, Button, Card, Chip, TextField } from '@/components/ui';
 import { FormEvent, useEffect, useId, useRef, useState } from 'react';
 import { validateBarcode } from '@/lib/barcodes/validation';
 import { BarcodeAddition, prepareBarcodeAddition } from '@/lib/barcodes/confirmation';
@@ -15,8 +16,6 @@ interface Props {
   onSave: (input: PantryEntryInput, id?: string, intent?: PantrySaveIntent) => Promise<void>;
   onClose: () => void;
 }
-const button = 'rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50';
-const field = 'mt-1 block w-full rounded-lg border border-slate-300 bg-white p-2 text-sm';
 const failures = new Set(['INVALID', 'UNSUPPORTED', 'NOT_FOUND', 'DISCONTINUED', 'SOURCE_DATE_HOLD', 'DISABLED', 'SERVICE_UNAVAILABLE', 'THROTTLED', 'OFFLINE']);
 function isProduct(value: unknown): value is BarcodeProduct {
   if (!value || typeof value !== 'object') return false;
@@ -37,6 +36,8 @@ function parseResponse(value: unknown): BarcodeLookupResult | null {
   return null;
 }
 
+// v2.0 M4-4c (wireframe Pantry Scan): the barcode entry on the design tokens and primitives. The lookup, the abort and generation
+// fences, the throttle, the confirmation and every string are unchanged; only the markup moved.
 export default function BarcodeEntry({ cameraEnabled = false, entries, acceptedCatalogIds, onSave, onClose }: Props) {
   const id = useId();
   const codeField = useRef<HTMLInputElement>(null);
@@ -132,45 +133,42 @@ export default function BarcodeEntry({ cameraEnabled = false, entries, acceptedC
     finally { saving.current = false; if (mounted.current) setBusy(false); }
   }
   const changed = selection && entries.some((entry) => entry.id === selection.entryId && entry.revision !== selection.intent.expectedRevision);
-  return <section aria-labelledby={`${id}-title`} className="mt-4 rounded-xl border border-sky-200 bg-sky-50/50 p-4" onKeyDown={(event) => { if (event.key === 'Escape') { invalidate(); onClose(); } }}>
-    <div className="flex items-center justify-between gap-3"><h3 id={`${id}-title`} className="font-bold">Enter barcode</h3><button type="button" className={button} onClick={() => { invalidate(); onClose(); }}>{locked ? 'Close review' : 'Cancel'}</button></div>
-    <p className="mt-2 text-sm">Look up a packaged product, then review and confirm a cooking ingredient. Nothing is added by lookup.</p>
-    {cameraEnabled && !locked ? <button type="button" className={`${button} mt-3`} onClick={() => { reset(); setCameraOpen(true); }}>Scan barcode</button> : null}
+  return <Card as="section" aria-labelledby={`${id}-title`} className="space-y-3" onKeyDown={(event) => { if (event.key === 'Escape') { invalidate(); onClose(); } }}>
+    <div className="flex items-center justify-between gap-3"><h3 id={`${id}-title`} className="text-base font-bold text-ink">Enter barcode</h3><Button variant="quiet" onClick={() => { invalidate(); onClose(); }}>{locked ? 'Close review' : 'Cancel'}</Button></div>
+    <p className="text-sm text-muted">Look up a packaged product, then review and confirm a cooking ingredient. Nothing is added by lookup.</p>
+    {cameraEnabled && !locked ? <Button variant="secondary" onClick={() => { reset(); setCameraOpen(true); }}>Scan barcode</Button> : null}
     {cameraEnabled && cameraOpen && !locked ? <BarcodeCamera onTyped={() => { setCameraOpen(false); codeField.current?.focus(); }} onCapture={(digits, capturedFormat) => {
       reset(); setCode(digits); setFormat(capturedFormat); setCameraOpen(false); codeField.current?.focus();
     }} /> : null}
-    <form className="mt-3" onSubmit={(event) => void lookup(event)} noValidate>
-      <label htmlFor={`${id}-code`} className="text-sm font-semibold">Printed barcode digits</label>
-      <input ref={codeField} id={`${id}-code`} className={field} inputMode="numeric" autoComplete="off" maxLength={64} value={code} disabled={locked}
+    <form className="space-y-2" onSubmit={(event) => void lookup(event)} noValidate>
+      <TextField ref={codeField} id={`${id}-code`} label="Printed barcode digits" inputMode="numeric" autoComplete="off" maxLength={64} value={code} disabled={locked}
         onChange={(event) => { setCameraOpen(false); reset(); setFormat('MANUAL'); setCode(event.target.value); }} />
-      <button type="submit" className={`${button} mt-2`} disabled={loading || locked || retryUntil > Date.now()}>Look up product</button>
+      <Button type="submit" variant="secondary" disabled={loading || locked || retryUntil > Date.now()}>Look up product</Button>
     </form>
-    <div role="status" aria-live="polite" className="mt-3 text-sm">{loading ? 'Looking up the product…' : confirmed ? 'Ingredient marked Yes. The pantry status above shows saved or pending sync.' : result?.status === 'FOUND' ? 'Product found. Review the product and cooking ingredient before confirming.' : null}</div>
-    {result && result.status !== 'FOUND' && result.status !== 'AMBIGUOUS_PRODUCT' ? <p className="mt-2 text-sm" role="status">{result.message}</p> : null}
-    {result?.status === 'AMBIGUOUS_PRODUCT' && !reviewing ? <div className="mt-3 text-sm"><p>Multiple source records share the latest date. Choose a product record to review, or choose an ingredient manually.</p>
-      <ul className="mt-2 space-y-2">{result.products.map((item) => <li key={item.fdcId}><button type="button" className={button} onClick={() => beginReview(item)}>{item.description} — {item.brandName || item.brandOwner || 'Brand not supplied'} ({item.packageLabel || 'Package not supplied'})</button></li>)}</ul></div> : null}
-    {result && !loading && !reviewing && !locked ? <button type="button" className={`${button} mt-3`} onClick={() => beginReview(null)}>Choose ingredient manually</button> : null}
-    {reviewing && !confirmed ? <div className="mt-4 space-y-3">
-      {product ? <div className="break-words rounded-lg bg-white p-3 text-sm"><h4 className="font-semibold">Product: {product.description}</h4>
+    <div role="status" aria-live="polite" className="text-sm text-ink">{loading ? 'Looking up the product…' : confirmed ? 'Ingredient marked Yes. The pantry status above shows saved or pending sync.' : result?.status === 'FOUND' ? 'Product found. Review the product and cooking ingredient before confirming.' : null}</div>
+    {result && result.status !== 'FOUND' && result.status !== 'AMBIGUOUS_PRODUCT' ? <p className="text-sm text-ink" role="status">{result.message}</p> : null}
+    {result?.status === 'AMBIGUOUS_PRODUCT' && !reviewing ? <div className="space-y-2 text-sm"><p className="text-ink">Multiple source records share the latest date. Choose a product record to review, or choose an ingredient manually.</p>
+      <ul className="space-y-2">{result.products.map((item) => <li key={item.fdcId}><Button variant="secondary" className="h-auto w-full justify-start py-2 text-left" onClick={() => beginReview(item)}>{item.description} — {item.brandName || item.brandOwner || 'Brand not supplied'} ({item.packageLabel || 'Package not supplied'})</Button></li>)}</ul></div> : null}
+    {result && !loading && !reviewing && !locked ? <Button variant="secondary" onClick={() => beginReview(null)}>Choose ingredient manually</Button> : null}
+    {reviewing && !confirmed ? <div className="space-y-3">
+      {product ? <div className="break-words rounded-control bg-chip p-3 text-sm text-ink"><h4 className="font-semibold">Product: {product.description}</h4>
         <p>Brand: {product.brandName || product.brandOwner || 'Not supplied'}</p><p>Package: {product.packageLabel || 'Not supplied'}</p><p>Market: {product.marketCountry}</p>
         <p>USDA FoodData Central — snapshot {product.snapshotDate}; published {product.publicationDate}{product.modifiedDate ? `; modified ${product.modifiedDate}` : ''}.</p>
         <p>Last-known source information; package size does not set your inventory amount.</p>
-        <a className="underline" href={`https://fdc.nal.usda.gov/food-details/${product.fdcId}/branded`} target="_blank" rel="noopener noreferrer">View USDA source record</a></div> : <p className="text-sm">No product identity is assumed. Choose a cooking ingredient or a private custom name.</p>}
-      <div><label htmlFor={`${id}-search`} className="text-sm font-semibold">Find a cooking ingredient</label>
-        <input ref={searchField} id={`${id}-search`} type="search" className={field} disabled={locked} value={query} onChange={(event) => setQuery(event.target.value)} />
-        <ul className="mt-2 flex flex-wrap gap-2">{matches.map((item) => <li key={item.id}><button type="button" className={button} disabled={locked} onClick={() => choose({ ingredientId: item.id, displayName: item.name, available: true })}>Choose {item.name}</button></li>)}</ul></div>
-      <div><label htmlFor={`${id}-custom`} className="text-sm font-semibold">Private custom ingredient name</label>
-        <input id={`${id}-custom`} className={field} value={customName} disabled={locked} onChange={(event) => setCustomName(event.target.value)} />
-        <button type="button" className={`${button} mt-2`} disabled={locked || !customName.trim()} onClick={() => choose({ displayName: customName, available: true })}>Use private custom ingredient</button>
-        <p className="mt-1 text-xs">A custom entry does not establish a recipe match.</p></div>
-      {selection ? <div className="rounded-lg border border-emerald-200 bg-white p-3 text-sm"><h4 className="font-bold">{proposed ? 'Suggested' : 'Selected'} cooking ingredient: {selection.input.displayName}</h4>
+        <a className="inline-flex min-h-touch items-center text-accent underline" href={`https://fdc.nal.usda.gov/food-details/${product.fdcId}/branded`} target="_blank" rel="noopener noreferrer">View USDA source record</a></div> : <p className="text-sm text-muted">No product identity is assumed. Choose a cooking ingredient or a private custom name.</p>}
+      <div className="space-y-2"><TextField ref={searchField} id={`${id}-search`} label="Find a cooking ingredient" type="search" disabled={locked} value={query} onChange={(event) => setQuery(event.target.value)} />
+        <ul className="flex flex-wrap gap-2">{matches.map((item) => <li key={item.id}><Chip disabled={locked} onClick={() => choose({ ingredientId: item.id, displayName: item.name, available: true })}>Choose {item.name}</Chip></li>)}</ul></div>
+      <div className="space-y-2"><TextField id={`${id}-custom`} label="Private custom ingredient name" value={customName} disabled={locked} onChange={(event) => setCustomName(event.target.value)} />
+        <Button variant="secondary" disabled={locked || !customName.trim()} onClick={() => choose({ displayName: customName, available: true })}>Use private custom ingredient</Button>
+        <p className="text-xs text-muted">A custom entry does not establish a recipe match.</p></div>
+      {selection ? <div className="space-y-1 rounded-control bg-save-bg p-3 text-sm text-ink"><h4 className="font-bold">{proposed ? 'Suggested' : 'Selected'} cooking ingredient: {selection.input.displayName}</h4>
         <p>Current entry: {selection.priorAvailability}. {selection.priorAvailability === 'No' ? 'Only confirmation changes No to Yes.' : selection.priorAvailability === 'Deleted' ? 'Confirmation restores this entry.' : 'Existing optional details are preserved.'}</p>
         {selection.input.quantity !== undefined ? <p>Retained quantity: {selection.input.quantity} {selection.input.unit}</p> : null}
         {selection.input.useByDate ? <p>Retained use-by date: {selection.input.useByDate}</p> : null}
         {changed && !locked ? <p>Changed since review. Confirming uses the reviewed revision and may require conflict resolution.</p> : null}
-        <button type="button" className={`${button} mt-3`} disabled={busy} onClick={() => void confirm()}>{busy ? 'Confirming…' : locked ? 'Retry confirmation' : 'Confirm addition'}</button></div> : <p className="text-sm">Choose an ingredient before confirming.</p>}
+        <Button variant="primary" className="mt-2" disabled={busy} onClick={() => void confirm()}>{busy ? 'Confirming…' : locked ? 'Retry confirmation' : 'Confirm addition'}</Button></div> : <p className="text-sm text-muted">Choose an ingredient before confirming.</p>}
     </div> : null}
-    {error ? <p role="alert" className="mt-3 text-sm font-semibold text-red-800">{error}</p> : null}
-    {confirmed ? <button type="button" className={`${button} mt-3`} onClick={() => { reset(); setCode(''); codeField.current?.focus(); }}>Enter another barcode</button> : null}
-  </section>;
+    {error ? <Banner tone="error">{error}</Banner> : null}
+    {confirmed ? <Button variant="secondary" onClick={() => { reset(); setCode(''); codeField.current?.focus(); }}>Enter another barcode</Button> : null}
+  </Card>;
 }
