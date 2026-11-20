@@ -2,7 +2,8 @@ import type { Locator, Page } from '@playwright/test';
 import { DashboardPage } from './pages/DashboardPage';
 import { expect, test } from './support/fixtures';
 
-// Visual snapshots (M2 item 4, spec section 6). Light theme only until M4 adopts the tokens.
+// Visual snapshots (M2 item 4, spec section 6). Light theme, plus the Shop in dark since the shell adopted the tokens (M4-1b);
+// the screens below the shell are not tokenized yet, so the dark Shop is half dark until M4-3a (M4 decision 18).
 // Baselines are generated only by CI (ubuntu-latest), never accepted from a developer machine:
 // see the "Visual Baselines" workflow. The server clock is pinned; request timestamps are masked.
 
@@ -29,6 +30,16 @@ test.describe('visual: dashboard', () => {
     await home.goto();
     await expect(home.heading).toBeVisible();
     await snapshot(page, 'shop-home');
+  });
+
+  test('shop home, dark', async ({ page, problems }) => {
+    void problems;
+    await page.emulateMedia({ colorScheme: 'dark' });
+    const home = new DashboardPage(page);
+    await home.goto();
+    await expect(home.heading).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await snapshot(page, 'shop-home-dark');
   });
 
   test('pantry empty and with items', async ({ page, problems }) => {

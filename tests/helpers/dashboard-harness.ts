@@ -136,7 +136,8 @@ export async function createDashboardHarness(options: {
     return found;
   };
   const button = (text: string) => {
-    const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text));
+    // A button is found by its text or, for an icon button such as the header avatar, by its accessible name (aria-label).
+    const found = [...container.querySelectorAll('button')].find((element) => element.textContent?.includes(text) || element.getAttribute('aria-label')?.includes(text));
     if (!found) throw new Error(`Missing button: ${text}`);
     return found;
   };

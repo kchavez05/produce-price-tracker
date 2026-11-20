@@ -1,5 +1,8 @@
+import type { Metadata } from 'next';
 import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import { isSpeechPipelineConfigured } from '@/lib/ai/speech/providers';
+
+export const metadata: Metadata = { title: 'Pantry — PantryBot' };
 
 // The three flags are page-level configuration read on the server, as the old home page did.
 export default function Page() {

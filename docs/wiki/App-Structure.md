@@ -40,10 +40,14 @@ Components are stateless views over the context hooks. Only page-level configura
 
 | Module | Folder | Components |
 |---|---|---|
-| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (header, filters, notices, toast, panels), `HeaderPrimary`, `StoreFilterBar`, `FreshnessNotice`, `PrimaryNavigation` (the tabs), `PinSummary`, `ZipPanel`, `StoresPanel`, `AlertsPanel`, `AccountDialog` (adapter) and `AccountModal`, `AppLink`, `app-router.tsx`, `navigation.ts` |
+| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (frame, header, toast, panels), `HeaderPrimary` (brand and account avatar), `TemporaryControls` (ZIP and alerts, until Settings), `StoreFilterBar`, `FreshnessNotice` (not rendered, kept for #828), `PrimaryNavigation` (the tabs), `PinSummary`, `ZipPanel`, `StoresPanel`, `AlertsPanel`, `AccountDialog` (adapter) and `AccountModal`, `AppLink`, `app-router.tsx`, `navigation.ts` |
 | Shop | `src/modules/shop/` | `ShopPage`, `ShopViewNav` (Deals, Trip, Radar), `BoardAlerts`, `BoardControls`, `BoardLeaderboard`, `TripSection`, `PrintSlip`, `RadarSection`, `badges.tsx` |
 | Plan | `src/modules/plan/` | `PlanPage`, `PlanHeader`, `PlanDishes`, `PlanBlueprints` |
 | Pantry | `src/modules/pantry/` | `PantryDrawer` (adapter: reads the contexts, renders `VirtualPantry`) and `VirtualPantry` (props-driven, tested on its own) |
+
+## The app frame (M4-1b)
+
+`AppShell` is the frame of every app screen: a sticky header (the brand and the account avatar, padded with `env(safe-area-inset-top)` because the root layout sets `viewport-fit=cover`), the navigation, and the page. It uses design tokens (`bg-bg`, `text-ink`, `bg-surface`, `border-border`) and sets `data-ds` on `<html>` after mount, which turns on `color-scheme` and the browser chrome colour; screens below the frame are not tokenized yet, so dark mode is half dark until they are (M4 decision 18). Each screen has a visually hidden `h1` with its name (Shop, Pantry or Plan), the brand is not a heading, and each route has its own title (`Shop — PantryBot`). The header is `relative` on the Pantry, whose heading is scrolled to the top of the view. ZIP, Smart Alerts, the store filter, the toast, the panels and the pins summary sit at the top of the page, not in the header; they are temporary and go as Settings and the Shop redesign take over (M4 decision 19). The site footer is not on app screens; the static pages (`/privacy`, `/terms`, `/docs`, `/data`, `/design`) render `AppFooter` themselves.
 
 ## Navigation
 

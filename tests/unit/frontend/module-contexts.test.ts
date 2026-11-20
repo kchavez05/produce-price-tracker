@@ -25,7 +25,8 @@ import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import AccountDialog from '@/modules/shell/AccountDialog';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import FreshnessNotice from '@/modules/shell/FreshnessNotice';
-import HeaderPrimary from '@/modules/shell/HeaderPrimary';
+import HeaderPrimary, { describeSync } from '@/modules/shell/HeaderPrimary';
+import TemporaryControls from '@/modules/shell/TemporaryControls';
 import PinSummary from '@/modules/shell/PinSummary';
 import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
 import ShopViewNav from '@/modules/shop/ShopViewNav';
@@ -264,28 +265,60 @@ describe('Shell components on the contexts, without the shell', () => {
     recentSyncRuns: [],
   } as unknown as WeeklySyncCronResult;
 
-  it('HeaderPrimary reads the location and account and toggles the Shell drawers', async () => {
-    sync = aliceSync;
-    accountId = 'alice';
+  it('TemporaryControls read the location and toggle the ZIP and alerts drawers through the Shell context', async () => {
     onFetch = (input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined);
-    const h = await mountModules(() => createElement(HeaderPrimary));
+    const h = await mountModules(() => createElement(TemporaryControls));
     expect(text(h)).toContain(seen.dashboard.data.cityLabel);
     expect(text(h)).toContain('(80542)');
     expect(seen.location.showZipModal).toBe(false);
     await click(h, (b) => b.title === 'Click to change your ZIP code');
     expect(seen.location.showZipModal).toBe(true);
     expect(seen.shell.module).toBe('shop');
-    // The header has no Pantry control any more: the Pantry is a tab (M4-1a).
-    expect(links(h).some((a) => a.title === 'Open Virtual Pantry')).toBe(false);
-    await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
-    expect(seen.shell.accountIntent).toBe('ai');
-    await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
-    await click(h, (b) => b.textContent?.includes('Alice') === true);
-    expect(seen.shell.showAccountModal).toBe(true);
-    expect(seen.shell.accountIntent).toBe('account');
     await click(h, (b) => b.title.startsWith('Preview Smart Push Notifications'));
     expect(seen.shell.showAlertsModal).toBe(true);
     expect(h.requests.some((r) => r.url === '/api/cron/weekly-sync?cycle=preview_digest&zip=80542')).toBe(true);
+  });
+
+  it('HeaderPrimary is the brand and the account avatar: Sign In for a guest, the name when signed in, and it opens the account dialog', async () => {
+    const guest = await mountModules(() => createElement(HeaderPrimary));
+    expect(text(guest)).toContain('PantryBot');
+    expect(guest.container.querySelector('h1')).toBeNull(); // the screen name is the h1 (AppShell), not the brand
+    const avatar = () => buttons(guest).find((b) => b.getAttribute('aria-label') === 'Sign In')!;
+    expect(avatar().title).toContain('Sign In with Google or Apple');
+    expect(avatar().getAttribute('aria-expanded')).toBe('false');
+    expect(buttons(guest).length).toBe(1); // no ZIP, alerts or Pantry control in the header any more
+    await act(async () => { seen.shell.showAiSignIn(); await guest.settle(); });
+    expect(seen.shell.accountIntent).toBe('ai');
+    await act(async () => { seen.shell.setShowAccountModal(false); await guest.settle(); });
+    await click(guest, (b) => b.getAttribute('aria-label') === 'Sign In');
+    expect(seen.shell.showAccountModal).toBe(true);
+    expect(seen.shell.accountIntent).toBe('account');
+    expect(avatar().getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('HeaderPrimary names the avatar after the signed-in account and shows its sync status', async () => {
+    sync = aliceSync;
+    accountId = 'alice';
+    const h = await mountModules(() => createElement(HeaderPrimary));
+    const avatar = () => buttons(h).find((b) => b.getAttribute('aria-label') === 'Alice')!;
+    await h.waitUntil(() => buttons(h).some((b) => b.getAttribute('aria-label') === 'Alice'));
+    expect(avatar().title).toContain('Signed in as Alice');
+    expect(avatar().textContent).toBe('A');
+    expect(h.container.querySelector('[data-sync-status]')).not.toBeNull();
+    // The status is not colour-only: the avatar is described by a visually hidden sentence (review of #829).
+    const describedBy = avatar().getAttribute('aria-describedby')!;
+    expect(h.container.querySelector(`#${describedBy}`)?.textContent).toContain('synced');
+    expect(h.container.querySelector(`#${describedBy}`)?.className).toContain('sr-only');
+  });
+
+  it.each([
+    ['ERROR', 'Sync failed'],
+    ['SYNCING', 'Syncing'],
+    ['OFFLINE_QUEUED', 'queued'],
+    ['SYNCED', 'synced'],
+    ['IDLE', 'synced'],
+  ] as const)('describeSync words the %s sync status for assistive technology', (status, expected) => {
+    expect(describeSync(status)).toContain(expected);
   });
 
   it('StoreFilterBar filters through the Preferences context (and the trip), and opens the stores drawer through Shell', async () => {

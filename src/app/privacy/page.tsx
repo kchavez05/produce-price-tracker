@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ShieldCheck, ArrowLeft, Lock, Database, Trash2 } from 'lucide-react';
+import AppFooter from '@/components/AppFooter';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — PantryBot',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
+    <>
     <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
       <div className="mb-6">
         <Link
@@ -194,5 +196,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </article>
     </main>
+    <AppFooter />
+    </>
   );
 }
