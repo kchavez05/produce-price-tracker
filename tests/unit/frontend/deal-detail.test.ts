@@ -56,6 +56,17 @@ describe('opening a deal', () => {
     expect(h.container.querySelector('h1')!.textContent).toBe('Shop');
   });
 
+  it('shows a deal from a later page in the list when opened from its path', async () => {
+    const h = await start();
+    await h.click(h.button('Show 12 more'));
+    const later = [...h.container.querySelectorAll<HTMLAnchorElement>('article h3 a')][15];
+    const path = later.getAttribute('href')!;
+    await h.teardown();
+    const reopened = await start(path);
+    expect(reopened.container.querySelectorAll('article h3 a[aria-current="page"]')).toHaveLength(1);
+    expect(reopened.container.querySelectorAll('article')).toHaveLength(24 + 1);
+  });
+
   it('marks the selected deal in the list', async () => {
     const h = await start(dealPath);
     expect(cardLink(h).getAttribute('aria-current')).toBe('page');

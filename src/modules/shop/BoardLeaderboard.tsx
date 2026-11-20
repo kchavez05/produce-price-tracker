@@ -14,7 +14,11 @@ export const DEALS_PAGE_SIZE = 12;
 export default function BoardLeaderboard({ selectedId = null }: { selectedId?: string | null }) {
   const { filteredCommodities } = useDashboardContext();
   const { categoryFilter, setCategoryFilter } = useShopContext();
-  const [shown, setShown] = useState(DEALS_PAGE_SIZE);
+  // Start with enough pages to include the open deal (a reload or link to a deal past the first page), so it is in the list.
+  const [shown, setShown] = useState(() => {
+    const index = selectedId === null ? -1 : filteredCommodities.findIndex((item) => item.ingredient.id === selectedId);
+    return Math.max(DEALS_PAGE_SIZE, Math.ceil((index + 1) / DEALS_PAGE_SIZE) * DEALS_PAGE_SIZE);
+  });
 
   if (filteredCommodities.length === 0) {
     return (
