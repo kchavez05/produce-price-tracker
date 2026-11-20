@@ -1,64 +1,47 @@
 'use client';
 
+import { Button, Card } from '@/components/ui';
 import { useDashboardContext, usePlanContext, usePreferencesContext } from '@/modules/shell/app-context';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan tab). Since Phase B.2b it reads the app's state from the
-// context hooks instead of props; the markup is unchanged.
-
+// v2.0 M4-5a: the browse-all list on the design tokens. The heading, the counts, the prices and the promote action are unchanged.
 export default function PlanBlueprints() {
   const { data } = useDashboardContext();
   const { targetServings } = usePreferencesContext();
   const { showAllBlueprints, setShowAllBlueprints, handlePromoteDish: onPromoteDish } = usePlanContext();
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-bold text-slate-900">
+    <Card as="section" aria-labelledby="plan-blueprints" className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h3 id="plan-blueprints" className="text-sm font-bold text-ink">
             Want to Swap a Dish? Browse All {data.allRankedDishes.length} Cost-Ranked Blueprints
           </h3>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted">
             Every blueprint is dynamically priced using this week&apos;s {data.cityLabel} circulars and scaled to {targetServings} servings.
           </p>
         </div>
-        <button
-          onClick={() => setShowAllBlueprints(!showAllBlueprints)}
-          className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
-        >
-          {showAllBlueprints
-            ? 'Hide Full Matrix'
-            : `Show All ${data.allRankedDishes.length} Dishes`}
-        </button>
+        <Button variant="secondary" aria-expanded={showAllBlueprints} onClick={() => setShowAllBlueprints(!showAllBlueprints)}>
+          {showAllBlueprints ? 'Hide Full Matrix' : `Show All ${data.allRankedDishes.length} Dishes`}
+        </Button>
       </div>
 
       {showAllBlueprints && (
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ul className="grid gap-3 sm:grid-cols-2">
           {data.allRankedDishes.map((dish) => (
-            <div
-              key={dish.id}
-              className="flex items-center justify-between rounded-xl border border-slate-200 p-3 text-xs"
-            >
-              <div>
-                <span className="font-semibold text-emerald-700">
-                  {dish.appliance} • {dish.macrosPerServing?.proteinGrams || 40}g Protein •{' '}
-                  {dish.macrosPerServing?.carbsGrams || 30}g Carbs
-                </span>
-                <h4 className="font-bold text-slate-900">{dish.title}</h4>
-                <p className="text-slate-500">
-                  ${dish.costPerServing.toFixed(2)}/serving • Batch: $
-                  {dish.totalBatchCost.toFixed(2)} (Save $
-                  {dish.totalBatchSavings.toFixed(2)})
+            <li key={dish.id} className="flex items-center justify-between gap-3 rounded-control bg-bg p-3 text-sm">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-muted">
+                  {dish.appliance} • {dish.macrosPerServing?.proteinGrams || 40}g Protein • {dish.macrosPerServing?.carbsGrams || 30}g Carbs
+                </p>
+                <h4 className="font-bold text-ink">{dish.title}</h4>
+                <p className="text-muted">
+                  ${dish.costPerServing.toFixed(2)}/serving • Batch: ${dish.totalBatchCost.toFixed(2)} (Save ${dish.totalBatchSavings.toFixed(2)})
                 </p>
               </div>
-              <button
-                onClick={() => onPromoteDish(dish)}
-                className="shrink-0 rounded-lg bg-slate-900 px-2.5 py-1.5 font-semibold text-white hover:bg-emerald-600"
-              >
-                Promote to Top 3
-              </button>
-            </div>
+              <Button variant="secondary" className="shrink-0" onClick={() => onPromoteDish(dish)}>Promote to Top 3</Button>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
-    </div>
+    </Card>
   );
 }

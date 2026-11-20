@@ -68,7 +68,7 @@ describe('plan invalidation (explicit clears and the context signature)', () => 
     const h = await start();
     const title = await promoteLastBlueprint(h);
     expect(dishTitles(h)[0]).toBe(title);
-    await h.click(h.button('8 Srv / Dish'));
+    await h.click(h.servingsRadio(8));
     await h.waitUntil(() => h.requests.some((r) => r.url.startsWith('/api/dashboard?') && r.url.includes('servings=8')));
     expect(dishTitles(h)[0]).not.toBe(title);
   });

@@ -7,7 +7,7 @@ import PlanHeader from '@/modules/plan/PlanHeader';
 // v2.0 M3 Phase B.3c: the /plan page (the 3-dish meal prep plan).
 export default function PlanPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PlanHeader />
 
       {/* The 3 Recommended Batch Dishes */}

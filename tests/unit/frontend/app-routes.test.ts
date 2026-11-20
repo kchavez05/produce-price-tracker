@@ -165,20 +165,21 @@ describe('state survives moving between modules (the provider is in the layout)'
     await h.click([...h.container.querySelectorAll('button')].find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
     expect(h.state().pinnedIds).toHaveLength(1);
     await h.click(h.link(MEAL_PLAN));
-    await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('8 Srv / Dish'))!);
+    await h.click(h.servingsRadio(8));
     await h.type(promptInput(h), 'half-typed soup');
     await h.openShopView('Deals');
     expect(h.state().pinnedIds).toHaveLength(1);
     await h.click(h.link(MEAL_PLAN));
     expect(promptInput(h).value).toBe('half-typed soup');
-    expect([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('8 Srv / Dish'))!.className).toContain('bg-emerald-400');
+    expect(h.servingsRadio(8).checked).toBe(true);
   });
 
   it('applies a refetch that is still in flight when the user moves to another module', async () => {
     let release: (response: Response) => void = () => undefined;
     const gate = new Promise<Response>((resolve) => { release = resolve; });
     const h = await start('/plan', (input) => (input.startsWith('/api/dashboard?') && input.includes('zip=80999') ? gate : undefined));
-    await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('High-Protein'))!); // a refetch is started
+    await h.openPlanPreferences();
+    await h.click(h.button('High-Protein')); // a refetch is started
     // A held ZIP refetch, started from Settings and still in flight while the user moves on.
     await h.openSettingsPanel('Location');
     await h.type(h.container.querySelector<HTMLInputElement>('input[placeholder^="e.g. 80542"]')!, '80999');

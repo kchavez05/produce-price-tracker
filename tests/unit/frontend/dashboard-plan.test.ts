@@ -59,7 +59,7 @@ describe('AI plan request', () => {
     await h.openShopView('Deals');
     await h.click(buttons(h).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
     await h.click(h.link(PLAN));
-    await h.click(h.button('8 Srv / Dish'));
+    await h.click(h.servingsRadio(8));
     await h.type(promptInput(h), 'extra spicy');
     await h.click(h.button(REMIX));
     expect(aiRequests(h)).toHaveLength(1);
@@ -77,8 +77,8 @@ describe('AI plan request', () => {
     expect(h.container.querySelector('[aria-busy="true"]')).toBeNull();
     expect(dishTitles(h).slice(0, 3)).toEqual(aiDishes.map((dish) => dish.title));
     // The first generated dish is the only one expanded (expandedDishIds is replaced with it).
-    expect(buttons(h).filter((b) => b.textContent?.includes('Hide Prep Steps'))).toHaveLength(1);
-    expect(buttons(h).filter((b) => b.textContent?.includes('Show Prep & Reheat Guide'))).toHaveLength(2);
+    expect(buttons(h).filter((b) => b.textContent === 'Hide dish')).toHaveLength(1);
+    expect(buttons(h).filter((b) => b.textContent === 'View dish')).toHaveLength(2);
   });
 
   it('uses the default banner when the response has no message', async () => {
@@ -147,7 +147,7 @@ describe('the request fence', () => {
     const h = await start(() => Response.json({ dishes: aiDishes, message: 'Fresh AI plan.' }));
     await h.click(h.button(REMIX));
     await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
-    await h.click(h.button('8 Srv / Dish'));
+    await h.click(h.servingsRadio(8));
     expect(banner(h)).toBeNull();
   });
 });
@@ -187,10 +187,12 @@ describe('Plan state survives tab switches (owner decision 1)', () => {
     // Typing changes the context, so generate after typing.
     await h.click(h.button(REMIX));
     await h.waitUntil(() => banner(h) === 'Fresh AI plan.');
-    const html = h.html();
+    // A chosen radio is a DOM property, not an attribute, so compare what is shown and chosen, not the markup.
+    const shown = () => [h.container.textContent, [...h.container.querySelectorAll<HTMLInputElement>('input[type="radio"]')].map((radio) => radio.checked)];
+    const before = shown();
     await h.openShopView('Radar');
     await h.click(h.link(PLAN));
-    expect(h.html()).toBe(html);
+    expect(shown()).toEqual(before);
     expect(promptInput(h).value).toBe('soup');
   });
 });

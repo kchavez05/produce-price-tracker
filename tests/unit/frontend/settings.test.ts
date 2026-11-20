@@ -174,7 +174,7 @@ describe('Meal Prep', () => {
     expect(radio('8').checked).toBe(true);
     await h.waitUntil(() => dashboardRequests(h).some((r) => r.url.includes('servings=8')));
     await h.click(h.link('Plan'));
-    expect(h.button('8 Srv / Dish').className).toContain('bg-emerald-400');
+    expect(h.servingsRadio(8).checked).toBe(true);
   });
 });
 

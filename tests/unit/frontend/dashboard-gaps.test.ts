@@ -10,6 +10,8 @@ import {
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import type { UserSyncPayload } from '@/types/domain';
 
+/** How many Plan Save buttons are in the saved state (a pressed toggle that reads Saved). */
+const savedButtons = (h: DashboardHarness) => [...h.container.querySelectorAll('button[aria-pressed="true"]')].filter((b) => b.textContent?.trim() === 'Saved').length;
 const payload = keylessPayload();
 const ALL_STORES_PARAM = ALL_STORE_CHAINS.join(',');
 let harness: DashboardHarness | undefined;
@@ -87,6 +89,7 @@ describe('syncDashboard ownership drop (gap 2)', () => {
     });
     await harness.mount();
     await harness.click(harness.link('Plan'));
+    await harness.openPlanPreferences();
     await harness.click(harness.button('High-Protein')); // preference change -> syncDashboard
     await harness.waitUntil(() => dashboardRequests(harness!).length === 1);
     return { releaseSync, releaseDashboard };
@@ -144,12 +147,13 @@ describe('cloud hydration (gap 3)', () => {
     await harness.waitUntil(() => zipButtonText(harness!)?.includes('(80301)') === true);
     expect(harness.state().pinnedIds).toHaveLength(1);
     await harness.click(harness.link('Plan'));
+    await harness.openPlanPreferences();
     const macro = harness.button('High-Protein');
-    expect(macro.className).toContain('bg-emerald-400');
-    expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
-    expect(harness.button('8 Srv / Dish').className).toContain('bg-emerald-400');
-    expect(harness.button('6 Srv / Dish').className).not.toContain('bg-emerald-400');
-    expect(harness.button('Gluten-Free').className).not.toBe(harness.button('Dairy-Free').className);
+    expect(macro.getAttribute('aria-pressed')).toBe('true');
+    expect(harness.button('All Macros').getAttribute('aria-pressed')).toBe('false');
+    expect(harness.servingsRadio(8).checked).toBe(true);
+    expect(harness.servingsRadio(6).checked).toBe(false);
+    expect(harness.button('Gluten-Free').getAttribute('aria-pressed')).not.toBe(harness.button('Dairy-Free').getAttribute('aria-pressed'));
     await harness.openShopView('Deals');
     // The cloud stores are the app's stores (the page-top store chips are gone, M4-3a; the Filters sheet lists them).
     expect(harness.state().activeStores).toContain('KING_SOOPERS');
@@ -193,18 +197,18 @@ describe('save and unsave recipe (gap 8)', () => {
     const post = harness!.requests.find((r) => r.method === 'POST' && r.url === '/api/saved-recipes');
     expect(post).toBeDefined();
     expect(JSON.parse(post!.body!).dish.id).toBeTruthy();
-    expect(harness!.container.textContent).toContain('Saved in Library');
+    expect(savedButtons(harness!)).toBeGreaterThan(0);
     expect(dashboardRequests(harness!).length).toBeGreaterThan(0);
     await harness!.click(saveButtons(harness!)[0]);
     expect(harness!.requests.some((r) => r.method === 'DELETE' && r.url.startsWith('/api/saved-recipes?id='))).toBe(true);
-    expect(harness!.container.textContent).not.toContain('Saved in Library');
+    expect(savedButtons(harness!)).toBe(0);
   });
 
   it('shows the failure banner and does not refetch when the save fails', async () => {
     await openPlan((input) => (input.startsWith('/api/saved-recipes') ? Response.json({ error: 'no' }, { status: 500 }) : undefined));
     await harness!.click(saveButtons(harness!)[0]);
     expect(harness!.container.textContent).toContain('Unable to update your saved recipes. Please try again.');
-    expect(harness!.container.textContent).not.toContain('Saved in Library');
+    expect(savedButtons(harness!)).toBe(0);
     expect(dashboardRequests(harness!)).toHaveLength(0);
   });
 
@@ -226,7 +230,7 @@ describe('save and unsave recipe (gap 8)', () => {
     releaseSave();
     await harness.settle();
     await harness.settle();
-    expect(harness.container.textContent).not.toContain('Saved in Library');
+    expect(savedButtons(harness)).toBe(0);
     expect(dashboardRequests(harness)).toHaveLength(0);
   });
 });
@@ -270,7 +274,8 @@ describe('clear profile filters (Meal Plan header)', () => {
     await harness.mount();
     await harness.settle();
     await harness.click(harness.link('Plan'));
-    const clear = () => [...harness!.container.querySelectorAll('button')].find((b) => b.textContent === 'Clear Profile Filters');
+    await harness.openPlanPreferences();
+    const clear = () => [...document.querySelectorAll<HTMLElement>('[role="dialog"] button')].find((b) => b.textContent === 'Clear Profile Filters');
     expect(clear()).toBeDefined();
     const before = dashboardRequests(harness).length;
     await harness.click(clear()!);
@@ -471,10 +476,11 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
     await harness.mount();
     await harness.waitUntil(() => dashboardRequests(harness!).length >= 1 && (zipButtonText(harness!) ?? '').includes('(80301)'));
     await harness.click(harness.link('Plan'));
+    await harness.openPlanPreferences();
     await harness.click(harness.button('High-Protein'));
     await harness.click(harness.button('Gluten-Free'));
     await harness.click(harness.button('Dutch Oven'));
-    await harness.click(harness.button('8 Srv / Dish'));
+    await harness.click(harness.servingsRadio(8));
     await harness.openShopView('Deals');
     await harness.setStoreFilter('ALDI');
     await harness.click(buttons(harness).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
@@ -519,6 +525,7 @@ describe('syncDashboard defaults, failures and acknowledgment (M3 A.5b)', () => 
     await harness.mount();
     await harness.settle();
     await harness.click(harness.link('Plan'));
+    await harness.openPlanPreferences();
     await harness.click(harness.button('High-Protein'));
     // The preference change pushes a cloud sync; its acknowledgment triggers a second refetch.
     await harness.waitUntil(() => dashboardRequests(harness!).length >= 2);
@@ -541,7 +548,7 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
     await harness.click(harness.link('Plan'));
-    await harness.waitUntil(() => (harness!.container.textContent ?? '').includes('Saved in Library'));
+    await harness.waitUntil(() => savedButtons(harness!) > 0);
   });
 
   it('does not take a library from a signed-out payload', async () => {
@@ -550,7 +557,7 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     await harness.mount();
     await harness.settle();
     await harness.click(harness.link('Plan'));
-    expect(harness.container.textContent).not.toContain('Saved in Library');
+    expect(savedButtons(harness)).toBe(0);
   });
 
   it('keeps AI locked until the account pantry has loaded', async () => {
@@ -604,10 +611,11 @@ describe('mount restore runs once and shows the restored state (M3 A.6)', () => 
     await harness.settle();
     expect(harness.state().activeStores).toEqual(['KING_SOOPERS', 'SAFEWAY']);
     await harness.click(harness.link('Plan'));
-    expect(harness.button('High-Protein').className).toContain('bg-emerald-400');
-    expect(harness.button('All Macros').className).not.toContain('bg-emerald-400');
-    expect(harness.button('Dutch Oven').className).not.toBe(harness.button('Skillet').className);
-    expect(harness.button('Gluten-Free').className).not.toBe(harness.button('Dairy-Free').className);
+    await harness.openPlanPreferences();
+    expect(harness.button('High-Protein').getAttribute('aria-pressed')).toBe('true');
+    expect(harness.button('All Macros').getAttribute('aria-pressed')).toBe('false');
+    expect(harness.button('Dutch Oven').getAttribute('aria-pressed')).not.toBe(harness.button('Skillet').getAttribute('aria-pressed'));
+    expect(harness.button('Gluten-Free').getAttribute('aria-pressed')).not.toBe(harness.button('Dairy-Free').getAttribute('aria-pressed'));
   });
 
   it('restores only once: later changes do not re-run it or reset the ZIP', async () => {
@@ -641,6 +649,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('macro goal: sets it, persists the profile, pushes it to the cloud and refetches', async () => {
     await signedInPlan();
+    await harness!.openPlanPreferences();
     await harness!.click(harness!.button('High-Protein'));
     await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
     expect(profile()).toEqual({ macroGoal: 'HIGH_PROTEIN', dietaryConstraints: [], applianceFilter: 'ANY' });
@@ -650,6 +659,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('dietary constraints: toggles on and off, persisting and pushing each time', async () => {
     await signedInPlan();
+    await harness!.openPlanPreferences();
     await harness!.click(harness!.button('Gluten-Free'));
     await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
     expect(profile().dietaryConstraints).toEqual(['GLUTEN_FREE']);
@@ -663,6 +673,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('cooking vessel: sets it, persists the profile, pushes it and refetches', async () => {
     await signedInPlan();
+    await harness!.openPlanPreferences();
     await harness!.click(harness!.button('Dutch Oven'));
     await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
     expect(profile().applianceFilter).toBe('DUTCH_OVEN_BRAISE');
@@ -692,7 +703,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('pin and servings: refetch with the new value and do not push to the cloud', async () => {
     await signedInPlan();
-    await harness!.click(harness!.button('8 Srv / Dish'));
+    await harness!.click(harness!.servingsRadio(8));
     await harness!.waitUntil(() => dashboardRequests(harness!).some((r) => r.searchParams.get('servings') === '8'));
     await harness!.openShopView('Deals');
     await harness!.click(buttons(harness!).find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
@@ -716,6 +727,7 @@ describe('preference and location actions (M3 A.5d)', () => {
 
   it('clear filters resets the profile and pushes the cleared profile to the cloud (#807)', async () => {
     await signedInPlan();
+    await harness!.openPlanPreferences();
     await harness!.click(harness!.button('High-Protein'));
     await harness!.waitUntil(() => prefsPushed(harness!).length > 0);
     const before = prefsPushed(harness!).length;
@@ -730,6 +742,7 @@ describe('preference and location actions (M3 A.5d)', () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
     await harness.click(harness.link('Plan'));
+    await harness.openPlanPreferences();
     await harness.click(harness.button('High-Protein'));
     await harness.click(harness.button('Clear Profile Filters'));
     await harness.settle(); await harness.settle();
@@ -754,6 +767,7 @@ describe('cleared profile filters survive a reload (#807)', () => {
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle();
     await harness.click(harness.link('Plan'));
+    await harness.openPlanPreferences();
     await harness.click(harness.button('High-Protein'));
     await harness.waitUntil(() => cloud.preferences!.macroGoal === 'HIGH_PROTEIN');
     await harness.click(harness.button('Clear Profile Filters'));
@@ -762,9 +776,10 @@ describe('cleared profile filters survive a reload (#807)', () => {
     await harness.mount({ initialAccountId: 'alice' });
     await harness.settle(); await harness.settle();
     await harness.click(harness.link('Plan'));
+    await harness.openPlanPreferences();
     expect(cloud.preferences!.macroGoal).toBe('ANY');
-    expect(harness.button('All Macros').className).toContain('bg-emerald-400');
-    expect(harness.button('High-Protein').className).not.toContain('bg-emerald-400');
+    expect(harness.button('All Macros').getAttribute('aria-pressed')).toBe('true');
+    expect(harness.button('High-Protein').getAttribute('aria-pressed')).toBe('false');
   });
 });
 

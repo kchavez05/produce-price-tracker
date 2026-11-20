@@ -52,22 +52,6 @@
     "borderline": true
   },
   {
-    "screen": "plan",
-    "rule": "color-contrast",
-    "projects": [
-      "ipad-webkit",
-      "iphone-webkit",
-      "iphone-pro-max-webkit",
-      "ipad-chromium",
-      "iphone-pro-webkit",
-      "ipad-landscape-webkit",
-      "iphone-chromium",
-      "duo-inner-webkit"
-    ],
-    "issue": 714,
-    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
     "screen": "privacy",
     "rule": "color-contrast",
     "projects": [

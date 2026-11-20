@@ -1,6 +1,8 @@
 'use client';
 
-import { ArrowRight, Flame, ListChecks, SlidersHorizontal, Users } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, ListChecks, SlidersHorizontal } from 'lucide-react';
+import { Banner, Button, Card, Chip, SegmentedControl, Sheet } from '@/components/ui';
 import AiMealPlanControls from '@/components/AiMealPlanControls';
 import AppLink from '@/modules/shell/AppLink';
 import {
@@ -8,8 +10,31 @@ import {
 } from '@/modules/shell/app-context';
 import type { CookingVesselArchetype, DietaryConstraint, MacroGoal } from '@/types/domain';
 
-// Moved verbatim from MealPrepDashboard (v2.0 M3 Phase A.3, Meal Plan header). Since Phase B.2b it reads the app's state from the
-// context hooks instead of props; the markup is unchanged.
+// v2.0 M4-5a (wireframes Plan and Plan Preferences): the top of the Plan. The page's heading is for assistive technology (the shell's
+// h1 names the screen); what is on screen is the servings stepper, a summary chip of the preferences that opens them in a sheet, a
+// hint to mark the Pantry (only while nothing is marked, and it can be hidden), the cost summary, the link to the Trip, and the AI
+// Chef controls. The preferences are the same three choices and the same handlers as the old bar (macro goal, dietary rules, cookware),
+// the servings are the same batch-size action; only the layout moved. Nothing here is required to get standard suggestions.
+const MACROS: ReadonlyArray<{ id: MacroGoal; label: string }> = [
+  { id: 'ANY', label: 'All Macros' },
+  { id: 'HIGH_PROTEIN', label: 'High-Protein (40g+)' },
+  { id: 'LOW_CARB_KETO', label: 'Low-Carb / Keto' },
+  { id: 'CALORIE_CONSCIOUS', label: '<460 kcal' },
+  { id: 'BALANCED_FAMILY', label: 'Balanced' },
+];
+const DIETARY: ReadonlyArray<{ id: DietaryConstraint; label: string }> = [
+  { id: 'GLUTEN_FREE', label: 'Gluten-Free' },
+  { id: 'DAIRY_FREE', label: 'Dairy-Free' },
+  { id: 'NUT_FREE', label: 'Nut-Free' },
+  { id: 'VEGETARIAN_PESCATARIAN', label: 'Pescatarian' },
+];
+const VESSELS: ReadonlyArray<{ id: CookingVesselArchetype; label: string }> = [
+  { id: 'ANY', label: 'All Vessels' },
+  { id: 'SLOW_COOKER_INSTANT_POT', label: 'Slow Cooker / Instant Pot' },
+  { id: 'CASSEROLE_SHEET_PAN', label: 'Sheet-Pan / 9x13' },
+  { id: 'DUTCH_OVEN_BRAISE', label: 'Dutch Oven' },
+  { id: 'BIG_BATCH_SKILLET', label: 'Skillet' },
+];
 
 export default function PlanHeader() {
   const { data, trioTotals, activeTrio } = useDashboardContext();
@@ -18,219 +43,103 @@ export default function PlanHeader() {
     handleToggleDietaryConstraint, handleVesselChange, handleClearProfileFilters: onClearProfileFilters,
   } = usePreferencesContext();
   const { showAiSignIn } = useShellContext();
-  const { canUseAi } = useAccountContext();
+  const { canUseAi, effectiveOnHandIds } = useAccountContext();
   const {
     aiLoading, customPrompt, aiBannerMessage, setCustomPrompt, handleGenerateAiPlan, useStandardSuggestions,
   } = usePlanContext();
+  const [prefsOpen, setPrefsOpen] = useState(false);
+  const [hintHidden, setHintHidden] = useState(false);
+  const filtered = macroGoal !== 'ANY' || dietaryConstraints.length > 0 || applianceFilter !== 'ANY';
+  const summary = [
+    macroGoal === 'ANY' ? 'Any macros' : MACROS.find((m) => m.id === macroGoal)?.label,
+    dietaryConstraints.length === 0 ? 'No restrictions' : DIETARY.filter((d) => dietaryConstraints.includes(d.id)).map((d) => d.label).join(', '),
+    ...(applianceFilter === 'ANY' ? [] : [VESSELS.find((v) => v.id === applianceFilter)?.label]),
+  ].join(' · ');
   return (
-    <section className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-950 p-5 text-white shadow-md">
-      <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-        <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-300">
-            <Flame className="h-3.5 w-3.5" />
-            <span>
-              Smart Kitchen Batch Trio (Stews, Braises, Sheet-Pans &amp; Casseroles)
-            </span>
-          </div>
-          <h2 className="mt-2 text-xl font-extrabold sm:text-2xl">
-            Your 3-Dish Weekend Meal Prep Plan ({trioTotals.totalServings} Total Meals)
-          </h2>
-          <p className="mt-1 text-xs text-slate-300 sm:text-sm">
-            {`Recipes in ${data.cityLabel} reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple estimates allocate recipe use; package checkout totals may differ.`}
-            {' '}The strongest value match stays; two recipe slots rotate each Wednesday when enough recipes fit your profile. Planning cycle: {data.adCycleLabel}.
-          </p>
+    <section aria-labelledby="plan-title" className="space-y-3">
+      <h2 id="plan-title" className="sr-only">Your 3-Dish Weekend Meal Prep Plan ({trioTotals.totalServings} Total Meals)</h2>
 
-          {/* v0.4 Batch Serving Scaler (Ticket #9) + Open Shopping List Button */}
-          <div className="mt-3 flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 p-1 text-xs">
-              <span className="flex items-center gap-1 px-2 font-semibold text-emerald-200">
-                <Users className="h-3.5 w-3.5" /> Batch Size:
-              </span>
-              {([4, 6, 8] as const).map((srv) => (
-                <button
-                  key={srv}
-                  onClick={() => handleServingsChange(srv)}
-                  className={`rounded-lg px-2.5 py-1 font-bold transition ${
-                    targetServings === srv
-                      ? 'bg-emerald-400 text-slate-950 shadow-2xs'
-                      : 'text-white/80 hover:bg-white/10'
-                  }`}
-                >
-                  {srv} Srv / Dish
-                </button>
-              ))}
-            </div>
-
-            <AppLink
-              to={{ module: 'shop', view: 'SHOPPING_LIST' }}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-500 px-3.5 py-2 text-xs font-bold text-white shadow-xs hover:bg-indigo-400"
-            >
-              <ListChecks className="h-4 w-4" />
-              <span>Open Shopping List &amp; Cart Bridge</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </AppLink>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-3 rounded-xl border border-white/15 bg-white/10 p-3 text-center backdrop-blur-xs sm:min-w-[360px]">
-          <div>
-            <div className="text-[11px] text-slate-300 uppercase">{'Additional / Serving'}</div>
-            <div className="text-xl font-black text-emerald-300">
-              ${trioTotals.avgPerServing}
-            </div>
-            <div className="text-[10px] text-slate-400">
-              across {trioTotals.totalServings} portions
-            </div>
-          </div>
-          <div className="border-x border-white/15 px-2">
-            <div className="text-[11px] text-slate-300 uppercase">
-              {'Estimated additional grocery cost'}
-            </div>
-            <div className="text-xl font-black text-white">
-              ${trioTotals.totalBatchCost}
-            </div>
-            <div className="text-[10px] text-slate-400 line-through">
-              Reg ${trioTotals.totalRegularCost}
-            </div>
-          </div>
-          <div>
-            <div className="text-[11px] text-amber-300 uppercase">{'Price difference'}</div>
-            <div className="text-xl font-black text-amber-300">
-              ${trioTotals.totalSavings}
-            </div>
-            <div className="text-[10px] text-emerald-200">{'purchase prices only'}</div>
-          </div>
-        </div>
+      {/* v0.4 Batch Serving Scaler (Ticket #9) */}
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-sm text-muted">Servings per dish</span>
+        <SegmentedControl label="Servings per dish" value={String(targetServings) as '4' | '6' | '8'}
+          options={[{ value: '4', label: '4' }, { value: '6', label: '6' }, { value: '8', label: '8' }]}
+          onChange={(value) => handleServingsChange(Number(value) as 4 | 6 | 8)} />
       </div>
 
-      {activeTrio.some((dish) => dish.additionalCostEstimateComplete === false) && <p className="mt-3 text-sm text-amber-200">Known subtotal only — additional ingredients have no price.</p>}
-      {/* v1.2 Ticket #22: Dietary Preferences, Macro Goals & Cooking Vessel Archetype Bar */}
-      <div className="mt-4 rounded-xl border border-white/15 bg-black/25 p-3.5 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-300">
-            <SlidersHorizontal className="h-3.5 w-3.5" />
-            <span>
-              Personalize Nutrition Profile, Dietary Filters &amp; Cooking Vessel (Ticket #22)
-            </span>
-          </div>
-          {(macroGoal !== 'ANY' ||
-            dietaryConstraints.length > 0 ||
-            applianceFilter !== 'ANY') && (
-            <button
-              type="button"
-              onClick={onClearProfileFilters}
-              className="text-[11px] font-semibold text-amber-300 underline hover:text-white"
-            >
-              Clear Profile Filters
-            </button>
-          )}
-        </div>
+      <Button variant="secondary" className="h-auto w-full justify-between gap-3 py-2" onClick={() => setPrefsOpen(true)}>
+        <span className="min-w-0 flex-1 text-left">{summary}</span>
+        <span className="inline-flex shrink-0 items-center gap-1.5 text-accent"><SlidersHorizontal aria-hidden="true" className="size-4" />Edit preferences</span>
+      </Button>
 
-        <div className="grid gap-3 lg:grid-cols-3">
-          {/* 1. Macro Goal Selector */}
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-              Target Macro Goal:
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {(
-                [
-                  { id: 'ANY', label: 'All Macros' },
-                  { id: 'HIGH_PROTEIN', label: '💪 High-Protein (40g+)' },
-                  { id: 'LOW_CARB_KETO', label: '🥑 Low-Carb / Keto' },
-                  { id: 'CALORIE_CONSCIOUS', label: '🔥 <460 kcal' },
-                  { id: 'BALANCED_FAMILY', label: '🍲 Balanced' },
-                ] as { id: MacroGoal; label: string }[]
-              ).map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  onClick={() => handleMacroGoalChange(m.id)}
-                  className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${
-                    macroGoal === m.id
-                      ? 'bg-emerald-400 text-slate-950 shadow-2xs'
-                      : 'bg-white/10 text-slate-200 hover:bg-white/20'
-                  }`}
-                >
-                  {m.label}
-                </button>
-              ))}
-            </div>
-          </div>
+      {effectiveOnHandIds.length === 0 && !hintHidden && (
+        <Banner onDismiss={() => setHintHidden(true)} dismissLabel="Hide hint">Mark what you have in Pantry to lower the cost.</Banner>
+      )}
 
-          {/* 2. Dietary Constraints */}
+      <Card as="section" aria-label="Cost summary" className="space-y-3">
+        <div className="grid grid-cols-3 gap-2 text-center">
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-              Dietary Rules (Adapts Slots):
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {(
-                [
-                  { id: 'GLUTEN_FREE', label: '🌾 Gluten-Free' },
-                  { id: 'DAIRY_FREE', label: '🥛 Dairy-Free' },
-                  { id: 'NUT_FREE', label: '🥜 Nut-Free' },
-                  { id: 'VEGETARIAN_PESCATARIAN', label: '🐟 Pescatarian' },
-                ] as { id: DietaryConstraint; label: string }[]
-              ).map((d) => {
-                const active = dietaryConstraints.includes(d.id);
-                return (
-                  <button
-                    key={d.id}
-                    type="button"
-                    onClick={() => handleToggleDietaryConstraint(d.id)}
-                    className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${
-                      active
-                        ? 'bg-amber-400 text-slate-950 shadow-2xs'
-                        : 'bg-white/10 text-slate-200 hover:bg-white/20'
-                    }`}
-                  >
-                    {d.label}
-                  </button>
-                );
-              })}
-            </div>
+            <div className="text-xs font-semibold uppercase text-muted">{'Additional / Serving'}</div>
+            <div className="text-xl font-extrabold text-ink">${trioTotals.avgPerServing}</div>
+            <div className="text-xs text-muted">across {trioTotals.totalServings} portions</div>
           </div>
-
-          {/* 3. Cooking Vessel Archetype */}
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-              Cooking Vessel Archetype:
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {(
-                [
-                  { id: 'ANY', label: 'All Vessels' },
-                  {
-                    id: 'SLOW_COOKER_INSTANT_POT',
-                    label: '⚡ Slow Cooker / Instant Pot',
-                  },
-                  { id: 'CASSEROLE_SHEET_PAN', label: '🔥 Sheet-Pan / 9x13' },
-                  { id: 'DUTCH_OVEN_BRAISE', label: '🍲 Dutch Oven' },
-                  { id: 'BIG_BATCH_SKILLET', label: '🍳 Skillet' },
-                ] as { id: CookingVesselArchetype; label: string }[]
-              ).map((v) => (
-                <button
-                  key={v.id}
-                  type="button"
-                  onClick={() => handleVesselChange(v.id)}
-                  className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${
-                    applianceFilter === v.id
-                      ? 'bg-sky-400 text-slate-950 shadow-2xs'
-                      : 'bg-white/10 text-slate-200 hover:bg-white/20'
-                  }`}
-                >
-                  {v.label}
-                </button>
-              ))}
-            </div>
+            <div className="text-xs font-semibold uppercase text-muted">{'Estimated additional grocery cost'}</div>
+            <div className="text-xl font-extrabold text-ink">${trioTotals.totalBatchCost}</div>
+            <div className="text-xs text-muted line-through">Reg ${trioTotals.totalRegularCost}</div>
+          </div>
+          <div>
+            <div className="text-xs font-semibold uppercase text-muted">{'Price difference'}</div>
+            <div className="text-xl font-extrabold text-save">${trioTotals.totalSavings}</div>
+            <div className="text-xs text-muted">{'purchase prices only'}</div>
           </div>
         </div>
-      </div>
+        {activeTrio.some((dish) => dish.additionalCostEstimateComplete === false) && <p className="text-sm text-warning">Known subtotal only — additional ingredients have no price.</p>}
+        <p className="text-xs text-muted">
+          {`Recipes in ${data.cityLabel} reflect your pantry availability and nutrition preferences. Estimated additional grocery cost assumes marked ingredients are on hand; quantities do not limit coverage. Staple estimates allocate recipe use; package checkout totals may differ.`}
+          {' '}The strongest value match stays; two recipe slots rotate each Wednesday when enough recipes fit your profile. Planning cycle: {data.adCycleLabel}.
+        </p>
+        <AppLink
+          to={{ module: 'shop', view: 'SHOPPING_LIST' }}
+          className="inline-flex min-h-touch items-center gap-1.5 text-sm font-semibold text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+        >
+          <ListChecks aria-hidden="true" className="size-4" />
+          <span>Open Shopping List &amp; Cart Bridge</span>
+          <ArrowRight aria-hidden="true" className="size-4" />
+        </AppLink>
+      </Card>
 
       <AiMealPlanControls canUseAi={canUseAi} loading={aiLoading} prompt={customPrompt} banner={aiBannerMessage}
         onPromptChange={setCustomPrompt} onGenerate={handleGenerateAiPlan} onSignIn={showAiSignIn}
         onUseStandard={useStandardSuggestions} />
 
+      <Sheet open={prefsOpen} onClose={() => setPrefsOpen(false)} title="Preferences">
+        <div className="space-y-4">
+          <section aria-labelledby="plan-pref-macro" className="space-y-2">
+            <h3 id="plan-pref-macro" className="text-sm font-bold uppercase tracking-wide text-muted">Macro Goal</h3>
+            <div className="flex flex-wrap gap-2">
+              {MACROS.map((m) => <Chip key={m.id} selected={macroGoal === m.id} onClick={() => handleMacroGoalChange(m.id)}>{m.label}</Chip>)}
+            </div>
+          </section>
+          <section aria-labelledby="plan-pref-diet" className="space-y-2">
+            <h3 id="plan-pref-diet" className="text-sm font-bold uppercase tracking-wide text-muted">Dietary Rules</h3>
+            <div className="flex flex-wrap gap-2">
+              {DIETARY.map((d) => <Chip key={d.id} selected={dietaryConstraints.includes(d.id)} onClick={() => handleToggleDietaryConstraint(d.id)}>{d.label}</Chip>)}
+            </div>
+          </section>
+          <section aria-labelledby="plan-pref-vessel" className="space-y-2">
+            <h3 id="plan-pref-vessel" className="text-sm font-bold uppercase tracking-wide text-muted">Cookware</h3>
+            <div className="flex flex-wrap gap-2">
+              {VESSELS.map((v) => <Chip key={v.id} selected={applianceFilter === v.id} onClick={() => handleVesselChange(v.id)}>{v.label}</Chip>)}
+            </div>
+          </section>
+          <p className="text-sm text-muted">Changes apply to your next suggestions. Saved on this device until you sign in.</p>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="primary" onClick={() => setPrefsOpen(false)}>Done</Button>
+            {filtered && <Button variant="quiet" onClick={onClearProfileFilters}>Clear Profile Filters</Button>}
+          </div>
+        </div>
+      </Sheet>
     </section>
   );
 }
