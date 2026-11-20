@@ -1,4 +1,4 @@
-import { useState, type RefObject } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 import type { usePantry } from '@/hooks/usePantry';
 import type {
   CookingVesselArchetype, DashboardPayload, DietaryConstraint, MacroGoal, StoreChain,
@@ -12,8 +12,8 @@ import type {
 //     flight (#780); a request that started with no owner carried no pantry data and is applied.
 // M4-3a adds `refreshing`, true while any syncDashboard request is in flight, so the Shop can say "Updating prices". It is a
 // counter around the existing body (a `finally`, which also runs for the early return of the ownership guard) and changes
-// nothing the function sends, applies or discards. It also adds `refreshFailed`, true after the latest request failed (a
-// network error or a non-OK response) and false again after one succeeds or when a new one starts, so the Shop can say the
+// nothing the function sends, applies or discards. It also adds `refreshFailed`, true after the newest request failed (a
+// network error or a non-OK response) and false again when a newer one starts (an older request never changes it), so the Shop can say the
 // prices on screen are the last ones it got. A discarded response (ownership guard) leaves it as it was.
 export interface DashboardPayloadCurrent {
   storeFilter: 'ALL' | StoreChain;
@@ -36,6 +36,7 @@ export function useDashboardPayload(
   const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [inFlight, setInFlight] = useState(0);
   const [refreshFailed, setRefreshFailed] = useState(false);
+  const latestRequest = useRef(0);
 
   async function syncDashboard(
     nextStore: 'ALL' | StoreChain = current.storeFilter,
@@ -50,6 +51,10 @@ export function useDashboardPayload(
   ) {
     const requestOwner = pantryOwnerRef.current;
     setInFlight((count) => count + 1);
+    // Only the newest request decides `refreshFailed`: an older one that fails after a newer success, or succeeds after a
+    // newer failure, must not flip it.
+    const sequence = ++latestRequest.current;
+    const isLatest = () => sequence === latestRequest.current;
     setRefreshFailed(false);
     try {
       const params = new URLSearchParams({
@@ -71,12 +76,12 @@ export function useDashboardPayload(
         if (requestOwner !== null && pantryOwnerRef.current !== requestOwner) return;
         setData(updated);
         setCurrentZip(updated.zipCode);
-      } else {
+      } else if (isLatest()) {
         setRefreshFailed(true);
       }
     } catch {
       // A network hiccup keeps the prices already on screen; the Shop tells the user they could not be refreshed.
-      setRefreshFailed(true);
+      if (isLatest()) setRefreshFailed(true);
     } finally {
       setInFlight((count) => count - 1);
     }

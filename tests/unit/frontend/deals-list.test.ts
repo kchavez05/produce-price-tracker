@@ -2,6 +2,7 @@
 // The Deals list (v2.0 M4-3a, wireframe Shop): 12 deals at a time with "Show 12 more", one Stock-Up Alert for the deepest
 // discount, the quiet "Have it" toggle, the empty state, and the "could not update prices" banner with Try again. Through the
 // in-memory router.
+import { act } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createDashboardHarness, keylessPayload, type DashboardHarness, type FetchHandler } from 'tests/helpers/dashboard-harness';
 import { expectNoA11yViolations } from 'tests/helpers/render';
@@ -162,5 +163,36 @@ describe('a failed refresh', () => {
     fail = false;
     await h.setStoreFilter('ALL');
     await h.waitUntil(() => !text(h).includes('Could not update prices'));
+  });
+
+  // Two requests in flight (a store change, then another): only the newest decides whether the message shows.
+  function overlapping() {
+    const pending: Record<string, (response: Response) => void> = {};
+    const onFetch: FetchHandler = (input) => {
+      if (!input.startsWith('/api/dashboard?')) return undefined;
+      const store = new URL(input, 'http://x').searchParams.get('store')!;
+      return new Promise<Response>((resolve) => { pending[store] = resolve; });
+    };
+    return { onFetch, answer: (store: string, ok: boolean) => pending[store](ok ? Response.json(payload) : Response.json({ error: 'no' }, { status: 500 })) };
+  }
+
+  it('ignores an older request that fails after a newer one succeeded', async () => {
+    const o = overlapping();
+    const h = await start({ onFetch: o.onFetch });
+    await h.setStoreFilter('ALDI');
+    await h.setStoreFilter('ALL');
+    await act(async () => { o.answer('ALL', true); await h.settle(); });
+    await act(async () => { o.answer('ALDI', false); await h.settle(); });
+    expect(text(h)).not.toContain('Could not update prices');
+  });
+
+  it('keeps a newer failure when an older request succeeds afterwards', async () => {
+    const o = overlapping();
+    const h = await start({ onFetch: o.onFetch });
+    await h.setStoreFilter('ALDI');
+    await h.setStoreFilter('ALL');
+    await act(async () => { o.answer('ALL', false); await h.settle(); });
+    await act(async () => { o.answer('ALDI', true); await h.settle(); });
+    expect(text(h)).toContain('Could not update prices');
   });
 });
