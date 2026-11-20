@@ -106,7 +106,7 @@ describe('the card states',()=>{
     await expectNoA11yViolations(container);
   });
   it('a failure is an alert with a title, the message, Try Again and Dismiss, and no status',async()=>{
-    await render({canUseAi:true,banner:'Daily limit reached.',bannerTone:'error',onDismissBanner:dismiss});
+    await render({canUseAi:true,banner:'Daily limit reached.',bannerKind:'ai-error',onDismissBanner:dismiss});
     const alert=container.querySelector('[role=alert]')!;
     expect(alert.textContent).toContain('AI Chef could not make a plan');
     expect(alert.textContent).toContain('Daily limit reached.');
@@ -116,8 +116,17 @@ describe('the card states',()=>{
     await run(()=>button('Dismiss').click());expect(dismiss).toHaveBeenCalledOnce();
     await expectNoA11yViolations(container);
   });
+  it('a failed recipe save is an alert of its own: not an AI failure, no Try Again, only Dismiss',async()=>{
+    await render({canUseAi:true,banner:'Unable to update your saved recipes. Please try again.',bannerKind:'save-error',onDismissBanner:dismiss});
+    const alert=container.querySelector('[role=alert]')!;
+    expect(alert.textContent).toContain('Recipe not saved');
+    expect(alert.textContent).not.toContain('AI Chef could not make a plan');
+    expect(buttons()).not.toContain('Try Again');expect(buttons()).toContain('Dismiss');
+    await run(()=>button('Dismiss').click());expect(dismiss).toHaveBeenCalledOnce();expect(generate).not.toHaveBeenCalled();
+    await expectNoA11yViolations(container);
+  });
   it('offers no Try Again to a signed-out visitor, only Dismiss',async()=>{
-    await render({banner:'Sign in required.',bannerTone:'error',onDismissBanner:dismiss});
+    await render({banner:'Sign in required.',bannerKind:'ai-error',onDismissBanner:dismiss});
     expect(buttons()).not.toContain('Try Again');expect(buttons()).toContain('Dismiss');
   });
   it('news is a polite status with Dismiss, not an alert',async()=>{

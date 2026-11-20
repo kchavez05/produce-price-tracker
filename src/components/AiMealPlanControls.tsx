@@ -6,8 +6,9 @@ import { controlBox } from '@/components/ui/Field';
 import { cx, focusRing } from '@/components/ui/cx';
 interface Props {
   canUseAi:boolean; loading:boolean; prompt:string; banner:string|null;
-  /** A failure is shown as an alert with Try again; anything else (a plan made, standard suggestions back) as a status. */
-  bannerTone?:'info'|'error'; onDismissBanner?:()=>void;
+  /** A failed AI request is an alert with Try Again; a failed recipe save is an alert without it (retrying must not start a new AI request);
+   *  anything else (a plan made, standard suggestions back) is a status. */
+  bannerKind?:'info'|'ai-error'|'save-error'; onDismissBanner?:()=>void;
   onPromptChange:(value:string)=>void; onGenerate:()=>void; onSignIn:()=>void; onUseStandard:()=>void;
 }
 // v2.0 M4-5a and M4-5c (wireframes Plan, Plan AI Chef signed out, Plan AI Chef error): the AI request card and its states. Signed out it
@@ -15,17 +16,18 @@ interface Props {
 // while a request is out the button says so and standard suggestions can be chosen at once; a failure is an alert that names the
 // problem and offers Try Again (when signed in) and Dismiss; a plan made, or standard suggestions restored, is a status. The prompt, the
 // actions and the request logic are the old card's; the standard suggestions are always there, so nothing here blocks the Plan.
-export default function AiMealPlanControls({canUseAi,loading,prompt,banner,bannerTone='info',onDismissBanner,onPromptChange,onGenerate,onSignIn,onUseStandard}:Props) {
-  const failed=Boolean(banner)&&bannerTone==='error';
+export default function AiMealPlanControls({canUseAi,loading,prompt,banner,bannerKind='info',onDismissBanner,onPromptChange,onGenerate,onSignIn,onUseStandard}:Props) {
+  const failed=Boolean(banner)&&bannerKind!=='info';
+  const aiFailed=failed&&bannerKind==='ai-error';
   return <Card as="section" aria-label="AI meal plan" className="space-y-3" aria-busy={loading}>
     <div>
       <h3 className="text-base font-bold text-ink">Ask AI Chef</h3>
       {!canUseAi?<p className="mt-1 text-sm text-muted">AI suggestions are free with an account. No API key needed. Your pantry and plans stay private.</p>:null}
     </div>
-    {failed?<Banner tone="error" title="AI Chef could not make a plan">
+    {failed?<Banner tone="error" title={aiFailed?'AI Chef could not make a plan':'Recipe not saved'}>
       <p>{banner}</p>
       <div className="mt-2 flex flex-wrap gap-2">
-        {canUseAi?<Button type="button" variant="primary" onClick={onGenerate} disabled={loading}>Try Again</Button>:null}
+        {aiFailed&&canUseAi?<Button type="button" variant="primary" onClick={onGenerate} disabled={loading}>Try Again</Button>:null}
         {onDismissBanner?<Button type="button" variant="secondary" onClick={onDismissBanner}>Dismiss</Button>:null}
       </div>
     </Banner>:null}

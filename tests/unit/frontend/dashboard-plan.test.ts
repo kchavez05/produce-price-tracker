@@ -258,6 +258,11 @@ describe('the AI Chef card states', () => {
     await h.click(buttons(h).find((b) => b.textContent === 'Save')!);
     await h.waitUntil(() => alertIn(h) !== null);
     expect(alertIn(h)!.textContent).toContain('Unable to update your saved recipes. Please try again.');
+    // It is not an AI failure: its own title, and no Try Again (which would start a new, quota-consuming AI request).
+    expect(alertIn(h)!.textContent).toContain('Recipe not saved');
+    expect(alertIn(h)!.textContent).not.toContain('AI Chef could not make a plan');
+    expect(buttons(h).some((b) => b.textContent === 'Try Again')).toBe(false);
+    expect(aiRequests(h)).toHaveLength(0);
     await h.click(h.button('Dismiss'));
     expect(alertIn(h)).toBeNull();
   });
