@@ -10,6 +10,7 @@ How the app screens are organized since the v2.0 M3 dashboard decomposition ([#7
 | `/shop` | The Shop module: **Board**, **Trip** (shopping list and cart bridge) and **Radar** are views of this one route. | `src/app/(app)/shop/page.tsx` renders `src/modules/shop/ShopPage.tsx` |
 | `/plan` | The Plan module: the 3-dish meal prep plan, the AI request, blueprints. | `src/app/(app)/plan/page.tsx` renders `src/modules/plan/PlanPage.tsx` |
 | `/pantry` | The Pantry module: the private Virtual Pantry as a page. | `src/app/(app)/pantry/page.tsx` renders `src/modules/pantry/PantryDrawer.tsx` |
+| `/welcome` | First-run setup (v2.0 M4-2b): step 1 ZIP and stores, step 2 optional food preferences, skippable with today's defaults. Not a tab, no chrome. | `src/app/(app)/welcome/page.tsx` renders `src/modules/welcome/WelcomePage.tsx` |
 | `/settings` | Account and Settings (v2.0 M4-2a): location, stores, meal prep preferences, appearance, account and sync, weekly digest preview, about links. Not a tab. | `src/app/(app)/settings/page.tsx` renders `src/modules/settings/SettingsPage.tsx` |
 
 `/privacy`, `/terms`, `/docs`, `/data`, `/design` and `/api-docs` are outside the `(app)` group: they do not mount the provider.
@@ -44,6 +45,7 @@ Components are stateless views over the context hooks. Only page-level configura
 | Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (frame, header, toast, panels), `HeaderPrimary` (brand and account avatar), `TemporaryControls` (ZIP and alerts, until Settings), `StoreFilterBar`, `FreshnessNotice` (not rendered, kept for #828), `PrimaryNavigation` (the tabs), `PinSummary`, `ZipPanel`, `StoresPanel`, `AlertsPanel`, `AccountDialog` (adapter) and `AccountModal`, `AppLink`, `app-router.tsx`, `navigation.ts` |
 | Shop | `src/modules/shop/` | `ShopPage`, `ShopViewNav` (Deals, Trip, Radar), `BoardAlerts`, `BoardControls`, `BoardLeaderboard`, `TripSection`, `PrintSlip`, `RadarSection`, `badges.tsx` |
 | Plan | `src/modules/plan/` | `PlanPage`, `PlanHeader`, `PlanDishes`, `PlanBlueprints` |
+| Welcome | `src/modules/welcome/` | `WelcomePage` (each choice calls the action Settings or the Plan calls; the setup-completed marker is the only new key) |
 | Settings | `src/modules/settings/` | `SettingsPage` (every control calls an action an old control called; Location, My Stores, the weekly digest and the account dialog open in place under their row) |
 | Pantry | `src/modules/pantry/` | `PantryDrawer` (adapter: reads the contexts, renders `VirtualPantry`) and `VirtualPantry` (props-driven, tested on its own) |
 
@@ -54,6 +56,10 @@ Components are stateless views over the context hooks. Only page-level configura
 ## Settings (M4-2a)
 
 `/settings` is a module (`moduleOfPath`, `Destination` and `MODULE_PATHS` know it) but not a tab (`TabModule` is the three tabs). No tab is current there, it has a visible `h1` ("Account and Settings") instead of the visually hidden tab title, and `AppShell` neither writes the last-used-module cookie for it nor renders the page-top controls, panels and account dialog (the Settings page renders those components itself, in place under their rows). `isTabModule` guards the cookie, so `/` never opens Settings. The avatar in the header is a link to it, and Back returns to the tab the user came from (`lastTab` in the Shell context, set by `AppShell` on every tab change; Shop returns to the Shop view it was left on). Location, My Stores, the meal prep controls (macro goal, dietary rules, cookware, default servings), Appearance (`useTheme`), sign-in, sync status, AI features and the weekly digest call the same context actions as before, so no sync, ownership or storage code changed. The ZIP and alerts controls on the other screens are temporary and stay until the Shop redesign (M4 decision 19).
+
+## First-run setup (M4-2b)
+
+`AppShell` decides once, after mount (`decideFirstRun`, `src/modules/shell/first-run.ts`), whether a device has never been set up. It has not when there is no signed-in account (the one the server resolved for the request, which `pantryAccountId` holds until the sync state loads) and none of these exist in storage: the setup-completed marker (`pantrybot_setup_completed_v20`, the one new key), the ZIP, active stores and nutrition profile keys, a guest pantry with entries (the empty guest pantry key the app creates on first load does not count), the shopping checklist and clipped coupons. Then it `replace`s the path with `/welcome`, so Back does not loop. A signed-in user is never sent there and is marked as set up; unreadable storage never forces setup. `/welcome` shows no header or navigation; step 1 saves a typed ZIP (`handleZipSubmit`) and each store choice (`handleToggleActiveStore`), step 2 each dietary and macro choice, as the user makes them, so nothing is lost on a reload; Skip and Finish write the marker and `replace` the path with `/shop`. A guest's choices stay on the device and sync on sign-in through the existing path. `AppRouter` gained `replace` for this. Tests mount a device as already set up unless they pass `firstRun`.
 
 ## Navigation
 

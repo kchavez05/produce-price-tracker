@@ -112,3 +112,17 @@ test.describe('visual: design guide', () => {
     });
   }
 });
+
+// The first-run setup on a device that has never been set up (M4-2b; every other test starts set up, see fixtures).
+test.describe('visual: welcome setup', () => {
+  test.use({ firstRun: true });
+  test('both steps', async ({ page, problems }) => {
+    void problems;
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1, name: 'Where Do You Shop?' })).toBeVisible();
+    await snapshot(page, 'welcome-step-1');
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Any Food Preferences?' })).toBeVisible();
+    await snapshot(page, 'welcome-step-2');
+  });
+});

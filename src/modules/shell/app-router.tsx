@@ -9,6 +9,8 @@ import { usePathname, useRouter } from 'next/navigation';
 export interface AppRouter {
   pathname: string;
   push: (path: string) => void;
+  /** Go to a path without adding a history entry (the first-run redirect and the end of setup, so Back does not loop). */
+  replace: (path: string) => void;
 }
 
 const AppRouterContext = createContext<AppRouter | null>(null);
@@ -26,5 +28,5 @@ export function useAppRouter(): AppRouter {
 export function NextAppRouter({ children }: { children?: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  return <AppRouterProvider router={{ pathname, push: (path) => router.push(path) }}>{children}</AppRouterProvider>;
+  return <AppRouterProvider router={{ pathname, push: (path) => router.push(path), replace: (path) => router.replace(path) }}>{children}</AppRouterProvider>;
 }

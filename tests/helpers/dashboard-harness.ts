@@ -43,6 +43,8 @@ export interface DashboardHarness {
   path: () => string;
   /** Every path pushed by a navigation since mount, in order. */
   pushes: string[];
+  /** Every path replaced since mount, in order (the first-run redirect and the end of setup). */
+  replaces: string[];
   buttonByTitle: (title: string) => HTMLButtonElement;
   waitUntil: (check: () => boolean) => Promise<void>;
   settle: () => Promise<void>;
@@ -57,6 +59,8 @@ export interface MountProps {
   initialPrivateRecipes: RecommendedDish[];
   /** The path the app opens on (default "/shop"). */
   initialPath: string;
+  /** Leave the device as a first run, so the shell redirects to /welcome (default: the device counts as set up). */
+  firstRun: boolean;
 }
 
 /**
@@ -133,6 +137,7 @@ export async function createDashboardHarness(options: {
   let mounted = false;
   let currentPath = '/shop';
   const pushes: string[] = [];
+  const replaces: string[] = [];
   const run = async (action: () => unknown) => { await act(async () => { await action(); await settle(); }); };
   const link = (text: string): HTMLAnchorElement => {
     const anchors = [...container.querySelectorAll('a')];
@@ -155,9 +160,11 @@ export async function createDashboardHarness(options: {
       root = createRoot(container);
       mounted = true;
       pushes.length = 0;
+      replaces.length = 0;
       const dashboard = createElement(AppUnderTest, {
         initialData: options.payload, initialAccountId: null, ...props,
         onPath: (path: string) => { currentPath = path; }, onPush: (path: string) => { pushes.push(path); },
+        onReplace: (path: string) => { replaces.push(path); },
       });
       await run(() => root.render(options.strictMode ? createElement(StrictMode, null, dashboard) : dashboard));
     },
@@ -181,6 +188,7 @@ export async function createDashboardHarness(options: {
     },
     path: () => currentPath,
     pushes,
+    replaces,
     buttonByTitle: (title) => {
       const found = container.querySelector<HTMLButtonElement>(`button[title="${title}"]`);
       if (!found) throw new Error(`Missing button titled: ${title}`);
