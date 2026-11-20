@@ -11,7 +11,7 @@ import { useDashboardContext, useShopContext } from '@/modules/shell/app-context
 // choosing another starts again at the first 12 while pinning or marking a deal does not.
 export const DEALS_PAGE_SIZE = 12;
 
-export default function BoardLeaderboard() {
+export default function BoardLeaderboard({ selectedId = null }: { selectedId?: string | null }) {
   const { filteredCommodities } = useDashboardContext();
   const { categoryFilter, setCategoryFilter } = useShopContext();
   const [shown, setShown] = useState(DEALS_PAGE_SIZE);
@@ -35,8 +35,8 @@ export default function BoardLeaderboard() {
   return (
     <>
       <h2 className="sr-only">Deals</h2>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((item) => <DealCard key={item.ingredient.id} item={item} />)}
+      <div className="grid gap-3 sm:grid-cols-2 wide:grid-cols-1">
+        {visible.map((item) => <DealCard key={item.ingredient.id} item={item} selected={item.ingredient.id === selectedId} />)}
       </div>
       <p className="mt-3 text-center text-sm text-muted">Showing {visible.length} of {filteredCommodities.length} deals</p>
       {remaining > 0 && (
