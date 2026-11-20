@@ -154,7 +154,7 @@ describe('updating prices', () => {
 describe('the Trip count', () => {
   it('shows how many items are on the trip, on the Trip link', async () => {
     const h = await start();
-    const trip = [...h.container.querySelectorAll('nav[aria-label="Shop views"] a')].find((a) => a.textContent?.startsWith('Trip'))!;
+    const trip = [...h.container.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Shop views"] a')].find((a) => a.textContent?.startsWith('Trip'))!;
     expect(trip.textContent).toMatch(/^Trip\d+$/);
     await h.click(trip);
     expect(h.container.textContent).toContain('Deduplicated 3-Dish Shopping List');
