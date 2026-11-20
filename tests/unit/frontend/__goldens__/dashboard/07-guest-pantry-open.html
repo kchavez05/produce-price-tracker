@@ -148,39 +148,43 @@
 <div class="no-print">
 </div>
 <div class="pt-4">
-<section aria-labelledby="virtual-pantry-title" class="mt-3 rounded-xl border border-emerald-300 bg-white p-4 text-slate-800 shadow-lg">
-<div class="flex items-start justify-between gap-3">
+<section aria-labelledby="virtual-pantry-title" class="space-y-3">
+<h2 tabindex="-1" id="virtual-pantry-title" class="sr-only">Virtual Pantry</h2>
+<div class="flex flex-col gap-1">
+<label for="_r_f_" class="text-sm font-semibold text-ink">Search ingredients or enter a custom name</label>
+<input maxlength="120" placeholder="Try lentils, garlic, or rice" id="_r_f_" class="min-h-touch w-full rounded-control border border-border-strong bg-surface px-3 text-base text-ink disabled:opacity-50 aria-[invalid=true]:border-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="search" value="">
+</div>
+<div class="flex flex-wrap items-start gap-2">
 <div>
-<h2 tabindex="-1" id="virtual-pantry-title" class="text-lg font-bold">Virtual Pantry</h2>
-<p class="mt-1 text-sm">Do I have this? Mark ingredients Yes or No. Recipes and purchase suggestions leave your inventory unchanged.</p>
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Sign in for experimental speech entry</button>
 </div>
 </div>
-<div class="mt-3">
-<button type="button" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50">Sign in for experimental speech entry</button>
+<div role="status" class="flex items-start gap-2 rounded-card p-3 bg-chip text-ink">
+<div class="flex-1 text-sm">
+<div>Optional. Tell PantryBot what you already have and Shop and Plan skip it. Nothing here is required.</div>
 </div>
-<div class="mt-3 flex flex-wrap items-center gap-3 text-sm" role="status" aria-live="polite">
-<strong>Saved</strong>
-<span>Saved on this device. Sign in for cross-device recovery.</span>
 </div>
-<div class="mt-3 text-sm">
-<button class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50">Review older local inventory</button>
+<div class="flex flex-wrap items-center gap-3 text-sm" role="status" aria-live="polite">
+<strong class="text-ink">Saved</strong>
+<span class="text-muted">Saved on this device. Sign in for cross-device recovery.</span>
 </div>
-<label class="mt-4 block text-sm font-semibold">Search ingredients or enter a custom name<input maxlength="120" class="mt-1 block w-full rounded-lg border border-slate-300 p-2 font-normal" placeholder="Try lentils, garlic, or rice" type="search" value="">
-</label>
-<div class="mt-3 text-sm">
-<p>Your pantry is empty. Search above, add a custom ingredient, or use an optional shortcut:</p>
-<div class="mt-2 flex flex-wrap gap-2">
-<button class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50">Add Olive oil</button>
-<button class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50">Add Salt</button>
-<button class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50">Add Canned black beans</button>
-<button class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-emerald-50 disabled:opacity-50">Add Dry basmati rice</button>
+<div class="rounded-card bg-surface text-ink shadow-card p-4 space-y-2 text-sm">
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Review older local inventory</button>
 </div>
-<p class="mt-1 text-slate-600">These are shortcuts. Nothing is preselected or required.</p>
+<div class="flex flex-col items-center gap-2 px-4 py-8 text-center">
+<h2 class="text-lg font-bold text-ink">Your Pantry Is Empty</h2>
+<p class="max-w-sm text-sm text-muted">That's fine. Pantry is optional. Add what you have and Shop and Plan will skip it.</p>
+<div class="space-y-2">
+<h3 class="text-sm font-bold uppercase tracking-wide text-muted">Common Staples</h3>
+<div class="flex flex-wrap justify-center gap-2">
+<button type="button" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Add Olive oil</button>
+<button type="button" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Add Salt</button>
+<button type="button" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Add Canned black beans</button>
+<button type="button" class="inline-flex min-h-touch items-center rounded-control px-3 text-sm font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-chip text-ink">Add Dry basmati rice</button>
 </div>
-<label class="my-3 flex items-center gap-2 text-sm">
-<input type="checkbox">Also show ingredients marked No</label>
-<ul class="divide-y divide-slate-200">
-</ul>
+<p class="text-sm text-muted">These are shortcuts. Nothing is preselected or required.</p>
+</div>
+</div>
 </section>
 </div>
 </main>

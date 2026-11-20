@@ -61,7 +61,7 @@ async function click(element: HTMLElement) { await act(async () => { element.cli
 async function openPantry() {
   await click(button('Pantry'));
   await waitUntil(() => Boolean(container.querySelector('#virtual-pantry-title')));
-  await waitUntil(() => container.querySelector('section[aria-labelledby="virtual-pantry-title"] [role="status"]')?.textContent?.includes('Saved') === true);
+  await waitUntil(() => [...container.querySelectorAll('section[aria-labelledby="virtual-pantry-title"] [role="status"]')].some((element) => element.textContent?.includes('Saved')));
 }
 async function mount() {
   root = createRoot(container);

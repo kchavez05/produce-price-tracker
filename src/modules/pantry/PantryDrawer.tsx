@@ -4,8 +4,8 @@ import VirtualPantry from '@/modules/pantry/VirtualPantry';
 import { useAccountContext, useShellContext } from '@/modules/shell/app-context';
 
 // v2.0 M3 Phase B.2d: the Pantry module's entry point, moved verbatim from MealPrepDashboard's header drawer. Since B.3b
-// the Pantry is a module of its own: this is its page, shown while the module is current (the shell decides), and
-// closing it returns to the module it was opened from. It reads the
+// the Pantry is a module of its own: this is its page, shown while the module is current (the shell decides); since
+// M4-1a it is a tab, with no Close button and no origin to return to. It reads the
 // private pantry (owner, entries and the save, delete, retry, resolve and import actions) from the Account context and
 // the drawer state from the Shell context, and hands them to VirtualPantry, which stays a presentational component with
 // its own tests. The drawer is remounted when the pantry owner changes (the key below), so a half-typed entry never

@@ -42,11 +42,12 @@ describe('Virtual Pantry accessible controls', () => {
   });
   it('re-adds a No ingredient without clearing details and exposes an explicit availability label', async () => {
     await render([saved]);
-    expect(container.querySelector('[aria-label="Chicken broth availability"]')).toBeNull();
-    await run(() => (container.querySelector('input[type=checkbox]') as HTMLInputElement).click());
-    const availability = container.querySelector('[aria-label="Chicken broth availability"]') as HTMLSelectElement;
-    availability.focus(); expect(document.activeElement).toBe(availability);
-    expect(availability.value).toBe('false');
+    // The list opens on All, so an ingredient marked No is shown, with its availability as a labelled Yes/No radio group.
+    const availability = container.querySelector('[role=radiogroup][aria-label="Chicken broth availability"]') as HTMLElement;
+    expect(availability).not.toBeNull();
+    const chosen = availability.querySelector('input:checked') as HTMLInputElement;
+    chosen.focus(); expect(document.activeElement).toBe(chosen);
+    expect(chosen.value).toBe('false');
     expect(container.textContent).toContain('Use by 2000-01-01');
     await search('chicken broth');
     await run(() => button('Add Chicken broth').click());
@@ -155,7 +156,7 @@ describe('Virtual Pantry accessible controls', () => {
     expect(button('Add Dried lentils').disabled).toBe(true);
     expect(container.textContent).toContain('account’s catalog update');
     await render([{ ...saved, id: 'general', ingredientId: 'lentils-dried', displayName: 'Dried lentils' }, { ...saved, id: 'red', ingredientId: 'red-lentils-dried', displayName: 'Dried red lentils', available: true }]);
-    await search(''); await run(() => (container.querySelector('input[type=checkbox]') as HTMLInputElement).click());
+    await search('');
     expect(container.textContent).toContain('Marked No: available varieties do not cover');
   });
   it('edits an unfamiliar saved identity without clearing its ID or optional details', async () => {
