@@ -16,7 +16,6 @@
   "src/modules/shell/AccountModal.tsx": 99,
   "src/modules/shell/AlertsPanel.tsx": 31,
   "src/modules/shell/AppShell.tsx": 5,
-  "src/modules/shell/FreshnessNotice.tsx": 3,
   "src/modules/shell/PinSummary.tsx": 4,
   "src/modules/shell/StoreFilterBar.tsx": 17,
   "src/modules/shell/StoresPanel.tsx": 21,

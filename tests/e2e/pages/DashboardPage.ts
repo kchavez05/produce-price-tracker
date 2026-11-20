@@ -64,6 +64,8 @@ export class DashboardPage {
    * "Radar"). All are links.
    */
   tab(name: 'Shop' | 'Plan' | 'Deals' | 'Trip' | 'Radar'): Locator {
+    // The Trip link carries the number of items on the trip ("Trip 8"), so it is matched by its label and the count.
+    if (name === 'Trip') return this.page.getByRole('link', { name: /^Trip(\s*\d+)?$/ });
     return this.page.getByRole('link', { name, exact: true });
   }
 

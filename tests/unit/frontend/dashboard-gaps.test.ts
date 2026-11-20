@@ -420,7 +420,8 @@ describe('header, store filter and navigation', () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
     // The current link is the one marked aria-current (the tab for the module, the Shop view link for the view).
-    const current = () => [...harness!.container.querySelectorAll('a[aria-current="page"]')].map((a) => a.textContent);
+    // The Trip link carries its item count (M4-3a), so compare by the label it starts with.
+    const current = () => [...harness!.container.querySelectorAll('a[aria-current="page"]')].map((a) => a.textContent?.replace(/\d+$/, ''));
     const text = () => harness!.container.textContent ?? '';
     expect(current()).toContain('Deals');
     expect(text()).toContain('Sort by:');

@@ -198,19 +198,58 @@
 </div>
 </div>
 <div class="pt-4">
-<nav aria-label="Shop views" class="no-print mb-4">
+<div aria-busy="false" class="transition-opacity">
+<section aria-label="Prices" class="no-print mb-3 space-y-0.5">
+<div class="flex items-center justify-between gap-3 text-sm">
+<p class="min-w-0 truncate text-muted">Mead / Longmont, CO · 6 stores</p>
+<a href="/settings" class="inline-flex min-h-touch shrink-0 items-center text-accent underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">Change in Settings</a>
+</div>
+<div class="flex items-center justify-between gap-3 text-sm">
+<p class="min-w-0 text-muted">Ad cycle Wed, Nov 11 – Tue, Nov 17, 2026 · updated 5:00 AM MT · some prices are estimates</p>
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-transparent text-accent">Details</button>
+</div>
+</section>
+<div class="no-print mb-4 flex items-center gap-2">
+<div class="min-w-0 flex-1">
+<nav aria-label="Shop views" class="no-print">
 <ul class="flex gap-1 rounded-control bg-chip p-1">
 <li class="flex-1">
 <a href="/shop" class="flex min-h-touch items-center justify-center rounded-control px-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink shadow-card" aria-current="page">Deals</a>
 </li>
 <li class="flex-1">
-<a href="/shop" class="flex min-h-touch items-center justify-center rounded-control px-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus text-muted">Trip</a>
+<a href="/shop" class="flex min-h-touch items-center justify-center rounded-control px-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus text-muted">Trip<span class="ml-1.5 rounded-pill bg-chip px-1.5 text-xs font-bold text-ink">22</span>
+</a>
 </li>
 <li class="flex-1">
 <a href="/shop" class="flex min-h-touch items-center justify-center rounded-control px-3 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus text-muted">Radar</a>
 </li>
 </ul>
 </nav>
+</div>
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong shrink-0">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal size-4" aria-hidden="true">
+<path d="M10 5H3">
+</path>
+<path d="M12 19H3">
+</path>
+<path d="M14 3v4">
+</path>
+<path d="M16 17v4">
+</path>
+<path d="M21 12h-9">
+</path>
+<path d="M21 19h-5">
+</path>
+<path d="M21 5h-7">
+</path>
+<path d="M8 10v4">
+</path>
+<path d="M8 12H3">
+</path>
+</svg>
+<span>Filters</span>
+</button>
+</div>
 <div class="space-y-6">
 <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-2xs">
 <div class="flex flex-wrap items-center gap-1.5">
@@ -4221,6 +4260,7 @@
 </svg>
 <span>Not marked available</span>
 </button>
+</div>
 </div>
 </div>
 </div>

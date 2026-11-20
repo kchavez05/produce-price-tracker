@@ -75,7 +75,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
     userSync, pantry, pantryOwnerRef, effectiveOnHandIds, savedLibrary, setSavedLibrary, savedRecipeIds,
     canUseAi
   } = account;
-  const { serverData, syncDashboard } = useDashboardPayload(
+  const { serverData, syncDashboard, refreshing } = useDashboardPayload(
     initialData, pantryOwnerRef,
     { storeFilter, pinnedIds, effectiveOnHandIds, targetServings, currentZip, activeStores, macroGoal, dietaryConstraints, applianceFilter },
     setCurrentZip,
@@ -129,7 +129,7 @@ export default function AppProvider({ initialData, initialAccountId = null, init
       handleToggleActiveStore, handleTogglePin, handleServingsChange, handleStoreChange, handleClearProfileFilters }}>
       <LocationContext.Provider value={{ ...location, handleZipSubmit }}>
         <AccountContext.Provider value={account}>
-          <DashboardContext.Provider value={{ ...derived, serverData, syncDashboard }}>
+          <DashboardContext.Provider value={{ ...derived, serverData, syncDashboard, refreshing }}>
             <PlanContext.Provider value={{ ...planUi, ...planActions }}>
               <ShopContext.Provider value={{ ...shopUi, ...shopCopy }}>
                 <ShellContext.Provider value={{ ...shellUi, ...shellActions, module: currentModule }}>

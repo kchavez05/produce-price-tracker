@@ -10,6 +10,9 @@ import type {
 //     `current`, which the dashboard rebuilds each render, so a call reads the same values as before the move.
 //  2. The ownership guard: discard a response only when a known pantry owner changed while the request was in
 //     flight (#780); a request that started with no owner carried no pantry data and is applied.
+// M4-3a adds `refreshing`, true while any syncDashboard request is in flight, so the Shop can say "Updating prices". It is a
+// counter around the existing body (a `finally`, which also runs for the early return of the ownership guard) and changes
+// nothing the function sends, applies or discards.
 export interface DashboardPayloadCurrent {
   storeFilter: 'ALL' | StoreChain;
   pinnedIds: string[];
@@ -29,6 +32,7 @@ export function useDashboardPayload(
   setCurrentZip: (zip: string) => void,
 ) {
   const [serverData, setData] = useState<DashboardPayload>(initialData);
+  const [inFlight, setInFlight] = useState(0);
 
   async function syncDashboard(
     nextStore: 'ALL' | StoreChain = current.storeFilter,
@@ -42,6 +46,7 @@ export function useDashboardPayload(
     nextVessel: CookingVesselArchetype = current.applianceFilter
   ) {
     const requestOwner = pantryOwnerRef.current;
+    setInFlight((count) => count + 1);
     try {
       const params = new URLSearchParams({
         zip: nextZip,
@@ -65,8 +70,10 @@ export function useDashboardPayload(
       }
     } catch {
       // Ignore network hiccup
+    } finally {
+      setInFlight((count) => count - 1);
     }
   }
 
-  return { serverData, syncDashboard };
+  return { serverData, syncDashboard, refreshing: inFlight > 0 };
 }
