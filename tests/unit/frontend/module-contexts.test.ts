@@ -26,11 +26,9 @@ import AccountDialog from '@/modules/shell/AccountDialog';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import FreshnessDetails from '@/modules/shop/FreshnessDetails';
 import HeaderPrimary, { describeSync } from '@/modules/shell/HeaderPrimary';
-import TemporaryControls from '@/modules/shell/TemporaryControls';
-import PinSummary from '@/modules/shell/PinSummary';
 import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
 import ShopViewNav from '@/modules/shop/ShopViewNav';
-import StoreFilterBar from '@/modules/shell/StoreFilterBar';
+import ShopFilters from '@/modules/shop/ShopFilters';
 import StoresPanel from '@/modules/shell/StoresPanel';
 import ZipPanel from '@/modules/shell/ZipPanel';
 import type { UserSyncPayload, WeeklySyncCronResult } from '@/types/domain';
@@ -265,20 +263,6 @@ describe('Shell components on the contexts, without the shell', () => {
     recentSyncRuns: [],
   } as unknown as WeeklySyncCronResult;
 
-  it('TemporaryControls read the location and toggle the ZIP and alerts drawers through the Shell context', async () => {
-    onFetch = (input) => (input.startsWith('/api/cron/weekly-sync?') ? Response.json(digest) : undefined);
-    const h = await mountModules(() => createElement(TemporaryControls));
-    expect(text(h)).toContain(seen.dashboard.data.cityLabel);
-    expect(text(h)).toContain('(80542)');
-    expect(seen.location.showZipModal).toBe(false);
-    await click(h, (b) => b.title === 'Click to change your ZIP code');
-    expect(seen.location.showZipModal).toBe(true);
-    expect(seen.shell.module).toBe('shop');
-    await click(h, (b) => b.title.startsWith('Preview Smart Push Notifications'));
-    expect(seen.shell.showAlertsModal).toBe(true);
-    expect(h.requests.some((r) => r.url === '/api/cron/weekly-sync?cycle=preview_digest&zip=80542')).toBe(true);
-  });
-
   it('HeaderPrimary is the brand and the account avatar, a link straight to Settings', async () => {
     const guest = await mountModules(() => createElement(HeaderPrimary));
     expect(text(guest)).toContain('PantryBot');
@@ -318,18 +302,27 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(describeSync(status)).toContain(expected);
   });
 
-  it('StoreFilterBar filters through the Preferences context (and the trip), and opens the stores drawer through Shell', async () => {
-    const h = await mountModules(() => createElement(StoreFilterBar));
-    expect(text(h)).toContain(`All Stores (${seen.preferences.activeStores.length})`);
-    await click(h, (b) => b.textContent === 'ALDI');
+  it('ShopFilters filters by store through the Preferences context (and the trip) and sorts through the Shop context', async () => {
+    const h = await mountModules(() => createElement(ShopFilters));
+    expect(text(h)).toContain('Filters');
+    await click(h, (b) => b.textContent?.includes('Filters') === true);
+    const field = (label: string) => {
+      const l = [...document.querySelectorAll('label')].find((el) => el.textContent === label)!;
+      return document.querySelector<HTMLSelectElement>(`#${l.htmlFor}`)!;
+    };
+    const choose = async (element: HTMLSelectElement, value: string) => act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(element, value);
+      element.dispatchEvent(new Event('change', { bubbles: true }));
+      await h.settle();
+    });
+    await choose(field('Store'), 'ALDI');
     expect(seen.preferences.storeFilter).toBe('ALDI');
     expect(seen.shop.tripMode).toBe('ALDI');
-    await click(h, (b) => b.textContent?.includes('All Stores') === true);
+    await choose(field('Store'), 'ALL');
     expect(seen.preferences.storeFilter).toBe('ALL');
     expect(seen.shop.tripMode).toBe('SPLIT');
-    expect(seen.shell.showStoresModal).toBe(false);
-    await click(h, (b) => b.textContent?.includes('My Stores') === true);
-    expect(seen.shell.showStoresModal).toBe(true);
+    await choose(field('Sort by'), 'BIGGEST_DISCOUNT');
+    expect(seen.shop.sortMode).toBe('BIGGEST_DISCOUNT');
   });
 
   it('FreshnessDetails shows the dashboard freshness details', async () => {
@@ -340,29 +333,17 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(text(h)).toContain(`Planning cycle: ${seen.dashboard.data.adCycleLabel}.`);
   });
 
-  it('PinSummary and the Shop view links read the other contexts and switch views through the Shell context', async () => {
-    const entry = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
-    sync = aliceSync;
-    accountId = 'alice';
-    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET'
-      ? Response.json({ owner: 'account:alice', entries: [entry], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] }) : undefined);
-    const h = await mountModules(() => createElement('div', null, createElement(PinSummary), createElement(ShopViewNav)));
-    await h.waitUntil(() => text(h).includes('1 marked available'));
-    expect(text(h)).not.toContain('Pinned');
-    await act(async () => { seen.preferences.handleTogglePin(seen.dashboard.data.commodities[0].ingredient.id); await h.settle(); });
-    expect(text(h)).toContain('1 Pinned \u2022 1 marked available');
+  it('the Shop view links read the Shop context and switch views through the Shell context', async () => {
+    const h = await mountModules(() => createElement(ShopViewNav));
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'BOARD']);
-    expect(links(h).find((a) => a.textContent?.includes('View 3 Dishes'))!.getAttribute('href')).toBe('/plan');
     expect(links(h).find((a) => a.textContent?.includes('Radar'))!.getAttribute('href')).toBe('/shop');
-    expect(links(h).filter((a) => a.getAttribute('aria-current') === 'page').map((a) => a.textContent)).toEqual(['Deals']);
+    expect(links(h).filter((a) => a.getAttribute('aria-current') === 'page').map((a) => a.textContent?.replace(/\d+$/, ''))).toEqual(['Deals']);
     await clickLink(h, (a) => a.textContent?.includes('Radar') === true);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'RADAR']);
     await clickLink(h, (a) => a.textContent?.includes('Trip') === true);
     expect([seen.shell.module, seen.shop.shopView]).toEqual(['shop', 'SHOPPING_LIST']);
-    await clickLink(h, (a) => a.textContent?.includes('View 3 Dishes') === true);
-    expect(seen.shell.module).toBe('plan');
-    // Moving between Shop views changes no URL; only a change of module does.
-    expect(pushes).toEqual(['/plan']);
+    // Moving between Shop views changes no URL.
+    expect(pushes).toEqual([]);
   });
 
   it('ZipPanel edits and submits the ZIP through the Location context and closes through Shell state', async () => {

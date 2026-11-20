@@ -15,6 +15,8 @@ import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import SettingsPage from '@/modules/settings/SettingsPage';
 import WelcomePage from '@/modules/welcome/WelcomePage';
 import { SETUP_COMPLETED_KEY } from '@/modules/shell/first-run';
+import { useLocationContext, usePreferencesContext } from '@/modules/shell/app-context';
+import type { StoreChain } from '@/types/domain';
 import type { DashboardPayload, RecommendedDish } from '@/types/domain';
 
 export interface TestRouterProps {
@@ -56,6 +58,22 @@ function TestPage({ flags }: { flags: PageFlags }) {
   return createElement(ShopPage);
 }
 
+/** The app state tests assert on without going through a screen: the ZIP, the stores, the store filter and the pins. */
+export interface AppState {
+  zip: string;
+  activeStores: StoreChain[];
+  storeFilter: 'ALL' | StoreChain;
+  pinnedIds: string[];
+}
+
+/** Renders nothing; reports the current state on every render (inside the provider, as the screens read it). */
+function StateProbe({ onState }: { onState: (state: AppState) => void }) {
+  const { currentZip } = useLocationContext();
+  const { activeStores, storeFilter, pinnedIds } = usePreferencesContext();
+  onState({ zip: currentZip, activeStores, storeFilter, pinnedIds });
+  return null;
+}
+
 export interface AppUnderTestProps extends Pick<TestRouterProps, 'initialPath' | 'onPath' | 'onPush' | 'onReplace'> {
   initialData: DashboardPayload;
   initialAccountId?: string | null;
@@ -66,10 +84,12 @@ export interface AppUnderTestProps extends Pick<TestRouterProps, 'initialPath' |
    * (the first-run marker is seeded before the first render), so the journeys that are not about onboarding start where they say.
    */
   firstRun?: boolean;
+  /** Called with the app state on every render (see AppState). */
+  onState?: (state: AppState) => void;
 }
 
 export default function AppUnderTest({
-  initialData, initialAccountId = null, initialPrivateRecipes = [], flags = {}, initialPath, onPath, onPush, onReplace, firstRun = false,
+  initialData, initialAccountId = null, initialPrivateRecipes = [], flags = {}, initialPath, onPath, onPush, onReplace, firstRun = false, onState,
 }: AppUnderTestProps) {
   useState(() => {
     if (!firstRun && localStorage.getItem(SETUP_COMPLETED_KEY) === null) localStorage.setItem(SETUP_COMPLETED_KEY, '1');
@@ -77,5 +97,6 @@ export default function AppUnderTest({
   });
   return createElement(TestRouter, { initialPath, onPath, onPush, onReplace },
     createElement(AppProvider, { initialData, initialAccountId, initialPrivateRecipes },
+      onState ? createElement(StateProbe, { onState }) : null,
       createElement(AppShell, null, createElement(TestPage, { flags }))));
 }

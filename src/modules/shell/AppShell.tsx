@@ -1,16 +1,10 @@
 'use client';
 
 import { useEffect, useRef, type ReactNode } from 'react';
-import ZipPanel from '@/modules/shell/ZipPanel';
-import StoresPanel from '@/modules/shell/StoresPanel';
-import AlertsPanel from '@/modules/shell/AlertsPanel';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
-import StoreFilterBar from '@/modules/shell/StoreFilterBar';
-import TemporaryControls from '@/modules/shell/TemporaryControls';
-import PinSummary from '@/modules/shell/PinSummary';
 import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
 import AccountDialog from '@/modules/shell/AccountDialog';
-import { useAccountContext, useLocationContext, useShellContext } from '@/modules/shell/app-context';
+import { useAccountContext, useShellContext } from '@/modules/shell/app-context';
 import { useAppRouter } from '@/modules/shell/app-router';
 import { decideFirstRun, markSetupCompleted } from '@/modules/shell/first-run';
 import { LAST_MODULE_COOKIE, LAST_MODULE_MAX_AGE_SECONDS, MODULE_PATHS, isTabModule, type AppModule } from '@/modules/shell/navigation';
@@ -22,12 +16,13 @@ import { DoorOpen } from 'lucide-react';
 //
 // v2.0 M4-1b: the frame uses the design tokens and opts the app into them (`data-ds` on <html>, which turns on `color-scheme`
 // and the browser chrome colour; set after mount like the rest of the theme code, so the first render matches the server).
-// The sticky header is only the brand and the account avatar, padded for the iPhone status bar (`viewport-fit=cover`). The
-// ZIP, alerts, store filter, notices and panels moved from the header into the top of the page; they go away as Settings and
-// the Shop redesign take over their jobs (M4 decision 19). Each screen has a visually hidden h1 with its name (spec 6a).
-// Settings is not a tab: it shows its own visible title and, since it hosts these controls itself (M4-2a), none of the
-// page-top controls, panels or dialogs below. It does not write the last-used-module cookie, and it remembers the tab the
-// user came from so it can offer Back. Welcome (M4-2b, the first-run setup) shows no chrome at all.
+// The sticky header is only the brand and the account avatar, padded for the iPhone status bar (`viewport-fit=cover`). Each
+// screen has a visually hidden h1 with its name (spec 6a). Settings is not a tab: it shows its own visible title and renders
+// the account dialog itself (M4-2a). It does not write the last-used-module cookie, and it remembers the tab the user came
+// from so it can offer Back. Welcome (M4-2b, the first-run setup) shows no chrome at all. Since M4-3a the temporary ZIP,
+// alerts, store-filter and pins controls and their panels are gone from the top of the page (M4 decision 19): location,
+// stores and the digest live in Settings, the store filter and sort in the Shop's Filters sheet. What is left above a tab's
+// page is the toast and the account dialog that the AI sign-in prompts open (until M4-6 turns it into a sheet).
 //
 // First run (M4-2b): once, after mount, a device that has never been set up and has no signed-in account is sent to /welcome
 // (`replace`, so Back does not loop). The decision is `decideFirstRun`; the account is the one the server resolved for this
@@ -36,10 +31,9 @@ import { DoorOpen } from 'lucide-react';
 const SCREEN_NAMES: Record<Exclude<AppModule, 'settings' | 'welcome'>, string> = { shop: 'Shop', pantry: 'Pantry', plan: 'Plan' };
 
 export default function AppShell({ children }: { children?: ReactNode }) {
-  const { showZipModal } = useLocationContext();
   const { pantryAccountId } = useAccountContext();
   const router = useAppRouter();
-  const { module, setLastTab, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal } = useShellContext();
+  const { module, setLastTab, arbitrageToast, setArbitrageToast } = useShellContext();
   const onSettings = module === 'settings';
   const onWelcome = module === 'welcome';
 
@@ -87,9 +81,6 @@ export default function AppShell({ children }: { children?: ReactNode }) {
           {!onSettings && <h1 className="sr-only">{SCREEN_NAMES[module as keyof typeof SCREEN_NAMES]}</h1>}
 
           {!onSettings && <div className="no-print">
-            <TemporaryControls />
-            <StoreFilterBar />
-
             {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
             <AccountDialog />
 
@@ -109,23 +100,6 @@ export default function AppShell({ children }: { children?: ReactNode }) {
               </div>
             )}
 
-            {/* Interactive Zip Code / Location Switcher Drawer */}
-            {showZipModal && (
-              <ZipPanel />
-            )}
-
-            {/* Interactive My Stores Preference Drawer (v1.1) */}
-            {showStoresModal && (
-              <StoresPanel />
-            )}
-
-            {/* v1.0 Weekly Cron & Smart Push Notifications Preview Drawer */}
-            {showAlertsModal && (
-              <AlertsPanel />
-            )}
-
-            {/* Pins and availability summary, with the shortcut to the meal plan */}
-            <PinSummary />
           </div>}
 
           <div className="pt-4">{children}</div>

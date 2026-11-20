@@ -13,7 +13,7 @@ test.describe('smoke: home', () => {
     await home.goto();
 
     await expect(home.heading).toBeVisible();
-    await expect(home.zipButton).toContainText('Mead / Longmont, CO (80542)');
+    await expect(page.getByText('Mead / Longmont, CO · 6 stores')).toBeVisible();
     await expect(home.tab('Deals')).toBeVisible();
     expect(await home.priceCards.count()).toBeGreaterThan(3);
     await a11y.check('home');
@@ -36,15 +36,21 @@ test.describe('smoke: home', () => {
     const home = new DashboardPage(page);
     await home.goto();
 
+    // The ZIP is changed in Settings (the page-top ZIP chip is gone, M4-3a) and the store filter in the Shop's Filters sheet.
     const zipRequest = page.waitForResponse((r) => r.url().includes('/api/dashboard') && r.url().includes('zip=80202'));
-    await home.zipButton.click();
+    await home.openSettings();
+    await home.locationRow.click();
     await page.getByRole('button', { name: 'Denver, CO (80202)' }).click();
     expect((await zipRequest).ok()).toBe(true);
-    await expect(home.zipButton).toContainText('(80202)');
+    await expect(page.getByText('Denver, CO 80202')).toBeVisible();
+    await page.getByRole('link', { name: 'Back' }).click();
+    await expect.poll(() => home.pathname).toBe('/shop');
 
     const storeRequest = page.waitForResponse((r) => r.url().includes('/api/dashboard') && r.url().includes('store=ALDI'));
-    await page.getByRole('button', { name: 'ALDI', exact: true }).click();
+    await page.getByRole('button', { name: /^Filters/ }).click();
+    await page.getByLabel('Store').selectOption('ALDI');
     expect((await storeRequest).ok()).toBe(true);
+    await page.keyboard.press('Escape');
     expect(await home.priceCards.count()).toBeGreaterThan(3);
   });
 });
@@ -180,9 +186,9 @@ test.describe('smoke: keyboard', () => {
     await home.goto();
 
     // Tab through the page and collect the header and page controls in the order they are reached: the account avatar in the
-    // header first, then the ZIP and alerts controls at the top of the page. The navigation (an icon rail before the header on
+    // header first, then the Shop's location link and its Details button. The navigation (an icon rail before the header on
     // medium widths, a tab bar after the page on compact ones) is left out here and covered below.
-    const wanted = (name: string) => name === 'Click to change your ZIP code' || name.includes('Smart Push Notifications') || name.startsWith('Account and settings');
+    const wanted = (name: string) => name === 'Change in Settings' || name === 'Details' || name.startsWith('Account and settings');
     const controls: string[] = [];
     for (let i = 0; i < 12 && controls.length < 3; i++) {
       await page.keyboard.press('Tab');
@@ -191,8 +197,8 @@ test.describe('smoke: keyboard', () => {
     }
     expect(controls).toEqual([
       expect.stringContaining('Account and settings'),
-      'Click to change your ZIP code',
-      expect.stringContaining('Smart Push Notifications'),
+      'Change in Settings',
+      'Details',
     ]);
 
     // The Pantry tab opens the Pantry by keyboard and the page puts focus on its heading; the Shop tab leaves it.

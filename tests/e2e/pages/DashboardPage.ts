@@ -8,7 +8,8 @@ import type { Locator, Page } from '@playwright/test';
  */
 export class DashboardPage {
   readonly heading: Locator;
-  readonly zipButton: Locator;
+  /** The Location row on the Settings page (the page-top ZIP chip is gone since M4-3a). */
+  readonly locationRow: Locator;
   readonly pantryButton: Locator;
   /** The Sign In button of the account card on the Settings page (the header avatar is a link to Settings since M4-2a). */
   readonly signInButton: Locator;
@@ -24,8 +25,7 @@ export class DashboardPage {
   constructor(readonly page: Page) {
     // The screen's visually hidden h1 ("Shop", "Pantry" or "Plan", spec 6a); the brand in the header is not a heading.
     this.heading = page.getByRole('heading', { level: 1 });
-    // The header control ends with "Change"; the location list buttons in the open panel do not.
-    this.zipButton = page.getByRole('button', { name: /\(\d{5}\)\s*Change$/ });
+    this.locationRow = page.getByRole('button', { name: /^Location/ });
     // The Pantry tab is a link to /pantry (the property keeps its name so the specs do not change). Its accessible name
     // is "Pantry (n)". Only the navigation for the current width is displayed, so one link matches.
     this.pantryButton = page.getByRole('link', { name: /Pantry\s*\(\d+\)/ });

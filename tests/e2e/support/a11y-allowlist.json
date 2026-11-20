@@ -84,17 +84,6 @@
     "reason": "A select control on the current UI has no accessible name; replaced by the M4 screen redesign primitives."
   },
   {
-    "screen": "pantry",
-    "rule": "color-contrast",
-    "projects": [
-      "ipad-webkit",
-      "ipad-chromium",
-      "ipad-landscape-webkit"
-    ],
-    "issue": 714,
-    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
     "screen": "plan",
     "rule": "color-contrast",
     "projects": [

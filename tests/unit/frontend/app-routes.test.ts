@@ -76,13 +76,16 @@ describe('the shell frame (M4-1b)', () => {
     }
   });
 
-  it('puts the ZIP, alerts and store controls in the page, not in the sticky header', async () => {
-    const h = await start('/shop');
-    const header = h.container.querySelector('header')!;
-    const zip = h.container.querySelector('button[title="Click to change your ZIP code"]')!;
-    expect(zip).not.toBeNull();
-    expect(header.contains(zip)).toBe(false);
-    expect(h.container.querySelector('main')!.contains(zip)).toBe(true);
+  it('has no ZIP, alerts, store-filter or pins controls above any screen (they live in Settings and the Shop\'s Filters)', async () => {
+    for (const path of ['/shop', '/plan', '/pantry']) {
+      const h = await start(path);
+      expect(h.container.querySelector('button[title="Click to change your ZIP code"]')).toBeNull();
+      expect(h.container.querySelector('button[title^="Preview Smart Push"]')).toBeNull();
+      expect(h.container.querySelector('button[title="Customize which grocery stores you shop at"]')).toBeNull();
+      expect(text(h)).not.toContain('All Stores (');
+      expect(text(h)).not.toContain('View 3 Dishes');
+      await h.teardown();
+    }
   });
 });
 
@@ -160,12 +163,12 @@ describe('state survives moving between modules (the provider is in the layout)'
   it('keeps pins, batch size and a half-typed AI request', async () => {
     const h = await start('/shop');
     await h.click([...h.container.querySelectorAll('button')].find((b) => /Pin to Prep/.test(b.textContent ?? ''))!);
-    expect(text(h)).toContain('1 Pinned');
+    expect(h.state().pinnedIds).toHaveLength(1);
     await h.click(h.link(MEAL_PLAN));
     await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('8 Srv / Dish'))!);
     await h.type(promptInput(h), 'half-typed soup');
     await h.openShopView('Deals');
-    expect(text(h)).toContain('1 Pinned');
+    expect(h.state().pinnedIds).toHaveLength(1);
     await h.click(h.link(MEAL_PLAN));
     expect(promptInput(h).value).toBe('half-typed soup');
     expect([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('8 Srv / Dish'))!.className).toContain('bg-emerald-400');
@@ -176,14 +179,14 @@ describe('state survives moving between modules (the provider is in the layout)'
     const gate = new Promise<Response>((resolve) => { release = resolve; });
     const h = await start('/plan', (input) => (input.startsWith('/api/dashboard?') && input.includes('zip=80999') ? gate : undefined));
     await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('High-Protein'))!); // a refetch is started
-    // A held ZIP refetch, started from the header and still in flight while the user moves on.
-    await h.click(h.container.querySelector<HTMLElement>('button[title="Click to change your ZIP code"]')!);
+    // A held ZIP refetch, started from Settings and still in flight while the user moves on.
+    await h.openSettingsPanel('Location');
     await h.type(h.container.querySelector<HTMLInputElement>('input[placeholder^="e.g. 80542"]')!, '80999');
     await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('Update Location'))!);
     await h.waitUntil(() => dashboardRequests(h).some((r) => r.url.includes('zip=80999')));
     await h.openShopView('Deals');
     expect(h.path()).toBe('/shop');
     release(Response.json({ ...payload, zipCode: '80999' }));
-    await h.waitUntil(() => text(h).includes('(80999)'));
+    await h.waitUntil(() => h.state().zip === '80999');
   });
 });
