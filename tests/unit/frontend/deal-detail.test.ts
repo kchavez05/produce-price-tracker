@@ -96,7 +96,7 @@ describe('Back and leaving', () => {
     const h = await start(dealPath);
     await h.openShopView('Trip');
     expect(h.path()).toBe('/shop');
-    expect(text(h)).toContain('Deduplicated 3-Dish Shopping List');
+    expect(text(h)).toContain('ingredients to buy');
   });
 
   it('leaves the deal path for another module', async () => {

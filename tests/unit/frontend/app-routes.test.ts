@@ -114,7 +114,7 @@ describe('links', () => {
   it('switch Shop views without a navigation, only a change of module pushes a path', async () => {
     const h = await start('/shop');
     await h.openShopView('Trip');
-    expect(text(h)).toContain('Print Checklist');
+    expect(text(h)).toContain('Print Slip');
     await h.openShopView('Radar');
     expect(text(h)).toContain('Predictive 6-Week Cycle Signals');
     expect(h.pushes).toEqual([]);

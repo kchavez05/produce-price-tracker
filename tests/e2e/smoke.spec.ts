@@ -171,9 +171,10 @@ test.describe('smoke: meal plan', () => {
     await a11y.noHorizontalScroll('plan');
 
     await home.openShopView('Trip');
-    await expect(page.getByRole('heading', { level: 3, name: /Deduplicated 3-Dish Shopping List/ })).toBeVisible();
-    await expect(page.getByRole('heading', { level: 3, name: /Cart Bridge/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Print Checklist' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 2, name: 'Best plan' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 2, name: /ingredients to buy/ })).toBeAttached();
+    await expect(page.getByRole('button', { name: 'Export to Notes' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Print Slip' })).toBeVisible();
     await a11y.check('shopping-list');
     await a11y.noHorizontalScroll('shopping-list');
   });

@@ -17,10 +17,9 @@ const LIST = 'Trip';
 const RADAR = 'Radar';
 const CHECKED_KEY = 'mead_checked_items_v03';
 const CLIPPED_KEY = 'mead_clipped_coupons_v03';
-const checklistToggles = (h: DashboardHarness) => [...h.container.querySelectorAll<HTMLButtonElement>('button.mt-0\\.5.text-emerald-600')];
-const coupons = (h: DashboardHarness) =>
-  [...h.container.querySelectorAll<HTMLElement>('div[class*="cursor-pointer"][class*="rounded-xl"][class*="border-"]')]
-    .filter((el) => el.className.includes('border-amber-200') || el.className.includes('border-emerald-300'));
+const checklistToggles = (h: DashboardHarness) => [...h.container.querySelectorAll<HTMLInputElement>('input[type="checkbox"][id^="trip-"]')];
+const coupons = (h: DashboardHarness) => [...h.container.querySelectorAll<HTMLButtonElement>('section[aria-label="Coupons to clip"] button[aria-pressed]')];
+const clipped = (button: HTMLElement) => button.getAttribute('aria-pressed') === 'true';
 const stored = (key: string) => JSON.parse(localStorage.getItem(key) ?? '{}') as Record<string, boolean>;
 
 async function start(strictMode = false) {
@@ -49,13 +48,13 @@ describe('checklist and coupon toggles', () => {
       const h = await start(strictMode);
       const before = coupons(h);
       expect(before.length).toBeGreaterThan(0);
-      expect(before[0].className).toContain('border-amber-200');
+      expect(clipped(before[0])).toBe(false);
       await h.click(before[0]);
       expect(Object.values(stored(CLIPPED_KEY))).toEqual([true]);
-      expect(coupons(h)[0].className).toContain('border-emerald-300');
+      expect(clipped(coupons(h)[0])).toBe(true);
       await h.click(coupons(h)[0]);
       expect(Object.values(stored(CLIPPED_KEY))).toEqual([false]);
-      expect(coupons(h)[0].className).toContain('border-amber-200');
+      expect(clipped(coupons(h)[0])).toBe(false);
     });
   }
 
@@ -66,17 +65,21 @@ describe('checklist and coupon toggles', () => {
     await h.click(checklistToggles(h)[0]);
     await h.click(coupons(h)[0]);
     expect(h.html()).not.toBe(before);
-    expect(coupons(h)[0].className).toContain('border-emerald-300');
+    expect(clipped(coupons(h)[0])).toBe(true);
   });
 
   it('keeps the checklist and clipped coupons across tab switches', async () => {
     const h = await start();
     await h.click(checklistToggles(h)[1]);
     await h.click(coupons(h)[0]);
-    const html = h.html();
+    // A checked box is a DOM property, not an attribute, so compare what is checked and clipped, not the markup.
+    const state = () => [checklistToggles(h).map((box) => box.checked), coupons(h).map(clipped)];
+    const before = state();
+    expect(before[0]).toContain(true);
+    expect(before[1]).toContain(true);
     await h.openShopView('Radar');
     await h.openShopView('Trip');
-    expect(h.html()).toBe(html);
+    expect(state()).toEqual(before);
   });
 });
 
@@ -104,7 +107,7 @@ describe('copy to notes and print', () => {
     const h = await start();
     Object.assign(navigator, { clipboard: { writeText } });
     const timer = captureTimers([3000]);
-    await h.click(h.button('Export to Notes / Keep'));
+    await h.click(h.button('Export to Notes'));
     expect(writeText).toHaveBeenCalledTimes(1);
     const unchecked = writeText.mock.calls[0][0] as string;
     expect(unchecked).toContain('80542');
@@ -118,7 +121,7 @@ describe('copy to notes and print', () => {
     await act(async () => { clear!(); });
     expect(h.container.textContent).not.toContain('Copied for Apple Notes / Keep!');
     await h.click(checklistToggles(h)[0]);
-    await h.click(h.button('Export to Notes / Keep'));
+    await h.click(h.button('Export to Notes'));
     expect(writeText).toHaveBeenCalledTimes(2);
     expect(writeText.mock.calls[1][0]).not.toBe(unchecked);
   });
@@ -127,8 +130,8 @@ describe('copy to notes and print', () => {
     const print = vi.spyOn(window, 'print').mockImplementation(() => undefined);
     const h = await start();
     const timer = captureTimers([150]);
-    await h.click(h.button('Print Checklist'));
-    expect(h.container.textContent).toContain('Hide Printable Slip');
+    await h.click(h.button('Print Slip'));
+    expect(h.container.textContent).toContain('Hide Slip');
     expect(print).not.toHaveBeenCalled();
     const printNow = timer(150);
     expect(printNow).toBeDefined();
@@ -136,8 +139,8 @@ describe('copy to notes and print', () => {
     expect(print).toHaveBeenCalledTimes(1);
     await h.openShopView('Radar');
     await h.openShopView('Trip');
-    expect(h.container.textContent).toContain('Hide Printable Slip');
-    await h.click(h.button('Hide Printable Slip'));
-    expect(h.container.textContent).toContain('Preview Printable Slip');
+    expect(h.container.textContent).toContain('Hide Slip');
+    await h.click(h.button('Hide Slip'));
+    expect(h.container.textContent).toContain('Preview Slip');
   });
 });

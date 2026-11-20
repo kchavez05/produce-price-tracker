@@ -165,7 +165,7 @@ describe('the Trip count', () => {
     const trip = [...h.container.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Shop views"] a')].find((a) => a.textContent?.startsWith('Trip'))!;
     expect(trip.textContent).toMatch(/^Trip\d+$/);
     await h.click(trip);
-    expect(h.container.textContent).toContain('Deduplicated 3-Dish Shopping List');
+    expect(h.container.textContent).toContain('ingredients to buy');
   });
 });
 

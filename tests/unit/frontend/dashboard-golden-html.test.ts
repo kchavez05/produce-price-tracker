@@ -29,7 +29,7 @@ const digest = {
   recentSyncRuns: [],
 } as unknown as WeeklySyncCronResult;
 const checklistToggle = (h: DashboardHarness) => {
-  const found = h.container.querySelector<HTMLButtonElement>('button.mt-0\\.5.text-emerald-600');
+  const found = h.container.querySelector<HTMLInputElement>('input[type="checkbox"][id^="trip-"]');
   if (!found) throw new Error('Missing checklist toggle');
   return found;
 };
@@ -66,7 +66,7 @@ describe('dashboard golden HTML (guest, keyless)', () => {
     const h = await start();
     await h.openShopView('Trip');
     // The ranked single-store cards start with their rank, "#1", "#2"...
-    await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.startsWith('#1'))!);
+    await h.click([...h.container.querySelectorAll('button')].find((b) => b.textContent?.includes('lowest 1-stop'))!);
     await h.click(checklistToggle(h));
     expectGolden('05-guest-shopping-single-store-checked', h.html());
   });
@@ -105,7 +105,7 @@ describe('dashboard golden HTML (guest, keyless)', () => {
   it('9 print slip open', async () => {
     const h = await start();
     await h.openShopView('Trip');
-    await h.click(h.button('Preview Printable Slip'));
+    await h.click(h.button('Preview Slip'));
     expectGolden('09-print-slip-open', h.html());
   });
   it('11 settings, guest', async () => {

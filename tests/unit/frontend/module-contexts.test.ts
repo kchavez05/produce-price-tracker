@@ -151,22 +151,22 @@ describe('Shop components on the contexts, without the shell', () => {
 
   it('TripSection builds the shopping list from the dashboard context and toggles the Shop context', async () => {
     const h = await mountModules(() => createElement(TripSection));
-    const toggles = () => [...h.container.querySelectorAll<HTMLButtonElement>('button.mt-0\\.5.text-emerald-600')];
+    const toggles = () => [...h.container.querySelectorAll<HTMLInputElement>('input[type="checkbox"][id^="trip-"]')];
     expect(toggles().length).toBeGreaterThan(0);
     expect(seen.shop.checkedItems).toEqual({});
     await act(async () => { toggles()[0].click(); await h.settle(); });
     expect(Object.values(seen.shop.checkedItems)).toEqual([true]);
     expect(seen.dashboard.resolvedShoppingItems.length).toBeGreaterThan(0);
-    await act(async () => { buttons(h).find((b) => /#1/.test(b.textContent ?? ''))!.click(); await h.settle(); });
+    await act(async () => { buttons(h).find((b) => /lowest 1-stop/.test(b.textContent ?? ''))!.click(); await h.settle(); });
     expect(seen.shop.tripMode).not.toBe('SPLIT');
-    await act(async () => { buttons(h).find((b) => b.textContent?.includes('Preview Printable Slip'))!.click(); await h.settle(); });
+    await act(async () => { buttons(h).find((b) => b.textContent === 'Preview Slip')!.click(); await h.settle(); });
     expect(seen.shop.showPrintSlipModal).toBe(true);
-    expect(text(h)).toContain('Hide Printable Slip');
+    expect(text(h)).toContain('Hide Slip');
   });
 
   it('TripSection marks availability through the Shell actions', async () => {
     const h = await mountModules(() => createElement(TripSection));
-    const toggles = () => buttons(h).filter((b) => /Have at Home\?|On-Hand/.test(b.textContent ?? ''));
+    const toggles = () => buttons(h).filter((b) => b.textContent === 'Have it' && b.hasAttribute('aria-pressed'));
     expect(toggles().length).toBeGreaterThan(0);
     for (let index = 0; index < 4; index += 1) await act(async () => { toggles()[index].click(); await h.settle(); });
     // Grouped deals explain themselves with a toast and open the Pantry module; they are never sent to the stock-up review.
