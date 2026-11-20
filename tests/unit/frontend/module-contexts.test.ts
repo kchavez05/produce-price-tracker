@@ -279,30 +279,27 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(h.requests.some((r) => r.url === '/api/cron/weekly-sync?cycle=preview_digest&zip=80542')).toBe(true);
   });
 
-  it('HeaderPrimary is the brand and the account avatar: Sign In for a guest, the name when signed in, and it opens the account dialog', async () => {
+  it('HeaderPrimary is the brand and the account avatar, a link straight to Settings', async () => {
     const guest = await mountModules(() => createElement(HeaderPrimary));
     expect(text(guest)).toContain('PantryBot');
     expect(guest.container.querySelector('h1')).toBeNull(); // the screen name is the h1 (AppShell), not the brand
-    const avatar = () => buttons(guest).find((b) => b.getAttribute('aria-label') === 'Sign In')!;
-    expect(avatar().title).toContain('Sign In with Google or Apple');
-    expect(avatar().getAttribute('aria-expanded')).toBe('false');
-    expect(buttons(guest).length).toBe(1); // no ZIP, alerts or Pantry control in the header any more
-    await act(async () => { seen.shell.showAiSignIn(); await guest.settle(); });
-    expect(seen.shell.accountIntent).toBe('ai');
-    await act(async () => { seen.shell.setShowAccountModal(false); await guest.settle(); });
-    await click(guest, (b) => b.getAttribute('aria-label') === 'Sign In');
-    expect(seen.shell.showAccountModal).toBe(true);
-    expect(seen.shell.accountIntent).toBe('account');
-    expect(avatar().getAttribute('aria-expanded')).toBe('true');
+    const avatar = () => links(guest).find((a) => a.getAttribute('aria-label') === 'Account and settings')!;
+    expect(avatar().getAttribute('href')).toBe('/settings');
+    expect(avatar().title).toContain('Sign in with Google or Apple');
+    expect(avatar().getAttribute('aria-current')).toBeNull();
+    expect(buttons(guest).length).toBe(0); // no ZIP, alerts, Pantry or Sign In control in the header any more
+    await clickLink(guest, (a) => a.getAttribute('aria-label') === 'Account and settings');
+    expect(seen.shell.module).toBe('settings');
+    expect(pushes).toEqual(['/settings']);
+    expect(avatar().getAttribute('aria-current')).toBe('page');
   });
 
-  it('HeaderPrimary names the avatar after the signed-in account and shows its sync status', async () => {
+  it('HeaderPrimary names the signed-in account in the avatar title and shows its sync status', async () => {
     sync = aliceSync;
     accountId = 'alice';
     const h = await mountModules(() => createElement(HeaderPrimary));
-    const avatar = () => buttons(h).find((b) => b.getAttribute('aria-label') === 'Alice')!;
-    await h.waitUntil(() => buttons(h).some((b) => b.getAttribute('aria-label') === 'Alice'));
-    expect(avatar().title).toContain('Signed in as Alice');
+    const avatar = () => links(h).find((a) => a.getAttribute('aria-label') === 'Account and settings')!;
+    await h.waitUntil(() => avatar().title.includes('Signed in as Alice'));
     expect(avatar().textContent).toBe('A');
     expect(h.container.querySelector('[data-sync-status]')).not.toBeNull();
     // The status is not colour-only: the avatar is described by a visually hidden sentence (review of #829).

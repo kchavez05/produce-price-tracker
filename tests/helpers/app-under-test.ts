@@ -12,6 +12,7 @@ import { moduleOfPath } from '@/modules/shell/navigation';
 import ShopPage from '@/modules/shop/ShopPage';
 import PlanPage from '@/modules/plan/PlanPage';
 import PantryDrawer from '@/modules/pantry/PantryDrawer';
+import SettingsPage from '@/modules/settings/SettingsPage';
 import type { DashboardPayload, RecommendedDish } from '@/types/domain';
 
 export interface TestRouterProps {
@@ -40,6 +41,7 @@ export interface PageFlags {
 function TestPage({ flags }: { flags: PageFlags }) {
   const { pathname } = useAppRouter();
   const current = moduleOfPath(pathname);
+  if (current === 'settings') return createElement(SettingsPage);
   if (current === 'plan') return createElement(PlanPage);
   if (current === 'pantry') return createElement(PantryDrawer, flags);
   return createElement(ShopPage);

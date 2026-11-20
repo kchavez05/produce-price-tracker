@@ -226,7 +226,7 @@ describe('stores drawer: select all', () => {
 describe('Sync Now (signed-in account)', () => {
   it('retries the pantry, then pushes the current preferences to the cloud', async () => {
     const h = await start(undefined, { sync: cloudBacked, accountId: 'alice' });
-    await h.click(h.button('Alice'));
+    await h.openAccountDialog();
     expect(text(h)).toContain('Account, Cloud Sync & Privacy Controls');
     const pantryGets = () => h.requests.filter((r) => r.url === '/api/pantry' && r.method === 'GET').length;
     const syncPosts = () => h.requests.filter((r) => r.url === '/api/sync' && r.method !== 'GET');
@@ -293,7 +293,7 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
 
   it('keeps the account dialog open across tab switches', async () => {
     const h = await start();
-    await h.click(h.button('Sign In'));
+    await h.openAccountDialog();
     expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
     await h.openShopView('Radar');
     await h.click(h.link(PLAN));

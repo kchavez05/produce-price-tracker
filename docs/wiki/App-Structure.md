@@ -10,6 +10,7 @@ How the app screens are organized since the v2.0 M3 dashboard decomposition ([#7
 | `/shop` | The Shop module: **Board**, **Trip** (shopping list and cart bridge) and **Radar** are views of this one route. | `src/app/(app)/shop/page.tsx` renders `src/modules/shop/ShopPage.tsx` |
 | `/plan` | The Plan module: the 3-dish meal prep plan, the AI request, blueprints. | `src/app/(app)/plan/page.tsx` renders `src/modules/plan/PlanPage.tsx` |
 | `/pantry` | The Pantry module: the private Virtual Pantry as a page. | `src/app/(app)/pantry/page.tsx` renders `src/modules/pantry/PantryDrawer.tsx` |
+| `/settings` | Account and Settings (v2.0 M4-2a): location, stores, meal prep preferences, appearance, account and sync, weekly digest preview, about links. Not a tab. | `src/app/(app)/settings/page.tsx` renders `src/modules/settings/SettingsPage.tsx` |
 
 `/privacy`, `/terms`, `/docs`, `/data`, `/design` and `/api-docs` are outside the `(app)` group: they do not mount the provider.
 
@@ -43,11 +44,16 @@ Components are stateless views over the context hooks. Only page-level configura
 | Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (frame, header, toast, panels), `HeaderPrimary` (brand and account avatar), `TemporaryControls` (ZIP and alerts, until Settings), `StoreFilterBar`, `FreshnessNotice` (not rendered, kept for #828), `PrimaryNavigation` (the tabs), `PinSummary`, `ZipPanel`, `StoresPanel`, `AlertsPanel`, `AccountDialog` (adapter) and `AccountModal`, `AppLink`, `app-router.tsx`, `navigation.ts` |
 | Shop | `src/modules/shop/` | `ShopPage`, `ShopViewNav` (Deals, Trip, Radar), `BoardAlerts`, `BoardControls`, `BoardLeaderboard`, `TripSection`, `PrintSlip`, `RadarSection`, `badges.tsx` |
 | Plan | `src/modules/plan/` | `PlanPage`, `PlanHeader`, `PlanDishes`, `PlanBlueprints` |
+| Settings | `src/modules/settings/` | `SettingsPage` (every control calls an action an old control called; Location, My Stores, the weekly digest and the account dialog open in place under their row) |
 | Pantry | `src/modules/pantry/` | `PantryDrawer` (adapter: reads the contexts, renders `VirtualPantry`) and `VirtualPantry` (props-driven, tested on its own) |
 
 ## The app frame (M4-1b)
 
 `AppShell` is the frame of every app screen: a sticky header (the brand and the account avatar, padded with `env(safe-area-inset-top)` because the root layout sets `viewport-fit=cover`), the navigation, and the page. It uses design tokens (`bg-bg`, `text-ink`, `bg-surface`, `border-border`) and sets `data-ds` on `<html>` after mount, which turns on `color-scheme` and the browser chrome colour; screens below the frame are not tokenized yet, so dark mode is half dark until they are (M4 decision 18). Each screen has a visually hidden `h1` with its name (Shop, Pantry or Plan), the brand is not a heading, and each route has its own title (`Shop — PantryBot`). The header is `relative` on the Pantry, whose heading is scrolled to the top of the view. ZIP, Smart Alerts, the store filter, the toast, the panels and the pins summary sit at the top of the page, not in the header; they are temporary and go as Settings and the Shop redesign take over (M4 decision 19). The site footer is not on app screens; the static pages (`/privacy`, `/terms`, `/docs`, `/data`, `/design`) render `AppFooter` themselves.
+
+## Settings (M4-2a)
+
+`/settings` is a module (`moduleOfPath`, `Destination` and `MODULE_PATHS` know it) but not a tab (`TabModule` is the three tabs). No tab is current there, it has a visible `h1` ("Account and Settings") instead of the visually hidden tab title, and `AppShell` neither writes the last-used-module cookie for it nor renders the page-top controls, panels and account dialog (the Settings page renders those components itself, in place under their rows). `isTabModule` guards the cookie, so `/` never opens Settings. The avatar in the header is a link to it, and Back returns to the tab the user came from (`lastTab` in the Shell context, set by `AppShell` on every tab change; Shop returns to the Shop view it was left on). Location, My Stores, the meal prep controls (macro goal, dietary rules, cookware, default servings), Appearance (`useTheme`), sign-in, sync status, AI features and the weekly digest call the same context actions as before, so no sync, ownership or storage code changed. The ZIP and alerts controls on the other screens are temporary and stay until the Shop redesign (M4 decision 19).
 
 ## Navigation
 

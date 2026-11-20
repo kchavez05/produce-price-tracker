@@ -27,7 +27,7 @@ export type NavOrientation = 'horizontal' | 'vertical' | 'rail';
 export function NavList<T extends NavItem>({
   label, items, current, onSelect, renderLink, orientation, className,
 }: {
-  label: string; items: ReadonlyArray<T>; current: string; onSelect?: (id: T['id']) => void;
+  label: string; items: ReadonlyArray<T>; current: string | null; onSelect?: (id: T['id']) => void;
   renderLink?: NavLinkRenderer<T>; orientation: NavOrientation; className?: string;
 }) {
   return (

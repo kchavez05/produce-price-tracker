@@ -12,16 +12,20 @@ interface AppLinkProps {
   className?: string;
   title?: string;
   'aria-current'?: 'page';
+  'aria-label'?: string;
+  'aria-describedby'?: string;
   ref?: Ref<HTMLAnchorElement>;
   children?: ReactNode;
 }
 
-export default function AppLink({ to, className, title, ref, children, 'aria-current': ariaCurrent }: AppLinkProps) {
+export default function AppLink({
+  to, className, title, ref, children, 'aria-current': ariaCurrent, 'aria-label': ariaLabel, 'aria-describedby': ariaDescribedBy,
+}: AppLinkProps) {
   const { navigateTo } = useShellContext();
   function onClick(event: MouseEvent<HTMLAnchorElement>) {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     navigateTo(to);
   }
-  return <a ref={ref} href={pathOf(to)} onClick={onClick} className={className} title={title} aria-current={ariaCurrent}>{children}</a>;
+  return <a ref={ref} href={pathOf(to)} onClick={onClick} className={className} title={title} aria-current={ariaCurrent} aria-label={ariaLabel} aria-describedby={ariaDescribedBy}>{children}</a>;
 }

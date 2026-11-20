@@ -5,7 +5,8 @@ import { cx } from './cx';
 export interface SidebarProps<T extends NavItem = NavItem> {
   label: string;
   items: ReadonlyArray<T>;
-  current: T['id'];
+  /** The current item's id, or null when none is current (such as on a screen that is not a tab). */
+  current: T['id'] | null;
   /** Called with the item id when an item is chosen (button items). Not used when renderLink is given. */
   onSelect?: (id: T['id']) => void;
   /** Render each item as a link (or any element) instead of a button. */

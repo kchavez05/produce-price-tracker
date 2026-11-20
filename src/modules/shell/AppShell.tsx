@@ -23,16 +23,22 @@ import { DoorOpen } from 'lucide-react';
 // The sticky header is only the brand and the account avatar, padded for the iPhone status bar (`viewport-fit=cover`). The
 // ZIP, alerts, store filter, notices and panels moved from the header into the top of the page; they go away as Settings and
 // the Shop redesign take over their jobs (M4 decision 19). Each screen has a visually hidden h1 with its name (spec 6a).
-const SCREEN_NAMES: Record<AppModule, string> = { shop: 'Shop', pantry: 'Pantry', plan: 'Plan' };
+// Settings is not a tab: it shows its own visible title and, since it hosts these controls itself (M4-2a), none of the
+// page-top controls, panels or dialogs below. It does not write the last-used-module cookie, and it remembers the tab the
+// user came from so it can offer Back.
+const SCREEN_NAMES: Record<Exclude<AppModule, 'settings'>, string> = { shop: 'Shop', pantry: 'Pantry', plan: 'Plan' };
 
 export default function AppShell({ children }: { children?: ReactNode }) {
   const { showZipModal } = useLocationContext();
-  const { module, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal } = useShellContext();
+  const { module, setLastTab, arbitrageToast, setArbitrageToast, showStoresModal, showAlertsModal } = useShellContext();
+  const onSettings = module === 'settings';
 
   useEffect(() => {
+    if (module === 'settings') return;
+    setLastTab(module);
     const secure = window.location.protocol === 'https:' ? '; Secure' : '';
     document.cookie = `${LAST_MODULE_COOKIE}=${module}; Path=/; Max-Age=${LAST_MODULE_MAX_AGE_SECONDS}; SameSite=Lax${secure}`;
-  }, [module]);
+  }, [module, setLastTab]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -51,9 +57,9 @@ export default function AppShell({ children }: { children?: ReactNode }) {
         </header>
 
         <main className="mx-auto max-w-6xl px-4 pt-3">
-          <h1 className="sr-only">{SCREEN_NAMES[module]}</h1>
+          {!onSettings && <h1 className="sr-only">{SCREEN_NAMES[module]}</h1>}
 
-          <div className="no-print">
+          {!onSettings && <div className="no-print">
             <TemporaryControls />
             <StoreFilterBar />
 
@@ -93,7 +99,7 @@ export default function AppShell({ children }: { children?: ReactNode }) {
 
             {/* Pins and availability summary, with the shortcut to the meal plan */}
             <PinSummary />
-          </div>
+          </div>}
 
           <div className="pt-4">{children}</div>
         </main>

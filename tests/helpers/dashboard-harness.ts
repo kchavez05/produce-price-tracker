@@ -34,6 +34,11 @@ export interface DashboardHarness {
    * from another module this first takes the Shop tab, which returns to the view the user left.
    */
   openShopView: (label: 'Deals' | 'Trip' | 'Radar') => Promise<void>;
+  /**
+   * Open the account dialog the way a user does since M4-2a: through the header avatar to Settings, then the account card's
+   * button ("Sign In" for a guest, "Manage Account" when signed in). Does nothing on Settings if the dialog is already open.
+   */
+  openAccountDialog: () => Promise<void>;
   /** The current in-app path ("/shop", "/plan" or "/pantry"). */
   path: () => string;
   /** Every path pushed by a navigation since mount, in order. */
@@ -131,7 +136,9 @@ export async function createDashboardHarness(options: {
   const run = async (action: () => unknown) => { await act(async () => { await action(); await settle(); }); };
   const link = (text: string): HTMLAnchorElement => {
     const anchors = [...container.querySelectorAll('a')];
-    const found = anchors.find((element) => element.textContent === text) ?? anchors.find((element) => element.textContent?.includes(text));
+    // Exact text first, then an exact accessible name (an icon-only link such as the header avatar), then partial text.
+    const found = anchors.find((element) => element.textContent === text) ?? anchors.find((element) => element.getAttribute('aria-label') === text)
+      ?? anchors.find((element) => element.textContent?.includes(text));
     if (!found) throw new Error(`Missing link: ${text}`);
     return found;
   };
@@ -162,6 +169,11 @@ export async function createDashboardHarness(options: {
     }),
     button,
     link,
+    openAccountDialog: async () => {
+      if (!container.querySelector('section[aria-label="Your account"]')) await run(() => link('Account and settings').click());
+      const card = container.querySelector('section[aria-label="Your account"]')!;
+      await run(() => card.querySelector('button')!.click());
+    },
     openShopView: async (label) => {
       const present = [...container.querySelectorAll('a')].some((element) => element.textContent === label);
       if (!present) await run(() => link('Shop').click());

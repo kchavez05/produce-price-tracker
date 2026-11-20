@@ -67,10 +67,19 @@ test.describe('visual: dashboard', () => {
     await snapshot(page, 'meal-plan');
   });
 
+  test('settings', async ({ page, problems }) => {
+    void problems;
+    const home = new DashboardPage(page);
+    await home.goto();
+    await home.openSettings();
+    await snapshot(page, 'settings');
+  });
+
   test('account panel', async ({ page, problems }) => {
     void problems;
     const home = new DashboardPage(page);
     await home.goto();
+    await home.openSettings();
     await home.signInButton.click();
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeVisible();
     await snapshot(page, 'account-panel');

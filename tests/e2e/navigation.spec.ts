@@ -86,6 +86,34 @@ test.describe('navigation: modules are pages', () => {
   });
 });
 
+test.describe('navigation: Settings is not a tab', () => {
+  test('12. Back returns to the tab the user came from, and "/" never opens Settings', async ({ page, problems }) => {
+    void problems;
+    const home = new DashboardPage(page);
+    await home.goto();
+    await home.tab('Plan').click();
+    await expect(home.planHeading).toBeVisible();
+    const moduleCookie = async () => (await page.context().cookies()).find((cookie) => cookie.name === 'pantrybot_last_module')?.value;
+    await expect.poll(moduleCookie).toBe('plan');
+
+    await home.openSettings();
+    expect(home.pathname).toBe('/settings');
+    // No tab is current on Settings, and it is not remembered as the last-used module.
+    await expect(page.locator('a[aria-current="page"]:visible')).toHaveCount(1); // the avatar only
+    expect(await moduleCookie()).toBe('plan');
+
+    await page.getByRole('link', { name: 'Back' }).click();
+    await expect(home.planHeading).toBeVisible();
+    expect(home.pathname).toBe('/plan');
+
+    await home.openSettings();
+    const hydrated = page.waitForResponse((response) => response.url().includes('/api/sync'));
+    await page.goto('/');
+    await hydrated;
+    expect(home.pathname).toBe('/plan');
+  });
+});
+
 test.describe('navigation: nothing is lost when switching module mid-edit', () => {
   test('11. pins, the batch size, a half-typed AI request and a refetch in flight all survive', async ({ page, problems }) => {
     void problems;
