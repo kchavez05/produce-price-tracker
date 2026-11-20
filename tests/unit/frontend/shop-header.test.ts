@@ -58,6 +58,14 @@ describe('the location line', () => {
     expect(h.path()).toBe('/settings');
   });
 
+  it('says "1 store" for one store, not "1 stores"', async () => {
+    harness = await createDashboardHarness({ payload, storage: { pantrybot_active_stores: JSON.stringify(['ALDI']) } });
+    await harness.mount({ initialPath: '/shop' });
+    await harness.waitUntil(() => section(harness!).textContent?.includes('· 1 store') === true);
+    expect(section(harness).textContent).toContain('· 1 store');
+    expect(section(harness).textContent).not.toContain('1 stores');
+  });
+
   it('shows on every Shop view', async () => {
     const h = await start();
     for (const view of ['Trip', 'Radar'] as const) {

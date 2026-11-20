@@ -21,7 +21,7 @@ export default function ShopHeader() {
   return (
     <section aria-label="Prices" className="no-print mb-3 space-y-0.5">
       <div className="flex items-center justify-between gap-3 text-sm">
-        <p className="min-w-0 truncate text-muted">{data.cityLabel} · {activeStores.length} stores</p>
+        <p className="min-w-0 truncate text-muted">{data.cityLabel} · {activeStores.length} {activeStores.length === 1 ? 'store' : 'stores'}</p>
         <AppLink
           to={{ module: 'settings' }}
           className="inline-flex min-h-touch shrink-0 items-center text-accent underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
