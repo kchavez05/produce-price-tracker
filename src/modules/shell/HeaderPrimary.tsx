@@ -1,14 +1,14 @@
 'use client';
 
 import { ChefHat, LogIn } from 'lucide-react';
-import { IconButton } from '@/components/ui';
+import AppLink from '@/modules/shell/AppLink';
 import { useAccountContext, useShellContext } from '@/modules/shell/app-context';
 
-// v2.0 M4-1b: the header is the brand and the account avatar, as in the wireframes. ZIP, alerts and the store filter moved
-// to TemporaryControls (until Settings holds them). The avatar is the same account control the Sign In button was (it opens
-// the account dialog; M4-2a points it at Settings). Its name is "Sign In" for a guest and the display name when signed in.
-// The sync status is a coloured dot for sighted users and, for everyone, a visually hidden description the button points at
-// (aria-describedby), so a failed sync or changes queued offline are never colour-only.
+// v2.0 M4-1b: the header is the brand and the account avatar, as in the wireframes. Since M4-2a the avatar is a link straight
+// to Settings (owner decision 2, no separate menu); sign-in, sync and the rest of the account live there. It is named
+// "Account and settings" and described by the sync status for a signed-in user. The status is a coloured dot for sighted
+// users and, for everyone, a visually hidden description the link points at (aria-describedby), so a failed sync or changes
+// queued offline are never colour-only.
 const SYNC_DOT: Record<string, string> = {
   ERROR: 'bg-danger',
   SYNCING: 'bg-warning animate-pulse',
@@ -28,10 +28,9 @@ export function describeSync(status: string): string {
 
 export default function HeaderPrimary() {
   const { userSync } = useAccountContext();
-  const { showAccountModal, setShowAccountModal, setAccountIntent } = useShellContext();
+  const { module } = useShellContext();
   const signedIn = userSync.authenticated;
   const syncDescription = signedIn ? describeSync(userSync.syncStatus) : undefined;
-  const name = signedIn ? userSync.profile?.displayName || 'Account' : 'Sign In';
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-2">
@@ -41,23 +40,24 @@ export default function HeaderPrimary() {
         <span className="text-lg font-bold tracking-tight text-ink">PantryBot</span>
       </div>
 
-      {/* v1.3 Ticket #26 & #29: the account and cloud sync control */}
+      {/* v1.3 Ticket #26 & #29: the account and cloud sync entry, now Settings */}
       <div className="relative">
-        <IconButton
-          label={name}
-          aria-expanded={showAccountModal}
+        <AppLink
+          to={{ module: 'settings' }}
+          aria-label="Account and settings"
+          aria-current={module === 'settings' ? 'page' : undefined}
           aria-describedby={syncDescription ? 'account-sync-status' : undefined}
-          onClick={() => { setAccountIntent('account'); setShowAccountModal(!showAccountModal); }}
-          className={`rounded-pill border border-border-strong ${showAccountModal ? 'bg-accent text-on-accent' : 'bg-chip'}`}
+          className={`inline-flex size-touch items-center justify-center rounded-pill border border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus ${module === 'settings' ? 'bg-accent text-on-accent' : 'bg-chip text-ink'}`}
           title={
             signedIn
-              ? `Signed in as ${userSync.profile?.displayName} (${userSync.profile?.email})`
-              : 'Sign In with Google or Apple to sync across devices'
+              ? `Account and settings. Signed in as ${userSync.profile?.displayName} (${userSync.profile?.email})`
+              : 'Account and settings. Sign in with Google or Apple to sync across devices.'
           }
-          icon={signedIn
-            ? <span className="text-sm font-bold">{name.slice(0, 1).toUpperCase()}</span>
-            : <LogIn className="size-5" />}
-        />
+        >
+          {signedIn
+            ? <span aria-hidden="true" className="text-sm font-bold">{(userSync.profile?.displayName || 'Account').slice(0, 1).toUpperCase()}</span>
+            : <LogIn aria-hidden="true" className="size-5" />}
+        </AppLink>
         {syncDescription && <span id="account-sync-status" className="sr-only">{syncDescription}</span>}
         {signedIn && (
           <span

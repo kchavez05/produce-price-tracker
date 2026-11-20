@@ -109,8 +109,11 @@ test.describe('smoke: account panel', () => {
     await page.getByRole('button', { name: 'Add Salt' }).click();
     await expect.poll(() => home.pantryCount()).toBe(1);
 
-    // The account dialog must not navigate: the path is the same after it closes (the Pantry is a page at /pantry since M3 B.3c).
+    // The account dialog opens in place on the Settings page (the header avatar is a link to Settings since M4-2a) and must
+    // not navigate: the path is the same after it closes.
+    await home.openSettings();
     const pathBeforeDialog = new URL(page.url()).pathname;
+    expect(pathBeforeDialog).toBe('/settings');
     await home.signInButton.click();
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible();
@@ -120,6 +123,31 @@ test.describe('smoke: account panel', () => {
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeHidden();
     expect(new URL(page.url()).pathname).toBe(pathBeforeDialog);
     expect(await home.pantryCount()).toBe(1);
+  });
+});
+
+test.describe('smoke: settings', () => {
+  test('4b. opens from the avatar, shows its sections, sets the theme and goes Back', async ({ page, a11y, problems }) => {
+    void problems;
+    const home = new DashboardPage(page);
+    await home.goto();
+    await home.openSettings();
+    expect(home.pathname).toBe('/settings');
+    for (const section of ['Shopping', 'Meal Prep', 'Appearance', 'Account', 'About']) {
+      await expect(page.getByRole('heading', { level: 2, name: section })).toBeVisible();
+    }
+    await a11y.check('settings');
+    await a11y.noHorizontalScroll('settings');
+
+    // The theme choice applies at once and is remembered on the device (the Appearance control, M4-2a).
+    await page.getByRole('radio', { name: 'Dark' }).check();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    expect(await page.evaluate(() => localStorage.getItem('pantrybot-theme'))).toBe('dark');
+    await page.getByRole('radio', { name: 'System' }).check();
+
+    await page.getByRole('link', { name: 'Back' }).click();
+    await expect.poll(() => home.pathname).toBe('/shop');
+    await expect(home.tab('Deals')).toBeVisible();
   });
 });
 
@@ -153,7 +181,7 @@ test.describe('smoke: keyboard', () => {
     // Tab through the page and collect the header and page controls in the order they are reached: the account avatar in the
     // header first, then the ZIP and alerts controls at the top of the page. The navigation (an icon rail before the header on
     // medium widths, a tab bar after the page on compact ones) is left out here and covered below.
-    const wanted = (name: string) => name === 'Click to change your ZIP code' || name.includes('Smart Push Notifications') || name.includes('Sign In with Google or Apple');
+    const wanted = (name: string) => name === 'Click to change your ZIP code' || name.includes('Smart Push Notifications') || name.startsWith('Account and settings');
     const controls: string[] = [];
     for (let i = 0; i < 12 && controls.length < 3; i++) {
       await page.keyboard.press('Tab');
@@ -161,7 +189,7 @@ test.describe('smoke: keyboard', () => {
       if (wanted(name)) controls.push(name);
     }
     expect(controls).toEqual([
-      expect.stringContaining('Sign In with Google or Apple'),
+      expect.stringContaining('Account and settings'),
       'Click to change your ZIP code',
       expect.stringContaining('Smart Push Notifications'),
     ]);

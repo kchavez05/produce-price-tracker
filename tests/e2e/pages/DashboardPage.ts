@@ -10,7 +10,11 @@ export class DashboardPage {
   readonly heading: Locator;
   readonly zipButton: Locator;
   readonly pantryButton: Locator;
+  /** The Sign In button of the account card on the Settings page (the header avatar is a link to Settings since M4-2a). */
   readonly signInButton: Locator;
+  /** The header avatar: a link to Settings. */
+  readonly settingsLink: Locator;
+  readonly settingsHeading: Locator;
   readonly priceCards: Locator;
   readonly pantryHeading: Locator;
   readonly planHeading: Locator;
@@ -25,7 +29,9 @@ export class DashboardPage {
     // The Pantry tab is a link to /pantry (the property keeps its name so the specs do not change). Its accessible name
     // is "Pantry (n)". Only the navigation for the current width is displayed, so one link matches.
     this.pantryButton = page.getByRole('link', { name: /Pantry\s*\(\d+\)/ });
-    this.signInButton = page.getByRole('button', { name: 'Sign In', exact: true });
+    this.signInButton = page.getByRole('region', { name: 'Your account' }).getByRole('button', { name: 'Sign In', exact: true });
+    this.settingsLink = page.getByRole('link', { name: 'Account and settings' });
+    this.settingsHeading = page.getByRole('heading', { level: 1, name: 'Account and Settings' });
     this.priceCards = page.getByRole('heading', { level: 3 });
     this.pantryHeading = page.getByRole('heading', { level: 2, name: 'Virtual Pantry' });
     this.planHeading = page.getByRole('heading', { level: 2, name: /Your 3-Dish Weekend Meal Prep Plan/ });
@@ -41,6 +47,11 @@ export class DashboardPage {
   async pantryCount(): Promise<number> {
     const text = (await this.pantryButton.textContent()) ?? '';
     return Number(/\((\d+)\)/.exec(text)?.[1] ?? NaN);
+  }
+
+  async openSettings(): Promise<void> {
+    await this.settingsLink.click();
+    await this.settingsHeading.waitFor();
   }
 
   async openPantry(): Promise<void> {

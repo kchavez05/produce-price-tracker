@@ -8,7 +8,7 @@ import AppProvider from '@/modules/shell/AppProvider';
 import { TestRouter } from 'tests/helpers/app-under-test';
 import { useShellContext, useShopContext } from '@/modules/shell/app-context';
 import {
-  isAppModule, LAST_MODULE_COOKIE, lastModulePath, moduleOfPath, pathOf,
+  isTabModule, LAST_MODULE_COOKIE, lastModulePath, moduleOfPath, pathOf,
 } from '@/modules/shell/navigation';
 
 const payload = keylessPayload();
@@ -109,12 +109,14 @@ describe('the module is the URL', () => {
     expect(moduleOfPath('/shop')).toBe('shop');
     expect(moduleOfPath('/plan')).toBe('plan');
     expect(moduleOfPath('/pantry')).toBe('pantry');
+    expect(moduleOfPath('/settings')).toBe('settings');
     expect(moduleOfPath('/')).toBe('shop');
     expect(moduleOfPath('/plan/anything')).toBe('plan');
     expect(moduleOfPath('/privacy')).toBe('shop');
     expect(pathOf({ module: 'shop', view: 'RADAR' })).toBe('/shop');
     expect(pathOf({ module: 'plan' })).toBe('/plan');
     expect(pathOf({ module: 'pantry' })).toBe('/pantry');
+    expect(pathOf({ module: 'settings' })).toBe('/settings');
   });
 
   it('sends "/" to the last-used module, and to Shop for a first visit or a bad cookie', () => {
@@ -122,10 +124,13 @@ describe('the module is the URL', () => {
     expect(lastModulePath('plan')).toBe('/plan');
     expect(lastModulePath('pantry')).toBe('/pantry');
     expect(lastModulePath('shop')).toBe('/shop');
+    // Settings is not a tab, so a cookie naming it is not a last-used module (M4-2a).
+    expect(lastModulePath('settings')).toBe('/shop');
+    expect(isTabModule('settings')).toBe(false);
     expect(lastModulePath('nonsense')).toBe('/shop');
     expect(lastModulePath('')).toBe('/shop');
-    expect(isAppModule('plan')).toBe(true);
-    expect(isAppModule('Plan')).toBe(false);
+    expect(isTabModule('plan')).toBe(true);
+    expect(isTabModule('Plan')).toBe(false);
     expect(LAST_MODULE_COOKIE).toBe('pantrybot_last_module');
   });
 });

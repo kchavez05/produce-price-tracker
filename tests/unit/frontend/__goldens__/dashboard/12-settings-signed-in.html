@@ -1,0 +1,436 @@
+<div class="min-h-screen bg-bg text-ink medium:flex">
+<div class="no-print sticky top-0 hidden h-screen shrink-0 self-start medium:block wide:hidden">
+<nav aria-label="Primary" class="w-20 border-r border-border bg-surface p-2 h-full">
+<ul class="flex flex-col gap-1">
+<li>
+<a href="/shop" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-col py-1 text-xs text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag size-5" aria-hidden="true">
+<path d="M16 10a4 4 0 0 1-8 0">
+</path>
+<path d="M3.103 6.034h17.794">
+</path>
+<path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z">
+</path>
+</svg>
+</span>
+<span>Shop</span>
+</a>
+</li>
+<li>
+<a href="/pantry" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-col py-1 text-xs text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refrigerator size-5" aria-hidden="true">
+<path d="M5 6a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6Z">
+</path>
+<path d="M5 10h14">
+</path>
+<path d="M15 7v6">
+</path>
+</svg>
+</span>
+<span>Pantry</span>
+<span class="text-xs font-normal">(0)</span>
+</a>
+</li>
+<li>
+<a href="/plan" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-col py-1 text-xs text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat size-5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>
+</span>
+<span>Plan</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class="no-print sticky top-0 hidden h-screen shrink-0 self-start wide:block">
+<div class="flex w-60 flex-col gap-2 border-r border-border bg-surface p-3 h-full">
+<nav aria-label="Primary">
+<ul class="flex flex-col gap-1">
+<li>
+<a href="/shop" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-row justify-start gap-3 text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag size-5" aria-hidden="true">
+<path d="M16 10a4 4 0 0 1-8 0">
+</path>
+<path d="M3.103 6.034h17.794">
+</path>
+<path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z">
+</path>
+</svg>
+</span>
+<span>Shop</span>
+</a>
+</li>
+<li>
+<a href="/pantry" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-row justify-start gap-3 text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refrigerator size-5" aria-hidden="true">
+<path d="M5 6a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6Z">
+</path>
+<path d="M5 10h14">
+</path>
+<path d="M15 7v6">
+</path>
+</svg>
+</span>
+<span>Pantry</span>
+<span class="text-xs font-normal">(0)</span>
+</a>
+</li>
+<li>
+<a href="/plan" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-row justify-start gap-3 text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat size-5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>
+</span>
+<span>Plan</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<div class="min-w-0 flex-1 pb-24 medium:pb-8">
+<header class="sticky top-0 z-30 border-b border-border bg-surface/95 pt-[env(safe-area-inset-top)] backdrop-blur-md no-print">
+<div class="mx-auto max-w-6xl px-4 py-2">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-2">
+<span class="inline-flex size-8 shrink-0 items-center justify-center rounded-control bg-accent text-on-accent">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat size-5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>
+</span>
+<span class="text-lg font-bold tracking-tight text-ink">PantryBot</span>
+</div>
+<div class="relative">
+<a href="/settings" class="inline-flex size-touch items-center justify-center rounded-pill border border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-accent text-on-accent" title="Account and settings. Signed in as Alice ()" aria-label="Account and settings" aria-describedby="account-sync-status" aria-current="page">
+<span aria-hidden="true" class="text-sm font-bold">A</span>
+</a>
+<span id="account-sync-status" class="sr-only">Signed in. Your changes are synced.</span>
+<span aria-hidden="true" data-sync-status="SYNCED" class="pointer-events-none absolute -right-0.5 -top-0.5 size-3 rounded-full border-2 border-surface bg-save">
+</span>
+</div>
+</div>
+</div>
+</header>
+<main class="mx-auto max-w-6xl px-4 pt-3">
+<div class="pt-4">
+<div class="mx-auto max-w-2xl space-y-6 pb-4">
+<a href="/shop" class="inline-flex min-h-touch items-center gap-1 rounded-control text-base font-semibold text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left size-5" aria-hidden="true">
+<path d="m15 18-6-6 6-6">
+</path>
+</svg>
+<span>Back</span>
+</a>
+<header class="flex items-start justify-between gap-3">
+<div class="min-w-0">
+<h1 class="text-[28px] font-bold leading-tight text-ink">Account and Settings</h1>
+</div>
+</header>
+<section aria-label="Your account" class="rounded-card bg-surface text-ink shadow-card p-4 flex flex-wrap items-center justify-between gap-3">
+<div class="min-w-0">
+<p class="text-lg font-bold text-ink">Alice</p>
+<p class="text-sm text-muted">
+</p>
+</div>
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-surface text-ink border border-border-strong">Manage Account</button>
+</section>
+<section aria-labelledby="settings-shopping" class="space-y-2">
+<h2 id="settings-shopping" class="px-1 text-sm font-semibold uppercase tracking-wide text-muted">Shopping</h2>
+<div class="rounded-card bg-surface text-ink shadow-card px-4">
+<ul class="divide-y divide-border">
+<li>
+<button type="button" class="flex min-h-touch w-full items-center gap-3 py-2 rounded-control focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">Location</span>
+<span class="text-sm text-muted">Mead / Longmont, CO 80542</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right size-4 text-muted" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</button>
+</li>
+<li>
+<button type="button" class="flex min-h-touch w-full items-center gap-3 py-2 rounded-control focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">My Stores</span>
+<span class="text-sm text-muted">6 selected</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right size-4 text-muted" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</button>
+</li>
+</ul>
+</div>
+</section>
+<section aria-labelledby="settings-meal-prep" class="space-y-2">
+<h2 id="settings-meal-prep" class="px-1 text-sm font-semibold uppercase tracking-wide text-muted">Meal Prep</h2>
+<div class="rounded-card bg-surface text-ink shadow-card p-4 space-y-4">
+<div class="flex flex-col gap-1">
+<label for="_r_g_" class="text-sm font-semibold text-ink">Macro goal</label>
+<div class="relative">
+<select id="_r_g_" class="min-h-touch w-full rounded-control border border-border-strong bg-surface px-3 text-base text-ink disabled:opacity-50 aria-[invalid=true]:border-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus appearance-none pr-10">
+<option value="ANY">Any</option>
+<option value="HIGH_PROTEIN">High protein (40g or more)</option>
+<option value="LOW_CARB_KETO">Low carb or keto</option>
+<option value="CALORIE_CONSCIOUS">Under 460 calories</option>
+<option value="BALANCED_FAMILY">Balanced</option>
+</select>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted" aria-hidden="true">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</div>
+</div>
+<fieldset>
+<legend class="mb-1 text-sm font-semibold text-ink">Dietary rules</legend>
+<div class="flex min-h-touch items-center gap-3">
+<input id="_r_h_" class="size-5 shrink-0 accent-accent disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="_r_h_" class="flex min-h-touch flex-1 items-center text-base text-ink">Gluten-free</label>
+</div>
+<div class="flex min-h-touch items-center gap-3">
+<input id="_r_i_" class="size-5 shrink-0 accent-accent disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="_r_i_" class="flex min-h-touch flex-1 items-center text-base text-ink">Dairy-free</label>
+</div>
+<div class="flex min-h-touch items-center gap-3">
+<input id="_r_j_" class="size-5 shrink-0 accent-accent disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="_r_j_" class="flex min-h-touch flex-1 items-center text-base text-ink">Nut-free</label>
+</div>
+<div class="flex min-h-touch items-center gap-3">
+<input id="_r_k_" class="size-5 shrink-0 accent-accent disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus" type="checkbox">
+<label for="_r_k_" class="flex min-h-touch flex-1 items-center text-base text-ink">Pescatarian</label>
+</div>
+</fieldset>
+<div class="flex flex-col gap-1">
+<label for="_r_l_" class="text-sm font-semibold text-ink">Cookware</label>
+<div class="relative">
+<select id="_r_l_" class="min-h-touch w-full rounded-control border border-border-strong bg-surface px-3 text-base text-ink disabled:opacity-50 aria-[invalid=true]:border-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus appearance-none pr-10">
+<option value="ANY">Any</option>
+<option value="SLOW_COOKER_INSTANT_POT">Slow cooker or Instant Pot</option>
+<option value="DUTCH_OVEN_BRAISE">Dutch oven</option>
+<option value="CASSEROLE_SHEET_PAN">Sheet pan or casserole</option>
+<option value="BIG_BATCH_SKILLET">Skillet</option>
+</select>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted" aria-hidden="true">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</div>
+</div>
+<div class="space-y-1">
+<p class="text-sm font-semibold text-ink">Default servings</p>
+<div role="radiogroup" aria-label="Default servings" class="inline-flex gap-0.5 rounded-control bg-chip p-0.5">
+<label class="relative flex min-h-touch min-w-touch cursor-pointer items-center justify-center rounded-[8px] px-3 text-sm font-semibold text-ink has-[:checked]:bg-surface has-[:checked]:shadow-card has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus">
+<input class="absolute inset-0 size-full cursor-pointer opacity-0" type="radio" value="4" name="_r_m_">
+<span>4</span>
+</label>
+<label class="relative flex min-h-touch min-w-touch cursor-pointer items-center justify-center rounded-[8px] px-3 text-sm font-semibold text-ink has-[:checked]:bg-surface has-[:checked]:shadow-card has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus">
+<input class="absolute inset-0 size-full cursor-pointer opacity-0" type="radio" value="6" checked="" name="_r_m_">
+<span>6</span>
+</label>
+<label class="relative flex min-h-touch min-w-touch cursor-pointer items-center justify-center rounded-[8px] px-3 text-sm font-semibold text-ink has-[:checked]:bg-surface has-[:checked]:shadow-card has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus">
+<input class="absolute inset-0 size-full cursor-pointer opacity-0" type="radio" value="8" name="_r_m_">
+<span>8</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<section aria-labelledby="settings-appearance" class="space-y-2">
+<h2 id="settings-appearance" class="px-1 text-sm font-semibold uppercase tracking-wide text-muted">Appearance</h2>
+<div class="rounded-card bg-surface text-ink shadow-card p-4">
+<div role="radiogroup" aria-label="Theme" class="inline-flex gap-0.5 rounded-control bg-chip p-0.5">
+<label class="relative flex min-h-touch min-w-touch cursor-pointer items-center justify-center rounded-[8px] px-3 text-sm font-semibold text-ink has-[:checked]:bg-surface has-[:checked]:shadow-card has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus">
+<input class="absolute inset-0 size-full cursor-pointer opacity-0" type="radio" value="system" checked="" name="_r_n_">
+<span>System</span>
+</label>
+<label class="relative flex min-h-touch min-w-touch cursor-pointer items-center justify-center rounded-[8px] px-3 text-sm font-semibold text-ink has-[:checked]:bg-surface has-[:checked]:shadow-card has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus">
+<input class="absolute inset-0 size-full cursor-pointer opacity-0" type="radio" value="light" name="_r_n_">
+<span>Light</span>
+</label>
+<label class="relative flex min-h-touch min-w-touch cursor-pointer items-center justify-center rounded-[8px] px-3 text-sm font-semibold text-ink has-[:checked]:bg-surface has-[:checked]:shadow-card has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus">
+<input class="absolute inset-0 size-full cursor-pointer opacity-0" type="radio" value="dark" name="_r_n_">
+<span>Dark</span>
+</label>
+</div>
+</div>
+</section>
+<section aria-labelledby="settings-account" class="space-y-2">
+<h2 id="settings-account" class="px-1 text-sm font-semibold uppercase tracking-wide text-muted">Account</h2>
+<div class="rounded-card bg-surface text-ink shadow-card px-4">
+<ul class="divide-y divide-border">
+<li>
+<div class="flex min-h-touch w-full items-center gap-3 py-2">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">Sync Status</span>
+</span>
+<span class="text-sm text-muted">Synced</span>
+</div>
+</li>
+<li>
+<div class="flex min-h-touch w-full items-center gap-3 py-2">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">AI Features</span>
+</span>
+<span class="text-sm text-muted">Not available yet</span>
+</div>
+</li>
+<li>
+<button type="button" class="flex min-h-touch w-full items-center gap-3 py-2 rounded-control focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">Weekly Digest</span>
+<span class="text-sm text-muted">Preview</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right size-4 text-muted" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</button>
+</li>
+</ul>
+</div>
+</section>
+<section aria-labelledby="settings-about" class="space-y-2">
+<h2 id="settings-about" class="px-1 text-sm font-semibold uppercase tracking-wide text-muted">About</h2>
+<div class="rounded-card bg-surface text-ink shadow-card px-4">
+<ul class="divide-y divide-border">
+<li>
+<a href="/data" class="flex min-h-touch w-full items-center gap-3 rounded-control py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">Data Explorer</span>
+<span class="text-sm text-muted">See where each price comes from</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right size-4 text-muted" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</a>
+</li>
+<li>
+<a href="/docs" class="flex min-h-touch w-full items-center gap-3 rounded-control py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">API Docs</span>
+<span class="text-sm text-muted">The public API</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right size-4 text-muted" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</a>
+</li>
+<li>
+<a href="/privacy" class="flex min-h-touch w-full items-center gap-3 rounded-control py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">Privacy Policy</span>
+<span class="text-sm text-muted">What we store and what we never do</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right size-4 text-muted" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</a>
+</li>
+<li>
+<a href="/terms" class="flex min-h-touch w-full items-center gap-3 rounded-control py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span class="flex min-w-0 flex-1 flex-col text-left">
+<span class="text-base text-ink">Terms and Conditions</span>
+<span class="text-sm text-muted">Service terms and price disclaimers</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right size-4 text-muted" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</a>
+</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<div class="no-print fixed inset-x-0 bottom-0 z-40 medium:hidden">
+<nav aria-label="Primary" class="border-t border-border bg-surface pb-[env(safe-area-inset-bottom)]">
+<ul class="flex flex-row justify-around">
+<li class="flex-1">
+<a href="/shop" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-col py-1 text-xs text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag size-5" aria-hidden="true">
+<path d="M16 10a4 4 0 0 1-8 0">
+</path>
+<path d="M3.103 6.034h17.794">
+</path>
+<path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z">
+</path>
+</svg>
+</span>
+<span>Shop</span>
+</a>
+</li>
+<li class="flex-1">
+<a href="/pantry" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-col py-1 text-xs text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refrigerator size-5" aria-hidden="true">
+<path d="M5 6a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6Z">
+</path>
+<path d="M5 10h14">
+</path>
+<path d="M15 7v6">
+</path>
+</svg>
+</span>
+<span>Pantry</span>
+<span class="text-xs font-normal">(0)</span>
+</a>
+</li>
+<li class="flex-1">
+<a href="/plan" class="flex min-h-touch w-full items-center justify-center gap-1 rounded-control px-3 text-sm font-semibold flex-col py-1 text-xs text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chef-hat size-5" aria-hidden="true">
+<path d="M10 11v5">
+</path>
+<path d="M14 11v5">
+</path>
+<path d="M6 12.65c0-.457-.316-.844-.727-1.041A4 4 0 017.52 4.034a1.53 1.53 0 001.367-.547 4 4 0 016.225 0 1.53 1.53 0 001.367.547 4 4 0 012.248 7.575c-.411.197-.727.584-.727 1.04V19a2 2 0 01-2 2H8a2 2 0 01-2-2z">
+</path>
+<path d="M6 16h12">
+</path>
+</svg>
+</span>
+<span>Plan</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>

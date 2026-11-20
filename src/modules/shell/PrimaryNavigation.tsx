@@ -5,7 +5,7 @@ import { ChefHat, Refrigerator, ShoppingBag } from 'lucide-react';
 import { IconRail, Sidebar, TabBar, type NavItem, type NavLinkRenderer } from '@/components/ui';
 import { useAccountContext, useShellContext, useShopContext } from '@/modules/shell/app-context';
 import AppLink from '@/modules/shell/AppLink';
-import type { AppModule, Destination } from '@/modules/shell/navigation';
+import type { Destination, TabModule } from '@/modules/shell/navigation';
 
 // v2.0 M4-1a: the app's final navigation, replacing M3's temporary four-pill strip. Three tabs in the order Shop, Pantry,
 // Plan (spec section 3), shown as a bottom tab bar on compact widths, an icon rail on medium widths and a sidebar on wide
@@ -14,7 +14,7 @@ import type { AppModule, Destination } from '@/modules/shell/navigation';
 // Only the layout for the current width is displayed; the others are `display: none` and so out of the accessibility tree.
 // Shop opens on the view it was left on (Deals, Trip or Radar), as the other state does.
 
-interface ModuleItem extends NavItem { id: AppModule }
+interface ModuleItem extends NavItem { id: TabModule }
 
 function useNavigation() {
   const { module } = useShellContext();
@@ -26,12 +26,13 @@ function useNavigation() {
     { id: 'pantry', label: 'Pantry', icon: <Refrigerator className="size-5" />, badge: `(${pantryCount})` },
     { id: 'plan', label: 'Plan', icon: <ChefHat className="size-5" /> },
   ];
-  const destination = (id: AppModule): Destination =>
+  const destination = (id: TabModule): Destination =>
     id === 'shop' ? { module: 'shop', view: shopView } : { module: id };
   const renderLink: NavLinkRenderer<ModuleItem> = (item, props) => (
     <AppLink to={destination(item.id)} {...props} />
   );
-  return { module, items, renderLink };
+  // Settings is not a tab, so no tab is current there.
+  return { module: module === 'settings' ? null : module, items, renderLink };
 }
 
 /** The icon rail (medium widths) and the sidebar (wide widths): placed before the page content. */

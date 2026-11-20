@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { pantryCatalog } from '@/lib/pantry/model';
 import { recipePantryIngredientId } from '@/lib/pantry/recipe-identity';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
-import { pathOf, type AppModule, type Destination, type ShopView } from '@/modules/shell/navigation';
+import { pathOf, type AppModule, type Destination, type ShopView, type TabModule } from '@/modules/shell/navigation';
 import type { useAccountAndPantry } from '@/modules/shell/hooks/useAccountAndPantry';
 import type { useDashboardPayload } from '@/modules/shell/hooks/useDashboardPayload';
 import type { useUserSync } from '@/hooks/useUserSync';
@@ -17,6 +17,8 @@ import type {
 //  2. useShellUi takes no inputs and comes first: showAiSignIn is passed to usePlanActions. useShellActions needs the
 //     account, pantry and payload hooks, so it comes after them.
 export function useShellUi() {
+  // The tab the user was last on, so Settings (which is not a tab) can offer Back. Set by the shell on every tab change.
+  const [lastTab, setLastTab] = useState<TabModule>('shop');
   const [arbitrageToast, setArbitrageToast] = useState<string | null>(null);
   const [showStoresModal, setShowStoresModal] = useState(false);
   // v1.0: Weekly Circular Cron & Smart Push Notifications Preview (Ticket #12)
@@ -35,7 +37,7 @@ export function useShellUi() {
   }
 
   return {
-    arbitrageToast, setArbitrageToast,
+    lastTab, setLastTab, arbitrageToast, setArbitrageToast,
     showStoresModal, setShowStoresModal, showAlertsModal, setShowAlertsModal, cronSyncResult, setCronSyncResult,
     cronSyncLoading, setCronSyncLoading, cronSyncError, setCronSyncError, copiedDigest, setCopiedDigest,
     showAccountModal, setShowAccountModal, accountIntent, setAccountIntent, showAiSignIn,

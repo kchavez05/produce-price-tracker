@@ -97,9 +97,9 @@ describe('dashboard golden HTML (guest, keyless)', () => {
     await h.waitUntil(() => h.container.textContent?.includes('Weekend prep digest') === true);
     expectGolden('08c-alerts-modal-digest', h.html());
   });
-  it('8d account modal', async () => {
+  it('8d account modal (on Settings)', async () => {
     const h = await start();
-    await h.click(h.button('Sign In'));
+    await h.openAccountDialog();
     expectGolden('08d-account-modal', h.html());
   });
   it('9 print slip open', async () => {
@@ -107,6 +107,17 @@ describe('dashboard golden HTML (guest, keyless)', () => {
     await h.openShopView('Trip');
     await h.click(h.button('Preview Printable Slip'));
     expectGolden('09-print-slip-open', h.html());
+  });
+  it('11 settings, guest', async () => {
+    const h = await start();
+    await h.click(h.link('Account and settings'));
+    expectGolden('11-settings-guest', h.html());
+  });
+  it('12 settings, signed in', async () => {
+    const h = await start({ sync: aliceSync, accountId: 'alice' });
+    await h.settle();
+    await h.click(h.link('Account and settings'));
+    expectGolden('12-settings-signed-in', h.html());
   });
   it('10 signed-in board', async () => {
     const h = await start({ sync: aliceSync, accountId: 'alice' });

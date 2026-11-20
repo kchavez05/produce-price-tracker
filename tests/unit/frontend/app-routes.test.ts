@@ -69,7 +69,8 @@ describe('the shell frame (M4-1b)', () => {
       const header = h.container.querySelector('header')!;
       expect(header.className).toContain('pt-[env(safe-area-inset-top)]');
       expect(header.className).toContain('bg-surface');
-      expect(header.querySelectorAll('button').length).toBe(1); // the account avatar only
+      expect(header.querySelectorAll('button').length).toBe(0);
+      expect(header.querySelectorAll('a').length).toBe(1); // the account avatar, a link to Settings
       expect(h.container.querySelector('footer')).toBeNull();
       await h.teardown();
     }
