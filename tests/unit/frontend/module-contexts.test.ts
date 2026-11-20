@@ -24,7 +24,7 @@ import PlanHeader from '@/modules/plan/PlanHeader';
 import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import AccountDialog from '@/modules/shell/AccountDialog';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
-import FreshnessNotice from '@/modules/shell/FreshnessNotice';
+import FreshnessDetails from '@/modules/shop/FreshnessDetails';
 import HeaderPrimary, { describeSync } from '@/modules/shell/HeaderPrimary';
 import TemporaryControls from '@/modules/shell/TemporaryControls';
 import PinSummary from '@/modules/shell/PinSummary';
@@ -332,8 +332,8 @@ describe('Shell components on the contexts, without the shell', () => {
     expect(seen.shell.showStoresModal).toBe(true);
   });
 
-  it('FreshnessNotice shows the dashboard freshness details', async () => {
-    const h = await mountModules(() => createElement(FreshnessNotice));
+  it('FreshnessDetails shows the dashboard freshness details', async () => {
+    const h = await mountModules(() => createElement(FreshnessDetails));
     const { freshness } = seen.dashboard.data;
     expect(freshness).toBeDefined();
     expect(text(h)).toContain(`${freshness!.usableLiveOffers} verified live prices`);

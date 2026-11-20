@@ -18,6 +18,17 @@ test.describe('smoke: home', () => {
     expect(await home.priceCards.count()).toBeGreaterThan(3);
     await a11y.check('home');
     await a11y.noHorizontalScroll('home');
+
+    // The Shop's status lines (M4-3a), in the same page load: a read-only location line that links to Settings, one freshness
+    // line, and Details with the disclosure that estimates are not confirmed specials.
+    await expect(page.getByText(/· 6 stores$/)).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Change in Settings' })).toHaveAttribute('href', '/settings');
+    await expect(page.getByText(/^Ad cycle .* updated \d{1,2}:\d{2} (AM|PM) MT/)).toBeVisible();
+    await page.getByRole('button', { name: 'Details' }).click();
+    const sheet = page.getByRole('dialog', { name: 'Price Data and Freshness' });
+    await expect(sheet).toContainText('Estimates are not confirmed current specials; verify them with the store.');
+    await page.keyboard.press('Escape');
+    await expect(sheet).toBeHidden();
   });
 
   test('2. changing ZIP and store filter reloads the price list', async ({ page, problems }) => {
