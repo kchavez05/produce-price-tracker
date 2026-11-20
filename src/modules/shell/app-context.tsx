@@ -21,7 +21,7 @@ export type PreferencesContextValue = ReturnType<typeof usePreferencesState>
 export type LocationContextValue = ReturnType<typeof useLocationState>
   & Pick<ReturnType<typeof usePreferenceActions>, 'handleZipSubmit'>;
 export type DashboardContextValue = ReturnType<typeof useDerivedDashboard>
-  & Pick<ReturnType<typeof useDashboardPayload>, 'serverData' | 'syncDashboard' | 'refreshing'>;
+  & Pick<ReturnType<typeof useDashboardPayload>, 'serverData' | 'syncDashboard' | 'refreshing' | 'refreshFailed'>;
 export type AccountContextValue = ReturnType<typeof useAccountAndPantry>;
 export type PlanContextValue = ReturnType<typeof usePlanUi> & ReturnType<typeof usePlanActions>;
 export type ShopContextValue = ReturnType<typeof useShopUi> & ReturnType<typeof useShopCopyAction>;

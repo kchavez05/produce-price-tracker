@@ -248,7 +248,7 @@ describe('Sync Now (signed-in account)', () => {
 describe('toast and drawers kept across tab switches (owner decision 1)', () => {
   it('opens the pantry drawer from a grouped deal with a toast, and the toast closes on its own button', async () => {
     const h = await start();
-    await h.click(buttons(h).find((b) => /Not marked available/.test(b.textContent ?? ''))!);
+    await h.click(buttons(h).find((b) => /^Have it$/.test(b.textContent ?? ''))!);
     expect(text(h)).toContain('Choose the specific ingredient in Virtual Pantry');
     await h.waitUntil(() => Boolean(h.container.querySelector('#virtual-pantry-title')));
     await h.click(h.button('✕'));
@@ -270,7 +270,7 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     const h = await start((input, init) => (input === '/api/pantry' && init?.method === 'POST'
       ? Response.json({ error: 'Pantry unavailable.' }, { status: 500 }) : undefined), { sync: cloudBacked, accountId: 'alice' });
     // The first two cards are grouped deals (a toast, no save); the next specific ingredient triggers a save.
-    await h.click(buttons(h).filter((b) => /Not marked available/.test(b.textContent ?? ''))[2]);
+    await h.click(buttons(h).filter((b) => /^Have it$/.test(b.textContent ?? ''))[2]);
     await h.waitUntil(() => h.container.querySelector('.bg-sky-950') !== null);
     expect(h.container.querySelector('.bg-sky-950')!.textContent).toContain('This ingredient is not ready for this account yet.');
     expect(text(h)).not.toContain('Choose the specific ingredient');
@@ -279,12 +279,12 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
   it('shows the Pantry in place of the tabs, keeps the toast across tab switches, and leaves the Pantry when a tab is chosen', async () => {
     const h = await start();
     // The grouped-deal cards on the Board explain themselves with a toast and open the pantry.
-    const grouped = buttons(h).find((b) => /Not marked available/.test(b.textContent ?? ''))!;
+    const grouped = buttons(h).find((b) => /^Have it$/.test(b.textContent ?? ''))!;
     await h.click(grouped);
     expect(text(h)).toContain('Choose the specific ingredient in Virtual Pantry');
     await h.waitUntil(() => Boolean(h.container.querySelector('#virtual-pantry-title')));
     // The Pantry replaces the tab content (it is a module, not a drawer over it).
-    expect(text(h)).not.toContain('Sort by:');
+    expect(h.container.querySelector('[role="group"][aria-label="Category"]')).toBeNull();
     // The header stays in the page flow while the Pantry is open: it is tall on a phone and the Pantry scrolls its heading to
     // the top of the view, so a sticky header would cover the page.
     expect(h.container.querySelector('header')!.className).toContain('relative');

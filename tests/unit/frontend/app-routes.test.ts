@@ -28,15 +28,15 @@ async function start(initialPath?: string, onFetch?: Parameters<typeof createDas
 describe('a page per module', () => {
   it('opens on the page for the path', async () => {
     const shop = await start('/shop');
-    expect(text(shop)).toContain('Sort by:');
+    expect(shop.container.querySelector('[role="group"][aria-label="Category"]')).not.toBeNull();
     await shop.teardown();
     const plan = await start('/plan');
     expect(text(plan)).toContain('Your 3-Dish Weekend Meal Prep Plan');
-    expect(text(plan)).not.toContain('Sort by:');
+    expect(plan.container.querySelector('[role="group"][aria-label="Category"]')).toBeNull();
     await plan.teardown();
     const pantry = await start('/pantry');
     expect(pantry.container.querySelector('#virtual-pantry-title')).not.toBeNull();
-    expect(text(pantry)).not.toContain('Sort by:');
+    expect(pantry.container.querySelector('[role="group"][aria-label="Category"]')).toBeNull();
   });
 
   it('keeps the chrome around every page: the header and the navigation', async () => {
@@ -107,7 +107,7 @@ describe('links', () => {
     expect(text(h)).toContain('Your 3-Dish Weekend Meal Prep Plan');
     await h.openShopView('Deals');
     expect(h.path()).toBe('/shop');
-    expect(text(h)).toContain('Sort by:');
+    expect(h.container.querySelector('[role="group"][aria-label="Category"]')).not.toBeNull();
     expect(h.pushes).toEqual(['/plan', '/shop']);
   });
 

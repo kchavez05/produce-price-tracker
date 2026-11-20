@@ -52,38 +52,6 @@
     "borderline": true
   },
   {
-    "screen": "home",
-    "rule": "color-contrast",
-    "projects": [
-      "iphone-webkit",
-      "ipad-webkit",
-      "iphone-chromium",
-      "ipad-chromium",
-      "ipad-landscape-webkit",
-      "iphone-pro-webkit",
-      "duo-inner-webkit",
-      "iphone-pro-max-webkit"
-    ],
-    "issue": 714,
-    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
-    "screen": "home",
-    "rule": "select-name",
-    "projects": [
-      "iphone-webkit",
-      "ipad-webkit",
-      "iphone-pro-max-webkit",
-      "iphone-chromium",
-      "ipad-chromium",
-      "ipad-landscape-webkit",
-      "iphone-pro-webkit",
-      "duo-inner-webkit"
-    ],
-    "issue": 710,
-    "reason": "A select control on the current UI has no accessible name; replaced by the M4 screen redesign primitives."
-  },
-  {
     "screen": "plan",
     "rule": "color-contrast",
     "projects": [

@@ -12,7 +12,9 @@ import type {
 //     flight (#780); a request that started with no owner carried no pantry data and is applied.
 // M4-3a adds `refreshing`, true while any syncDashboard request is in flight, so the Shop can say "Updating prices". It is a
 // counter around the existing body (a `finally`, which also runs for the early return of the ownership guard) and changes
-// nothing the function sends, applies or discards.
+// nothing the function sends, applies or discards. It also adds `refreshFailed`, true after the latest request failed (a
+// network error or a non-OK response) and false again after one succeeds or when a new one starts, so the Shop can say the
+// prices on screen are the last ones it got. A discarded response (ownership guard) leaves it as it was.
 export interface DashboardPayloadCurrent {
   storeFilter: 'ALL' | StoreChain;
   pinnedIds: string[];
@@ -33,6 +35,7 @@ export function useDashboardPayload(
 ) {
   const [serverData, setData] = useState<DashboardPayload>(initialData);
   const [inFlight, setInFlight] = useState(0);
+  const [refreshFailed, setRefreshFailed] = useState(false);
 
   async function syncDashboard(
     nextStore: 'ALL' | StoreChain = current.storeFilter,
@@ -47,6 +50,7 @@ export function useDashboardPayload(
   ) {
     const requestOwner = pantryOwnerRef.current;
     setInFlight((count) => count + 1);
+    setRefreshFailed(false);
     try {
       const params = new URLSearchParams({
         zip: nextZip,
@@ -67,13 +71,16 @@ export function useDashboardPayload(
         if (requestOwner !== null && pantryOwnerRef.current !== requestOwner) return;
         setData(updated);
         setCurrentZip(updated.zipCode);
+      } else {
+        setRefreshFailed(true);
       }
     } catch {
-      // Ignore network hiccup
+      // A network hiccup keeps the prices already on screen; the Shop tells the user they could not be refreshed.
+      setRefreshFailed(true);
     } finally {
       setInFlight((count) => count - 1);
     }
   }
 
-  return { serverData, syncDashboard, refreshing: inFlight > 0 };
+  return { serverData, syncDashboard, refreshing: inFlight > 0, refreshFailed };
 }
