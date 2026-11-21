@@ -1,8 +1,16 @@
 .explorer {
-  --ink: #183c32;
-  --muted: #52645d;
-  --line: #dbe4dc;
-  --paper: #fafbf7;
+  --ink: var(--ds-ink);
+  --muted: var(--ds-muted);
+  --line: var(--ds-border);
+  --paper: var(--ds-bg);
+  /* Chart series (the one set of colors the Explorer owns): lines, dots and legend. Light set; the dark sets follow the theme. */
+  --ex-s1: #16724e;
+  --ex-s2: #b56e26;
+  --ex-s3: #5779ae;
+  --ex-s4: #8f5ca0;
+  --ex-s5: #bb5065;
+  --ex-s6: #547d35;
+  --ex-s7: #3d8695;
   background: var(--paper);
   color: var(--ink);
   min-height: 90vh;
@@ -18,20 +26,33 @@
 }
 .ex-top {
   border-bottom: 1px solid var(--line);
-  background: #fff;
+  background: var(--ds-surface);
 }
 .ex-top .ex-shell {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 16px;
-  padding-top: 18px;
-  padding-bottom: 18px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
-.ex-brand {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+.ex-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  justify-self: start;
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--ds-accent);
+}
+.ex-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.ex-top .ex-note {
+  justify-self: end;
 }
 .ex-top a:hover {
   text-decoration: underline;
@@ -41,7 +62,7 @@
   font-weight: 750;
   letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: #567166;
+  color: var(--ds-muted);
 }
 .ex-hero {
   padding: 46px 0 30px;
@@ -66,12 +87,12 @@
   align-self: center;
   max-width: 220px;
   font-size: 12px;
-  border-left: 2px solid #a2b9a8;
+  border-left: 2px solid var(--ds-border-strong);
   padding: 10px 0 10px 18px;
   line-height: 1.7;
 }
 .ex-filters {
-  background: #fff;
+  background: var(--ds-surface);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 20px;
@@ -90,8 +111,8 @@
 }
 .explorer input,
 .explorer select {
-  background: #fff;
-  border: 1px solid #b9cbbf;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border-strong);
   border-radius: 7px;
   padding: 9px 11px;
   color: var(--ink);
@@ -119,8 +140,8 @@
   font-weight: 600;
 }
 .ex-tabs a[aria-current='page'] {
-  border-color: #157b56;
-  color: #106f4a;
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
 }
 .ex-heading {
   display: flex;
@@ -147,7 +168,7 @@
   margin: 20px 0;
 }
 .ex-card {
-  background: white;
+  background: var(--ds-surface);
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 20px;
@@ -174,19 +195,19 @@
   display: inline-flex;
   padding: 4px 9px;
   border-radius: 5px;
-  background: #e9f4ed;
-  color: #246446;
+  background: var(--ds-save-bg);
+  color: var(--ds-save);
   font-size: 11px;
   font-weight: 650;
   letter-spacing: 0.3px;
 }
 .ex-badge.demo {
-  background: #fff1d3;
-  color: #77500c;
+  background: var(--ds-warning-bg);
+  color: var(--ds-warning);
 }
 .ex-notice {
-  border: 1px solid #d9dfc5;
-  background: #f1f3e7;
+  border: 1px solid var(--ds-border);
+  background: var(--ds-chip);
   border-radius: 9px;
   padding: 13px 16px;
   font-size: 13px;
@@ -194,9 +215,9 @@
   margin: 16px 0;
 }
 .ex-error {
-  background: #fff0ea;
-  border-color: #edc6b7;
-  color: #8b321d;
+  background: var(--ds-danger-bg);
+  border-color: var(--ds-danger);
+  color: var(--ds-danger);
 }
 .ex-actions {
   display: flex;
@@ -211,31 +232,34 @@
   gap: 7px;
   padding: 9px 13px;
   border-radius: 7px;
-  border: 1px solid #c4d3c7;
-  background: #fff;
-  color: #21573d;
+  border: 1px solid var(--ds-border-strong);
+  background: var(--ds-surface);
+  color: var(--ds-accent);
   font-size: 12px;
   font-weight: 650;
   cursor: pointer;
   min-height: 38px;
 }
 .ex-button.primary {
-  background: #176444;
-  color: white;
-  border-color: #176444;
+  background: var(--ds-accent);
+  color: var(--ds-on-accent);
+  border-color: var(--ds-accent);
 }
 .ex-button:disabled {
   opacity: 0.5;
   cursor: default;
 }
 .explorer :focus-visible {
-  outline: 3px solid #2f8fca;
+  outline: 3px solid var(--ds-focus);
   outline-offset: 3px;
 }
 .ex-chart {
   width: 100%;
   height: auto;
   display: block;
+}
+.ex-chart-scroll {
+  overflow-x: auto;
 }
 .ex-legend {
   display: flex;
@@ -251,7 +275,7 @@
 }
 .ex-legend input {
   min-height: 0;
-  accent-color: #176444;
+  accent-color: var(--ds-accent);
 }
 .ex-dot {
   width: 8px;
@@ -264,7 +288,7 @@
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: #fff;
+  background: var(--ds-surface);
 }
 .ex-table {
   border-collapse: collapse;
@@ -273,18 +297,18 @@
   text-align: left;
 }
 .ex-table th {
-  white-space: nowrap;
+  var(--ds-surface)-space: nowrap;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  background: #f0f4ee;
-  color: #516758;
+  background: var(--ds-chip);
+  color: var(--ds-muted);
   font-weight: 650;
 }
 .ex-table th,
 .ex-table td {
   padding: 13px 16px;
-  border-bottom: 1px solid #e8ede7;
+  border-bottom: 1px solid var(--ds-border);
   vertical-align: top;
 }
 .ex-table tbody tr:last-child td {
@@ -295,22 +319,22 @@
 }
 .ex-table td.price {
   font-weight: 700;
-  color: #246749;
-  white-space: nowrap;
+  color: var(--ds-save);
+  var(--ds-surface)-space: nowrap;
 }
 .ex-table summary {
   cursor: pointer;
-  color: #136d48;
+  color: var(--ds-accent);
 }
 .ex-table pre,
 .ex-json {
-  white-space: pre-wrap;
+  var(--ds-surface)-space: pre-wrap;
   overflow-wrap: anywhere;
   font-size: 11px;
   line-height: 1.6;
   max-height: 440px;
   overflow: auto;
-  background: #f4f6f1;
+  background: var(--ds-chip);
   border-radius: 7px;
   padding: 14px;
   margin-top: 12px;
@@ -338,8 +362,8 @@
 .ex-empty {
   padding: 50px 24px;
   text-align: center;
-  background: #fff;
-  border: 1px dashed #b9cbbf;
+  background: var(--ds-surface);
+  border: 1px dashed var(--ds-border-strong);
   border-radius: 12px;
   color: var(--muted);
   font-size: 14px;
@@ -365,14 +389,14 @@
 }
 .ex-contribution {
   height: 8px;
-  background: #edf1eb;
+  background: var(--ds-chip);
   border-radius: 9px;
   margin: 12px 0;
   overflow: hidden;
 }
 .ex-contribution div {
   height: 100%;
-  background: #448b63;
+  background: var(--ds-save);
   border-radius: 9px;
 }
 .ex-score {
@@ -380,7 +404,7 @@
   line-height: 1;
   font-weight: 600;
   letter-spacing: -4px;
-  color: #176444;
+  color: var(--ds-accent);
 }
 .ex-heat {
   display: flex;
@@ -390,10 +414,10 @@
 }
 .ex-heat button {
   padding: 12px 10px;
-  border: 1px solid #a9c8b3;
+  border: 1px solid var(--ds-border);
   border-radius: 6px;
   font-size: 11px;
-  color: #123d27;
+  color: var(--ds-ink);
   cursor: pointer;
   min-width: 77px;
 }
@@ -406,7 +430,7 @@
   line-height: 1.7;
 }
 .ex-link {
-  color: #136d48;
+  color: var(--ds-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -459,7 +483,7 @@
     padding: 15px;
   }
   .ex-chart {
-    min-height: 220px;
+    min-width: 640px;
   }
   .ex-bottom {
     flex-wrap: wrap;
@@ -470,4 +494,42 @@
     scroll-behavior: auto !important;
     transition: none !important;
   }
+}
+
+/* Dark chart series: lighter hues, each at least 3:1 on the dark card surface. The same set serves the system preference and the theme switch. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .explorer {
+    --ex-s1: #4ec38a;
+    --ex-s2: #e0a45e;
+    --ex-s3: #82a6e0;
+    --ex-s4: #c490d4;
+    --ex-s5: #ec8497;
+    --ex-s6: #93c36b;
+    --ex-s7: #6cc0d1;
+  }
+}
+:root[data-theme='dark'] .explorer {
+  --ex-s1: #4ec38a;
+  --ex-s2: #e0a45e;
+  --ex-s3: #82a6e0;
+  --ex-s4: #c490d4;
+  --ex-s5: #ec8497;
+  --ex-s6: #93c36b;
+  --ex-s7: #6cc0d1;
+}
+
+/* The page sits on the token background in both themes (the root layout's body color is not token based yet). */
+body:has(.explorer) {
+  background: var(--ds-bg);
+  color: var(--ds-ink);
+}
+/* The chart's non-series colors. */
+.ex-grid-line {
+  stroke: var(--ds-border);
+}
+.ex-axis-label {
+  fill: var(--ds-muted);
+}
+.ex-dot-fill {
+  fill: var(--ds-surface);
 }

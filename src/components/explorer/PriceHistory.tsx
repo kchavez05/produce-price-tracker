@@ -1,15 +1,8 @@
 'use client';
 import { useState } from 'react';
 import type { HistoryPoint } from '@/lib/explorer/types';
-const COLORS = [
-  '#16724e',
-  '#b56e26',
-  '#5779ae',
-  '#8f5ca0',
-  '#bb5065',
-  '#547d35',
-  '#3d8695',
-];
+// The series colors are CSS variables (--ex-s1 to --ex-s7 in explorer.css) so the chart follows the theme.
+const COLORS = [1, 2, 3, 4, 5, 6, 7].map((n) => `var(--ex-s${n})`);
 export function money(n: number | null) {
   return n === null ? '—' : `$${n.toFixed(2)}`;
 }
@@ -99,6 +92,7 @@ export default function PriceHistory({
           ))}
         </div>
         {visible.length ? (
+          <div className="ex-chart-scroll" role="region" aria-label="Price chart (scrolls sideways on narrow screens)" tabIndex={0}>
           <svg
             className="ex-chart"
             viewBox="0 0 960 285"
@@ -117,7 +111,7 @@ export default function PriceHistory({
                   x2="925"
                   y1={y(t)}
                   y2={y(t)}
-                  stroke="#e3e9e1"
+                  className="ex-grid-line"
                   strokeDasharray="3 5"
                 />
                 <text
@@ -125,7 +119,7 @@ export default function PriceHistory({
                   y={y(t) + 4}
                   textAnchor="end"
                   fontSize="11"
-                  fill="#52645d"
+                  className="ex-axis-label"
                 >
                   {money(t)}
                 </text>
@@ -141,7 +135,7 @@ export default function PriceHistory({
                   y="270"
                   textAnchor="middle"
                   fontSize="11"
-                  fill="#52645d"
+                  className="ex-axis-label"
                 >
                   {day.slice(5)}
                 </text>
@@ -163,7 +157,7 @@ export default function PriceHistory({
                   <path
                     d={path}
                     fill="none"
-                    stroke={COLORS[index % COLORS.length]}
+                    style={{ stroke: COLORS[index % COLORS.length] }}
                     strokeWidth="2.3"
                     strokeDasharray={
                       name.startsWith('USDA') ? '7 5' : undefined
@@ -175,11 +169,10 @@ export default function PriceHistory({
                       cx={x(p.date)}
                       cy={y(p.price)}
                       r="4.5"
-                      fill="white"
-                      stroke={COLORS[index % COLORS.length]}
+                      className="ex-dot-fill"
                       strokeWidth="2.3"
                       onClick={() => setSelected(p)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ stroke: COLORS[index % COLORS.length], cursor: 'pointer' }}
                     >
                       <title>
                         {name}: {money(p.price)}/{p.unit}, {p.date}. Select to
@@ -191,6 +184,7 @@ export default function PriceHistory({
               );
             })}
           </svg>
+          </div>
         ) : (
           <div className="ex-empty">
             No observations for the visible series. Try another ingredient,
@@ -273,7 +267,7 @@ export default function PriceHistory({
                   )
                 }
                 style={{
-                  background: `rgba(65,145,88,${stats && stats.max > stats.min ? 0.08 + (0.3 * (stats.max - price)) / (stats.max - stats.min) : 0.15})`,
+                  background: `color-mix(in srgb, var(--ds-save) ${Math.round(100 * (stats && stats.max > stats.min ? 0.08 + (0.3 * (stats.max - price)) / (stats.max - stats.min) : 0.15))}%, var(--ds-surface))`,
                 }}
               >
                 <strong>{date.slice(5)}</strong>

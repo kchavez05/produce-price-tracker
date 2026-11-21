@@ -3,7 +3,6 @@
   "src/app/layout.tsx": 3,
   "src/app/privacy/page.tsx": 37,
   "src/app/terms/page.tsx": 30,
-  "src/components/AppFooter.tsx": 24,
   "src/components/SwaggerUIConsole.tsx": 35,
   "src/modules/shell/AlertsPanel.tsx": 31,
   "src/modules/shell/AppShell.tsx": 5,

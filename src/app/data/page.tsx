@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { explorerCatalog } from '@/lib/explorer/catalog';
 import AppFooter from '@/components/AppFooter';
+import TokenScope from '@/design/TokenScope';
 import DataExplorer from '@/components/explorer/DataExplorer';
 import './explorer.css';
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default function DataPage() {
   return (
     <>
+    <TokenScope />
     <Suspense
       fallback={<main className="p-12">Loading the data explorer…</main>}
     >

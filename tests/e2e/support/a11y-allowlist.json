@@ -1,21 +1,5 @@
 [
   {
-    "screen": "data",
-    "rule": "color-contrast",
-    "projects": [
-      "iphone-webkit",
-      "ipad-webkit",
-      "iphone-pro-max-webkit",
-      "ipad-chromium",
-      "iphone-chromium",
-      "ipad-landscape-webkit",
-      "iphone-pro-webkit",
-      "duo-inner-webkit"
-    ],
-    "issue": 714,
-    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
     "screen": "docs",
     "rule": "color-contrast",
     "projects": [
@@ -50,37 +34,5 @@
     "issue": 710,
     "reason": "The docs toolbar row is about 407 px wide, so at 402 px it overflows by roughly 5 px on a developer machine but fits with the CI runner's font metrics; either result is accepted at this width (borderline). The header row is redesigned in M4 (#544).",
     "borderline": true
-  },
-  {
-    "screen": "privacy",
-    "rule": "color-contrast",
-    "projects": [
-      "iphone-webkit",
-      "ipad-webkit",
-      "iphone-pro-webkit",
-      "duo-inner-webkit",
-      "ipad-landscape-webkit",
-      "iphone-pro-max-webkit",
-      "ipad-chromium",
-      "iphone-chromium"
-    ],
-    "issue": 714,
-    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
-  },
-  {
-    "screen": "terms",
-    "rule": "color-contrast",
-    "projects": [
-      "iphone-webkit",
-      "ipad-webkit",
-      "iphone-pro-max-webkit",
-      "ipad-chromium",
-      "iphone-chromium",
-      "iphone-pro-webkit",
-      "duo-inner-webkit",
-      "ipad-landscape-webkit"
-    ],
-    "issue": 714,
-    "reason": "Legacy slate/emerald palette on the current UI fails WCAG AA text contrast; fixed by the M5 WCAG AA pass."
   }
 ]
