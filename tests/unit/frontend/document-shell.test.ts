@@ -73,7 +73,7 @@ describe('the Back link', () => {
 
 describe('the document shell', () => {
   const shell = (extra = {}) => createElement(DocumentShell, {
-    label: 'Legal', badge: createElement('span', { 'data-badge': '' }, 'Badge text'), title: 'The Title', dates: 'Effective Date: today',
+    label: 'Legal', badge: createElement('span', { 'data-badge': '' }, 'Badge text'), title: 'The Title', subtitle: 'Effective Date: today',
     children: createElement(DocSection, { title: '1. First', children: createElement('p', null, 'Body.') }), ...extra,
   });
 
@@ -105,6 +105,20 @@ describe('the document shell', () => {
     root = createRoot(container);
   });
 
+  it('has a wide variant: a wider column, the heading block and the content as they come, with no article card', async () => {
+    setHistory(1);
+    await render(shell({ variant: 'wide', subtitle: 'What this page is' }));
+    expect(container.querySelector('main')!.className).toContain('max-w-6xl');
+    expect(container.querySelector('header .grid')!.className).toContain('max-w-6xl');
+    expect(container.querySelector('article')).toBeNull();
+    expect(container.querySelectorAll('h1')).toHaveLength(1);
+    expect(container.querySelector('main > header h1')!.textContent).toBe('The Title');
+    expect(container.querySelector('main > header p')!.textContent).toBe('What this page is');
+    expect(container.querySelector('main [data-badge]')!.textContent).toBe('Badge text');
+    expect(container.querySelector('main h2')!.textContent).toBe('1. First');
+    expect(container.querySelector('footer')).not.toBeNull();
+  });
+
   it('renders a callout with its title as a heading, and links as links', async () => {
     await render(createElement('div', null,
       createElement(DocCallout, { title: '3. Careful', children: createElement('p', null, 'Mind this.') }),
@@ -119,10 +133,11 @@ describe('the document shell', () => {
   });
 });
 
-describe('the legal pages and shell use tokens only', () => {
+describe('the document pages and shell use tokens only', () => {
   const RAW = /\b(?:bg|text|border|ring|from|to|via|fill|stroke|divide|outline)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d/;
   it.each([
-    'src/app/privacy/page.tsx', 'src/app/terms/page.tsx', 'src/components/document/DocumentShell.tsx', 'src/components/document/BackLink.tsx',
+    'src/app/privacy/page.tsx', 'src/app/terms/page.tsx', 'src/app/docs/page.tsx', 'src/components/document/DocumentShell.tsx', 'src/components/document/BackLink.tsx',
+    'src/components/SwaggerUIConsole.tsx',
   ])('%s has no raw palette classes', (path) => {
     const offenders = readFileSync(resolve(process.cwd(), path), 'utf8').split('\n').filter((line) => RAW.test(line)).map((line) => line.trim());
     expect(offenders).toEqual([]);
