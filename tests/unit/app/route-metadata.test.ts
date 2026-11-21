@@ -8,6 +8,7 @@ vi.mock('next/headers', () => ({ cookies: async () => ({ get: () => undefined })
 vi.mock('next/navigation', () => ({ redirect: vi.fn(), notFound: vi.fn() }));
 vi.mock('@vercel/analytics/next', () => ({ Analytics: () => null }));
 import AppFooter from '@/components/AppFooter';
+import DocumentShell from '@/components/document/DocumentShell';
 import RootLayout, { viewport } from '@/app/layout';
 import { metadata as shopMeta } from '@/app/(app)/shop/page';
 import { metadata as planMeta } from '@/app/(app)/plan/page';
@@ -40,8 +41,9 @@ describe('the site footer', () => {
     expect(contains(tree, AppFooter)).toBe(false);
   });
 
-  it('is rendered by the static pages', () => {
-    expect(contains(TermsPage(), AppFooter)).toBe(true);
-    expect(contains(PrivacyPage(), AppFooter)).toBe(true);
+  it('is rendered by the static pages, through the document shell (the legal pages) or directly', () => {
+    expect(contains(TermsPage(), DocumentShell)).toBe(true);
+    expect(contains(PrivacyPage(), DocumentShell)).toBe(true);
+    expect(contains(DocumentShell({ label: 'Legal', badge: null, title: 'T', dates: 'D', children: null }), AppFooter)).toBe(true);
   });
 });
