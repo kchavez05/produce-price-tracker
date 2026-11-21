@@ -21,12 +21,15 @@ export function usePlanUi() {
   const [customPrompt, setCustomPrompt] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiBannerMessage, setAiBannerMessage] = useState<string | null>(null);
+  // v2.0 M4-5c: what the banner is: news (a plan was made, standard suggestions are back), a failed AI request (an alert with Try Again), or a
+  // failed recipe save (an alert without it: retrying must not start a new AI request).
+  const [aiBannerKind, setAiBannerKind] = useState<'info' | 'ai-error' | 'save-error'>('info');
   const [customAiDishes, setCustomAiDishes] = useState<RecommendedDish[] | null>(null);
   const customAiOwner = useRef<string | null>(null);
   const customAiContext = useRef<string>('');
   return {
     showAllBlueprints, setShowAllBlueprints, customPrompt, setCustomPrompt,
-    aiLoading, setAiLoading, aiBannerMessage, setAiBannerMessage, customAiDishes, setCustomAiDishes, customAiOwner,
+    aiLoading, setAiLoading, aiBannerMessage, setAiBannerMessage, aiBannerKind, setAiBannerKind, customAiDishes, setCustomAiDishes, customAiOwner,
     customAiContext,
   };
 }
@@ -56,13 +59,14 @@ interface PlanActionsArgs {
   customAiContext: RefObject<string>;
   setAiLoading: (loading: boolean) => void;
   setAiBannerMessage: (message: string | null) => void;
+  setAiBannerKind: (kind: 'info' | 'ai-error' | 'save-error') => void;
   setCustomAiDishes: (dishes: RecommendedDish[] | null) => void;
 }
 
 export function usePlanActions({
   pantryOwner, pantryOwnerRef, canUseAi, savedRecipeIds, setSavedLibrary, syncDashboard, showAiSignIn, mealContextSignature,
   activeTrio, pinnedIds, effectiveOnHandIds, targetServings, customPrompt, storeFilter, currentZip, cityLabel, macroGoal,
-  dietaryConstraints, applianceFilter, customAiOwner, customAiContext, setAiLoading, setAiBannerMessage, setCustomAiDishes,
+  dietaryConstraints, applianceFilter, customAiOwner, customAiContext, setAiLoading, setAiBannerMessage, setAiBannerKind, setCustomAiDishes,
 }: PlanActionsArgs) {
   const aiContextRef = useRef(mealContextSignature);
   aiContextRef.current = mealContextSignature;
@@ -91,6 +95,7 @@ export function usePlanActions({
       if (requestOwner) setSavedLibrary((previous) => ({ owner: requestOwner,
         recipes: isCurrentlySaved ? previous.recipes.filter((entry) => entry.id !== dish.id) : [...previous.recipes.filter((entry) => entry.id !== dish.id), { ...withoutDerivedPantryPricing(dish), savedInLibrary: true }] }));
     } catch {
+      setAiBannerKind('save-error');
       setAiBannerMessage('Unable to update your saved recipes. Please try again.');
       return;
     }
@@ -103,6 +108,7 @@ export function usePlanActions({
     setCustomAiDishes(null);
     customAiOwner.current = null;
     customAiContext.current = '';
+    setAiBannerKind('info');
     setAiBannerMessage('Using standard meal-prep suggestions.');
   }
 
@@ -124,16 +130,19 @@ export function usePlanActions({
         customAiOwner.current = ticket.owner;
         customAiContext.current = ticket.context;
         setCustomAiDishes(result.dishes);
+        setAiBannerKind('info');
         setAiBannerMessage(result.message || 'Updated 3-dish meal-prep plan.');
       } else {
         setCustomAiDishes(null);
         const retry = aiRetryHint(res.headers.get('Retry-After'));
+        setAiBannerKind('ai-error');
         setAiBannerMessage((typeof result.error === 'string' ? result.error : 'Unable to generate a meal plan. Standard suggestions remain available.') + retry);
         if (res.status === 401) showAiSignIn();
       }
     } catch {
       if (!aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) return;
       setCustomAiDishes(null);
+      setAiBannerKind('ai-error');
       setAiBannerMessage('Unable to reach AI assistance. Standard suggestions remain available. Try again when connected.');
     } finally {
       if (aiRequests.current!.isCurrent(ticket, pantryOwnerRef.current, aiContextRef.current)) {

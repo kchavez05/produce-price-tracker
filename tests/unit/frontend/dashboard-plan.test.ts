@@ -17,19 +17,22 @@ afterEach(async () => { await harness?.teardown(); harness = undefined; });
 const PLAN = 'Plan';
 const BOARD = 'Deals';
 const RADAR = 'Radar';
-const REMIX = 'Remix 3-dish plan with AI';
+const REMIX = 'Suggest Dishes';
 const aiDishes = payload.allRankedDishes.slice(3, 6);
 const buttons = (h: DashboardHarness) => [...h.container.querySelectorAll('button')];
 const promptInput = (h: DashboardHarness) => h.container.querySelector<HTMLInputElement>('input[aria-label="Optional AI meal-plan request"]')!;
 const dishTitles = (h: DashboardHarness) => [...h.container.querySelectorAll('h3')].map((el) => el.textContent ?? '')
   .filter((title) => payload.allRankedDishes.some((dish) => dish.title === title));
 const aiRequests = (h: DashboardHarness) => h.requests.filter((request) => request.url === '/api/ai-meal-plan');
-const banner = (h: DashboardHarness) => h.container.querySelector('[role="status"][aria-live="polite"]')?.textContent ?? null;
+// The AI card's message: a status for news (a plan made, standard suggestions back), an alert for a failure (M4-5c).
+const banner = (h: DashboardHarness) => (h.container.querySelector('[role="status"][aria-live="polite"] p') ?? [...h.container.querySelectorAll('[role="alert"] p')].at(-1))?.textContent ?? null;
 
 /** Mount a signed-in, cloud-backed dashboard on the Plan tab, with AI unlocked and `/api/ai-meal-plan` handled by `ai`. */
 const oliveOil = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
-async function start(ai: (init?: RequestInit) => Response | Promise<Response>, onHand: object[] = []) {
+async function start(ai: (init?: RequestInit) => Response | Promise<Response>, onHand: object[] = [], extra?: FetchHandler) {
   const onFetch: FetchHandler = (input, init) => {
+    const custom = extra?.(input, init);
+    if (custom) return custom;
     if (input === '/api/ai-meal-plan') return ai(init);
     if (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET') {
       return Response.json({ owner: 'account:alice', entries: onHand, legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] });
@@ -115,6 +118,9 @@ describe('AI plan request', () => {
     await h.click(h.button(REMIX));
     await h.waitUntil(() => banner(h) !== null);
     expect(banner(h)).toBe('Unable to reach AI assistance. Standard suggestions remain available. Try again when connected.');
+    // A failure to connect is an alert with Try Again (M4-5c), not a status.
+    expect(h.container.querySelector('section[aria-label="AI meal plan"] [role="alert"]')).not.toBeNull();
+    expect(h.button('Try Again')).toBeDefined();
   });
 });
 
@@ -194,5 +200,81 @@ describe('Plan state survives tab switches (owner decision 1)', () => {
     await h.click(h.link(PLAN));
     expect(shown()).toEqual(before);
     expect(promptInput(h).value).toBe('soup');
+  });
+});
+
+// v2.0 M4-5c: the AI Chef card's states, through the real request flow.
+describe('the AI Chef card states', () => {
+  const alertIn = (h: DashboardHarness) => h.container.querySelector('section[aria-label="AI meal plan"] [role="alert"]');
+  const statusIn = (h: DashboardHarness) => h.container.querySelector('section[aria-label="AI meal plan"] [role="status"][aria-live="polite"]');
+
+  it('shows a failure as an alert that names the problem, with Try Again and Dismiss', async () => {
+    const h = await start(() => Response.json({ error: 'Daily limit reached.' }, { status: 429 }));
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => alertIn(h) !== null);
+    expect(alertIn(h)!.textContent).toContain('AI Chef could not make a plan');
+    expect(alertIn(h)!.textContent).toContain('Daily limit reached.');
+    expect(statusIn(h)).toBeNull();
+    expect(buttons(h).some((b) => b.textContent === 'Try Again')).toBe(true);
+    expect(buttons(h).some((b) => b.textContent === 'Dismiss')).toBe(true);
+  });
+
+  it('repeats the request on Try Again, and the alert gives way to the plan that comes back', async () => {
+    let calls = 0;
+    const h = await start(() => (++calls === 1 ? Response.json({ error: 'Busy.' }, { status: 503 }) : Response.json({ dishes: aiDishes, message: 'Fresh AI plan.' })));
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => alertIn(h) !== null);
+    await h.click(h.button('Try Again'));
+    await h.waitUntil(() => alertIn(h) === null && statusIn(h) !== null);
+    expect(aiRequests(h)).toHaveLength(2);
+    expect(banner(h)).toBe('Fresh AI plan.');
+    expect(dishTitles(h).slice(0, 3)).toEqual(aiDishes.map((dish) => dish.title));
+  });
+
+  it('dismisses an alert and a status, and keeps the standard plan when it fails', async () => {
+    const h = await start(() => Response.json({ error: 'Busy.' }, { status: 503 }));
+    const standard = dishTitles(h);
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => alertIn(h) !== null);
+    await h.click(h.button('Dismiss'));
+    expect(alertIn(h)).toBeNull();
+    expect(dishTitles(h)).toEqual(standard);
+    await h.click(h.button('Use standard suggestions'));
+    expect(statusIn(h)!.textContent).toContain('Using standard meal-prep suggestions.');
+    await h.click(buttons(h).find((b) => b.textContent === 'Dismiss')!);
+    expect(statusIn(h)).toBeNull();
+  });
+
+  it('shows a plan that was made as a status, not an alert', async () => {
+    const h = await start(() => Response.json({ dishes: aiDishes, message: 'Fresh AI plan.' }));
+    await h.click(h.button(REMIX));
+    await h.waitUntil(() => statusIn(h) !== null);
+    expect(statusIn(h)!.querySelector('p')!.textContent).toBe('Fresh AI plan.');
+    expect(alertIn(h)).toBeNull();
+  });
+
+  it('shows a failed recipe save as an alert too, which Dismiss clears', async () => {
+    const h = await start(() => Response.json({ dishes: aiDishes }), [], (input) => (input === '/api/saved-recipes' ? Response.json({ error: 'no' }, { status: 500 }) : undefined));
+    await h.click(buttons(h).find((b) => b.textContent === 'Save')!);
+    await h.waitUntil(() => alertIn(h) !== null);
+    expect(alertIn(h)!.textContent).toContain('Unable to update your saved recipes. Please try again.');
+    // It is not an AI failure: its own title, and no Try Again (which would start a new, quota-consuming AI request).
+    expect(alertIn(h)!.textContent).toContain('Recipe not saved');
+    expect(alertIn(h)!.textContent).not.toContain('AI Chef could not make a plan');
+    expect(buttons(h).some((b) => b.textContent === 'Try Again')).toBe(false);
+    expect(aiRequests(h)).toHaveLength(0);
+    await h.click(h.button('Dismiss'));
+    expect(alertIn(h)).toBeNull();
+  });
+
+  it('dims the plan and marks it busy while a request is out', async () => {
+    const held = heldAi();
+    const h = await start(held.handler);
+    await h.click(h.button(REMIX));
+    const column = h.container.querySelector('[aria-busy="true"]')!;
+    expect(column).not.toBeNull();
+    expect([...h.container.querySelectorAll('[aria-busy="true"]')].some((el) => el.className.includes('opacity-60'))).toBe(true);
+    held.release(Response.json({ dishes: aiDishes }));
+    await h.waitUntil(() => h.container.querySelector('[aria-busy="true"]') === null);
   });
 });

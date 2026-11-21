@@ -4,6 +4,7 @@ import DishDetailView from '@/modules/plan/DishDetailView';
 import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanHeader from '@/modules/plan/PlanHeader';
+import { usePlanContext } from '@/modules/shell/app-context';
 import { useAppRouter } from '@/modules/shell/app-router';
 import { dishIdOfPath } from '@/modules/shell/navigation';
 
@@ -15,9 +16,10 @@ import { dishIdOfPath } from '@/modules/shell/navigation';
 export default function PlanPage() {
   const { pathname } = useAppRouter();
   const dishId = dishIdOfPath(pathname);
+  const { aiLoading } = usePlanContext();
   return (
     <div className="wide:grid wide:grid-cols-[380px_minmax(0,1fr)] wide:items-start wide:gap-6">
-      <div className={`min-w-0 space-y-4 ${dishId !== null ? 'hidden wide:block' : ''}`}>
+      <div aria-busy={aiLoading} className={`min-w-0 space-y-4 transition-opacity motion-reduce:transition-none ${dishId !== null ? 'hidden wide:block' : ''} ${aiLoading ? 'opacity-60' : ''}`}>
         <PlanHeader />
 
         {/* The 3 Recommended Batch Dishes */}

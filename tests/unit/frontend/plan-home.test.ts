@@ -176,7 +176,7 @@ describe('the AI request card', () => {
     const h = await start();
     const card = h.container.querySelector('section[aria-label="AI meal plan"]')!;
     expect(card.querySelector('input[aria-label="Optional AI meal-plan request"]')).not.toBeNull();
-    expect([...card.querySelectorAll('button')].map((b) => b.textContent)).toEqual(['Sign in to access AI', 'Use standard suggestions']);
+    expect([...card.querySelectorAll('button')].map((b) => b.textContent)).toEqual(['Sign in to use', 'Use standard suggestions']);
     expect(card.textContent).toContain('Manual pantry entry and standard suggestions are always available.');
     expect(h.requests.some((r) => r.url.includes('/api/ai'))).toBe(false);
   });
