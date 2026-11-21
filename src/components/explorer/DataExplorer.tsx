@@ -2,6 +2,7 @@
 import { requiresExactOffer } from '@/lib/pantry/exact-offer';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import type { explorerCatalog } from '@/lib/explorer/catalog';
@@ -221,15 +222,13 @@ export default function DataExplorer({
     <main className="explorer">
       <header className="ex-top">
         <div className="ex-shell">
-          <Link href="/" className="ex-brand">
-            ◒ PantryBot{' '}
-            <span style={{ fontWeight: 400, color: '#7c8d80' }}>
-              {' '}
-              / Data lab
-            </span>
+          <Link href="/settings" className="ex-back">
+            <ChevronLeft aria-hidden="true" size={20} />
+            <span>Back</span>
           </Link>
+          <p className="ex-title">Data Explorer</p>
           <Link href="/" className="ex-note">
-            ← Back to meal planning
+            Back to meal planning
           </Link>
         </div>
       </header>
@@ -1020,7 +1019,7 @@ function ScorePanel({
           <span className="ex-eyebrow">Value score</span>
           <p className="ex-score" style={{ margin: '22px 0' }}>
             {trace.valueScore}
-            <span style={{ fontSize: 22, letterSpacing: 0, color: '#6b7a70' }}>
+            <span style={{ fontSize: 22, letterSpacing: 0, color: 'var(--ds-muted)' }}>
               {' '}
               / 100
             </span>
