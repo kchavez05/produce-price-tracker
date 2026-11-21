@@ -42,7 +42,7 @@ Components are stateless views over the context hooks. Only page-level configura
 
 | Module | Folder | Components |
 |---|---|---|
-| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (frame, header, toast, panels), `HeaderPrimary` (brand and account avatar), `PrimaryNavigation` (the tabs), `ZipPanel`, `StoresPanel`, `AlertsPanel`, `AccountDialog` (adapter) and `AccountModal`, `AppLink`, `app-router.tsx`, `navigation.ts` |
+| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (frame, header, toast, panels), `HeaderPrimary` (brand and account avatar), `PrimaryNavigation` (the tabs), `ZipPanel`, `StoresPanel`, `AlertsPanel`, `SignInHost` and `SignInSheet` (the sign-in sheet, mounted once in the frame; M4-6a), `AccountDialog` (adapter) and `AccountModal` (the signed-in panel only, until M4-6b moves it into Settings), `AppLink`, `app-router.tsx`, `navigation.ts` |
 | Shop | `src/modules/shop/` | `ShopPage`, `ShopHeader` (location and freshness lines), `ShopFilters` (store and sort sheet), `FreshnessDetails`, `ShopViewNav` (Deals, Trip with its count, Radar), `BoardAlerts`, `BoardControls`, `BoardLeaderboard`, `DealCard`, `DealActions`, `DealDetailView`, `DealDetails`, `TripSection` (composes `TripPlan`, `TripItems` and `TripExtras`), `RadarSection`, `PriceTrend`, `PrintSlip`, `badges.tsx` |
 | Plan | `src/modules/plan/` | `PlanPage`, `PlanHeader`, `PlanDishes`, `PlanBlueprints` |
 | Welcome | `src/modules/welcome/` | `WelcomePage` (each choice calls the action Settings or the Plan calls; the setup-completed marker is the only new key) |

@@ -575,13 +575,13 @@ describe('account, pantry and AI wiring (M3 A.5c)', () => {
     await harness.waitUntil(() => label(harness!, 'Suggest Dishes'));
   });
 
-  it('asks a signed-out visitor to sign in for AI and opens the account dialog', async () => {
+  it('asks a signed-out visitor to sign in for AI and opens the sign-in sheet', async () => {
     harness = await createDashboardHarness({ payload });
     await harness.mount();
     await harness.click(harness.link('Plan'));
     expect(label(harness, 'Suggest Dishes')).toBe(false);
     await harness.click(harness.button('Sign in to use'));
-    expect(harness.container.textContent).toContain('Sign in to access AI features');
+    expect(harness.dialogText()).toContain('Sign in to access AI features');
   });
 
   it('keeps AI locked for a signed-in account that is not cloud-backed, and unlocks it when cloud-backed', async () => {

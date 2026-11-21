@@ -157,7 +157,7 @@ test.describe('smoke: account panel', () => {
     await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Sign in with Apple' })).toBeVisible();
 
-    await page.getByRole('button', { name: 'Close account modal' }).click();
+    await page.getByRole('button', { name: 'Close sign-in' }).click();
     await expect(page.getByRole('heading', { name: 'Sign In to Sync Your Virtual Pantry & Preferences' })).toBeHidden();
     expect(new URL(page.url()).pathname).toBe(pathBeforeDialog);
     expect(await home.pantryCount()).toBe(1);
