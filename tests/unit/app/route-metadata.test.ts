@@ -44,6 +44,6 @@ describe('the site footer', () => {
   it('is rendered by the static pages, through the document shell (the legal pages) or directly', () => {
     expect(contains(TermsPage(), DocumentShell)).toBe(true);
     expect(contains(PrivacyPage(), DocumentShell)).toBe(true);
-    expect(contains(DocumentShell({ label: 'Legal', badge: null, title: 'T', dates: 'D', children: null }), AppFooter)).toBe(true);
+    expect(contains(DocumentShell({ label: 'Legal', badge: null, title: 'T', subtitle: 'D', children: null }), AppFooter)).toBe(true);
   });
 });

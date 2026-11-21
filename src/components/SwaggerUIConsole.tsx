@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { Badge, Banner, Button, Card, Chip } from '@/components/ui';
+import { cx, focusRing } from '@/components/ui/cx';
 import {
   FileCode,
   Copy,
@@ -113,65 +115,61 @@ export default function SwaggerUIConsole({
   return (
     <div className="w-full space-y-4">
       {/* Developer Action & Info Toolbar */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-6">
+      <Card className="p-4 md:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800 border border-emerald-200">
-                <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
+              <Badge tone="save" className="gap-1.5 px-2.5 py-1">
+                <Sparkles aria-hidden="true" className="size-3.5" />
                 OpenAPI 3.1.0 Standard
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700 border border-slate-200">
-                <ShieldCheck className="h-3.5 w-3.5 text-slate-500" />
+              </Badge>
+              <Badge tone="neutral" className="gap-1.5 px-2.5 py-1">
+                <ShieldCheck aria-hidden="true" className="size-3.5" />
                 Zero-Key Offline Resilience
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-800 border border-blue-200">
-                PostgreSQL RLS &amp; SQLite
-              </span>
+              </Badge>
+              <Badge tone="neutral" className="px-2.5 py-1">PostgreSQL RLS &amp; SQLite</Badge>
             </div>
-            <p className="text-sm text-slate-600 pt-1">
+            <p className="pt-1 text-sm text-muted">
               Explore endpoints, inspect typed schemas, and execute live API requests directly against your local or preview server.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={handleCopySpecUrl}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shadow-xs"
-              title="Copy OpenAPI spec URL to clipboard"
-            >
+            <Button variant="secondary" onClick={handleCopySpecUrl} title="Copy OpenAPI spec URL to clipboard">
               {copied ? (
                 <>
-                  <Check className="h-3.5 w-3.5 text-emerald-600" />
+                  <Check aria-hidden="true" className="size-4" />
                   <span>Copied URL!</span>
                 </>
               ) : (
                 <>
-                  <Copy className="h-3.5 w-3.5 text-slate-500" />
+                  <Copy aria-hidden="true" className="size-4" />
                   <span>Copy Spec URL</span>
                 </>
               )}
-            </button>
+            </Button>
 
             <a
               href={specUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-700 px-3.5 py-2 text-xs font-semibold text-white hover:bg-emerald-800 transition shadow-xs"
+              className={cx(
+                'inline-flex min-h-touch items-center justify-center gap-2 rounded-control bg-accent px-4 text-base font-semibold text-on-accent',
+                focusRing,
+              )}
             >
-              <FileCode className="h-3.5 w-3.5" />
+              <FileCode aria-hidden="true" className="size-4" />
               <span>Raw openapi.json</span>
-              <ExternalLink className="h-3 w-3 opacity-80" />
+              <ExternalLink aria-hidden="true" className="size-3.5" />
             </a>
           </div>
         </div>
 
         {/* Quick Tag Pills */}
-        <div className="mt-4 border-t border-slate-100 pt-3">
-          <div className="flex flex-wrap items-center gap-1.5 text-xs">
-            <span className="flex items-center gap-1 font-medium text-slate-500 mr-1">
-              <Search className="h-3 w-3" /> Quick Filter:
+        <div className="mt-4 border-t border-border pt-3">
+          <div className="flex flex-wrap items-center gap-2 text-sm" data-quick-filter="">
+            <span className="mr-1 flex items-center gap-1 font-medium text-muted">
+              <Search aria-hidden="true" className="size-3.5" /> Quick Filter:
             </span>
             {[
               { label: 'All', query: '' },
@@ -184,64 +182,50 @@ export default function SwaggerUIConsole({
               { label: 'Cloud Sync', query: 'Sync' },
               { label: 'Account & GDPR', query: 'Account' },
               { label: 'Automation & Cron', query: 'Cron' },
-            ].map((pill) => {
-              const active = filterText === pill.query;
-              return (
-                <button
-                  key={pill.label}
-                  type="button"
-                  onClick={() => handleQuickTagFilter(pill.query)}
-                  className={`rounded-md px-2.5 py-1 text-xs font-medium transition ${
-                    active
-                      ? 'bg-emerald-600 text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  {pill.label}
-                </button>
-              );
-            })}
+            ].map((pill) => (
+              <Chip key={pill.label} selected={filterText === pill.query} onClick={() => handleQuickTagFilter(pill.query)}>
+                {pill.label}
+              </Chip>
+            ))}
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Loading State */}
       {loading && (
-        <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm">
-          <div className="inline-flex h-10 w-10 animate-spin items-center justify-center rounded-full border-4 border-emerald-200 border-t-emerald-600 mb-3" />
-          <h3 className="text-base font-semibold text-slate-800">
+        <Card className="p-12 text-center">
+          <div className="mb-3 inline-flex size-10 animate-spin items-center justify-center rounded-full border-4 border-border border-t-accent motion-reduce:animate-none" />
+          <h3 className="text-base font-semibold text-ink">
             Initializing Swagger UI &amp; OpenAPI Spec...
           </h3>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="mt-1 text-sm text-muted">
             Parsing 8 REST routes, 18 data models, and typed schemas.
           </p>
-        </div>
+        </Card>
       )}
 
       {/* Error State */}
       {error && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-red-800 shadow-sm">
-          <h3 className="text-sm font-bold">Failed to load Swagger UI Console</h3>
-          <p className="text-xs mt-1">{error}</p>
-          <a
-            href={specUrl}
-            className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-700 underline"
-          >
+        <Banner tone="error" title="Failed to load Swagger UI Console">
+          <p>{error}</p>
+          <a href={specUrl} className="mt-2 inline-block font-semibold underline">
             Inspect {specUrl} directly
           </a>
-        </div>
+        </Banner>
       )}
 
-      {/* Swagger UI Container with PantryBot Emerald Theme Overrides */}
+      {/* The Swagger UI container. Swagger UI is third-party and styled for a light page, so it stays a light panel in both themes (spec
+          decision 7: its internals are not themed); `color-scheme: light` keeps its form controls light too. The panel scrolls sideways
+          on a narrow screen instead of widening the page (#546). */}
       <div
-        className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-6 transition-opacity duration-200 ${
+        className={`overflow-x-auto rounded-card border border-border-strong bg-white p-3 [color-scheme:light] md:p-6 transition-opacity duration-200 ${
           loading ? 'opacity-0 h-0 overflow-hidden p-0 m-0 border-0' : 'opacity-100'
         }`}
       >
         <div
           ref={containerRef}
           id="swagger-ui-container"
-          className="pantrybot-swagger-ui"
+          className="pantrybot-swagger-ui min-w-0"
         />
       </div>
 

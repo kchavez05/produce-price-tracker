@@ -20,7 +20,7 @@ export default function PrivacyPolicyPage() {
         </Badge>
       )}
       title="Privacy Policy"
-      dates="Effective Date: October 19, 2026 • Last Updated: October 19, 2026 (v1.3.0)"
+      subtitle="Effective Date: October 19, 2026 • Last Updated: October 19, 2026 (v1.3.0)"
     >
       <DocSection title="1. Overview &amp; Our Privacy Pledge">
         <p>

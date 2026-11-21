@@ -9,38 +9,53 @@ import BackLink from './BackLink';
 // v2.0 M4-8a (spec decision 7): the one shell for the document pages. A header with Back and a short label, a readable measure (a 3xl
 // column), the article in a card with its badge, title and dates, and the site footer, all on the design tokens so the page follows the theme.
 // `TokenScope` opts the page into the token color scheme until the root layout adopts the tokens (M4-10). The legal pages use it now; the
-// docs page joins in M4-8b.
+// docs page joins in M4-8b, with the `wide` variant: a wider column and no article card, because its content (the toolbar and the Swagger
+// console) brings its own cards.
 interface DocumentShellProps {
   /** The short label in the header ("Legal"). */
   label: string;
   /** The badge above the title: an element built with `Badge`. */
   badge: ReactNode;
   title: string;
-  /** The effective and updated dates line. */
-  dates: string;
+  /** The line under the title: the effective and updated dates, or what the page is. */
+  subtitle: string;
+  /** `article` (default) puts the content in a card in a reading column; `wide` is a wider column with the content as it comes. */
+  variant?: 'article' | 'wide';
   children: ReactNode;
 }
 
-export default function DocumentShell({ label, badge, title, dates, children }: DocumentShellProps) {
+export default function DocumentShell({ label, badge, title, subtitle, variant = 'article', children }: DocumentShellProps) {
+  const column = variant === 'wide' ? 'max-w-6xl' : 'max-w-3xl';
   return (
     <div className="flex min-h-screen flex-col bg-bg text-ink">
       <TokenScope />
       <header className="no-print border-b border-border bg-surface pt-[env(safe-area-inset-top)]">
-        <div className="mx-auto grid max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-1.5">
+        <div className={`mx-auto grid ${column} grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-1.5`}>
           <BackLink />
           <p className="text-base font-bold">{label}</p>
           <span aria-hidden="true" />
         </div>
       </header>
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-6 sm:py-10">
-        <Card as="article" className="p-6 sm:p-10">
-          <header className="border-b border-border pb-6">
-            {badge}
-            <h1 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
-            <p className="mt-1.5 text-sm text-muted">{dates}</p>
-          </header>
-          <div className="mt-6 space-y-6 text-base leading-relaxed text-ink">{children}</div>
-        </Card>
+      <main className={`mx-auto w-full ${column} flex-1 px-4 py-6 sm:py-10`}>
+        {variant === 'wide' ? (
+          <>
+            <header className="mb-6">
+              {badge}
+              <h1 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
+              <p className="mt-1.5 max-w-2xl text-base text-muted">{subtitle}</p>
+            </header>
+            <div className="space-y-4">{children}</div>
+          </>
+        ) : (
+          <Card as="article" className="p-6 sm:p-10">
+            <header className="border-b border-border pb-6">
+              {badge}
+              <h1 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
+              <p className="mt-1.5 text-sm text-muted">{subtitle}</p>
+            </header>
+            <div className="mt-6 space-y-6 text-base leading-relaxed text-ink">{children}</div>
+          </Card>
+        )}
       </main>
       <AppFooter />
     </div>
