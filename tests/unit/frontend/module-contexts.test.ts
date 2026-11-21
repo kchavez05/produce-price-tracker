@@ -22,7 +22,6 @@ import PlanBlueprints from '@/modules/plan/PlanBlueprints';
 import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanHeader from '@/modules/plan/PlanHeader';
 import PantryDrawer from '@/modules/pantry/PantryDrawer';
-import AccountDialog from '@/modules/shell/AccountDialog';
 import SignInHost from '@/modules/shell/SignInHost';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import FreshnessDetails from '@/modules/shop/FreshnessDetails';
@@ -506,35 +505,5 @@ describe('Pantry drawer and account dialog on the contexts, without the shell', 
     expect(signInText()).toBe('');
     await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
     expect(signInText()).toContain('Sign in to access AI features');
-  });
-
-  it('AccountDialog stays closed for the AI sign-in prompt, which belongs to the sign-in sheet', async () => {
-    sync = aliceSync;
-    accountId = 'alice';
-    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
-    const h = await mountModules(() => createElement(AccountDialog));
-    await h.waitUntil(() => seen.account.userSync.authenticated);
-    await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
-    expect(text(h)).not.toContain('Account, Cloud Sync & Privacy Controls');
-    await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
-  });
-
-  it('AccountDialog shows the signed-in account and runs Sync Now through the Shell action', async () => {
-    sync = aliceSync;
-    accountId = 'alice';
-    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
-    const h = await mountModules(() => createElement(AccountDialog));
-    await act(async () => { seen.shell.setShowAccountModal(true); await h.settle(); });
-    expect(text(h)).toContain('Account, Cloud Sync & Privacy Controls');
-    expect(text(h)).toContain('Alice');
-    await h.waitUntil(() => text(h).includes('1 ingredients'));
-    await act(async () => { seen.preferences.handleMacroGoalChange('HIGH_PROTEIN'); await h.settle(); });
-    expect(text(h)).toContain('HIGH_PROTEIN');
-    expect(text(h)).toContain('80542');
-    expect(text(h)).toContain(`${seen.preferences.activeStores.length} Chains`);
-    const pantryGets = () => h.requests.filter((r) => r.url === '/api/pantry' && r.method === 'GET').length;
-    const before = pantryGets();
-    await click(h, (b) => b.textContent?.includes('Sync Now') === true);
-    await h.waitUntil(() => pantryGets() > before);
   });
 });

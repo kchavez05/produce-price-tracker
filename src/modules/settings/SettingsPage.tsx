@@ -1,11 +1,11 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button, Card, Checkbox, List, ListRow, PageHeader, SegmentedControl, Select } from '@/components/ui';
 import { useTheme } from '@/hooks/useTheme';
 import { THEME_PREFERENCES, type ThemePreference } from '@/design/theme';
-import AccountDialog from '@/modules/shell/AccountDialog';
+import { DeleteAccountSheet, SyncStatusSheet, useExport } from '@/modules/settings/AccountSheets';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import AppLink from '@/modules/shell/AppLink';
 import StoresPanel from '@/modules/shell/StoresPanel';
@@ -17,9 +17,11 @@ import type { CookingVesselArchetype, DietaryConstraint, MacroGoal, SyncStatus }
 
 // v2.0 M4-2a: Account and Settings (wireframes Settings and IpadSettings), a page at /settings and not a tab: a full screen on
 // compact widths and a centred panel on wider ones, with Back to the tab the user came from. Location, My stores, the weekly
-// digest preview and the account dialog open in place under their row (the same components the page-top drawers used, which
-// the shell does not render on this page), so nothing here has new state or new sync code: every control calls the context
-// action the old control called. The Account section hosts the existing dialog until M4-6 replaces it with a sign-in sheet.
+// digest preview open in place under their row (the same components the page-top drawers used, which the shell does not
+// render on this page), so nothing here has new state or new sync code: every control calls the context action the old control
+// called. v2.0 M4-6b: the account lives here (the old account panel is gone). Signed out, the card's Sign In opens the sign-in
+// sheet (M4-6a). Signed in, the card shows who you are with Sign Out, and the Account section has Sync Status (a sheet with Sync
+// Now and what syncs), AI Features, the weekly digest, Export My Grocery Data, and Delete Account & Data (a two-step sheet).
 // The temporary ZIP and alerts controls on the other screens stay until the Shop redesign (M4 decision 19).
 
 const MACRO_OPTIONS: ReadonlyArray<{ value: MacroGoal; label: string }> = [
@@ -64,7 +66,7 @@ function Section({ id, title, children }: { id: string; title: string; children:
 }
 
 export default function SettingsPage() {
-  const { userSync, canUseAi } = useAccountContext();
+  const { userSync, canUseAi, pantry } = useAccountContext();
   const { data } = useDashboardContext();
   const { currentZip, showZipModal, setShowZipModal } = useLocationContext();
   const {
@@ -72,13 +74,18 @@ export default function SettingsPage() {
     handleToggleDietaryConstraint, applianceFilter, handleVesselChange,
   } = usePreferencesContext();
   const {
-    lastTab, showStoresModal, setShowStoresModal, showAlertsModal, handleToggleAlertsModal, showAccountModal,
-    setShowAccountModal, setAccountIntent, showAiSignIn,
+    lastTab, showStoresModal, setShowStoresModal, showAlertsModal, handleToggleAlertsModal, setShowAccountModal, setAccountIntent,
+    showAiSignIn, handleForceCloudSync,
   } = useShellContext();
   const { shopView } = useShopContext();
   const { preference, setPreference } = useTheme();
   const signedIn = userSync.authenticated;
-  const openAccount = () => { setAccountIntent('account'); setShowAccountModal(!showAccountModal); };
+  const openSignIn = () => { setAccountIntent('account'); setShowAccountModal(true); };
+  const [syncOpen, setSyncOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const exported = useExport(userSync.exportAccountDataJson);
+  const labelOf = <T extends string>(options: ReadonlyArray<{ value: T; label: string }>, value: T) => options.find((option) => option.value === value)?.label ?? value;
+  const preferencesSummary = `${labelOf(MACRO_OPTIONS, macroGoal)}, ${dietaryConstraints.length} dietary ${dietaryConstraints.length === 1 ? 'rule' : 'rules'}, cookware: ${labelOf(VESSEL_OPTIONS, applianceFilter)}`;
   const back = lastTab === 'shop' ? { module: 'shop' as const, view: shopView } : { module: lastTab };
 
   return (
@@ -95,11 +102,14 @@ export default function SettingsPage() {
       <Card as="section" aria-label="Your account" className="flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="text-lg font-bold text-ink">{signedIn ? userSync.profile?.displayName || 'Account' : 'Guest'}</p>
-          <p className="text-sm text-muted">{signedIn ? userSync.profile?.email : 'Saved on this device'}</p>
+          <p className="text-sm text-muted">
+            {signedIn ? [userSync.profile?.email, `Signed in with ${userSync.profile?.provider === 'apple' ? 'Apple' : 'Google'}`].filter(Boolean).join(' \u00b7 ') : 'Saved on this device'}
+          </p>
         </div>
-        <Button variant={signedIn ? 'secondary' : 'primary'} onClick={openAccount}>{signedIn ? 'Manage Account' : 'Sign In'}</Button>
+        {signedIn
+          ? <Button variant="secondary" disabled={userSync.authLoading} onClick={() => void userSync.signOut()}>Sign Out</Button>
+          : <Button variant="primary" onClick={openSignIn}>Sign In</Button>}
       </Card>
-      <AccountDialog />
 
       <Section id="settings-shopping" title="Shopping">
         <Card padding="none" className="px-4">
@@ -157,7 +167,20 @@ export default function SettingsPage() {
       <Section id="settings-account" title="Account">
         <Card padding="none" className="px-4">
           <List>
-            <ListRow title="Sync Status" trailing={<span className="text-sm text-muted">{signedIn ? SYNC_LABELS[userSync.syncStatus] : 'Device only'}</span>} />
+            {signedIn
+              ? (
+                <ListRow
+                  title="Sync Status"
+                  onClick={() => setSyncOpen(true)}
+                  trailing={(
+                    <span className="flex items-center gap-1 text-sm text-muted">
+                      {SYNC_LABELS[userSync.syncStatus]}
+                      <ChevronRight aria-hidden="true" className="size-4" />
+                    </span>
+                  )}
+                />
+              )
+              : <ListRow title="Sync Status" trailing={<span className="text-sm text-muted">Device only</span>} />}
             <ListRow
               title="AI Features"
               trailing={canUseAi
@@ -168,9 +191,41 @@ export default function SettingsPage() {
             />
             <ListRow title="Weekly Digest" subtitle="Preview" onClick={handleToggleAlertsModal} />
             {showAlertsModal && <li><AlertsPanel /></li>}
+            {signedIn && (
+              <ListRow
+                title="Export My Grocery Data"
+                subtitle="A portable JSON copy of your pantry, preferences and saved recipes"
+                onClick={() => void exported.run()}
+                trailing={exported.done ? <span className="text-sm text-muted">Downloaded .JSON!</span> : undefined}
+              />
+            )}
+            {signedIn && <ListRow title="Delete Account & Data" subtitle="Permanently removes your account and everything in it" onClick={() => setDeleteOpen(true)} />}
           </List>
         </Card>
       </Section>
+      {signedIn && (
+        <>
+          <SyncStatusSheet
+            open={syncOpen}
+            onClose={() => setSyncOpen(false)}
+            syncStatus={userSync.syncStatus}
+            storageMode={userSync.storageMode}
+            lastSyncedIso={userSync.lastSyncedIso}
+            currentZip={currentZip}
+            storeCount={activeStores.length}
+            pantryItemCount={pantry.entries.filter((entry) => !entry.deletedAtIso).length}
+            preferencesSummary={preferencesSummary}
+            onSyncNow={handleForceCloudSync}
+          />
+          <DeleteAccountSheet
+            open={deleteOpen}
+            onClose={() => setDeleteOpen(false)}
+            authLoading={userSync.authLoading}
+            onExport={userSync.exportAccountDataJson}
+            onDelete={userSync.deleteAccountAndData}
+          />
+        </>
+      )}
 
       <Section id="settings-about" title="About">
         <Card padding="none" className="px-4">

@@ -120,6 +120,19 @@ describe('dashboard golden HTML (guest, keyless)', () => {
     await h.click(h.link('Account and settings'));
     expectGolden('12-settings-signed-in', h.html());
   });
+  it('12b settings, signed in, Sync Status sheet', async () => {
+    const h = await start({ sync: aliceSync, accountId: 'alice' });
+    await h.settle();
+    await h.openSettingsPanel('Sync Status');
+    // The last synced time is drawn in the machine's time zone, so the golden masks it.
+    expectGolden('12b-settings-sync-status', formatHtml(document.querySelector('[role="dialog"]')!.outerHTML).replace(/Last synced: [^<]+/, 'Last synced: (time)'));
+  });
+  it('12c settings, signed in, delete account sheet', async () => {
+    const h = await start({ sync: aliceSync, accountId: 'alice' });
+    await h.settle();
+    await h.openSettingsPanel('Delete Account & Data');
+    expectGolden('12c-settings-delete-account', formatHtml(document.querySelector('[role="dialog"]')!.outerHTML));
+  });
   it('10 signed-in board', async () => {
     const h = await start({ sync: aliceSync, accountId: 'alice' });
     await h.settle();

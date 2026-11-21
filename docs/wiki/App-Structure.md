@@ -11,7 +11,7 @@ How the app screens are organized since the v2.0 M3 dashboard decomposition ([#7
 | `/plan` | The Plan module: the 3-dish meal prep plan, the AI request, blueprints. | `src/app/(app)/plan/page.tsx` renders `src/modules/plan/PlanPage.tsx` |
 | `/pantry` | The Pantry module: the private Virtual Pantry as a page. | `src/app/(app)/pantry/page.tsx` renders `src/modules/pantry/PantryDrawer.tsx` |
 | `/welcome` | First-run setup (v2.0 M4-2b): step 1 ZIP and stores, step 2 optional food preferences, skippable with today's defaults. Not a tab, no chrome. | `src/app/(app)/welcome/page.tsx` renders `src/modules/welcome/WelcomePage.tsx` |
-| `/settings` | Account and Settings (v2.0 M4-2a): location, stores, meal prep preferences, appearance, account and sync, weekly digest preview, about links. Not a tab. | `src/app/(app)/settings/page.tsx` renders `src/modules/settings/SettingsPage.tsx` |
+| `/settings` | Account and Settings (v2.0 M4-2a): location, stores, meal prep preferences, appearance, account (sign in or out, Sync Status sheet, AI features, export, two-step delete), weekly digest preview, about links. Not a tab. | `src/app/(app)/settings/page.tsx` renders `src/modules/settings/SettingsPage.tsx` |
 
 `/privacy`, `/terms`, `/docs`, `/data`, `/design` and `/api-docs` are outside the `(app)` group: they do not mount the provider.
 
@@ -42,11 +42,11 @@ Components are stateless views over the context hooks. Only page-level configura
 
 | Module | Folder | Components |
 |---|---|---|
-| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (frame, header, toast, panels), `HeaderPrimary` (brand and account avatar), `PrimaryNavigation` (the tabs), `ZipPanel`, `StoresPanel`, `AlertsPanel`, `SignInHost` and `SignInSheet` (the sign-in sheet, mounted once in the frame; M4-6a), `AccountDialog` (adapter) and `AccountModal` (the signed-in panel only, until M4-6b moves it into Settings), `AppLink`, `app-router.tsx`, `navigation.ts` |
+| Shell (chrome around every page) | `src/modules/shell/` | `AppShell` (frame, header, toast, panels), `HeaderPrimary` (brand and account avatar), `PrimaryNavigation` (the tabs), `ZipPanel`, `StoresPanel`, `AlertsPanel`, `SignInHost` and `SignInSheet` (the sign-in sheet, mounted once in the frame; M4-6a), `AppLink`, `app-router.tsx`, `navigation.ts` |
 | Shop | `src/modules/shop/` | `ShopPage`, `ShopHeader` (location and freshness lines), `ShopFilters` (store and sort sheet), `FreshnessDetails`, `ShopViewNav` (Deals, Trip with its count, Radar), `BoardAlerts`, `BoardControls`, `BoardLeaderboard`, `DealCard`, `DealActions`, `DealDetailView`, `DealDetails`, `TripSection` (composes `TripPlan`, `TripItems` and `TripExtras`), `RadarSection`, `PriceTrend`, `PrintSlip`, `badges.tsx` |
 | Plan | `src/modules/plan/` | `PlanPage`, `PlanHeader`, `PlanDishes`, `PlanBlueprints` |
 | Welcome | `src/modules/welcome/` | `WelcomePage` (each choice calls the action Settings or the Plan calls; the setup-completed marker is the only new key) |
-| Settings | `src/modules/settings/` | `SettingsPage` (every control calls an action an old control called; Location, My Stores, the weekly digest and the account dialog open in place under their row) |
+| Settings | `src/modules/settings/` | `SettingsPage` (every control calls an action an old control called; Location, My Stores and the weekly digest open in place under their row), `AccountSheets` (the Sync Status sheet and the delete-account sheet behind the Account rows; M4-6b) |
 | Pantry | `src/modules/pantry/` | `PantryDrawer` (adapter: reads the contexts, lays out the list and the detail), `VirtualPantry` (the list, props-driven, tested on its own), `PantryDetail` (the ingredient detail) and `PantryEntryForm` (the ingredient form both share) |
 
 ## The app frame (M4-1b)
