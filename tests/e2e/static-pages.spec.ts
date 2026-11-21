@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { expect, test } from './support/fixtures';
+import { DashboardPage } from './pages/DashboardPage';
 
 // Journey 6: static and public pages load, have one h1, pass axe and do not scroll sideways.
 // Swagger UI renders after load and in stages: the operation blocks and the servers select
@@ -62,4 +63,17 @@ test('7. /data filters apply on narrow and wide screens', async ({ page, problem
     await zip.blur();
     await expect(page).toHaveURL(/zip=80301/);
   }
+});
+
+// The legal pages' Back link (M4-8a): opened from Settings' About list, Back returns to Settings.
+test('8. the legal pages return to where they were opened from', async ({ page, problems }) => {
+  void problems;
+  const home = new DashboardPage(page);
+  await home.goto();
+  await home.openSettings();
+  await page.getByRole('link', { name: /Privacy Policy/ }).click();
+  await expect(page).toHaveURL(/\/privacy$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Privacy Policy');
+  await page.getByRole('link', { name: 'Back', exact: true }).click();
+  await expect(page).toHaveURL(/\/settings$/);
 });
