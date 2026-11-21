@@ -21,8 +21,18 @@ describe('the Explorer stylesheet', () => {
   });
 
   it('has no named or functional colors either', () => {
-    const offenders = css.split('\n').filter((line) => /\b(white|black)\b|rgba?\(|hsla?\(/.test(line)).map((line) => line.trim());
+    const offenders = css.split('\n').filter((line) => /(?<![-\w])(white|black)(?![-\w])|rgba?\(|hsla?\(/.test(line)).map((line) => line.trim());
     expect(offenders).toEqual([]);
+  });
+
+  it('has only valid property names: no token reference was spliced into a property (white-space once was)', () => {
+    const broken = css.split('\n').filter((line) => /var\(--[\w-]+\)-/.test(line) || /^\s*var\(/.test(line)).map((line) => line.trim());
+    expect(broken).toEqual([]);
+  });
+
+  it('keeps its no-wrap and pre-wrap declarations', () => {
+    expect(css.match(/white-space: nowrap;/g)).toHaveLength(2);
+    expect(css).toMatch(/white-space: pre-wrap;/);
   });
 
   it('takes its base colors from the design tokens', () => {

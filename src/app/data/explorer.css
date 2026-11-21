@@ -297,7 +297,7 @@
   text-align: left;
 }
 .ex-table th {
-  var(--ds-surface)-space: nowrap;
+  white-space: nowrap;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -320,7 +320,7 @@
 .ex-table td.price {
   font-weight: 700;
   color: var(--ds-save);
-  var(--ds-surface)-space: nowrap;
+  white-space: nowrap;
 }
 .ex-table summary {
   cursor: pointer;
@@ -328,7 +328,7 @@
 }
 .ex-table pre,
 .ex-json {
-  var(--ds-surface)-space: pre-wrap;
+  white-space: pre-wrap;
   overflow-wrap: anywhere;
   font-size: 11px;
   line-height: 1.6;
