@@ -48,6 +48,13 @@ describe('the narrow-screen layout', () => {
     expect(narrow).toMatch(/\.ex-chart \{\s*min-width: 640px;/);
     expect(css).toMatch(/\.ex-chart-scroll \{\s*overflow-x: auto;/);
   });
+
+  it('swaps the inline filter bar for the summary row below 760 px, and shows only the bar above it', () => {
+    expect(css).toMatch(/\.ex-compact \{\s*display: none;/);
+    const narrow = css.slice(css.indexOf('@media (max-width: 760px)'));
+    expect(narrow).toMatch(/\.ex-filters \{\s*display: none;/);
+    expect(narrow).toMatch(/\.ex-compact \{\s*display: flex;/);
+  });
 });
 
 describe('the Explorer components', () => {

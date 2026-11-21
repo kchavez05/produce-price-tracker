@@ -120,6 +120,34 @@
   max-width: 100%;
   min-height: 39px;
 }
+.ex-compact {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 14px;
+  padding: 15px;
+}
+.ex-compact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ex-compact-row .ex-note {
+  min-width: 0;
+}
+.ex-compact-name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-top: 4px;
+}
+.ex-compact .ex-button {
+  min-height: 44px;
+  flex-shrink: 0;
+}
 .ex-ingredient {
   flex: 2;
   min-width: 235px !important;
@@ -465,16 +493,10 @@
     flex-direction: column;
   }
   .ex-filters {
-    padding: 15px;
-    gap: 12px;
+    display: none;
   }
-  .ex-filters label {
-    flex: 1;
-    min-width: 120px;
-  }
-  .ex-filters .ex-ingredient {
-    flex-basis: 100%;
-    min-width: 0 !important;
+  .ex-compact {
+    display: flex;
   }
   .ex-top .ex-note {
     display: none;
