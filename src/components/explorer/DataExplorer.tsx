@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ALL_STORE_CHAINS } from '@/data/store-registry';
 import type { explorerCatalog } from '@/lib/explorer/catalog';
 import type { DataRow, ExplorerData, HistoryPoint } from '@/lib/explorer/types';
+import CompactFilters from './ExplorerFilters';
 import PriceHistory, { money } from './PriceHistory';
 import { calculateValueScore } from '@/lib/value-score';
 import type { scoreInputs } from '@/lib/explorer/derive';
@@ -252,6 +253,15 @@ export default function DataExplorer({
             Transparent rules → value scores
           </div>
         </div>
+        <CompactFilters
+          catalog={catalog}
+          ingredient={ingredient}
+          ingredientName={selected.name}
+          values={{ zip, start, end, stores: params.get('stores') || '' }}
+          today={today}
+          onApply={(values) => navigate({ zip: values.zip, start: values.start, end: values.end, stores: values.stores })}
+          onIngredient={(id) => navigate({ ingredient: id, version: '', variety: '' })}
+        />
         <div className="ex-filters">
           <label className="ex-ingredient">
             Ingredient
