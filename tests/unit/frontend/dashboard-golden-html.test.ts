@@ -4,7 +4,7 @@
 // regenerate. Goldens are deleted or replaced when Phase B restructures the page on purpose.
 import { afterEach, describe, it } from 'vitest';
 import {
-  aliceSync, createDashboardHarness, keylessPayload, type DashboardHarness, type FetchHandler,
+  aliceSync, createDashboardHarness, formatHtml, keylessPayload, type DashboardHarness, type FetchHandler,
 } from 'tests/helpers/dashboard-harness';
 import { expectGolden } from 'tests/helpers/golden';
 import type { DashboardPayload, UserSyncPayload, WeeklySyncCronResult } from '@/types/domain';
@@ -100,7 +100,8 @@ describe('dashboard golden HTML (guest, keyless)', () => {
   it('8d account modal (on Settings)', async () => {
     const h = await start();
     await h.openAccountDialog();
-    expectGolden('08d-account-modal', h.html());
+    // The sign-in sheet (M4-6a) is a portal outside the container, so its markup is added to the golden.
+    expectGolden('08d-account-modal', `${h.html()}\n<!-- sign-in sheet -->\n${formatHtml(document.querySelector('[role="dialog"]')!.outerHTML)}`);
   });
   it('9 print slip open', async () => {
     const h = await start();

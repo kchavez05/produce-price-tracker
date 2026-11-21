@@ -3,7 +3,7 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import HeaderPrimary from '@/modules/shell/HeaderPrimary';
 import { BottomNavigation, SideNavigation } from '@/modules/shell/PrimaryNavigation';
-import AccountDialog from '@/modules/shell/AccountDialog';
+import SignInHost from '@/modules/shell/SignInHost';
 import { useAccountContext, useShellContext } from '@/modules/shell/app-context';
 import { useAppRouter } from '@/modules/shell/app-router';
 import { decideFirstRun, markSetupCompleted } from '@/modules/shell/first-run';
@@ -22,7 +22,7 @@ import { DoorOpen } from 'lucide-react';
 // from so it can offer Back. Welcome (M4-2b, the first-run setup) shows no chrome at all. Since M4-3a the temporary ZIP,
 // alerts, store-filter and pins controls and their panels are gone from the top of the page (M4 decision 19): location,
 // stores and the digest live in Settings, the store filter and sort in the Shop's Filters sheet. What is left above a tab's
-// page is the toast and the account dialog that the AI sign-in prompts open (until M4-6 turns it into a sheet).
+// page is the toast. The sign-in sheet (M4-6a), opened by Settings' Sign In and by every "Sign in to use" prompt, is mounted here, once, for every screen.
 //
 // First run (M4-2b): once, after mount, a device that has never been set up and has no signed-in account is sent to /welcome
 // (`replace`, so Back does not loop). The decision is `decideFirstRun`; the account is the one the server resolved for this
@@ -81,9 +81,6 @@ export default function AppShell({ children }: { children?: ReactNode }) {
           {!onSettings && <h1 className="sr-only">{SCREEN_NAMES[module as keyof typeof SCREEN_NAMES]}</h1>}
 
           {!onSettings && <div className="no-print">
-            {/* v1.3 Ticket #29: Account Management, Cloud Sync & Privacy Drawer */}
-            <AccountDialog />
-
             {/* Arbitrage Toast Banner */}
             {arbitrageToast && (
               <div className="mt-2.5 flex items-center justify-between rounded-xl border border-sky-300 bg-sky-950 px-3.5 py-2 text-xs font-semibold text-sky-100 shadow-md">
@@ -106,6 +103,7 @@ export default function AppShell({ children }: { children?: ReactNode }) {
         </main>
       </div>
       <BottomNavigation />
+      <SignInHost />
     </div>
   );
 }

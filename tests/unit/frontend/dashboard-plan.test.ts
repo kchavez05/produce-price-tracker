@@ -109,7 +109,7 @@ describe('AI plan request', () => {
   it('asks for sign-in when the server answers 401', async () => {
     const h = await start(() => Response.json({ error: 'Sign in required.' }, { status: 401 }));
     await h.click(h.button(REMIX));
-    await h.waitUntil(() => h.container.textContent?.includes('Sign in to access AI features') === true);
+    await h.waitUntil(() => h.dialogText().includes('Sign in to access AI features'));
     expect(banner(h)).toBe('Sign in required.');
   });
 

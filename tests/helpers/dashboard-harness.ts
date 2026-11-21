@@ -36,6 +36,8 @@ export interface DashboardHarness {
   openShopView: (label: 'Deals' | 'Trip' | 'Radar') => Promise<void>;
   /** Open the Plan's Preferences sheet (macro goal, dietary rules, cookware), from the preferences chip. */
   openPlanPreferences: () => Promise<void>;
+  /** The text of the open sheet or dialog (a portal outside the container), such as the sign-in sheet, or '' when none is open. */
+  dialogText: () => string;
   /** The Plan's servings radio for 4, 6 or 8 per dish. */
   servingsRadio: (servings: 4 | 6 | 8) => HTMLInputElement;
   /** The app state tests assert on without a screen (the ZIP, the stores, the store filter, the pins), as of the last render. */
@@ -222,6 +224,7 @@ export async function createDashboardHarness(options: {
       const card = container.querySelector('section[aria-label="Your account"]')!;
       await run(() => card.querySelector('button')!.click());
     },
+    dialogText: () => document.querySelector('[role="dialog"]')?.textContent ?? '',
     servingsRadio: (servings) => {
       const found = container.querySelector<HTMLInputElement>(`[role="radiogroup"][aria-label="Servings per dish"] input[value="${servings}"]`);
       if (!found) throw new Error(`Missing servings radio: ${servings}`);

@@ -196,14 +196,15 @@ describe('Appearance', () => {
 });
 
 describe('Account', () => {
-  it('shows a guest card, whose Sign In opens the account dialog in place', async () => {
+  it('shows a guest card, whose Sign In opens the sign-in sheet', async () => {
     const h = await start();
     const card = h.container.querySelector('section[aria-label="Your account"]')!;
     expect(card.textContent).toContain('Guest');
     expect(card.textContent).toContain('Saved on this device');
-    expect(text(h)).not.toContain('Sign In to Sync Your Virtual Pantry & Preferences');
+    expect(h.dialogText()).not.toContain('Sign In to Sync Your Virtual Pantry & Preferences');
     await h.click(buttonIn(card, 'Sign In'));
-    expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
+    // The sign-in sheet (M4-6a) opens over Settings; the page stays where it is.
+    expect(h.dialogText()).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
     expect(h.path()).toBe('/settings');
   });
 
@@ -212,8 +213,8 @@ describe('Account', () => {
     const account = settingsSection(h, 'Account');
     expect(account.textContent).toContain('Device only');
     await h.click(buttonIn(account, 'Sign In to Access'));
-    expect(text(h)).toContain('Sign in to access AI features'); // the dialog opens with the AI intent
-    expect(text(h)).not.toContain('Sign In to Sync Your Virtual Pantry & Preferences');
+    expect(h.dialogText()).toContain('Sign in to access AI features'); // the sheet opens with the AI intent
+    expect(h.dialogText()).not.toContain('Sign In to Sync Your Virtual Pantry & Preferences');
   });
 
   it('shows a signed-in account: name, email, sync status, AI on, and Manage Account', async () => {

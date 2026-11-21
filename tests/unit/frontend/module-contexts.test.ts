@@ -23,6 +23,7 @@ import PlanDishes from '@/modules/plan/PlanDishes';
 import PlanHeader from '@/modules/plan/PlanHeader';
 import PantryDrawer from '@/modules/pantry/PantryDrawer';
 import AccountDialog from '@/modules/shell/AccountDialog';
+import SignInHost from '@/modules/shell/SignInHost';
 import AlertsPanel from '@/modules/shell/AlertsPanel';
 import FreshnessDetails from '@/modules/shop/FreshnessDetails';
 import HeaderPrimary, { describeSync } from '@/modules/shell/HeaderPrimary';
@@ -33,6 +34,8 @@ import StoresPanel from '@/modules/shell/StoresPanel';
 import ZipPanel from '@/modules/shell/ZipPanel';
 import type { UserSyncPayload, WeeklySyncCronResult } from '@/types/domain';
 
+// Other tests leave portal sheets behind, so look for the sign-in sheet by its titles, not for "the" dialog.
+const signInText = () => [...document.querySelectorAll('[role="dialog"]')].map((d) => d.textContent ?? '').filter((t) => t.includes('Sign In to Sync') || t.includes('Sign in to access AI')).join('');
 const payload = keylessPayload();
 let harness: DashboardHarness | undefined;
 let onFetch: FetchHandler | undefined;
@@ -479,15 +482,41 @@ describe('Pantry drawer and account dialog on the contexts, without the shell', 
     expect(search().value).toBe('');
   });
 
-  it('AccountDialog opens and closes through the Shell context and shows the sign-in prompt or the AI intent', async () => {
-    const h = await mountModules(() => createElement(AccountDialog));
-    expect(text(h)).not.toContain('Sign In to Sync Your Virtual Pantry');
+  it('SignInHost opens and closes the sign-in sheet through the Shell context, for the account intent and the AI intent', async () => {
+    const h = await mountModules(() => createElement(SignInHost));
+    expect(signInText()).toBe('');
     await act(async () => { seen.shell.setShowAccountModal(true); await h.settle(); });
-    expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
-    await click(h, (b) => b.getAttribute('aria-label') === 'Close account modal');
+    expect(signInText()).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
+    await act(async () => { document.querySelector<HTMLButtonElement>('[role="dialog"] button[aria-label="Close sign-in"]')!.click(); await h.settle(); });
     expect(seen.shell.showAccountModal).toBe(false);
+    expect(signInText()).toBe('');
     await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
-    expect(text(h)).toContain('Sign in to access AI features');
+    expect(signInText()).toContain('Sign in to access AI features');
+    await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
+    expect(signInText()).toBe('');
+  });
+
+  it('SignInHost is for a signed-out visitor, and for the AI intent when the account cannot use AI; a signed-in account manages itself instead', async () => {
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
+    const h = await mountModules(() => createElement(SignInHost));
+    await h.waitUntil(() => seen.account.userSync.authenticated);
+    await act(async () => { seen.shell.setShowAccountModal(true); await h.settle(); });
+    expect(signInText()).toBe('');
+    await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
+    expect(signInText()).toContain('Sign in to access AI features');
+  });
+
+  it('AccountDialog stays closed for the AI sign-in prompt, which belongs to the sign-in sheet', async () => {
+    sync = aliceSync;
+    accountId = 'alice';
+    onFetch = (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET' ? pantryResponse('account:alice') : undefined);
+    const h = await mountModules(() => createElement(AccountDialog));
+    await h.waitUntil(() => seen.account.userSync.authenticated);
+    await act(async () => { seen.shell.showAiSignIn(); await h.settle(); });
+    expect(text(h)).not.toContain('Account, Cloud Sync & Privacy Controls');
+    await act(async () => { seen.shell.setShowAccountModal(false); await h.settle(); });
   });
 
   it('AccountDialog shows the signed-in account and runs Sync Now through the Shell action', async () => {

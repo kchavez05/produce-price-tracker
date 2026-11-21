@@ -297,12 +297,12 @@ describe('toast and drawers kept across tab switches (owner decision 1)', () => 
     expect(text(h)).not.toContain('Choose the specific ingredient in Virtual Pantry');
   });
 
-  it('keeps the account dialog open across tab switches', async () => {
+  it('keeps the sign-in sheet open across tab switches', async () => {
     const h = await start();
     await h.openAccountDialog();
-    expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
+    expect(h.dialogText()).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
     await h.openShopView('Radar');
     await h.click(h.link(PLAN));
-    expect(text(h)).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
+    expect(h.dialogText()).toContain('Sign In to Sync Your Virtual Pantry & Preferences');
   });
 });
