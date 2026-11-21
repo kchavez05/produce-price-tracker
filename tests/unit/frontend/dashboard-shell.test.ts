@@ -232,8 +232,8 @@ describe('stores drawer: select all', () => {
 describe('Sync Now (signed-in account)', () => {
   it('retries the pantry, then pushes the current preferences to the cloud', async () => {
     const h = await start(undefined, { sync: cloudBacked, accountId: 'alice' });
-    await h.openAccountDialog();
-    expect(text(h)).toContain('Account, Cloud Sync & Privacy Controls');
+    await h.openSettingsPanel('Sync Status');
+    expect(h.dialogText()).toContain('All changes synced');
     const pantryGets = () => h.requests.filter((r) => r.url === '/api/pantry' && r.method === 'GET').length;
     const syncPosts = () => h.requests.filter((r) => r.url === '/api/sync' && r.method !== 'GET');
     const beforePantry = pantryGets();

@@ -217,17 +217,89 @@ describe('Account', () => {
     expect(h.dialogText()).not.toContain('Sign In to Sync Your Virtual Pantry & Preferences');
   });
 
-  it('shows a signed-in account: name, email, sync status, AI on, and Manage Account', async () => {
+  it('shows a signed-in account: name, who it signed in with, Sign Out, sync status, AI on and the data rows', async () => {
     const h = await start('/settings', { sync: cloudAccount, accountId: 'alice' });
     await h.waitUntil(() => h.container.querySelector('section[aria-label="Your account"]')?.textContent?.includes('Alice') === true);
     const card = h.container.querySelector('section[aria-label="Your account"]')!;
-    expect(card.textContent).toContain(aliceSync.profile!.email);
-    expect(buttonIn(card, 'Manage Account')).toBeDefined();
+    expect(card.textContent).toContain('Signed in with Google');
+    expect(buttonIn(card, 'Sign Out')).toBeDefined();
+    expect(card.textContent).not.toContain('Manage Account');
     const account = settingsSection(h, 'Account');
     await h.waitUntil(() => account.textContent?.includes('On') === true);
     expect(account.textContent).toContain('Synced');
-    await h.click(buttonIn(card, 'Manage Account'));
-    expect(text(h)).toContain('Account, Cloud Sync & Privacy Controls');
+    expect(buttonIn(account, 'Export My Grocery Data')).toBeDefined();
+    expect(buttonIn(account, 'Delete Account & Data')).toBeDefined();
+    expect(h.dialogText()).toBe('');
+  });
+
+  it('says Apple when the account signed in with Apple', async () => {
+    const apple: UserSyncPayload = { ...cloudAccount, profile: { ...cloudAccount.profile!, provider: 'apple' } };
+    const h = await start('/settings', { sync: apple, accountId: 'alice' });
+    await h.waitUntil(() => h.container.querySelector('section[aria-label="Your account"]')?.textContent?.includes('Alice') === true);
+    const card = h.container.querySelector('section[aria-label="Your account"]')!;
+    expect(card.textContent).toContain('Signed in with Apple');
+    expect(card.textContent).not.toContain('Signed in with Google');
+  });
+
+  it('counts only the live pantry entries and singular dietary rules in Sync Status', async () => {
+    const live = { id: 'oil', ingredientId: 'olive-oil', displayName: 'Olive oil', available: true, revision: 1, updatedAtIso: '' };
+    const gone = { id: 'rice', ingredientId: 'rice', displayName: 'Rice', available: true, revision: 2, updatedAtIso: '', deletedAtIso: '2026-11-16T00:00:00.000Z' };
+    const h = await start('/settings', {
+      sync: cloudAccount, accountId: 'alice',
+      onFetch: (input, init) => (input === '/api/pantry' && (init?.method ?? 'GET') === 'GET'
+        ? Response.json({ owner: 'account:alice', entries: [live, gone], legacyMigrationVersion: 1, needsCatalogMatch: [], acceptedCatalogIds: [] }) : undefined),
+    });
+    await h.click(h.container.querySelectorAll<HTMLInputElement>('fieldset input[type="checkbox"]')[0]);
+    await h.settle();
+    await h.openSettingsPanel('Sync Status');
+    await h.waitUntil(() => h.dialogText().includes('1 ingredients'));
+    expect(h.dialogText()).toContain('Any, 1 dietary rule, cookware: Any');
+  });
+
+  it('has no account panel to open: a signed-in account\'s rows open sheets in place, and a guest has none of the data rows', async () => {
+    const guest = await start();
+    const guestAccount = settingsSection(guest, 'Account');
+    expect(guestAccount.textContent).not.toContain('Export My Grocery Data');
+    expect(guestAccount.textContent).not.toContain('Delete Account & Data');
+    expect([...guestAccount.querySelectorAll('button')].some((b) => b.textContent?.includes('Sync Status'))).toBe(false);
+  });
+
+  it('opens Sync Status as a sheet that lists what syncs, with the account\'s own values', async () => {
+    const h = await start('/settings', { sync: cloudAccount, accountId: 'alice' });
+    await h.waitUntil(() => settingsSection(h, 'Account').textContent?.includes('Synced') === true);
+    await h.openSettingsPanel('Sync Status');
+    const sheet = h.dialogText();
+    expect(sheet).toContain('Sync status');
+    expect(sheet).toContain('All changes synced.');
+    expect(sheet).toContain('What syncs');
+    expect(sheet).toContain('Home ZIP80542');
+    expect(sheet).toContain(`${h.state().activeStores.length} chains`);
+    expect(sheet).toContain('0 ingredients');
+    expect(sheet).toContain('Any, 0 dietary rules, cookware: Any');
+    await h.click(document.querySelector<HTMLButtonElement>('[role="dialog"] button[aria-label="Close sync status"]')!);
+    expect(h.dialogText()).toBe('');
+  });
+
+  it('links Sync Status to the Pantry for changes that did not save, and the link leaves Settings', async () => {
+    const h = await start('/settings', { sync: cloudAccount, accountId: 'alice' });
+    await h.openSettingsPanel('Sync Status');
+    const link = [...document.querySelectorAll<HTMLAnchorElement>('[role="dialog"] a')].find((a) => a.textContent === 'Pantry')!;
+    expect(link.getAttribute('href')).toBe('/pantry');
+    await h.click(link);
+    expect(h.path()).toBe('/pantry');
+    expect(h.dialogText()).toBe('');
+  });
+
+  it('opens the delete confirmation as its own sheet that offers the export first and can be cancelled', async () => {
+    const h = await start('/settings', { sync: cloudAccount, accountId: 'alice' });
+    await h.openSettingsPanel('Delete Account & Data');
+    const sheet = h.dialogText();
+    expect(sheet).toContain('Permanently wipe account?');
+    expect(sheet).toContain('It cannot be undone.');
+    expect(sheet).toContain('Export My Grocery Data');
+    await h.click(h.button('Cancel'));
+    expect(h.dialogText()).toBe('');
+    expect(h.path()).toBe('/settings');
   });
 
   it('opens the weekly digest preview in place', async () => {

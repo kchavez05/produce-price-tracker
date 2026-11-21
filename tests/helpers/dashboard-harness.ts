@@ -46,15 +46,15 @@ export interface DashboardHarness {
    * Open one of Settings' in-place panels the way a user does since the temporary page-top controls went (M4-3a): through the
    * header avatar to Settings, then the row ("Location", "My Stores" or "Weekly Digest").
    */
-  openSettingsPanel: (row: 'Location' | 'My Stores' | 'Weekly Digest') => Promise<void>;
+  openSettingsPanel: (row: 'Location' | 'My Stores' | 'Weekly Digest' | 'Sync Status' | 'Delete Account & Data') => Promise<void>;
   /**
    * Set the store filter through the Shop's Filters sheet ("ALL" or a chain), from wherever the app is: it goes to the Shop
    * first if the Filters button is not on screen.
    */
   setStoreFilter: (value: 'ALL' | StoreChain) => Promise<void>;
   /**
-   * Open the account dialog the way a user does since M4-2a: through the header avatar to Settings, then the account card's
-   * button ("Sign In" for a guest, "Manage Account" when signed in). Does nothing on Settings if the dialog is already open.
+   * Open the sign-in sheet the way a signed-out user does: through the header avatar to Settings, then the account card's
+   * Sign In button. (A signed-in account has no such dialog since M4-6b: its controls are Settings' Account rows.)
    */
   openAccountDialog: () => Promise<void>;
   /** The current in-app path ("/shop", "/plan" or "/pantry"). */

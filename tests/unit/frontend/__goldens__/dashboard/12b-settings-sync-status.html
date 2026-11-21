@@ -1,0 +1,39 @@
+<div role="dialog" aria-modal="true" aria-labelledby="_r_3d_" tabindex="-1" class="flex max-h-[90vh] w-full max-w-lg flex-col bg-surface text-ink shadow-sheet outline-none rounded-t-card">
+<div class="flex items-center justify-between gap-2 border-b border-border px-4 py-2">
+<h2 id="_r_3d_" class="text-lg font-bold">Sync status</h2>
+<button type="button" aria-label="Close sync status" class="inline-flex size-touch items-center justify-center rounded-control text-ink disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+<span aria-hidden="true" class="inline-flex">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x size-5" aria-hidden="true">
+<path d="M18 6 6 18">
+</path>
+<path d="m6 6 12 12">
+</path>
+</svg>
+</span>
+</button>
+</div>
+<div class="overflow-y-auto p-4">
+<div class="space-y-4 text-sm text-ink">
+<div class="space-y-1">
+<p role="status">All changes synced.</p>
+<p class="text-muted">Last synced: (time)</p>
+<p class="text-muted">Stored in this server’s local database, isolated to your account.</p>
+</div>
+<button type="button" class="inline-flex min-h-touch items-center justify-center gap-2 rounded-control px-4 text-base font-semibold disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-accent text-on-accent w-full">Sync Now</button>
+<section aria-label="What syncs" class="space-y-2 rounded-card bg-chip p-4">
+<h3 class="font-semibold">What syncs</h3>
+<dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+<dt class="text-muted">Home ZIP</dt>
+<dd>80542</dd>
+<dt class="text-muted">My Stores</dt>
+<dd>6 chains</dd>
+<dt class="text-muted">Virtual Pantry</dt>
+<dd>0 ingredients</dd>
+<dt class="text-muted">Meal prep</dt>
+<dd>Any, 0 dietary rules, cookware: Any</dd>
+</dl>
+</section>
+<p class="text-muted">A pantry change that could not be saved to your account stays queued here, and you can review your pantry in the <a href="/pantry" class="font-semibold text-accent underline">Pantry</a>.</p>
+</div>
+</div>
+</div>
