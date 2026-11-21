@@ -111,9 +111,9 @@ describe('the AI intent', () => {
 describe('the buttons', () => {
   it('makes the Apple button a solid ink button, as Apple\'s guidelines ask, and Google a plain one', async () => {
     await render();
-    expect(button('Sign in with Apple').className).toContain('bg-ink');
-    expect(button('Sign in with Apple').className).toContain('text-bg');
-    expect(button('Continue with Google').className).not.toContain('bg-ink');
+    expect(button('Sign in with Apple').className).toContain('bg-ink!');
+    expect(button('Sign in with Apple').className).toContain('text-bg!');
+    expect(button('Continue with Google').className).not.toContain('bg-ink!');
     expect(button('Sign in with Apple').querySelector('svg')!.getAttribute('aria-hidden')).toBe('true');
   });
 });
